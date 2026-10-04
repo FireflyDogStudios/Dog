@@ -3715,7 +3715,7 @@ const MOUNTS = {
   hero:  {collar:{R:[[40.9, 8.4], [43.6, 9.9], [45.5, 11.9], [46.6, 14.1]], F:[[38.9, 10], [42.1, 11.5], [44, 13.7], [45.2, 15.9]]},
           tail:{kind:"bezier", c:[[14.4, 17.6], [10.8, 20.6], [9.3, 25.4], [10.1, 30.4]], w:[2.8, 2.2], seat:[.225, .995], plates:4, gap:.0567, light:1}},
   hero2: {collar:{R:[[40.73, 7.81], [43.15, 8.79], [45.23, 10.26], [46.97, 12.22]], F:[[39.60, 9.41], [42.02, 10.39], [44.10, 11.86], [45.83, 13.82]]}, /* 35.3° (GrumpyDingo's red line): tools/lens/place_band.py */
-          tail:{kind:"catmull", pts:[[23.4, 13.6], [19.6, 14.6], [15.6, 14.6], [12.2, 13.0], [10.2, 10.4], [9.8, 7.8], [11.0, 6.2]], w:[3.8, 1.8], seat:[.29, .76], plates:4, gap:.06, light:-1}} /* seat: from where the tail comes out from behind the rump (the body draws over the tail root, so it is hidden until about .29) onto the start of the hook */,
+          tail:{kind:"catmull", pts:[[23.4, 13.6], [19.6, 14.6], [15.6, 14.6], [12.2, 13.0], [10.2, 10.4], [9.8, 7.8], [11.0, 6.2]], w:[3.8, 1.8], seat:[.29, .92], plates:4, gap:.043, ring:.95, light:-1}} /* seat: from where the tail comes out from behind the rump (the body draws over the tail root, so it is hidden until about .29) round the whole hook, leaving the tip tuft bare. gap: thin, so a ring (ring = its width in units) sits across it and overlaps the plate edges a little */,
 };
 /* tail: the dog's tail centreline (kind "bezier": one cubic c, t is the curve parameter; kind "catmull": a Catmull-Rom curve through pts, t is the fraction of ARC LENGTH, as in the fit sheet),
    w = the tail's full width at the root and the tip, seat = the stretch of the tail the guard covers, plates and gap = the guard's links (gap as a fraction of the tail's length).
