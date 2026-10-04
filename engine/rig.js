@@ -83,12 +83,20 @@ function build(PIXI, id, opts = {}){
 }
 /* ---------- attachments: gear drawn onto a built rig's joint (collars, paw covers…). parts use the same specs; palette is the piece's own. ---------- */
 function attach(PIXI, root, jointId, parts, pal){ const J = root.rig && root.rig.joints[jointId]; if (!J) throw new Error("no joint " + jointId); const D = {box:[62, 38], id:"__gear", parts}; const made = [];
-  parts.forEach((p, i) => { const col = dim(pal[p.paint || "fur"] ?? 0xffffff, J.__far ? .78 : 1); const g = new PIXI.Graphics();
+  /* parts.clip = "body": the piece is cut to the dog's body outline (a hair wider, so its own edge line survives), so a collar can run past the neck on both sides, be
+     flush with the fur and never poke out into the air. The mask is the rig's own body path, in the same joint space as the parts. */
+  let clip = null; if (parts.clip){ const rid = String(root.label || "").replace(/^rig:/, ""), B = DEFS[rid] && DEFS[rid].parts.find(q => (q.in || "root") === parts.clip && q.d);
+    if (B){ clip = new PIXI.Graphics(); clip.svg(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 38"><path d="${B.d}" fill="#fff" stroke="#fff" stroke-width=".3" stroke-linejoin="round"/></svg>`); clip.label = "gearclip"; J.addChild(clip); made.push(clip); } }
+  parts.forEach((p, i) => { const col = dim(pal[p.paint || "fur"] ?? 0xffffff, J.__far ? .78 : 1); const g = new PIXI.Graphics(); if (clip && !p.noclip) g.mask = clip;
     if (p.d){ if (p.stroke) g.svg(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 38"><path d="${p.d}" fill="none" stroke="${css(col)}" stroke-width="${p.sw || 1}" stroke-linecap="round"/></svg>`); else g.svg(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 38"><path d="${p.d}" fill="${css(col)}"/></svg>`); }
     else if (p.line){ const [a, b] = p.line; g.moveTo(a[0], a[1]).lineTo(b[0], b[1]).stroke({width:p.sw, color:col, cap:"round"}); }
     else if (p.circle){ g.circle(p.circle[0], p.circle[1], p.circle[2]).fill(col); } else if (p.ellipse){ g.ellipse(p.ellipse[0], p.ellipse[1], p.ellipse[2], p.ellipse[3]).fill(col); } else if (p.poly){ g.poly(p.poly.flat()).fill(col); }
     if (p.alpha != null) g.alpha = p.alpha; g.label = "gear"; J.addChild(g); made.push(g); });
-  return {remove(){ made.forEach(g => g.destroy()); }, parts:made}; }
+  /* parts.hides = ["collar", ...]: the dog's own parts painted with those names are hidden while the piece is worn (a gear collar replaces the dog's band and tag) and
+     come back on remove(). The k-th plain Graphics in a joint is the k-th part of that joint in the rig's data. */
+  const hidden = []; if (parts.hides){ const rid = String(root.label || "").replace(/^rig:/, ""), mine = DEFS[rid] ? DEFS[rid].parts.filter(q => (q.in || "root") === jointId) : [];
+    J.children.filter(c => c instanceof PIXI.Graphics && c.label !== "gear" && c.label !== "gearclip" || (c instanceof PIXI.Graphics && c.label === "")).filter(c => c.label !== "gear" && c.label !== "gearclip").forEach((c, k) => { const q = mine[k]; if (q && parts.hides.includes(q.paint) && c.visible){ c.visible = false; hidden.push(c); } }); }
+  return {remove(){ hidden.forEach(c => { if (!c.destroyed) c.visible = true; }); made.forEach(g => g.destroy()); }, parts:made}; }
 return {DEFS, define, build, warm, attach, sample, dim};
 })();
 if (typeof module !== "undefined") module.exports = RIG;

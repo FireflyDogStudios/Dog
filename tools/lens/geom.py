@@ -2,7 +2,7 @@
    python3 tools/lens/lens.cjs export        (writes tools/lens/.cache/rigs.json first)
    from geom import Rigs; R = Rigs(); R.neck_chord('hero2', (43.4, 10.9), 35.3)
    Angles are degrees BELOW horizontal for a line running down to the right (the way a collar sits on a dog facing right)."""
-import json, math, pathlib
+import json, math, pathlib, subprocess, os
 from shapely.geometry import Polygon, LineString, Point
 from svgpathtools import parse_path
 
@@ -10,6 +10,9 @@ CACHE = pathlib.Path(__file__).parent / '.cache' / 'rigs.json'
 
 class Rigs:
     def __init__(self, path=CACHE):
+        root = pathlib.Path(__file__).resolve().parents[2]  # re-export when the engine files are newer than the cache, so numbers never come from stale data
+        if path == CACHE and (not path.exists() or path.stat().st_mtime < max(f.stat().st_mtime for f in (root / 'engine').glob('*.js'))):
+            subprocess.run(['node', str(root / 'tools/lens/lens.cjs'), 'export'], check=True, cwd=root, env={**os.environ, 'NODE_PATH': str(root / 'node_modules')}, capture_output=True)
         d = json.load(open(path)); self.rigs, self.mounts = d['rigs'], d['mounts']
 
     def parts(self, rig, joint=None):

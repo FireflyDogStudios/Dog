@@ -41,8 +41,8 @@ function bandAt(t, m){ const [x, y] = bandPt(m, t, 0), a = bandPt(m, Math.max(0,
   return {x, y, tx, ty, nx:ty, ny:-tx, hw:Math.hypot(r[0] - f[0], r[1] - f[1]) / 2}; }
 function along(m, n, t0 = .14, t1 = .78){ const out = []; for (let i = 0; i < n; i++) out.push(bandAt(t0 + (t1 - t0) * (n === 1 ? .5 : i / (n - 1)), m)); return out; }
 /* the band between across-offsets s0 and s1 (a closed shape), and a single line at s */
-function bandShape(m, s0, s1){ const A = [], B = []; for (let i = 0; i <= 10; i++){ A.push(bandPt(m, i / 10, s1)); B.push(bandPt(m, i / 10, s0)); } return "M" + A.map(p => f1(p[0]) + " " + f1(p[1])).join(" L") + " L" + B.reverse().map(p => f1(p[0]) + " " + f1(p[1])).join(" L") + " Z"; }
-function bandLine(m, s){ let d = ""; for (let i = 0; i <= 10; i++){ const p = bandPt(m, i / 10, s); d += (i ? " L" : "M") + f1(p[0]) + " " + f1(p[1]); } return d; }
+function bandShape(m, s0, s1){ const A = [], B = []; for (let i = 0; i <= 12; i++){ const t = -.12 + 1.24 * i / 12; /* runs past both ends: the piece is clipped to the body outline, so the band is flush and never leaves a gap */ A.push(bandPt(m, t, s1)); B.push(bandPt(m, t, s0)); } return "M" + A.map(p => f1(p[0]) + " " + f1(p[1])).join(" L") + " L" + B.reverse().map(p => f1(p[0]) + " " + f1(p[1])).join(" L") + " Z"; }
+function bandLine(m, s){ let d = ""; for (let i = 0; i <= 12; i++){ const p = bandPt(m, -.12 + 1.24 * i / 12, s); d += (i ? " L" : "M") + f1(p[0]) + " " + f1(p[1]); } return d; }
 const diamond = (x, y, r) => `M${x} ${y - r} L${x + r} ${y} L${x} ${y + r} L${x - r} ${y} Z`;
 function gemParts(G, x, y, r){ return [{d:diamond(x, y, r + .28), paint:"rim"}, {d:diamond(x, y, r), paint:"gem"}, {d:`M${x} ${y} L${x + r} ${y} L${x} ${y + r} Z`, paint:"gemS", alpha:.8}, {circle:[x - r * .3, y - r * .35, r * .22], paint:"white", alpha:.9}]; }
 function collar(seed, picks = {}, rigId = "hero"){
@@ -68,11 +68,13 @@ function collar(seed, picks = {}, rigId = "hero"){
     const q = bandAt(.87, m), k = q.hw / 1.1, at = (u, v) => [q.x + q.tx * u * k + q.nx * v * k, q.y + q.ty * u * k + q.ny * v * k], H = q.hw / k; /* H = the band's half width in the frame's units */
     const box = (u0, u1, v0, v1) => "M" + [at(u0, v0), at(u1, v0), at(u1, v1), at(u0, v1)].map(p => f1(p[0]) + " " + f1(p[1])).join(" L") + " Z";
     if (S.fit === "buckle"){ parts.push({d:box(-.7, .7, -H, H), paint:"fitO"}, {d:box(-.5, .5, -(H - .22), H - .22), paint:"fit"}, {d:box(-.5, .5, -(H - .22), -.3), paint:"fitS", alpha:.8}, {d:box(-.5, .5, H - .55, H - .22), paint:"fitL", alpha:.6}, {d:box(-.28, .28, -(H - .6), H - .6), paint:"band"}, {line:[at(0, -(H - .45)), at(0, H - .45)], sw:.35, paint:"fitO"}); }
-    if (S.fit === "tag"){ const x = q.x, y = q.y + q.hw * .5, p = (dx, dy, mm = 1) => f1(x + dx * mm) + " " + f1(y + dy * mm), plate = mm => `M${p(-.55, .5, mm)} L${p(.55, .5, mm)} L${p(.75, 2.3, mm)} L${p(0, 2.7, mm)} L${p(-.75, 2.3, mm)} Z`;
-      parts.push({d:plate(1), paint:"fitO"}, {d:plate(.8), paint:"fit"}, {d:`M${p(-.6, 1.9, .8)} L${p(.6, 1.9, .8)} L${p(.75, 2.3, .8)} L${p(0, 2.7, .8)} L${p(-.75, 2.3, .8)} Z`, paint:"fitS", alpha:.8}, {circle:[x, y + .95, .17], paint:"fitO"}); }
-    if (S.fit === "knot"){ const r1 = Math.min(1.05 * k, q.hw * 1.05); parts.push({circle:[q.x, q.y, r1], paint:"bandO"}, {circle:[q.x, q.y, r1 * .76], paint:"band"}, {d:`M${f1(q.x - r1 * .76)} ${f1(q.y)} A${f1(r1 * .76)} ${f1(r1 * .76)} 0 0 0 ${f1(q.x + r1 * .76)} ${f1(q.y)} Z`, paint:"bandS", alpha:.8}, {circle:[q.x - .3, q.y - .3, .22], paint:"bandL", alpha:.8}, {d:`M${f1(q.x - .3)} ${f1(q.y + 1)} L${f1(q.x - .8)} ${f1(q.y + 2.6)} M${f1(q.x + .3)} ${f1(q.y + 1)} L${f1(q.x + .7)} ${f1(q.y + 2.5)}`, stroke:true, paint:"bandO", sw:.55}); }
+    if (S.fit === "tag"){ const n0 = parts.length, x = q.x, y = q.y + q.hw * .5, p = (dx, dy, mm = 1) => f1(x + dx * mm) + " " + f1(y + dy * mm), plate = mm => `M${p(-.55, .5, mm)} L${p(.55, .5, mm)} L${p(.75, 2.3, mm)} L${p(0, 2.7, mm)} L${p(-.75, 2.3, mm)} Z`;
+      parts.push({d:plate(1), paint:"fitO"}, {d:plate(.8), paint:"fit"}, {d:`M${p(-.6, 1.9, .8)} L${p(.6, 1.9, .8)} L${p(.75, 2.3, .8)} L${p(0, 2.7, .8)} L${p(-.75, 2.3, .8)} Z`, paint:"fitS", alpha:.8}, {circle:[x, y + .95, .17], paint:"fitO"}); parts.slice(n0).forEach(p => p.noclip = true); /* it hangs free of the neck */ }
+    if (S.fit === "knot"){ const n0 = parts.length, r1 = Math.min(1.05 * k, q.hw * 1.05); parts.push({circle:[q.x, q.y, r1], paint:"bandO"}, {circle:[q.x, q.y, r1 * .76], paint:"band"}, {d:`M${f1(q.x - r1 * .76)} ${f1(q.y)} A${f1(r1 * .76)} ${f1(r1 * .76)} 0 0 0 ${f1(q.x + r1 * .76)} ${f1(q.y)} Z`, paint:"bandS", alpha:.8}, {circle:[q.x - .3, q.y - .3, .22], paint:"bandL", alpha:.8}, {d:`M${f1(q.x - .3)} ${f1(q.y + 1)} L${f1(q.x - .8)} ${f1(q.y + 2.6)} M${f1(q.x + .3)} ${f1(q.y + 1)} L${f1(q.x + .7)} ${f1(q.y + 2.5)}`, stroke:true, paint:"bandO", sw:.55}); parts.slice(n0).forEach(p => p.noclip = true); /* the knot and its tails hang free */ }
     if (G) parts.push(...gemParts(G, socket[0], socket[1], S.fit === "tag" ? .42 : Math.min(.52, mid.hw * .5)));
     if (I.c) parts.push({d:bandLine(m, .8), stroke:true, paint:"inf", sw:.35, alpha:.9});
+    parts.clip = "body"; /* RIG.attach cuts the piece to the dog's body outline */
+    parts.hides = ["collar", "tag", "tag2"]; /* and hides the dog's own collar and tag while it is worn */
     return parts;
   };
   const name = (R.adj ? R.adj + " " : "") + (I.pre ? I.pre + " " : "") + W.n + " " + S.n + (G ? " with " + G.n : "") + (I.suf ? " " + I.suf : "");
