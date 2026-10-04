@@ -61,6 +61,7 @@ function collar(seed, picks = {}, rigId = "hero"){
     parts.push({d:bandShape(m, -.86, .86), paint:"band"});
     parts.push({d:bandShape(m, -.86, 0), paint:"bandS", alpha:.8});
     parts.push({d:bandShape(m, .5, .86), paint:"bandL", alpha:.6});
+    parts.push({edge:true, stroke:true, paint:"bandO", sw:.42, maskD:bandShape(m, -1, 1)}); /* the finishing lines where the band meets the neck edge, at both ends */
     if (S.k === "rope"){ let d = ""; for (let i = 0; i < 6; i++){ const t = .1 + i * .15, a = bandPt(m, t - .02, -.78), b = bandPt(m, t + .02, .78); d += `M${f1(a[0])} ${f1(a[1])} L${f1(b[0])} ${f1(b[1])} `; } parts.push({d, stroke:true, paint:"bandO", sw:.45, alpha:.8}); }
     const mid = bandAt(.46, m), socket = [mid.x, mid.y]; /* the gem is always centred on the band (GrumpyDingo: symmetry first); the fitting stays at the throat */
     if (S.studs){ along(m, S.studs).forEach((q, i) => { if (G && i === (S.studs - 1) / 2) return; /* the centre stud is the gem's socket */ const {x, y, hw} = q, k = hw / 1.1; parts.push({circle:[x, y, .6 * k], paint:"fitO"}, {circle:[x, y, .44 * k], paint:"fit"}, {circle:[x + .1, y + .15, .3 * k], paint:"fitS", alpha:.8}, {circle:[x - .15, y - .17, .14 * k], paint:"fitL"}); }); }
