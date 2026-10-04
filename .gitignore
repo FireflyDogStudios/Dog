@@ -6,3 +6,4 @@ sim/pixi.min.js
 sim/proton.web.min.js
 sim/art-*.css
 sim/*.png
+tools/lens/.cache/
