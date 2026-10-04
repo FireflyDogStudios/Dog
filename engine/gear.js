@@ -21,9 +21,14 @@ const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
    contour = a piece's silhouette; interior = a part inside a piece (stud, buckle frame); detail = fine marks. One outline per shape, round joins, nothing else. */
 const LINE = {contour:.32, interior:.22, detail:.14};
 const MOUNTS = {
-  hero:  {collar:{R:[[40.9, 8.4], [43.6, 9.9], [45.5, 11.9], [46.6, 14.1]], F:[[38.9, 10], [42.1, 11.5], [44, 13.7], [45.2, 15.9]]}},
-  hero2: {collar:{R:[[40.73, 7.81], [43.15, 8.79], [45.23, 10.26], [46.97, 12.22]], F:[[39.60, 9.41], [42.02, 10.39], [44.10, 11.86], [45.83, 13.82]]}}, /* 35.3° (GrumpyDingo's red line): tools/lens/place_band.py */
+  hero:  {collar:{R:[[40.9, 8.4], [43.6, 9.9], [45.5, 11.9], [46.6, 14.1]], F:[[38.9, 10], [42.1, 11.5], [44, 13.7], [45.2, 15.9]]},
+          tail:{kind:"bezier", c:[[14.4, 17.6], [10.8, 20.6], [9.3, 25.4], [10.1, 30.4]], w:[2.8, 2.2], seat:[.225, .995], plates:4, gap:.0567, light:1}},
+  hero2: {collar:{R:[[40.73, 7.81], [43.15, 8.79], [45.23, 10.26], [46.97, 12.22]], F:[[39.60, 9.41], [42.02, 10.39], [44.10, 11.86], [45.83, 13.82]]}, /* 35.3° (GrumpyDingo's red line): tools/lens/place_band.py */
+          tail:{kind:"catmull", pts:[[23.4, 13.6], [19.6, 14.6], [15.6, 14.6], [12.2, 13.0], [10.2, 10.4], [9.8, 7.8], [11.0, 6.2]], w:[3.8, 1.8], seat:[.29, .76], plates:4, gap:.06, light:-1}} /* seat: from where the tail comes out from behind the rump (the body draws over the tail root, so it is hidden until about .29) onto the start of the hook */,
 };
+/* tail: the dog's tail centreline (kind "bezier": one cubic c, t is the curve parameter; kind "catmull": a Catmull-Rom curve through pts, t is the fraction of ARC LENGTH, as in the fit sheet),
+   w = the tail's full width at the root and the tip, seat = the stretch of the tail the guard covers, plates and gap = the guard's links (gap as a fraction of the tail's length).
+   THE SPACING RULE (GrumpyDingo, Oct 4): the gaps between the guard's plates ARE the ring slots. Rings are placed from guardLayout(), never from a separate number. light = which side of the tail catches the light (+1 or -1). */
 /* BEGIN COMPILED (tools/lens/compile_mounts.py writes this; do not hand-edit) */
 const COMPILED = {
   hero: {collar:{base:"M39.30 9.69 L39.25 9.74 L39.22 9.79 L39.19 9.85 L39.18 9.91 L39.18 9.97 L39.19 10.03 L39.22 10.09 L39.28 10.17 L39.35 10.22 L39.70 10.41 L40.16 10.66 L40.59 10.93 L41.00 11.20 L41.39 11.48 L41.77 11.77 L42.13 12.07 L42.47 12.38 L42.80 12.69 L43.11 13.00 L43.40 13.32 L43.68 13.65 L43.95 13.98 L44.20 14.32 L44.44 14.65 L44.77 15.15 L44.81 15.20 L44.86 15.24 L44.95 15.27 L45.04 15.28 L45.13 15.26 L45.19 15.23 L45.24 15.19 L45.61 14.71 L45.90 14.38 L46.19 14.08 L46.30 13.98 L46.33 13.93 L46.36 13.87 L46.38 13.78 L46.38 13.72 L46.35 13.63 L46.10 13.20 L45.89 12.87 L45.55 12.39 L45.18 11.91 L44.91 11.59 L44.50 11.14 L44.20 10.84 L43.74 10.40 L43.41 10.12 L43.07 9.84 L42.54 9.44 L42.17 9.18 L41.78 8.93 L41.39 8.68 L41.02 8.47 L40.97 8.44 L40.91 8.43 L40.84 8.43 L40.78 8.44 L40.72 8.46 L40.65 8.51 L39.77 9.29 Z", shade:"M39.81 9.25 L39.08 9.87 L39.06 9.91 L39.05 9.97 L39.06 10.02 L39.07 10.05 L39.11 10.10 L39.70 10.40 L40.15 10.66 L40.59 10.93 L41.00 11.20 L41.39 11.48 L41.77 11.77 L42.13 12.07 L42.47 12.38 L42.80 12.69 L43.11 13.00 L43.40 13.33 L43.82 13.82 L44.07 14.15 L44.32 14.48 L44.55 14.82 L44.89 15.36 L44.94 15.39 L45.00 15.41 L45.05 15.40 L45.08 15.39 L45.13 15.35 L45.33 15.07 L45.63 14.68 L45.65 14.64 L45.66 14.61 L45.65 14.58 L45.64 14.53 L45.38 14.10 L45.16 13.76 L44.81 13.27 L44.56 12.94 L44.16 12.46 L43.87 12.15 L43.42 11.69 L43.10 11.39 L42.76 11.09 L42.41 10.80 L42.05 10.52 L41.67 10.25 L41.27 9.98 L40.86 9.73 L40.43 9.48 L39.96 9.23 L39.93 9.23 L39.89 9.22 L39.86 9.23 Z", light:"M40.48 8.66 L40.46 8.69 L40.46 8.72 L40.47 8.75 L40.49 8.78 L40.95 9.04 L41.36 9.29 L41.76 9.54 L42.14 9.80 L42.51 10.07 L42.87 10.35 L43.21 10.63 L43.54 10.92 L43.85 11.22 L44.29 11.67 L44.57 11.98 L44.97 12.46 L45.21 12.78 L45.56 13.27 L45.77 13.60 L46.06 14.09 L46.08 14.10 L46.11 14.11 L46.13 14.11 L46.16 14.10 L46.34 13.94 L46.36 13.89 L46.35 13.85 L46.22 13.62 L46.03 13.29 L45.81 12.96 L45.59 12.63 L45.23 12.15 L44.84 11.68 L44.42 11.22 L43.97 10.78 L43.66 10.49 L43.33 10.20 L42.99 9.92 L42.45 9.52 L42.08 9.26 L41.69 9.01 L41.08 8.64 L40.78 8.47 L40.73 8.46 L40.69 8.47 Z"}},
@@ -89,42 +94,69 @@ function collar(seed, picks = {}, rigId = "hero"){
 /* ---------- the tail guard: a wrap, a sleeve or plates along the tail, under the rings ----------
    The tail hangs from the rump (14.5,17.5) to the tip (10.1,30.4), drawn in the "tail" joint so the guard wags with it.
    Same rules as the collar: even spacing along the centreline, the gem centred, the Smithy's brush. */
-const TAIL = [[14.4, 17.6], [10.8, 20.6], [9.3, 25.4], [10.1, 30.4]];
-function tailAt(t){ const [a, b, c, d] = TAIL, u = 1 - t; const x = u*u*u*a[0] + 3*u*u*t*b[0] + 3*u*t*t*c[0] + t*t*t*d[0], y = u*u*u*a[1] + 3*u*u*t*b[1] + 3*u*t*t*c[1] + t*t*t*d[1];
-  const dx = 3*u*u*(b[0]-a[0]) + 6*u*t*(c[0]-b[0]) + 3*t*t*(d[0]-c[0]), dy = 3*u*u*(b[1]-a[1]) + 6*u*t*(c[1]-b[1]) + 3*t*t*(d[1]-c[1]); const m = Math.hypot(dx, dy) || 1;
-  return {x, y, tx:dx / m, ty:dy / m, nx:dy / m, ny:-dx / m, w: 1.4 - t * .3}; } /* w = the tail's half width there (1.4 at the rump, 1.1 at the tip) */
 const f1 = v => (+v).toFixed(2);
-/* a band across the tail at t: a quad of half-length len along the tail and the tail's width plus `pad` across it */
-function tailBand(t0, t1, pad){ const n = 7, L = [], R = []; for (let i = 0; i <= n; i++){ const q = tailAt(t0 + (t1 - t0) * i / n), w = q.w + pad; L.push([q.x + q.nx * w, q.y + q.ny * w]); R.push([q.x - q.nx * w, q.y - q.ny * w]); }
+/* a Catmull-Rom curve through pts, ten samples a segment (the same construction the rig uses for hero2's tail ribbon, so the guard hugs the real tail) */
+function catmull(pts){ const P = [pts[0], ...pts, pts[pts.length - 1]], c = [];
+  for (let i = 1; i < P.length - 2; i++){ const [p0, p1, p2, p3] = [P[i - 1], P[i], P[i + 1], P[i + 2]]; for (let k = 0; k < 10; k++){ const t = k / 10, t2 = t * t, t3 = t2 * t; c.push([0, 1].map(j => .5 * ((2 * p1[j]) + (-p0[j] + p2[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t2 + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t3))); } }
+  c.push(pts[pts.length - 1]); return c; }
+const tailCache = new WeakMap();
+function tailSamples(m){ let k = tailCache.get(m); if (k) return k; const c = catmull(m.pts), s = [0]; for (let i = 1; i < c.length; i++) s.push(s[i - 1] + Math.hypot(c[i][0] - c[i - 1][0], c[i][1] - c[i - 1][1]));
+  const L = s[s.length - 1]; k = {c, s:s.map(v => v / L), L}; tailCache.set(m, k); return k; }
+/* a point on the tail at t, with its frame: t along it, n across (toward the side that catches the light), w the tail's half width there */
+function tailAt(t, m = MOUNTS.hero.tail){
+  if (m.kind === "bezier"){ const [a, b, c, d] = m.c, u = 1 - t; const x = u*u*u*a[0] + 3*u*u*t*b[0] + 3*u*t*t*c[0] + t*t*t*d[0], y = u*u*u*a[1] + 3*u*u*t*b[1] + 3*u*t*t*c[1] + t*t*t*d[1];
+    const dx = 3*u*u*(b[0]-a[0]) + 6*u*t*(c[0]-b[0]) + 3*t*t*(d[0]-c[0]), dy = 3*u*u*(b[1]-a[1]) + 6*u*t*(c[1]-b[1]) + 3*t*t*(d[1]-c[1]); const n = Math.hypot(dx, dy) || 1, l = m.light || 1;
+    return {x, y, tx:dx / n, ty:dy / n, nx:l * dy / n, ny:l * -dx / n, w:(m.w[0] + (m.w[1] - m.w[0]) * t) / 2}; }
+  const k = tailSamples(m), n = k.c.length; t = Math.min(1, Math.max(0, t)); let i = 0; while (i < n - 2 && k.s[i + 1] < t) i++;
+  const f = (t - k.s[i]) / ((k.s[i + 1] - k.s[i]) || 1), x = k.c[i][0] + (k.c[i + 1][0] - k.c[i][0]) * f, y = k.c[i][1] + (k.c[i + 1][1] - k.c[i][1]) * f;
+  const a = k.c[Math.max(0, i - 1)], b = k.c[Math.min(n - 1, i + 2)], dx = b[0] - a[0], dy = b[1] - a[1], h = Math.hypot(dx, dy) || 1, l = m.light || 1, u = (i + f) / (n - 1);
+  return {x, y, tx:dx / h, ty:dy / h, nx:l * dy / h, ny:l * -dx / h, w:(m.w[0] + (m.w[1] - m.w[0]) * u) / 2}; }
+/* a band across the tail from t0 to t1: the tail's own width plus `pad` each side */
+/* nodes only where they are needed: about one a 0.6 units along the band, never two closer than that */
+function tailLength(m = MOUNTS.hero.tail){ if (m.kind === "catmull") return tailSamples(m).L; let L = 0, p = tailAt(0, m); for (let i = 1; i <= 24; i++){ const q = tailAt(i / 24, m); L += Math.hypot(q.x - p.x, q.y - p.y); p = q; } return L; }
+const tailNodes = (t0, t1, m) => Math.max(1, Math.min(9, Math.ceil(Math.abs(t1 - t0) * tailLength(m) / .6)));
+function tailBand(t0, t1, pad, m){ const n = tailNodes(t0, t1, m), L = [], R = []; for (let i = 0; i <= n; i++){ const q = tailAt(t0 + (t1 - t0) * i / n, m), w = q.w + pad; L.push([q.x + q.nx * w, q.y + q.ny * w]); R.push([q.x - q.nx * w, q.y - q.ny * w]); }
   return "M" + L.map(p => p.map(f1).join(" ")).join(" L") + " L" + R.reverse().map(p => p.map(f1).join(" ")).join(" L") + " Z"; }
-function tailHalf(t0, t1, pad, upper){ const n = 7, L = [], R = []; for (let i = 0; i <= n; i++){ const q = tailAt(t0 + (t1 - t0) * i / n), w = q.w + pad; const sgn = upper ? 1 : -1; L.push([q.x + q.nx * w * sgn, q.y + q.ny * w * sgn]); R.push([q.x, q.y]); }
+function tailHalf(t0, t1, pad, upper, m){ const n = tailNodes(t0, t1, m), L = [], R = []; for (let i = 0; i <= n; i++){ const q = tailAt(t0 + (t1 - t0) * i / n, m), w = q.w + pad, sgn = upper ? 1 : -1; L.push([q.x + q.nx * w * sgn, q.y + q.ny * w * sgn]); R.push([q.x, q.y]); }
   return "M" + L.map(p => p.map(f1).join(" ")).join(" L") + " L" + R.reverse().map(p => p.map(f1).join(" ")).join(" L") + " Z"; }
+/* the guard's links: `plates` plates over the seat with `gap` between them. The gaps are the ring slots (their centres), so the rings can never disagree with the guard. */
+function guardLayout(m){ const [s0, s1] = m.seat, n = m.plates, p = (s1 - s0 - (n - 1) * m.gap) / n, plates = [], slots = [];
+  for (let i = 0; i < n; i++){ const t0 = s0 + i * (p + m.gap); plates.push([t0, t0 + p]); if (i < n - 1) slots.push(t0 + p + m.gap / 2); }
+  return {plates, slots, plate:p, gap:m.gap, seat:m.seat}; }
+const ringSlots = rigId => guardLayout(mountOf(rigId, "tail")).slots;
 const TAIL_STYLES = [
-  {k:"sleeve", n:"Tail Sleeve", sleeve:[.3 - .075, .92 + .075]}, /* covers the same length as the guard, plate edge to plate edge */
-  {k:"plated", n:"Tail Guard", plates:4, len:.075, hard:true},
+  {k:"sleeve", n:"Tail Sleeve", sleeve:true}, /* one sleeve over the whole seat */
+  {k:"plated", n:"Tail Guard", plated:true, hard:true}, /* the links: plates with gaps; the gaps are the ring slots */
 ];
-/* ring slots: the three gaps between the guard's four plates. Tail rings sit here (one centred, two outer, three all), whatever the guard. */
-const RING_SLOTS = [.3 + .62 / 6, .3 + .62 / 2, .3 + .62 * 5 / 6];
-function tailguard(seed, picks = {}){
+/* the old hero's ring slots, kept as the rings are not refitted yet (they are the old hero's guard gaps, from the same layout) */
+const RING_SLOTS = ringSlots("hero");
+function tailguard(seed, picks = {}, rigId = "hero"){
   if (!P) throw new Error("GEAR.init(SMITHY) first");
   const r = rngOf(seed);
   const band = picks.band ?? Math.floor(r() * P.WRAP.length), fit = picks.fit ?? Math.floor(r() * P.FIT.length), style = picks.style ?? Math.floor(r() * TAIL_STYLES.length);
   const rar = picks.rar ?? Math.min(RARS.length - 1, Math.floor(Math.pow(r(), 2.2) * RARS.length)), gem = picks.gem ?? (rar >= 3 ? 1 + Math.floor(r() * (P.GEMS.length - 1)) : 0), inf = picks.inf ?? (rar >= 2 && r() < .5 ? 1 + Math.floor(r() * (INFS.length - 1)) : 0);
   const W = P.WRAP[band], F = P.FIT[fit], S = TAIL_STYLES[style], G = P.GEMS[gem], I = INFS[inf], R = RARS[rar];
-  const M = {b:W.b, s:W.s, l:W.l, o:W.o}; /* the band is the material of the whole piece; the fitting is the accent (trim, rivets, plate edges) */
-  const pal = {m:M.b, mS:M.s, mL:M.l, mO:M.o, u:W.s, uS:W.o, uO:W.o, fit:F.b, fitS:F.s, fitL:F.l, fitO:F.o, gem:G ? G.b : F.b, gemS:G ? G.s : F.s, gemL:G ? G.l : F.l, rim:"#1a1020", white:"#ffffff", glow:R.c, inf:I.c || R.c};
-  const parts = [], piece = (t0, t1, pad) => { parts.push({d:tailBand(t0, t1, pad + .32), paint:"mO"}, {d:tailBand(t0, t1, pad), paint:"m"}, {d:tailHalf(t0, t1, pad, false), paint:"mS", alpha:.8}, {d:tailHalf(t0 + (t1 - t0) * .15, t0 + (t1 - t0) * .4, pad, true), paint:"mL", alpha:.6}); };
-  if (rar >= 3) parts.push({d:tailBand(.22, .96, .9), paint:"glow", alpha:.3});
-  const centre = tailAt(.6);
-  if (S.bands){ const T0 = .32, T1 = .9; for (let i = 0; i < S.bands; i++){ const tc = T0 + (T1 - T0) * i / (S.bands - 1); piece(tc - S.len, tc + S.len, .22); } }
-  if (S.sleeve){ piece(S.sleeve[0], S.sleeve[1], .22); /* a trim at each end in the fitting metal */ [S.sleeve[0], S.sleeve[1]].forEach(t => { parts.push({d:tailBand(t - .025, t + .025, .42), paint:"fitO"}, {d:tailBand(t - .018, t + .018, .3), paint:"fit"}); }); }
-  if (S.plates){ const T0 = .3, T1 = .92; parts.push({d:tailBand(T0 - S.len, T1 + S.len, .22 + .3), paint:"uO"}, {d:tailBand(T0 - S.len, T1 + S.len, .22), paint:"u"}); /* a darker strip of the same material shows in the gaps */
-    for (let i = 0; i < S.plates; i++){ const tc = T0 + (T1 - T0) * i / (S.plates - 1); piece(tc - S.len, tc + S.len, .28); /* fitting accents: a metal edge along the top of each plate and a rivet in the middle */ parts.push({d:tailBand(tc - S.len, tc - S.len * .55, .28), paint:"fit"}, {d:tailBand(tc - S.len, tc - S.len * .75, .28), paint:"fitL", alpha:.6}); const q = tailAt(tc); parts.push({circle:[q.x, q.y, .3], paint:"fitO"}, {circle:[q.x, q.y, .2], paint:"fit"}, {circle:[q.x - .07, q.y - .08, .08], paint:"fitL"}); } }
-  if (G){ const q = tailAt(RING_SLOTS[1]); parts.push(...gemParts(G, q.x, q.y, .5)); } /* the gem takes the middle ring slot */
-  if (I.c){ parts.push({d:"M" + [.3, .45, .6, .75, .9].map(t => { const q = tailAt(t); return f1(q.x) + " " + f1(q.y); }).join(" L"), stroke:true, paint:"inf", sw:.35, alpha:.9}); }
+  const pal = {m:W.b, mS:W.s, mL:W.l, mO:W.o, u:W.s, uS:W.o, uO:W.o, fit:F.b, fitS:F.s, fitL:F.l, fitO:F.o, gem:G ? G.b : F.b, gemS:G ? G.s : F.s, gemL:G ? G.l : F.l, rim:"#1a1020", white:"#ffffff", glow:R.c, inf:I.c || R.c}; /* the band is the material of the whole piece; the fitting is the accent */
+  /* the same piece drawn for any dog: the code never changes, only the tail it is drawn against */
+  const build = rid => {
+    const m = mountOf(rid, "tail"), lay = guardLayout(m), [s0, s1] = m.seat, parts = [], OUT = 2 * LINE.contour;
+    /* one link: an outline (one, under the fill, round joins), the fill, shade on the lower half, light on the upper */
+    const link = (t0, t1, pad) => { const d = tailBand(t0, t1, pad, m); parts.push({d, stroke:true, paint:"mO", sw:OUT}, {d, paint:"m"}, {d:tailHalf(t0, t1, pad, false, m), paint:"mS", alpha:.8}, {d:tailHalf(t0 + (t1 - t0) * .15, t0 + (t1 - t0) * .4, pad, true, m), paint:"mL", alpha:.6}); };
+    if (rar >= 3) parts.push({d:tailBand(s0 - .02, s1 + .02, .9, m), paint:"glow", alpha:.3});
+    if (S.sleeve){ link(s0, s1, .22);
+      [s0, s1].forEach(t => { const d = tailBand(t - .02, t + .02, .34, m); parts.push({d, stroke:true, paint:"fitO", sw:2 * LINE.detail}, {d, paint:"fit"}); }); } /* a trim at each end in the fitting metal */
+    if (S.plated){ const strip = tailBand(s0, s1, .22, m); parts.push({d:strip, stroke:true, paint:"uO", sw:OUT}, {d:strip, paint:"u"}); /* a darker strip of the same material shows in the gaps */
+      lay.plates.forEach(([t0, t1]) => { link(t0, t1, .28);
+        /* fitting accents: a metal edge along the leading end of each plate and a rivet in the middle */
+        parts.push({d:tailBand(t0, t0 + lay.plate * .26, .28, m), paint:"fit"}, {d:tailBand(t0, t0 + lay.plate * .12, .28, m), paint:"fitL", alpha:.6});
+        const q = tailAt((t0 + t1) / 2, m); parts.push({circle:[q.x, q.y, .2 + LINE.detail], paint:"fitO"}, {circle:[q.x, q.y, .2], paint:"fit"}, {circle:[q.x - .07, q.y - .08, .07], paint:"fitL"}); }); }
+    if (G){ const q = tailAt(lay.slots[1], m); parts.push(...gemParts(G, q.x, q.y, .5)); } /* the gem takes the middle ring slot */
+    if (I.c){ let d = ""; for (let i = 0; i <= 5; i++){ const q = tailAt(s0 + (s1 - s0) * (.08 + .84 * i / 5), m); d += (i ? " L" : "M") + f1(q.x) + " " + f1(q.y); } parts.push({d, stroke:true, paint:"inf", sw:.35, alpha:.9}); }
+    return parts;
+  };
   const name = (R.adj ? R.adj + " " : "") + (I.pre ? I.pre + " " : "") + W.n + " " + S.n + (G ? " with " + G.n : "") + (I.suf ? " " + I.suf : "");
   const code = "t" + [band, fit, style, gem, rar, inf].map(n => n.toString(36)).join("");
-  return {kind:"tailguard", code, name, rk:R.k, rar, parts, palette:pal, joint:"tail", picks:{band:W.n, fitting:F.n, style:S.n, gem:G ? G.n : "none", rarity:R.n, infusion:I.n}};
+  return {kind:"tailguard", code, name, rk:R.k, rar, parts:build(rigId), partsFor:build, rig:rigId, palette:pal, joint:"tail", picks:{band:W.n, fitting:F.n, style:S.n, gem:G ? G.n : "none", rarity:R.n, infusion:I.n}};
 }
 /* ---------- tail rings: each ring is its own piece (its own metal, gem, rarity, infusion) in one of the three ring slots ----------
    code: r<slot><fitting><band><gem><rarity><infusion>; the band is the ring's material, the fitting its metal edges. */
@@ -197,6 +229,6 @@ function armor(seed, picks = {}){
 /* ---------- registry: kinds in LAYER order (what goes on first is first) ---------- */
 const KINDS = {armor:{n:"Body armor", make:armor, styles:ARMOR_STYLES, code:"c"}, tailguard:{n:"Tail guard", make:tailguard, styles:TAIL_STYLES, code:"t"}, ring1:ringKind(0), ring2:ringKind(1), ring3:ringKind(2), collar:{n:"Collar", make:collar, styles:STYLES, code:"k"}};
 function decode(code, rigId){ if (!code) return null; let K = Object.values(KINDS).find(k => k.code === code[0]); if (!K) return null; if (code[0] === "r"){ K = KINDS["ring" + (Math.min(2, parseInt(code[1], 36) || 0) + 1)]; const v = code.slice(1).split("").map(c => parseInt(c, 36) || 0), cl = (x, n) => Math.min(n - 1, Math.max(0, x)); return K.make(code, {fit:cl(v[1], P.FIT.length), band:cl(v[2], P.WRAP.length), gem:cl(v[3], P.GEMS.length), rar:cl(v[4], RARS.length), inf:cl(v[5], INFS.length)}); } const v = code.slice(1).split("").map(c => parseInt(c, 36) || 0), cl = (x, n) => Math.min(n - 1, Math.max(0, x)); return K.make(code, {band:cl(v[0], P.WRAP.length), fit:cl(v[1], P.FIT.length), style:cl(v[2], K.styles.length), gem:cl(v[3], P.GEMS.length), rar:cl(v[4], RARS.length), inf:cl(v[5], INFS.length)}, rigId); }
-return {init, MOUNTS, collar, tailguard, tailring, armor, decode, KINDS, STYLES, TAIL_STYLES, RING_SLOT_NAMES, RING_SLOTS, tailAt, get PAL(){ return P; }, get RARS(){ return RARS; }, get INFS(){ return INFS; }};
+return {init, MOUNTS, collar, tailguard, tailring, armor, decode, KINDS, STYLES, TAIL_STYLES, RING_SLOT_NAMES, RING_SLOTS, ringSlots, guardLayout, tailAt, get PAL(){ return P; }, get RARS(){ return RARS; }, get INFS(){ return INFS; }};
 })();
 if (typeof module !== "undefined") module.exports = GEAR;
