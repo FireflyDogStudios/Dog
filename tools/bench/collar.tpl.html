@@ -1,0 +1,92 @@
+<title>Den Collar Bench</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral+SC:wght@600&family=Barlow:wght@400;600&family=Barlow+Condensed:wght@500;600&display=swap">
+<style>
+:root{--bg:#f3ead6;--panel:#fbf6ea;--ink:#2a2118;--muted:#6e5f4c;--rule:#d9a441;--line:#d7c9a8;--meadow:#e9d9ad;--meadow2:#cdb286;--focus:#d9a441;
+  --display:"Spectral SC",Georgia,serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;--cond:"Barlow Condensed","Barlow",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1512;--panel:#161d19;--ink:#ece3cf;--muted:#a39b86;--line:#2a332d;--meadow:#2b3a2a;--meadow2:#1e2a1e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1512;--panel:#161d19;--ink:#ece3cf;--muted:#a39b86;--line:#2a332d;--meadow:#2b3a2a;--meadow2:#1e2a1e;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);padding-block:28px;padding-inline:clamp(16px,4vw,48px);max-width:1100px;margin:0 auto}
+h1{font:600 clamp(26px,4vw,38px)/1.1 var(--display);letter-spacing:.04em;margin:0 0 6px;text-wrap:balance}
+h2{font:600 15px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;padding-top:10px;border-top:2px solid var(--rule);display:inline-block}
+p{max-width:64ch;margin:0 0 10px}.lede{color:var(--muted);margin-bottom:18px}
+.card{background:var(--panel);border:1px solid var(--line);padding:14px;margin-bottom:16px;min-width:0}
+.stage{position:relative;background:linear-gradient(var(--meadow),var(--meadow2));border:1px solid var(--line);min-height:300px;overflow:hidden}
+.stage canvas{display:block;width:100%;height:auto}
+.cap{position:absolute;left:10px;top:8px;font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-top:12px}
+label{display:flex;flex-direction:column;gap:3px;font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+select,input[type=text]{font:500 14px var(--body);padding:8px 10px;background:var(--panel);color:var(--ink);border:1px solid var(--line);min-height:44px}
+button{font:600 13px var(--cond);letter-spacing:.1em;text-transform:uppercase;padding:9px 14px;background:transparent;color:var(--ink);border:1px solid var(--line);cursor:pointer;min-height:44px}
+button[aria-pressed="true"]{border-color:var(--rule);box-shadow:inset 0 -3px 0 var(--rule)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.name{font:600 20px var(--display);letter-spacing:.03em;margin:10px 0 2px;text-wrap:balance}.rk{font:600 12px var(--cond);letter-spacing:.12em;text-transform:uppercase}
+dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:8px 0 0;font-size:13px}dt{color:var(--muted);font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase}dd{margin:0}
+code{font:12px ui-monospace,Menlo,monospace;background:var(--bg);padding:2px 6px;border:1px solid var(--line)}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:12px}
+.item{background:linear-gradient(var(--meadow),var(--meadow2));border:1px solid var(--line);padding:4px;text-align:center;font:500 11px/1.2 var(--cond);letter-spacing:.04em;cursor:pointer;min-height:44px;color:var(--ink)}
+.item canvas{width:100%;height:auto;display:block}
+.item[aria-pressed="true"]{border-color:var(--rule);box-shadow:inset 0 -3px 0 var(--rule)}
+.notes ul{margin:0;padding-left:18px}.notes li{margin-bottom:4px}
+</style>
+<h1>Den Collar Bench</h1>
+<p class="lede">The first piece of dingo gear: collars, made from the Smithy's own materials (its leather, cord and cloth wraps for the band, its brass, iron, silver and copper fittings, its gems, rarities and infusions) and drawn straight onto the hero's rig, over the collar he was drawn with. Every collar is a short code like a weapon. Pick parts, or reroll, and watch it move.</p>
+<section class="card">
+  <h2>On the hero</h2>
+  <div class="stage" id="stage"><span class="cap">big, and at game size in the corner · walking</span></div>
+  <div class="bar" id="bar"></div>
+  <div class="name" id="nm"></div><div class="rk" id="rk"></div><dl id="dl"></dl>
+</section>
+<section class="card">
+  <h2>A shelf of rolls</h2>
+  <div class="bar"><label>Seed<input type="text" id="seed" value="den" size="8"></label><button id="roll">Reroll shelf</button></div>
+  <div class="shelf" id="shelf" role="list"></div>
+</section>
+<section class="card notes">
+  <h2>Notes</h2>
+  <ul>
+    <li><strong>Same forge, same materials, same brush.</strong> The band is a Smithy wrap, the fitting a Smithy fitting, the gem the Smithy's diamond with its rim and glint, and every shape is drawn the Smithy's way: outline, base, shade on the lower half, a light strip on the upper edge. The name is built the Smithy way too. No new palettes.</li>
+    <li><strong>Four styles:</strong> plain, studded, tag, rope (spikes and bell cut, Oct 3). The gem is always centred on the band, with the studs spaced evenly either side; the buckle, tag or knot sits at the throat. Rare and up glow.</li>
+    <li><strong>It moves.</strong> The collar is attached to the body joint, so it bobs with him; later pieces attach to legs and tail the same way.</li>
+    <li>Levels, stats and set bonuses are not here yet, by design: this is the drawing and the code.</li>
+  </ul>
+</section>
+<script>/*__PIXI__*/</script>
+<script>/*__SMITHY__*/</script>
+<script>/*__RIG__*/</script>
+<script>/*__RIG_DEN__*/</script>
+<script>/*__GEAR__*/</script>
+<script>
+(async () => {
+  registerDenRigs(RIG); GEAR.init(SMITHY);
+  const $ = s => document.querySelector(s), esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const stage = $("#stage"); const app = new PIXI.Application();
+  await app.init({background:0x000000, backgroundAlpha:0, resizeTo:stage, antialias:true, resolution:Math.min(2, window.devicePixelRatio || 1), autoDensity:true}); stage.appendChild(app.canvas);
+  const W = () => app.screen.width, H = () => app.screen.height, at = (r, cx, cy) => r.position.set(cx - 31, cy - 19);
+  const big = RIG.build(PIXI, "hero"); big.scale.set(6); const small = RIG.build(PIXI, "hero"); small.scale.set(88 / 62); app.stage.addChild(big, small);
+  function layout(){ at(big, W() / 2, H() / 2 + 10); at(small, W() - 70, H() - 40); } layout(); app.renderer.on("resize", layout);
+  let worn = []; let cur = null;
+  function wear(c){ worn.forEach(w => w.remove()); worn = [RIG.attach(PIXI, big, c.joint, c.parts, c.palette), RIG.attach(PIXI, small, c.joint, c.parts, c.palette)]; cur = c;
+    $("#nm").textContent = c.name; $("#rk").textContent = c.picks.rarity; $("#rk").style.color = c.palette.glow;
+    $("#dl").innerHTML = Object.entries(c.picks).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("") + `<dt>code</dt><dd><code>${esc(c.code)}</code></dd>`; }
+  app.ticker.add(tk => { const dt = tk.deltaMS / 1000; big.rig.tick(dt); small.rig.tick(dt); });
+  /* controls */
+  const P = GEAR.PAL, sel = (id, label, opts) => `<label>${label}<select id="${id}"><option value="">Any</option>${opts.map((o, i) => `<option value="${i}">${esc(o.n)}</option>`).join("")}</select></label>`;
+  $("#bar").innerHTML = sel("fBand", "Band", P.WRAP) + sel("fFit", "Fitting", P.FIT) + sel("fStyle", "Style", GEAR.STYLES) + sel("fGem", "Gem", P.GEMS.map(g => g || {n:"None"})) + sel("fRar", "Rarity", SMITHY.RARS) + sel("fInf", "Infusion", SMITHY.INFS) + `<button id="bRoll">Reroll</button><button id="bWalk" aria-pressed="true">Walking</button>`;
+  const opt = id => { const v = $("#" + id).value; return v === "" ? undefined : +v; };
+  let n = 0; function make(seed){ return GEAR.collar(seed, {band:opt("fBand"), fit:opt("fFit"), style:opt("fStyle"), gem:opt("fGem"), rar:opt("fRar"), inf:opt("fInf")}); }
+  $("#bar").querySelectorAll("select").forEach(s => s.addEventListener("change", () => wear(make("pick:" + (++n)))));
+  $("#bRoll").addEventListener("click", () => wear(make("roll:" + (++n) + ":" + Math.random())));
+  $("#bWalk").addEventListener("click", e => { const on = e.currentTarget.getAttribute("aria-pressed") !== "true"; e.currentTarget.setAttribute("aria-pressed", String(on)); big.rig.walk(on); small.rig.walk(on); });
+  wear(GEAR.collar("first"));
+  /* shelf: twelve rolls, each a game-size hero rendered once to a canvas */
+  const shelf = $("#shelf"); const sapp = new PIXI.Application(); await sapp.init({background:0x000000, backgroundAlpha:0, width:120, height:74, antialias:true, resolution:2, autoDensity:true, autoStart:false});
+  const sh = RIG.build(PIXI, "hero"); sh.scale.set(3.2); sh.rig.walk(false); sapp.stage.addChild(sh); sh.position.set(60 - 31 - (44 - 31) * 3.2, 37 - 19 - (12 - 19) * 3.2); /* the neck, close up */
+  function shelfRender(){ shelf.innerHTML = ""; const seed = $("#seed").value || "den";
+    for (let i = 0; i < 12; i++){ const c = GEAR.collar(seed + ":" + i); const a = RIG.attach(PIXI, sh, c.joint, c.parts, c.palette); sapp.render(); const url = sapp.canvas.toDataURL(); a.remove();
+      const b = document.createElement("button"); b.className = "item"; b.setAttribute("role", "listitem"); b.setAttribute("aria-pressed", "false"); b.innerHTML = `<img src="${url}" alt="" style="width:100%;display:block"><span style="color:${c.palette.glow}">${esc(c.name)}</span>`;
+      b.addEventListener("click", () => { [...shelf.children].forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); wear(GEAR.decode(c.code)); }); shelf.appendChild(b); } }
+  $("#roll").addEventListener("click", () => { $("#seed").value = Math.random().toString(36).slice(2, 7); shelfRender(); }); $("#seed").addEventListener("change", shelfRender);
+  shelfRender();
+  window.__bench = {app, big, small, wear, GEAR};
+})();
+</script>

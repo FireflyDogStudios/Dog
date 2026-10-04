@@ -1,0 +1,98 @@
+<title>Den Smithy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/*STYLE*/
+.types{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.tile.type .wsvg{width:100px}
+.tile.type .n{font:400 1.05rem/1 var(--display);letter-spacing:.02em}
+.tile[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.dial.part .lab{color:var(--fg)}
+.s6{grid-template-columns:repeat(6,minmax(124px,1fr));min-width:780px}
+</style>
+
+<div class="wrap" id="app">
+  <header>
+    <span class="eyebrow">Den Game · proof of concept · drawn from scratch</span>
+    <h1>Den Smithy</h1>
+    <p class="lede">Thirteen weapon types, all hand-drawn from parts: swords and axes alongside sticks, tennis balls, flying discs, tug ropes, slingshots, bone clubs, claws, staves, bows and shovels. Every one takes infusions, rarity and variants, and saves as one short code.</p>
+  </header>
+
+  <section aria-labelledby="ty-h">
+    <span class="eyebrow">The armoury</span>
+    <h2 id="ty-h">Thirteen types</h2>
+    <p class="sub">One random roll of each. Tap a type to put it on the bench and start building.</p>
+    <div class="types" id="types"></div>
+    <div class="row"><button class="btn ghost" id="typesMore" type="button">Reroll all types</button></div>
+  </section>
+
+  <section aria-labelledby="bench-h">
+    <h2 id="bench-h">The bench</h2>
+    <div class="bench">
+      <div class="stage">
+        <div id="big"></div>
+        <div class="wname" id="name"></div>
+        <div class="wmeta" id="meta"></div>
+        <div class="code">
+          <label for="codeIn" class="hint">Code</label>
+          <input id="codeIn" maxlength="16" spellcheck="false" autocomplete="off">
+          <button class="btn ghost" id="copy" type="button">Copy</button>
+        </div>
+        <div class="hint" id="codeMsg">Paste any code and press Enter to load it.</div>
+      </div>
+      <div class="dials" id="dials"></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="roll" type="button">🎲 Roll</button>
+      <button class="btn ghost" id="rollHot" type="button">Roll something fancy</button>
+      <button class="btn ghost" id="rollType" type="button">Roll this type</button>
+      <label class="toggle"><input type="checkbox" id="calm"><span>Calm mode (no motion)</span></label>
+    </div>
+  </section>
+
+  <section aria-labelledby="i-h">
+    <span class="eyebrow">Infusions</span>
+    <h2 id="i-h">Every type takes every infusion</h2>
+    <p class="sub">Each type tells the effects where its hitting part, tip, grip and edges are, so embers, frost, lightning, vines, runes and smoke land in the right place on any shape.</p>
+    <div class="shelf"><div class="strip s6" id="infs"></div></div>
+  </section>
+
+  <section aria-labelledby="r-h">
+    <span class="eyebrow">Rarity</span>
+    <h2 id="r-h">The ladder</h2>
+    <div class="shelf"><div class="strip s8" id="ladder"></div></div>
+  </section>
+
+  <section aria-labelledby="v-h">
+    <span class="eyebrow">Variants</span>
+    <h2 id="v-h">Sunkissed and Starlit</h2>
+    <div class="shelf"><div class="strip s3" id="vars"></div></div>
+  </section>
+
+  <section aria-labelledby="k-h">
+    <span class="eyebrow">The rack</span>
+    <h2 id="k-h">Random rolls</h2>
+    <p class="sub">Rolled with boosted odds. Tap one to put it on the bench.</p>
+    <div class="rack" id="rack"></div>
+    <div class="row"><button class="btn ghost" id="more" type="button">Roll more</button></div>
+  </section>
+
+  <section aria-labelledby="t-h">
+    <span class="eyebrow">Readability</span>
+    <h2 id="t-h">At bag size</h2>
+    <div class="shelf tiny" id="tiny"></div>
+  </section>
+
+  <section aria-labelledby="f-h">
+    <span class="eyebrow">How it works</span>
+    <h2 id="f-h">Under the hood</h2>
+    <div class="shelf"><ul class="facts sub" id="facts"></ul></div>
+  </section>
+  <p class="credit">Art by <b>Firefly</b> · design by <b>GrumpyDingo</b></p>
+</div>
+<script>
+(()=>{
+"use strict";
+/*JS*/
+})();
+</script>

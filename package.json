@@ -1,0 +1,15 @@
+{
+  "name": "den-ledger-workspace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node apps/den-ledger/build.mjs",
+    "sim:prep": "node apps/den-ledger/build.mjs && node tools/make-sim-copy.mjs",
+    "sim:t40": "node sim/t40.js",
+    "sim:t45b": "node sim/t45b.js",
+    "check": "node apps/den-ledger/build.mjs && node tools/make-sim-copy.mjs && node sim/t40.js"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}

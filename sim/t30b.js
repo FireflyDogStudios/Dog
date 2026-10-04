@@ -1,0 +1,11 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1280,height:720}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<4;i++) await p.evaluate(()=>__advance(5000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.mailnote,.sos-ov").forEach(e=>e.remove()));
+ await p.evaluate(()=>__E('spawnMega()')); for(let i=0;i<10;i++) await p.evaluate(()=>__advance(100)); console.log('mega?', await p.evaluate(()=>__E('JSON.stringify({m:!!B.mega, n:B.mega&&B.mega.def.name, dead:B.mega&&B.mega.E.dead})')));
+ await p.screenshot({path:'sim/fk30b.png'});
+ console.log('target', await p.$eval('#fk-target', e=>e.hidden?'hidden':e.innerText.replace(/\n/g,' | ')), 'megabar display', await p.$eval('#megabar', e=>getComputedStyle(e).display).catch(()=>'none'));
+ console.log('errs',errs.slice(0,5), await p.evaluate(()=>window.__errs||[]));
+ await b.close();})();

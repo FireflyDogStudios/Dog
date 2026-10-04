@@ -1,3 +1,8 @@
 dist/
 node_modules/
 .DS_Store
+sim/game.html
+sim/pixi.min.js
+sim/proton.web.min.js
+sim/art-*.css
+sim/*.png

@@ -1,0 +1,105 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-02T23:10:00Z"
+ },
+ "title": "Den Dingo Style Studio",
+ "launch": {
+  "view": "canvas"
+ },
+ "pages": [],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 900,
+   "h": 660,
+   "title": "A · Smithy match, beside the weapons"
+  },
+  "SmithyScratch.dc.html": {
+   "x": 980,
+   "y": 0,
+   "w": 560,
+   "h": 660,
+   "title": "B · Smithy match + scratchy line"
+  },
+  "Scratchy.dc.html": {
+   "x": 1620,
+   "y": 0,
+   "w": 560,
+   "h": 660,
+   "title": "C · Scratchy ink gothic"
+  },
+  "Storybook.dc.html": {
+   "x": 0,
+   "y": 780,
+   "w": 560,
+   "h": 660,
+   "title": "D · Vector-painted storybook"
+  },
+  "Ink.dc.html": {
+   "x": 640,
+   "y": 780,
+   "w": 560,
+   "h": 660,
+   "title": "E · Ink and shadow"
+  },
+  "Pulp.dc.html": {
+   "x": 1280,
+   "y": 780,
+   "w": 560,
+   "h": 660,
+   "title": "F · Pulp poster"
+  },
+  "Woodcut.dc.html": {
+   "x": 1920,
+   "y": 780,
+   "w": 560,
+   "h": 660,
+   "title": "G · Woodcut"
+  },
+  "Dingo.dc.html": {
+   "x": 0,
+   "y": 1560,
+   "w": 480,
+   "h": 400,
+   "title": "Dingo generator v2 (open Tweaks: style, head, ears, body, legs)"
+  }
+ },
+ "order": [
+  "Dingo.dc.html",
+  "Woodcut.dc.html",
+  "Pulp.dc.html",
+  "Ink.dc.html",
+  "Storybook.dc.html",
+  "Scratchy.dc.html",
+  "SmithyScratch.dc.html",
+  "Main.dc.html"
+ ],
+ "notes": {
+  "t1": {
+   "x": 0,
+   "y": -300,
+   "text": "The Den dingo v2 — Carolina Dog anatomy, matched to the Smithy weapons",
+   "kind": "title1",
+   "maxW": 2480
+  },
+  "s1": {
+   "x": 2260,
+   "y": 0,
+   "w": 380,
+   "text": "What changed from v1 (from the Carolina Dog breed standard and dog-anatomy drawing guides):\n\n• Muzzle tapers to a point, about as long as the skull.\n• Ears are near-equilateral triangles set on top of the head, pointing a little forward. One is turned, like a real dingo listening.\n• Almond eye set obliquely, with a brow.\n• Straight back with a waist; brisket down to the elbow.\n• Forelegs: shoulder → elbow → straight forearm → pastern → small compact paw.\n• Hind legs: hip → stifle (forward) → hock (back) → rear pastern.\n• Fish-hook tail carried at about 45°, paler underneath.\n• Ginger with pale buff on muzzle, throat, chest and belly.",
+   "fill": "orange"
+  },
+  "s2": {
+   "x": 2560,
+   "y": 780,
+   "w": 380,
+   "text": "A and B use the exact Smithy recipe: hard split shading, one highlight strip, dark 3.2px outline, same oak/bronze warmth. The weapons on A are real ones pulled from the game.\n\nC keeps the scratchy ink gothic you liked. B is the middle road: Smithy shading with a scratchy, hatched line, so the kinematic creatures can be drawn the same way.\n\nThe generator board has Tweaks for style and proportions.",
+   "fill": "green"
+  }
+ },
+ "designSystems": [],
+ "attachments": {}
+}

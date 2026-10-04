@@ -1,0 +1,14 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1366,height:768}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<10;i++) await p.evaluate(()=>__advance(5000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.mailnote,.sos-ov").forEach(e=>e.remove()));
+ await p.evaluate(()=>__advance(600));
+ await p.screenshot({path:'sim/fk1.png'});
+ console.log('kills',await p.evaluate(()=>__E('huntState().kills')), 'target hidden', await p.$eval('#fk-target',e=>e.hidden), 'dock', await p.$$eval('#fk-dock button',x=>x.map(b=>b.title)));
+ await p.keyboard.press('h'); await p.evaluate(()=>__advance(400)); await p.screenshot({path:'sim/fk2.png'});
+ await p.keyboard.press('Escape'); await p.evaluate(()=>__advance(300)); console.log('open after esc', await p.evaluate(()=>document.body.classList.contains('fk-open')));
+ await p.evaluate(()=>__E('fkSet(false)')); await p.evaluate(()=>__advance(300)); await p.screenshot({path:'sim/fk3.png'}); console.log('classic hud visible', await p.$eval('#hud',e=>getComputedStyle(e).display));
+ console.log('errs',errs.slice(0,5), await p.evaluate(()=>window.__errs||[]));
+ await b.close();})();

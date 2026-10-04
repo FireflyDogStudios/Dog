@@ -1,0 +1,10 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:900,height:800}});
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ await p.evaluate(()=>__advance(5000));
+ const r = await p.evaluate(()=>{ const hero=document.querySelector('section.hero'); const hb=hero.getBoundingClientRect(); const out=[];
+   hero.querySelectorAll('*').forEach(el=>{ const r=el.getBoundingClientRect(); if(r.width>hb.width*0.8 && r.height>20 && r.height<hb.height*0.6){ const cs=getComputedStyle(el); out.push([el.tagName, el.className && el.className.baseVal!==undefined?el.className.baseVal:el.className, el.id, Math.round(r.top-hb.top), Math.round(r.height), cs.zIndex, cs.backgroundImage.slice(0,60)]); } });
+   const cs=getComputedStyle(hero,'::before'), ca=getComputedStyle(hero,'::after'); out.push(['before',cs.content,cs.backgroundImage.slice(0,80),cs.zIndex]); out.push(['after',ca.content,ca.backgroundImage.slice(0,80),ca.zIndex,ca.bottom,ca.height]); return out; });
+ console.log(JSON.stringify(r,null,0));
+ await b.close();})();

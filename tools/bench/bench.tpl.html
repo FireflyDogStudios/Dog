@@ -1,0 +1,88 @@
+<title>Den Pixi Bench</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral+SC:wght@600&family=Barlow:wght@400;600&family=Barlow+Condensed:wght@500;600&display=swap">
+<style>
+:root{--bg:#f3ead6;--panel:#fbf6ea;--ink:#2a2118;--muted:#6e5f4c;--rule:#d9a441;--line:#d7c9a8;--meadow:#e9d9ad;--meadow2:#cdb286;--focus:#d9a441;
+  --display:"Spectral SC",Georgia,serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;--cond:"Barlow Condensed","Barlow",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1512;--panel:#161d19;--ink:#ece3cf;--muted:#a39b86;--line:#2a332d;--meadow:#2b3a2a;--meadow2:#1e2a1e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1512;--panel:#161d19;--ink:#ece3cf;--muted:#a39b86;--line:#2a332d;--meadow:#2b3a2a;--meadow2:#1e2a1e;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);padding-block:28px;padding-inline:clamp(16px,4vw,48px);max-width:1100px;margin:0 auto}
+h1{font:600 clamp(26px,4vw,38px)/1.1 var(--display);letter-spacing:.04em;margin:0 0 6px;text-wrap:balance}
+h2{font:600 15px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;padding-top:10px;border-top:2px solid var(--rule);display:inline-block}
+p{max-width:64ch;margin:0 0 10px}.lede{color:var(--muted);margin-bottom:18px}
+.card{background:var(--panel);border:1px solid var(--line);padding:14px;margin-bottom:16px;min-width:0}
+.stage{position:relative;background:linear-gradient(var(--meadow),var(--meadow2));border:1px solid var(--line);min-height:300px;overflow:hidden}
+.stage canvas{display:block;width:100%;height:auto}
+.cap{position:absolute;left:10px;top:8px;font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fps{position:absolute;right:10px;top:8px;font:600 12px var(--cond);letter-spacing:.08em;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button{font:600 13px var(--cond);letter-spacing:.1em;text-transform:uppercase;padding:9px 14px;background:transparent;color:var(--ink);border:1px solid var(--line);cursor:pointer;min-height:44px}
+button[aria-pressed="true"]{border-color:var(--rule);box-shadow:inset 0 -3px 0 var(--rule)}
+button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.notes ul{margin:0;padding-left:18px}.notes li{margin-bottom:4px}
+</style>
+<h1>Den Pixi Bench</h1>
+<p class="lede">The approved hero, drawn by PixiJS from the same path data as the Workbench, walking on a real jointed rig (every leg segment is a container with its own pivot, so the IK pass later has joints to grab). Left-facing is a mirror of the same rig, so there is one gait, not two. The tells are states on the rig: the status engine will set them.</p>
+<section class="card">
+  <h2>Hero · Pixi rig</h2>
+  <div class="stage" id="stage"><span class="cap">62×38 drawing space · big, then game size (88 px), then a crowd of 60 for the frame cost</span><span class="fps" id="fps"></span></div>
+  <div class="btns" role="group" aria-label="Rig controls">
+    <button id="bWalk" aria-pressed="true">Walking</button>
+    <button id="bFace" aria-pressed="false">Face left</button>
+    <button id="bEars" aria-pressed="false">Ears back</button>
+    <button id="bHowl" aria-pressed="false">Howl ears</button>
+    <button id="bCrowd" aria-pressed="false">Crowd of 60</button>
+  </div>
+</section>
+<section class="card">
+  <h2>Meadow creatures · the same rigs</h2>
+  <div class="stage" id="stCre" style="min-height:420px"><span class="cap">nine approved creatures, 3× · angry = the tell the status engine will fire</span></div>
+  <div class="btns" role="group" aria-label="Creature controls"><button id="cAngry" aria-pressed="false">Angry</button><button id="cWalk" aria-pressed="true">Walking</button></div>
+</section>
+<section class="card notes">
+  <h2>What this proves</h2>
+  <ul>
+    <li><strong>Same drawing, same walk.</strong> Path strings and keyframes are copied from the Workbench; the rig samples the keyframes in JS instead of CSS.</li>
+    <li><strong>Mirroring is free.</strong> <code>scale.x = -1</code> flips the whole rig, gait included; no second set of keyframes.</li>
+    <li><strong>Tells are data.</strong> <code>rig.set("ears-back")</code>, <code>rig.set("howl")</code>: the status engine's <code>tell</code> names map straight onto these.</li>
+    <li><strong>Cost.</strong> The crowd button adds sixty walking heroes; the FPS readout is the honest number for the Pixi port.</li>
+  </ul>
+</section>
+<script>/*__PIXI__*/</script>
+<script>/*__RIG__*/</script>
+<script>/*__RIG_DEN__*/</script>
+<script>
+(async () => {
+  registerDenRigs(RIG);
+  const stage = document.getElementById("stage");
+  const app = new PIXI.Application();
+  await app.init({background:0x000000, backgroundAlpha:0, resizeTo:stage, antialias:true, resolution:Math.min(2, window.devicePixelRatio || 1), autoDensity:true});
+  stage.appendChild(app.canvas);
+  const W = () => app.screen.width, H = () => app.screen.height;
+  const big = RIG.build(PIXI, "hero"); big.scale.set(6); app.stage.addChild(big);
+  const small = RIG.build(PIXI, "hero"); small.scale.set(88 / 62); app.stage.addChild(small);
+  const rigs = [big, small]; let crowd = [];
+  /* a rig scales and mirrors about its centre (31,19), so place the centre: position = centre − (31,19) */
+  const at = (r, cx, cy) => r.position.set(cx - 31, cy - 19);
+  function layout(){ at(big, W() / 2, H() / 2 + 10); at(small, W() - 70, H() - 40); }
+  layout(); app.renderer.on("resize", layout);
+  const state = {walk:true, left:false};
+  const press = (id, fn) => { const b = document.getElementById(id); b.addEventListener("click", () => { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", String(on)); fn(on); }); };
+  const all = fn => [...rigs, ...crowd].forEach(r => fn(r.rig));
+  press("bWalk", on => { state.walk = on; all(r => r.walk(on)); });
+  press("bFace", on => { state.left = on; all(r => r.face(on ? -1 : 1)); });
+  press("bEars", on => all(r => r.set("ears-back", on)));
+  press("bHowl", on => all(r => r.set("howl", on)));
+  press("bCrowd", on => { crowd.forEach(c => c.destroy({children:true})); crowd = []; if (on){ for (let i = 0; i < 60; i++){ const r = RIG.build(PIXI, "hero"); r.scale.set(88 / 62); at(r, 50 + (i % 12) * (W() - 100) / 11, 60 + Math.floor(i / 12) * 52); r.rig.walk(state.walk).face(state.left ? -1 : 1); r.rig.seed(Math.random()); app.stage.addChild(r); crowd.push(r); } } });
+  let acc = 0, n = 0; const fps = document.getElementById("fps");
+  app.ticker.add(tk => { const dt = tk.deltaMS / 1000; for (const r of rigs) r.rig.tick(dt); for (const c of crowd) c.rig.tick(dt); acc += tk.deltaMS; n++; if (acc >= 500){ fps.textContent = Math.round(1000 * n / acc) + " fps · " + (rigs.length + crowd.length) + " rigs"; acc = 0; n = 0; } });
+  /* creatures */
+  const cst = document.getElementById("stCre"); const capp = new PIXI.Application();
+  await capp.init({background:0x000000, backgroundAlpha:0, resizeTo:cst, antialias:true, resolution:Math.min(2, window.devicePixelRatio || 1), autoDensity:true}); cst.appendChild(capp.canvas);
+  const CRE = ["hollowhorn", "kindling", "burrs", "clockhead", "fencepost", "mound", "bramble", "puffball", "shade"]; const cres = CRE.map(id => { const r = RIG.build(PIXI, id); r.scale.set(3); capp.stage.addChild(r); return r; });
+  function clay(){ const w = capp.screen.width, cols = w > 700 ? 5 : 3; cres.forEach((r, i) => at(r, (i % cols + .5) * w / cols, 110 + Math.floor(i / cols) * 190)); }
+  clay(); capp.renderer.on("resize", clay);
+  press("cAngry", on => cres.forEach(r => r.rig.set("angry", on))); press("cWalk", on => cres.forEach(r => r.rig.walk(on)));
+  capp.ticker.add(tk => { const dt = tk.deltaMS / 1000; for (const r of cres) r.rig.tick(dt); });
+  window.__bench = {app, big, small, cres, get crowd(){ return crowd; }};
+})();
+</script>

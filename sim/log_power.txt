@@ -1,0 +1,17 @@
+power 0m {"lvl":1,"kills":0,"dps":23} 0s real
+power 10m {"lvl":4,"kills":93,"dps":141} 68s real
+power 20m {"lvl":5,"kills":175,"dps":376} 118s real
+power 30m {"lvl":9,"kills":446,"dps":2773} 180s real
+power 40m {"lvl":12,"kills":914,"dps":71998} 268s real
+power 50m {"lvl":18,"kills":1713,"dps":12804882} 345s real
+power 60m {"lvl":23,"kills":2643,"dps":135622382} 439s real
+power 70m {"lvl":26,"kills":3458,"dps":792342414} 524s real
+power 80m {"lvl":29,"kills":4187,"dps":3287846430} 595s real
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.evaluate: Target page, context or browser has been closed
+    at /tmp/claude-0/-home-claude/a9103c21-f632-55a9-95a5-5d7a9adce206/scratchpad/game/sim/run.js:11:13
+
+Node.js v22.22.0

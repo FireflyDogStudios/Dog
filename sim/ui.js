@@ -1,0 +1,18 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:900,height:1100}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<50;i++) await p.evaluate(()=>__advance(10000)); await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.mailnote,.sos-ov").forEach(e=>e.remove()));
+ const tabs = await p.$$eval('button', bs=>bs.map(b=>b.textContent.trim()).filter(t=>/Hunt|Armory/i.test(t)).slice(0,8)); console.log('tabs',tabs);
+ await p.getByRole('button',{name:/Hunt/}).first().click().catch(e=>console.log('nohunt'));
+ await p.evaluate(()=>__advance(500));
+ await p.getByRole('button',{name:/Armory/}).first().click().catch(e=>console.log('noarm'));
+ await p.evaluate(()=>__advance(500));
+ const txt = await p.evaluate(()=>{const t=document.querySelector('.tradebox'); return t? t.parentElement.innerText.slice(0,700):'NO TRADEBOX'});
+ console.log(txt);
+ console.log('roll buttons:', await p.$$eval('[data-a^="w-roll"],[data-a="w-autotoggle"]', x=>x.length));
+ await p.click('[data-a="w-salvage"]'); await p.evaluate(()=>__advance(500));
+ console.log('salvage after click:', await p.evaluate(()=>__E('huntState().autoSalvage')), await p.$eval('[data-a="w-salvage"]', b=>b.textContent));
+ await p.screenshot({path:'sim/armory.png'});
+ console.log('errs',errs.slice(0,5), await p.evaluate(()=>window.__errs||[]));
+ await b.close();})();

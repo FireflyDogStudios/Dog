@@ -1,0 +1,10 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1366,height:768}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<6;i++) await p.evaluate(()=>__advance(5000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.sos-ov").forEach(e=>e.remove()));
+ await p.evaluate(()=>__E(`(()=>{const H=huntState();H.autoSalvage=false;['legendary','epic','rare','uncommon','common','rare'].forEach(rk=>dropWeapon({name:'Test',traits:[]},true,rk)); H.view='armory'; H.wsel=H.weapons[H.weapons.length-6].id; fkOpen('hunt'); render();})()`));
+ await p.evaluate(()=>__advance(300)); const w=await p.$('.fkw'); await w.screenshot({path:'sim/arm.png'});
+ await p.evaluate(()=>{const b=document.querySelector('.fkw-b'); b.scrollTop=600;}); await p.evaluate(()=>__advance(100)); await w.screenshot({path:'sim/arm2.png'});
+ console.log('errs',errs.slice(0,5)); await b.close();})();

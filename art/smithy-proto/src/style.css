@@ -1,0 +1,102 @@
+
+/* Layout: a builder bench (big weapon + dials + code), then shelves that isolate one layer each, then a rack of rolls. */
+:root{
+  --bg:#eef2ec; --surface:#ffffff; --sunk:#e3e9e1; --fg:#1d2a22; --muted:#5b6d60; --line:#c9d4c8;
+  --accent:#c4561a; --accent-ink:#ffffff; --stage:#dfe7dc; --stage-2:#c4d2c1;
+  --display:"Lilita One","Trebuchet MS",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141c17; --surface:#1d2822; --sunk:#18211c; --fg:#ece6d6; --muted:#9aab9e; --line:#2f3d34;
+  --accent:#f08a3c; --accent-ink:#1a120b; --stage:#1f2c25; --stage-2:#0d1410; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#141c17; --surface:#1d2822; --sunk:#18211c; --fg:#ece6d6; --muted:#9aab9e; --line:#2f3d34;
+  --accent:#f08a3c; --accent-ink:#1a120b; --stage:#1f2c25; --stage-2:#0d1410; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body);margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:grid;gap:40px}
+h1,h2{font-family:var(--display);font-weight:400;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,5vw,3.1rem);line-height:1.05}
+h2{font-size:1.5rem;line-height:1.15}
+p{margin:0;max-width:65ch}
+.lede{color:var(--muted);font-size:1.05rem;margin-top:8px}
+.sub{color:var(--muted);font-size:.95rem}
+.eyebrow{font:600 .72rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+header,section{display:grid;gap:12px}
+.bench{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:860px){.bench{grid-template-columns:1fr}}
+.stage{background:radial-gradient(110% 90% at 50% 42%,var(--stage),var(--stage-2));border:1px solid var(--line);border-radius:18px;padding:14px 18px 18px;display:grid;justify-items:center;gap:8px;min-width:0}
+.stage .wsvg{width:min(340px,76vw)}
+.wname{font-family:var(--display);font-size:1.5rem;text-align:center;line-height:1.1;text-wrap:balance}
+.wmeta{font:500 .78rem/1.4 var(--mono);color:var(--muted);text-align:center;letter-spacing:.04em}
+.code{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
+.code input{font:600 1.05rem/1 var(--mono);letter-spacing:.12em;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);width:11.5em;text-align:center}
+.code input:focus-visible,.btn:focus-visible,.dial button:focus-visible,.tile:focus-visible,.toggle input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{font:.75rem/1.3 var(--mono);color:var(--muted);text-align:center}
+.dials{display:grid;gap:7px;min-width:0}
+.dial{display:grid;grid-template-columns:7.2em 2.2em minmax(0,1fr) 2.2em;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:5px 8px}
+.dial .lab{font:600 .7rem/1.1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.dial .val{font-weight:600;text-align:center;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:6px}
+.dial .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dial button{appearance:none;border:1px solid var(--line);background:var(--sunk);color:var(--fg);border-radius:8px;height:2em;cursor:pointer;font:700 1rem/1 var(--body)}
+.dial.off{opacity:.42}
+.dial.hot{border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{appearance:none;border:0;border-radius:12px;padding:11px 18px;background:var(--accent);color:var(--accent-ink);font:400 1.1rem/1 var(--display);letter-spacing:.03em;cursor:pointer;box-shadow:0 3px 0 color-mix(in srgb,var(--accent) 55%,#000)}
+.btn.ghost{background:var(--surface);color:var(--fg);border:1px solid var(--line);box-shadow:none;font:600 .95rem/1 var(--body)}
+.btn:active{transform:translateY(2px)}
+.toggle{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted);cursor:pointer}
+.toggle input{accent-color:var(--accent);width:18px;height:18px}
+.shelf{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;overflow-x:auto}
+.strip{display:grid;gap:10px}
+.cell{display:grid;justify-items:center;gap:4px;padding:8px 6px 10px;border-radius:12px;background:radial-gradient(100% 90% at 50% 40%,var(--stage),var(--stage-2));min-width:0;text-align:center}
+.cell .wsvg{width:112px}
+.cell .t{font:600 .8rem/1.2 var(--body)}
+.cell .s{font:.66rem/1.2 var(--mono);color:var(--muted)}
+.s8{grid-template-columns:repeat(8,minmax(108px,1fr));min-width:900px}
+.s6{grid-template-columns:repeat(6,minmax(120px,1fr));min-width:760px}
+.s3{grid-template-columns:repeat(3,minmax(140px,1fr))}
+.rack{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}
+.tile{appearance:none;border:1px solid var(--line);background:radial-gradient(100% 90% at 50% 40%,var(--stage),var(--stage-2));border-radius:14px;padding:6px 6px 10px;display:grid;justify-items:center;gap:3px;cursor:pointer;color:var(--fg)}
+.tile .wsvg{width:108px}
+.tile .c{font:600 .68rem/1 var(--mono);letter-spacing:.06em;color:var(--muted)}
+.tile .n{font:600 .74rem/1.2 var(--body);text-align:center}
+.tiny{display:flex;flex-wrap:wrap;gap:8px}
+.tiny .slot{width:48px;height:48px;border-radius:10px;background:var(--sunk);border:1px solid var(--line);display:grid;place-items:center}
+.tiny .wsvg{width:44px}
+.facts{display:grid;gap:6px;padding-left:18px;margin:0}
+.facts li{max-width:72ch}
+code{font-family:var(--mono);font-size:.9em;background:var(--sunk);padding:1px 5px;border-radius:5px}
+.credit{font:400 1.05rem/1 var(--display);color:var(--muted);text-align:center;letter-spacing:.04em}
+.credit b{color:var(--accent);font-weight:400}
+.wsvg{display:block;height:auto;aspect-ratio:1;overflow:visible}
+.rn-junk{color:#8a8f93}.rn-common{color:var(--muted)}.rn-uncommon{color:#4f8fb8}.rn-rare{color:#a77bd6}.rn-epic{color:#e8741c}.rn-legendary{color:#c9951f}.rn-godly{color:#f25f8c}.rn-mythic{color:#2bb5a5}
+
+/* ---------- effect animations (SVG) ---------- */
+.wsvg .fx-rise,.wsvg .fx-fall,.wsvg .fx-drift,.wsvg .fx-twinkle,.wsvg .fx-smoke,.wsvg .fx-rays{transform-box:fill-box;transform-origin:center}
+.wsvg .fx-rays{transform-box:view-box;transform-origin:0 0}
+.fx-glint{animation:glint 3.4s ease-in-out infinite}
+@keyframes glint{0%{transform:translate(-170px,0)}55%,100%{transform:translate(170px,0)}}
+.fx-rays{animation:spin 22s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fx-pulse{animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.55}}
+.fx-rise{animation:rise 2.2s ease-out infinite;opacity:0}
+@keyframes rise{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:1}100%{opacity:0;transform:translate(var(--dx,0px),-34px) scale(.25)}}
+.fx-fall{animation:fall 3.6s linear infinite;opacity:0}
+@keyframes fall{0%{opacity:0;transform:translate(0,-6px) rotate(0)}15%{opacity:1}100%{opacity:0;transform:translate(var(--dx,0px),30px) rotate(180deg)}}
+.fx-drift{animation:drift 3.4s ease-in-out infinite;opacity:0}
+@keyframes drift{0%{opacity:0;transform:translate(0,0) rotate(0)}20%{opacity:.95}100%{opacity:0;transform:translate(var(--dx,14px),26px) rotate(220deg)}}
+.fx-twinkle{animation:twinkle 2.4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:1;transform:scale(1)}}
+.fx-smoke{animation:smoke 3s ease-out infinite;opacity:0}
+@keyframes smoke{0%{opacity:0;transform:translate(0,0) scale(.5)}25%{opacity:.7}100%{opacity:0;transform:translate(var(--dx,0px),-30px) scale(1.8)}}
+.fx-bolt{animation:bolt 1.3s steps(1) infinite}
+.fx-bolt.b2{animation-delay:-.65s}
+@keyframes bolt{0%{opacity:1}12%{opacity:.2}18%{opacity:1}40%{opacity:0}62%{opacity:.9}70%{opacity:0}100%{opacity:0}}
+.fx-shim{animation:shim 5s linear infinite}
+@keyframes shim{to{transform:translate(40px,40px)}}
+.calm .wsvg *{animation:none!important}
+.calm .wsvg .fx-p{display:none}
+@media (prefers-reduced-motion: reduce){.wsvg *{animation:none!important}.wsvg .fx-p{display:none}}

@@ -4,6 +4,7 @@
 // dist/index.html is the exact text to publish (the artifact service adds its own page skeleton).
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -12,12 +13,17 @@ const read = (...p) => fs.readFileSync(src(...p), "utf8");
 const dir = (d) => fs.readdirSync(src(d)).filter((f) => !f.startsWith(".")).sort();
 const cat = (d, ext) => dir(d).filter((f) => f.endsWith(ext)).map((f) => read(d, f)).join("");
 
+// The art loader caches the art CSS in IndexedDB keyed by a short md5 of each file; keep those keys in sync with public/.
+const md5 = (f) => crypto.createHash("md5").update(fs.readFileSync(path.join(here, "public", f))).digest("hex").slice(0, 8);
+const loader = cat("js-loader", ".js").replace(/\n$/, "")
+  .replace(/V = \{base:"[0-9a-f]+", alt:"[0-9a-f]+"\}/, `V = {base:"${md5("art-base.css")}", alt:"${md5("art-alt.css")}"}`);
+
 const html =
   read("head.html") +
   "<style>\n" + cat("css", ".css") + "</style>\n" +
   '<style id="artmix-css">\n' + cat("css-artmix", ".css") + "</style>\n" +
   read("body.html") +
-  "<script>" + cat("js-loader", ".js").replace(/\n$/, "") + "</script>\n" +
+  "<script>" + loader + "</script>\n" +
   "<script>\n" + cat("js", ".js") + "</script>\n" +
   read("tail.html");
 

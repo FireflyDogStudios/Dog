@@ -1,0 +1,12 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:900,height:900}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<20;i++) await p.evaluate(()=>__advance(10000));
+ const q=()=>p.evaluate(()=>__E('JSON.stringify({mail:state.mail.map(m=>m.id),sent:Object.keys(state.lettersSent||{}),self:isUnlocked("selfcare"),ae:huntState().autoEquip,eq:huntState().equipped.length,w:huntState().weapons.length,tabs:[...document.querySelectorAll(".tab")].map(t=>t.textContent.trim())})'));
+ console.log('A',await q());
+ await p.evaluate(()=>__E('state.mail=[]'));
+ for(let i=0;i<4;i++) await p.evaluate(()=>__advance(10000));
+ console.log('B after deleting all mail',await q());
+ console.log('errs',errs.slice(0,5), await p.evaluate(()=>window.__errs||[]));
+ await b.close();})();
