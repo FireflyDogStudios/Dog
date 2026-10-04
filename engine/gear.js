@@ -14,31 +14,35 @@ const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
 
 /* ---------- connection points: where each dog's neck (and later tail, paws and hem) sits ----------
    A piece is drawn against these, never against one dog's numbers, so the same collar fits every dog and a new dog is one more row.
-   collar: c = the band's centreline as a cubic (crest side → throat), hw = the band's half width. Numbers are in each rig's 62×38 space.
-   hero is the first companion (the old drawing); hero2 is the Carolina Dog, its line the midline of the fit sheet's band2. */
+   collar: the footprint of the dog's own collar band, as its two edges R (rear, upper) and F (front, lower), each a cubic running crest → throat.
+   A gear collar covers exactly this footprint, so it sits flush, at the dog's own angle, and never drapes past the neck. Numbers are in each rig's 62×38 space
+   (hero: its `band`; hero2: its `band2`, the fit sheet's section 3). */
 const MOUNTS = {
-  hero:  {collar:{c:[[39.9, 9.2], [42.85, 10.7], [44.75, 12.8], [45.9, 15]], hw:.95}},
-  hero2: {collar:{c:[[40.85, 7.9], [43.3, 9.65], [45.0, 11.95], [46.05, 14.8]], hw:.95}},
+  hero:  {collar:{R:[[40.9, 8.4], [43.6, 9.9], [45.5, 11.9], [46.6, 14.1]], F:[[38.9, 10], [42.1, 11.5], [44, 13.7], [45.2, 15.9]]}},
+  hero2: {collar:{R:[[41.6, 7.0], [44.0, 9.0], [45.7, 11.3], [46.8, 14.2]], F:[[40.1, 8.8], [42.6, 10.3], [44.3, 12.6], [45.3, 15.4]]}},
 };
 const mountOf = (rigId, what) => { const m = MOUNTS[rigId || "hero"]; if (!m || !m[what]) throw new Error("no " + what + " mount for " + rigId); return m[what]; };
 
 /* ---------- the collar: one band that sits over the dog's own, around the neck line of the drawing ----------
    Drawn the Smithy's way: an outline, a base, the lower half in shade, a light strip on the upper edge; gems are the Smithy's diamond with a
-   dark rim and a glint, always centred on the band (the centre stud gives way to it); the fitting lives at the throat. The band is stroked along
-   the dog's collar centreline (round ends come free), so it follows whatever neck it is given. */
+   dark rim and a glint, always centred on the band (the centre stud gives way to it); the fitting lives at the throat. */
 const STYLES = [
   {k:"plain", n:"Collar", fit:"buckle"},
   {k:"studded", n:"Studded Collar", fit:"buckle", studs:5},
   {k:"tag", n:"Tag Collar", fit:"tag"},
   {k:"rope", n:"Rope Collar", fit:"knot"},
 ];
-/* the band's centreline as a cubic, so studs (and later rings) can be spaced evenly and centred (symmetry reads at any size) */
-function bandAt(t, c){ const [a, b, cc, d] = c, u = 1 - t; const x = u*u*u*a[0] + 3*u*u*t*b[0] + 3*u*t*t*cc[0] + t*t*t*d[0], y = u*u*u*a[1] + 3*u*u*t*b[1] + 3*u*t*t*cc[1] + t*t*t*d[1];
-  const dx = 3*u*u*(b[0]-a[0]) + 6*u*t*(cc[0]-b[0]) + 3*t*t*(d[0]-cc[0]), dy = 3*u*u*(b[1]-a[1]) + 6*u*t*(cc[1]-b[1]) + 3*t*t*(d[1]-cc[1]); const m = Math.hypot(dx, dy) || 1;
-  return {x, y, tx:dx / m, ty:dy / m, nx:dy / m, ny:-dx / m}; } /* n points up and away from the neck */
-function along(c, n, t0 = .14, t1 = .78){ const out = []; for (let i = 0; i < n; i++) out.push(bandAt(t0 + (t1 - t0) * (n === 1 ? .5 : i / (n - 1)), c)); return out; }
-/* the centreline shifted `off` across the band, as a polyline path */
-function bandLine(c, off){ let d = ""; for (let i = 0; i <= 10; i++){ const q = bandAt(-.05 + 1.1 * i / 10, c); /* runs a hair past both ends so the dog's own band never peeks out */ d += (i ? " L" : "M") + f1(q.x + q.nx * off) + " " + f1(q.y + q.ny * off); } return d; }
+const cub = (p, t) => { const u = 1 - t; return [u*u*u*p[0][0] + 3*u*u*t*p[1][0] + 3*u*t*t*p[2][0] + t*t*t*p[3][0], u*u*u*p[0][1] + 3*u*u*t*p[1][1] + 3*u*t*t*p[2][1] + t*t*t*p[3][1]]; };
+/* a point on the band: t runs crest → throat, s across it (-1 the front edge, 0 the middle, +1 the rear edge) */
+function bandPt(m, t, s){ const r = cub(m.R, t), f = cub(m.F, t), k = (s + 1) / 2; return [f[0] + (r[0] - f[0]) * k, f[1] + (r[1] - f[1]) * k]; }
+/* the middle of the band with its frame: t along it, n across it (toward the rear edge), hw the half width there */
+function bandAt(t, m){ const [x, y] = bandPt(m, t, 0), a = bandPt(m, Math.max(0, t - .01), 0), b = bandPt(m, Math.min(1, t + .01), 0), d = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1, tx = (b[0] - a[0]) / d, ty = (b[1] - a[1]) / d;
+  const r = cub(m.R, t), f = cub(m.F, t);
+  return {x, y, tx, ty, nx:ty, ny:-tx, hw:Math.hypot(r[0] - f[0], r[1] - f[1]) / 2}; }
+function along(m, n, t0 = .14, t1 = .78){ const out = []; for (let i = 0; i < n; i++) out.push(bandAt(t0 + (t1 - t0) * (n === 1 ? .5 : i / (n - 1)), m)); return out; }
+/* the band between across-offsets s0 and s1 (a closed shape), and a single line at s */
+function bandShape(m, s0, s1){ const A = [], B = []; for (let i = 0; i <= 10; i++){ A.push(bandPt(m, i / 10, s1)); B.push(bandPt(m, i / 10, s0)); } return "M" + A.map(p => f1(p[0]) + " " + f1(p[1])).join(" L") + " L" + B.reverse().map(p => f1(p[0]) + " " + f1(p[1])).join(" L") + " Z"; }
+function bandLine(m, s){ let d = ""; for (let i = 0; i <= 10; i++){ const p = bandPt(m, i / 10, s); d += (i ? " L" : "M") + f1(p[0]) + " " + f1(p[1]); } return d; }
 const diamond = (x, y, r) => `M${x} ${y - r} L${x + r} ${y} L${x} ${y + r} L${x - r} ${y} Z`;
 function gemParts(G, x, y, r){ return [{d:diamond(x, y, r + .28), paint:"rim"}, {d:diamond(x, y, r), paint:"gem"}, {d:`M${x} ${y} L${x + r} ${y} L${x} ${y + r} Z`, paint:"gemS", alpha:.8}, {circle:[x - r * .3, y - r * .35, r * .22], paint:"white", alpha:.9}]; }
 function collar(seed, picks = {}, rigId = "hero"){
@@ -50,25 +54,25 @@ function collar(seed, picks = {}, rigId = "hero"){
   const pal = {band:W.b, bandS:W.s, bandL:W.l, bandO:W.o, fit:F.b, fitS:F.s, fitL:F.l, fitO:F.o, gem:G ? G.b : F.b, gemS:G ? G.s : F.s, gemL:G ? G.l : F.l, rim:"#1a1020", white:"#ffffff", glow:R.c, inf:I.c || R.c};
   /* the same piece drawn for any dog: the code never changes, only the connection points it is drawn against */
   const build = rid => {
-    const {c, hw} = mountOf(rid, "collar"), k = hw / 1.15, parts = [];
-    if (rar >= 3) parts.push({d:bandLine(c, 0), stroke:true, paint:"glow", sw:2 * hw + 1.6, alpha:.35});
-    /* band: outline · base · shade on the lower half · light on the upper edge */
-    parts.push({d:bandLine(c, 0), stroke:true, paint:"bandO", sw:2 * hw + .7});
-    parts.push({d:bandLine(c, 0), stroke:true, paint:"band", sw:2 * hw});
-    parts.push({d:bandLine(c, -hw / 2), stroke:true, paint:"bandS", sw:hw, alpha:.8});
-    parts.push({d:bandLine(c, hw * .72), stroke:true, paint:"bandL", sw:hw * .5, alpha:.6});
-    if (S.k === "rope"){ let d = ""; for (let i = 0; i < 6; i++){ const q = bandAt(.1 + i * .15, c), a = hw * .82; d += `M${f1(q.x - q.nx * a - q.tx * .28)} ${f1(q.y - q.ny * a - q.ty * .28)} L${f1(q.x + q.nx * a + q.tx * .28)} ${f1(q.y + q.ny * a + q.ty * .28)} `; } parts.push({d, stroke:true, paint:"bandO", sw:.45, alpha:.8}); }
-    const mid = bandAt(.46, c), socket = [mid.x, mid.y]; /* the gem is always centred on the band (GrumpyDingo: symmetry first); the fitting stays at the throat */
-    if (S.studs){ along(c, S.studs).forEach((q, i) => { if (G && i === (S.studs - 1) / 2) return; /* the centre stud is the gem's socket */ const {x, y} = q; parts.push({circle:[x, y, .62 * k], paint:"fitO"}, {circle:[x, y, .45 * k], paint:"fit"}, {circle:[x + .1, y + .15, .3 * k], paint:"fitS", alpha:.8}, {circle:[x - .15, y - .17, .14 * k], paint:"fitL"}); }); }
+    const m = mountOf(rid, "collar"), parts = [];
+    if (rar >= 3) parts.push({d:bandShape(m, -1, 1), stroke:true, paint:"glow", sw:1.8, alpha:.35});
+    /* band: outline · base · shade on the lower half · light on the upper edge. Exactly the dog's own footprint. */
+    parts.push({d:bandShape(m, -1, 1), stroke:true, paint:"bandO", sw:.5}, {d:bandShape(m, -1, 1), paint:"bandO"});
+    parts.push({d:bandShape(m, -.86, .86), paint:"band"});
+    parts.push({d:bandShape(m, -.86, 0), paint:"bandS", alpha:.8});
+    parts.push({d:bandShape(m, .5, .86), paint:"bandL", alpha:.6});
+    if (S.k === "rope"){ let d = ""; for (let i = 0; i < 6; i++){ const t = .1 + i * .15, a = bandPt(m, t - .02, -.78), b = bandPt(m, t + .02, .78); d += `M${f1(a[0])} ${f1(a[1])} L${f1(b[0])} ${f1(b[1])} `; } parts.push({d, stroke:true, paint:"bandO", sw:.45, alpha:.8}); }
+    const mid = bandAt(.46, m), socket = [mid.x, mid.y]; /* the gem is always centred on the band (GrumpyDingo: symmetry first); the fitting stays at the throat */
+    if (S.studs){ along(m, S.studs).forEach((q, i) => { if (G && i === (S.studs - 1) / 2) return; /* the centre stud is the gem's socket */ const {x, y, hw} = q, k = hw / 1.1; parts.push({circle:[x, y, .6 * k], paint:"fitO"}, {circle:[x, y, .44 * k], paint:"fit"}, {circle:[x + .1, y + .15, .3 * k], paint:"fitS", alpha:.8}, {circle:[x - .15, y - .17, .14 * k], paint:"fitL"}); }); }
     /* the fitting at the throat, outline · base · shade · light. Buckle and knot sit in the band's own frame (u along it, v across it); the tag hangs straight down */
-    const q = bandAt(.96, c), at = (u, v) => [q.x + q.tx * u * k + q.nx * v * k, q.y + q.ty * u * k + q.ny * v * k];
+    const q = bandAt(.87, m), k = q.hw / 1.1, at = (u, v) => [q.x + q.tx * u * k + q.nx * v * k, q.y + q.ty * u * k + q.ny * v * k], H = q.hw / k; /* H = the band's half width in the frame's units */
     const box = (u0, u1, v0, v1) => "M" + [at(u0, v0), at(u1, v0), at(u1, v1), at(u0, v1)].map(p => f1(p[0]) + " " + f1(p[1])).join(" L") + " Z";
-    if (S.fit === "buckle"){ parts.push({d:box(-.7, .7, -1.5, 1.5), paint:"fitO"}, {d:box(-.5, .5, -1.28, 1.28), paint:"fit"}, {d:box(-.5, .5, -1.28, -.7), paint:"fitS", alpha:.8}, {d:box(-.5, .5, .95, 1.28), paint:"fitL", alpha:.6}, {d:box(-.3, .3, -.95, .95), paint:"band"}, {line:[at(0, -1.05), at(0, 1.05)], sw:.35, paint:"fitO"}); }
-    if (S.fit === "tag"){ const x = q.x, y = q.y + hw * .5, p = (dx, dy, m = 1) => f1(x + dx * m) + " " + f1(y + dy * m), plate = m => `M${p(-.55, .5, m)} L${p(.55, .5, m)} L${p(.75, 2.3, m)} L${p(0, 2.7, m)} L${p(-.75, 2.3, m)} Z`;
+    if (S.fit === "buckle"){ parts.push({d:box(-.7, .7, -H, H), paint:"fitO"}, {d:box(-.5, .5, -(H - .22), H - .22), paint:"fit"}, {d:box(-.5, .5, -(H - .22), -.3), paint:"fitS", alpha:.8}, {d:box(-.5, .5, H - .55, H - .22), paint:"fitL", alpha:.6}, {d:box(-.28, .28, -(H - .6), H - .6), paint:"band"}, {line:[at(0, -(H - .45)), at(0, H - .45)], sw:.35, paint:"fitO"}); }
+    if (S.fit === "tag"){ const x = q.x, y = q.y + q.hw * .5, p = (dx, dy, mm = 1) => f1(x + dx * mm) + " " + f1(y + dy * mm), plate = mm => `M${p(-.55, .5, mm)} L${p(.55, .5, mm)} L${p(.75, 2.3, mm)} L${p(0, 2.7, mm)} L${p(-.75, 2.3, mm)} Z`;
       parts.push({d:plate(1), paint:"fitO"}, {d:plate(.8), paint:"fit"}, {d:`M${p(-.6, 1.9, .8)} L${p(.6, 1.9, .8)} L${p(.75, 2.3, .8)} L${p(0, 2.7, .8)} L${p(-.75, 2.3, .8)} Z`, paint:"fitS", alpha:.8}, {circle:[x, y + .95, .17], paint:"fitO"}); }
-    if (S.fit === "knot"){ parts.push({circle:[q.x, q.y, 1.05 * k], paint:"bandO"}, {circle:[q.x, q.y, .8 * k], paint:"band"}, {d:`M${f1(q.x - .8 * k)} ${f1(q.y)} A${f1(.8 * k)} ${f1(.8 * k)} 0 0 0 ${f1(q.x + .8 * k)} ${f1(q.y)} Z`, paint:"bandS", alpha:.8}, {circle:[q.x - .3, q.y - .3, .22], paint:"bandL", alpha:.8}, {d:`M${f1(q.x - .3)} ${f1(q.y + 1)} L${f1(q.x - .8)} ${f1(q.y + 2.6)} M${f1(q.x + .3)} ${f1(q.y + 1)} L${f1(q.x + .7)} ${f1(q.y + 2.5)}`, stroke:true, paint:"bandO", sw:.55}); }
-    if (G) parts.push(...gemParts(G, socket[0], socket[1], S.fit === "tag" ? .42 : .52));
-    if (I.c) parts.push({d:bandLine(c, hw * .9), stroke:true, paint:"inf", sw:.35, alpha:.9});
+    if (S.fit === "knot"){ const r1 = Math.min(1.05 * k, q.hw * 1.05); parts.push({circle:[q.x, q.y, r1], paint:"bandO"}, {circle:[q.x, q.y, r1 * .76], paint:"band"}, {d:`M${f1(q.x - r1 * .76)} ${f1(q.y)} A${f1(r1 * .76)} ${f1(r1 * .76)} 0 0 0 ${f1(q.x + r1 * .76)} ${f1(q.y)} Z`, paint:"bandS", alpha:.8}, {circle:[q.x - .3, q.y - .3, .22], paint:"bandL", alpha:.8}, {d:`M${f1(q.x - .3)} ${f1(q.y + 1)} L${f1(q.x - .8)} ${f1(q.y + 2.6)} M${f1(q.x + .3)} ${f1(q.y + 1)} L${f1(q.x + .7)} ${f1(q.y + 2.5)}`, stroke:true, paint:"bandO", sw:.55}); }
+    if (G) parts.push(...gemParts(G, socket[0], socket[1], S.fit === "tag" ? .42 : Math.min(.52, mid.hw * .5)));
+    if (I.c) parts.push({d:bandLine(m, .8), stroke:true, paint:"inf", sw:.35, alpha:.9});
     return parts;
   };
   const name = (R.adj ? R.adj + " " : "") + (I.pre ? I.pre + " " : "") + W.n + " " + S.n + (G ? " with " + G.n : "") + (I.suf ? " " + I.suf : "");
