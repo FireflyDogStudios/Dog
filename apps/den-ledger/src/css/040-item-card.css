@@ -1,0 +1,17 @@
+/* ===== v0.26 item card (Diablo-style tooltip) ===== */
+.icard{position:relative;overflow:hidden;border-radius:16px;padding:14px 16px;margin-bottom:12px;background:linear-gradient(180deg,#1b2427,#11181a);color:#efe8d7;border:2px solid var(--pc);box-shadow:0 0 0 1px #000 inset,0 0 22px color-mix(in srgb,var(--pc) 35%,transparent);display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:start}
+.icard .ic-art{grid-row:span 2;width:110px;height:110px;display:grid;place-items:center;border-radius:12px;background:radial-gradient(circle,color-mix(in srgb,var(--pc) 30%,transparent),transparent 70%)}
+.icard .ic-art img{width:104px;height:104px}
+.icard .ic-name{font-family:"Lilita One","Arial Rounded MT Bold",sans-serif;font-size:1.3rem;line-height:1.15;color:var(--pc);text-shadow:0 1px 0 #000}
+.icard .ic-base{font-size:.85rem;color:#b9c2bc}
+.icard .ic-rule{grid-column:1/-1;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--pc) 70%,transparent),transparent);margin:4px 0}
+.icard .ic-body{grid-column:1/-1;display:flex;flex-direction:column;gap:3px;font-size:.9rem}
+.icard .ic-dps{font-size:1.05rem}.icard .ic-dps b{font-family:"Lilita One",sans-serif;font-weight:400;font-size:1.4rem;color:#fff}
+.icard .ic-aff{color:#8fb8ff}.icard .ic-sig{color:#ffb347}.icard .ic-cls{color:#cfd8d2}
+.icard .ic-from{font-size:.78rem;color:#8f9a94;font-style:italic}
+.icard .btns{grid-column:1/-1;margin-top:6px}
+.icard .btns button{background:#26343a;color:#efe8d7;border-color:#3a4c52}
+.icard .btns button.go{background:var(--btn);color:var(--btn-ink);border-color:var(--btn-edge)}
+.icard.foil::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.10) 42%,color-mix(in srgb,var(--pc) 22%,transparent) 50%,rgba(255,255,255,.08) 58%,transparent 70%);background-size:250% 100%;mix-blend-mode:screen}
+@media (prefers-reduced-motion:no-preference){ .icard.foil::after{animation:foil 4.5s ease-in-out infinite} @keyframes foil{0%{background-position:130% 0;opacity:0}12%{opacity:1}52%{opacity:1}62%{background-position:-130% 0;opacity:0}100%{background-position:-130% 0;opacity:0}} }
+@media (max-width:520px){ .icard{grid-template-columns:1fr} .icard .ic-art{grid-row:auto;margin:0 auto} }
