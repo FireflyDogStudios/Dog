@@ -101,3 +101,23 @@ A dog standing still is never still. What separates an icon from a creature is c
 9. Outside material lives in `scratchpad/ref/` (OpenCat gait tables; the svg-character-animator idle/motion notes; the svg-design path reference). Learn the timing and the principles from them; the drawing stays ours.
 
 Sources: UKC Carolina Dog standard (ukcdogs.com/docs/breeds/carolina-dog-ukc.pdf), Animator Notebook quadruped gaits, Animation Mentor quadruped walk cycle, OrthoDog dog leg anatomy, Chewy and Dimensions Carolina Dog pages, PetoiCamp OpenCat (MIT) gait tables, molauu/svg-character-animator (MIT) idle-animation and motion-design references.
+
+## 9. Gear fits through connection points (collars, rings, armor, paw covers)
+
+The old `hero` stays in the game as the first companion and `hero2` is the player's dog, so **every piece is drawn once and fits both**.
+- Each dog publishes **connection points** in `GEAR.MOUNTS` (`engine/gear.js`): the footprint of its own collar band as two edges R and F, and later the tail curve, paw seats and the hem. A piece is drawn against the mount, never against one dog's numbers. A new dog is one more row. A piece's code is identical on every dog; only the mount changes.
+- **Never trust a number you typed.** The fit sheet and the shape can disagree (hero2's collar was drawn at 57° while the sheet and GrumpyDingo's red line said 35°). Measure from the rig's own data with Den Lens (`tools/lens/`) and fix the shape.
+- **Flush means flush.** A band that wraps the neck runs past both ends and is cut to the dog's body outline, so it closes the gap and never pokes into the air. Do this offline (`python3 tools/lens/compile_mounts.py`, shapely), not with masks at runtime. The dog's own collar and tag are hidden while a gear collar is worn (`parts.hides`).
+- **Review without distractions:** render with the dog's own collar and tag hidden (`lens.cjs shot --hide collar,tag,tag2`), on pink, black and blue, big, with the grid (`--grid`), and as a before/after ghost (`diff.py`). Both dogs side by side in every review.
+
+## 10. Clean art standards (the style sheet and the lint)
+
+GrumpyDingo's call, Oct 4: stray bits and messy ends are not acceptable; apply the usual vector and 2D-game standards.
+- **Line weights come from one style sheet** (`LINE` in `engine/gear.js`): contour (a piece's silhouette), interior (parts inside a piece), detail. Visible widths .32 / .22 / .14 drawing units. No other weights without adding them to the sheet.
+- **One outline per shape.** Draw a closed shape as a stroke UNDER its fill at twice the weight, round joins and caps. Do not stack a separate end stroke, a clip mask and an outline on one edge: that is what made the first collar "messy".
+- **Merge, don't overlap.** Combine shapes with a boolean (shapely, or skia-pathops) into one closed path; never leave two shapes meeting by overlap.
+- **Round every convex corner** to at least the contour weight (the compile step uses a .32 radius). A corner sharper than the line renders as a spur.
+- **No stray parts:** no fragments below a minimum area, no duplicate or near-duplicate nodes, nothing hanging outside the silhouette except what is meant to hang (tags, rope tails).
+- **Run `python3 tools/lens/lint.py <code>` before showing GrumpyDingo anything.** It checks flush, gaps, stray fragments, spurs, duplicate nodes and weights on every dog, and exits non-zero on a failure.
+- Tools to know: Den Lens (`lens.cjs shot | probe | piece | export`, `geom.py`, `measure_image.py`, `diff.py`, `refoverlay.py`, `place_band.py`, `compile_mounts.py`, `lint.py`). Measure; do not eyeball. Sources behind the standards: consistent weight and silhouette hierarchy (2dgameartguru, clearly.sh outline guide), boolean/union over overlaps and stray-node cleanup (Illustrator clean-up practice), picosvg/skia-pathops for path cleanup.
+

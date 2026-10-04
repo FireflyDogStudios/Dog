@@ -66,3 +66,6 @@ From the reference photo and the UKC standard: body ≈1.2× shoulder height; le
 - Pale second tone where it belongs (for animals: throat, chest, belly, lower legs)?
 - No smile on anything meant to lurk; one feature carries the face.
 - Say what still bugs you, in order, and ask for feedback in plain words.
+
+## Clean art standards
+Creatures follow the same clean-art standards as the hero: the line-weight style sheet, one outline per shape, merged shapes instead of overlaps, rounded corners, no stray parts, and measuring with Den Lens (`tools/lens/`). See sections 9 and 10 of the `den-dog-anatomy` skill for the full list.

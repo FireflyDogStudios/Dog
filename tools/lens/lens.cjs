@@ -5,6 +5,7 @@
                                   [--walk --phase .3] [--state ears-back] [--lines 40,8,47,15] [--out shot.png]
                                   one cell per rig, same view box in every cell; --grid draws a labelled ruler in drawing units; --lines x1,y1,x2,y2[,...] draws measuring lines
    node tools/lens/lens.cjs probe --rig hero2 --at 44,10 [--gear <code>]   which parts cover that point, in draw order (top last)
+   node tools/lens/lens.cjs piece --rig hero,hero2 --gear <code>[,<code>...] --out pieces.json     worn pieces' parts as data (one per dog × code), for lint.py
    --ref <git ref>   build from that commit's engine files (before/after: render once with --ref HEAD, change things, render again)
    --hide collar,tag  hide the parts painted with those names (or with those ids); `--hide collar,tag,tag2` gives the bare dog without its own collar
    Needs playwright (npm install). It rebuilds a throwaway page from engine/ each run, so it always sees the current engine files. */
@@ -64,6 +65,10 @@ const BG = {pink:0xff00ff, black:0x000000, blue:0x0000ff, sand:0xd9c493, white:0
         (node.children || []).forEach(c => walk(c, W)); };
       walk(r, new PIXI.Matrix()); app.destroy(true); return out; }, {id, at, gear:list(opt.gear), state:list(opt.state)});
     console.log(`parts covering ${at} on ${id}, bottom → top:`); res.forEach((q, i) => console.log(`${i + 1}. [${q.joint}] ${q.id || '(unnamed)'} paint=${q.paint}  ${q.shape}`)); if (!res.length) console.log('(nothing)');
-  } else console.log('commands: export | shot | probe (see the header of this file)');
+  } else if (cmd === 'piece'){
+    const ids = list(opt.rig || 'hero2'), codes = list(opt.gear).map(c => c.split(':').pop());
+    const data = await p.evaluate(({ids, codes}) => ids.flatMap(id => codes.map(code => { const pc = GEAR.decode(code, id); return JSON.parse(JSON.stringify({rig:id, code, name:pc.name, palette:pc.palette, joint:pc.joint, parts:pc.parts, hides:pc.parts.hides || null})); })), {ids, codes});
+    const out = opt.out || path.join(cache, 'piece.json'); fs.writeFileSync(out, JSON.stringify(data)); console.log('wrote', out, data.length, 'pieces');
+  } else console.log('commands: export | shot | probe | piece (see the header of this file)');
   await b.close();
 })();
