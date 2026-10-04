@@ -136,7 +136,7 @@ const tailUnder = "M11.1 29.6 C10.7 25.6 12.1 22 15 19.3 L14.1 19.3 C11.3 21.9 9
      trailing back over the ribs to a feathered point, like a wing folded along the side. Inset under the topline so it never pokes out. */
   const wing2 = "M39.6 12.6 C40.6 13.6 40.4 15.4 38.8 16.6 C37.4 17.6 35.6 18.2 33.4 18.0 L34.4 17.4 C33.0 17.2 31.4 16.8 30.0 16.0 L31.4 15.7 C30.6 15.1 30.4 14.3 31.0 13.8 C32.2 13.0 33.6 12.6 35.0 12.5 C36.6 12.4 38.2 12.4 39.6 12.6 Z";
   /* base collar: a loop AROUND the neck, so it crosses the outline: the far side shows above the crest, the near side wraps under the throat */
-  const band2 = "M40.1 8.8 C40.2 7.8 40.9 7.1 41.6 7.0 C44.0 9.0 45.7 11.3 46.8 14.2 C46.6 15.0 45.9 15.5 45.3 15.4 C44.3 12.6 42.6 10.3 40.1 8.8 Z";
+  const band2 = "M39.60 9.41 Q39.79 8.35 40.73 7.81 C43.15 8.79 45.23 10.26 46.97 12.22 Q46.77 13.28 45.83 13.82 C44.10 11.86 42.02 10.39 39.60 9.41 Z"; /* Oct 4: 35.3° below horizontal (GrumpyDingo's red line), ends on the neck outline; tools/lens/place_band.py hero2 --through 43.4,10.9 --angle 35.3 --overhang .2 */
   /* hero2 tracks: the thigh is long and low-stifled, so the hip swings fewer degrees for the same stride (and the rump seam stays shut) */
   const tracks2 = Object.assign({}, tracks, {
     /* Walk (skill §4): a planted foot never slides, so the STANCE sweep (0 → .62) is linear; only the swing eases. Front and hind strides
@@ -168,7 +168,7 @@ const tailUnder = "M11.1 29.6 C10.7 25.6 12.1 22 15 19.3 L14.1 19.3 C11.3 21.9 9
       {d:wing2, in:"body", paint:"wing"}, /* the pale buff "angel wing" over the shoulder (UKC) */
       {d:chest2, in:"body", paint:"pale"}, {d:muzzle2, in:"body", paint:"pale"},
       {ellipse:[46.1, 7.1, .9, .6], in:"body", paint:"ink"} /* eye on the skull, just behind and below the stop; never on the muzzle */, {circle:[53.3, 8.7, .85], in:"body", paint:"ink"},
-      {d:band2, in:"body", paint:"collar"}, {circle:[46.3, 15.0, .65], in:"body", paint:"tag"}, {circle:[46.3, 15.0, .32], in:"body", paint:"tag2"},
+      {d:band2, in:"body", paint:"collar"}, {circle:[45.83, 14.67, .65], in:"body", paint:"tag"}, {circle:[45.83, 14.67, .32], in:"body", paint:"tag2"},
       ...legParts2("N")],
     states:{
       "ears-back":[{joint:"earFar", rot:-42}, {joint:"earNear", rot:-42}],

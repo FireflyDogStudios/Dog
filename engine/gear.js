@@ -16,10 +16,10 @@ const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
    A piece is drawn against these, never against one dog's numbers, so the same collar fits every dog and a new dog is one more row.
    collar: the footprint of the dog's own collar band, as its two edges R (rear, upper) and F (front, lower), each a cubic running crest → throat.
    A gear collar covers exactly this footprint, so it sits flush, at the dog's own angle, and never drapes past the neck. Numbers are in each rig's 62×38 space
-   (hero: its `band`; hero2: its `band2`, the fit sheet's section 3). */
+   (hero: its `band`; hero2: its `band2`). */
 const MOUNTS = {
   hero:  {collar:{R:[[40.9, 8.4], [43.6, 9.9], [45.5, 11.9], [46.6, 14.1]], F:[[38.9, 10], [42.1, 11.5], [44, 13.7], [45.2, 15.9]]}},
-  hero2: {collar:{R:[[41.6, 7.0], [44.0, 9.0], [45.7, 11.3], [46.8, 14.2]], F:[[40.1, 8.8], [42.6, 10.3], [44.3, 12.6], [45.3, 15.4]]}},
+  hero2: {collar:{R:[[40.73, 7.81], [43.15, 8.79], [45.23, 10.26], [46.97, 12.22]], F:[[39.60, 9.41], [42.02, 10.39], [44.10, 11.86], [45.83, 13.82]]}}, /* 35.3° (GrumpyDingo's red line): tools/lens/place_band.py */
 };
 const mountOf = (rigId, what) => { const m = MOUNTS[rigId || "hero"]; if (!m || !m[what]) throw new Error("no " + what + " mount for " + rigId); return m[what]; };
 

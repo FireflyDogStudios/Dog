@@ -5,6 +5,8 @@
                                   [--walk --phase .3] [--state ears-back] [--lines 40,8,47,15] [--out shot.png]
                                   one cell per rig, same view box in every cell; --grid draws a labelled ruler in drawing units; --lines x1,y1,x2,y2[,...] draws measuring lines
    node tools/lens/lens.cjs probe --rig hero2 --at 44,10 [--gear <code>]   which parts cover that point, in draw order (top last)
+   --ref <git ref>   build from that commit's engine files (before/after: render once with --ref HEAD, change things, render again)
+   --hide collar,tag  hide the parts painted with those names (or with those ids); `--hide collar,tag,tag2` gives the bare dog without its own collar
    Needs playwright (npm install). It rebuilds a throwaway page from engine/ each run, so it always sees the current engine files. */
 const { chromium } = require('playwright'), path = require('path'), fs = require('fs'), cp = require('child_process');
 const root = path.resolve(__dirname, '../..'), cache = path.join(__dirname, '.cache'); fs.mkdirSync(cache, {recursive:true});
@@ -14,7 +16,7 @@ const list = v => v === undefined || v === true ? [] : [].concat(v).flatMap(s =>
 const BG = {pink:0xff00ff, black:0x000000, blue:0x0000ff, sand:0xd9c493, white:0xffffff};
 (async () => {
   const pagePath = path.join(cache, 'bench.html');
-  cp.execFileSync('node', [path.join(root, 'tools/bench/rebuild-gear-bench.mjs'), pagePath], {stdio:'ignore'});
+  cp.execFileSync('node', [path.join(root, 'tools/bench/rebuild-gear-bench.mjs'), pagePath], {stdio:'ignore', env:Object.assign({}, process.env, opt.ref ? {ENGINE_REF:String(opt.ref)} : {})});
   const b = await chromium.launch({args:['--use-gl=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist']});
   const p = await b.newPage({viewport:{width:1400, height:900}}); p.on('pageerror', e => console.error('PAGEERROR', e.message));
   await p.goto('file://' + pagePath); await p.waitForFunction(() => window.RIG && window.GEAR && window.PIXI && RIG.DEFS && RIG.DEFS.hero2, null, {timeout:15000}).catch(() => {}); await p.waitForTimeout(1500);
@@ -27,10 +29,12 @@ const BG = {pink:0xff00ff, black:0x000000, blue:0x0000ff, sand:0xd9c493, white:0
     const url = await p.evaluate(async ({rigs, box, scale, bg, o}) => {
       const [x0, y0, w, h] = box, W = w * scale, H = h * scale, app = new PIXI.Application(); await app.init({background:bg, width:W * rigs.length, height:H, antialias:true, resolution:1, preference:'webgl'});
       const lines = o.lines.length ? o.lines : [];
+      /* hide parts by paint name or id: the k-th Graphics in a joint is the k-th part of that joint in the rig's data */
+      function hide(r, id, names){ if (!names.length) return; const D = RIG.DEFS[id]; (function walk(n){ if (n instanceof PIXI.Graphics){ const host = n.parent.label || 'root', part = D.parts.filter(q => (q.in || 'root') === host)[n.parent.children.filter(c => c instanceof PIXI.Graphics).indexOf(n)]; if (part && (names.includes(part.paint) || names.includes(part.id))) n.visible = false; } (n.children || []).forEach(walk); })(r); }
       rigs.forEach((id, i) => {
         const ox = i * W, r = RIG.build(PIXI, id); r.scale.set(scale); r.position.set(ox + (31 - x0) * scale - 31, (19 - y0) * scale - 19); /* the root scales about its origin (31,19) without shifting, so this puts drawing point (x0,y0) exactly at the cell's corner */
         const m = new PIXI.Graphics().rect(ox, 0, W, H).fill(0xffffff); app.stage.addChild(m); app.stage.addChild(r); r.mask = m;
-        o.state.forEach(s => r.rig.set(s, true)); r.rig.walk(!!o.walk); if (o.phase != null) r.rig.seed(o.phase); r.rig.tick(0);
+        o.state.forEach(s => r.rig.set(s, true)); r.rig.walk(!!o.walk); if (o.phase != null) r.rig.seed(o.phase); r.rig.tick(0); hide(r, id, o.hide); /* after tick: it resets named parts' visibility */
         o.gear.forEach(code => { const pc = GEAR.decode(code.split(':').pop(), id); if (pc) RIG.attach(PIXI, r, pc.joint, pc.parts, pc.palette); });
         const ov = new PIXI.Graphics(), X = x => ox + (x - x0) * scale, Y = y => (y - y0) * scale;
         if (o.grid){ for (let x = Math.ceil(x0); x <= x0 + w; x++){ ov.moveTo(X(x), 0).lineTo(X(x), H).stroke({width:x % 5 ? 1 : 1.6, color:0xffffff, alpha:x % 5 ? .18 : .5}); }
@@ -45,7 +49,7 @@ const BG = {pink:0xff00ff, black:0x000000, blue:0x0000ff, sand:0xd9c493, white:0
         app.stage.addChild(ov); ov.mask = m;
       });
       app.render(); const u = app.canvas.toDataURL('image/png'); app.destroy(true); return u;
-    }, {rigs, box, scale, bg, o:{grid:!!opt.grid, joints:!!opt.joints, walk:!!opt.walk, phase:opt.phase == null ? null : +opt.phase, state:list(opt.state), gear:list(opt.gear), lines:nums(opt.lines)}});
+    }, {rigs, box, scale, bg, o:{grid:!!opt.grid, joints:!!opt.joints, walk:!!opt.walk, phase:opt.phase == null ? null : +opt.phase, state:list(opt.state), gear:list(opt.gear), lines:nums(opt.lines), hide:list(opt.hide)}});
     const out = opt.out || path.join(cache, 'shot.png'); fs.writeFileSync(out, Buffer.from(url.split(',')[1], 'base64')); console.log('wrote', out);
   } else if (cmd === 'probe'){
     const id = list(opt.rig || 'hero2')[0], at = nums(opt.at);
