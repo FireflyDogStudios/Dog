@@ -171,31 +171,77 @@ def sleeves(rig, mounts):
 def joint_shape(rig, jid):
     D = R.rigs[rig]; return unary_union([q for q in (part_poly(p) for p in D['parts'] if p.get('in') == jid) if q is not None])
 
+def _ring(poly, step=.08):
+    ext = poly.exterior; n = max(12, int(ext.length / step)); return [ext.interpolate(i * ext.length / n) for i in range(n)]
+
+def _runs(pts, keep):
+    """contiguous runs of kept points around a closed ring (the ring is cut open where it is not kept)"""
+    n = len(pts)
+    if all(keep): return [pts + [pts[0]]]
+    st = next(i for i, k in enumerate(keep) if not k); runs, cur = [], []
+    for i in range(n):
+        p, k = pts[(st + i) % n], keep[(st + i) % n]
+        if k: cur.append(p)
+        elif cur: runs.append(cur); cur = []
+    if cur: runs.append(cur)
+    return runs
+
+def _open_path(runs): return ' '.join('M' + ' L'.join(f'{p.x:.2f} {p.y:.2f}' for p in (r[::3] + ([r[-1]] if (len(r) - 1) % 3 else []))) for r in runs if len(r) > 3)
+
+def _half(o, u, t, keep_le=True, far=80):
+    perp = (-u[1], u[0]); c = (o[0] + u[0] * t, o[1] + u[1] * t); d = -1 if keep_le else 1
+    return Polygon([(c[0] + perp[0] * far, c[1] + perp[1] * far), (c[0] - perp[0] * far, c[1] - perp[1] * far), (c[0] - perp[0] * far + u[0] * far * d, c[1] - perp[1] * far + u[1] * far * d), (c[0] + perp[0] * far + u[0] * far * d, c[1] + perp[1] * far + u[1] * far * d)])
+
 def pawcovers(rig, mounts):
-    """Paw covers (the hide wraps): one piece per leg segment on all four legs, each cut from that segment's own shape, a little wider, so it bends with the leg.
-       The parent segment draws over its child at each joint, so the upper piece's rounded end laps the lower one like a cuff. The hind knee gets a round cup
-       centred on the stifle (rotation-safe) so the thigh's knee cap is covered right up to the sleeve."""
+    """Paw covers: a leg sock and a shoe on each of the four legs. The leg sock is ONE continuous silhouette (the union of the leg's two segments, a little wider)
+       split only at the joint between them, with the outline cut open there, so it reads as one piece but bends. It is hosted at the top of the leg and follows each half's own
+       joint, so it draws over the thigh sleeve. The shoe covers the paw and is hosted last, so it is over everything. Each entry says which joint hosts it and which it follows."""
     D = R.rigs[rig]; J = {j['id']: j for j in D['joints']}; out = {}; pad = .3
-    chains = {'N': {'front': ['foreN', 'pastN', 'ftoeN'], 'hind': ['shankN', 'metaN', 'htoeN']}}
     for side in ('N', 'F'):
-        for kind, names in (('front', ['fore', 'past', 'ftoe']), ('hind', ['shank', 'meta', 'htoe'])):
-            chain = [n + side for n in names if n + side in J and joint_shape(rig, n + side).area > 0]
-            for i, jid in enumerate(chain):
-                shape = joint_shape(rig, jid)
-                if kind == 'hind' and i == 0: shape = unary_union([shape, Point(*J[jid]['at']).buffer(2.2)])        # the knee cup, centred on the stifle
-                S = shape.buffer(pad, join_style=1).buffer(-.12, join_style=1).buffer(.12, join_style=1)
-                res = {'base': path(S), 'shade': path(S.difference(affinity.translate(S, -.9, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1)),
-                       'light': path(S.difference(affinity.translate(S, .7, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1))}
-                nxt = chain[i + 1] if i + 1 < len(chain) else None
-                if nxt:   # lacing down the middle of the segment, from its joint to the next
-                    a, b = J[jid]['at'], J[nxt]['at']; L = math.dist(a, b)
-                    if L > 2.2:
-                        ux, uy = (b[0] - a[0]) / L, (b[1] - a[1]) / L; res['seam'] = f'M{a[0] + ux * .6:.2f} {a[1] + uy * .6:.2f} L{b[0] - ux * .6:.2f} {b[1] - uy * .6:.2f}'
-                        tk = ''; pos = .8
-                        while pos < L - 1.0:
-                            px, py = a[0] + ux * pos, a[1] + uy * pos; nx, ny = -uy, ux; tk += f'M{px - nx * .3 - ux * .12:.2f} {py - ny * .3 - uy * .12:.2f} L{px + nx * .3 + ux * .12:.2f} {py + ny * .3 + uy * .12:.2f} '; pos += .8
-                        res['ticks'] = tk.strip()
-                out[jid] = res
+        for kind, names, top in (('front', ['fore', 'past', 'ftoe'], 'sh'), ('hind', ['shank', 'meta', 'htoe'], 'hip')):
+            ids = [n + side for n in names if n + side in J and joint_shape(rig, n + side).area > 0]; host = top + side
+            s0, s1 = ids[0], ids[1]; toe = ids[2] if len(ids) > 2 else None
+            a = tuple(J[s0]['at']); b = tuple(J[s1]['at']); L0 = math.dist(a, b); u = ((b[0] - a[0]) / L0, (b[1] - a[1]) / L0)
+            shape0 = joint_shape(rig, s0)
+            if kind == 'hind': shape0 = unary_union([shape0, Point(*a).buffer(2.2)])                       # the knee cup, centred on the stifle (rotation-safe)
+            leg = unary_union([shape0, joint_shape(rig, s1)]).buffer(pad, join_style=1).buffer(-.12, join_style=1).buffer(.12, join_style=1)
+            if isinstance(leg, MultiPolygon): leg = max(leg.geoms, key=lambda g: g.area)
+            if kind == 'front':   # the sock starts where the sleeve ends (a little under it), so the sleeve tucks into the sock
+                sl = mounts['torso']['sleeve']; yend = sl.get('frontY'); 
+                if yend is not None: leg = leg.intersection(_half(a, u, (yend - a[1]) / u[1] - .6, False))
+                if isinstance(leg, MultiPolygon): leg = max(leg.geoms, key=lambda g: g.area)
+            sproj = lambda p: (p.x - a[0]) * u[0] + (p.y - a[1]) * u[1]
+            ring = _ring(leg); keep_top = [sproj(p) <= L0 for p in ring]; keep_bot = [sproj(p) > L0 for p in ring]
+            top_piece = leg.intersection(_half(a, u, L0 + .5, True)); bot_piece = leg.intersection(_half(a, u, L0 - .5, False))
+            def lat(S): return {'shade': path(S.difference(affinity.translate(S, -.9, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1)), 'light': path(S.difference(affinity.translate(S, .7, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1))}
+            sh_leg = leg.difference(affinity.translate(leg, -.9, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1); li_leg = leg.difference(affinity.translate(leg, .7, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1)
+            def piece(fill, keepmask, shade_zone, jid):
+                lines = _open_path(_runs(ring, keepmask)); e = {'host': host, 'follow': jid, 'base': path(fill), 'lines': lines, 'shade': path(shade_zone[0].intersection(fill)) if not shade_zone[0].is_empty and not shade_zone[0].intersection(fill).is_empty else '', 'light': path(shade_zone[1].intersection(fill)) if not shade_zone[1].is_empty and not shade_zone[1].intersection(fill).is_empty else ''}
+                return e
+            p0 = piece(top_piece, keep_top, (sh_leg, li_leg), s0); p1 = piece(bot_piece, keep_bot, (sh_leg, li_leg), s1)
+            # lacing along the leg's axis: the upper half in the upper piece, the lower half in the lower piece
+            def lace(p, q, inset_a=.6, inset_b=.6):
+                Lq = math.dist(p, q)
+                if Lq < 2.2: return None, None
+                ux, uy = (q[0] - p[0]) / Lq, (q[1] - p[1]) / Lq; seam = f'M{p[0] + ux * inset_a:.2f} {p[1] + uy * inset_a:.2f} L{q[0] - ux * inset_b:.2f} {q[1] - uy * inset_b:.2f}'
+                tk = ''; pos = inset_a + .2
+                while pos < Lq - inset_b:
+                    px, py = p[0] + ux * pos, p[1] + uy * pos; nx, ny = -uy, ux; tk += f'M{px - nx * .3 - ux * .12:.2f} {py - ny * .3 - uy * .12:.2f} L{px + nx * .3 + ux * .12:.2f} {py + ny * .3 + uy * .12:.2f} '; pos += .8
+                return seam, tk.strip()
+            end = tuple(J[toe]['at']) if toe else None
+            if end is None:
+                ln = next((p['line'] for p in D['parts'] if p.get('in') == s1 and 'line' in p), None); end = tuple(ln[1]) if ln else (b[0], b[1] + 5)
+            p0['seam'], p0['ticks'] = lace(a, b, .6, 0); p1['seam'], p1['ticks'] = lace(b, end, 0, .6)
+            for e in (p0, p1):
+                if e['seam'] is None: e.pop('seam'); e.pop('ticks')
+            # the shoe: the paw (the toe joint's own shape, or the foot end of the last segment when the dog has no toe joint), a little wider than the sock
+            if toe: foot = joint_shape(rig, toe).buffer(.45, join_style=1)
+            else:
+                ux2, uy2 = (end[0] - b[0]) / math.dist(b, end), (end[1] - b[1]) / math.dist(b, end); foot = joint_shape(rig, s1).intersection(_half(b, (ux2, uy2), math.dist(b, end) - 2.6, False)).buffer(.45, join_style=1)
+            foot = foot.buffer(-.12, join_style=1).buffer(.12, join_style=1)
+            if isinstance(foot, MultiPolygon): foot = max(foot.geoms, key=lambda g: g.area)
+            sh = {'host': host, 'follow': toe or s1, 'base': path(foot), **lat(foot)}
+            out[f'{kind}{side}_sock0'] = p0; out[f'{kind}{side}_sock1'] = p1; out[f'{kind}{side}_shoe'] = sh
     return out
 
 CORNER = .32  # corner radius of the band, in drawing units (the style sheet's contour weight: corners never sharper than the line itself)

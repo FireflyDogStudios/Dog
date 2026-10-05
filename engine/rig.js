@@ -71,7 +71,7 @@ function build(PIXI, id, opts = {}){
         let sc = 1; for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.joint === j.id){ rot += a.rot || 0; x += a.x || 0; y += a.y || 0; if (a.scale) sc *= a.scale; } } }
         C.rotation = rot * DEG; C.x = x; C.y = y; if (sc !== 1 || C.scale.x !== 1) C.scale.set(sc); }
       /* gear hosted at the root that follows a joint (parts.follow) takes that joint's transform every tick, so it moves with the body (bob) while drawing above the near legs */
-      for (const f of followers){ const C = f.joint; f.node.origin.copyFrom(C.origin); f.node.position.copyFrom(C.position); f.node.rotation = C.rotation; f.node.scale.copyFrom(C.scale); }
+      for (const f of followers) syncFollower(PIXI, f);
       let al = D.alpha ?? 1; for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.alpha != null) al *= a.alpha; } } root.alpha = al;
       for (const p of D.parts){ if (p.id) parts[p.id].visible = !p.state && !p.hidden; }
       for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.part && parts[a.part]) parts[a.part].visible = a.show !== false; } } },
@@ -83,10 +83,12 @@ function build(PIXI, id, opts = {}){
   };
   root.rig = api; return root;
 }
+/* a follower host takes the frame of a joint relative to the host's own parent: the local transforms from the followed joint up to (not including) that parent are multiplied, so a piece hosted at the TOP of a leg (drawn above everything below it) still moves with a joint further down the leg */
+function syncFollower(PIXI, f){ const st = []; for (let n = f.joint; n && n !== f.upto; n = n.parent) st.push(n); const M = new PIXI.Matrix(); for (let i = st.length - 1; i >= 0; i--){ st[i].updateLocalTransform(); M.append(st[i].localTransform); } f.node.setFromMatrix(M); }
 /* ---------- attachments: gear drawn onto a built rig's joint (collars, paw covers…). parts use the same specs; palette is the piece's own. ---------- */
 function attach(PIXI, root, jointId, parts, pal){ const J = root.rig && root.rig.joints[jointId]; if (!J) throw new Error("no joint " + jointId); const D = {box:[62, 38], id:"__gear", parts}; const made = [];
-  /* parts.follow = "body": the piece is hosted in its own container at this joint (use "root" to draw above every limb) and copies that joint's transform each tick */
-  let host = J, follower = null; if (parts.follow){ host = new PIXI.Container(); host.label = "gearhost"; J.addChild(host); const F = root.rig.joints[parts.follow]; if (F){ follower = {node:host, joint:F}; root.rig.followers.push(follower); host.origin.copyFrom(F.origin); host.position.copyFrom(F.position); } }
+  /* parts.follow = "<joint>": the piece is hosted in its own container at this (host) joint, appended after the joint's children, and takes that followed joint's frame each tick (use host "root" to draw above every limb; host a leg's top joint to draw above the leg's own gear) */
+  let host = J, follower = null; if (parts.follow){ host = new PIXI.Container(); host.label = "gearhost"; J.addChild(host); const F = root.rig.joints[parts.follow]; if (F){ follower = {node:host, joint:F, upto:J}; root.rig.followers.push(follower); syncFollower(PIXI, follower); } }
   parts.forEach((p, i) => { const col = dim(pal[p.paint || "fur"] ?? 0xffffff, J.__far ? .78 : 1); const g = new PIXI.Graphics(), pd = p.d;
     if (pd){ if (p.stroke) g.svg(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 38"><path d="${pd}" fill="none" stroke="${css(col)}" stroke-width="${p.sw || 1}" stroke-linecap="round" stroke-linejoin="round"/></svg>`); else g.svg(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 38"><path d="${pd}" fill="${css(col)}"/></svg>`); }
     else if (p.line){ const [a, b] = p.line; g.moveTo(a[0], a[1]).lineTo(b[0], b[1]).stroke({width:p.sw, color:col, cap:"round"}); }

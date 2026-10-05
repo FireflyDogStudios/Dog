@@ -34,7 +34,7 @@ A gear piece is drawn **once** and fits **every dog** because it is drawn agains
 - **Flush means cut to the body.** Compile the piece against the body outline; no clip masks at runtime.
 - **One outline per shape**, under the fill, at twice the style-sheet weight (`LINE`: contour .32, interior .22, detail .14), round joins, corners rounded to at least the contour weight.
 - **Spacing rule:** the guard's gaps ARE the ring slots (`ringSlots(rig)`); never place a ring from a separate number.
-- **Layer order:** paw covers under bracelets under the torso piece; the collar over the torso piece. On the tail the guard goes under the rings.
+- **Layer order (GrumpyDingo, Oct 5):** per leg, bottom to top: thigh sleeve (armor), leg sock, shoe. The sleeve tucks INTO the sock and the sock into the shoe, so the shoe is over everything. The torso piece is over all of the leg gear and the collar is over the torso piece. On the tail the sleeve is under the guard, and the guard under the rings.
 - **Rings** are the fitting material; the band material is the gem's socket. Oak and Dark wood are also fittings.
 - **One style at a time:** nail one style on both dogs before the next. Styles differ in silhouette and construction, not decoration.
 - **Cosmetics first:** even, symmetric parts and thin consistent gaps beat coverage for its own sake.
@@ -49,7 +49,8 @@ A gear piece is drawn **once** and fits **every dog** because it is drawn agains
 
 ## Leg pieces (sleeves, paw covers)
 
-- **Sleeves** (part of the armor slot): one moving piece per leg joint, cut from that joint's own shape, ending square to the bone. **Paw covers** (their own slot, drawn first so they are under the sleeves): one piece per segment on all four legs, each cut from the segment's own shape; the parent segment laps the child at each joint; the hind knee gets a round cup centred on the stifle so the thigh's knee cap is covered up to the sleeve and rotation cannot expose a gap.
+- **Leg socks and shoes** (paw covers): the leg sock is ONE continuous silhouette (the union of the leg's two segments, a little wider) split only at the joint, with its outline cut open there, so it reads as one piece but bends. It starts where the sleeve ends (front) or at the knee cup (hind). The shoe covers the paw. Each is hosted at the TOP of its leg (so it can draw above the leg's own gear) and follows its own joint (`parts.follow` takes the followed joint's frame relative to the host, composed up the chain). Attach order within a host decides what is on top, so the armor is attached before the paw covers.
+- **Sleeves** (part of the armor slot): one moving piece per leg joint, cut from that joint's own shape, ending square to the bone. **Paw covers** (their own slot, attached after the armor): the hind knee gets a round cup centred on the stifle so the thigh's knee cap is covered up to the sleeve and rotation cannot expose a gap.
 - Gear on a joint draws after that joint's own parts and after its child joints, so the order of `attachPiece` calls decides which piece is on top within a joint (paw covers before armor).
 
 ## Adding things
