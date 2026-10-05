@@ -29,8 +29,9 @@ subprocess.run(['node', str(LENS), 'piece', '--rig', ','.join(rigs), '--gear', '
 for piece in json.load(open(out)):
     code, rig = piece['code'], piece['rig']
     body = R.silhouette(rig).buffer(0); problems = []
-    base = next((p for p in piece['parts'] if p.get('paint') == 'band' and p.get('d')), None)
-    for i, p in enumerate(piece['parts']):
+    allparts = [p for L in piece.get('layers') or [{'parts': piece['parts']}] for p in L['parts']]   # every layer of a multi-joint piece
+    base = next((p for p in allparts if p.get('paint') == 'band' and p.get('d')), None)
+    for i, p in enumerate(allparts):
         tag = f"part {i} ({p.get('paint')})"
         if p.get('d'):
             nodes = re.findall(r'(-?\d+\.?\d*) (-?\d+\.?\d*)', p['d']); pts = [(float(x), float(y)) for x, y in nodes]

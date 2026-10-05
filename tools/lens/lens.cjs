@@ -36,7 +36,7 @@ const BG = {pink:0xff00ff, black:0x000000, blue:0x0000ff, sand:0xd9c493, white:0
         const ox = i * W, r = RIG.build(PIXI, id); r.scale.set(scale); r.position.set(ox + (31 - x0) * scale - 31, (19 - y0) * scale - 19); /* the root scales about its origin (31,19) without shifting, so this puts drawing point (x0,y0) exactly at the cell's corner */
         const m = new PIXI.Graphics().rect(ox, 0, W, H).fill(0xffffff); app.stage.addChild(m); app.stage.addChild(r); r.mask = m;
         o.state.forEach(s => r.rig.set(s, true)); r.rig.walk(!!o.walk); if (o.phase != null) r.rig.seed(o.phase); r.rig.tick(0); hide(r, id, o.hide); /* after tick: it resets named parts' visibility */
-        o.gear.forEach(code => { const pc = GEAR.decode(code.split(':').pop(), id); if (pc) RIG.attach(PIXI, r, pc.joint, pc.parts, pc.palette); });
+        o.gear.forEach(code => { const pc = GEAR.decode(code.split(':').pop(), id); if (pc) RIG.attachPiece(PIXI, r, pc, id); });
         const ov = new PIXI.Graphics(), X = x => ox + (x - x0) * scale, Y = y => (y - y0) * scale;
         if (o.grid){ for (let x = Math.ceil(x0); x <= x0 + w; x++){ ov.moveTo(X(x), 0).lineTo(X(x), H).stroke({width:x % 5 ? 1 : 1.6, color:0xffffff, alpha:x % 5 ? .18 : .5}); }
           for (let y = Math.ceil(y0); y <= y0 + h; y++){ ov.moveTo(ox, Y(y)).lineTo(ox + W, Y(y)).stroke({width:y % 5 ? 1 : 1.6, color:0xffffff, alpha:y % 5 ? .18 : .5}); }
@@ -56,7 +56,7 @@ const BG = {pink:0xff00ff, black:0x000000, blue:0x0000ff, sand:0xd9c493, white:0
     const id = list(opt.rig || 'hero2')[0], at = nums(opt.at);
     const res = await p.evaluate(async ({id, at, gear, state}) => {
       const app = new PIXI.Application(); await app.init({width:64, height:40, preference:'webgl'}); const r = RIG.build(PIXI, id); r.position.set(0, 0); app.stage.addChild(r); state.forEach(s => r.rig.set(s, true)); r.rig.walk(false); r.rig.tick(0);
-      gear.forEach(code => { const pc = GEAR.decode(code.split(':').pop(), id); if (pc) RIG.attach(PIXI, r, pc.joint, pc.parts, pc.palette); });
+      gear.forEach(code => { const pc = GEAR.decode(code.split(':').pop(), id); if (pc) RIG.attachPiece(PIXI, r, pc, id); });
       app.render(); const D = RIG.DEFS[id], gp = new PIXI.Point(at[0], at[1]), out = [];
       /* Pixi does not refresh world transforms off-screen, so the chain is multiplied here: world = parent × local, then the point is mapped back into each part's own space */
       const walk = (node, M) => { node.updateLocalTransform(); const W = M.clone().append(node.localTransform);
@@ -67,7 +67,7 @@ const BG = {pink:0xff00ff, black:0x000000, blue:0x0000ff, sand:0xd9c493, white:0
     console.log(`parts covering ${at} on ${id}, bottom → top:`); res.forEach((q, i) => console.log(`${i + 1}. [${q.joint}] ${q.id || '(unnamed)'} paint=${q.paint}  ${q.shape}`)); if (!res.length) console.log('(nothing)');
   } else if (cmd === 'piece'){
     const ids = list(opt.rig || 'hero2'), codes = list(opt.gear).map(c => c.split(':').pop());
-    const data = await p.evaluate(({ids, codes}) => ids.flatMap(id => codes.map(code => { const pc = GEAR.decode(code, id); return JSON.parse(JSON.stringify({rig:id, code, name:pc.name, palette:pc.palette, joint:pc.joint, parts:pc.parts, hides:pc.parts.hides || null})); })), {ids, codes});
+    const data = await p.evaluate(({ids, codes}) => ids.flatMap(id => codes.map(code => { const pc = GEAR.decode(code, id); const layers = pc.layersFor ? pc.layersFor(id) : [{joint:pc.joint, parts:pc.partsFor ? pc.partsFor(id) : pc.parts}]; return JSON.parse(JSON.stringify({kind:pc.kind, rig:id, code, name:pc.name, palette:pc.palette, joint:pc.joint, parts:pc.parts, layers:layers.map(L => ({joint:L.joint, parts:L.parts}))})); })), {ids, codes});
     const out = opt.out || path.join(cache, 'piece.json'); fs.writeFileSync(out, JSON.stringify(data)); console.log('wrote', out, data.length, 'pieces');
   } else console.log('commands: export | shot | probe | piece (see the header of this file)');
   await b.close();

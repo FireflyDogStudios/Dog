@@ -97,6 +97,9 @@ function attach(PIXI, root, jointId, parts, pal){ const J = root.rig && root.rig
   const hidden = []; if (parts.hides){ const rid = String(root.label || "").replace(/^rig:/, ""), HJ = root.rig.joints[parts.hidesIn || jointId] || J, mine = DEFS[rid] ? DEFS[rid].parts.filter(q => (q.in || "root") === (parts.hidesIn || jointId)) : [];
     HJ.children.filter(c => c instanceof PIXI.Graphics && c.label !== "gear").forEach((c, k) => { const q = mine[k]; if (q && parts.hides.includes(q.paint) && c.visible){ c.visible = false; hidden.push(c); } }); }
   return {remove(){ hidden.forEach(c => { if (!c.destroyed) c.visible = true; }); if (follower){ const i = root.rig.followers.indexOf(follower); if (i >= 0) root.rig.followers.splice(i, 1); } if (host !== J) host.destroy({children:true}); else made.forEach(g => g.destroy()); }, parts:made}; }
-return {DEFS, define, build, warm, attach, sample, dim};
+/* a gear piece can have several layers on different joints (the torso at the root, a sleeve on each leg). piece.layersFor(rigId) gives [{joint, parts}]; a plain piece is one layer. */
+function attachPiece(PIXI, root, piece, rigId){ const layers = piece.layersFor ? piece.layersFor(rigId) : [{joint:piece.joint, parts:piece.partsFor ? piece.partsFor(rigId) : piece.parts}];
+  const hs = layers.filter(l => l.parts && root.rig.joints[l.joint]).map(l => attach(PIXI, root, l.joint, l.parts, piece.palette)); return {remove(){ hs.forEach(h => h.remove()); }, handles:hs}; }
+return {DEFS, define, build, warm, attach, attachPiece, sample, dim};
 })();
 if (typeof module !== "undefined") module.exports = RIG;

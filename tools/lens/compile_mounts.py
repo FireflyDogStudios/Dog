@@ -3,6 +3,7 @@
    The collar band is the footprint between the mount's edges R and F, run a little past both ends and CUT to the dog's body outline, so it is one closed
    path that is flush on the fur, with no clip mask, no overlap and no stray end stroke at runtime. Shade and light strips are cut the same way."""
 import sys, re, pathlib, subprocess
+from svgpathtools import parse_path
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from geom import Rigs
 from shapely.geometry import Polygon, MultiPolygon
@@ -89,6 +90,64 @@ def torso(rig, mounts, body):
     out['gem'] = t['gem']                                              # a brooch on the shoulder, from the mount
     return out
 
+def part_poly(p):
+    if 'poly' in p: return Polygon(p['poly']).buffer(0)
+    if 'line' in p: a, b = p['line']; return LineString([a, b]).buffer(p['sw'] / 2)
+    if 'circle' in p: x, y, rr = p['circle']; return Point(x, y).buffer(rr)
+    if 'ellipse' in p: x, y, rx, ry = p['ellipse']; return affinity.scale(Point(x, y).buffer(1), rx, ry)
+    if 'd' in p: return Polygon(R.sample(parse_path(p['d']), 120)).buffer(0)
+    return None
+
+def sleeves(rig, mounts):
+    """Armor sleeves for the legs, cut from each dog's own leg shapes: a hind sleeve on the thigh, a front sleeve on the upper arm (and a short second piece on the
+       forearm when the dog's elbow sits above the cut). Each ends flat and square to its bone, a little above the knee, with hide tufts and a stitched hem.
+       Pieces are in the joint's rest frame; they swing with the leg."""
+    D = R.rigs[rig]; J = {j['id']: j for j in D['joints']}; sl = mounts['torso']['sleeve']; out = {}
+    def shape_of(jid): return unary_union([q for q in (part_poly(p) for p in D['parts'] if p.get('in') == jid) if q is not None])
+    def unit(a, b): d = math.hypot(b[0] - a[0], b[1] - a[1]); return ((b[0] - a[0]) / d, (b[1] - a[1]) / d, d)
+    def make(shape, o, u, cut, pad=.35):
+        S = shape.buffer(pad, join_style=1); perp = (-u[1], u[0]); res = {}
+        if cut is not None:
+            c = (o[0] + u[0] * cut, o[1] + u[1] * cut)
+            keep = Polygon([(c[0] + perp[0] * 60, c[1] + perp[1] * 60), (c[0] - perp[0] * 60, c[1] - perp[1] * 60), (c[0] - perp[0] * 60 - u[0] * 120, c[1] - perp[1] * 60 - u[1] * 120), (c[0] + perp[0] * 60 - u[0] * 120, c[1] + perp[1] * 60 - u[1] * 120)])
+            chord = LineString([(c[0] + perp[0] * 60, c[1] + perp[1] * 60), (c[0] - perp[0] * 60, c[1] - perp[1] * 60)]).intersection(S)  # measured before cutting: a line on the new edge intersects to nothing
+            S = S.intersection(keep)
+            # hide tufts along the flat end
+            tufts = []
+            if hasattr(chord, 'geoms') and not chord.is_empty: chord = max(chord.geoms, key=lambda g: g.length)
+            if not chord.is_empty and hasattr(chord, 'coords'):
+                e1, e2 = chord.coords[0], chord.coords[-1]; L = math.dist(e1, e2); n = max(2, round(L / 1.25))
+                for i in range(n):
+                    a0, a1 = i / n, (i + 1) / n; p1 = (e1[0] + (e2[0] - e1[0]) * a0 - u[0] * .1, e1[1] + (e2[1] - e1[1]) * a0 - u[1] * .1); p2 = (e1[0] + (e2[0] - e1[0]) * a1 - u[0] * .1, e1[1] + (e2[1] - e1[1]) * a1 - u[1] * .1)
+                    m = ((p1[0] + p2[0]) / 2 + u[0] * .5 * (.75 + .25 * math.sin(i * 2.1 + cut)), (p1[1] + p2[1]) / 2 + u[1] * .5 * (.75 + .25 * math.sin(i * 2.1 + cut))); tufts.append(Polygon([p1, p2, m]))
+                S = unary_union([S] + tufts)
+                # stitched hem a little inside the end
+                h = (c[0] - u[0] * .6, c[1] - u[1] * .6); hl = LineString([(h[0] + perp[0] * 60, h[1] + perp[1] * 60), (h[0] - perp[0] * 60, h[1] - perp[1] * 60)]).intersection(S.buffer(-.35))
+                if hasattr(hl, 'geoms') and not hl.is_empty: hl = max(hl.geoms, key=lambda g: g.length)
+                if not hl.is_empty and hasattr(hl, 'coords'):
+                    f1_, f2_ = hl.coords[0], hl.coords[-1]; res['seam'] = f'M{f1_[0]:.2f} {f1_[1]:.2f} L{f2_[0]:.2f} {f2_[1]:.2f}'
+                    tk = ''; Lh = math.dist(f1_, f2_); pos = .5
+                    while pos < Lh - .3:
+                        px, py = f1_[0] + (f2_[0] - f1_[0]) * pos / Lh, f1_[1] + (f2_[1] - f1_[1]) * pos / Lh
+                        tk += f'M{px - u[0] * .3 - perp[0] * .12:.2f} {py - u[1] * .3 - perp[1] * .12:.2f} L{px + u[0] * .3 + perp[0] * .12:.2f} {py + u[1] * .3 + perp[1] * .12:.2f} '; pos += .8
+                    res['ticks'] = tk.strip()
+        S = S.buffer(-.12, join_style=1).buffer(.12, join_style=1)
+        res['base'] = path(S); res['shade'] = path(S.difference(affinity.translate(S, -1.0, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1)); res['light'] = path(S.difference(affinity.translate(S, .8, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1))
+        return res
+    # hind: thigh, from the hip to just above the stifle
+    hip, stifle = tuple(J['hipN']['at']), tuple(J['shankN']['at']); ux, uy, L = unit(hip, stifle); cut = L - sl['hindGap']
+    ycut = hip[1] + uy * cut
+    hind = make(shape_of('hipN'), hip, (ux, uy), cut); out['hipN'] = hind; out['hipF'] = hind
+    # front: upper arm; if the elbow is above the cut, a short forearm piece carries on to the same height
+    sh, elbow, wrist = tuple(J['shN']['at']), tuple(J['foreN']['at']), tuple(J['pastN']['at']); vx, vy, Lu = unit(sh, elbow)
+    ycut = sl.get('frontY', ycut)                                       # optional: where the front sleeve ends (a y in the rest pose); default the same height as the hind sleeve
+    if ycut > elbow[1] + .3:
+        up = make(shape_of('shN'), sh, (vx, vy), None); wx, wy, Lw = unit(elbow, wrist); lo = make(shape_of('foreN'), elbow, (wx, wy), (ycut - elbow[1]) / wy)
+        out['shN'] = up; out['shF'] = up; out['foreN'] = lo; out['foreF'] = lo
+    else:
+        up = make(shape_of('shN'), sh, (vx, vy), Lu - max(0.0, elbow[1] - ycut) / max(vy, .3)); out['shN'] = up; out['shF'] = up
+    return out
+
 CORNER = .32  # corner radius of the band, in drawing units (the style sheet's contour weight: corners never sharper than the line itself)
 R = Rigs(); out = {}
 for rig, mounts in R.mounts.items():
@@ -96,7 +155,9 @@ for rig, mounts in R.mounts.items():
     body = body.buffer(0)
     m = mounts['collar']
     out[rig] = {'collar': {'base': path(strip(m, -1, 1).intersection(body), CORNER), 'shade': path(strip(m, -1, 0).intersection(body), CORNER / 2), 'light': path(strip(m, .55, .9).intersection(body), .08)}}
-    if 'torso' in mounts: out[rig]['torso'] = torso(rig, mounts, body)
+    if 'torso' in mounts:
+        out[rig]['torso'] = torso(rig, mounts, body)
+        if 'sleeve' in mounts['torso']: out[rig]['sleeves'] = sleeves(rig, mounts)
     print(rig, {k: len(v) for k, v in out[rig]['collar'].items()}, 'base points:', out[rig]['collar']['base'].count('L') + 1)
 import json as _json
 js = '/* BEGIN COMPILED (tools/lens/compile_mounts.py writes this; do not hand-edit) */\nconst COMPILED = {\n' + ',\n'.join(f'  {rig}: ' + _json.dumps(v, separators=(',', ':')) for rig, v in out.items()) + '\n};\n/* END COMPILED */'
