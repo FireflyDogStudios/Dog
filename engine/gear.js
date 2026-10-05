@@ -7,7 +7,8 @@
 const GEAR = (() => {
 "use strict";
 let P = null, RARS = [], INFS = [];
-function init(S){ P = S.PAL; RARS = S.RARS; INFS = S.INFS; }
+/* Oak and Dark wood are also fittings (pegs, toggles, plate edges, rings), appended at the END so every existing code keeps its meaning. Done here, not in the Smithy: the game's own lists and the weapons are untouched. */
+function init(S){ const W = S.PAL.WRAP, wood = n => W.find(w => w.n === n); P = Object.assign({}, S.PAL, {FIT:[...S.PAL.FIT, wood("Oak"), wood("Dark wood")]}); RARS = S.RARS; INFS = S.INFS; }
 /* seeded dice of our own: a generator must never touch the game's Math.random */
 function rngOf(seed){ let h = 1779033703 ^ String(seed).length; for (let i = 0; i < String(seed).length; i++){ h = Math.imul(h ^ String(seed).charCodeAt(i), 3432918353); h = (h << 13) | (h >>> 19); } return () => { h = Math.imul(h ^ (h >>> 16), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; }; }
 const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
@@ -167,22 +168,27 @@ function tailring(seed, picks = {}, rigId = "hero"){
   const slot = Math.min(2, Math.max(0, picks.slot ?? 1)), fit = picks.fit ?? Math.floor(r() * P.FIT.length), band = picks.band ?? Math.floor(r() * P.WRAP.length);
   const rar = picks.rar ?? Math.min(RARS.length - 1, Math.floor(Math.pow(r(), 2.2) * RARS.length)), gem = picks.gem ?? (rar >= 3 ? 1 + Math.floor(r() * (P.GEMS.length - 1)) : 0), inf = picks.inf ?? (rar >= 2 && r() < .5 ? 1 + Math.floor(r() * (INFS.length - 1)) : 0);
   const F = P.FIT[fit], W = P.WRAP[band], G = P.GEMS[gem], I = INFS[inf], R = RARS[rar];
-  const pal = {m:W.b, mS:W.s, mL:W.l, mO:W.o, fit:F.b, fitL:F.l, fitO:F.o, gem:G ? G.b : F.b, gemS:G ? G.s : F.s, gemL:G ? G.l : F.l, rim:"#1a1020", white:"#ffffff", glow:R.c, inf:I.c || R.c};
+  /* the ring is the FITTING material (a metal, antler or wood); the BAND material is the gem's socket, shown as an empty setting when there is no gem */
+  const pal = {m:F.b, mS:F.s, mL:F.l, mO:F.o, wB:W.b, wS:W.s, wL:W.l, wO:W.o, gem:G ? G.b : F.b, gemS:G ? G.s : F.s, gemL:G ? G.l : F.l, rim:"#1a1020", white:"#ffffff", glow:R.c, inf:I.c || R.c};
   /* the same ring on any dog: it sits across the guard's slot (the slot comes from the guard's own gaps), its width is the mount's ring width */
   const build = rid => {
     const m = mountOf(rid, "tail"), t = ringSlots(rid)[slot], len = (m.ring / 2) / tailLength(m), pad = .48, q = tailAt(t, m), parts = [];
     if (rar >= 3) parts.push({d:tailBand(t - len * 2, t + len * 2, pad + .5, m), paint:"glow", alpha:.3});
     const d = tailBand(t - len, t + len, pad, m);
     parts.push({d, stroke:true, paint:"mO", sw:2 * LINE.contour}, {d, paint:"m"}, {d:tailHalf(t - len, t + len, pad, false, m), paint:"mS", alpha:.8}, {d:tailHalf(t - len * .6, t + len * .2, pad, true, m), paint:"mL", alpha:.6});
-    /* fitting accent: a metal edge on each side of the ring */
-    parts.push({d:tailBand(t - len, t - len * .6, pad, m), paint:"fit"}, {d:tailBand(t + len * .6, t + len, pad, m), paint:"fit"});
+    /* a lighter rim on each side of the ring, in its own material */
+    parts.push({d:tailBand(t - len, t - len * .7, pad, m), paint:"mL", alpha:.55}, {d:tailBand(t + len * .7, t + len, pad, m), paint:"mL", alpha:.55});
     if (I.c) parts.push({d:tailBand(t - len * 1.4, t - len * .9, pad + .05, m), paint:"inf", alpha:.9});
-    if (G) parts.push(...gemParts(G, q.x, q.y, .42));
+    /* the socket: the gem's diamond a little larger, in the band material, outline at the interior weight; empty (a recess) when there is no gem */
+    const rs = .9, x = q.x, y = q.y, dia = rr => diamond(+f1(x), +f1(y), rr); /* numbers, not text, or the helper joins them as strings */
+    parts.push({d:dia(rs), stroke:true, paint:"wO", sw:2 * LINE.interior}, {d:dia(rs), paint:"wB"}, {d:`M${f1(x - rs)} ${f1(y)} L${f1(x)} ${f1(y + rs)} L${f1(x + rs)} ${f1(y)} Z`, paint:"wS", alpha:.8}, {d:`M${f1(x - rs)} ${f1(y)} L${f1(x)} ${f1(y - rs)} L${f1(x + rs * .35)} ${f1(y - rs * .65)} L${f1(x - rs * .3)} ${f1(y)} Z`, paint:"wL", alpha:.6});
+    if (G) parts.push(...gemParts(G, x, y, .42));
+    else parts.push({d:dia(.42), paint:"wO", alpha:.55}, {circle:[x - .12, y - .14, .1], paint:"wL", alpha:.8});
     return parts;
   };
-  const name = (R.adj ? R.adj + " " : "") + (I.pre ? I.pre + " " : "") + W.n + " Tail Ring" + (G ? " with " + G.n : "") + (I.suf ? " " + I.suf : "");
+  const name = (R.adj ? R.adj + " " : "") + (I.pre ? I.pre + " " : "") + F.n + " Tail Ring" + (G ? " with " + G.n : "") + (I.suf ? " " + I.suf : "");
   const code = "r" + [slot, fit, band, gem, rar, inf].map(n => n.toString(36)).join("");
-  return {kind:"ring" + (slot + 1), slot, code, name, rk:R.k, rar, parts:build(rigId), partsFor:build, rig:rigId, palette:pal, joint:"tail", picks:{slot:RING_SLOT_NAMES[slot].n, band:W.n, fitting:F.n, gem:G ? G.n : "none", rarity:R.n, infusion:I.n}};
+  return {kind:"ring" + (slot + 1), slot, code, name, rk:R.k, rar, parts:build(rigId), partsFor:build, rig:rigId, palette:pal, joint:"tail", picks:{slot:RING_SLOT_NAMES[slot].n, material:F.n, setting:W.n, gem:G ? G.n : "none", rarity:R.n, infusion:I.n}};
 }
 const ringKind = i => ({n:"Tail ring " + (i + 1), make:(seed, picks = {}, rigId) => tailring(seed, Object.assign({}, picks, {slot:i}), rigId), styles:[RING_SLOT_NAMES[i]], code:"r", noStyle:true, group:"Tail rings", slot:i});
 /* ---------- the body armor: the base layer. A silhouette of the body from just under the collar, over the back to the rump, down the

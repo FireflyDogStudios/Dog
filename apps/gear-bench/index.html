@@ -62,11 +62,11 @@ code{font:12px ui-monospace,Menlo,monospace;background:var(--bg);padding:2px 6px
 <section class="card notes">
   <h2>Notes</h2>
   <ul>
-    <li><strong>One rule for every piece:</strong> the band is the material of the whole piece, the fitting is its accent (buckle, studs, trim, rivets, edges). Pick Oak and Antler on every tab and everything he wears is oak with antler hardware.</li>
+    <li><strong>One rule for every piece:</strong> the band is the material of the whole piece, the fitting is its accent (buckle, studs, trim, rivets, edges). Pick Oak and Antler on every tab and everything he wears is oak with antler hardware. Oak and Dark wood are also offered as fittings, so a piece can be one self-coloured material.</li>
     <li><strong>Same forge, same materials, same brush.</strong> The band is a Smithy wrap, the fitting a Smithy fitting, the gem the Smithy's diamond with its rim and glint, and every shape is drawn the Smithy's way: outline, base, shade on the lower half, a light strip on the upper edge. The name is built the Smithy way too. No new palettes.</li>
     <li><strong>Collar:</strong> plain, studded, tag, rope. The gem is always centred on the band, studs spaced evenly either side; the buckle, tag or knot sits at the throat.</li>
     <li><strong>Tail guard:</strong> sleeve or guard, both in the band material with the fitting as the accent (trim on the sleeve; a metal edge and a rivet on each of the guard's four plates). An Oak guard matches an Oak collar. The guard's three gaps are the ring slots; the gem takes the middle one.</li>
-    <li><strong>Tail rings:</strong> three slots in the guard's gaps, each ring its own piece: band material for the ring, fitting metal for its edges, its own gem, rarity and infusion. "Sync the three rings" (on by default) keeps material, metal, rarity and infusion matched while each ring keeps its own gem; turn it off to change one ring alone.</li>
+    <li><strong>Tail rings:</strong> three slots in the guard's gaps (the guard's own spacing decides where they sit), each ring its own piece. The ring itself is the fitting material (a metal, antler or one of the two woods); the band material is the gem's socket, a slightly larger diamond behind the gem, shown as an empty setting when there is no gem. Each ring has its own gem, rarity and infusion. "Sync the three rings" (on by default) keeps material, setting, rarity and infusion matched while each ring keeps its own gem; turn it off to change one ring alone.</li>
     <li><strong>Body armor (the base layer):</strong> a silhouette of the body from just under the collar, over the back to the rump, down to a hem that stays above the leg roots, so the legs swing free beneath it. Hide (bound hem), Scale (rows of scallops edged in the fitting), Plated (a shoulder plate and a chest plate in the fitting metal). A girth strap behind the shoulder on all three. The gem rides the chest, clear of the near leg. The body cover will stack on top of this.</li>
     <li><strong>Layer order:</strong> body armor, tail guard, tail rings, then collar. Rings go over the guard and bracelets over any leg cover when they come.</li>
     <li><strong>Match across pieces:</strong> with it on, the band, fitting, gem, rarity and infusion you pick on one tab are used for every piece he wears, so you can judge a whole set in one material; style stays per piece.</li>
@@ -3698,7 +3698,8 @@ if (typeof module !== "undefined") module.exports = registerDenRigs;
 const GEAR = (() => {
 "use strict";
 let P = null, RARS = [], INFS = [];
-function init(S){ P = S.PAL; RARS = S.RARS; INFS = S.INFS; }
+/* Oak and Dark wood are also fittings (pegs, toggles, plate edges, rings), appended at the END so every existing code keeps its meaning. Done here, not in the Smithy: the game's own lists and the weapons are untouched. */
+function init(S){ const W = S.PAL.WRAP, wood = n => W.find(w => w.n === n); P = Object.assign({}, S.PAL, {FIT:[...S.PAL.FIT, wood("Oak"), wood("Dark wood")]}); RARS = S.RARS; INFS = S.INFS; }
 /* seeded dice of our own: a generator must never touch the game's Math.random */
 function rngOf(seed){ let h = 1779033703 ^ String(seed).length; for (let i = 0; i < String(seed).length; i++){ h = Math.imul(h ^ String(seed).charCodeAt(i), 3432918353); h = (h << 13) | (h >>> 19); } return () => { h = Math.imul(h ^ (h >>> 16), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; }; }
 const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
@@ -3858,22 +3859,27 @@ function tailring(seed, picks = {}, rigId = "hero"){
   const slot = Math.min(2, Math.max(0, picks.slot ?? 1)), fit = picks.fit ?? Math.floor(r() * P.FIT.length), band = picks.band ?? Math.floor(r() * P.WRAP.length);
   const rar = picks.rar ?? Math.min(RARS.length - 1, Math.floor(Math.pow(r(), 2.2) * RARS.length)), gem = picks.gem ?? (rar >= 3 ? 1 + Math.floor(r() * (P.GEMS.length - 1)) : 0), inf = picks.inf ?? (rar >= 2 && r() < .5 ? 1 + Math.floor(r() * (INFS.length - 1)) : 0);
   const F = P.FIT[fit], W = P.WRAP[band], G = P.GEMS[gem], I = INFS[inf], R = RARS[rar];
-  const pal = {m:W.b, mS:W.s, mL:W.l, mO:W.o, fit:F.b, fitL:F.l, fitO:F.o, gem:G ? G.b : F.b, gemS:G ? G.s : F.s, gemL:G ? G.l : F.l, rim:"#1a1020", white:"#ffffff", glow:R.c, inf:I.c || R.c};
+  /* the ring is the FITTING material (a metal, antler or wood); the BAND material is the gem's socket, shown as an empty setting when there is no gem */
+  const pal = {m:F.b, mS:F.s, mL:F.l, mO:F.o, wB:W.b, wS:W.s, wL:W.l, wO:W.o, gem:G ? G.b : F.b, gemS:G ? G.s : F.s, gemL:G ? G.l : F.l, rim:"#1a1020", white:"#ffffff", glow:R.c, inf:I.c || R.c};
   /* the same ring on any dog: it sits across the guard's slot (the slot comes from the guard's own gaps), its width is the mount's ring width */
   const build = rid => {
     const m = mountOf(rid, "tail"), t = ringSlots(rid)[slot], len = (m.ring / 2) / tailLength(m), pad = .48, q = tailAt(t, m), parts = [];
     if (rar >= 3) parts.push({d:tailBand(t - len * 2, t + len * 2, pad + .5, m), paint:"glow", alpha:.3});
     const d = tailBand(t - len, t + len, pad, m);
     parts.push({d, stroke:true, paint:"mO", sw:2 * LINE.contour}, {d, paint:"m"}, {d:tailHalf(t - len, t + len, pad, false, m), paint:"mS", alpha:.8}, {d:tailHalf(t - len * .6, t + len * .2, pad, true, m), paint:"mL", alpha:.6});
-    /* fitting accent: a metal edge on each side of the ring */
-    parts.push({d:tailBand(t - len, t - len * .6, pad, m), paint:"fit"}, {d:tailBand(t + len * .6, t + len, pad, m), paint:"fit"});
+    /* a lighter rim on each side of the ring, in its own material */
+    parts.push({d:tailBand(t - len, t - len * .7, pad, m), paint:"mL", alpha:.55}, {d:tailBand(t + len * .7, t + len, pad, m), paint:"mL", alpha:.55});
     if (I.c) parts.push({d:tailBand(t - len * 1.4, t - len * .9, pad + .05, m), paint:"inf", alpha:.9});
-    if (G) parts.push(...gemParts(G, q.x, q.y, .42));
+    /* the socket: the gem's diamond a little larger, in the band material, outline at the interior weight; empty (a recess) when there is no gem */
+    const rs = .9, x = q.x, y = q.y, dia = rr => diamond(+f1(x), +f1(y), rr); /* numbers, not text, or the helper joins them as strings */
+    parts.push({d:dia(rs), stroke:true, paint:"wO", sw:2 * LINE.interior}, {d:dia(rs), paint:"wB"}, {d:`M${f1(x - rs)} ${f1(y)} L${f1(x)} ${f1(y + rs)} L${f1(x + rs)} ${f1(y)} Z`, paint:"wS", alpha:.8}, {d:`M${f1(x - rs)} ${f1(y)} L${f1(x)} ${f1(y - rs)} L${f1(x + rs * .35)} ${f1(y - rs * .65)} L${f1(x - rs * .3)} ${f1(y)} Z`, paint:"wL", alpha:.6});
+    if (G) parts.push(...gemParts(G, x, y, .42));
+    else parts.push({d:dia(.42), paint:"wO", alpha:.55}, {circle:[x - .12, y - .14, .1], paint:"wL", alpha:.8});
     return parts;
   };
-  const name = (R.adj ? R.adj + " " : "") + (I.pre ? I.pre + " " : "") + W.n + " Tail Ring" + (G ? " with " + G.n : "") + (I.suf ? " " + I.suf : "");
+  const name = (R.adj ? R.adj + " " : "") + (I.pre ? I.pre + " " : "") + F.n + " Tail Ring" + (G ? " with " + G.n : "") + (I.suf ? " " + I.suf : "");
   const code = "r" + [slot, fit, band, gem, rar, inf].map(n => n.toString(36)).join("");
-  return {kind:"ring" + (slot + 1), slot, code, name, rk:R.k, rar, parts:build(rigId), partsFor:build, rig:rigId, palette:pal, joint:"tail", picks:{slot:RING_SLOT_NAMES[slot].n, band:W.n, fitting:F.n, gem:G ? G.n : "none", rarity:R.n, infusion:I.n}};
+  return {kind:"ring" + (slot + 1), slot, code, name, rk:R.k, rar, parts:build(rigId), partsFor:build, rig:rigId, palette:pal, joint:"tail", picks:{slot:RING_SLOT_NAMES[slot].n, material:F.n, setting:W.n, gem:G ? G.n : "none", rarity:R.n, infusion:I.n}};
 }
 const ringKind = i => ({n:"Tail ring " + (i + 1), make:(seed, picks = {}, rigId) => tailring(seed, Object.assign({}, picks, {slot:i}), rigId), styles:[RING_SLOT_NAMES[i]], code:"r", noStyle:true, group:"Tail rings", slot:i});
 /* ---------- the body armor: the base layer. A silhouette of the body from just under the collar, over the back to the rump, down the
@@ -3968,7 +3974,7 @@ if (typeof module !== "undefined") module.exports = GEAR;
   /* sync: copy one ring's picks to the other two and re-wear them, so a matched set is the default and each ring can still be changed alone */
   function syncFrom(src){ for (const k of ringKinds){ if (k === src) continue; const gem = picks[k].fGem; picks[k] = Object.assign({}, picks[src], {fGem:gem}); /* sync matches material, metal, rarity and infusion; each ring keeps its own gem */ if (worn[k] || worn[src]) wear(make("sync:" + (++n) + ":" + k, k)); } }
   function buildBar(){ const K = KINDS[kind], isRing = K.slot != null;
-    $("#bar").innerHTML = (isRing ? `<label>Ring<select id="fRing">${ringKinds.map(k => `<option value="${k}">${esc(KINDS[k].n)}</option>`).join("")}</select></label>` : "") + (K.noBand ? "" : sel("fBand", "Band", P.WRAP)) + sel("fFit", "Fitting", P.FIT) + (K.noStyle ? "" : sel("fStyle", "Style", K.styles)) + sel("fGem", "Gem", P.GEMS.map(g => g || {n:"None"})) + sel("fRar", "Rarity", SMITHY.RARS) + sel("fInf", "Infusion", SMITHY.INFS) + `<button id="bRoll">Reroll</button><button id="bWalk" aria-pressed="${big.rig.walking}">Walking</button><button id="bOff">Take off</button>` + (isRing ? `<label class="match"><input type="checkbox" id="bSync" ${syncRings ? "checked" : ""}> Sync the three rings</label>` : "") + `<label class="match"><input type="checkbox" id="bMatch" ${match ? "checked" : ""}> Match across pieces</label>`;
+    $("#bar").innerHTML = (isRing ? `<label>Ring<select id="fRing">${ringKinds.map(k => `<option value="${k}">${esc(KINDS[k].n)}</option>`).join("")}</select></label>` : "") + (K.noBand ? "" : sel("fBand", isRing ? "Gem setting" : "Band", P.WRAP)) + sel("fFit", isRing ? "Ring material" : "Fitting", P.FIT) + (K.noStyle ? "" : sel("fStyle", "Style", K.styles)) + sel("fGem", "Gem", P.GEMS.map(g => g || {n:"None"})) + sel("fRar", "Rarity", SMITHY.RARS) + sel("fInf", "Infusion", SMITHY.INFS) + `<button id="bRoll">Reroll</button><button id="bWalk" aria-pressed="${big.rig.walking}">Walking</button><button id="bOff">Take off</button>` + (isRing ? `<label class="match"><input type="checkbox" id="bSync" ${syncRings ? "checked" : ""}> Sync the three rings</label>` : "") + `<label class="match"><input type="checkbox" id="bMatch" ${match ? "checked" : ""}> Match across pieces</label>`;
     if (isRing){ $("#fRing").value = kind; $("#fRing").addEventListener("change", e => setKind(e.target.value)); $("#bSync").addEventListener("change", e => { syncRings = e.target.checked; if (syncRings) syncFrom(kind); }); }
     $("#bar").querySelectorAll("select").forEach(s => { if (s.id === "fRing") return; const src = match && SHARED.includes(s.id) && !(isRing && s.id === "fGem") ? picks.__shared : picks[kind]; s.value = src[s.id] ?? "";
       s.addEventListener("change", () => { picks[kind][s.id] = s.value; const shared = match && SHARED.includes(s.id) && !(isRing && s.id === "fGem"); if (shared) picks.__shared[s.id] = s.value; wear(make("pick:" + (++n))); if (shared) rewearAll(); else if (isRing && syncRings && s.id !== "fGem") syncFrom(kind); }); });
