@@ -1,4 +1,4 @@
-# Dog: The Den Ledger
+# Project Dog
 
 Cozy idle AFK-MMORPG about a Carolina Dog. Source of truth for the game and its art benches. See `CLAUDE.md` for the layout and workflow and `docs/` for the design docs.
 
