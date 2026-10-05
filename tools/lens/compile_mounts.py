@@ -32,7 +32,7 @@ import math
 def torso(rig, mounts, body):
     """The torso piece: the body outline cut under the collar's lower edge and in front of a rear edge, with a tufted hide hem along the belly,
        a spine seam with lacing, and a girth strap. Everything comes from the dog's own outline, so it is flush on the back and chest."""
-    t = mounts['torso']; F = mounts['collar']['F']; p0, p1 = cub(F, 0), cub(F, 1)
+    t = mounts['torso']; C = mounts['collar']; mid = lambda tt: tuple((a + b) / 2 for a, b in zip(cub(C['R'], tt), cub(C['F'], tt))); p0, p1 = mid(0), mid(1)  # cut along the collar's middle, so the torso runs under half the band and only the collar's outline shows there
     d = (p1[0] - p0[0], p1[1] - p0[1]); n = math.hypot(*d); u = (d[0] / n, d[1] / n)
     A = (p0[0] - u[0] * 40, p0[1] - u[1] * 40); B = (p1[0] + u[0] * 40, p1[1] + u[1] * 40)
     below = Polygon([A, B, (B[0], 80), (A[0], 80)])                     # everything on the body side of the collar's lower edge
@@ -68,23 +68,25 @@ def torso(rig, mounts, body):
     top = lambda x: lower(x)[1]
     out = {'base': path(shape), 'shade': path(shape.difference(affinity.translate(shape, 0, -1.1)).buffer(-.05, join_style=1).buffer(.05, join_style=1)),
            'light': path(shape.difference(affinity.translate(shape, 0, .8)).buffer(-.05, join_style=1).buffer(.05, join_style=1))}
-    # spine seam with lacing, along the back line a little below the edge
-    pts = []; x = r + 1.0
-    while True:
-        y = top(x)
-        if y is None or not shape.contains(Point(x, y + .75)): break
-        pts.append((x, y + .75)); x += .25
-    out['seam'] = 'M' + ' L'.join(f'{px:.2f} {py:.2f}' for px, py in pts)
-    ticks = ''; x = r + 1.2
-    while x < pts[-1][0] - .3:
-        y = top(x) + .75; ticks += f'M{x - .14:.2f} {y - .32:.2f} L{x + .14:.2f} {y + .32:.2f} '; x += .8
+    # stitching: a seam one even inset inside the back and neck edges, ticks at equal spacing along it, each perpendicular to the seam
+    inset = shape.buffer(-.7, join_style=1)
+    if isinstance(inset, MultiPolygon): inset = max(inset.geoms, key=lambda g: g.area)
+    ring = inset.exterior; N = int(ring.length / .05); samp = [ring.interpolate(i * .05) for i in range(N)]
+    keep = [p.y <= (top(p.x) if top(p.x) is not None else -99) + 1.25 and body.exterior.distance(p) < 1.0 for p in samp]
+    # rotate so the kept run is contiguous, then take the longest run
+    runs, cur = [], []
+    for p, k in zip(samp + samp, keep + keep):
+        if k: cur.append((p.x, p.y))
+        elif cur: runs.append(cur); cur = []
+    if cur: runs.append(cur)
+    line = max(runs, key=len); line = line[:len(line) // 2 + len(line) // 2] if len(runs) == 1 and len(line) > N else line
+    seam = LineString(line); out['seam'] = 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in line[::4])
+    ticks = ''; pos = .5
+    while pos < seam.length - .4:
+        p, q = seam.interpolate(pos), seam.interpolate(pos + .08); tx, ty = q.x - p.x, q.y - p.y; h = math.hypot(tx, ty) or 1; tx, ty = tx / h, ty / h; nx, ny = -ty, tx
+        ticks += f'M{p.x - nx * .3 + tx * .15:.2f} {p.y - ny * .3 + ty * .15:.2f} L{p.x + nx * .3 - tx * .15:.2f} {p.y + ny * .3 - ty * .15:.2f} '; pos += .8
     out['ticks'] = ticks.strip()
-    # girth strap behind the shoulder
-    g = t['girth']; w = .5; tl, th = top(g - w), top(g + w); hl, hh = hem(g - w), hem(g + w)
-    out['strap'] = f'M{g - w:.2f} {tl + .1:.2f} L{g + w:.2f} {th + .1:.2f} L{g + w:.2f} {hh - .05:.2f} L{g - w:.2f} {hl - .05:.2f} Z'
-    ym, yb = (th + .1), (hh - .05)
-    out['rivets'] = [[round(g, 2), round(ym + (yb - ym) * .22, 2)], [round(g, 2), round(ym + (yb - ym) * .78, 2)]]
-    out['gem'] = [round(g, 2), round((ym + yb) / 2, 2)]
+    out['gem'] = t['gem']                                              # a brooch on the shoulder, from the mount
     return out
 
 CORNER = .32  # corner radius of the band, in drawing units (the style sheet's contour weight: corners never sharper than the line itself)
