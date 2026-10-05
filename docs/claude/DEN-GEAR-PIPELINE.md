@@ -17,7 +17,7 @@ A gear piece is drawn **once** and fits **every dog** because it is drawn agains
 | Options | code digits | The armor takes a 7th code digit: `1` means without the tail sleeve (absent means with, so older codes are unchanged); the bench shows it as a Tail sleeve picker. |
 | Hosting | `parts.follow = "body"` | Gear that must draw above the limbs is hosted at the root and copies the body joint's transform each tick, so it bobs with the body. `parts.hides` hides the dog's own parts (its collar) while worn. |
 | Bench | `apps/gear-bench/index.html` | Both dogs side by side. `node tools/bench/rebuild-gear-bench.mjs` swaps the current `engine/*.js` into it. |
-| Publish | only when GrumpyDingo asks | Publish `apps/gear-bench/index.html` to the Gear Bench artifact URL in `artifacts.json`. |
+| Publish | only when GrumpyDingo asks | Publish `apps/gear-bench/index.html` to the Gear Bench artifact URL in `artifacts.json`. Pixi is an attached file (`apps/gear-bench/pixi.min.js`, the same file as the game's), not inlined, so the page is about 280 KB and Pixi stays cached between republishes. Pass it in `files` on the first publish after a change; leave it out afterwards. |
 
 ## Den Lens (tools/lens)
 

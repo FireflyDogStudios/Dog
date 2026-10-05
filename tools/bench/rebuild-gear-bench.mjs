@@ -14,4 +14,6 @@ for (const f of ["rig.js", "rig_den.js", "gear.js"]){
   page = page.slice(0, start) + src + "\n" + page.slice(end);
 }
 fs.writeFileSync(out, page);
+/* Pixi is an attached file (pixi.min.js beside the page), not inlined: keep a copy next to any throwaway output */
+if (out !== bench) fs.copyFileSync(root + "apps/gear-bench/pixi.min.js", out.replace(/[^/]*$/, "") + "pixi.min.js");
 console.log("wrote", out, page.length);

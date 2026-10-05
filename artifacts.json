@@ -11,7 +11,7 @@
     "capabilities": ["db", "user"],
     "status": "live"
   },
-  "gear-bench": { "url": "https://claude.ai/artifact/YM5BQsk83Kwd1S6pGG3EcL", "title": "Den Gear Bench", "source": "apps/gear-bench/index.html", "publish": "apps/gear-bench/index.html", "status": "live" },
+  "gear-bench": { "url": "https://claude.ai/artifact/YM5BQsk83Kwd1S6pGG3EcL", "attachedFiles": ["pixi.min.js"], "title": "Den Gear Bench", "source": "apps/gear-bench/index.html", "publish": "apps/gear-bench/index.html", "status": "live" },
   "pixi-bench": { "url": "https://claude.ai/artifact/LXdgL2k38t7ZdjDBk5r4Bw", "title": "Den Pixi Bench", "source": "apps/pixi-bench/index.html", "publish": "apps/pixi-bench/index.html", "status": "live" },
   "dingo-workbench": { "url": "https://claude.ai/artifact/2N5JULUbfKNkKB3szMUo8Y", "title": "Den Dingo Workbench", "source": "apps/dingo-workbench/index.html", "publish": "apps/dingo-workbench/index.html", "status": "live" },
   "stillroom": { "url": "https://claude.ai/artifact/T5Y5iGAeRTPMQEfFhJJs4M", "title": "Den Stillroom", "source": "apps/stillroom/index.html", "publish": "apps/stillroom/index.html", "status": "live" },
