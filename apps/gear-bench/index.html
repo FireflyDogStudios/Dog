@@ -4016,7 +4016,7 @@ if (typeof module !== "undefined") module.exports = GEAR;
   $("#swatches").innerHTML = group("Bands (wraps)", P.WRAP) + group("Fittings", P.FIT) + group("Gems", P.GEMS) + group("Metals (weapons)", P.METAL) + group("Woods (weapons)", P.WOOD) + group("Bone (weapons)", P.BONE)
     + `<div class="swg"><h3>Rarity</h3><div class="sw">${SMITHY.RARS.map(r => `<div class="chip"><span class="t"><i style="background:${r.c};grid-column:span 4"></i></span>${esc(r.n)}<small>${esc(r.adj || "")}</small></div>`).join("")}</div></div>`
     + `<div class="swg"><h3>Infusions</h3><div class="sw">${SMITHY.INFS.filter(i => i.c).map(i => `<div class="chip"><span class="t"><i style="background:${i.c};grid-column:span 4"></i></span>${esc(i.n)}<small>${esc(i.pre || "")} · ${esc(i.suf || "")}</small></div>`).join("")}</div></div>`;
-  for (const k of order) wear(make("first", k)); setKind("collar");
+  for (const k of order) wear(make("first", k)); setKind("armor");
   window.__bench = {app, big, small, DOGS, wear, GEAR, setKind};
 })();
 </script>
