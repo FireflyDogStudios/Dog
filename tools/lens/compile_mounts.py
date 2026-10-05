@@ -249,6 +249,21 @@ def pawcovers(rig, mounts):
             out[f'{kind}{side}_sock0'] = p0; out[f'{kind}{side}_sock1'] = p1; out[f'{kind}{side}_shoe'] = sh
     return out
 
+def cuffs(rig, mounts):
+    """Cuff seats: for each front leg and each of the two slots, the band's centre, the leg's axis and the leg's width there, measured on the forearm's own shape.
+       The cuffs ride the forearm (they follow it) and sit over the sleeve and sock, so the width is the forearm shape a little padded (like the sleeve)."""
+    D = R.rigs[rig]; J = {j['id']: j for j in D['joints']}; cf = mounts['paws']['cuff']; out = {}
+    for side in ('N', 'F'):
+        a = tuple(J['fore' + side]['at']); b = tuple(J['past' + side]['at']); L = math.dist(a, b); u = ((b[0] - a[0]) / L, (b[1] - a[1]) / L); n = (-u[1], u[0])
+        shape = joint_shape(rig, 'fore' + side).buffer(.3, join_style=1)
+        for i, y in enumerate(cf['y']):
+            t = (y - a[1]) / u[1]; c = (a[0] + u[0] * t, y)
+            seg = shape.intersection(LineString([(c[0] - n[0] * 8, c[1] - n[1] * 8), (c[0] + n[0] * 8, c[1] + n[1] * 8)]))
+            if seg.geom_type != 'LineString': seg = max(seg.geoms, key=lambda g: g.length)
+            (x0, y0), (x1, y1) = seg.coords[0], seg.coords[-1]
+            out[f'{side}{i}'] = {'c': [round((x0 + x1) / 2, 2), round((y0 + y1) / 2, 2)], 'u': [round(u[0], 4), round(u[1], 4)], 'w': round(seg.length, 2), 'h': cf['h']}
+    return out
+
 CORNER = .32  # corner radius of the band, in drawing units (the style sheet's contour weight: corners never sharper than the line itself)
 R = Rigs(); out = {}
 for rig, mounts in R.mounts.items():
@@ -259,7 +274,9 @@ for rig, mounts in R.mounts.items():
     if 'torso' in mounts:
         out[rig]['torso'] = torso(rig, mounts, body)
         if 'sleeve' in mounts['torso']: out[rig]['sleeves'] = sleeves(rig, mounts)
-    if 'paws' in mounts: out[rig]['paws'] = pawcovers(rig, mounts)
+    if 'paws' in mounts:
+        out[rig]['paws'] = pawcovers(rig, mounts)
+        if 'cuff' in mounts['paws']: out[rig]['cuffs'] = cuffs(rig, mounts)
     print(rig, {k: len(v) for k, v in out[rig]['collar'].items()}, 'base points:', out[rig]['collar']['base'].count('L') + 1)
 import json as _json
 js = '/* BEGIN COMPILED (tools/lens/compile_mounts.py writes this; do not hand-edit) */\nconst COMPILED = {\n' + ',\n'.join(f'  {rig}: ' + _json.dumps(v, separators=(',', ':')) for rig, v in out.items()) + '\n};\n/* END COMPILED */'

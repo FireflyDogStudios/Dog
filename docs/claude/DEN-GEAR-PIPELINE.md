@@ -53,6 +53,13 @@ A gear piece is drawn **once** and fits **every dog** because it is drawn agains
 - **Sleeves** (part of the armor slot): one moving piece per leg joint, cut from that joint's own shape, ending square to the bone. **Paw covers** (their own slot, attached before the armor): the hind knee gets a round cup centred on the stifle so the thigh's knee cap is covered up to the sleeve and rotation cannot expose a gap.
 - Gear on a joint draws after that joint's own parts and after its child joints, so the order of `attachPiece` calls decides which piece is on top within a joint (paw covers before armor).
 
+## Bracelets and cuffs (forearm slots)
+
+- One slot type, two styles (GrumpyDingo, Oct 5): the **cuff** (wide band, one centred gem in a socket; built) and the **bracelet** (slim, 2-3 small gems; to come). Either style fits any of the four slots (two per front leg).
+- Slot seats are measured, not eyeballed: `GEAR.MOUNTS.<dog>.paws.cuff = {y:[upper, lower], h}` sets the two slot centres (sized for two cuffs with even gaps, above the wrist, under the torso hem, the lower one over the sleeve hem seam), and `compile_mounts.py` (`cuffs`) writes each seat's centre, leg axis and the forearm's width into `COMPILED.<dog>.cuffs`. Both dogs, both legs, from the same function.
+- Hosted at the top of the leg (`shN`/`shF`) and following the forearm, attached after the armor, so it sits over the sleeve and the sock. Code `b<slot><fitting><band><gem><rarity><infusion>[style]`.
+- Drawn height counts the outline: a cuff of h 1.5 shows about 1.8, so leave gaps for that when spacing.
+
 ## Adding things
 
 - **A new dog:** add its row to `GEAR.MOUNTS` (collar edges, tail, torso, sleeve gaps), run `compile_mounts.py`, run `lint.py` on every code, look at it in the bench.
