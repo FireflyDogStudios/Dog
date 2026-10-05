@@ -159,7 +159,7 @@ def sleeves(rig, mounts):
     ycut = sl.get('frontY', ycut)                                       # optional: where the front sleeve ends (a y in the rest pose); default the same height as the hind sleeve
     if ycut > elbow[1] + .3:
         up = make(shape_of('shN'), sh, (vx, vy), None); wx, wy, Lw = unit(elbow, wrist); lo = make(shape_of('foreN'), elbow, (wx, wy), (ycut - elbow[1]) / wy)
-        out['shN'] = up; out['shF'] = up; out['foreN'] = lo; out['foreF'] = lo
+        out['shN'] = up; out['shF'] = up; out['foreN'] = dict(lo, host='shN', follow='foreN'); out['foreF'] = dict(lo, host='shF', follow='foreF')   # hosted at the top of the leg so it draws above the leg sock
     else:
         up = make(shape_of('shN'), sh, (vx, vy), Lu - max(0.0, elbow[1] - ycut) / max(vy, .3)); out['shN'] = up; out['shF'] = up
     # tail sleeve: the tail's own shape from the root to just short of the tip, a little wider, cut square to the tail, with the same tufts and hem; it goes under the tail guard
@@ -206,10 +206,6 @@ def pawcovers(rig, mounts):
             if kind == 'hind': shape0 = unary_union([shape0, Point(*a).buffer(2.2)])                       # the knee cup, centred on the stifle (rotation-safe)
             leg = unary_union([shape0, joint_shape(rig, s1)]).buffer(pad, join_style=1).buffer(-.12, join_style=1).buffer(.12, join_style=1)
             if isinstance(leg, MultiPolygon): leg = max(leg.geoms, key=lambda g: g.area)
-            if kind == 'front':   # the sock starts where the sleeve ends (a little under it), so the sleeve tucks into the sock
-                sl = mounts['torso']['sleeve']; yend = sl.get('frontY'); 
-                if yend is not None: leg = leg.intersection(_half(a, u, (yend - a[1]) / u[1] - .6, False))
-                if isinstance(leg, MultiPolygon): leg = max(leg.geoms, key=lambda g: g.area)
             sproj = lambda p: (p.x - a[0]) * u[0] + (p.y - a[1]) * u[1]
             ring = _ring(leg); keep_top = [sproj(p) <= L0 for p in ring]; keep_bot = [sproj(p) > L0 for p in ring]
             top_piece = leg.intersection(_half(a, u, L0 + .5, True)); bot_piece = leg.intersection(_half(a, u, L0 - .5, False))
