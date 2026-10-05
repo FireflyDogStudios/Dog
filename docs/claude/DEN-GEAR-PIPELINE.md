@@ -55,7 +55,7 @@ A gear piece is drawn **once** and fits **every dog** because it is drawn agains
 
 ## Bracelets and cuffs (forearm slots)
 
-- One slot type, two styles (GrumpyDingo, Oct 5): the **cuff** (wide band, one centred gem in a socket; built) and the **bracelet** (slim, 2-3 small gems; to come). Either style fits any of the four slots (two per front leg).
+- One slot type, two styles (GrumpyDingo, Oct 5): the **cuff** (wide band, one centred gem in a socket), the **bracelet** (slim, three small gems banded together) and the **twin bracelet** (slim, two gems); all built. Any style fits any of the four slots (two per front leg). Style is the 7th code digit (0 cuff, 1 bracelet, 2 twin); `CUFF_STYLES` in `gear.js` holds each style's height and gem layout. Small sockets use the detail outline weight so neighbours do not merge into a dark mass; the smallest gems drop their shade triangle (lint's stray-fragment floor).
 - Slot seats are measured, not eyeballed: `GEAR.MOUNTS.<dog>.paws.cuff = {y:[upper, lower], h}` sets the two slot centres (sized for two cuffs with even gaps, above the wrist, under the torso hem, the lower one over the sleeve hem seam), and `compile_mounts.py` (`cuffs`) writes each seat's centre, leg axis and the forearm's width into `COMPILED.<dog>.cuffs`. Both dogs, both legs, from the same function.
 - Hosted at the top of the leg (`shN`/`shF`) and following the forearm, attached after the armor, so it sits over the sleeve and the sock. Code `b<slot><fitting><band><gem><rarity><infusion>[style]`.
 - Drawn height counts the outline: a cuff of h 1.5 shows about 1.8, so leave gaps for that when spacing.
