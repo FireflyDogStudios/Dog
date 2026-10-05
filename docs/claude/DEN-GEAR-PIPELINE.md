@@ -14,6 +14,7 @@ A gear piece is drawn **once** and fits **every dog** because it is drawn agains
 | Compile | `python3 tools/lens/compile_mounts.py` | Cuts the collar, torso and sleeves from each dog's body and leg shapes (shapely), rounds every corner, writes `COMPILED` into `engine/gear.js`. Re-run when a mount row or a dog's outline changes. |
 | Pieces | `GEAR.collar / tailguard / tailring / armor` | Build parts from the mount. Code letter + six digits (band, fitting, style, gem, rarity, infusion). Same code on every dog. |
 | Layers | `piece.layersFor(rig)` | A piece can have several layers on different joints (torso at the root, a sleeve on each leg). `RIG.attachPiece` attaches them all. |
+| Options | code digits | The armor takes a 7th code digit: `1` means without the tail sleeve (absent means with, so older codes are unchanged); the bench shows it as a Tail sleeve picker. |
 | Hosting | `parts.follow = "body"` | Gear that must draw above the limbs is hosted at the root and copies the body joint's transform each tick, so it bobs with the body. `parts.hides` hides the dog's own parts (its collar) while worn. |
 | Bench | `apps/gear-bench/index.html` | Both dogs side by side. `node tools/bench/rebuild-gear-bench.mjs` swaps the current `engine/*.js` into it. |
 | Publish | only when GrumpyDingo asks | Publish `apps/gear-bench/index.html` to the Gear Bench artifact URL in `artifacts.json`. |
@@ -45,6 +46,11 @@ A gear piece is drawn **once** and fits **every dog** because it is drawn agains
 - Diamond helpers must be given numbers, not formatted strings (`x + r` becomes string concatenation).
 - A line lying exactly on a polygon edge intersects to nothing; measure the chord before cutting.
 - The body joint bobs (hero .6 per half stride and up to 1.2, hero2 .45) while the legs do not. Gear on the body follows the bob; gear on a leg does not, so a seam between them slides. Cover such seams with the torso piece.
+
+## Leg pieces (sleeves, paw covers)
+
+- **Sleeves** (part of the armor slot): one moving piece per leg joint, cut from that joint's own shape, ending square to the bone. **Paw covers** (their own slot, drawn first so they are under the sleeves): one piece per segment on all four legs, each cut from the segment's own shape; the parent segment laps the child at each joint; the hind knee gets a round cup centred on the stifle so the thigh's knee cap is covered up to the sleeve and rotation cannot expose a gap.
+- Gear on a joint draws after that joint's own parts and after its child joints, so the order of `attachPiece` calls decides which piece is on top within a joint (paw covers before armor).
 
 ## Adding things
 

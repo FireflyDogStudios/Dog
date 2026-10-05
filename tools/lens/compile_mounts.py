@@ -168,6 +168,36 @@ def sleeves(rig, mounts):
         tx0, ty0, tdx, tdy = tail_at(mounts['tail'], ts['end']); out['tail'] = make(shape_of('tail'), (tx0, ty0), (tdx, tdy), 0.0, pad=ts.get('pad', .22))
     return out
 
+def joint_shape(rig, jid):
+    D = R.rigs[rig]; return unary_union([q for q in (part_poly(p) for p in D['parts'] if p.get('in') == jid) if q is not None])
+
+def pawcovers(rig, mounts):
+    """Paw covers (the hide wraps): one piece per leg segment on all four legs, each cut from that segment's own shape, a little wider, so it bends with the leg.
+       The parent segment draws over its child at each joint, so the upper piece's rounded end laps the lower one like a cuff. The hind knee gets a round cup
+       centred on the stifle (rotation-safe) so the thigh's knee cap is covered right up to the sleeve."""
+    D = R.rigs[rig]; J = {j['id']: j for j in D['joints']}; out = {}; pad = .3
+    chains = {'N': {'front': ['foreN', 'pastN', 'ftoeN'], 'hind': ['shankN', 'metaN', 'htoeN']}}
+    for side in ('N', 'F'):
+        for kind, names in (('front', ['fore', 'past', 'ftoe']), ('hind', ['shank', 'meta', 'htoe'])):
+            chain = [n + side for n in names if n + side in J and joint_shape(rig, n + side).area > 0]
+            for i, jid in enumerate(chain):
+                shape = joint_shape(rig, jid)
+                if kind == 'hind' and i == 0: shape = unary_union([shape, Point(*J[jid]['at']).buffer(2.2)])        # the knee cup, centred on the stifle
+                S = shape.buffer(pad, join_style=1).buffer(-.12, join_style=1).buffer(.12, join_style=1)
+                res = {'base': path(S), 'shade': path(S.difference(affinity.translate(S, -.9, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1)),
+                       'light': path(S.difference(affinity.translate(S, .7, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1))}
+                nxt = chain[i + 1] if i + 1 < len(chain) else None
+                if nxt:   # lacing down the middle of the segment, from its joint to the next
+                    a, b = J[jid]['at'], J[nxt]['at']; L = math.dist(a, b)
+                    if L > 2.2:
+                        ux, uy = (b[0] - a[0]) / L, (b[1] - a[1]) / L; res['seam'] = f'M{a[0] + ux * .6:.2f} {a[1] + uy * .6:.2f} L{b[0] - ux * .6:.2f} {b[1] - uy * .6:.2f}'
+                        tk = ''; pos = .8
+                        while pos < L - 1.0:
+                            px, py = a[0] + ux * pos, a[1] + uy * pos; nx, ny = -uy, ux; tk += f'M{px - nx * .3 - ux * .12:.2f} {py - ny * .3 - uy * .12:.2f} L{px + nx * .3 + ux * .12:.2f} {py + ny * .3 + uy * .12:.2f} '; pos += .8
+                        res['ticks'] = tk.strip()
+                out[jid] = res
+    return out
+
 CORNER = .32  # corner radius of the band, in drawing units (the style sheet's contour weight: corners never sharper than the line itself)
 R = Rigs(); out = {}
 for rig, mounts in R.mounts.items():
@@ -178,6 +208,7 @@ for rig, mounts in R.mounts.items():
     if 'torso' in mounts:
         out[rig]['torso'] = torso(rig, mounts, body)
         if 'sleeve' in mounts['torso']: out[rig]['sleeves'] = sleeves(rig, mounts)
+    if 'paws' in mounts: out[rig]['paws'] = pawcovers(rig, mounts)
     print(rig, {k: len(v) for k, v in out[rig]['collar'].items()}, 'base points:', out[rig]['collar']['base'].count('L') + 1)
 import json as _json
 js = '/* BEGIN COMPILED (tools/lens/compile_mounts.py writes this; do not hand-edit) */\nconst COMPILED = {\n' + ',\n'.join(f'  {rig}: ' + _json.dumps(v, separators=(',', ':')) for rig, v in out.items()) + '\n};\n/* END COMPILED */'
