@@ -102,7 +102,9 @@ A dog standing still is never still. What separates an icon from a creature is c
 
 Sources: UKC Carolina Dog standard (ukcdogs.com/docs/breeds/carolina-dog-ukc.pdf), Animator Notebook quadruped gaits, Animation Mentor quadruped walk cycle, OrthoDog dog leg anatomy, Chewy and Dimensions Carolina Dog pages, PetoiCamp OpenCat (MIT) gait tables, molauu/svg-character-animator (MIT) idle-animation and motion-design references.
 
-## 9. Gear fits through connection points (collars, rings, armor, paw covers)
+## 9. Gear fits through connection points
+
+The whole method is written down in `docs/claude/DEN-GEAR-PIPELINE.md`; read it before fitting anything. (collars, rings, armor, paw covers)
 
 The old `hero` stays in the game as the first companion and `hero2` is the player's dog, so **every piece is drawn once and fits both**.
 - Each dog publishes **connection points** in `GEAR.MOUNTS` (`engine/gear.js`): the footprint of its own collar band as two edges R and F, and later the tail curve, paw seats and the hem. A piece is drawn against the mount, never against one dog's numbers. A new dog is one more row. A piece's code is identical on every dog; only the mount changes.

@@ -6,7 +6,7 @@ This repo is the **single source of truth**. The live pages are private claude.a
 ## Read first
 `docs/HANDOFF.md` (state of play), `docs/claude/DEN-GAME-MASTER-LIST.md`, `docs/DEN-GAME-CONSTITUTION.md`, `docs/DEN-GAME-VIBES.md`,
 `docs/claude/DEN-GAME-CODE-GUIDE.md` (game file layout; note it predates the src/ split, so section names map to `apps/den-ledger/src/js/NNN-*.js`).
-Before touching gear read `docs/claude/DEN-GAME-HERO2-FIT-SHEET.md`; before touching the dog, use the `den-dog-anatomy` skill; for creatures, `den-creature-design`.
+Before touching gear read `docs/claude/DEN-GEAR-PIPELINE.md` (how gear is fitted: mounts, compile, lens, lint) and `docs/claude/DEN-GAME-HERO2-FIT-SHEET.md` (where the sheet and the shapes disagree, the shapes win); before touching the dog, use the `den-dog-anatomy` skill; for creatures, `den-creature-design`.
 
 ## Layout
 - `apps/den-ledger/` the game. `src/` is the source (53 JS modules in load order by filename prefix, CSS, head/body/tail HTML). `public/` holds the attached files (art CSS, Pixi, Proton). `node apps/den-ledger/build.mjs` writes `dist/` (gitignored). `--check <file>` proves a build is byte-identical to a saved page.
