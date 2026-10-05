@@ -98,6 +98,22 @@ def part_poly(p):
     if 'd' in p: return Polygon(R.sample(parse_path(p['d']), 120)).buffer(0)
     return None
 
+def tail_at(m, t):
+    """a point on a dog's tail and its direction (toward the tip). bezier mounts take the curve parameter t; catmull mounts take the fraction of arc length, as in gear.js"""
+    if m['kind'] == 'bezier':
+        p = cub(m['c'], t); q = cub(m['c'], min(1, t + .001)); d = math.hypot(q[0] - p[0], q[1] - p[1]) or 1; return p[0], p[1], (q[0] - p[0]) / d, (q[1] - p[1]) / d
+    pts = m['pts']; P = [pts[0]] + pts + [pts[-1]]; c = []
+    for i in range(1, len(P) - 2):
+        p0, p1, p2, p3 = P[i - 1], P[i], P[i + 1], P[i + 2]
+        for k in range(10):
+            u = k / 10; u2 = u * u; u3 = u2 * u; c.append(tuple(.5 * ((2 * p1[j]) + (-p0[j] + p2[j]) * u + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * u2 + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * u3) for j in (0, 1)))
+    c.append(tuple(pts[-1])); sa = [0]
+    for i in range(1, len(c)): sa.append(sa[-1] + math.dist(c[i], c[i - 1]))
+    tot = sa[-1]; i = 0
+    while i < len(c) - 2 and sa[i + 1] / tot < t: i += 1
+    f = (t * tot - sa[i]) / ((sa[i + 1] - sa[i]) or 1); x = c[i][0] + (c[i + 1][0] - c[i][0]) * f; y = c[i][1] + (c[i + 1][1] - c[i][1]) * f
+    a, b = c[max(0, i - 1)], c[min(len(c) - 1, i + 2)]; d = math.hypot(b[0] - a[0], b[1] - a[1]) or 1; return x, y, (b[0] - a[0]) / d, (b[1] - a[1]) / d
+
 def sleeves(rig, mounts):
     """Armor sleeves for the legs, cut from each dog's own leg shapes: a hind sleeve on the thigh, a front sleeve on the upper arm (and a short second piece on the
        forearm when the dog's elbow sits above the cut). Each ends flat and square to its bone, a little above the knee, with hide tufts and a stitched hem.
@@ -146,6 +162,10 @@ def sleeves(rig, mounts):
         out['shN'] = up; out['shF'] = up; out['foreN'] = lo; out['foreF'] = lo
     else:
         up = make(shape_of('shN'), sh, (vx, vy), Lu - max(0.0, elbow[1] - ycut) / max(vy, .3)); out['shN'] = up; out['shF'] = up
+    # tail sleeve: the tail's own shape from the root to just short of the tip, a little wider, cut square to the tail, with the same tufts and hem; it goes under the tail guard
+    ts = sl.get('tail')
+    if ts and 'tail' in mounts:
+        tx0, ty0, tdx, tdy = tail_at(mounts['tail'], ts['end']); out['tail'] = make(shape_of('tail'), (tx0, ty0), (tdx, tdy), 0.0, pad=ts.get('pad', .22))
     return out
 
 CORNER = .32  # corner radius of the band, in drawing units (the style sheet's contour weight: corners never sharper than the line itself)
