@@ -7,3 +7,4 @@ sim/proton.web.min.js
 sim/art-*.css
 sim/*.png
 tools/lens/.cache/
+__pycache__/
