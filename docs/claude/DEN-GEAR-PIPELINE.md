@@ -19,7 +19,7 @@ A gear piece is drawn **once** and fits **every dog** because it is drawn agains
 | Bench | `apps/gear-bench/index.html` | Both dogs side by side. `node tools/bench/rebuild-gear-bench.mjs` swaps the current `engine/*.js` into it. |
 | Publish | only when GrumpyDingo asks | Publish `apps/gear-bench/index.html` to the Gear Bench artifact URL in `artifacts.json`. Pixi is an attached file (`apps/gear-bench/pixi.min.js`, the same file as the game's), not inlined, so the page is about 280 KB and Pixi stays cached between republishes. Pass it in `files` on the first publish after a change; leave it out afterwards. |
 
-## Den Lens (tools/lens)
+## Den Lens (tools/lens, kit V1, frozen) and the V2 kit (`./den`, see `DEN-KIT-V2.md`)
 
 - `node tools/lens/lens.cjs shot --rig hero,hero2 --box x,y,w,h --scale s --grid --gear <codes> [--hide collar,tag] [--walk --phase .2] [--ref HEAD] [--lines ...]`: renders in drawing units. `--ref <git ref>` builds from that commit's engine files (before/after).
 - `lens.cjs probe --rig hero2 --at 44,10 --gear <code>`: which parts cover a point, in draw order.

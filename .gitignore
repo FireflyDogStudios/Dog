@@ -8,3 +8,4 @@ sim/art-*.css
 sim/*.png
 tools/lens/.cache/
 __pycache__/
+tools/den/.cache/

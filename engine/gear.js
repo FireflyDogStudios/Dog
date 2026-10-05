@@ -86,7 +86,7 @@ function collar(seed, picks = {}, rigId = "hero"){
       parts.push({d:plate(1), paint:"fitO"}, {d:plate(.8), paint:"fit"}, {d:`M${p(-.6, 1.9, .8)} L${p(.6, 1.9, .8)} L${p(.75, 2.3, .8)} L${p(0, 2.7, .8)} L${p(-.75, 2.3, .8)} Z`, paint:"fitS", alpha:.8}, {circle:[x, y + .95, .17], paint:"fitO"}); }
     if (S.fit === "knot"){ const r1 = Math.min(1.05 * k, q.hw * 1.05); parts.push({circle:[q.x, q.y, r1], paint:"bandO"}, {circle:[q.x, q.y, r1 * .76], paint:"band"}, {d:`M${f1(q.x - r1 * .76)} ${f1(q.y)} A${f1(r1 * .76)} ${f1(r1 * .76)} 0 0 0 ${f1(q.x + r1 * .76)} ${f1(q.y)} Z`, paint:"bandS", alpha:.8}, {circle:[q.x - .3, q.y - .3, .22], paint:"bandL", alpha:.8}, {d:`M${f1(q.x - .3)} ${f1(q.y + 1)} L${f1(q.x - .8)} ${f1(q.y + 2.6)} M${f1(q.x + .3)} ${f1(q.y + 1)} L${f1(q.x + .7)} ${f1(q.y + 2.5)}`, stroke:true, paint:"bandO", sw:2 * LINE.contour}); }
     if (G) parts.push(...gemParts(G, socket[0], socket[1], S.fit === "tag" ? .42 : Math.min(.52, mid.hw * .5)));
-    if (I.c) parts.push({d:bandLine(m, .8), stroke:true, paint:"inf", sw:.35, alpha:.9});
+    if (I.c) parts.push({d:bandLine(m, .8), stroke:true, paint:"inf", sw:2 * LINE.detail, alpha:.9});
     parts.hides = ["collar", "tag", "tag2"]; parts.hidesIn = "body"; /* and hides the dog's own collar and tag (in the body joint) while it is worn */
     parts.follow = "body"; /* hosted at the root so it draws over the torso piece, and follows the body */
     return parts;
@@ -155,7 +155,7 @@ function tailguard(seed, picks = {}, rigId = "hero"){
         parts.push({d:tailBand(t0, t0 + lay.plate * .26, .28, m), paint:"fit"}, {d:tailBand(t0, t0 + lay.plate * .12, .28, m), paint:"fitL", alpha:.6});
         const q = tailAt((t0 + t1) / 2, m); parts.push({circle:[q.x, q.y, .2 + LINE.detail], paint:"fitO"}, {circle:[q.x, q.y, .2], paint:"fit"}, {circle:[q.x - .07, q.y - .08, .07], paint:"fitL"}); }); }
     if (G){ const q = tailAt(lay.slots[1], m); parts.push(...gemParts(G, q.x, q.y, .5)); } /* the gem takes the middle ring slot */
-    if (I.c){ let d = ""; for (let i = 0; i <= 5; i++){ const q = tailAt(s0 + (s1 - s0) * (.08 + .84 * i / 5), m); d += (i ? " L" : "M") + f1(q.x) + " " + f1(q.y); } parts.push({d, stroke:true, paint:"inf", sw:.35, alpha:.9}); }
+    if (I.c){ let d = ""; for (let i = 0; i <= 5; i++){ const q = tailAt(s0 + (s1 - s0) * (.08 + .84 * i / 5), m); d += (i ? " L" : "M") + f1(q.x) + " " + f1(q.y); } parts.push({d, stroke:true, paint:"inf", sw:2 * LINE.detail, alpha:.9}); }
     return parts;
   };
   const name = (R.adj ? R.adj + " " : "") + (I.pre ? I.pre + " " : "") + W.n + " " + S.n + (G ? " with " + G.n : "") + (I.suf ? " " + I.suf : "");
@@ -221,7 +221,7 @@ function armor(seed, picks = {}, rigId = "hero"){
     /* lacing: a seam down the back, stitched across in the fitting material */
     parts.push({d:T.seam, stroke:true, paint:"fitO", sw:2 * LINE.detail}, {d:T.ticks, stroke:true, paint:"fit", sw:2 * LINE.detail});
     if (G) parts.push(...gemParts(G, T.gem[0], T.gem[1], .5)); /* the gem is a brooch on the shoulder */
-    if (I.c) parts.push({d:T.seam, stroke:true, paint:"inf", sw:.3, alpha:.9});
+    if (I.c) parts.push({d:T.seam, stroke:true, paint:"inf", sw:2 * LINE.detail, alpha:.9});
     parts.follow = "body"; /* hosted at the root, above the legs, and follows the body */
     return parts;
   };
@@ -253,7 +253,7 @@ function pawcovers(seed, picks = {}, rigId = "hero"){
     if (Pw.sole) parts.push({d:Pw.sole, paint:"mS", alpha:.9});
     if (Pw.cuff) parts.push({d:Pw.cuff, stroke:true, paint:"fitO", sw:2 * LINE.interior}, {d:Pw.cuff, paint:"fit"}, {d:Pw.cuff, paint:"fitL", alpha:.5});
     if (Pw.seam) parts.push({d:Pw.seam, stroke:true, paint:"fitO", sw:2 * LINE.detail}, {d:Pw.ticks, stroke:true, paint:"fit", sw:2 * LINE.detail});
-    if (I.c && Pw.seam) parts.push({d:Pw.seam, stroke:true, paint:"inf", sw:.3, alpha:.9});
+    if (I.c && Pw.seam) parts.push({d:Pw.seam, stroke:true, paint:"inf", sw:2 * LINE.detail, alpha:.9});
     if (rar >= 3) parts.unshift({d:Pw.lines || Pw.base, stroke:true, paint:"glow", sw:2 * (LINE.contour + .4), alpha:.3});
     parts.follow = Pw.follow; return parts; };
   /* order within a leg, bottom to top: lower sock half, upper sock half, shoe. Paw covers are attached after the armor, so the thigh sleeve is under the leg sock. */
@@ -291,7 +291,7 @@ function cuff(seed, picks = {}, rigId = "hero"){
     parts.push({d, stroke:true, paint:"mO", sw:2 * LINE.contour}, {d, paint:"m"}, {d:band([.05, h / 2]), paint:"mS", alpha:.8}, {d:band([-h / 2, -h / 2 + .4]), paint:"mL", alpha:.55});
     /* a lighter rim down each end of the cuff, as on the rings */
     parts.push({d:`M${pt(-W2 / 2 + .02, -h / 2 + .3)} L${pt(-W2 / 2 + .42, -h / 2 + .3)} L${pt(-W2 / 2 + .42, h / 2 - .3)} L${pt(-W2 / 2 + .02, h / 2 - .3)} Z`, paint:"mL", alpha:.55}, {d:`M${pt(W2 / 2 - .42, -h / 2 + .3)} L${pt(W2 / 2 - .02, -h / 2 + .3)} L${pt(W2 / 2 - .02, h / 2 - .3)} L${pt(W2 / 2 - .42, h / 2 - .3)} Z`, paint:"mL", alpha:.55});
-    if (I.c) parts.push({d:`M${pt(-W2 / 2 + .5, h / 2 - .22)} L${pt(W2 / 2 - .5, h / 2 - .22)}`, stroke:true, paint:"inf", sw:.3, alpha:.9});
+    if (I.c) parts.push({d:`M${pt(-W2 / 2 + .5, h / 2 - .22)} L${pt(W2 / 2 - .5, h / 2 - .22)}`, stroke:true, paint:"inf", sw:2 * LINE.detail, alpha:.9});
     /* the socket: one centred gem, as on the rings (the band material is the setting; empty recess when there is no gem) */
     const x = S.c[0], y = S.c[1], rs = .62, dia = rr => diamond(+f1(x), +f1(y), rr);
     parts.push({d:dia(rs), stroke:true, paint:"wO", sw:2 * LINE.interior}, {d:dia(rs), paint:"wB"}, {d:`M${f1(x - rs)} ${f1(y)} L${f1(x)} ${f1(y + rs)} L${f1(x + rs)} ${f1(y)} Z`, paint:"wS", alpha:.8}, {d:`M${f1(x - rs)} ${f1(y)} L${f1(x)} ${f1(y - rs)} L${f1(x + rs * .35)} ${f1(y - rs * .65)} L${f1(x - rs * .3)} ${f1(y)} Z`, paint:"wL", alpha:.6});
