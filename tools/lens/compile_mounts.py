@@ -234,9 +234,18 @@ def pawcovers(rig, mounts):
             if toe: foot = joint_shape(rig, toe).buffer(.45, join_style=1)
             else:
                 ux2, uy2 = (end[0] - b[0]) / math.dist(b, end), (end[1] - b[1]) / math.dist(b, end); foot = joint_shape(rig, s1).intersection(_half(b, (ux2, uy2), math.dist(b, end) - 2.6, False)).buffer(.45, join_style=1)
+            if toe:                                                                       # the hind paw is a bare oval: give the shoe an ankle (the cannon's lowest 1.6 units) so it has a cuff to fold
+                v = ((end[0] - b[0]) / math.dist(b, end), (end[1] - b[1]) / math.dist(b, end)); cannon = joint_shape(rig, s1).intersection(_half(b, v, math.dist(b, end) - 1.6, False)).buffer(.45, join_style=1)
+                foot = unary_union([foot, cannon]).buffer(.3, join_style=1).buffer(-.3, join_style=1)
             foot = foot.buffer(-.12, join_style=1).buffer(.12, join_style=1)
             if isinstance(foot, MultiPolygon): foot = max(foot.geoms, key=lambda g: g.area)
             sh = {'host': host, 'follow': toe or s1, 'base': path(foot), **lat(foot)}
+            # details: a folded cuff across the top of the shoe (fitting colour), and a sole strip along the ground edge
+            v = ((end[0] - b[0]) / math.dist(b, end), (end[1] - b[1]) / math.dist(b, end)); vproj = lambda x, y: (x - b[0]) * v[0] + (y - b[1]) * v[1]; ptop = min(vproj(x, y) for x, y in foot.exterior.coords)
+            cuff = foot.intersection(_half(b, v, ptop + 1.05, True)).buffer(-.03, join_style=1).buffer(.03, join_style=1)
+            sole = foot.difference(affinity.translate(foot, 0, -.75)).buffer(-.05, join_style=1).buffer(.05, join_style=1)
+            if not cuff.is_empty: sh['cuff'] = path(cuff)
+            if not sole.is_empty: sh['sole'] = path(sole)
             out[f'{kind}{side}_sock0'] = p0; out[f'{kind}{side}_sock1'] = p1; out[f'{kind}{side}_shoe'] = sh
     return out
 
