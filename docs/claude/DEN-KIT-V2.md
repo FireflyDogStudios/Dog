@@ -26,5 +26,5 @@ Written Oct 5, 2026 by Firefly. **V1 is frozen**: `tools/lens/` is unchanged, gi
 Listed by `den doctor`: paper.js (curve-aware booleans), resvg-js (a second renderer), Clipper2 (JS polygon ops), uv, hypothesis, colour-science, Pixi `MeshRope` (bending socks; a texture, so try on one sleeve first). Each is added only when wanted, as its own subcommand or flag.
 
 ## Findings so far (V2 on the current art)
-- **Real:** `hero`'s wrist at gait phase 0 (and a few pixels at 0.4375 and 0.9375): a cream sliver of the dog's pastern shows where the two sock halves part at the wrist bend, about 0.5u wide near (38.8, 30.3). `hero2` is clean. Standing is clean on both.
+- **Fixed (Oct 5):** at a hard wrist bend on `hero` (gait phase 0, a few pixels at 0.4375 and 0.9375) the two sock halves' flat cut edges parted and the dog's own pastern showed through as a cream sliver. Both halves now carry a round cap on the joint (radius: the narrower of the two segments' widths there, so the hind leg does not bulge); the lower half strokes the cap's outline under its own fill. `den sweep` is clean on every phase on both dogs.
 - **Fixed:** infusion accents used stroke widths off the style sheet (found by `sample`).

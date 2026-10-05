@@ -209,6 +209,17 @@ def pawcovers(rig, mounts):
             sproj = lambda p: (p.x - a[0]) * u[0] + (p.y - a[1]) * u[1]
             ring = _ring(leg); keep_top = [sproj(p) <= L0 for p in ring]; keep_bot = [sproj(p) > L0 for p in ring]
             top_piece = leg.intersection(_half(a, u, L0 + .5, True)); bot_piece = leg.intersection(_half(a, u, L0 - .5, False))
+            # a round cap on the joint in BOTH halves (found by `den sweep`: the flat cut edges part on the convex side of a hard wrist bend and the dog's own leg shows). A disc is the same at every angle, so it
+            # covers whatever the bend does; its radius is the leg's half-width at the joint, so it sits inside the sock when the leg is straight.
+            def width_at(shape, axis):   # the shape's width at the joint, measured square to that segment's own axis
+                nr = (-axis[1], axis[0]); ch = shape.intersection(LineString([(b[0] - nr[0] * 8, b[1] - nr[1] * 8), (b[0] + nr[0] * 8, b[1] + nr[1] * 8)]))
+                if ch.is_empty: return 99
+                if ch.geom_type != 'LineString': ch = max(ch.geoms, key=lambda g: g.length)
+                return ch.length
+            endp = tuple(J[ids[2]]['at']) if len(ids) > 2 else (b[0], b[1] + 5); L1 = math.dist(b, endp); u1 = ((endp[0] - b[0]) / L1, (endp[1] - b[1]) / L1)
+            # the radius is the NARROWER of the two segments' widths here (on the hind leg the gaskin axis is not the cannon's, so a chord of the joined leg would be too wide and bulge)
+            cap = Point(*b).buffer(min(width_at(joint_shape(rig, s0).buffer(pad, join_style=1), u), width_at(joint_shape(rig, s1).buffer(pad, join_style=1), u1)) / 2 - .03, 24)
+            top_piece = unary_union([top_piece, cap]); bot_piece = unary_union([bot_piece, cap])
             def lat(S): return {'shade': path(S.difference(affinity.translate(S, -.9, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1)), 'light': path(S.difference(affinity.translate(S, .7, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1))}
             sh_leg = leg.difference(affinity.translate(leg, -.9, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1); li_leg = leg.difference(affinity.translate(leg, .7, 0)).buffer(-.04, join_style=1).buffer(.04, join_style=1)
             def piece(fill, keepmask, shade_zone, jid):
@@ -227,6 +238,7 @@ def pawcovers(rig, mounts):
             end = tuple(J[toe]['at']) if toe else None
             if end is None:
                 ln = next((p['line'] for p in D['parts'] if p.get('in') == s1 and 'line' in p), None); end = tuple(ln[1]) if ln else (b[0], b[1] + 5)
+            p1['cap'] = path(cap)                                                                   # the lower half strokes the cap's outline under its own fill, so the cap reads as outlined wherever a bend exposes it
             p0['seam'], p0['ticks'] = lace(a, b, .6, 0); p1['seam'], p1['ticks'] = lace(b, end, 0, .6)
             for e in (p0, p1):
                 if e['seam'] is None: e.pop('seam'); e.pop('ticks')
