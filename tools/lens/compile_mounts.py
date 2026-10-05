@@ -21,8 +21,71 @@ def path(geom, r=0):
     if isinstance(geom, MultiPolygon): geom = max(geom.geoms, key=lambda g: g.area)
     if r: geom = geom.buffer(-r, join_style=1).buffer(r, join_style=1)  # opening: rounds every convex corner to radius r, so the cut never leaves a spur
     if isinstance(geom, MultiPolygon): geom = max(geom.geoms, key=lambda g: g.area)
-    g = geom.simplify(.004, preserve_topology=True); c = list(g.exterior.coords)[:-1]
+    g = geom.simplify(.015, preserve_topology=True); c = list(g.exterior.coords)[:-1]
     return 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in c) + ' Z'
+
+
+from shapely.geometry import LineString, Point, box
+from shapely import affinity
+import math
+
+def torso(rig, mounts, body):
+    """The torso piece: the body outline cut under the collar's lower edge and in front of a rear edge, with a tufted hide hem along the belly,
+       a spine seam with lacing, and a girth strap. Everything comes from the dog's own outline, so it is flush on the back and chest."""
+    t = mounts['torso']; F = mounts['collar']['F']; p0, p1 = cub(F, 0), cub(F, 1)
+    d = (p1[0] - p0[0], p1[1] - p0[1]); n = math.hypot(*d); u = (d[0] / n, d[1] / n)
+    A = (p0[0] - u[0] * 40, p0[1] - u[1] * 40); B = (p1[0] + u[0] * 40, p1[1] + u[1] * 40)
+    below = Polygon([A, B, (B[0], 80), (A[0], 80)])                     # everything on the body side of the collar's lower edge
+    r = t['rear']; rc = [(r + 1.0, -10), (r + .5, 10), (r, 14), (r - .5, 18), (r - 1, 24), (r - 1.5, 80)]
+    behind = Polygon(rc + [(120, 80), (120, -10)])                       # everything in front of the rear edge
+    base0 = body.intersection(below).intersection(behind)
+    if isinstance(base0, MultiPolygon): base0 = max(base0.geoms, key=lambda g: g.area)
+    def lower(x): # lowest y of the body shape at x (the belly line), and the highest (the back line)
+        hit = LineString([(x, -20), (x, 60)]).intersection(base0)
+        if hit.is_empty: return None, None
+        ys = [c[1] for g in (hit.geoms if hasattr(hit, 'geoms') else [hit]) for c in g.coords]; return max(ys), min(ys)
+    xs = [r + .2 + i * .1 for i in range(int((60 - r) * 10))]
+    prof = [(x, *lower(x)) for x in xs if lower(x)[0] is not None]
+    xb = max(prof, key=lambda p: p[1])[0]                               # where the belly is deepest (the brisket)
+    hem = lambda x: lower(x)[0]
+    # hide tufts hanging from the belly line, from the rear edge to the brisket
+    amp, per = t['tuft']['amp'], t['tuft']['period']; tufts = []; x = r + .6
+    while x + per < xb:
+        xa, xc, xm = x, x + per, x + per / 2
+        tufts.append(Polygon([(xa, hem(xa) - .15), (xc, hem(xc) - .15), (xm, hem(xm) + amp * (.75 + .25 * math.sin(xm * 3.1)))])); x += per
+    # ragged rear edge: tufts along the rear edge, pointing back, so the hide ends like a pelt and not a cut line
+    def rx(y): # x of the rear edge at y (piecewise linear through rc)
+        for (xa, ya), (xb, yb) in zip(rc, rc[1:]):
+            if ya <= y <= yb: return xa + (xb - xa) * (y - ya) / (yb - ya)
+        return rc[-1][0]
+    y0 = lower(r + 1.0)[1] + .8; y = y0
+    while y + per * .9 < lower(r + 1.0)[0] - .8:
+        ya, yc, ym = y, y + per * .9, y + per * .45
+        tufts.append(Polygon([(rx(ya) + .15, ya), (rx(yc) + .15, yc), (rx(ym) - amp * .8 * (.8 + .2 * math.sin(ym * 2.3)), ym)])); y += per * .9
+    shape = unary_union([base0] + tufts)
+    shape = shape.buffer(-.15, join_style=1).buffer(.15, join_style=1)
+    if isinstance(shape, MultiPolygon): shape = max(shape.geoms, key=lambda g: g.area)
+    top = lambda x: lower(x)[1]
+    out = {'base': path(shape), 'shade': path(shape.difference(affinity.translate(shape, 0, -1.1)).buffer(-.05, join_style=1).buffer(.05, join_style=1)),
+           'light': path(shape.difference(affinity.translate(shape, 0, .8)).buffer(-.05, join_style=1).buffer(.05, join_style=1))}
+    # spine seam with lacing, along the back line a little below the edge
+    pts = []; x = r + 1.0
+    while True:
+        y = top(x)
+        if y is None or not shape.contains(Point(x, y + .75)): break
+        pts.append((x, y + .75)); x += .25
+    out['seam'] = 'M' + ' L'.join(f'{px:.2f} {py:.2f}' for px, py in pts)
+    ticks = ''; x = r + 1.2
+    while x < pts[-1][0] - .3:
+        y = top(x) + .75; ticks += f'M{x - .14:.2f} {y - .32:.2f} L{x + .14:.2f} {y + .32:.2f} '; x += .8
+    out['ticks'] = ticks.strip()
+    # girth strap behind the shoulder
+    g = t['girth']; w = .5; tl, th = top(g - w), top(g + w); hl, hh = hem(g - w), hem(g + w)
+    out['strap'] = f'M{g - w:.2f} {tl + .1:.2f} L{g + w:.2f} {th + .1:.2f} L{g + w:.2f} {hh - .05:.2f} L{g - w:.2f} {hl - .05:.2f} Z'
+    ym, yb = (th + .1), (hh - .05)
+    out['rivets'] = [[round(g, 2), round(ym + (yb - ym) * .22, 2)], [round(g, 2), round(ym + (yb - ym) * .78, 2)]]
+    out['gem'] = [round(g, 2), round((ym + yb) / 2, 2)]
+    return out
 
 CORNER = .32  # corner radius of the band, in drawing units (the style sheet's contour weight: corners never sharper than the line itself)
 R = Rigs(); out = {}
@@ -31,9 +94,10 @@ for rig, mounts in R.mounts.items():
     body = body.buffer(0)
     m = mounts['collar']
     out[rig] = {'collar': {'base': path(strip(m, -1, 1).intersection(body), CORNER), 'shade': path(strip(m, -1, 0).intersection(body), CORNER / 2), 'light': path(strip(m, .55, .9).intersection(body), .08)}}
+    if 'torso' in mounts: out[rig]['torso'] = torso(rig, mounts, body)
     print(rig, {k: len(v) for k, v in out[rig]['collar'].items()}, 'base points:', out[rig]['collar']['base'].count('L') + 1)
-js = '/* BEGIN COMPILED (tools/lens/compile_mounts.py writes this; do not hand-edit) */\nconst COMPILED = {\n' + ',\n'.join(
-    f'  {rig}: {{collar:{{base:"{v["collar"]["base"]}", shade:"{v["collar"]["shade"]}", light:"{v["collar"]["light"]}"}}}}' for rig, v in out.items()) + '\n};\n/* END COMPILED */'
+import json as _json
+js = '/* BEGIN COMPILED (tools/lens/compile_mounts.py writes this; do not hand-edit) */\nconst COMPILED = {\n' + ',\n'.join(f'  {rig}: ' + _json.dumps(v, separators=(',', ':')) for rig, v in out.items()) + '\n};\n/* END COMPILED */'
 s = GEAR.read_text()
 if '/* BEGIN COMPILED' in s: s = re.sub(r'/\* BEGIN COMPILED.*?/\* END COMPILED \*/', lambda _: js, s, flags=re.S)
 else: s = s.replace('const mountOf =', js + '\nconst mountOf =', 1)

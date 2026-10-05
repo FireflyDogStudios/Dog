@@ -61,15 +61,17 @@ function build(PIXI, id, opts = {}){
      end never sits on top of the next segment as a knob. Only for animated limb joints (ones with a track): the body keeps drawing over
      the tail and ear roots it hides, and root keeps def order (far legs, body, near legs). */
   for (const j of D.joints){ if (!(j.track || D.tracks[j.id])) continue; const c = J[j.id]; const g = c.children.filter(x => x instanceof PIXI.Graphics), k = c.children.filter(x => !(x instanceof PIXI.Graphics)); if (g.length && k.length){ c.removeChildren(); g.forEach(x => c.addChild(x)); k.forEach(x => c.addChild(x)); } }
-  const on = new Set(); let t = 0, walking = opts.walk !== false, phase = 0; const smp = {};
+  const on = new Set(); let t = 0, walking = opts.walk !== false, phase = 0; const smp = {}, followers = [];
   const api = {
-    joints:J, parts, states:on,
+    joints:J, parts, states:on, followers,
     tick(dt){ t += dt; if (walking) phase = (t / D.stride) % 1;
       for (const j of D.joints){ const C = J[j.id]; const tr = D.tracks[j.track || j.id]; let rot = 0, x = 0, y = 0;
         if (tr && (walking || j.always)){ const ph = j.period ? ((t / j.period) % 1) : (phase + (j.ph || 0)) % 1; sample(tr, ph, smp); rot = smp.v; x = smp.x; y = smp.y; }
         if (j.bob && walking) y -= Math.pow(Math.sin(phase * Math.PI * 2), 2) * j.bob;
         let sc = 1; for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.joint === j.id){ rot += a.rot || 0; x += a.x || 0; y += a.y || 0; if (a.scale) sc *= a.scale; } } }
         C.rotation = rot * DEG; C.x = x; C.y = y; if (sc !== 1 || C.scale.x !== 1) C.scale.set(sc); }
+      /* gear hosted at the root that follows a joint (parts.follow) takes that joint's transform every tick, so it moves with the body (bob) while drawing above the near legs */
+      for (const f of followers){ const C = f.joint; f.node.origin.copyFrom(C.origin); f.node.position.copyFrom(C.position); f.node.rotation = C.rotation; f.node.scale.copyFrom(C.scale); }
       let al = D.alpha ?? 1; for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.alpha != null) al *= a.alpha; } } root.alpha = al;
       for (const p of D.parts){ if (p.id) parts[p.id].visible = !p.state && !p.hidden; }
       for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.part && parts[a.part]) parts[a.part].visible = a.show !== false; } } },
@@ -83,16 +85,18 @@ function build(PIXI, id, opts = {}){
 }
 /* ---------- attachments: gear drawn onto a built rig's joint (collars, paw covers…). parts use the same specs; palette is the piece's own. ---------- */
 function attach(PIXI, root, jointId, parts, pal){ const J = root.rig && root.rig.joints[jointId]; if (!J) throw new Error("no joint " + jointId); const D = {box:[62, 38], id:"__gear", parts}; const made = [];
+  /* parts.follow = "body": the piece is hosted in its own container at this joint (use "root" to draw above every limb) and copies that joint's transform each tick */
+  let host = J, follower = null; if (parts.follow){ host = new PIXI.Container(); host.label = "gearhost"; J.addChild(host); const F = root.rig.joints[parts.follow]; if (F){ follower = {node:host, joint:F}; root.rig.followers.push(follower); host.origin.copyFrom(F.origin); host.position.copyFrom(F.position); } }
   parts.forEach((p, i) => { const col = dim(pal[p.paint || "fur"] ?? 0xffffff, J.__far ? .78 : 1); const g = new PIXI.Graphics(), pd = p.d;
     if (pd){ if (p.stroke) g.svg(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 38"><path d="${pd}" fill="none" stroke="${css(col)}" stroke-width="${p.sw || 1}" stroke-linecap="round" stroke-linejoin="round"/></svg>`); else g.svg(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 38"><path d="${pd}" fill="${css(col)}"/></svg>`); }
     else if (p.line){ const [a, b] = p.line; g.moveTo(a[0], a[1]).lineTo(b[0], b[1]).stroke({width:p.sw, color:col, cap:"round"}); }
     else if (p.circle){ g.circle(p.circle[0], p.circle[1], p.circle[2]).fill(col); } else if (p.ellipse){ g.ellipse(p.ellipse[0], p.ellipse[1], p.ellipse[2], p.ellipse[3]).fill(col); } else if (p.poly){ g.poly(p.poly.flat()).fill(col); }
-    if (p.alpha != null) g.alpha = p.alpha; g.label = "gear"; J.addChild(g); made.push(g); });
+    if (p.alpha != null) g.alpha = p.alpha; g.label = "gear"; host.addChild(g); made.push(g); });
   /* parts.hides = ["collar", ...]: the dog's own parts painted with those names are hidden while the piece is worn (a gear collar replaces the dog's band and tag) and
      come back on remove(). The k-th plain Graphics in a joint is the k-th part of that joint in the rig's data. */
-  const hidden = []; if (parts.hides){ const rid = String(root.label || "").replace(/^rig:/, ""), mine = DEFS[rid] ? DEFS[rid].parts.filter(q => (q.in || "root") === jointId) : [];
-    J.children.filter(c => c instanceof PIXI.Graphics && c.label !== "gear").forEach((c, k) => { const q = mine[k]; if (q && parts.hides.includes(q.paint) && c.visible){ c.visible = false; hidden.push(c); } }); }
-  return {remove(){ hidden.forEach(c => { if (!c.destroyed) c.visible = true; }); made.forEach(g => g.destroy()); }, parts:made}; }
+  const hidden = []; if (parts.hides){ const rid = String(root.label || "").replace(/^rig:/, ""), HJ = root.rig.joints[parts.hidesIn || jointId] || J, mine = DEFS[rid] ? DEFS[rid].parts.filter(q => (q.in || "root") === (parts.hidesIn || jointId)) : [];
+    HJ.children.filter(c => c instanceof PIXI.Graphics && c.label !== "gear").forEach((c, k) => { const q = mine[k]; if (q && parts.hides.includes(q.paint) && c.visible){ c.visible = false; hidden.push(c); } }); }
+  return {remove(){ hidden.forEach(c => { if (!c.destroyed) c.visible = true; }); if (follower){ const i = root.rig.followers.indexOf(follower); if (i >= 0) root.rig.followers.splice(i, 1); } if (host !== J) host.destroy({children:true}); else made.forEach(g => g.destroy()); }, parts:made}; }
 return {DEFS, define, build, warm, attach, sample, dim};
 })();
 if (typeof module !== "undefined") module.exports = RIG;
