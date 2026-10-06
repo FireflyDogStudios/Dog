@@ -1,0 +1,481 @@
+[
+ {
+  "name": "Spore animation system (Hecker et al., SIGGRAPH 2008, 'Real-time Motion Retargeting to Highly Varied User-Created Morphologies')",
+  "kind": "game / paper",
+  "url": "https://www.chrishecker.com/Real-time_Motion_Retargeting_to_Highly_Varied_User-Created_Morphologies",
+  "licence": "paper (no code); game proprietary",
+  "summary": "Animators key motion once in a custom tool (Spasm); motion is stored in a morphology-independent form (goals marked e.g. ground-relative or scaled by limb length), then at runtime turned into pose goals for a robust, tunable IK solver. Includes a locomotion synthesizer that generates gaits for arbitrary leg sets (legs grouped by length) and a passive secondary-motion layer. Skin is one blobby implicit surface (spherical metaballs along spine and limbs), regenerated live.",
+  "lessons": [
+   "Store motion as goals in limb-normalised space, not joint angles; this is what lets one gait drive many species. Our paw-target IK already does this; express swing lift and stride in units of leg/hip height.",
+   "Expect a 'floppy/floaty' look when everything is generic: players noticed it. Per-species tuning numbers (our species files) are the fix Spore could not have.",
+   "Implicit-surface skin over bones gives free smooth joins but also unwanted webbing between limbs; for a 2D silhouette keep limbs as separate layered shapes."
+  ],
+  "verified": "search snippets of paper abstract, SIGGRAPH history page, RemptonGames explainer; chrishecker.com and PDF mirrors blocked"
+ },
+ {
+  "name": "WolfQuest (Minnesota Zoo + Eduweb; Anniversary Edition by Loco Pie)",
+  "kind": "game",
+  "url": "https://www.wolfquest.org/about",
+  "licence": "proprietary",
+  "summary": "NSF-funded wolf-ecology game built with wolf biologists (L. David Mech, Dan MacNulty, Dan Stahler and others). Coats textured from real tracked Yellowstone wolves; maps from satellite data. Models and animations were outsourced (Studio GIM) to the developers' specifications and references; conventional keyframed clips, not procedural.",
+  "lessons": [
+   "Science advisers were used mainly for behaviour and ecology, the part players remember; copy that for our 'behaviour' group (rates, pack roles) rather than only bone numbers.",
+   "Their realism came from reference specs handed to artists; our species file plays the same role but is machine-checkable."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Rain World (Videocult; GDC 2016 'Rain World Animation Process')",
+  "kind": "game / talk",
+  "url": "https://www.gdcvault.com/play/1023475/Animation-Bootcamp-Rainworld-Animation",
+  "licence": "proprietary; talk free on GDC YouTube",
+  "summary": "Creatures are points in space connected at fixed distances (soft physics chains) plus AI that searches for leg/grip positions; nothing is keyframed. Behaviour comes first: creatures pursue their own goals.",
+  "lessons": [
+   "Great for wrongness/creatures, overkill for a believable dog; borrow only the distance-constraint chain idea for tails and maybe ears.",
+   "Behaviour-first design makes procedural bodies read as alive."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Overgrowth (Wolfire; David Rosen, GDC 2014 'An Indie Approach to Procedural Animation')",
+  "kind": "game / talk",
+  "url": "https://www.gdcvault.com/play/1020583/Animation-Bootcamp-An-Indie-Approach",
+  "licence": "proprietary; talk free on YouTube (LNidsMesxSE)",
+  "summary": "Whole game animated from about 13 key poses, blended by gait phase, with springs and physics on top. Responsiveness is programmed in the physics first and animation is layered on.",
+  "lessons": [
+   "A handful of poses + phase interpolation + springs is enough; do not chase full mocap fidelity.",
+   "Drive the root/body from the controller, then fit legs to it, not the other way round."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "The Flame in the Flood (Molasses Flood; Gwen Frey, GDC 2016 'Animating Quadruped Characters')",
+  "kind": "game / talk",
+  "url": "https://gdcvault.com/browse/gdc-16/play/1023209",
+  "licence": "proprietary",
+  "summary": "A rigid-spined boar and a gangly wolf with a procedural spine; high-quality quadruped locomotion with stride warping and no transition animations.",
+  "lessons": [
+   "A procedural spine that follows the path between girdles sells a canid; plan spine flex as data (lumbar flex range) in the species file."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Ubisoft IK Rig (Alexander Bereznyak, GDC 2016 'IK Rig: Procedural Pose Animation')",
+  "kind": "tool / talk",
+  "url": "https://www.gdcvault.com/play/1023279/IK-Rig-Procedural-Pose",
+  "licence": "proprietary; transcript on archive.org",
+  "summary": "Animation stored as end-effector goals and re-solved per character, so any animation can play on any skeleton and be modified at runtime (terrain, carrying, style changes).",
+  "lessons": [
+   "Confirms the paw-goal representation; keep authored poses as goals relative to girdle and leg length."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Red Dead Redemption 2 horses (Tobias Kleanthous, GDC 2021 'Making the Believable Horses')",
+  "kind": "game / talk",
+  "url": "https://media.gdcvault.com/GDC+2021/making_horses_gdc2021.pdf",
+  "licence": "proprietary",
+  "summary": "Unified human/animal locomotion; continuous speed range instead of discrete gaits; real horses filmed (side-step before a turn, lean into turns) and a mocap stunt horse. Motion-matching-style data-heavy approach.",
+  "lessons": [
+   "Observed small behaviours (side-step, lean, weight shift before a turn) do more for believability than bone accuracy; note them as 'traits' in species files.",
+   "Continuous speed with gait as a blend, not hard switches."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Shadow of the Colossus / The Last Guardian (Team Ico / genDESIGN)",
+  "kind": "game",
+  "url": "https://www.gameanim.com/2018/01/24/last-guardian-procedural-animation/",
+  "licence": "proprietary",
+  "summary": "Agro was hand-keyframed (Atsuko Fukuyama) with procedural foot IK and a procedural horse spine; Trico layers procedural look-at (head stabilised first, then neck), spine-curve walking and foot-landing points chosen at lift-off, over keyframed motion referenced from cats and dogs.",
+  "lessons": [
+   "Head stabilisation (head fixed in world while body moves) is the single most 'alive' procedural layer; we already plan it.",
+   "Choose the landing point when the paw lifts, then let swing follow it.",
+   "Keyframed character + procedural correction beat pure procedural for a hero animal."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Nintendogs / Nintendogs + Cats (Nintendo EAD)",
+  "kind": "game",
+  "url": "https://iwataasks.nintendo.com/interviews/3ds/how-nintendo-3ds-made/3/1/",
+  "licence": "proprietary",
+  "summary": "Breeds differ in size, leg length and build; the team hoped to share dog and cat animation but found the motion so different it ended up almost completely separate.",
+  "lessons": [
+   "Species-specific motion matters even when skeletons are similar: canid vs felid needs separate gait/behaviour tables, not just rescaled bones."
+  ],
+  "verified": "Iwata Asks snippet only"
+ },
+ {
+  "name": "nintendogs-threejs (fan project)",
+  "kind": "code (unofficial)",
+  "url": "https://github.com/harveyfullstack/nintendogs-threejs",
+  "licence": "no licence stated (all rights reserved by default); not affiliated with Nintendo",
+  "summary": "Browser remake: each breed is a set of proportions (build, head, muzzle, ears, tail) driving a skeleton and an SDF sculpt; walk/trot/gallop with two-bone foot IK and a contact solver; poses authored as leg directions so they transfer between breeds.",
+  "lessons": [
+   "Close cousin of our pipeline, but proportions are artistic, not sourced; ours is stronger on data. Do not reuse code (no licence)."
+  ],
+  "verified": "fetched README"
+ },
+ {
+  "name": "Spawnforge",
+  "kind": "code",
+  "url": "https://github.com/michaelcrosato/Spawnforge",
+  "licence": "not stated on README (check LICENSE before any reuse)",
+  "summary": "JSON blueprint (body plan, limbs, parts, skin, behaviour) + seed -> mesh, skeleton, textures, animation; feet by IK, gaits computed from the legs a creature has, tails on springs, SDF skin.",
+  "lessons": [
+   "Blueprint + seed determinism matches our 'pure function of (phase, seed)' rule; their blueprints are invented, ours are sourced."
+  ],
+  "verified": "fetched README"
+ },
+ {
+  "name": "Rigify (Blender, wolf/horse/cat metarigs, limbs.paw)",
+  "kind": "tool",
+  "url": "https://docs.blender.org/manual/en/latest/addons/rigify/index.html",
+  "licence": "GPL-2.0-or-later (generated rigs are content, not GPL code)",
+  "summary": "Generator: place a simple metarig, press Generate, get a full rig. Ships wolf, horse, cat metarigs. The limbs.paw type needs 4 bones (thigh, shin, paw, toe) and adds the extra hock joint quadrupeds need.",
+  "lessons": [
+   "Same 'metarig -> generated rig' split as our species file -> skeleton builder.",
+   "Their 4-bone paw chain matches our leg topology (femur, tibia, metatarsus, toes); worth comparing the default wolf metarig proportions as a sanity check, not as data."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Auto-Rig Pro (Artell)",
+  "kind": "tool",
+  "url": "https://lucky3d.fr/auto-rig-pro/doc/auto_rig.html",
+  "licence": "commercial",
+  "summary": "Blender auto-rigger with '3 bones IK' leg types for digitigrade quadrupeds: Type 1 IK rotation at the chain root, Type 2 a calf IK controller, stretch, IK stiffness; 'Smart' auto-placement works only for humanoids.",
+  "lessons": [
+   "Industry solution for 3-bone legs is a 2-bone IK plus one coupling/stiffness control, same idea as our pantograph hind leg."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Spine (Esoteric Software) + spine-pixi runtime",
+  "kind": "tool",
+  "url": "https://esotericsoftware.com/spine-in-depth",
+  "licence": "Spine Runtimes licence: every user needs a Spine Editor licence; not MIT",
+  "summary": "Standard 2D skeletal tool with IK constraints, meshes, transform constraints; official PixiJS runtime (4.2).",
+  "lessons": [
+   "Avoid as a dependency: licence burden and we generate skeletons from data, not an editor. Its IK-constraint-to-target-bone pattern is the same as ours."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "DragonBones (DragonBonesJS)",
+  "kind": "tool / code",
+  "url": "https://github.com/DragonBones/DragonBonesJS",
+  "licence": "MIT (runtime)",
+  "summary": "Free 2D skeletal animation editor and runtimes incl. PixiJS; bones, meshes, IK.",
+  "lessons": [
+   "Permissive, but we do not need an editor format; our rig.js already covers it. Only useful as a reference for 2D mesh deformation."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Moho (Lost Marble)",
+  "kind": "tool",
+  "url": "https://moho.lostmarble.com/",
+  "licence": "commercial",
+  "summary": "2D vector rigging with Smart Bones (bone angle drives shape corrections), target bones, additive cycles; tutorials on quadruped rigs.",
+  "lessons": [
+   "Smart-bone idea is worth copying: drive silhouette corrective shapes (elbow point, stifle bulge, chest at full reach) from joint angles."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Little Polygon 'Procedural Animation: Locomotion'",
+  "kind": "blog",
+  "url": "https://blog.littlepolygon.com/posts/loco1/",
+  "licence": "blog (no code licence)",
+  "summary": "Step-by-step procedural walk: foot positions + hip offset/rotation, contact and passing keys, engine IK.",
+  "lessons": [
+   "Clear minimal decomposition: feet, hip offset, hip rotation. Mirrors our girdle-from-footfalls design."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "open-quadruped (Adham Elarabawy)",
+  "kind": "code / robot",
+  "url": "https://github.com/adham-elarabawy/open-quadruped",
+  "licence": "MIT",
+  "summary": "3D-printed quadruped; gait from 12-DOF Bezier curves, 3-DOF leg IK with offsets, 6-axis body pose.",
+  "lessons": [
+   "Bezier swing curves with velocity-matched touchdown are reusable (MIT)."
+  ],
+  "verified": "fetched README"
+ },
+ {
+  "name": "Stanford Pupper / StanfordQuadruped",
+  "kind": "code / robot",
+  "url": "https://github.com/stanfordroboticsclub/StanfordQuadruped",
+  "licence": "MIT (code); Pupper hardware docs CC BY-NC-SA",
+  "summary": "Gait scheduler as a 'conductor' switching each leg between stance (foot moves back at body speed) and swing (foot returns forward); trot with diagonal pairs. v1 is end-of-life.",
+  "lessons": [
+   "Same stance/swing scheduler we prototyped; good readable reference code (MIT)."
+  ],
+  "verified": "fetched README"
+ },
+ {
+  "name": "OpenCat / Petoi Bittle",
+  "kind": "code / robot",
+  "url": "https://github.com/PetoiCamp/OpenCat-Quadruped-Robot",
+  "licence": "MIT",
+  "summary": "Robot dog framework; gaits stored as 'skills', arrays of joint-angle frames interpolated at runtime; only 2 joints per leg.",
+  "lessons": [
+   "Shows the limit of joint-angle tables: they do not retarget. Prefer paw goals."
+  ],
+  "verified": "fetched README"
+ },
+ {
+  "name": "MIT Cheetah (Sangbae Kim)",
+  "kind": "robot / papers",
+  "url": "https://meche.mit.edu/people/faculty/SANGBAE@MIT.EDU",
+  "licence": "papers",
+  "summary": "Bio-inspired leg: bones carry compression, tendons tension, low leg inertia; proprioceptive actuators.",
+  "lessons": [
+   "Little directly usable for drawing; confirms that a light distal limb (thin pastern, compact paw) is the functional shape to draw."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "SMAL (Zuffi et al., CVPR 2017, '3D Menagerie')",
+  "kind": "model / paper",
+  "url": "https://smal.is.tue.mpg.de/",
+  "licence": "non-commercial research licence (no commercial use)",
+  "summary": "Parametric 3D quadruped shape + pose model learned from 41 scans of toy figurines (5 families); ~33-35 joint kinematic tree; linear shape space.",
+  "lessons": [
+   "Parametric shape space over a fixed skeleton = our plan, but trained on toys, not anatomy; do not treat its proportions as real.",
+   "Licence forbids our use; take only the idea."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "SMALR / SMBLD / 'Who Left the Dogs Out' (Biggs et al., ECCV 2020)",
+  "kind": "model / paper",
+  "url": "https://github.com/robot-perception-group/smalify",
+  "licence": "code licence not verified; needs SMAL model files (non-commercial)",
+  "summary": "Refines SMAL from images; SMBLD adds per-limb scale parameters to cover dog diversity.",
+  "lessons": [
+   "Adding per-segment length scales (not just global shape PCs) was needed to cover dogs; our bone-length-first approach is the same insight."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "BARC (Rueegg et al., CVPR 2022) and BITE (CVPR 2023)",
+  "kind": "model / paper",
+  "url": "https://barc.is.tue.mpg.de/",
+  "licence": "non-commercial scientific research licence",
+  "summary": "3D dog shape and pose from one image; modifies SMAL's shape space for dogs and uses breed similarity/classification losses because 3D ground truth is scarce. BITE adds better pose priors and ground contact.",
+  "lessons": [
+   "Breed (or species) membership is a strong prior when measurements are missing: fill gaps from the nearest relative, with lower confidence, as our B/C grades already do.",
+   "Ground-contact constraints (BITE) matter for believable stance; keep the paws-on-ground solve."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "StanfordExtra (Biggs et al. 2020)",
+  "kind": "dataset",
+  "url": "https://github.com/benjiebob/StanfordExtra",
+  "licence": "MIT (since 2 Nov 2024) for annotations; images from Stanford Dogs (separate terms)",
+  "summary": "12k dog images with 20 keypoints (3 per leg, ears base/tip, tail base/tip, nose, jaw) and silhouettes.",
+  "lessons": [
+   "Usable source for photo-keypoint ratios (MIT annotations). Keypoints are coarse (no shoulder/hip), so derive only leg-segment and ear/tail ratios; keep images out of the repo."
+  ],
+  "verified": "fetched README"
+ },
+ {
+  "name": "RGBD-Dog (Kearney et al., CVPR 2020)",
+  "kind": "dataset",
+  "url": "https://github.com/CAMERA-Bath/RGBD-Dog",
+  "licence": "academic use only via release form",
+  "summary": "Marker mocap of 5 dogs (walk, trot, jumps, poles) with solved skeletons, neutral meshes and skinning.",
+  "lessons": [
+   "Real dog gait mocap exists but is not licensable for us; cite only published numbers."
+  ],
+  "verified": "fetched README"
+ },
+ {
+  "name": "MANN (Zhang, Starke, Komura, Saito, SIGGRAPH 2018)",
+  "kind": "paper / data",
+  "url": "https://dl.acm.org/doi/10.1145/3197517.3201366",
+  "licence": "research only (code/data non-commercial)",
+  "summary": "Neural quadruped controller from dog mocap; gating by gait mode.",
+  "lessons": [
+   "Already ruled out in the procedural report; take the per-leg phase/contact state idea only."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Locomotion Skills for Simulated Quadrupeds (Coros, Karpathy, Jones, Reveret, van de Panne, SIGGRAPH 2011)",
+  "kind": "paper",
+  "url": "https://www.cs.ubc.ca/~van/papers/2011-TOG-quadruped/index.html",
+  "licence": "paper",
+  "summary": "Physics dog with gait graphs, a dual leg-frame model (shoulders and hips each a frame), a flexible spine, virtual forces; walk, trot, pace, canter, transverse and rotary gallop, sit, lie, stand; compared with filmed dog.",
+  "lessons": [
+   "'Dual leg frame' = our two girdles driven by their own legs, joined by a flexible spine; strong validation of that structure.",
+   "Gait graph (per-leg swing/stance timing) is the right data format for our gait group."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Morphable model of quadruped skeletons (Reveret, Favreau, Depraz, Cani, SCA 2005)",
+  "kind": "paper",
+  "url": "http://morpheo.inrialpes.fr/people/reveret/MorphableSkeleton/index.html",
+  "licence": "paper",
+  "summary": "Statistical morphable 3D quadruped skeleton controlled by a few intuitive parameters, learned from expert-built reference skeletons; generates a rig-ready skeleton from simple mesh measurements.",
+  "lessons": [
+   "Closest academic precedent for a species skeleton from a few numbers. Lesson: a few measured lengths plus learned/assumed ratios produce a usable skeleton, which is our ASSUME table."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Footprint-based Quadruped Motion Synthesis (Torkos & van de Panne, GI 1998)",
+  "kind": "paper",
+  "url": "https://www.cs.ubc.ca/~van/papers/index.html",
+  "licence": "paper",
+  "summary": "Animator gives footprints and timings (hard constraints) plus comfort and physical soft constraints; spline body trajectory optimised; walk, jump, gallop.",
+  "lessons": [
+   "Footprints-first is 25 years proven; body trajectory fitted to footfalls is exactly our girdle-from-footfalls step."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Animating Quadrupeds: Methods and Applications (Skrba et al., CGF 2009)",
+  "kind": "survey",
+  "url": "https://onlinelibrary.wiley.com/doi/10.1111/j.1467-8659.2008.01312.x",
+  "licence": "paper",
+  "summary": "Survey: hard parts are getting real motion data (animals rarely mocap-able), building accurate kinematic skeletons, and embedding locomotion knowledge.",
+  "lessons": [
+   "Use as a reading list; confirms skeleton accuracy and gait knowledge are the core problems."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "A three-dimensional musculoskeletal model of the dog (Stark, Fischer et al., Sci Rep 2021) - SimTK 'dogmodel'",
+  "kind": "model / paper",
+  "url": "https://simtk.org/projects/dogmodel/",
+  "licence": "CC BY 4.0 (article); model files on SimTK (check per-download terms, typically open)",
+  "summary": "OpenSim Beagle model, 84 DOF, 134 muscles; scalable and modular; forelimb, hindlimb and full-body versions; validated on walking Beagle muscle synergies.",
+  "lessons": [
+   "Good permissive source for joint centres, joint ranges and segment frames to cross-check our 'limits' group (cite as CC BY).",
+   "Its scalable design (scale segments from a few measures) is what our builder does."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Greyhound hindlimb model (Ellis, Rankin, Hutchinson 2018) - SimTK 'greyhoundleg'",
+  "kind": "model / paper",
+  "url": "https://simtk.org/projects/greyhoundleg",
+  "licence": "SimTK project (open access paper in Frontiers, CC BY)",
+  "summary": "OpenSim greyhound hindlimb with muscle masses, fascicle lengths, PCSA; sit-to-stand kinematics.",
+  "lessons": [
+   "Source for sit-to-stand joint angles if we animate sitting; greyhound is a cursorial extreme, grade B for wolves."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Dogs in Motion (Fischer & Lilje, 2011/2014; VDH/Jena)",
+  "kind": "book / study",
+  "url": "https://www.vdh.de/en/dogs-in-motion/",
+  "licence": "book (copyrighted)",
+  "summary": "Cineradiography, markers and force plates on 327 dogs of 32 breeds. Key finding: scapula movement along the ribcage contributes at least ~65% of forelimb stride length; scapula is the functional upper segment of the forelimb.",
+  "lessons": [
+   "The scapula must rotate/slide in our rig (not be fixed to the body); we already have a scapula arc, give it real range.",
+   "Best single source for standing and gait joint angles across breeds; cite numbers, never copy figures."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Drake & Klingenberg 2010 (Am Nat) skull shape space; Wayne 1986 cranial and limb morphology",
+  "kind": "papers",
+  "url": "https://morphometrics.uk/PDF_files/AmNat2010.pdf",
+  "licence": "papers",
+  "summary": "Geometric morphometrics on 106 breeds: dog skull shape disparity rivals all Carnivora; skull is modular. Wayne 1986: limbs of wolf-like canids overlap dogs of equal size; dogs differ from fox-sized canids in olecranon, metapodial and scapula proportions; static allometry follows ontogenetic allometry.",
+  "lessons": [
+   "Do not scale a wolf skull to make other canids; give skull its own parameters (snout ratio, cranial base angle).",
+   "Limb proportions scale with size by allometry: for a species without data, scale from a similar-sized relative, not linearly from the wolf."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Samuels, Meachen & Sakai 2013 (J Morph) carnivoran postcranial indices",
+  "kind": "paper / dataset",
+  "url": "https://datadryad.org/dataset/doi:10.5061/dryad.77tm4",
+  "licence": "Dryad data: CC0 (Dryad default)",
+  "summary": "Limb indices (e.g. brachial/crural index, olecranon length, metatarsal/femur) across 107 extant carnivorans discriminate locomotor modes.",
+  "lessons": [
+   "Possible CC0 source of bone-length ratios for many canids (wolf, coyote, foxes, dhole, African wild dog) to fill species files; verify the file contents and licence on Dryad before use."
+  ],
+  "verified": "search snippets; Dryad page not fetched"
+ },
+ {
+  "name": "AcinoSet (cheetah 3D pose dataset)",
+  "kind": "dataset",
+  "url": "https://github.com/African-Robotics-Unit/AcinoSet",
+  "licence": "not stated on README",
+  "summary": "Multi-view high-speed video of wild cheetahs, 3D reconstructions, DeepLabCut keypoints.",
+  "lessons": [
+   "Non-canid; only relevant if we add felids. Licence unclear."
+  ],
+  "verified": "fetched README"
+ },
+ {
+  "name": "Eadweard Muybridge, Animal Locomotion (1887) dog plates and Animals in Motion (1899/1902)",
+  "kind": "reference photos",
+  "url": "https://commons.wikimedia.org/wiki/File:Dog_Maggie_galloping_(rbm-QP301M8-1887-710).jpg",
+  "licence": "public domain",
+  "summary": "Sequential photographs: e.g. plate 705-706 mastiffs trotting, 707 mastiff galloping, 709, 710 greyhound 'Maggie' galloping. Scans on Wikimedia Commons, Smithsonian, NGA.",
+  "lessons": [
+   "Free, licence-clean ground truth for footfall order and limb poses; trace keypoints over plates to check our gait offsets and duty factors (frame timing intervals are approximate).",
+   "Can be stored in ref/ with attribution of the scanning institution."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Ellenberger, Baum & Dittrich, An Atlas of Animal Anatomy for Artists (1901 German; Dover 1949/1956 English)",
+  "kind": "book",
+  "url": "https://archive.org/details/atlasofanimalana0000well",
+  "licence": "1901 original likely public domain; Dover English translation may still be in copyright (check)",
+  "summary": "Dog skeleton, muscles and exterior in matching side views.",
+  "lessons": [
+   "Ideal for checking where bones sit under the silhouette (skin offsets at withers, elbow, croup, hock)."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Preston Blair, Cartoon Animation; Toon Boom four-legged walk; Richard Williams",
+  "kind": "books / tutorials",
+  "url": "https://learn.toonboom.com/modules/four-legged-walk-cycle-animation",
+  "licence": "copyrighted",
+  "summary": "Animators' rules: back leg leads the front by about half a step in the walk; body bobs as legs pass; contact and passing poses first; four-legged cycles as half-cycles (walk, trot) or full cycles (gallop, canter).",
+  "lessons": [
+   "Our gait offsets reproduce these rules; use contact/passing poses as the review frames shown to GrumpyDingo."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Milt Kahl (Lady and the Tramp), Ken Hultgren (The Art of Animal Drawing), Aaron Blaise, Eliot Goldfinger (Animal Anatomy for Artists)",
+  "kind": "books / practice",
+  "url": "https://global.oup.com/academic/product/animal-anatomy-for-artists-9780195142143",
+  "licence": "copyrighted",
+  "summary": "Animal artists simplify anatomy into a line of action plus simple masses (ribcage, pelvis, head) and tubes, keep the skeleton's landmarks (scapula, elbow, hock, croup) and caricature by exaggerating proportions while keeping joint order and bend directions.",
+  "lessons": [
+   "Stylise by changing masses and proportions, never by moving joints or bend directions.",
+   "Keep the visible landmarks (point of shoulder, elbow, hock, croup) where the skeleton puts them; these are what viewers read as 'real'."
+  ],
+  "verified": "search snippets"
+ },
+ {
+  "name": "Stray (BlueTwelve)",
+  "kind": "game",
+  "url": "https://www.digitaltrends.com/gaming/stray-ps5-real-cat-inspiration/",
+  "licence": "proprietary",
+  "summary": "One animator, no mocap, reference video of the team's own cats; team says living with cats lets them spot instantly when motion is off.",
+  "lessons": [
+   "Have a human who knows the animal judge every change (GrumpyDingo's rule); video reference beats more maths."
+  ],
+  "verified": "search snippets"
+ }
+]
