@@ -1,0 +1,21 @@
+All data in this folder are derived from sources licensed under the
+Creative Commons Attribution 4.0 International licence (CC BY 4.0),
+https://creativecommons.org/licenses/by/4.0/
+Changes were made: angles were recomputed or converted to included angles
+(180 = straight), resampled to % of stride and averaged (see NOTE.md).
+
+Attribution:
+- Catavitello G, Ivanenko YP, Lacquaniti F (2015) Planar Covariation of Hindlimb
+  and Forelimb Elevation Angles during Terrestrial and Aquatic Locomotion of Dogs.
+  PLOS ONE 10(7): e0133936. doi:10.1371/journal.pone.0133936 (S1 Dataset). CC BY 4.0.
+- Humphries A, Shaheen AF, Gomez Alvarez CB (2020) Biomechanical comparison of
+  standing posture and during trot between German shepherd and Labrador retriever
+  dogs. PLOS ONE 15(10): e0239832. doi:10.1371/journal.pone.0239832; data:
+  OSF https://osf.io/pv4uj/ (DOI 10.17605/OSF.IO/PV4UJ), licence recorded on OSF
+  as "CC-By Attribution 4.0 International".
+- Fischer MS, Lehmann SV, Andrada E (2018) Three-dimensional kinematics of canine
+  hind limbs: in vivo, biplanar, high-frequency fluoroscopic analysis of four breeds
+  during walking and trotting. Sci Rep 8: 16982. doi:10.1038/s41598-018-34310-0. CC BY 4.0.
+- Miao H, Zhu L, Zheng L, Qian Z, Ren L (2026) Comparative kinematic analysis of
+  forelimb and hindlimb cushioning strategies in German Shepherd dogs. Front Vet
+  Sci 13: 1878605. doi:10.3389/fvets.2026.1878605. CC BY.

@@ -1,0 +1,66 @@
+source_id,gait,quantity,limb,mean,sd,n_dogs,n_strides_or_events,note
+catavitello2015_retrievers,trot,duty_factor,fore,0.455,0.035,5,41,"stance=rearward limb excursion (endpoint max-anterior to max-posterior rel. proximal marker), 2D video 60-120 fps; SD between dog means"
+catavitello2015_retrievers,trot,stride_freq_hz,fore,2.03,0.22,5,41,
+catavitello2015_retrievers,trot,duty_factor,hind,0.425,0.046,6,45,"stance=rearward limb excursion (endpoint max-anterior to max-posterior rel. proximal marker), 2D video 60-120 fps; SD between dog means"
+catavitello2015_retrievers,trot,stride_freq_hz,hind,2.05,0.2,6,45,
+catavitello2015_retrievers,walk,duty_factor,fore,0.594,0.041,6,30,"stance=rearward limb excursion (endpoint max-anterior to max-posterior rel. proximal marker), 2D video 60-120 fps; SD between dog means"
+catavitello2015_retrievers,walk,stride_freq_hz,fore,1.46,0.08,6,30,
+catavitello2015_retrievers,walk,duty_factor,hind,0.576,0.052,6,30,"stance=rearward limb excursion (endpoint max-anterior to max-posterior rel. proximal marker), 2D video 60-120 fps; SD between dog means"
+catavitello2015_retrievers,walk,stride_freq_hz,hind,1.45,0.07,6,30,
+catavitello2015_retrievers,trot,touchdown_phase_rel_LH,RF,0.96,0.025,6,47,fraction of camera-side hind cycle; camera-side limbs relabelled as left (LH=0); circular mean of per-dog means
+catavitello2015_retrievers,trot,touchdown_phase_rel_LH,RH,0.512,0.029,6,45,fraction of camera-side hind cycle; camera-side limbs relabelled as left (LH=0); circular mean of per-dog means
+catavitello2015_retrievers,trot,touchdown_phase_rel_LH,LF,0.449,0.03,6,45,fraction of camera-side hind cycle; camera-side limbs relabelled as left (LH=0); circular mean of per-dog means
+catavitello2015_retrievers,walk,touchdown_phase_rel_LH,RF,0.63,0.03,6,33,fraction of camera-side hind cycle; camera-side limbs relabelled as left (LH=0); circular mean of per-dog means
+catavitello2015_retrievers,walk,touchdown_phase_rel_LH,RH,0.491,0.022,6,32,fraction of camera-side hind cycle; camera-side limbs relabelled as left (LH=0); circular mean of per-dog means
+catavitello2015_retrievers,walk,touchdown_phase_rel_LH,LF,0.135,0.028,6,33,fraction of camera-side hind cycle; camera-side limbs relabelled as left (LH=0); circular mean of per-dog means
+catavitello2015_retrievers,walk,touchdown_phase_rel_LH,LH,0.0,,6,,reference
+catavitello2015_retrievers,trot,touchdown_phase_rel_LH,LH,0.0,,6,,reference
+humphries2020_osf_labrador,trot,duty_factor,fore,0.456,0.028,10,116,events detected by us from toe(claw) marker: forward speed <25% of withers speed and within 25 mm of lowest height; SD between dog means
+humphries2020_osf_labrador,trot,stride_freq_hz,fore,2.04,0.12,10,116,
+humphries2020_osf_labrador,trot,duty_factor,hind,0.417,0.042,10,120,events detected by us from toe(claw) marker: forward speed <25% of withers speed and within 25 mm of lowest height; SD between dog means
+humphries2020_osf_labrador,trot,stride_freq_hz,hind,2.02,0.15,10,120,
+humphries2020_osf_labrador,trot,touchdown_phase_rel_LH,LF,0.443,0.045,8,56,fraction of LH cycle; circular mean of per-dog means; same event detection
+humphries2020_osf_labrador,trot,touchdown_phase_rel_LH,RH,0.488,0.015,9,59,fraction of LH cycle; circular mean of per-dog means; same event detection
+humphries2020_osf_labrador,trot,touchdown_phase_rel_LH,RF,0.936,0.08,9,61,fraction of LH cycle; circular mean of per-dog means; same event detection
+humphries2020_osf_both_breeds,trot,speed_m_s,body,2.28,0.27,23,,"withers marker forward speed, all 23 dogs with files (11 LRD, 12 GSD)"
+humphries2020_osf_labrador,trot,touchdown_phase_rel_LH,LH,0.0,,10,,reference
+humphries2020_S3,trot,duty_factor,all,0.4322,0.0175,12,,LRD; published stance duration % stride (S3 Table)
+humphries2020_S3,trot,duty_factor,all,0.4371,0.0291,12,,GSD; published (S3 Table)
+humphries2020_S3,trot,stride_time_s,all,0.5,0.03,12,,LRD; published
+humphries2020_S3,trot,stride_time_s,all,0.53,0.03,12,,GSD; published
+humphries2020_S3,trot,speed_m_s,body,2.19,0.19,12,,LRD; published
+humphries2020_S3,trot,speed_m_s,body,2.45,0.29,12,,GSD; published
+humphries2020_S3,trot,stride_length_pct_withers,all,198.75,,12,,LRD; mean of L/R published 198.35/199.16
+humphries2020_S3,trot,stride_length_pct_withers,all,205.7,,12,,GSD; mean of L/R published 206.27/205.08
+fischer2018_fluoro_malinois,walk,duty_factor,hind,0.58,0.02,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_fluoro_malinois,walk,speed_m_s,body,1.3,0.25,5,,published; treadmill
+fischer2018_fluoro_malinois,trot,duty_factor,hind,0.42,0.03,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_fluoro_malinois,trot,speed_m_s,body,2.3,0.32,5,,published; treadmill
+fischer2018_fluoro_whippet,walk,duty_factor,hind,0.6,0.03,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_fluoro_whippet,walk,speed_m_s,body,0.9,0.1,5,,published; treadmill
+fischer2018_fluoro_whippet,trot,duty_factor,hind,0.42,0.05,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_fluoro_whippet,trot,speed_m_s,body,1.7,0.19,5,,published; treadmill
+fischer2018_fluoro_french_bulldog,walk,duty_factor,hind,0.63,0.05,4,,published (Results text); treadmill; hindlimb-only study
+fischer2018_fluoro_french_bulldog,walk,speed_m_s,body,0.7,0.05,4,,published; treadmill
+fischer2018_fluoro_french_bulldog,trot,duty_factor,hind,0.47,0.03,4,,published (Results text); treadmill; hindlimb-only study
+fischer2018_fluoro_french_bulldog,trot,speed_m_s,body,1.4,0.21,4,,published; treadmill
+fischer2018_fluoro_beagle,walk,duty_factor,hind,0.6,0.03,3,,published (Results text); treadmill; hindlimb-only study
+fischer2018_fluoro_beagle,walk,speed_m_s,body,0.8,0,3,,published; treadmill
+fischer2018_fluoro_beagle,trot,duty_factor,hind,0.42,0.07,3,,published (Results text); treadmill; hindlimb-only study
+fischer2018_fluoro_beagle,trot,speed_m_s,body,1.6,0.32,3,,published; treadmill
+fischer2018_marker_malinois,walk,duty_factor,hind,0.64,0.02,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_marker_malinois,walk,speed_m_s,body,1.2,0,5,,published; treadmill
+fischer2018_marker_malinois,trot,duty_factor,hind,0.42,0.04,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_marker_malinois,trot,speed_m_s,body,2.5,0.3,5,,published; treadmill
+fischer2018_marker_whippet,walk,duty_factor,hind,0.56,0.06,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_marker_whippet,walk,speed_m_s,body,1.0,0.05,5,,published; treadmill
+fischer2018_marker_whippet,trot,duty_factor,hind,0.41,0.03,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_marker_whippet,trot,speed_m_s,body,1.8,0.21,5,,published; treadmill
+fischer2018_marker_french_bulldog,walk,duty_factor,hind,0.56,0.06,4,,published (Results text); treadmill; hindlimb-only study
+fischer2018_marker_french_bulldog,walk,speed_m_s,body,0.8,0.05,4,,published; treadmill
+fischer2018_marker_french_bulldog,trot,duty_factor,hind,0.41,0.02,4,,published (Results text); treadmill; hindlimb-only study
+fischer2018_marker_french_bulldog,trot,speed_m_s,body,1.5,0.11,4,,published; treadmill
+fischer2018_marker_beagle,walk,duty_factor,hind,0.61,0.03,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_marker_beagle,walk,speed_m_s,body,1.0,0.04,5,,published; treadmill
+fischer2018_marker_beagle,trot,duty_factor,hind,0.39,0.03,5,,published (Results text); treadmill; hindlimb-only study
+fischer2018_marker_beagle,trot,speed_m_s,body,2.2,0.22,5,,published; treadmill
