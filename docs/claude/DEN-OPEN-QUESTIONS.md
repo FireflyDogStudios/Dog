@@ -2,7 +2,7 @@
 
 Kept by Firefly, started Oct 6, 2026. Two kinds: **research questions** (facts the research should settle; agents are checking them against several sources) and **decisions** (GrumpyDingo's to make; asked one at a time, never as a list). Update this file as answers come in.
 
-## Research questions (being checked online, Oct 6)
+## Research questions (answered Oct 6: see `ref/research/factcheck/REPORT.md`; the values are not applied yet)
 1. **Scapula layback when standing.** The wolf skeleton came out with an almost upright scapula (81° above horizontal) because the one standing goniometry study (Anatolian shepherds: shoulder 119.8°, elbow 124.8°) fights typical canine anatomy (about 60°). Which is right for wolves and medium dogs, measured how?
 2. **Standing elbow angle.** 125° (Anatolian goniometry) vs 130–150° (the measurement sheet, unsourced). Which definition and value?
 3. **Standing hip angle** (pelvis vs femur): ours came out at 106°; the sheet says 90–100°. Is there a measured value?
@@ -17,11 +17,11 @@ Kept by Firefly, started Oct 6, 2026. Two kinds: **research questions** (facts t
 12. **Tail:** caudal vertebra count for wolves (we used the dog's 20–23), and relaxed tail carriage.
 13. **Field size vs skeleton:** withers from the bones is 695 mm; field guides say 660–840 mm. How much is skin, fur and posture?
 
-## Prior art (being researched, Oct 6)
+## Prior art (answered Oct 6: see `ref/research/prior-art/REPORT.md`)
 14. Has anyone built **skeleton-first, data-driven quadruped or canine characters**, in games, animation tools or science (for example Spore, SMAL/SMALR, musculoskeletal dog models, procedural quadruped generators, parametric 2D rigs)? What worked, what failed, and what should we copy or avoid?
 
 ## Decisions for GrumpyDingo (one at a time, when they come up)
-- The scapula: trust typical anatomy (~60°) over the one goniometry study? (asked Oct 6; research above may settle it first)
+- Apply the fact-check's 13 suggested values to the wolf and rebuild the skeleton? (the research settled the scapula: every source puts it near 60°; the one goniometry study was the outlier)
 - The Carolina Dog: the player's own species needs its own species file (dingo and pariah-dog numbers). Build it right after the wolf?
 - Which new model becomes the hero, and which the companion, once the current two are retired?
 - The licence holds: the non-commercial motion curves and the copyleft keypoint file stay out of the repo unless he says otherwise.
