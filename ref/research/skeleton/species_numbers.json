@@ -252,6 +252,20 @@
    "unit": "ratio",
    "source": "midpoints of field ranges above",
    "confidence": "low"
+  },
+  "measurement_sheet_ratios": {
+   "value": {
+    "head_body_length_over_withers (proxy for body length:height; includes head+neck)": 1.73,
+    "head_length_over_withers (CBL/SH)": 0.338,
+    "muzzle_over_skull ((CBL-BCL)/BCL, proxy)": 1.4,
+    "chest_depth_over_withers (mean rib length/SH, lower bound proxy)": 0.316,
+    "elbow_height_over_withers ((radius+MC3)/SH, excludes carpus, digits, pads)": 0.452,
+    "tail_over_withers": 0.61,
+    "neck_over_head (est. cervical centra/CBL)": 0.86
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly: field-range midpoints (SH, HB, tail) combined with Law skeletal means (different individuals and populations)",
+   "confidence": "low"
   }
  },
  "coyote": {
@@ -499,6 +513,20 @@
    },
    "unit": "ratio",
    "source": "midpoints of field ranges above",
+   "confidence": "low"
+  },
+  "measurement_sheet_ratios": {
+   "value": {
+    "head_body_length_over_withers (proxy for body length:height; includes head+neck)": 1.41,
+    "head_length_over_withers (CBL/SH)": 0.316,
+    "muzzle_over_skull ((CBL-BCL)/BCL, proxy)": 1.38,
+    "chest_depth_over_withers (mean rib length/SH, lower bound proxy)": 0.266,
+    "elbow_height_over_withers ((radius+MC3)/SH, excludes carpus, digits, pads)": 0.385,
+    "tail_over_withers": 0.56,
+    "neck_over_head (est. cervical centra/CBL)": 0.87
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly: field-range midpoints (SH, HB, tail) combined with Law skeletal means (different individuals and populations)",
    "confidence": "low"
   }
  },
@@ -751,6 +779,20 @@
    "unit": "ratio",
    "source": "midpoints of field ranges above",
    "confidence": "low"
+  },
+  "measurement_sheet_ratios": {
+   "value": {
+    "head_body_length_over_withers (proxy for body length:height; includes head+neck)": 1.72,
+    "head_length_over_withers (CBL/SH)": 0.327,
+    "muzzle_over_skull ((CBL-BCL)/BCL, proxy)": 1.24,
+    "chest_depth_over_withers (mean rib length/SH, lower bound proxy)": 0.299,
+    "elbow_height_over_withers ((radius+MC3)/SH, excludes carpus, digits, pads)": 0.394,
+    "tail_over_withers": 0.61,
+    "neck_over_head (est. cervical centra/CBL)": 1.0
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly: field-range midpoints (SH, HB, tail) combined with Law skeletal means (different individuals and populations)",
+   "confidence": "low"
   }
  },
  "african_wild_dog": {
@@ -987,6 +1029,20 @@
    },
    "unit": "ratio",
    "source": "midpoints of field ranges above",
+   "confidence": "low"
+  },
+  "measurement_sheet_ratios": {
+   "value": {
+    "head_body_length_over_withers (proxy for body length:height; includes head+neck)": 1.35,
+    "head_length_over_withers (CBL/SH)": 0.274,
+    "muzzle_over_skull ((CBL-BCL)/BCL, proxy)": 1.38,
+    "chest_depth_over_withers (mean rib length/SH, lower bound proxy)": 0.313,
+    "elbow_height_over_withers ((radius+MC3)/SH, excludes carpus, digits, pads)": 0.387,
+    "tail_over_withers": 0.51,
+    "neck_over_head (est. cervical centra/CBL)": 0.98
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly: field-range midpoints (SH, HB, tail) combined with Law skeletal means (different individuals and populations)",
    "confidence": "low"
   }
  },
@@ -1244,6 +1300,20 @@
    ],
    "unit": "deg",
    "source": "search snippet on red fox wide gape measured by MR imaging and dissection (approx 81-84 deg); primary paper not identified",
+   "confidence": "low"
+  },
+  "measurement_sheet_ratios": {
+   "value": {
+    "head_body_length_over_withers (proxy for body length:height; includes head+neck)": 1.81,
+    "head_length_over_withers (CBL/SH)": 0.347,
+    "muzzle_over_skull ((CBL-BCL)/BCL, proxy)": 1.2,
+    "chest_depth_over_withers (mean rib length/SH, lower bound proxy)": 0.296,
+    "elbow_height_over_withers ((radius+MC3)/SH, excludes carpus, digits, pads)": 0.414,
+    "tail_over_withers": 1.13,
+    "neck_over_head (est. cervical centra/CBL)": 0.88
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly: field-range midpoints (SH, HB, tail) combined with Law skeletal means (different individuals and populations)",
    "confidence": "low"
   }
  },
@@ -1507,6 +1577,20 @@
    "unit": "ratio",
    "source": "Pachycrocuta brevirostris comparison quoted in search snippet (brachial/crural for Crocuta and Hyaena)",
    "confidence": "medium"
+  },
+  "measurement_sheet_ratios": {
+   "value": {
+    "head_body_length_over_withers (proxy for body length:height; includes head+neck)": 1.6,
+    "head_length_over_withers (CBL/SH)": 0.287,
+    "muzzle_over_skull ((CBL-BCL)/BCL, proxy)": 1.28,
+    "chest_depth_over_withers (mean rib length/SH, lower bound proxy)": 0.393,
+    "elbow_height_over_withers ((radius+MC3)/SH, excludes carpus, digits, pads)": 0.367,
+    "tail_over_withers": 0.38,
+    "neck_over_head (est. cervical centra/CBL)": 0.91
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly: field-range midpoints (SH, HB, tail) combined with Law skeletal means (different individuals and populations)",
+   "confidence": "low"
   }
  },
  "striped_hyena": {
@@ -1749,6 +1833,20 @@
    "unit": "ratio",
    "source": "Pachycrocuta brevirostris comparison quoted in search snippet (brachial/crural for Crocuta and Hyaena)",
    "confidence": "medium"
+  },
+  "measurement_sheet_ratios": {
+   "value": {
+    "head_body_length_over_withers (proxy for body length:height; includes head+neck)": 1.54,
+    "head_length_over_withers (CBL/SH)": 0.315,
+    "muzzle_over_skull ((CBL-BCL)/BCL, proxy)": 1.24,
+    "chest_depth_over_withers (mean rib length/SH, lower bound proxy)": 0.368,
+    "elbow_height_over_withers ((radius+MC3)/SH, excludes carpus, digits, pads)": 0.415,
+    "tail_over_withers": 0.46,
+    "neck_over_head (est. cervical centra/CBL)": 0.91
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly: field-range midpoints (SH, HB, tail) combined with Law skeletal means (different individuals and populations)",
+   "confidence": "low"
   }
  },
  "raccoon_dog": {
@@ -4179,6 +4277,15 @@
    "source": "PMC11411105 via search snippet",
    "confidence": "low",
    "note": "contrasts with wolf (both about 1.02-1.04)"
+  },
+  "measurement_sheet_ratios": {
+   "value": {
+    "tail_over_withers": 0.6,
+    "head_body_length_over_withers": 1.97
+   },
+   "unit": "ratio",
+   "source": "Australian Museum ranges, midpoints",
+   "confidence": "low"
   }
  },
  "carolina_dog": {
@@ -4224,6 +4331,16 @@
    ],
    "unit": "mm",
    "source": "akcdata (github.com/tmfilho/akcdata, scraped from akc.org)",
+   "confidence": "medium"
+  },
+  "measurement_sheet_ratios": {
+   "value": {
+    "body_length_over_withers": "1.0 to slightly more",
+    "elbow_height_over_withers": 0.5,
+    "chest_depth_over_withers": "about 0.5 (brisket reaches elbow)"
+   },
+   "unit": "ratio",
+   "source": "CKC/UKC Carolina Dog standard via search snippets",
    "confidence": "medium"
   }
  }

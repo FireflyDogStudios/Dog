@@ -1,0 +1,142 @@
+{
+  "_meta": {
+    "compiled": "2026-10-06",
+    "by": "Firefly (Claude) research pass",
+    "angleConvention": "Sagittal included angle between segments, 180 = straight, smaller = more flexed; carpus exceeds 180 (hyperextension) in stance. Shoulder=scapula-humerus, elbow=humerus-antebrachium, carpus=antebrachium-metacarpus, hip=pelvis-femur, stifle=femur-tibia, tarsus=tibia-metatarsus.",
+    "phaseConvention": "Fraction of stride at which each foot touches down, relative to left hind (LH) touchdown = 0.",
+    "confidence": "A = abstract-level number with clear definition; B = peer-reviewed but definition/convention unclear or second-hand; C = popular/garbled; EST = Firefly synthesis, not a measurement.",
+    "caveat": "Publisher sites were blocked; nearly all numbers come from web-search snippets of the cited papers, not full texts."
+  },
+  "sources": {
+    "maes2008": {"title": "Steady locomotion in dogs: temporal and associated spatial coordination patterns and the effect of speed (Maes et al. 2008, J Exp Biol 211:138)", "url": "https://journals.biologists.com/jeb/article/211/1/138/17472/Steady-locomotion-in-dogs-temporal-and-associated"},
+    "abourachid2003": {"title": "A new way of analysing symmetrical and asymmetrical gaits in quadrupeds (Abourachid 2003)", "url": "https://www.sciencedirect.com/science/article/pii/S1631069103001707"},
+    "hildebrand1968": {"title": "Symmetrical gaits of dogs in relation to body build (Hildebrand 1968, J Morphol)", "url": "https://www.originalwisdom.com/wp-content/uploads/bsk-pdf-manager/2019/04/Hildebrand_1968_Symmetrical-Gaits-of-Dogs-in-Relation-to-Body-Build.pdf"},
+    "hildebrand1977": {"title": "Analysis of asymmetrical gaits (Hildebrand 1977)", "url": "https://www.originalwisdom.com/wp-content/uploads/bsk-pdf-manager/2019/04/Hildebrand_1977_Analysis-of-Asymmetrical-Gaits.pdf"},
+    "walterCarrier2007": {"title": "Ground forces applied by galloping dogs (Walter & Carrier 2007, JEB 210:208)", "url": "https://journals.biologists.com/jeb/article/210/2/208/17106/Ground-forces-applied-by-galloping-dogs"},
+    "hudson2012": {"title": "High speed galloping in the cheetah and the racing greyhound (Hudson et al. 2012, JEB 215:2425)", "url": "https://journals.biologists.com/jeb/article/215/14/2425/10852/High-speed-galloping-in-the-cheetah-Acinonyx"},
+    "ding2025": {"title": "Gait transitions in load-pulling quadrupeds: sled dogs and a minimal SLIP model (Ding et al. 2025, J R Soc Interface)", "url": "https://doi.org/10.1098/rsif.2025.0922"},
+    "deban2012": {"title": "Activity of extrinsic limb muscles in dogs at walk, trot and gallop (JEB 215:287)", "url": "https://journals.biologists.com/jeb/article/215/2/287/11087/Activity-of-extrinsic-limb-muscles-in-dogs-at-walk"},
+    "holler2010": {"title": "Kinematic motion analysis of the joints of the forelimbs and hind limbs of dogs during walking exercise regimens (AJVR 71:734)", "url": "https://avmajournals.avma.org/view/journals/ajvr/71/7/ajvr.71.7.734.xml"},
+    "romTreadmill2021": {"title": "Reliability of range-of-motion measurements of healthy dogs examined while walking on a treadmill", "url": "https://pubmed.ncbi.nlm.nih.gov/34669498/"},
+    "rohwedderElbow": {"title": "Biomechanics of the Canine Elbow Joint (Rohwedder, IntechOpen)", "url": "https://www.intechopen.com/chapters/78503"},
+    "gsdCushion2026": {"title": "Comparative kinematic analysis of forelimb and hindlimb cushioning strategies in German Shepherd dogs (Front Vet Sci 2026)", "url": "https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2026.1878605/full"},
+    "pitbull2021": {"title": "Kinematics of healthy American Pit Bull Terrier dogs (Vet Med Czech 2021)", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11927105"},
+    "stifleStanding2022": {"title": "Determination of the Stifle Angle at Standing Position in Dogs (Vet Sci 2022)", "url": "https://doi.org/10.3390/vetsci9110644"},
+    "anatolian2026": {"title": "Evaluation of joint range of motion in Anatolian shepherd dogs (BMC Vet Res 2026)", "url": "https://link.springer.com/article/10.1186/s12917-026-05436-5"},
+    "gsdLab2020": {"title": "Biomechanical comparison of standing posture and during trot between German shepherd and Labrador retriever dogs (PLOS ONE 2020)", "url": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0239832"},
+    "labTrotST": {"title": "Labrador trot stance-time % (snippet; Kinematic and temporospatial assessment of habituation of Labrador retrievers to treadmill trotting, or Carr et al. 2015 PLOS ONE)", "url": "https://www.sciencedirect.com/science/article/abs/pii/S1090023313004723"},
+    "malinois": {"title": "Kinetic and kinematic motion analysis of the forelimbs in sound Malinois dogs", "url": "https://www.researchgate.net/publication/271208440_Kinetic_and_kinematic_motion_analysis_of_the_forelimbs_in_sound_Malinois_dogs_-_Sampling_of_basic_values"},
+    "hottinger1996": {"title": "Noninvasive kinematic analysis of the walk in healthy large-breed dogs (AJVR 1996)", "url": "https://pubmed.ncbi.nlm.nih.gov/8669773/"},
+    "gsdSpine": {"title": "Three-Dimensional Kinematics of the Pelvis and Caudal Lumbar Spine in German Shepherd Dogs", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8427507/"},
+    "wada1993": {"title": "Electromyographic and kinematic studies of tail movements in dogs during treadmill locomotion (Wada et al. 1993)", "url": "https://pubmed.ncbi.nlm.nih.gov/8411184/"},
+    "craniocervical2021": {"title": "Three-Dimensional Kinematic Motion of the Craniocervical Junction of Chihuahuas and Labrador Retrievers (Front Vet Sci 2021)", "url": "https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2021.709967/full"},
+    "bryce2017": {"title": "Comparative locomotor costs of domestic dogs reveal energetic economy of wolf-like breeds (JEB 220:312)", "url": "https://journals.biologists.com/jeb/article/220/2/312/18618/Comparative-locomotor-costs-of-domestic-dogs"},
+    "heglund1988": {"title": "Speed, stride frequency and energy cost per stride (Heglund & Taylor 1988, JEB 138:301)", "url": "https://jeb.biologists.org/content/138/1/301"},
+    "weimaraner": {"title": "Relationship Between Gait Mechanics and the Speed of the Trot in the Weimaraner", "url": "https://www.sciencedirect.com/science/article/abs/pii/S1938973618301582"},
+    "greyhoundIMU": {"title": "Analysis of Agile Canine Gait Characteristics Using Accelerometry (Sensors 2019)", "url": "https://www.mdpi.com/1424-8220/19/20/4379"},
+    "npsTracks": {"title": "NPS Mount Rainier Carnivore Tracking guide", "url": "https://www.nps.gov/mora/planyourvisit/upload/Carnivore-Tracks-12-20-21_508.pdf"}
+  },
+  "gaits": {
+    "walk": {
+      "type": "lateral-sequence walk (4-beat)",
+      "phases": {"LH": 0.0, "LF": 0.20, "RH": 0.5, "RF": 0.70},
+      "phaseRange": {"LF": [0.16, 0.25], "RF": [0.66, 0.75]},
+      "phaseSource": "maes2008: canonical PL=75 (LF at 0.25) and measured PL=84+-5% (LF at ~0.16); LH->LF = 1-PL. Conf A/B.",
+      "dutyFactor": {"fore": 0.68, "hind": 0.63, "range": [0.60, 0.75], "confidence": "EST", "source": "Rule DF>0.5, fore>hind (maes2008); canonical model 0.75 (Cartmill 2002). No measured dog walk DF retrieved."},
+      "speed_mps": {"typical": [1.0, 1.5], "values": [{"v": 1.06, "sd": 0.21, "source": "holler2010"}, {"v": 1.32, "sd": 0.04, "source": "deban2012"}, {"v": 1.17, "sd": 0.17, "source": "pitbull2021"}]},
+      "bodyBuild": {"note": "Long-legged dogs: lateral-couplet tendency (LF 0.05-0.20 after LH); short-legged: single-foot (~0.25).", "source": "hildebrand1968"},
+      "jointROM_deg": {
+        "shoulder": {"rom": [29.9, 33.1], "source": "romTreadmill2021", "confidence": "A"},
+        "elbow": {"rom": [49.4, 52.8], "minmax": [82, 140], "source": "romTreadmill2021 (ROM, A); rohwedderElbow (min/max approx, B)"},
+        "carpus": {"rom": [77, 88], "source": "romTreadmill2021 (snippet read '7.7-88.1', probably garbled)", "confidence": "B"},
+        "hip": {"rom": [32.9, 35.8], "source": "romTreadmill2021", "confidence": "A"},
+        "stifle": {"rom": [33.7, 36.8], "midStance": 135, "source": "romTreadmill2021; stifleStanding2022", "confidence": "A"},
+        "tarsus": {"rom": [31.7, 33.5], "source": "romTreadmill2021", "confidence": "A"}
+      },
+      "jointRanges_EST": {"shoulder": [105, 137], "elbow": [85, 140], "carpus": [100, 190], "hip": [100, 135], "stifle": [105, 145], "tarsus": [115, 150], "confidence": "EST", "definition": "included angle, 180 = straight"},
+      "body": {"pelvis": "mainly axial rotation (roll)", "lumbarL6_lateral_deg": 3.4, "tail": "lateral swings alternating with stride", "source": "gsdSpine; wada1993"}
+    },
+    "trot": {
+      "type": "diagonal 2-beat, short or no suspension at slow speed",
+      "phases": {"LH": 0.0, "LF": 0.5, "RH": 0.5, "RF": 0.02},
+      "phaseSource": "maes2008 FL=HL=PL=50 (A). Small hind-before-fore lag (0-0.03) is EST; Bertram 2000 notes hind/fore contact timing differs by breed.",
+      "dutyFactor": {"fore": 0.435, "hind": 0.367, "range": [0.35, 0.48], "source": "labTrotST (Labrador ST% thoracic 43.5, pelvic 36.7); DF falls with speed 2-5 m/s", "confidence": "A"},
+      "speed_mps": {"typical": [1.5, 3.0], "values": [{"v": 2.43, "sd": 0.04, "source": "deban2012"}, {"v": 2.04, "sd": 0.33, "source": "pitbull2021"}, {"range": [1.2, 2.3], "source": "weimaraner"}]},
+      "froudeRange": [0.5, 3.0],
+      "speedUp": "mainly longer strides; elbow and hip ROM grow with speed (weimaraner)",
+      "jointROM_deg": {
+        "elbow": {"minmax": [82.1, 145.5], "speed_mps": [2.4, 2.5], "source": "rohwedderElbow", "confidence": "B"},
+        "elbow_pitbull": {"minmax": [110.14, 163.0], "source": "pitbull2021 (snippet)", "confidence": "B"},
+        "carpus": {"swingROM": [88.7, 6.4], "stanceROM": [29.4, 4.2], "note": "value, SD; hyperextended >180 from just before touchdown through stance", "source": "gsdCushion2026", "confidence": "A"},
+        "tarsus": {"swingROM": [56.5, 4.7], "stanceROM": [43.3, 6.1], "note": "value, SD; flex-extend in both stance and swing", "source": "gsdCushion2026", "confidence": "A"},
+        "stifle": {"midStance": 135, "source": "stifleStanding2022", "confidence": "A"}
+      },
+      "jointRanges_EST": {"shoulder": [100, 140], "elbow": [82, 145], "carpus": [95, 195], "hip": [95, 140], "stifle": [100, 150], "tarsus": [100, 160], "confidence": "EST", "definition": "included angle, 180 = straight"},
+      "curveShapes": {
+        "shoulder": "max extension at touchdown, slowly flexes through stance, rapid flexion to peak mid-swing (malinois)",
+        "elbow": "extends through stance to max at toe-off, flexes to peak mid-swing (rohwedderElbow)",
+        "carpus": "hyperextends early stance, holds to toe-off, max flexion mid-swing (malinois; gsdCushion2026)",
+        "tarsus": "yields (flexes) after touchdown then extends to push off; flexes again in swing (gsdCushion2026)",
+        "hip": "near-sinusoidal (fewest Fourier terms) (hottinger1996)"
+      },
+      "body": {"spine": "2 flexion-extension cycles per stride, 1 lateral bend + 1 axial rotation cycle", "lumbarL7_sagittal_deg_max": 5.1, "lumbarL6_lateral_deg": 3.8, "pelvis": "mainly lateral rotation (yaw)", "tail": "lateral swings alternating with stride", "neck": "lateral translation smaller than at walk", "source": "gsdSpine; wada1993; craniocervical2021"}
+    },
+    "pace": {
+      "type": "lateral pairs together; some long-legged dogs, fast walk/slow run",
+      "phases": {"LH": 0.0, "LF": 0.0, "RH": 0.5, "RF": 0.5},
+      "dutyFactor": {"range": [0.4, 0.55], "confidence": "EST"},
+      "speed_mps": {"typical": [1.5, 3.0], "source": "maes2008"},
+      "source": "maes2008; hildebrand1968"
+    },
+    "transverseGallop": {
+      "type": "asymmetric; hind pair then contralateral fore then ipsilateral fore; one flight",
+      "sequenceExample": "LH (trail hind), RH (lead hind), LF (trail fore), RF (lead fore)",
+      "phases": {"LH": 0.0, "RH": 0.10, "LF": 0.26, "RF": 0.38},
+      "phaseSource": "LF from Maes PL=73.9+-6.8% (A); within-pair lags ~0.10-0.12 are EST",
+      "modelPhases_Ding2025": {"LH": 0.13, "RF": 0.37, "LF": 0.63, "RH": 0.87, "note": "prescribed evenly spaced in a SLIP model, not measured"},
+      "dutyFactor": {"range": [0.25, 0.40], "confidence": "EST"},
+      "speed_mps": {"min": 4.0, "source": "maes2008"}
+    },
+    "rotaryGallop": {
+      "type": "asymmetric; trailing fore, lead fore, flight, trailing hind, lead hind (lead hind on opposite side); dogs show double suspension at speed",
+      "sequenceExample": "RH (trail hind), LH (lead hind), LF (trail fore), RF (lead fore)",
+      "phases": {"RH": 0.0, "LH": 0.10, "LF": 0.40, "RF": 0.52},
+      "phasesRelLH": {"LH": 0.0, "LF": 0.30, "RF": 0.42, "RH": 0.90},
+      "phaseSource": "LH->LF = 1 - PL(70.3+-8.3%) from maes2008 (A); within-pair lags ~0.10 EST",
+      "modelPhases_Ding2025": {"LH": 0.13, "LF": 0.37, "RF": 0.63, "RH": 0.87, "note": "prescribed, not measured"},
+      "dutyFactor": {"range": [0.22, 0.35], "confidence": "EST", "note": "derived: stance 72-77 ms at about 3.3-3.5 Hz; Hudson's 131-143 ms at 9 m/s would give about 0.45, which conflicts"},
+      "stanceTimes_ms": {
+        "walterCarrier2007_9.2mps": {"leadFore": 74.5, "trailFore": 70.8, "leadHind": 71.5, "trailHind": 74.3},
+        "hudson2012_greyhound": {"fore_9mps": 131, "fore_17mps": 77, "hind_9mps": 143, "hind_17mps": 94}
+      },
+      "strideFrequency_Hz": {"greyhound": 3.5, "greyhoundTracks": [3.3, 3.5], "sledDogs": [2.72, 2.81], "source": "greyhoundIMU; ding2025"},
+      "speed_mps": {"greyhound": [9.9, 19.0], "mixedDogs": [2.2, 10.3], "sledDogs_kmh": [25, 40], "source": "hudson2012; ding2025"},
+      "body": {"spine": "largest bending in lumbar; flexion about 2x extension; flex with hinds down, extend to reach fores, flex to bring hinds forward", "tail": "held stable by co-contraction of all tail muscles", "source": "epaxial muscle JEB 2010; wada1993"}
+    }
+  },
+  "standingAngles_deg": {
+    "anatolianShepherd": {"shoulder": 119.76, "elbow": 124.84, "carpus": 128.12, "stifle": 128.31, "tarsus": 126.12, "note": "carpus value suspicious (standing carpus normally ~180-195); convention may differ", "source": "anatolian2026", "confidence": "A/B"},
+    "stifleMixed": {"stifle": 145, "source": "stifleStanding2022"},
+    "gsdVsLab_flexionFromStraight": {"GSD": {"stifle": 44, "hock": 58, "hip": -10, "pelvicTilt": 79}, "Lab": {"stifle": 34, "hock": 26, "hip": 30, "pelvicTilt": 66}, "note": "0 = straight convention; included approx = 180 - value for stifle/hock", "source": "gsdLab2020", "confidence": "A"}
+  },
+  "passiveLimits_deg": {
+    "shoulder": {"flex": 47.9, "ext": 164.5, "source": "anatolian2026"},
+    "elbow": {"flex": 32.1, "ext": 165.6, "breedFlexRange": [25, 49], "breedExtRange": [155, 175], "source": "anatolian2026; rohwedderElbow"},
+    "stifle": {"flex": 40.2, "ext": 165.6, "source": "stifleStanding2022"},
+    "hip": {"flex": 94.35, "ext": 153.57, "note": "flex value looks high; check", "source": "anatolian2026", "confidence": "B"},
+    "labradorGoniometry_unverified": {"shoulder": [57, 165], "elbow": [36, 165], "carpus": [32, 196], "hip": [50, 162], "stifle": [42, 162], "tarsus": [39, 164], "source": "Jaegger, Marcellin-Little & Levine 2002 AJVR (from memory, NOT verified this session)", "url": "https://pubmed.ncbi.nlm.nih.gov/12118679", "confidence": "C"}
+  },
+  "scaling": {
+    "strideFrequencyAtEquivalentSpeed": "proportional to M^-0.15",
+    "trotGallopSpeeds": "min/preferred/max proportional to about M^0.2",
+    "source": "heglund1988",
+    "froude": {"walkToTrot": [0.3, 0.5], "trotToGallop": [2, 3], "source": "ding2025 quoting dog gait-transition literature", "confidence": "B"}
+  },
+  "species": {
+    "northernBreeds": {"note": "lowest cost of transport (3.0 J/kg/m total), broad trot speed range; best model for wolf/dingo-like dogs", "source": "bryce2017"},
+    "wolf": {"travelTrot_kmh": [13, 16], "sprint_kmh": [50, 70], "confidence": "C", "source": "popular sources (Wikipedia: Hunting behavior of gray wolves)"},
+    "redFox": {"walkStride_cm": [55, 67], "trotStride_cm": [79, 101], "source": "npsTracks", "confidence": "B"},
+    "coyote": {"directRegisterTrotStride_cm": [130, 155], "sideTrotStride_cm": [117, 214], "source": "npsTracks", "confidence": "B"},
+    "dingo_africanWildDog_jackal_hyena_raccoonDog": {"note": "no kinematic numbers found"}
+  }
+}
