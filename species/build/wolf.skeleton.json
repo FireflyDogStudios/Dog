@@ -1,56 +1,56 @@
 {
  "id": "wolf",
  "name": "Gray wolf",
- "scale_units_per_mm": 0.035266332970229394,
+ "scale_units_per_mm": 0.03464539091887736,
  "ground_y": 35.5,
  "joints_mm": {
   "nose": [
-   592.9,
-   695.8
+   482.2,
+   674.0
   ],
   "stop": [
-   454.7,
-   746.1
+   352.3,
+   743.0
   ],
   "occiput": [
-   350.6,
-   768.2
+   252.3,
+   779.5
   ],
   "eye": [
-   454.8,
-   772.0
+   356.0,
+   768.7
   ],
   "tmj": [
-   417.2,
-   728.2
+   298.4,
+   735.7
   ],
   "chin": [
-   602.5,
-   645.7
+   466.1,
+   630.9
   ],
   "ear_base": [
-   387.0,
-   760.5
+   287.3,
+   766.7
   ],
   "ear_tip": [
-   450.6,
-   862.3
+   246.3,
+   879.5
   ],
   "neck_root": [
-   180.1,
-   625.2
+   81.9,
+   636.4
   ],
   "withers": [
-   138.5,
-   694.7
+   39.4,
+   707.2
   ],
   "scapula_top": [
-   123.5,
-   668.5
+   24.4,
+   688.4
   ],
   "shoulder": [
-   150.4,
-   495.0
+   111.1,
+   535.8
   ],
   "elbow": [
    -35.2,
@@ -69,165 +69,165 @@
    0.0
   ],
   "croup": [
-   -438.9,
-   674.8
+   -538.1,
+   723.8
   ],
   "ilium_crest": [
-   -429.0,
-   644.8
+   -528.2,
+   693.8
   ],
   "hip": [
-   -506.2,
-   600.2
+   -600.1,
+   594.7
   ],
   "ischium": [
-   -600.5,
-   545.8
+   -679.8,
+   566.6
   ],
   "stifle": [
-   -446.3,
-   360.1
+   -587.1,
+   347.6
   ],
   "hock": [
-   -575.3,
-   136.6
+   -735.1,
+   136.2
   ],
   "hind_mtp": [
-   -575.3,
+   -725.3,
    24.6
   ],
   "hind_toe": [
-   -513.7,
+   -663.7,
    0.0
   ],
   "sacrum_end": [
-   -495.0,
-   666.9
+   -586.1,
+   717.1
   ],
   "tail_tip": [
-   -657.0,
-   242.5
+   -748.2,
+   292.7
   ],
   "sternum_front": [
-   136.5,
-   387.1
+   97.0,
+   394.0
   ],
   "sternum_back": [
-   -141.8,
-   319.6
+   -240.8,
+   325.3
   ]
  },
  "joints": {
   "nose": [
-   52.87,
-   10.961
+   52.314,
+   12.149
   ],
   "stop": [
-   47.998,
-   9.187
+   47.816,
+   9.757
   ],
   "occiput": [
-   44.325,
-   8.407
+   44.35,
+   8.496
   ],
   "eye": [
-   48.0,
-   8.274
+   47.943,
+   8.869
   ],
   "tmj": [
-   46.675,
-   9.82
+   45.947,
+   10.012
   ],
   "chin": [
-   53.209,
-   12.729
+   51.757,
+   13.642
   ],
   "ear_base": [
-   45.61,
-   8.68
+   45.563,
+   8.937
   ],
   "ear_tip": [
-   47.853,
-   5.091
+   44.141,
+   5.03
   ],
   "neck_root": [
-   38.315,
+   38.445,
    13.45
   ],
   "withers": [
-   36.845,
+   36.975,
    11.0
   ],
   "scapula_top": [
-   36.316,
-   11.926
+   36.455,
+   11.65
   ],
   "shoulder": [
-   37.264,
-   18.042
+   39.458,
+   16.937
   ],
   "elbow": [
-   30.722,
-   22.955
+   34.391,
+   23.176
   ],
   "carpus": [
-   30.722,
-   31.296
+   34.391,
+   31.37
   ],
   "front_mcp": [
-   31.962,
-   34.702
+   35.609,
+   34.716
   ],
   "front_toe": [
-   33.955,
+   37.568,
    35.5
   ],
   "croup": [
-   16.482,
-   11.703
+   16.968,
+   10.423
   ],
   "ilium_crest": [
-   16.831,
-   12.761
+   17.311,
+   11.462
   ],
   "hip": [
-   14.11,
-   14.332
+   14.819,
+   14.896
   ],
   "ischium": [
-   10.784,
-   16.253
+   12.056,
+   15.871
   ],
   "stifle": [
-   16.222,
-   22.801
+   15.268,
+   23.459
   ],
   "hock": [
-   11.672,
-   30.681
+   10.141,
+   30.781
   ],
   "hind_mtp": [
-   11.672,
-   34.631
+   10.479,
+   34.646
   ],
   "hind_toe": [
-   13.845,
+   12.614,
    35.5
   ],
   "sacrum_end": [
-   14.505,
-   11.981
+   15.303,
+   10.657
   ],
   "tail_tip": [
-   8.791,
-   26.948
+   9.686,
+   25.359
   ],
   "sternum_front": [
-   36.774,
+   38.968,
    21.849
   ],
   "sternum_back": [
-   26.962,
+   27.266,
    24.23
   ]
  },
@@ -315,278 +315,274 @@
  ],
  "spine": [
   [
-   38.315,
+   38.445,
    13.45
   ],
   [
-   36.845,
+   36.975,
    11.0
   ],
   [
-   26.663,
+   26.972,
    11.0
   ],
   [
-   16.482,
-   11.703
+   16.968,
+   10.423
   ],
   [
-   14.505,
-   11.981
+   15.303,
+   10.657
   ]
  ],
  "ribs": [
   [
    [
-    36.845,
+    36.975,
     12.225
    ],
    [
-    36.774,
+    38.968,
     21.849
    ]
   ],
   [
    [
-    35.815,
+    35.964,
     12.245
    ],
    [
-    35.752,
+    37.749,
     22.097
    ]
   ],
   [
    [
-    34.786,
+    34.952,
     12.266
    ],
    [
-    34.73,
+    36.53,
     22.345
    ]
   ],
   [
    [
-    33.756,
+    33.941,
     12.286
    ],
    [
-    33.708,
+    35.311,
     22.593
    ]
   ],
   [
    [
-    32.727,
+    32.93,
     12.307
    ],
    [
-    32.685,
+    34.092,
     22.841
    ]
   ],
   [
    [
-    31.697,
+    31.918,
     12.327
    ],
    [
-    31.663,
+    32.873,
     23.089
    ]
   ],
   [
    [
-    30.668,
+    30.907,
     12.348
    ],
    [
-    30.641,
+    31.654,
     23.337
    ]
   ],
   [
    [
-    29.638,
+    29.896,
     12.368
    ],
    [
-    29.619,
+    30.435,
     23.585
    ]
   ],
   [
    [
-    28.609,
+    28.884,
     12.388
    ],
    [
-    28.597,
+    29.217,
     23.833
    ]
   ],
   [
    [
-    27.579,
+    27.873,
     12.409
    ],
    [
-    27.575,
+    27.998,
     24.081
    ]
   ],
   [
    [
-    26.55,
+    26.862,
     12.429
    ],
    [
-    26.797,
+    27.104,
     23.454
    ]
   ],
   [
    [
-    25.52,
+    25.85,
     12.45
    ],
    [
-    26.385,
+    26.7,
     21.27
    ]
   ],
   [
    [
-    24.491,
+    24.839,
     12.47
    ],
    [
-    25.973,
+    26.295,
     19.085
    ]
   ]
  ],
  "tail": [
   [
-   14.505,
-   11.981
+   15.303,
+   10.657
   ],
   [
-   14.167,
-   12.666
+   14.954,
+   11.364
   ],
   [
-   13.835,
-   13.355
+   14.612,
+   12.074
   ],
   [
-   13.51,
-   14.046
+   14.278,
+   12.787
   ],
   [
-   13.191,
-   14.741
+   13.95,
+   13.504
   ],
   [
-   12.879,
-   15.438
+   13.629,
+   14.224
   ],
   [
-   12.574,
-   16.139
+   13.316,
+   14.948
   ],
   [
-   12.275,
-   16.842
+   13.01,
+   15.674
   ],
   [
-   11.982,
-   17.548
+   12.71,
+   16.403
   ],
   [
-   11.697,
-   18.257
+   12.418,
+   17.135
   ],
   [
-   11.417,
-   18.968
+   12.133,
+   17.87
   ],
   [
-   11.145,
-   19.682
+   11.856,
+   18.608
   ],
   [
-   10.879,
-   20.398
+   11.585,
+   19.348
   ],
   [
-   10.62,
-   21.117
+   11.322,
+   20.091
   ],
   [
-   10.368,
-   21.838
+   11.066,
+   20.836
   ],
   [
-   10.122,
-   22.562
+   10.818,
+   21.584
   ],
   [
-   9.883,
-   23.287
+   10.577,
+   22.335
   ],
   [
-   9.651,
-   24.015
+   10.343,
+   23.087
   ],
   [
-   9.426,
-   24.746
+   10.117,
+   23.842
   ],
   [
-   9.208,
-   25.478
+   9.898,
+   24.6
   ],
   [
-   8.996,
-   26.212
-  ],
-  [
-   8.791,
-   26.948
+   9.686,
+   25.359
   ]
  ],
  "fit": [
   {
    "target": "withers height from the bones (mm)",
    "wanted": "750 [660, 840]",
-   "got": 694.7,
+   "got": 707.2,
    "from": "species size.shoulder_height (field, includes skin and fur)"
   },
   {
    "target": "croup height / withers (topline slope)",
    "wanted": "about 1",
-   "got": 0.971,
+   "got": 1.024,
    "from": "outcome of the hind leg; wolves stand roughly level"
   },
   {
    "target": "shoulder angle",
-   "wanted": 120,
-   "got": 118.1,
+   "wanted": 115,
+   "got": 111.3,
    "from": "species angles.shoulder_standing (dog proxy)"
   },
   {
    "target": "elbow angle",
-   "wanted": 125,
-   "got": 126.9,
+   "wanted": 140,
+   "got": 140.9,
    "from": "species angles.elbow_standing (dog proxy)"
   },
   {
    "target": "scapula elevation",
    "wanted": 60.0,
-   "got": 81.2,
-   "from": "assumption scapula_elevation (weak)"
+   "got": 60.4,
+   "from": "assumption scapula_elevation (firm, fact-check Q1)"
   },
   {
    "target": "carpus angle",
@@ -596,26 +592,26 @@
   },
   {
    "target": "stifle angle",
-   "wanted": 136.0,
-   "got": 136.0,
-   "from": "assumption stifle_target"
+   "wanted": 142,
+   "got": 142.0,
+   "from": "species angles.stifle_standing"
   },
   {
    "target": "hock angle",
-   "wanted": 150,
-   "got": 150.0,
+   "wanted": 140,
+   "got": 140.0,
    "from": "species angles.hock_standing"
   },
   {
-   "target": "hip angle (pelvis vs femur)",
-   "wanted": "90-100",
-   "got": 106.0,
-   "from": "outcome; the measurement sheet suggests 90-100"
+   "target": "hip angle (pelvic axis vs femur)",
+   "wanted": "~122 (95-122)",
+   "got": 127.0,
+   "from": "outcome; standing radiographs about 122 (crest-ischium axis vs femur, fact-check Q3)"
   },
   {
    "target": "elbow point height / withers",
    "wanted": 0.53,
-   "got": 0.546,
+   "got": 0.536,
    "from": "species ratios.elbow_height_over_height (photos, includes fur)"
   },
   {
@@ -627,13 +623,13 @@
   {
    "target": "body length (occiput to tail base) / withers",
    "wanted": 1.29,
-   "got": 1.226,
+   "got": 1.189,
    "from": "species ratios.body_over_height (photos)"
   },
   {
    "target": "front to hind paw (mm)",
    "wanted": "-",
-   "got": 575.3,
+   "got": 725.3,
    "from": "outcome of the spine length"
   }
  ],
@@ -651,48 +647,60 @@
    "why": "point of the elbow above the joint, x radius (ulna olecranon 7-12% of ulna, Law 2025)"
   },
   "withers_gap": {
-   "value": 0.035,
-   "why": "withers top above the scapula top, x withers height (thoracic spines; estimate)"
+   "value": 0.025,
+   "why": "withers top above the scapula top, x withers height (T1-T3 spines just above the scapula; Miller via fact-check Q8)"
   },
   "scapula_elevation": {
    "value": 60.0,
-   "why": "scapula angle above horizontal, deg (typical canine layback; weak target, estimate)"
+   "why": "scapula angle above horizontal, deg (Elliott cineradiography; Fischer & Lilje: about 30 deg off vertical; fact-check Q1, firm target)"
   },
   "croup_angle": {
-   "value": 30.0,
-   "why": "pelvis slope below horizontal, deg (breed-standard croup; estimate)"
+   "value": 40.0,
+   "why": "pelvis (crest to ischium) below horizontal, deg (standing radiographs 43 +- 4; conformation texts 30-40; fact-check Q6)"
   },
   "pelvis_length": {
    "value": 0.8,
-   "why": "ilium crest to ischium, x femur (estimate)"
+   "why": "ilium crest to ischium, x femur (wolf 0.82 from Law 2025 raw data; fact-check Q6)"
   },
   "acetabulum_at": {
-   "value": 0.45,
-   "why": "hip joint position along the pelvis from the crest (estimate)"
+   "value": 0.6,
+   "why": "hip joint position along the pelvis from the crest (ilium:ischium about 3:2, Riser 1975; fact-check Q6)"
+  },
+  "acetabulum_drop": {
+   "value": 0.15,
+   "why": "hip joint below the crest-ischium line, x pelvis length (estimate; fact-check Q6)"
   },
   "sacrum_length": {
-   "value": 0.07,
-   "why": "sacrum, x presacral length (estimate)"
+   "value": 0.06,
+   "why": "sacrum, x presacral length (wolf 48.8 mm, Law 2025 raw data; fact-check Q6)"
   },
   "neck_elevation": {
    "value": 40.0,
    "why": "neck angle above horizontal at standing carriage, deg (estimate; the photo number uses another definition)"
   },
   "skull_pitch": {
-   "value": 12.0,
-   "why": "skull axis below horizontal, deg (estimate)"
+   "value": 20.0,
+   "why": "skull axis below horizontal, deg (wolf standing photos about 19; semicircular-canal studies; fact-check Q9)"
   },
   "mandible": {
-   "value": 0.8,
-   "why": "lower jaw length, x condylobasal length (estimate)"
+   "value": 0.78,
+   "why": "lower jaw length, x condylobasal length (wolf craniometry 0.77-0.80; fact-check Q10)"
   },
   "tmj_drop": {
    "value": 0.1,
    "why": "jaw joint below the skull axis, x condylobasal length (estimate)"
   },
   "ear_set": {
-   "value": 70.0,
-   "why": "ear angle up from the skull axis, deg (erect ears; the photo carriage number is unclear, see notes)"
+   "value": 130.0,
+   "why": "ear angle from the FORWARD skull axis, deg (wolf photos: about 23 deg back of vertical relaxed; about 105 alert; fact-check Q11)"
+  },
+  "tmj_along": {
+   "value": 0.23,
+   "why": "jaw joint ahead of the occiput along the skull axis, x condylobasal length (Law 2025 raw data, 22 canids; fact-check Q10)"
+  },
+  "metatarsus_tilt": {
+   "value": 5.0,
+   "why": "hind pastern off vertical, paw ahead, deg (standing radiographs: up to about 20; a vertical one is a show stance; fact-check Q5)"
   },
   "cervicothoracic": {
    "value": [
@@ -700,10 +708,6 @@
     -0.1
    ],
    "why": "neck root from the withers point, (forward, down) x withers height (estimate)"
-  },
-  "stifle_target": {
-   "value": 136.0,
-   "why": "standing stifle, deg: mean of the two dog sources (145 mixed dogs, 128 Anatolian)"
   }
  }
 }

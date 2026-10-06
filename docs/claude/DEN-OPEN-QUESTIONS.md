@@ -21,9 +21,9 @@ Kept by Firefly, started Oct 6, 2026. Two kinds: **research questions** (facts t
 14. Has anyone built **skeleton-first, data-driven quadruped or canine characters**, in games, animation tools or science (for example Spore, SMAL/SMALR, musculoskeletal dog models, procedural quadruped generators, parametric 2D rigs)? What worked, what failed, and what should we copy or avoid?
 
 ## Decisions for GrumpyDingo (one at a time, when they come up)
-- Apply the fact-check's 13 suggested values to the wolf and rebuild the skeleton? (the research settled the scapula: every source puts it near 60°; the one goniometry study was the outlier)
+- ~~Apply the fact-check's 13 suggested values to the wolf~~ done Oct 6 (GrumpyDingo said yes); the rebuilt skeleton hits every angle target.
 - The Carolina Dog: the player's own species needs its own species file (dingo and pariah-dog numbers). Build it right after the wolf?
 - Which new model becomes the hero, and which the companion, once the current two are retired?
 - The licence holds: the non-commercial motion curves and the copyleft keypoint file stay out of the repo unless he says otherwise.
-- More data needs hosts that are blocked here (Google Drive, Zenodo, Dryad, arXiv, PubMed Central); a fresh session with all domains open could fetch them.
+- More data (see `docs/claude/DEN-DATA-WISHLIST.md`) needs hosts that are blocked here (Google Drive, Zenodo, Dryad, arXiv, PubMed Central); a fresh session with all domains open could fetch them.
 - How realistic vs stylised the final look should be (he said accuracy first, style later).

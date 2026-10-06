@@ -22,105 +22,105 @@
 <line x1="0" y1="770" x2="1364" y2="770" stroke="#d9cdb3" stroke-width="1"/>
 <line x1="0" y1="880" x2="1364" y2="880" stroke="#d9cdb3" stroke-width="1"/>
 <line x1="0" y1="803.0" x2="1364" y2="803.0" stroke="#7a6a50" stroke-width="3"/>
-<line x1="810.6" y1="290.9" x2="809.0" y2="502.7" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="787.9" y1="291.4" x2="786.5" y2="508.1" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="765.3" y1="291.9" x2="764.1" y2="513.6" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="742.6" y1="292.3" x2="741.6" y2="519.0" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="720.0" y1="292.8" x2="719.1" y2="524.5" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="697.3" y1="293.2" x2="696.6" y2="530.0" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="674.7" y1="293.7" x2="674.1" y2="535.4" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="652.0" y1="294.1" x2="651.6" y2="540.9" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="629.4" y1="294.5" x2="629.1" y2="546.3" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="606.7" y1="295.0" x2="606.6" y2="551.8" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="584.1" y1="295.4" x2="589.5" y2="538.0" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="561.4" y1="295.9" x2="580.5" y2="489.9" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<line x1="538.8" y1="296.3" x2="571.4" y2="441.9" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
-<polyline points="842.9,317.9 810.6,264.0 586.6,264.0 362.6,279.5 319.1,285.6" fill="none" stroke="#8b7a5c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="319.1,285.6 311.7,300.7 304.4,315.8 297.2,331.0 290.2,346.3 283.3,361.6 276.6,377.1 270.1,392.5 263.6,408.1 257.3,423.7 251.2,439.3 245.2,455.0 239.3,470.8 233.6,486.6 228.1,502.4 222.7,518.4 217.4,534.3 212.3,550.3 207.4,566.4 202.6,582.5 197.9,598.7 193.4,614.9" fill="none" stroke="#8b7a5c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="799.0" y1="284.4" x2="819.8" y2="418.9" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
-<line x1="819.8" y1="418.9" x2="675.9" y2="527.0" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
-<line x1="675.9" y1="527.0" x2="675.9" y2="710.5" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
-<line x1="675.9" y1="710.5" x2="703.2" y2="785.4" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
-<line x1="703.2" y1="785.4" x2="747.0" y2="803.0" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
-<line x1="310.4" y1="337.3" x2="356.9" y2="523.6" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
-<line x1="356.9" y1="523.6" x2="256.8" y2="697.0" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
-<line x1="256.8" y1="697.0" x2="256.8" y2="783.9" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
-<line x1="256.8" y1="783.9" x2="304.6" y2="803.0" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
-<line x1="370.3" y1="302.7" x2="237.2" y2="379.6" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
-<line x1="842.9" y1="317.9" x2="975.2" y2="207.0" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
-<line x1="975.2" y1="207.0" x2="1056.0" y2="224.1" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
-<line x1="1056.0" y1="224.1" x2="1163.1" y2="263.1" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
-<line x1="1026.8" y1="238.0" x2="1170.6" y2="302.0" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
-<line x1="1003.4" y1="213.0" x2="1052.8" y2="134.0" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
-<line x1="809.0" y1="502.7" x2="593.2" y2="555.1" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
-<circle cx="1163.1" cy="263.1" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="1170.1" y="257.1" font-family="sans-serif" font-size="13" fill="#2a1a10">nose</text>
-<circle cx="1056.0" cy="224.1" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="1063.0" y="218.1" font-family="sans-serif" font-size="13" fill="#2a1a10">stop</text>
-<circle cx="975.2" cy="207.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="982.2" y="201.0" font-family="sans-serif" font-size="13" fill="#2a1a10">occiput</text>
-<circle cx="1056.0" cy="204.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="1063.0" y="198.0" font-family="sans-serif" font-size="13" fill="#2a1a10">eye</text>
-<circle cx="1026.8" cy="238.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="1033.8" y="232.0" font-family="sans-serif" font-size="13" fill="#2a1a10">tmj</text>
-<circle cx="1170.6" cy="302.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="1177.6" y="296.0" font-family="sans-serif" font-size="13" fill="#2a1a10">chin</text>
-<circle cx="1003.4" cy="213.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="1010.4" y="207.0" font-family="sans-serif" font-size="13" fill="#2a1a10">ear_base</text>
-<circle cx="1052.8" cy="134.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="1059.8" y="128.0" font-family="sans-serif" font-size="13" fill="#2a1a10">ear_tip</text>
-<circle cx="842.9" cy="317.9" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="849.9" y="311.9" font-family="sans-serif" font-size="13" fill="#2a1a10">neck_root</text>
-<circle cx="810.6" cy="264.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="817.6" y="258.0" font-family="sans-serif" font-size="13" fill="#2a1a10">withers</text>
-<circle cx="799.0" cy="284.4" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="806.0" y="278.4" font-family="sans-serif" font-size="13" fill="#2a1a10">scapula_top</text>
-<circle cx="819.8" cy="418.9" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="826.8" y="412.9" font-family="sans-serif" font-size="13" fill="#2a1a10">shoulder</text>
-<circle cx="675.9" cy="527.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="682.9" y="521.0" font-family="sans-serif" font-size="13" fill="#2a1a10">elbow</text>
-<circle cx="675.9" cy="710.5" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="682.9" y="704.5" font-family="sans-serif" font-size="13" fill="#2a1a10">carpus</text>
-<circle cx="703.2" cy="785.4" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="710.2" y="779.4" font-family="sans-serif" font-size="13" fill="#2a1a10">front_mcp</text>
-<circle cx="747.0" cy="803.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="754.0" y="797.0" font-family="sans-serif" font-size="13" fill="#2a1a10">front_toe</text>
-<circle cx="362.6" cy="279.5" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="369.6" y="273.5" font-family="sans-serif" font-size="13" fill="#2a1a10">croup</text>
-<circle cx="370.3" cy="302.7" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="377.3" y="296.7" font-family="sans-serif" font-size="13" fill="#2a1a10">ilium_crest</text>
-<circle cx="310.4" cy="337.3" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="317.4" y="331.3" font-family="sans-serif" font-size="13" fill="#2a1a10">hip</text>
-<circle cx="237.2" cy="379.6" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="244.2" y="373.6" font-family="sans-serif" font-size="13" fill="#2a1a10">ischium</text>
-<circle cx="356.9" cy="523.6" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="363.9" y="517.6" font-family="sans-serif" font-size="13" fill="#2a1a10">stifle</text>
-<circle cx="256.8" cy="697.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="263.8" y="691.0" font-family="sans-serif" font-size="13" fill="#2a1a10">hock</text>
-<circle cx="256.8" cy="783.9" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="263.8" y="777.9" font-family="sans-serif" font-size="13" fill="#2a1a10">hind_mtp</text>
-<circle cx="304.6" cy="803.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="311.6" y="797.0" font-family="sans-serif" font-size="13" fill="#2a1a10">hind_toe</text>
-<circle cx="319.1" cy="285.6" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="326.1" y="279.6" font-family="sans-serif" font-size="13" fill="#2a1a10">sacrum_end</text>
-<circle cx="193.4" cy="614.9" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="200.4" y="608.9" font-family="sans-serif" font-size="13" fill="#2a1a10">tail_tip</text>
-<circle cx="809.0" cy="502.7" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="816.0" y="496.7" font-family="sans-serif" font-size="13" fill="#2a1a10">sternum_front</text>
-<circle cx="593.2" cy="555.1" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
-<text x="600.2" y="549.1" font-family="sans-serif" font-size="13" fill="#2a1a10">sternum_back</text>
+<line x1="813.5" y1="290.9" x2="857.3" y2="502.7" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="791.2" y1="291.4" x2="830.5" y2="508.1" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="768.9" y1="291.9" x2="803.7" y2="513.6" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="746.7" y1="292.3" x2="776.8" y2="519.0" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="724.5" y1="292.8" x2="750.0" y2="524.5" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="702.2" y1="293.2" x2="723.2" y2="530.0" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="680.0" y1="293.7" x2="696.4" y2="535.4" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="657.7" y1="294.1" x2="669.6" y2="540.9" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="635.4" y1="294.5" x2="642.8" y2="546.3" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="613.2" y1="295.0" x2="616.0" y2="551.8" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="591.0" y1="295.4" x2="596.3" y2="538.0" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="568.7" y1="295.9" x2="587.4" y2="489.9" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<line x1="546.5" y1="296.3" x2="578.5" y2="441.9" stroke="#bfae8c" stroke-width="5" stroke-linecap="round"/>
+<polyline points="845.8,317.9 813.5,264.0 593.4,264.0 373.3,251.3 336.7,256.5" fill="none" stroke="#8b7a5c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="336.7,256.5 329.0,272.0 321.5,287.6 314.1,303.3 306.9,319.1 299.8,334.9 293.0,350.9 286.2,366.8 279.6,382.9 273.2,399.0 266.9,415.1 260.8,431.4 254.9,447.7 249.1,464.0 243.5,480.4 238.0,496.8 232.7,513.4 227.5,529.9 222.6,546.5 217.8,563.2 213.1,579.9" fill="none" stroke="#8b7a5c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="802.0" y1="278.3" x2="868.1" y2="394.6" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
+<line x1="868.1" y1="394.6" x2="756.6" y2="531.9" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
+<line x1="756.6" y1="531.9" x2="756.6" y2="712.1" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
+<line x1="756.6" y1="712.1" x2="783.4" y2="785.8" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
+<line x1="783.4" y1="785.8" x2="826.5" y2="803.0" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
+<line x1="326.0" y1="349.7" x2="335.9" y2="538.1" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
+<line x1="335.9" y1="538.1" x2="223.1" y2="699.2" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
+<line x1="223.1" y1="699.2" x2="230.5" y2="784.2" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
+<line x1="230.5" y1="784.2" x2="277.5" y2="803.0" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
+<line x1="380.8" y1="274.2" x2="265.2" y2="371.2" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
+<line x1="845.8" y1="317.9" x2="975.7" y2="208.9" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
+<line x1="975.7" y1="208.9" x2="1052.0" y2="236.7" stroke="#4a3b2a" stroke-width="9" stroke-linecap="round"/>
+<line x1="1052.0" y1="236.7" x2="1150.9" y2="289.3" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
+<line x1="1010.8" y1="242.3" x2="1138.7" y2="322.1" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
+<line x1="1002.4" y1="218.6" x2="971.1" y2="132.7" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
+<line x1="857.3" y1="502.7" x2="599.9" y2="555.1" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>
+<circle cx="1150.9" cy="289.3" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="1157.9" y="283.3" font-family="sans-serif" font-size="13" fill="#2a1a10">nose</text>
+<circle cx="1052.0" cy="236.7" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="1059.0" y="230.7" font-family="sans-serif" font-size="13" fill="#2a1a10">stop</text>
+<circle cx="975.7" cy="208.9" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="982.7" y="202.9" font-family="sans-serif" font-size="13" fill="#2a1a10">occiput</text>
+<circle cx="1054.7" cy="217.1" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="1061.7" y="211.1" font-family="sans-serif" font-size="13" fill="#2a1a10">eye</text>
+<circle cx="1010.8" cy="242.3" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="1017.8" y="236.3" font-family="sans-serif" font-size="13" fill="#2a1a10">tmj</text>
+<circle cx="1138.7" cy="322.1" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="1145.7" y="316.1" font-family="sans-serif" font-size="13" fill="#2a1a10">chin</text>
+<circle cx="1002.4" cy="218.6" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="1009.4" y="212.6" font-family="sans-serif" font-size="13" fill="#2a1a10">ear_base</text>
+<circle cx="971.1" cy="132.7" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="978.1" y="126.7" font-family="sans-serif" font-size="13" fill="#2a1a10">ear_tip</text>
+<circle cx="845.8" cy="317.9" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="852.8" y="311.9" font-family="sans-serif" font-size="13" fill="#2a1a10">neck_root</text>
+<circle cx="813.5" cy="264.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="820.5" y="258.0" font-family="sans-serif" font-size="13" fill="#2a1a10">withers</text>
+<circle cx="802.0" cy="278.3" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="809.0" y="272.3" font-family="sans-serif" font-size="13" fill="#2a1a10">scapula_top</text>
+<circle cx="868.1" cy="394.6" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="875.1" y="388.6" font-family="sans-serif" font-size="13" fill="#2a1a10">shoulder</text>
+<circle cx="756.6" cy="531.9" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="763.6" y="525.9" font-family="sans-serif" font-size="13" fill="#2a1a10">elbow</text>
+<circle cx="756.6" cy="712.1" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="763.6" y="706.1" font-family="sans-serif" font-size="13" fill="#2a1a10">carpus</text>
+<circle cx="783.4" cy="785.8" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="790.4" y="779.8" font-family="sans-serif" font-size="13" fill="#2a1a10">front_mcp</text>
+<circle cx="826.5" cy="803.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="833.5" y="797.0" font-family="sans-serif" font-size="13" fill="#2a1a10">front_toe</text>
+<circle cx="373.3" cy="251.3" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="380.3" y="245.3" font-family="sans-serif" font-size="13" fill="#2a1a10">croup</text>
+<circle cx="380.8" cy="274.2" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="387.8" y="268.2" font-family="sans-serif" font-size="13" fill="#2a1a10">ilium_crest</text>
+<circle cx="326.0" cy="349.7" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="333.0" y="343.7" font-family="sans-serif" font-size="13" fill="#2a1a10">hip</text>
+<circle cx="265.2" cy="371.2" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="272.2" y="365.2" font-family="sans-serif" font-size="13" fill="#2a1a10">ischium</text>
+<circle cx="335.9" cy="538.1" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="342.9" y="532.1" font-family="sans-serif" font-size="13" fill="#2a1a10">stifle</text>
+<circle cx="223.1" cy="699.2" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="230.1" y="693.2" font-family="sans-serif" font-size="13" fill="#2a1a10">hock</text>
+<circle cx="230.5" cy="784.2" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="237.5" y="778.2" font-family="sans-serif" font-size="13" fill="#2a1a10">hind_mtp</text>
+<circle cx="277.5" cy="803.0" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="284.5" y="797.0" font-family="sans-serif" font-size="13" fill="#2a1a10">hind_toe</text>
+<circle cx="336.7" cy="256.5" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="343.7" y="250.5" font-family="sans-serif" font-size="13" fill="#2a1a10">sacrum_end</text>
+<circle cx="213.1" cy="579.9" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="220.1" y="573.9" font-family="sans-serif" font-size="13" fill="#2a1a10">tail_tip</text>
+<circle cx="857.3" cy="502.7" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="864.3" y="496.7" font-family="sans-serif" font-size="13" fill="#2a1a10">sternum_front</text>
+<circle cx="599.9" cy="555.1" r="5" fill="#d9822b" stroke="#2a1a10" stroke-width="1.5"/>
+<text x="606.9" y="549.1" font-family="sans-serif" font-size="13" fill="#2a1a10">sternum_back</text>
 <text x="16" y="908" font-family="sans-serif" font-size="18" font-weight="bold" fill="#2a1a10">Gray wolf: standing skeleton from species/wolf.yaml (draft)</text>
-<text x="16" y="930" font-family="monospace" font-size="15" fill="#2a1a10">withers height from the bones (mm)             wanted 750 [660, 840]   got   694.7   (species size.shoulder_height (field, includes skin and fur))</text>
-<text x="16" y="952" font-family="monospace" font-size="15" fill="#2a1a10">croup height / withers (topline slope)         wanted about 1   got   0.971   (outcome of the hind leg; wolves stand roughly level)</text>
-<text x="16" y="974" font-family="monospace" font-size="15" fill="#2a1a10">shoulder angle                                 wanted     120   got   118.1   (species angles.shoulder_standing (dog proxy))</text>
-<text x="16" y="996" font-family="monospace" font-size="15" fill="#2a1a10">elbow angle                                    wanted     125   got   126.9   (species angles.elbow_standing (dog proxy))</text>
-<text x="16" y="1018" font-family="monospace" font-size="15" fill="#2a1a10">scapula elevation                              wanted    60.0   got    81.2   (assumption scapula_elevation (weak))</text>
+<text x="16" y="930" font-family="monospace" font-size="15" fill="#2a1a10">withers height from the bones (mm)             wanted 750 [660, 840]   got   707.2   (species size.shoulder_height (field, includes skin and fur))</text>
+<text x="16" y="952" font-family="monospace" font-size="15" fill="#2a1a10">croup height / withers (topline slope)         wanted about 1   got   1.024   (outcome of the hind leg; wolves stand roughly level)</text>
+<text x="16" y="974" font-family="monospace" font-size="15" fill="#2a1a10">shoulder angle                                 wanted     115   got   111.3   (species angles.shoulder_standing (dog proxy))</text>
+<text x="16" y="996" font-family="monospace" font-size="15" fill="#2a1a10">elbow angle                                    wanted     140   got   140.9   (species angles.elbow_standing (dog proxy))</text>
+<text x="16" y="1018" font-family="monospace" font-size="15" fill="#2a1a10">scapula elevation                              wanted    60.0   got    60.4   (assumption scapula_elevation (firm, fact-check Q1))</text>
 <text x="16" y="1040" font-family="monospace" font-size="15" fill="#2a1a10">carpus angle                                   wanted     160   got   160.0   (species angles.carpus_standing)</text>
-<text x="16" y="1062" font-family="monospace" font-size="15" fill="#2a1a10">stifle angle                                   wanted   136.0   got   136.0   (assumption stifle_target)</text>
-<text x="16" y="1084" font-family="monospace" font-size="15" fill="#2a1a10">hock angle                                     wanted     150   got   150.0   (species angles.hock_standing)</text>
-<text x="16" y="1106" font-family="monospace" font-size="15" fill="#2a1a10">hip angle (pelvis vs femur)                    wanted  90-100   got   106.0   (outcome; the measurement sheet suggests 90-100)</text>
-<text x="16" y="1128" font-family="monospace" font-size="15" fill="#2a1a10">elbow point height / withers                   wanted    0.53   got   0.546   (species ratios.elbow_height_over_height (photos, includes fur))</text>
+<text x="16" y="1062" font-family="monospace" font-size="15" fill="#2a1a10">stifle angle                                   wanted     142   got   142.0   (species angles.stifle_standing)</text>
+<text x="16" y="1084" font-family="monospace" font-size="15" fill="#2a1a10">hock angle                                     wanted     140   got   140.0   (species angles.hock_standing)</text>
+<text x="16" y="1106" font-family="monospace" font-size="15" fill="#2a1a10">hip angle (pelvic axis vs femur)               wanted ~122 (95-122)   got   127.0   (outcome; standing radiographs about 122 (crest-ischium axis vs femur, fact-check Q3))</text>
+<text x="16" y="1128" font-family="monospace" font-size="15" fill="#2a1a10">elbow point height / withers                   wanted    0.53   got   0.536   (species ratios.elbow_height_over_height (photos, includes fur))</text>
 <text x="16" y="1150" font-family="monospace" font-size="15" fill="#2a1a10">chest depth / withers                          wanted    0.54   got    0.54   (species ratios (photos))</text>
-<text x="16" y="1172" font-family="monospace" font-size="15" fill="#2a1a10">body length (occiput to tail base) / withers   wanted    1.29   got   1.226   (species ratios.body_over_height (photos))</text>
-<text x="16" y="1194" font-family="monospace" font-size="15" fill="#2a1a10">front to hind paw (mm)                         wanted       -   got   575.3   (outcome of the spine length)</text>
+<text x="16" y="1172" font-family="monospace" font-size="15" fill="#2a1a10">body length (occiput to tail base) / withers   wanted    1.29   got   1.189   (species ratios.body_over_height (photos))</text>
+<text x="16" y="1194" font-family="monospace" font-size="15" fill="#2a1a10">front to hind paw (mm)                         wanted       -   got   725.3   (outcome of the spine length)</text>
 </svg>
