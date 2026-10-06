@@ -1,0 +1,520 @@
+{
+ "1": {
+  "question": "Scapula layback when standing (scapula angle above horizontal)",
+  "recommended": {
+   "value": 60,
+   "unit": "deg above horizontal",
+   "definition": "line along the scapular spine (scapula top to shoulder joint), measured from the horizontal; 60 = 30 deg off vertical"
+  },
+  "sources": [
+   {
+    "title": "Elliott, R.P. Dogsteps / cineradiography study at Harvard MCZ (quoted in 'More than Meets the Eye', Breeding Better Dogs)",
+    "url": "https://breedingbetterdogs.com/article/more-meets-eye",
+    "value": "about 30 deg off vertical (= 60 deg above horizontal); scapula-humerus angle 108-115 deg",
+    "definition": "standing naturally, x-ray, measured up the scapular ridge (spine)"
+   },
+   {
+    "title": "Fischer, M.S. & Lilje, K.E. 2011/2014 Dogs in Motion (VDH/Bonifatius), via search snippets",
+    "url": "https://www.vdh.de/en/dogs-in-motion/",
+    "value": "ideal scapula about 30 deg (from vertical) by cineradiography; 45 deg in breed standards unsubstantiated",
+    "definition": "high-speed x-ray video, 327 dogs, 32 breeds; snippet does not state from vertical explicitly"
+   },
+   {
+    "title": "Elliott & Brown via ShowSight 'Form Follows Function - Reach & Layback'",
+    "url": "https://showsightmagazine.com/form-follows-function-reach-layback/",
+    "value": "shoulder (scapula-humerus) ~120 deg in retriever/herding breeds, ~130 deg in sighthounds; 90 deg only in achondroplastic breeds",
+    "definition": "included angle at the shoulder joint"
+   },
+   {
+    "title": "Anatolian shepherd goniometry (BMC Vet Res 2026, ROM-AS)",
+    "url": "https://link.springer.com/article/10.1186/s12917-026-05436-5",
+    "value": "shoulder standing 119.76 +- 1.22 deg (no scapula angle)",
+    "definition": "goniometer: scapular spine vs line greater tubercle (infraspinatus insertion) to lateral humeral epicondyle; shoulder ICC poor"
+   },
+   {
+    "title": "Humphries, Shaheen & Gomez Alvarez 2020 PLOS ONE (GSD vs Labrador standing)",
+    "url": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0239832",
+    "value": "shoulder 'flexion' 59.8 +- 9.0 (GSD), 73.2 +- 8.5 (Lab); if flexion = 180 - included: 120 / 107 deg included",
+    "definition": "skin markers, sagittal 3-marker angle; convention not confirmed from full text"
+   }
+  ],
+  "agree": "partly",
+  "confidence": "B",
+  "notes": "The conflict is not between the scapula sources: Elliott's x-rays (30 deg off vertical), Fischer & Lilje (30 deg) and the shoulder angle (Elliott 108-115, Elliott/Brown ~120, Anatolian 119.8) are mutually consistent IF the elbow is ~140-150. Our 81 deg came from forcing the Anatolian ELBOW (124.8) together with its shoulder (119.8) and a vertical radius: humerus elevation = elbow - 90 = 35, so scapula = 120 - 35 = 85. Fix the elbow (Q2) and keep scapula 60 as a firm target. Siriusdog / KUSA texts quote '30-35 deg layback' for good fronts with the same meaning (from vertical). No wolf-specific measurement found. Full texts were blocked; values are from search snippets."
+ },
+ "2": {
+  "question": "Standing elbow angle (humerus vs radius)",
+  "recommended": {
+   "value": 140,
+   "unit": "deg included (180 = straight)",
+   "definition": "angle at the elbow between the humerus axis (shoulder joint to elbow joint) and the radius axis (elbow to carpus)"
+  },
+  "sources": [
+   {
+    "title": "Effect of elbow angle and weight-bearing on the evaluation of joint congruence in dogs (Anat Rec 2022)",
+    "url": "https://anatomypubs.onlinelibrary.wiley.com/doi/10.1002/ar.24937",
+    "value": "137 +- 13 deg (range 109-162) on lateromedial weight-bearing radiographs",
+    "definition": "radiographic humerus-radius/ulna axes, dogs standing/weight-bearing"
+   },
+   {
+    "title": "Rohwedder, T. Biomechanics of the Canine Elbow Joint (IntechOpen chapter)",
+    "url": "https://www.intechopen.com/chapters/78503",
+    "value": "standing position modelled at 145 deg; stance phase 115 (start), 110 (mid), 145 (end); reported standing range 110-159",
+    "definition": "included elbow angle"
+   },
+   {
+    "title": "Anatolian shepherd goniometry (BMC Vet Res 2026)",
+    "url": "https://link.springer.com/article/10.1186/s12917-026-05436-5",
+    "value": "124.84 +- 6.28 deg standing",
+    "definition": "goniometer: lateral epicondyle to greater tubercle (humerus) vs antebrachium midline to ulnar styloid"
+   },
+   {
+    "title": "Derived: Elliott scapula 60 deg + shoulder 108-120 deg + vertical radius",
+    "url": "https://breedingbetterdogs.com/article/more-meets-eye",
+    "value": "elbow = 90 + (shoulder - 60) = 138-150 deg",
+    "definition": "geometry of our rig"
+   }
+  ],
+  "agree": "partly",
+  "confidence": "B",
+  "notes": "Radiographic weight-bearing (137) and the modelled standing value (145) agree with the geometry implied by Elliott; the Anatolian goniometer value (125) is the low outlier (skin landmarks, a single heavy breed, 'minimal restraint' stance). The unsourced 130-150 sheet range is supported. Recommend 140 with the scapula at 60 so the shoulder comes out ~110 (inside Elliott's 108-115) or use 145 for shoulder ~115. Front-leg height rises ~35-40 mm for the wolf versus the current build."
+ },
+ "3": {
+  "question": "Standing hip angle (pelvis vs femur)",
+  "recommended": {
+   "value": "outcome, expect 95-120 (do not target)",
+   "unit": "deg included",
+   "definition": "angle at the hip between the pelvic line pointing cranially (hip toward tuber sacrale / iliac crest along the tuber sacrale-tuber ischiadicum line) and the femur (hip to stifle)"
+  },
+  "sources": [
+   {
+    "title": "Anatolian shepherd goniometry (BMC Vet Res 2026)",
+    "url": "https://link.springer.com/article/10.1186/s12917-026-05436-5",
+    "value": "94.35 +- 4.55 deg standing",
+    "definition": "goniometer: line tuber sacrale - tuber ischiadicum vs line greater trochanter - lateral femoral epicondyle"
+   },
+   {
+    "title": "The pelvic floor of standing, healthy dogs is consistently nearly horizontal... (AJVR 2026, 17 dogs, standing lateral radiographs)",
+    "url": "https://avmajournals.avma.org/view/journals/ajvr/aop/ajvr.26.04.0154/ajvr.26.04.0154.xml",
+    "value": "ilio-ischial axis 43.2 +- 4.3 deg and femur 100.6 +- 4.6 deg to the horizontal -> derived hip ~ 43 + (180 - 100.6) = 122 deg",
+    "definition": "radiographic axes to the ground; derivation is Firefly's, assumes both angles are measured on the same side (consistent with its stifle, see Q4)"
+   },
+   {
+    "title": "Kangal dogs goniometry (Ates, Hallaceli & Kurtul 2011, Israel J Vet Med)",
+    "url": "https://www.researchgate.net/publication/289752092_Goniometric_Measurements_of_the_Angular_Values_of_the_Joints_in_the_Fore-_and_Hind_limbs_of_Kangal_Dogs",
+    "value": "hip 'zero position' 69.8 +- 5.2 deg (females); mixed breeds 78 deg (cited)",
+    "definition": "dogs lying in lateral recumbency, not standing; definition differs"
+   },
+   {
+    "title": "Humphries et al. 2020 PLOS ONE",
+    "url": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0239832",
+    "value": "hip 'flexion' -10 +- 11 (GSD) vs 30 +- 12 (Lab)",
+    "definition": "marker angle, convention unknown; shows breed spread of ~40 deg"
+   }
+  ],
+  "agree": false,
+  "confidence": "C",
+  "notes": "Goniometry (94) and radiograph-derived (~122) disagree by ~28 deg; part may be landmarks on skin vs bone and part breed/stance. Our 106 sits between. Because the pelvis tilt (Q6) and the femur direction are both better measured than the hip angle, let the hip be an outcome and report it. Bonus: the AJVR femur angle says the femur is only ~10 deg off vertical (stifle slightly ahead of the hip) in naturally standing dogs."
+ },
+ "4": {
+  "question": "Standing stifle angle",
+  "recommended": {
+   "value": 142,
+   "unit": "deg included",
+   "definition": "angle at the stifle between femur (hip to stifle) and tibia (stifle to hock) axes"
+  },
+  "sources": [
+   {
+    "title": "Giansetto, Picavet, Lefebvre & Balligand 2022 Determination of the Stifle Angle at Standing Position in Dogs (Vet Sci 9:644)",
+    "url": "https://doi.org/10.3390/vetsci9110644",
+    "value": "mean 145 deg (old surgical standard 135)",
+    "definition": "femoral vs tibial axis, standing / mid-stance"
+   },
+   {
+    "title": "AJVR 2026 standing radiographs (17 dogs)",
+    "url": "https://avmajournals.avma.org/view/journals/ajvr/aop/ajvr.26.04.0154/ajvr.26.04.0154.xml",
+    "value": "femur 100.6 and tibia 63.5 deg to horizontal -> stifle = 180 - (100.6 - 63.5) = 142.9 deg",
+    "definition": "radiographic bone axes; derived by Firefly"
+   },
+   {
+    "title": "Anatolian shepherd goniometry (BMC Vet Res 2026)",
+    "url": "https://link.springer.com/article/10.1186/s12917-026-05436-5",
+    "value": "128.31 +- 8.45 deg",
+    "definition": "goniometer: greater trochanter-lateral femoral epicondyle vs lateral epicondyle-lateral malleolus"
+   },
+   {
+    "title": "Humphries et al. 2020 PLOS ONE",
+    "url": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0239832",
+    "value": "stifle 'flexion' 44 +- 9 (GSD) vs 34 +- 10 (Lab) -> about 136 / 146 if flexion = 180 - included",
+    "definition": "skin markers"
+   },
+   {
+    "title": "Categorization of the pelvic limb standing posture in nine breeds (PubMed 29152773)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/29152773",
+    "value": "no numbers in snippet; Dobermann straightest, GSD most angulated; stifle and tarsal angle best discriminators",
+    "definition": "135 dogs, standing angles"
+   }
+  ],
+  "agree": "partly",
+  "confidence": "B",
+  "notes": "Two radiographic sources agree at 143-145; the goniometer value 128 is again the low outlier (as for the elbow), suggesting the Anatolian goniometry reads systematically flexed. Recommend 142 rather than the 136 mean."
+ },
+ "5": {
+  "question": "Standing hock angle and metatarsus direction",
+  "recommended": {
+   "value": {
+    "hock": 140,
+    "metatarsus_tilt": 5
+   },
+   "unit": "deg included; deg off vertical, + = paw ahead of the hock",
+   "definition": "hock = angle between tibia (stifle to hock) and metatarsus (hock to MTP joint); tilt = metatarsus from the vertical"
+  },
+  "sources": [
+   {
+    "title": "AJVR 2026 standing radiographs (17 dogs)",
+    "url": "https://avmajournals.avma.org/view/journals/ajvr/aop/ajvr.26.04.0154/ajvr.26.04.0154.xml",
+    "value": "tibia 63.5, metatarsal 111.0 +- 7.4 deg to horizontal -> hock = 180 - (111 - 63.5) = 132.5 deg; metatarsus ~21 deg off vertical with the paw ahead of the hock",
+    "definition": "radiographic axes; derived by Firefly"
+   },
+   {
+    "title": "Anatolian shepherd goniometry (BMC Vet Res 2026)",
+    "url": "https://link.springer.com/article/10.1186/s12917-026-05436-5",
+    "value": "tarsus 126.12 +- 3.91 deg",
+    "definition": "goniometer: tibia vs metatarsus (MT III-IV) axes"
+   },
+   {
+    "title": "AwA-Pose wolf standing profile photos (keypoint report, ref/research/keypoints/REPORT.md)",
+    "url": "ref/awa-pose/canids.json (AwA-Pose, MIT; computed this session, scratchpad script)",
+    "value": "hock 150-156 median (n 9-13); metatarsus tilt median -13 deg (paw behind hock), IQR -20 to +10 (n 15)",
+    "definition": "2D keypoints stifle-hock-paw; fur and keypoint placement; photo stances mixed"
+   },
+   {
+    "title": "Humphries et al. 2020 PLOS ONE",
+    "url": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0239832",
+    "value": "hock 'flexion' 58 +- 11 (GSD) vs 26 +- 9 (Lab)",
+    "definition": "markers; ~122 / 154 if 180 - flexion"
+   }
+  ],
+  "agree": false,
+  "confidence": "C",
+  "notes": "Radiographs and goniometry of dogs give 126-133; wolf and dog photos give 145-156 (photos measure fur/skin points and mixed stances). Breed spread is large (Lab vs GSD ~30 deg). No wolf measurement exists. The vertical metatarsus is a show-stack convention: naturally standing dogs on radiographs put the paw ~20 deg ahead of the hock, wolf photos are scattered around vertical. Recommend hock 140 and a small tilt (0 to +10), and let the solver trade between hock and stifle rather than fix both."
+ },
+ "6": {
+  "question": "Croup / pelvis angle, pelvis length, hip joint position on the pelvis",
+  "recommended": {
+   "value": {
+    "croup_angle": 40,
+    "pelvis_length": 0.8,
+    "acetabulum_at": 0.6,
+    "sacrum_length": 0.06
+   },
+   "unit": "deg below horizontal; x femur; fraction from crest; x presacral",
+   "definition": "croup = tuber sacrale (iliac crest) to tuber ischiadicum line vs horizontal; pelvis length = os coxae greatest length; acetabulum_at = hip-joint position along crest-to-ischium (ilium / (ilium + ischium)); sacrum = sacral length"
+  },
+  "sources": [
+   {
+    "title": "AJVR 2026 standing radiographs (17 dogs)",
+    "url": "https://avmajournals.avma.org/view/journals/ajvr/aop/ajvr.26.04.0154/ajvr.26.04.0154.xml",
+    "value": "ilio-ischial axis 43.2 +- 4.3 deg; iliac body 52.6 +- 4.3; sacral body -18.4 +- 5.8; lumbar 1.2 +- 7.3; ischiopubic symphysis (pelvic floor) -1 to 9 deg",
+    "definition": "angles to the horizontal ground; ilio-ischial axis = tuber sacrale to tuber ischiadicum (= our crest-ischium line)"
+   },
+   {
+    "title": "Conformation texts (siriusdog 'Angles Front and Rear'; Elliott)",
+    "url": "http://siriusdog.com/angulation-dog/",
+    "value": "croup/pelvis 30-40 deg from horizontal; 'pelvis 30 deg' common; Elliott quoted at 60 for the pelvis-femur ideal",
+    "definition": "palpated croup, definitions vary"
+   },
+   {
+    "title": "Law et al. 2025 IOB raw data (pel_L, fem_L; 2 adult male wolves)",
+    "url": "https://github.com/chrisjlaw/published_data-Law_etal_2025_IOB",
+    "value": "pelvis 207 & 199 mm vs femur 251 & 244 -> 0.82; other canids 0.71-0.86; sacrum 52 & 46 mm = 0.060 x presacral 809",
+    "definition": "caliper, pelvis greatest length"
+   },
+   {
+    "title": "boneidentification.com wolf os coxae and femur",
+    "url": "https://boneidentification.com/bones/wolf-femur/",
+    "value": "os coxae 145-200 mm; femur 178-275 mm -> ~0.76",
+    "definition": "museum ranges"
+   },
+   {
+    "title": "Canine pelvic morphometry (Genetic mapping of principal components of canine pelvic morphology, CTVR 2017; Riser 1975 Vet Pathol)",
+    "url": "https://link.springer.com/article/10.1186/s40575-017-0043-7",
+    "value": "ilial length ~101 mm, ischial ~57 mm; ilium/ischium 1.46-1.60 (breeds); ilium:ischium 3:2 through life (Riser) -> acetabulum at 0.59-0.62 of the length from the crest",
+    "definition": "ventrodorsal radiographs"
+   }
+  ],
+  "agree": "partly",
+  "confidence": "B",
+  "notes": "Croup: the one radiographic study of standing dogs says ~43 deg, steeper than the 30 deg breed-text number; recommend 40 (wolves are often described as fairly level-crouped; no wolf measurement). Pelvis length 0.80 is confirmed (wolf 0.82). The hip joint sits well behind the middle (0.60, not 0.45): ilium is ~1.5x the ischium. Also the acetabulum lies BELOW the tuber sacrale - tuber ischiadicum line (not on it); the offset is not sourced (estimate ~0.15 x pelvis length). Raising the croup to 40 raises the hip angle outcome by ~10 deg."
+ },
+ "7": {
+  "question": "Paw: toe-joint (MCP/MTP) height above ground and toe length",
+  "recommended": {
+   "value": {
+    "digit_height": 0.22,
+    "digit_length": 0.55
+   },
+   "unit": "x MC3 / MT3",
+   "definition": "height of the metacarpo/metatarsophalangeal joint centre above the ground; horizontal reach from that joint to the claw tip when standing"
+  },
+  "sources": [
+   {
+    "title": "WikiVet Canine Phalanges; Symmetric Bilateral Brachymetacarpalia of a Dog (Vet Pathol 1995)",
+    "url": "https://en.wikivet.net/Canine_Phalanges_-_Anatomy_&_Physiology",
+    "value": "middle phalanx ~2/3 of proximal; PP3/MP3 1.23-1.83 in normal dogs; no MC3 ratio",
+    "definition": "bone lengths"
+   },
+   {
+    "title": "Derived from wolf field hind-foot length (200 mm, 160-240) minus MT3 (112) and the calcaneal tuber offset (~35-40 mm of cal_L 59, Law 2025)",
+    "url": "https://github.com/chrisjlaw/published_data-Law_etal_2025_IOB",
+    "value": "toes ~48-60 mm straightened = 0.45-0.55 x MT3",
+    "definition": "Firefly's derivation; field foot length is heel to claw tip"
+   },
+   {
+    "title": "Canine paw pad structure (Miao et al. 2017 Biology Open)",
+    "url": "https://journals.biologists.com/bio/article/6/12/1889/1807/How-does-the-canine-paw-pad-attenuate-ground",
+    "value": "multi-layer pad (epidermis, dermis, fat); thickness not in snippets",
+    "definition": ""
+   }
+  ],
+  "agree": "partly",
+  "confidence": "C",
+  "notes": "No measured MCP height or standing toe reach was found for any canid. The derivation from field foot length supports ~0.5 for toe length; the current 0.55 is fine. Digit height ~0.22 (about 23 mm for the wolf: metacarpal pad plus bone radius) is plausible and stays an estimate. Best future source: a standing radiograph of a dog foot (none reachable here)."
+ },
+ "8": {
+  "question": "Withers: how far the thoracic spines rise above the scapula top",
+  "recommended": {
+   "value": 0.025,
+   "unit": "x withers height (about 19 mm for the wolf)",
+   "definition": "top of T2-T3 spinous processes (plus skin) above the bony dorsal border of the scapula"
+  },
+  "sources": [
+   {
+    "title": "Miller's Anatomy of the Dog (Evans & de Lahunta) as summarised by AnatomyLearner / Physiopedia",
+    "url": "https://anatomylearner.com/dog-scapula-anatomy/",
+    "value": "the most dorsal part of the scapula lies just ventral to the free end of the T1 spinous process; withers formed by T1-T3, T2-T3 tallest",
+    "definition": "qualitative"
+   },
+   {
+    "title": "Law et al. 2025 IOB raw data (wolf T1)",
+    "url": "https://github.com/chrisjlaw/published_data-Law_etal_2025_IOB",
+    "value": "T1 neural spine height 70-72 mm, whole T1 height 88-90 mm",
+    "definition": "caliper; gives the depth of the vertebral body below the withers, not the gap"
+   },
+   {
+    "title": "Withers (Grokipedia/Wikipedia summaries)",
+    "url": "https://grokipedia.com/page/Withers",
+    "value": "T2-T3 highest; scapular cartilage extends the dorsal border",
+    "definition": "qualitative"
+   }
+  ],
+  "agree": true,
+  "confidence": "C",
+  "notes": "Sources agree it is small ('just ventral to' the T1 spine tip, and the scapular cartilage fills part of it) but none gives a number. Recommend 2-3% of withers height. Useful side result: the cervicothoracic junction (T1 body centre) sits ~80-90 mm below the spine tip in wolves (~0.11-0.12 x withers), so the current neck-root drop of 0.10 x withers is supported."
+ },
+ "9": {
+  "question": "Neck carriage at a relaxed stand and head pitch",
+  "recommended": {
+   "value": {
+    "neck_elevation": 40,
+    "skull_pitch": 20
+   },
+   "unit": "deg above / below horizontal",
+   "definition": "neck = straight chord from C7/T1 body to the atlanto-occipital joint; skull pitch = condylobasal axis (occipital condyles to prosthion) below horizontal"
+  },
+  "sources": [
+   {
+    "title": "AwA-Pose wolf standing profile photos, computed this session",
+    "url": "ref/awa-pose/canids.json (AwA-Pose, MIT; computed this session, scratchpad script)",
+    "value": "withers-to-skull-top contour 26 deg above ground (IQR 17-42, n 15); skull-top-to-upper-jaw line 34 deg below ground (IQR 26-49) -> condylobasal axis ~ 19 deg down after a ~15 deg inion-to-condyle correction",
+    "definition": "2D keypoints relative to the paw line; correction is Firefly's estimate"
+   },
+   {
+    "title": "Vidal, Graf & Berthoz 1986 Exp Brain Res 61:549; Graf, de Waele & Vidal 1995 J Anat 186:55",
+    "url": "https://link.springer.com/article/10.1007/BF00237580",
+    "value": "in resting cats, rabbits, rodents the bony cervical column is held near vertical, S-shaped, head flexed at the atlanto-occipital joint",
+    "definition": "x-rays of unrestrained animals; no dogs"
+   },
+   {
+    "title": "Taylor, Wedel & Naish 2009 Acta Palaeontol Pol 54:213",
+    "url": "https://www.app.pan.pl/archive/published/app54/app54-213.pdf",
+    "value": "extant amniotes hold the neck extended and raised, not in 'neutral pose'",
+    "definition": "review of x-ray data"
+   },
+   {
+    "title": "Lateral semicircular canal head-posture literature (Benoit et al. 2020 Sci Rep, ungulates)",
+    "url": "https://www.nature.com/articles/s41598-020-76757-0",
+    "value": "at rest/alert the lateral canal is pitched 20-30 deg nose-up, i.e., the skull is carried more nose-down than the canal plane",
+    "definition": "photographs + CT"
+   }
+  ],
+  "agree": "partly",
+  "confidence": "C",
+  "notes": "No dog or wolf radiographic neck angle was found. The bony neck is steeper than the outline (Vidal), and the wolf outline already rises 26 deg; with the neck root ~0.10-0.12 x withers below the withers and the occiput a little below the skull-top keypoint, the bony chord comes out ~35-45 deg, so 40 stays. Wolves carry the head lower than dogs in photos; skull pitch ~20 deg below horizontal fits the photos better than 12. Best practice: place the occiput from the photo neck line and let the neck angle be an outcome."
+ },
+ "10": {
+  "question": "Skull and jaw: mandible length vs CBL, jaw-joint position, wolf maximum gape",
+  "recommended": {
+   "value": {
+    "mandible": 0.78,
+    "tmj_forward_of_condyles": 0.23,
+    "max_gape": 50,
+    "gape_hard_limit": 65
+   },
+   "unit": "x CBL; x CBL; deg; deg",
+   "definition": "mandible = condylar process to infradentale; TMJ = mandibular fossa, forward of the occipital condyles along the CBL axis; gape = angle between upper and lower jaw at the TMJ"
+  },
+  "sources": [
+   {
+    "title": "Law et al. 2025 IOB raw data (wolves; 22 canid species)",
+    "url": "https://github.com/chrisjlaw/published_data-Law_etal_2025_IOB",
+    "value": "canine out-lever COL (TMJ to canine) / CBL = 0.708 (wolf), canids 0.66-0.74 -> TMJ ~0.22-0.25 CBL ahead of the condyles",
+    "definition": "caliper; COL = jaw joint to upper canine"
+   },
+   {
+    "title": "Slovak / Eurasian wolf craniometry (via search: Craniometrical characteristics of wolves; 'What big skulls you have!')",
+    "url": "https://www.researchgate.net/publication/370779537_What_big_skulls_you_have_Cranial_morphometry_of_grey_wolf_Canis_lupus_in_Eurasia",
+    "value": "mandible 183.8 +- 9.3 mm (Slovak, 171-195); CBL males 238.9 +- 10.7, females 227.2 +- 10.4 -> ~0.77-0.80",
+    "definition": "mandible infradentale to condyle; populations differ"
+   },
+   {
+    "title": "Thomson, Hetzel & Snyder 2021 J Vet Dent 'Gape Angle in Asymptomatic Dogs'",
+    "url": "https://journals.sagepub.com/doi/10.1177/08987564211012487",
+    "value": "44.0 +- 4.1 deg conscious, 43.9 +- 3.9 anaesthetised",
+    "definition": "from maxillary length and interincisal distance (trig angle at the TMJ)"
+   },
+   {
+    "title": "Gracis et al. 2016 Vertical Mandibular Range of Motion in Anesthetized Dogs and Cats (Front Vet Sci)",
+    "url": "https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2016.00051",
+    "value": ">25 kg dogs 134 +- 19 mm (93-180) interincisal; with a wolf jaw ~190 mm this is 41 deg (57 deg at 180 mm)",
+    "definition": "maximal passive opening; angle conversion by Firefly"
+   },
+   {
+    "title": "Bourke et al. / Wroe 2008 PLOS ONE dingo FE model; Penrose et al. 2020 Anat Rec (canid jaw muscles)",
+    "url": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0002200",
+    "value": "dingo modelled to 65 deg max, best bite 25-35; canid MR/dissection wide gape ~80-84 deg (red fox reference)",
+    "definition": "model / cadaver limits, not live behaviour"
+   }
+  ],
+  "agree": "partly",
+  "confidence": "B",
+  "notes": "Mandible ~0.78 of CBL (current 0.80 is fine). The jaw joint position: the rig's 0.29 from the occiput is close to 0.23 from the condyles if the rig's 'occiput' sits behind the condyles; check. Live dogs open to ~44 deg; anaesthetised maximum translates to ~40-57 deg for a wolf-sized head; cadaver/model limits reach 65-84. No wolf gape measurement exists. Recommend 50 for the widest natural pose (yawn, bite) and 65 as a hard limit."
+ },
+ "11": {
+  "question": "Ear set: erect ear angle to the skull",
+  "recommended": {
+   "value": 130,
+   "unit": "deg from the forward skull axis (90 = perpendicular to the skull, >90 = leaning back)",
+   "definition": "ear base-to-tip line vs the skull axis pointing forward (nose direction); relaxed; alert ears ~100-110"
+  },
+  "sources": [
+   {
+    "title": "AwA-Pose wolf standing profile photos, computed this session",
+    "url": "ref/awa-pose/canids.json (AwA-Pose, MIT; computed this session, scratchpad script)",
+    "value": "ear line 113 deg from the forward ground horizontal (IQR 90-132, n 15), i.e., ~23 deg back of vertical; vs the ear-base-to-nose line 164 deg (IQR 142-177)",
+    "definition": "2D keypoints ear base to ear tip"
+   },
+   {
+    "title": "Keypoint report convention (ref/research/keypoints/REPORT.md)",
+    "url": "ref/research/keypoints/REPORT.md",
+    "value": "the 19-27 deg 'ear carriage' is measured from the skull line pointing BACK (0 = laid back, 90 = upright) along the ear-base-to-nose line, which slopes ~40 deg below the true skull axis",
+    "definition": "explains the odd number"
+   },
+   {
+    "title": "GSD breed standard (AKC/UKC/CKC)",
+    "url": "https://gsdcmsp.org/standard.html",
+    "value": "ear centre lines perpendicular to the ground and parallel (viewed from the front)",
+    "definition": "front view only, alert"
+   },
+   {
+    "title": "Texas Wolfdog Project phenotyping: ears",
+    "url": "https://texaswolfdogproject.org/resources/phenotyping/what-is-phenotyping/ears",
+    "value": "wolf ears thick, strongly upright, set moderately high, angled slightly outward",
+    "definition": "qualitative"
+   }
+  ],
+  "agree": "partly",
+  "confidence": "C",
+  "notes": "IMPORTANT: in skeleton.py the ear is drawn at (skull direction + ear_set) with the skull pointing forward, so ear_set 70 makes the ear lean FORWARD ~32 deg past vertical. The photos say the relaxed wolf ear leans back ~20-25 deg from vertical, i.e., ~130 deg from a skull axis pitched 20 deg down. Use ~130 relaxed, ~105 alert. No measured angle in the literature."
+ },
+ "12": {
+  "question": "Tail: caudal vertebra count for wolves and relaxed tail carriage",
+  "recommended": {
+   "value": {
+    "caudal": 20,
+    "tail_carriage": -75
+   },
+   "unit": "count; deg below the topline",
+   "definition": "number of caudal vertebrae; tail base-to-tip direction relative to straight back along the topline"
+  },
+  "sources": [
+   {
+    "title": "Wolf vertebral formula (Biology Insights summary; Räikkönen et al. 2009 Biol Conserv on Isle Royale wolves)",
+    "url": "https://www.researchgate.net/publication/222820269_Congenital_bone_deformities_and_the_inbred_wolves_Canis_lupus_of_Isle_Royale",
+    "value": "about 20 caudal (7-13-7-3-~20)",
+    "definition": "count; the paper notes the coccygeal region is usually incomplete in specimens"
+   },
+   {
+    "title": "IMAIOS vet-Anatomy / Miller's Anatomy of the Dog",
+    "url": "https://www.imaios.com/en/vet-anatomy/anatomical-structures/caudal-vertebrae-coccygeal-11073892440",
+    "value": "dog 20-23 (Miller: average 20, extremes 6-23)",
+    "definition": "count"
+   },
+   {
+    "title": "Canids of the World (Princeton UP sample chapter)",
+    "url": "https://assets.press.princeton.edu/chapters/i13221.pdf",
+    "value": "canid tails 14-23 vertebrae",
+    "definition": "count across Canidae"
+   },
+   {
+    "title": "Wolf ethogram (International Wolf Center)",
+    "url": "https://wolf.org/wolf-info/wolf-ethogram/wolf-ethogram-t-z/",
+    "value": "relaxed: tail hangs loosely, near perpendicular to the ground, brushing the hocks",
+    "definition": "behavioural description"
+   },
+   {
+    "title": "AwA-Pose wolf standing photos (keypoint report)",
+    "url": "ref/awa-pose/canids.json (AwA-Pose, MIT; computed this session, scratchpad script)",
+    "value": "-75 deg (IQR -83 to -69, n 13)",
+    "definition": "base-to-tip vs topline"
+   }
+  ],
+  "agree": true,
+  "confidence": "B",
+  "notes": "Wolf ~20 caudals (dog 20-23); use 20. Carriage agrees between the ethogram and photos: about 75 deg below the topline, hanging near vertical; a slight outward curve at the base (leaves the croup at a shallower angle) is typical but unmeasured."
+ },
+ "13": {
+  "question": "Field withers height vs skeleton withers (695 mm vs 660-840 mm)",
+  "recommended": {
+   "value": {
+    "expected_bone_withers_mm": 735,
+    "soft_tissue_mm": 25
+   },
+   "unit": "mm",
+   "definition": "skeleton withers after the Q1/Q2/Q4 fixes; pads + skin + compressed coat on a measuring stick"
+  },
+  "sources": [
+   {
+    "title": "Harcourt 1974 withers-height regressions for dogs (J Archaeol Sci), as quoted in archaeozoology papers",
+    "url": "https://www.researchgate.net/figure/Estimated-height-at-the-withers-from-Harcourt-1974_tbl1_280917541",
+    "value": "WH(cm) = (3.43 hum - 26.54)/10, (3.18 rad + 19.51)/10, (3.14 fem - 12.96)/10, (2.92 tib + 9.41)/10 -> wolf bones (Law 2025) give 769, 772, 764, 763 mm; mean 767 mm",
+    "definition": "regression from dogs of known live height; includes soft tissue implicitly"
+   },
+   {
+    "title": "Field guides (SDZG / Western Wildlife Outreach fact sheets)",
+    "url": "https://ielc.libguides.com/sdzg/factsheets/graywolf/characteristics-page",
+    "value": "660-840 mm, mean used 750",
+    "definition": "live or carcass, method unstated"
+   },
+   {
+    "title": "Wolf pelage (Wikipedia summary of Heptner & Naumov)",
+    "url": "https://en.wikipedia.org/wiki/Wolf",
+    "value": "back hair 60-70 mm, shoulder guard hairs to 90 (110-130) mm",
+    "definition": "hair length; a measuring stick compresses it"
+   }
+  ],
+  "agree": "partly",
+  "confidence": "B",
+  "notes": "The bones predict a live height of ~767 mm, close to the field 750, so the 55-70 mm shortfall is mostly POSTURE, not skin: the over-flexed elbow (125) and the near-upright scapula cost ~35-40 mm in front (humerus 232 x (sin 55 - sin 35) = +57, scapula 175.5 x (sin 60 - sin 81) = -21). Pads (~10-15 mm), skin over the withers (~5-10 mm) and the withers gap make up most of the rest. Visually the coat adds 60-90 mm above the bone at the shoulders even though it does not count in a stick measurement."
+ }
+}
