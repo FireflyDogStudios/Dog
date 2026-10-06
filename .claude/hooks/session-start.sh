@@ -6,4 +6,4 @@ if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then exit 0; fi
 cd "$CLAUDE_PROJECT_DIR"
 npm install --no-audit --no-fund --silent
 if ! command -v uv >/dev/null 2>&1; then pip install -q uv; fi
-uv pip install --system -q -r tools/lens/requirements.txt -r tools/den/requirements.txt
+UV_NO_CACHE=1 uv pip install --system -q -r tools/lens/requirements.txt -r tools/den/requirements.txt

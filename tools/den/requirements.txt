@@ -4,3 +4,15 @@ colour-science
 scikit-learn
 pyclipper
 uv
+# Oct 6, second round: species files, curves, previews, tests
+jsonschema
+pydantic
+pyyaml
+pandas
+rich
+pytest
+sympy
+svgelements
+bezier
+imageio
+imageio-ffmpeg
