@@ -299,23 +299,25 @@ def hood(rig, mounts, body):
     shell = shell.buffer(-.2, join_style=1).buffer(.2, join_style=1)
     if isinstance(shell, MultiPolygon): shell = max(shell.geoms, key=lambda g: g.area)
     hole = eyeg.buffer(H.get('eyePad', .45), join_style=1); rimw = .28
-    shell = shell.difference(hole)
+    eyed = H.get('eye', True) and shell.intersects(hole)   # eye: False (the companion, GrumpyDingo Oct 6) means the hood stops behind the eye: no opening, no rim
+    if eyed: shell = shell.difference(hole)
     collar = strip(C, -1, 1).buffer(.3)
     rims = []
     for jid in ('earFar', 'earNear'):   # a lip where each ear comes out: the hood's edge, hugging the ear (the ear is drawn behind the head, so the lip reads as the opening it rises from)
         e = joint_shape(rig, jid)
-        lip = e.buffer(rimw + .05, join_style=1).intersection(shell).intersection(shell.exterior.buffer(.6))
+        lip = e.buffer(rimw + .05, join_style=1).intersection(shell).intersection(shell.exterior.buffer(.6)).difference(front.exterior.buffer(.9))   # stop short of the front edge, so the lip never hooks round the corner
         if not lip.is_empty: rims.append(lip.buffer(-.04, join_style=1).buffer(.04, join_style=1))
     earrim = unary_union(rims)
-    free = shell.difference(hole.buffer(rimw + .25)).difference(earrim.buffer(.25)).difference(collar).buffer(-.55)
+    free = shell.difference(hole.buffer(rimw + .25) if eyed else hole.buffer(.2)).difference(earrim.buffer(.25)).difference(collar).buffer(-.55)
     if isinstance(free, MultiPolygon): free = max(free.geoms, key=lambda g: g.area)
     gem = polylabel(free, .01) if not free.is_empty else shell.representative_point()
     trim = shell.intersection(front.boundary.buffer(.3))    # a fitting-coloured trim along the front edge
     soft = lambda g: g.buffer(-.04, join_style=1).buffer(.04, join_style=1)
     out = {'base': path_holes(shell, CORNER), 'shade': path_holes(soft(shell.difference(affinity.translate(shell, 0, -.9)))), 'light': path_holes(soft(shell.difference(affinity.translate(shell, 0, .55)))),
-           'eyerim': path_holes(soft(hole.buffer(rimw, join_style=1).difference(hole))), 'gem': [round(gem.x, 2), round(gem.y, 2)]}
+           'gem': [round(gem.x, 2), round(gem.y, 2)]}
     if not earrim.is_empty: out['earrims'] = [path(g, .05) for g in (earrim.geoms if hasattr(earrim, 'geoms') else [earrim]) if g.area > .05]
-    if not trim.is_empty and trim.area > .05: out['trim'] = path(trim, .05)
+    if eyed: out['eyerim'] = path_holes(soft(hole.buffer(rimw, join_style=1).difference(hole)))
+    if H.get('trim', True) and not trim.is_empty and trim.area > .05: out['trim'] = path(trim, .05)
     return out
 
 def path_holes(geom, r=0):
