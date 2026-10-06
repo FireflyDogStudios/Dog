@@ -1,0 +1,6 @@
+species,family,ecology,HuL_mm,HuPCL_mm,RaL_mm,brachial_index_RaL_over_HuL,source_route
+Canis adustus,Canidae,cursorial,127.84,45.03,135.86,1.063,Samuels et al. 2013 Dryad data (CC0) as printed in mvSLOUCH vignette head(dat)
+Canis latrans,Canidae,cursorial,160.06,67.03,168.32,1.052,Samuels et al. 2013 Dryad data (CC0) as printed in mvSLOUCH vignette head(dat)
+Canis lupus,Canidae,cursorial,212.12,92.11,210.94,0.994,Samuels et al. 2013 Dryad data (CC0) as printed in mvSLOUCH vignette head(dat)
+Vulpes lagopus,Canidae,generalist,106.47,44.08,101.89,0.957,Samuels et al. 2013 Dryad data (CC0) as printed in mvSLOUCH vignette head(dat); listed as Alopex lagopus in the original file
+Atelocynus microtis,Canidae,generalist,116.01,52.55,107.78,0.929,Samuels et al. 2013 Dryad data (CC0) as printed in mvSLOUCH vignette head(dat)

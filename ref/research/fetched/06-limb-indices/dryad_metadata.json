@@ -1,0 +1,79 @@
+{
+ "identifier": "doi:10.5061/dryad.77tm4",
+ "title": "Data from: Postcranial morphology and the locomotor habits of living and extinct carnivorans",
+ "authors": [
+  {
+   "firstName": "Joshua X.",
+   "lastName": "Samuels",
+   "affiliation": "John Day Fossil Beds National Monument, Kimberly, Oregon 97848",
+   "affiliations": [
+    {
+     "organization": "John Day Fossil Beds National Monument, Kimberly, Oregon 97848"
+    }
+   ]
+  },
+  {
+   "firstName": "Julie A.",
+   "lastName": "Meachen",
+   "affiliation": "Duke University",
+   "affiliationROR": "https://ror.org/00py81415",
+   "affiliations": [
+    {
+     "organization": "Duke University",
+     "identifier": "https://ror.org/00py81415"
+    }
+   ]
+  },
+  {
+   "firstName": "Stacey A.",
+   "lastName": "Sakai",
+   "affiliation": "Virginia Commonwealth University",
+   "affiliationROR": "https://ror.org/02nkdxk79",
+   "affiliations": [
+    {
+     "organization": "Virginia Commonwealth University",
+     "identifier": "https://ror.org/02nkdxk79"
+    }
+   ]
+  }
+ ],
+ "abstract": "\nMembers of the order Carnivora display a broad range of locomotor habits, including cursorial, scansorial, arboreal, semiaquatic, aquatic, and semifossorial species from multiple families. Ecomorphological analyses from osteological measurements have been used successfully in prior studies of carnivorans and rodents to accurately infer the locomotor habits of extinct species. This study uses 20 postcranial measurements that have been shown to be effective indicators of locomotor habits in rodents and incorporates an extensive sample of over 300 individuals from more than 100 living carnivoran species. We performed statistical analyses, including analysis of variance (ANOVA) and stepwise discriminant function analysis, using a set of 16 functional indices (ratios). Our ANOVA results reveal consistent differences in postcranial skeletal morphology among locomotor groups. Cursorial species display distal elongation of the limbs, gracile limb elements, and relatively narrow humeral and femoral epicondyles. Aquatic and semiaquatic species display relatively robust, shortened femora and elongate metatarsals. Semifossorial species display relatively short, robust limbs with enlarged muscular attachment sites and elongate claws. Both semiaquatic and semifossorial species have relatively elongate olecranon process of the ulna and enlarged humeral and femoral epicondyles. Terrestrial, scansorial, and arboreal species are characterized by having primarily intermediate features, but arboreal species do show relatively elongate manual digits. Morphological indices effectively discriminate locomotor groups, with cursorial and arboreal species more accurately classified than terrestrial, scansorial, or semiaquatic species. Both within and between families, species with similar locomotor habits converge toward similar postcranial morphology despite their independent evolutionary histories. The discriminant analysis worked particularly well to correctly classify members of the Canidae, but not as well for members of the Mustelidae or Ursidae. Results are used to infer the locomotor habits of extinct carnivorans, including members of several extinct families, and also 12 species from the Pleistocene of Rancho La Brea.",
+ "keywords": [
+  "Carnivora"
+ ],
+ "relatedWorks": [
+  {
+   "relationship": "primary_article",
+   "identifierType": "DOI",
+   "identifier": "https://doi.org/10.1002/jmor.20077"
+  }
+ ],
+ "versionNumber": 1,
+ "publicationDate": "2013-01-07",
+ "lastModificationDate": "2020-06-24",
+ "license": "https://spdx.org/licenses/CC0-1.0.html",
+ "sharingLink": "http://datadryad.org/dataset/doi:10.5061/dryad.77tm4",
+ "storageSize": 52072,
+ "files": [
+  {
+   "path": "Carnivore Postcranial Morphology Data Samuels et al. 2013.txt",
+   "size_bytes": 50409,
+   "mimeType": "text/plain",
+   "api_download": "https://datadryad.org/api/v2/files/51902/download"
+  },
+  {
+   "path": "README_for_Carnivore Postcranial Morphology Data Samuels et al. 2013.txt",
+   "size_bytes": 1663,
+   "mimeType": "text/plain",
+   "api_download": "https://datadryad.org/api/v2/files/51903/download"
+  }
+ ],
+ "_fetched": {
+  "date": "2026-10-06",
+  "from": [
+   "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.77tm4",
+   "https://datadryad.org/api/v2/versions/13767/files"
+  ],
+  "licence_note": "Dataset metadata is CC0 per the Dryad API license field."
+ }
+}
