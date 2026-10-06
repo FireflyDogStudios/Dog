@@ -28,6 +28,10 @@ The bracketed numbers are the footnote markers of the original. Their source lis
 - **Residing animals:** almost exclusively foxes [11].
 - **Weapons:** elegant, precision-engineered weapons made of steel, silver and brass, including rapiers, thin blades, throwing needles, and fans with hidden edges [12]. Their Called weapons hover in symmetrical, choreographed formation [12].
 
+## Decisions
+- **Corvids are not a playable species (GrumpyDingo, Oct 6).** Gear sets for a completely unrelated body plan make no sense, so the Tinkers' "allied corvids" become creatures of legend in the lore, not a race in the creator.
+- **The wolf is the first species and the prototype of the species creator (Oct 6):** built from the new hero by measured proportions, wearing the existing armor through the normal mount-and-compile pipeline.
+
 ## Where this goes next (not started)
 - One style sheet per faction (the table in the design guide: shape language, signature break, edge profile, gem cut, plate count, role), agreed with GrumpyDingo before any drawing.
 - The current pieces (Hide armor, wraps, cuffs, bracelets, hood) are the plain base that faction styles theme-stack on.
