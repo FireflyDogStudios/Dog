@@ -1,5 +1,5 @@
 ### 01 skin-offsets: fetched
-Source: the dog volume of Ellenberger, Baum, Dittrich & Münch, *Handbuch der Anatomie der Tiere für Künstler* (*Anatomie des Hundes*, 1st edition, Leipzig, ca. 1911–25). Used Tafel 1 (exterior) and Tafel 3 (skeleton drawn inside the body outline). The scans come from UW–Madison Digital Collections, are public domain ("No known copyright"; PD tags on Commons) and are stored here. Measured on Tafel 3 (skeleton and outline on the same plate). Withers height is 1837 px, ground to the skin top of the withers.
+Source: the dog volume of Ellenberger, Baum, Dittrich & Münch, *Handbuch der Anatomie der Tiere für Künstler* (*Anatomie des Hundes*, 1st edition, Leipzig, ca. 1911–25). Used Tafel 1 (exterior) and Tafel 3 (skeleton drawn inside the body outline). The scans come from UW–Madison Digital Collections, are public domain ("No known copyright"; PD tags on Commons) (not stored here; the plate URLs are in NOTE.md). Measured on Tafel 3 (skeleton and outline on the same plate). Withers height is 1837 px, ground to the skin top of the withers.
 
 | Landmark (bone → skin) | Offset / withers height | Direction |
 |---|---|---|
