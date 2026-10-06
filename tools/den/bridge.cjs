@@ -27,7 +27,7 @@ if (cmd === 'pixelmatch'){
   const b = await chromium.launch({args:['--use-gl=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist']});
   const p = await b.newPage({viewport:{width:1400, height:900}}); p.on('pageerror', e => console.error('PAGEERROR', e.message));
   await p.goto('file://' + pagePath); await p.waitForFunction(() => typeof RIG !== 'undefined' && typeof GEAR !== 'undefined' && typeof PIXI !== 'undefined' && RIG.DEFS && RIG.DEFS.hero2, null, {timeout:20000}); /* the engines are top-level consts, so they are globals but not window properties */
-  const KIND_ORDER = 'pcbtrk'; /* the bench's layer order (the registry): paw covers, armor, bracelets, guard, rings, collar. Attach order decides what is on top, so frames are built in this order whatever order the codes come in */
+  const KIND_ORDER = 'pchbtrk'; /* the bench's layer order (the registry): paw covers, armor, helmet, bracelets, guard, rings, collar. Attach order decides what is on top, so frames are built in this order whatever order the codes come in */
   const rigs = list(opt.rig || 'hero,hero2'), codes = list(opt.gear).map((c, i) => [c, i]).sort((a, b) => (KIND_ORDER.indexOf(a[0][0]) - KIND_ORDER.indexOf(b[0][0])) || a[1] - b[1]).map(x => x[0]), scale = +(opt.scale || 14), phases = list(opt.phases || 'standing').map(s => s === 'standing' ? null : +s);
   /* one frame, built from scratch. mode 'id': flat unique colours; mode 'color': as drawn. Returns the PNG and the legend. */
   const frame = (args) => p.evaluate(async ({rig, codes, phase, scale, mode}) => {

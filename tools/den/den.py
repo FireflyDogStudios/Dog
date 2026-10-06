@@ -22,7 +22,7 @@ import sys, os, re, json, math, subprocess, pathlib, time, random, argparse
 ROOT = pathlib.Path(__file__).resolve().parents[2]; DEN = ROOT / 'tools/den'; LENS = ROOT / 'tools/lens'; CACHE = DEN / '.cache'; CACHE.mkdir(exist_ok=True, parents=True)
 sys.path.insert(0, str(LENS))
 ENV = {**os.environ, 'NODE_PATH': str(ROOT / 'node_modules')}
-DEFAULT_SET = ['k0000000', 't0000000', 'r0000000', 'r1000000', 'r2000000', 'c0000000', 'p0000000', 'b0000000', 'b1000000', 'b2000000', 'b3000000']
+DEFAULT_SET = ['h0000000', 'k0000000', 't0000000', 'r0000000', 'r1000000', 'r2000000', 'c0000000', 'p0000000', 'b0000000', 'b1000000', 'b2000000', 'b3000000']
 RIGS = ['hero', 'hero2']
 LEG = re.compile(r'^(sh|fore|past|ftoe|hip|shank|meta|htoe)[NF]$')
 FAILS = []   # every failure message of this run
@@ -103,6 +103,7 @@ def roles(legend):
         elif k == 'tailguard': role = 'guard'
         elif k and k.startswith('ring'): role = 'ring'
         elif k == 'collar': role = 'collar'
+        elif k == 'helmet': role = 'hood'
         else: role = k
         out[i] = (role, j)
     return out
@@ -118,7 +119,7 @@ def check_order(codes):
                       (f'sleeve under cuff on {host}', ords(lambda r, h: r == 'sleeve' and h == host), ords(lambda r, h: r == 'cuff' and h == host))]
         legs = ords(lambda r, h: r in ('sock', 'sleeve', 'cuff') and bool(LEG.match(h)))
         rules += [('tail sleeve under guard', ords(lambda r, h: r == 'tailsleeve'), ords(lambda r, h: r == 'guard')), ('guard under rings', ords(lambda r, h: r == 'guard'), ords(lambda r, h: r == 'ring')),
-                  ('torso over every leg piece', legs, ords(lambda r, h: r == 'torso')), ('collar over torso', ords(lambda r, h: r == 'torso'), ords(lambda r, h: r == 'collar'))]
+                  ('torso over every leg piece', legs, ords(lambda r, h: r == 'torso')), ('collar over torso', ords(lambda r, h: r == 'torso'), ords(lambda r, h: r == 'collar')), ('collar over hood', ords(lambda r, h: r == 'hood'), ords(lambda r, h: r == 'collar'))]
         bad = 0
         for name, lower, upper in rules:
             if not lower or not upper: continue

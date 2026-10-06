@@ -276,6 +276,57 @@ def cuffs(rig, mounts):
             out[f'{side}{i}'] = {'c': [round((x0 + x1) / 2, 2), round((y0 + y1) / 2, 2)], 'u': [round(u[0], 4), round(u[1], 4)], 'w': round(seg.length, 2), 'h': cf['h']}
     return out
 
+def hood(rig, mounts, body):
+    """The hood (helmet slot, GrumpyDingo Oct 6: a fitted hood with the ears coming out through openings). Cut from the dog's own head: on the head side of the collar
+       (tucked a little under it), behind a front line across the muzzle (the muzzle stays bare), above the lip line (the pale jaw stays bare). The eye shows through a rimmed
+       opening; each ear comes out of a rimmed opening (the ears are drawn behind the head, so the hood over the head leaves them free). The gem goes where the hood
+       is widest (the pole of inaccessibility of what is left after the openings), so it never crowds a rim. Everything is per dog, from the shapes."""
+    from shapely.ops import polylabel
+    H = mounts['hood']; C = mounts['collar']; D = R.rigs[rig]
+    ts = [-.15 + 1.3 * i / 40 for i in range(41)]; edge = [pt(C, t, H.get('tuck', .2)) for t in ts]   # s = +1 is the collar's head-side edge; a little inside it, so the hood tucks under the collar
+    c0, c1 = edge[0], edge[-1]
+    region = Polygon(edge + [(c1[0] + 20, c1[1] + 12), (c1[0] + 20, c0[1] - 20), (c0[0] - 4, c0[1] - 20)]).buffer(0)
+    (fx0, fy0), (fx1, fy1) = H['front']; dx, dy = fx1 - fx0, fy1 - fy0; L = math.hypot(dx, dy); nx, ny = -dy / L, dx / L   # the front line; keep the side away from the nose
+    front = Polygon([(fx0 - dx * 3, fy0 - dy * 3), (fx1 + dx * 3, fy1 + dy * 3), (fx1 + dx * 3 + nx * 40, fy1 + dy * 3 + ny * 40), (fx0 - dx * 3 + nx * 40, fy0 - dy * 3 + ny * 40)])
+    inks = [q for q in D['parts'] if (q.get('in') or 'root') == 'body' and q.get('paint') == 'ink']
+    ear = {j['id']: j['at'] for j in D['joints'] if j['id'].startswith('ear')}
+    nose = max(inks, key=lambda q: math.dist((q.get('circle') or q.get('ellipse'))[:2], ear['earNear']))   # the ink mark farthest from the ear
+    if front.contains(Point(*(nose.get('circle') or nose.get('ellipse'))[:2])): front = affinity.rotate(front, 180, origin=((fx0 + fx1) / 2, (fy0 + fy1) / 2))   # keep the side AWAY from the nose
+    eye = min(inks, key=lambda q: math.dist((q.get('circle') or q.get('ellipse'))[:2], ear['earNear']))   # the eye is the ink mark nearest the ear (the other one is the nose)
+    eyeg = part_poly(eye); jaw = [part_poly(q) for q in D['parts'] if (q.get('in') or 'root') == 'body' and q.get('paint') == 'pale' and part_poly(q).centroid.x > eyeg.centroid.x - 2]
+    shell = body.intersection(region).intersection(front)
+    for j in jaw: shell = shell.difference(j.buffer(.12))
+    shell = shell.buffer(-.2, join_style=1).buffer(.2, join_style=1)
+    if isinstance(shell, MultiPolygon): shell = max(shell.geoms, key=lambda g: g.area)
+    hole = eyeg.buffer(H.get('eyePad', .45), join_style=1); rimw = .28
+    shell = shell.difference(hole)
+    collar = strip(C, -1, 1).buffer(.3)
+    rims = []
+    for jid in ('earFar', 'earNear'):   # a lip where each ear comes out: the hood's edge, hugging the ear (the ear is drawn behind the head, so the lip reads as the opening it rises from)
+        e = joint_shape(rig, jid)
+        lip = e.buffer(rimw + .05, join_style=1).intersection(shell).intersection(shell.exterior.buffer(.6))
+        if not lip.is_empty: rims.append(lip.buffer(-.04, join_style=1).buffer(.04, join_style=1))
+    earrim = unary_union(rims)
+    free = shell.difference(hole.buffer(rimw + .25)).difference(earrim.buffer(.25)).difference(collar).buffer(-.55)
+    if isinstance(free, MultiPolygon): free = max(free.geoms, key=lambda g: g.area)
+    gem = polylabel(free, .01) if not free.is_empty else shell.representative_point()
+    trim = shell.intersection(front.boundary.buffer(.3))    # a fitting-coloured trim along the front edge
+    soft = lambda g: g.buffer(-.04, join_style=1).buffer(.04, join_style=1)
+    out = {'base': path_holes(shell, CORNER), 'shade': path_holes(soft(shell.difference(affinity.translate(shell, 0, -.9)))), 'light': path_holes(soft(shell.difference(affinity.translate(shell, 0, .55)))),
+           'eyerim': path_holes(soft(hole.buffer(rimw, join_style=1).difference(hole))), 'gem': [round(gem.x, 2), round(gem.y, 2)]}
+    if not earrim.is_empty: out['earrims'] = [path(g, .05) for g in (earrim.geoms if hasattr(earrim, 'geoms') else [earrim]) if g.area > .05]
+    if not trim.is_empty and trim.area > .05: out['trim'] = path(trim, .05)
+    return out
+
+def path_holes(geom, r=0):
+    """like path(), but keeps a polygon's holes as extra subpaths (Pixi fills a compound path with holes, tested Oct 6), so an opening inside a shape stays open"""
+    if isinstance(geom, MultiPolygon): geom = max(geom.geoms, key=lambda g: g.area)
+    if r: geom = geom.buffer(-r, join_style=1).buffer(r, join_style=1)
+    if isinstance(geom, MultiPolygon): geom = max(geom.geoms, key=lambda g: g.area)
+    g = geom.simplify(.015, preserve_topology=True)
+    ring = lambda c: 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in list(c)[:-1]) + ' Z'
+    return ' '.join([ring(g.exterior.coords)] + [ring(i.coords) for i in g.interiors])
+
 CORNER = .32  # corner radius of the band, in drawing units (the style sheet's contour weight: corners never sharper than the line itself)
 R = Rigs(); out = {}
 for rig, mounts in R.mounts.items():
@@ -286,6 +337,7 @@ for rig, mounts in R.mounts.items():
     if 'torso' in mounts:
         out[rig]['torso'] = torso(rig, mounts, body)
         if 'sleeve' in mounts['torso']: out[rig]['sleeves'] = sleeves(rig, mounts)
+    if 'hood' in mounts: out[rig]['hood'] = hood(rig, mounts, body)
     if 'paws' in mounts:
         out[rig]['paws'] = pawcovers(rig, mounts)
         if 'cuff' in mounts['paws']: out[rig]['cuffs'] = cuffs(rig, mounts)

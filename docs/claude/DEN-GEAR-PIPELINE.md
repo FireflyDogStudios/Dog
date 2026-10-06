@@ -60,6 +60,13 @@ A gear piece is drawn **once** and fits **every dog** because it is drawn agains
 - Hosted at the top of the leg (`shN`/`shF`) and following the forearm, attached after the armor, so it sits over the sleeve and the sock. Code `b<slot><fitting><band><gem><rarity><infusion>[style]`.
 - Drawn height counts the outline: a cuff of h 1.5 shows about 1.8, so leave gaps for that when spacing.
 
+## Helmet (the hood)
+
+- A fitted hood (GrumpyDingo, Oct 6, from a photo of a dog in a snood): `compile_mounts.py` (`hood`) cuts it from the dog's head on the head side of the collar (tucked under it by `tuck`), behind `MOUNTS.<dog>.hood.front` (a line across the muzzle; the side away from the nose is kept), above the pale jaw. The eye shows through a rimmed opening; each ear rises out of a rimmed lip.
+- **The dogs' ears are drawn BEHIND the head** (their bases are buried in the skull, and the body's own Graphics draw after the ear joints), so the hood simply goes on `body` over the head and the ears stay free, laid back too. No engine change was needed.
+- Openings are real holes: `path_holes()` writes a polygon's holes as extra subpaths, and Pixi fills a compound path with holes (tested Oct 6). `path()` keeps only the outside, which turned the first eye opening into a disc.
+- The gem goes at the pole of inaccessibility (shapely `polylabel`) of the hood minus its rims and the collar, so it sits where there is the most room. Code `h<band><fit><style><gem><rarity><infusion>`.
+
 ## Adding things
 
 - **A new dog:** add its row to `GEAR.MOUNTS` (collar edges, tail, torso, sleeve gaps), run `compile_mounts.py`, run `lint.py` on every code, look at it in the bench.
