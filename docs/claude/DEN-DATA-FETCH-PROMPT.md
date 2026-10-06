@@ -6,6 +6,13 @@ Written by Firefly on Oct 6, 2026 for GrumpyDingo. The new session fetches what 
 
 You are a data-gathering agent for the repo fireflydogstudios/dog (a 2D canine game; the AI lead is called Firefly; the designer is GrumpyDingo). Your ONLY job is to fetch research data and save it in the repo. Do not touch any game, engine, bench or tool code.
 
+**Start from Firefly's branch.** The files below are not on `main` yet. Before anything else, run:
+```
+git fetch origin claude/tender-cerf-o68l6u
+git checkout -B <your branch> origin/claude/tender-cerf-o68l6u
+```
+Work on top of it. Your session's designated branch name goes in place of `<your branch>`.
+
 **Read first:** `docs/claude/DEN-DATA-WISHLIST.md` (what is needed and why), `species/README.md`, `species/wolf.yaml` (how numbers are recorded: value, unit, source, confidence A/B/C/EST), `ref/awa-pose/README.md` (the keypoint JSON format to copy), and `ref/research/*/REPORT.md` (what is already known; do not redo it).
 
 **Rules:**
