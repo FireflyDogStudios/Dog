@@ -2,7 +2,7 @@
  "item": "03-dog-model",
  "fetched": "2026-10-06",
  "dog_model_stark_2021": {
-  "status": "model files NOT fetched: SimTK downloads require a SimTK account login (download_confirm.php redirects to /account/login.php; tried 3x, Oct 6 2026). No mirror found on Zenodo, figshare, GitHub (web search) or the article supplement. web.archive.org is blocked by this environment's egress policy.",
+  "status": "FETCHED (2026-10-06). Model files downloaded by hand by GrumpyDingo from SimTK (login required) and handed over via Google Drive; extracted by a Firefly agent. The earlier note about the login wall is kept below in \"status_before_handover\".",
   "title": "A three-dimensional musculoskeletal model of the dog",
   "authors": "Heiko Stark, Martin S. Fischer, Alexander Hunt, Fletcher Young, Roger Quinn, Emanuel Andrada",
   "year": 2021,
@@ -108,6 +108,740 @@
    "segment masses": "as % of 13.8 kg body mass from Amit et al. 2009 volumes + CT (Suppl. 2); inertia from bone point clouds (cloud2). Humerus inertia about CoM (1e-3 kg m^2, diagonal): Andrada 2017 0.435/0.329/0.254; bone geometry 0.513/0.500/0.044; CT segmentation 0.332/0.256/0.178 (Suppl. Table 1)",
    "scaling": "Muscle geometry came from a German Shepherd (working line) anatomical model (Lauströer, Andikfar & Fischer). Beagle bones were scaled up to fit it: both limbs x1.66, spine/neck/head x1.25 (one factor per leg suffices because segment length as % of leg length is about constant across breeds, incl. chondrodystrophic, citing Fischer & Lilje 2011, Lumer 1940, Wayne 1986). Muscle PCSA scaled to Beagle body mass with log relationships from Shahar & Milgram and Williams et al. data; lengths scale with geometry in OpenSim. 'Working versions' on SimTK are the Shepherd-sized model; scale_beagle.zip holds OpenSim scaling data to the Beagle.",
    "joint positions": "joint positions and types derived from the CT-based Beagle model; cylinders constrain hinge joints, spheres ball joints (for muscle wrapping)."
+  },
+  "status_before_handover": "model files NOT fetched: SimTK downloads require a SimTK account login (download_confirm.php redirects to /account/login.php; tried 3x, Oct 6 2026). No mirror found on Zenodo, figshare, GitHub (web search) or the article supplement. web.archive.org is blocked by this environment's egress policy.",
+  "licence_check_in_zips": "No LICENSE, README or copyright file inside any of the zips. Licence per SimTK \"View License\" (confirmed by GrumpyDingo): MIT, Copyright (c) 2021, FSU Jena, Heiko Stark, for full_linear, forelimb_verified, forelimb/hindlimb linear and curved, geometry_low. NO licence shown for full_curved and scale_beagle. The verified .osim carries <credits>Stark, Fischer, Hunt, Young, Quinn, Andrada</credits> and cites bioRxiv 10.1101/2020.07.16.205856.",
+  "files": {
+   "stark_full_linear_spezzoo.osim": "raw, unmodified \"stark(2016)spezzoo.osim\" from \"Full linear.zip\" (Full dog model (simplified)); OpenSim 1.9 format (Version 10902); German-Shepherd-sized; MIT",
+   "stark_beagle_fore_verified.osim": "raw, unmodified \"stark(2021) - beagle - fore.osim\" from \"Forelimb model.zip\" (Dog forelimb model (verified), the paper version); OpenSim 3.0 format (Version 30000); Beagle-scaled; MIT. \"..._fore_low.osim\" is identical except it points to the low-res trunk meshes (newlow-*.obj), so it is not stored.",
+   "LICENSE-stark.txt": "MIT licence text for everything prefixed stark_",
+   "stark_full_bodies.csv / stark_fore_verified_bodies.csv": "every body: mass, COM, inertia (body frame), mesh files and display scale",
+   "stark_full_joints.csv / stark_fore_verified_joints.csv": "every joint, one row per SpatialTransform axis: parent, child, location/orientation in parent and child frames, axis, coordinate, function, and the joint centre in the global frame at default pose (raw model frame + raw side projection)",
+   "stark_full_coordinates.csv / stark_fore_verified_coordinates.csv": "every coordinate: joint, rotational/translational, transform axis, default, range (rad|m and deg), clamped, locked",
+   "stark_side_view.csv": "joint centres and bone landmarks at default pose, both models: global xyz (model frame) and game side view (x forward = right, y down) in metres and in withers heights, origin = withers (top of thoracic spinous processes); landmark method per row",
+   "stark_segments.csv": "segment lengths between consecutive joint centres/landmarks (3D and side-projected; m and WH): spine, neck, head, tail, pelvis, both fore- and hindlimbs, both models",
+   "stark_muscles.csv": "long format, one row per muscle path point: model, muscle, index, role (origin/via/insertion), body, local xyz, global xyz at default pose, side-view x,y (m, WH), Fmax, optimal fibre length, tendon slack length, pennation (deg), wrap cylinders the path wraps over. These are muscle LINES (straight segments between points), not volumes.",
+   "stark_bone_outlines.json": "side-view bone silhouettes per body for both models (m and WH), plus the whole-skeleton silhouette; see its \"meta\"",
+   "stark_fore_motion.csv": "forelimb kinematics of the Beagle (10 trials x 101 samples = 0..100 % stride): model coordinates (deg / m) plus side-view joint angles computed by forward kinematics; forepaw contact from the matching GRF file",
+   "stark_fore_motion_mean.csv": "mean and SD over trials 03-10 per % stride for every column, plus the fraction of trials in forepaw contact"
+  },
+  "extracted_key_numbers": {
+   "full_linear": {
+    "withers_height_m": 0.6168,
+    "withers_definition": "ground = lowest vertex of any paw (digit) mesh at default pose; withers = highest thorax-mesh vertex within the scapula's x-range (tips of the first thoracic spinous processes). WH = vertical distance between them in the side view.",
+    "scapula_top_above_withers_m": 0.0183,
+    "height_to_scapula_top_m": 0.635,
+    "segment_lengths_right_side_3d": {
+     "thoracic spine (cervicothoracic to thoracolumbar joint centre)": {
+      "m": 0.2771,
+      "wh": 0.449
+     },
+     "lumbar spine (thoracolumbar to lumbosacral)": {
+      "m": 0.2064,
+      "wh": 0.335
+     },
+     "neck (cervicothoracic to atlanto-occipital)": {
+      "m": 0.1824,
+      "wh": 0.296
+     },
+     "head (atlanto-occipital to nose tip)": {
+      "m": 0.2108,
+      "wh": 0.342
+     },
+     "tail (lumbosacral joint to tail tip, straight line)": {
+      "m": 0.4106,
+      "wh": 0.666
+     },
+     "lumbosacral joint to hip centre": {
+      "m": 0.117,
+      "wh": 0.19
+     },
+     "scapula (top of blade to shoulder centre)": {
+      "m": 0.2127,
+      "wh": 0.345
+     },
+     "humerus (shoulder to elbow)": {
+      "m": 0.1462,
+      "wh": 0.237
+     },
+     "antebrachium (elbow to carpus)": {
+      "m": 0.1931,
+      "wh": 0.313
+     },
+     "carpus + metacarpus (carpus to MCP)": {
+      "m": 0.1003,
+      "wh": 0.163
+     },
+     "fore digits (MCP to claw tip)": {
+      "m": 0.0726,
+      "wh": 0.118
+     },
+     "femur (hip to stifle)": {
+      "m": 0.1705,
+      "wh": 0.276
+     },
+     "crus/tibia (stifle to hock)": {
+      "m": 0.2185,
+      "wh": 0.354
+     },
+     "tarsus + metatarsus (hock to MTP)": {
+      "m": 0.1343,
+      "wh": 0.218
+     },
+     "hind digits (MTP to claw tip)": {
+      "m": 0.0726,
+      "wh": 0.118
+     }
+    },
+    "default_pose_side_view_angles_deg": {
+     "shoulder, cranial side (scapula top-shoulder-elbow)": 125.8,
+     "elbow, caudal side": 130.3,
+     "carpus, palmar side (>180 = overextended, pastern sloping forward)": 217.2,
+     "MCP, palmar side (metacarpus vs MCP->claw tip line)": 179.4,
+     "hip, cranial side (lumbosacral joint-hip-stifle)": 135.2,
+     "stifle, caudal side": 146.3,
+     "hock, cranial side": 119.7,
+     "MTP, plantar side (metatarsus vs MTP->claw tip line)": 209.6
+    }
+   },
+   "beagle_fore_verified": {
+    "withers_height_m": 0.3563,
+    "withers_definition": "ground = lowest vertex of any paw (digit) mesh at default pose; withers = highest thorax-mesh vertex within the scapula's x-range (tips of the first thoracic spinous processes). WH = vertical distance between them in the side view.",
+    "scapula_top_above_withers_m": 0.0315,
+    "height_to_scapula_top_m": 0.3878,
+    "segment_lengths_right_side_3d": {
+     "thoracic spine (cervicothoracic to thoracolumbar joint centre)": {
+      "m": 0.2217,
+      "wh": 0.622
+     },
+     "lumbar spine (thoracolumbar to lumbosacral)": {
+      "m": 0.1651,
+      "wh": 0.464
+     },
+     "neck (cervicothoracic to atlanto-occipital)": {
+      "m": 0.1459,
+      "wh": 0.41
+     },
+     "head (atlanto-occipital to nose tip)": {
+      "m": 0.1686,
+      "wh": 0.473
+     },
+     "tail (lumbosacral joint to tail tip, straight line)": {
+      "m": 0.3285,
+      "wh": 0.922
+     },
+     "lumbosacral joint to hip centre": {
+      "m": 0.0702,
+      "wh": 0.197
+     },
+     "scapula (top of blade to shoulder centre)": {
+      "m": 0.1276,
+      "wh": 0.358
+     },
+     "humerus (shoulder to elbow)": {
+      "m": 0.0877,
+      "wh": 0.246
+     },
+     "antebrachium (elbow to carpus)": {
+      "m": 0.1159,
+      "wh": 0.325
+     },
+     "carpus + metacarpus (carpus to MCP)": {
+      "m": 0.0602,
+      "wh": 0.169
+     },
+     "fore digits (MCP to claw tip)": {
+      "m": 0.0436,
+      "wh": 0.122
+     },
+     "femur (hip to stifle)": {
+      "m": 0.1023,
+      "wh": 0.287
+     },
+     "crus/tibia (stifle to hock)": {
+      "m": 0.1311,
+      "wh": 0.368
+     },
+     "tarsus + metatarsus (hock to MTP)": {
+      "m": 0.0806,
+      "wh": 0.226
+     },
+     "hind digits (MTP to claw tip)": {
+      "m": 0.0436,
+      "wh": 0.122
+     }
+    },
+    "default_pose_side_view_angles_deg": {
+     "shoulder, cranial side (scapula top-shoulder-elbow)": 125.9,
+     "elbow, caudal side": 130.3,
+     "carpus, palmar side (>180 = overextended, pastern sloping forward)": 217.2,
+     "MCP, palmar side (metacarpus vs MCP->claw tip line)": 179.4,
+     "hip, cranial side (lumbosacral joint-hip-stifle)": 135.2,
+     "stifle, caudal side": 146.3,
+     "hock, cranial side": 119.7,
+     "MTP, plantar side (metatarsus vs MTP->claw tip line)": 209.6
+    }
+   },
+   "note_on_models": "full_linear = German-Shepherd-sized working model (Beagle CT bones stretched x1.66 limbs, x1.25 trunk). beagle_fore_verified = the same model scaled back to the Beagle (limbs and pelvis x0.6, trunk x0.8; see scale_beagle). Within-limb ratios are identical in both (all limb bodies scaled by the same factor). WH fractions differ because the trunk and the limbs were scaled by different factors, and because the root and scapula translations were not rescaled. In the Beagle file the scapula top sits 3.2 cm above the spinous processes (unscaled scapula translation coordinates); treat its scapula height with care."
+  },
+  "joint_ranges": {
+   "model_coordinate_ranges": "NOT anatomical: every rotational coordinate is clamped to generic limits: sagittal (flexion/extension) -180..+180 deg; frontal and horizontal -90..+90 deg; thorax root -180..180 deg; scapula and pelvis translations -10..10 m / -100..100 m. The full table is in stark_*_coordinates.csv. Use the measured walking ranges below or other ROM literature instead.",
+   "default_values_deg (full_linear = beagle_fore_verified)": {
+    "thorax_sagittal (root pitch)": 3.0,
+    "cervix_sagittal": -10.0,
+    "scapula (r_m_superioris) sagittal/frontal/horizontal": [
+     -10.9,
+     -2.8,
+     -0.3
+    ],
+    "scapula translation x,y,z (m)": [
+     0.0656,
+     -0.183,
+     0.11
+    ],
+    "shoulder (r_deltoidea) sagittal": 52.9,
+    "elbow (r_cubitalis) sagittal": -49.6,
+    "carpus (r_carpalis) sagittal": -37.2,
+    "MCP (r_forepaw) sagittal": 0.0,
+    "pelvis (m_inferioris) sagittal": 29.1,
+    "hip (r_coxae) sagittal": -44.8,
+    "stifle (r_genus) sagittal": 33.7,
+    "hock (r_talocruralis) sagittal": -60.2,
+    "MTP (r_hindpaw) sagittal": 0.0
+   },
+   "locked_in_beagle_fore_verified": "everything except the left and right forelimb chains (scapula rotations + y/z translation, shoulder, elbow, carpus, MCP) and the thorax translations; i.e. trunk, neck, head, tail, pelvis and both hindlimbs are locked at default.",
+   "measured_beagle_forelimb_walk_deg (mean curve over trials 03-10, from stark_fore_motion_mean.csv)": {
+    "shoulder_angle_cranial_deg": {
+     "mean_min": 92.1,
+     "mean_max": 126.1,
+     "mean_range": 34.0,
+     "at_touchdown": 125.3,
+     "all_trials_min": 87.0,
+     "all_trials_max": 130.8
+    },
+    "elbow_angle_caudal_deg": {
+     "mean_min": 97.4,
+     "mean_max": 138.4,
+     "mean_range": 40.9,
+     "at_touchdown": 121.3,
+     "all_trials_min": 94.4,
+     "all_trials_max": 145.1
+    },
+    "carpus_angle_palmar_deg": {
+     "mean_min": 74.7,
+     "mean_max": 192.7,
+     "mean_range": 118.0,
+     "at_touchdown": 176.3,
+     "all_trials_min": 67.9,
+     "all_trials_max": 196.1
+    },
+    "mcp_angle_palmar_deg": {
+     "mean_min": 138.3,
+     "mean_max": 267.6,
+     "mean_range": 129.3,
+     "at_touchdown": 139.2,
+     "all_trials_min": 129.1,
+     "all_trials_max": 278.0
+    },
+    "scapula_incl_from_vertical_deg": {
+     "mean_min": 13.6,
+     "mean_max": 42.7,
+     "mean_range": 29.1,
+     "at_touchdown": 41.4,
+     "all_trials_min": 11.4,
+     "all_trials_max": 43.9
+    },
+    "left_r_m_superioris_sagittal_deg": {
+     "mean_min": -44.2,
+     "mean_max": -14.3,
+     "mean_range": 29.9,
+     "at_touchdown": -42.9,
+     "all_trials_min": -45.3,
+     "all_trials_max": -12.2
+    },
+    "left_r_deltoidea_sagittal_deg": {
+     "mean_min": 55.4,
+     "mean_max": 83.6,
+     "mean_range": 28.2,
+     "at_touchdown": 56.0,
+     "all_trials_min": 50.9,
+     "all_trials_max": 87.0
+    },
+    "left_r_cubitalis_sagittal_deg": {
+     "mean_min": -87.4,
+     "mean_max": -38.9,
+     "mean_range": 48.5,
+     "at_touchdown": -51.2,
+     "all_trials_min": -90.7,
+     "all_trials_max": -33.3
+    },
+    "left_r_carpalis_sagittal_deg": {
+     "mean_min": -15.1,
+     "mean_max": 105.7,
+     "mean_range": 120.7,
+     "at_touchdown": -0.7,
+     "all_trials_min": -19.6,
+     "all_trials_max": 109.0
+    },
+    "left_r_forepaw_sagittal_deg": {
+     "mean_min": -86.9,
+     "mean_max": 33.5,
+     "mean_range": 120.3,
+     "at_touchdown": 33.0,
+     "all_trials_min": -91.4,
+     "all_trials_max": 36.8
+    }
+   },
+   "stance_end_pct_per_trial_03_10": [
+    62,
+    63,
+    65,
+    63,
+    64,
+    63,
+    65,
+    64
+   ]
+  },
+  "conventions": {
+   "units": "metres, kg, N, radians in the files (degrees in the .mot kinematics)",
+   "model_axes": "global (ground) frame: X = the animal's left (lateral for left limbs), Y = caudal (backwards; the head is at negative Y), Z = up (gravity 0 0 -9.80665). Right-handed. All bodies use the same axis directions at zero rotation.",
+   "rotations": "every joint is a CustomJoint with rotation1 about X (sagittal: flexion/extension, protraction/retraction), rotation2 about Y (frontal: ab/adduction), rotation3 about Z (horizontal: axial rotation), applied in that order as successive body-fixed rotations; translations along parent X, Y, Z. All location/orientation offsets are zero except location_in_parent, so each body frame sits on its proximal joint centre.",
+   "sagittal_sign": "a positive sagittal coordinate turns the distal segment so that a downward-pointing bone swings caudally (clockwise in a right-facing, y-down side view). Measured in the Beagle walk data: + shoulder (r_deltoidea) = shoulder flexion (cranial angle closes, slope -1.28); + elbow (r_cubitalis) = elbow EXTENSION (slope +0.82; the default -49.6 is a flexed elbow); + carpus (r_carpalis) = carpal flexion (slope -1.01); + MCP (r_forepaw) = digit flexion (slope -0.99); + scapula (r_m_superioris) sagittal = dorsal border of the scapula moves cranially (scapula more upright).",
+   "game_side_view": "side_x = -Y (forward = right), side_y = -Z (down); the mediolateral X is dropped. A right-facing dog shows its RIGHT side to the viewer, so right_* limbs are the near ones. Origin in the CSV/JSON = withers point; ground at y = +1 WH.",
+   "angles": "side-view angles from projected joint centres. Each is reported on a named side (cranial/caudal/palmar/plantar) so values above 180 mean the joint has passed straight (e.g. a carpus at 195 palmar = 15 deg overextended); for shoulder, elbow, stifle, hock and hip this equals the usual included angle (180 = straight)."
+  },
+  "scale_beagle_facts": {
+   "licence": "licence unstated; facts only (file not stored)",
+   "file": "scale_beagle.zip -> scale_beagle.xml (OpenSim 3.0 ScaleTool \"Stark (2016) Spezzoo-scaled\")",
+   "mass_kg": 13.81,
+   "scaling_order": "manualScale",
+   "preserve_mass_distribution": true,
+   "scale_factors_xyz": {
+    "thorax, cervix, caput, abdomen, cauda": 0.8,
+    "pelvis and every limb segment (scapula, humerus, antebrachium, carpus, forepaw, femur, crus, calx, hindpaw; both sides)": 0.6,
+    "ground": 1.0
+   },
+   "note": "these are the inverse of the paper's x1.25 (trunk) and x1.66 (limbs) stretch to the Shepherd muscle model. The verified forelimb model matches it (mesh display scales 0.8 / 0.6, joint offsets scaled). Total mass is 13.81 kg in both the Shepherd-sized and the Beagle files (body masses are Beagle masses in both)."
+  },
+  "model_contents": {
+   "bodies": 25,
+   "joints": "24 CustomJoints (ground-thorax 6 DOF; scapula-thorax and pelvis-cauda 6; every other joint 3 rotations)",
+   "coordinates": 84,
+   "tree": "ground > thorax > {cervix > caput; abdomen > cauda > pelvis > femur > crus > calx > hindpaw (x2); scapula > humerus > antebrachium > carpus > forepaw (x2)}. The pelvis hangs from the tail-root body \"cauda\" through a joint at the lumbosacral point.",
+   "body_names": "caput = skull+mandible; cervix = neck; thorax = thoracic spine+ribs+sternum; abdomen = lumbar spine; cauda = tail; carpus = carpus+metacarpus; forepaw = fore digits; crus = tibia/fibula; calx = tarsus+metatarsus; hindpaw = hind digits. So \"carpus_forepaw\" is the MCP joint and \"calx_hindpaw\" the MTP joint.",
+   "muscles": {
+    "full_linear": "158 Millard2012EquilibriumMuscle (79 per side), 2-4 path points each (374 total), 12 wrap cylinders (humerus, antebrachium, carpus, femur, crus, calx, both sides)",
+    "beagle_fore_verified": "43 left-forelimb muscles, 98 path points, same 12 wrap cylinders. Fmax unchanged from the Shepherd file; fibre and tendon slack lengths scaled (x0.6).",
+    "paper_count_vs_file": "paper says 134 muscles; the full file has 158 (serratus split into 12 slips, brachiocephalicus 2, plus 3 trunk muscles per side)."
+   },
+   "wrap_cylinders": {
+    "full_linear": [
+     {
+      "body": "left_humerus",
+      "name": "left_humerus",
+      "radius_m": 0.03,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_antebrachium",
+      "name": "left_antebrachium",
+      "radius_m": 0.013,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_carpus",
+      "name": "left_carpus",
+      "radius_m": 0.01,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_humerus",
+      "name": "right_humerus",
+      "radius_m": 0.03,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_antebrachium",
+      "name": "right_antebrachium",
+      "radius_m": 0.013,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_carpus",
+      "name": "right_carpus",
+      "radius_m": 0.01,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_femur",
+      "name": "left_femur",
+      "radius_m": 0.016,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_crus",
+      "name": "left_crus",
+      "radius_m": 0.02,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_calx",
+      "name": "left_calx",
+      "radius_m": 0.01,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_femur",
+      "name": "right_femur",
+      "radius_m": 0.016,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_crus",
+      "name": "right_crus",
+      "radius_m": 0.02,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_calx",
+      "name": "right_calx",
+      "radius_m": 0.01,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     }
+    ],
+    "beagle_fore_verified": [
+     {
+      "body": "left_humerus",
+      "name": "left_humerus",
+      "radius_m": 0.018,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_antebrachium",
+      "name": "left_antebrachium",
+      "radius_m": 0.0078,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_carpus",
+      "name": "left_carpus",
+      "radius_m": 0.006,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_humerus",
+      "name": "right_humerus",
+      "radius_m": 0.018,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_antebrachium",
+      "name": "right_antebrachium",
+      "radius_m": 0.0078,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_carpus",
+      "name": "right_carpus",
+      "radius_m": 0.006,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_femur",
+      "name": "left_femur",
+      "radius_m": 0.0096,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_crus",
+      "name": "left_crus",
+      "radius_m": 0.012,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_calx",
+      "name": "left_calx",
+      "radius_m": 0.006,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_femur",
+      "name": "right_femur",
+      "radius_m": 0.0096,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_crus",
+      "name": "right_crus",
+      "radius_m": 0.012,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_calx",
+      "name": "right_calx",
+      "radius_m": 0.006,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     }
+    ]
+   },
+   "working_versions": {
+    "forelimb_linear": "same bodies, joints, coordinate defaults/ranges and masses as full_linear; 86 forelimb+trunk muscles (subset of full_linear, identical parameters); hindlimb and lumbar/pelvis coordinates locked (30 coordinates).",
+    "hindlimb_linear": "same; 66 hindlimb muscles (subset, identical); thorax rotation and all forelimb coordinates locked (39).",
+    "full_linear only": "iliocostalis, longissimus, quadratus lumborum (both sides) are in neither limb version.",
+    "curved versions": "forelimb_curved / hindlimb_curved: same muscles and parameters as the linear ones but with many more via points (684 / 916 path points vs 196 / 166)."
+   },
+   "full_curved (no licence; facts only, nothing stored)": "identical bodies, joints, coordinates, masses, muscle names and muscle parameters to full_linear; only the paths differ: 1652 path points (2-47 per muscle, median 9) vs 374 (2-4, median 2). The .osim is 496 KB vs 319 KB.",
+   "other_files_in_zips": "SIMM-format .jnt (joints) and .msl (muscles) copies of each working model, a screenshot.png, and .obj meshes (70 per package; 64 in Geometry low). Not stored."
+  },
+  "motion_files": {
+   "what": "Forelimb data of the Beagle \"Simon\" walking (left forelimb; one stride per trial). They are the inputs and outputs of the paper's inverse dynamics + static optimisation.",
+   "KIN01..KIN10_FL_Simon_3.mot": "joint kinematics (inverse kinematics result), inDegrees=yes: left scapula (3 rotations + 3 translations in m), shoulder, elbow, carpus, MCP (3 rotations each), thorax translations. 101 rows, time 0..0.58 s in equal steps of 0.0058 s in EVERY trial, so the time is a normalised stride (0..100 %), starting at forepaw touchdown; real stride durations are not given.",
+   "GRF01..GRF11_FL_Simon_3.mot": "ground reaction force on the left forepaw (force vector in ground frame, point in forepaw frame), same 0..0.58 s base. GRF01 and GRF02 are all zero; 03..11 show stance from 1 % to 62-65 % of the stride (duty factor ~0.63-0.65, i.e. walk), peak vertical force 94-100 N (~70-74 % of body weight). GRF11 has no matching KIN file.",
+   "GRF01..11_middle.xml": "OpenSim ExternalLoads setup linking GRFnn to KINnn (applied to left_forepaw, 6 Hz low-pass on load kinematics).",
+   "inverse_dynamics*.sto": "OpenSim inverse dynamics output: generalised joint moments (Nm) and forces (N) for all 84 coordinates, 100 rows (trials 03-10 plus an unnumbered one).",
+   "*_StaticOptimization_activation.sto / _force.sto / _controls.xml (03-10)": "static optimisation results: muscle activations (0-1), muscle and reserve-actuator forces (N), and the same activations as an OpenSim ControlSet. Not extracted (results, not anatomy or motion).",
+   "extracted": "stark_fore_motion.csv (all 10 trials; trials 01-02 flagged used_in_mean = 0 because they have no GRF and trial 02's shoulder coordinate is offset by about -100 deg, an IK branch flip) and stark_fore_motion_mean.csv (mean and SD over 03-10). Joint angles are computed by forward kinematics of the verified model with each frame's coordinates, projected to the side view; the scapula axis uses the scapula top landmark and the MCP angle uses the claw-tip landmark (both fixed in their body frames)."
   }
  },
  "greyhound_hindlimb_ellis_2018": {

@@ -1,0 +1,93 @@
+model,point,kind,child_body,side_in_view,global_x,global_y,global_z,side_x_m,side_y_m,side_x_wh,side_y_wh,method
+full_linear,ground_thorax,joint_centre,thorax,midline,0.0,-0.1,0.23,-0.1196,0.17532,-0.1939,0.2843,FK default pose
+full_linear,thorax_cervix,joint_centre,cervix,midline,0.0,-0.32089,0.29853,0.10129,0.10679,0.1642,0.1731,FK default pose
+full_linear,cervix_caput,joint_centre,caput,midline,0.00699,-0.492,0.36141,0.27241,0.04391,0.4417,0.0712,FK default pose
+full_linear,thorax_abdomen,joint_centre,abdomen,midline,0.0,-0.06049,0.39319,-0.15911,0.01213,-0.258,0.0197,FK default pose
+full_linear,abdomen_cauda,joint_centre,cauda,midline,0.0,0.14591,0.39109,-0.3655,0.01423,-0.5926,0.0231,FK default pose
+full_linear,thorax_left_scapula,joint_centre,left_scapula,far(left),0.06561,-0.28851,0.33027,0.06891,0.07505,0.1117,0.1217,FK default pose
+full_linear,left_scapula_left_humerus,joint_centre,left_humerus,far(left),0.07137,-0.3047,0.21355,0.08511,0.19177,0.138,0.3109,FK default pose
+full_linear,left_humerus_left_antebrachium,joint_centre,left_antebrachium,far(left),0.07655,-0.20127,0.11028,-0.01833,0.29504,-0.0297,0.4784,FK default pose
+full_linear,left_antebrachium_left_carpus,joint_centre,left_carpus,far(left),0.07568,-0.2169,-0.08218,-0.0027,0.4875,-0.0044,0.7904,FK default pose
+full_linear,left_carpus_left_forepaw,joint_centre,left_forepaw,far(left),0.0736,-0.28378,-0.15688,0.06419,0.5622,0.1041,0.9115,FK default pose
+full_linear,thorax_right_scapula,joint_centre,right_scapula,near(right),-0.06561,-0.28851,0.33027,0.06891,0.07505,0.1117,0.1217,FK default pose
+full_linear,right_scapula_right_humerus,joint_centre,right_humerus,near(right),-0.05985,-0.3047,0.21355,0.08511,0.19177,0.138,0.3109,FK default pose
+full_linear,right_humerus_right_antebrachium,joint_centre,right_antebrachium,near(right),-0.05467,-0.20127,0.11028,-0.01833,0.29504,-0.0297,0.4784,FK default pose
+full_linear,right_antebrachium_right_carpus,joint_centre,right_carpus,near(right),-0.05554,-0.2169,-0.08218,-0.0027,0.4875,-0.0044,0.7904,FK default pose
+full_linear,right_carpus_right_forepaw,joint_centre,right_forepaw,near(right),-0.05762,-0.28378,-0.15688,0.06419,0.5622,0.1041,0.9115,FK default pose
+full_linear,cauda_pelvis,joint_centre,pelvis,midline,0.0,0.14591,0.39109,-0.3655,0.01423,-0.5926,0.0231,FK default pose
+full_linear,pelvis_left_femur,joint_centre,left_femur,far(left),0.05553,0.20064,0.30384,-0.42024,0.10148,-0.6814,0.1645,FK default pose
+full_linear,left_femur_left_crus,joint_centre,left_crus,far(left),0.05404,0.16316,0.13754,-0.38276,0.26778,-0.6206,0.4342,FK default pose
+full_linear,left_crus_left_calx,joint_centre,left_calx,far(left),0.04614,0.24145,-0.06634,-0.46105,0.47166,-0.7475,0.7647,FK default pose
+full_linear,left_calx_left_hindpaw,joint_centre,left_hindpaw,far(left),0.03527,0.15664,-0.16994,-0.37623,0.57526,-0.61,0.9327,FK default pose
+full_linear,pelvis_right_femur,joint_centre,right_femur,near(right),-0.05553,0.20064,0.30384,-0.42024,0.10148,-0.6814,0.1645,FK default pose
+full_linear,right_femur_right_crus,joint_centre,right_crus,near(right),-0.05702,0.16316,0.13754,-0.38276,0.26778,-0.6206,0.4342,FK default pose
+full_linear,right_crus_right_calx,joint_centre,right_calx,near(right),-0.06492,0.24145,-0.06634,-0.46105,0.47166,-0.7475,0.7647,FK default pose
+full_linear,right_calx_right_hindpaw,joint_centre,right_hindpaw,near(right),-0.07579,0.15664,-0.16994,-0.37623,0.57526,-0.61,0.9327,FK default pose
+full_linear,left_scapula_top,landmark,,far(left),0.05308,-0.2711,0.42277,0.0515,-0.01745,0.0835,-0.0283,dorsal-most (min y) vertex of scapula mesh
+full_linear,left_fore_toe_tip,landmark,,far(left),0.06659,-0.33153,-0.21114,0.11194,0.61646,0.1815,0.9995,forepaw (digit) mesh vertex farthest from MCP centre
+full_linear,left_hind_toe_tip,landmark,,far(left),0.02693,0.08891,-0.19483,-0.3085,0.60015,-0.5002,0.9731,hindpaw (digit) mesh vertex farthest from MTP centre
+full_linear,left_olecranon_tip,landmark,,far(left),0.06946,-0.16032,0.12983,-0.05928,0.27549,-0.0961,0.4467,most caudal antebrachium vertex near the elbow
+full_linear,left_point_of_shoulder,landmark,,far(left),0.07375,-0.33633,0.21009,0.11673,0.19523,0.1893,0.3165,most cranial humerus vertex near the shoulder (greater tubercle)
+full_linear,left_tuber_calcanei,landmark,,far(left),0.05998,0.2856,-0.06021,-0.5052,0.46553,-0.8191,0.7548,most caudal calx vertex near the hock (point of hock)
+full_linear,right_scapula_top,landmark,,near(right),-0.06138,-0.27104,0.42359,0.05144,-0.01827,0.0834,-0.0296,dorsal-most (min y) vertex of scapula mesh
+full_linear,right_fore_toe_tip,landmark,,near(right),-0.05364,-0.33159,-0.2114,0.11199,0.61672,0.1816,0.9999,forepaw (digit) mesh vertex farthest from MCP centre
+full_linear,right_hind_toe_tip,landmark,,near(right),-0.07279,0.08891,-0.19602,-0.30851,0.60134,-0.5002,0.975,hindpaw (digit) mesh vertex farthest from MTP centre
+full_linear,right_olecranon_tip,landmark,,near(right),-0.04695,-0.16041,0.12977,-0.05919,0.27555,-0.096,0.4468,most caudal antebrachium vertex near the elbow
+full_linear,right_point_of_shoulder,landmark,,near(right),-0.06137,-0.33639,0.21144,0.1168,0.19387,0.1894,0.3143,most cranial humerus vertex near the shoulder (greater tubercle)
+full_linear,right_tuber_calcanei,landmark,,near(right),-0.0772,0.2856,-0.05747,-0.50519,0.46279,-0.8191,0.7503,most caudal calx vertex near the hock (point of hock)
+full_linear,withers_spines_top,landmark,,midline,0.01027,-0.2196,0.40532,0.0,0.0,0.0,0.0,highest thorax-mesh vertex within the scapula x-range (tips of the first thoracic spinous processes)
+full_linear,thorax_ventral_most,landmark,,midline,-0.01201,-0.24933,0.19183,0.02973,0.21349,0.0482,0.3461,lowest thorax-mesh vertex (sternum/ventral rib cage)
+full_linear,sternum_cranial_most,landmark,,midline,0.00056,-0.34004,0.2098,0.12044,0.19552,0.1953,0.317,most cranial thorax-mesh vertex (manubrium/first ribs)
+full_linear,nose_tip,landmark,,midline,0.00097,-0.69876,0.32101,0.47917,0.08431,0.7769,0.1367,most cranial skull vertex (incisive/nasal tip)
+full_linear,skull_top,landmark,,midline,0.00882,-0.53732,0.42376,0.31772,-0.01844,0.5151,-0.0299,highest skull vertex (sagittal crest/occiput region)
+full_linear,chin_lowest,landmark,,midline,0.00097,-0.64762,0.26606,0.42802,0.13926,0.694,0.2258,lowest skull/mandible vertex
+full_linear,tail_tip,landmark,,midline,0.06171,0.52305,0.24095,-0.74265,0.16437,-1.2041,0.2665,cauda-mesh vertex farthest from the lumbosacral (abdomen_cauda) joint
+full_linear,tuber_ischiadicum,landmark,,midline,0.04902,0.27217,0.27489,-0.49177,0.13043,-0.7973,0.2115,most caudal pelvis vertex (point of buttock)
+full_linear,iliac_crest_top,landmark,,midline,-0.04832,0.14814,0.42188,-0.36774,-0.01656,-0.5962,-0.0268,highest pelvis vertex (tuber sacrale/iliac crest)
+full_linear,croup_sacrum_top,landmark,,midline,-0.04832,0.14814,0.42188,-0.36774,-0.01656,-0.5962,-0.0268,same as iliac_crest_top (sacrum is inside the pelvis/cauda meshes)
+beagle_fore_verified,ground_thorax,joint_centre,thorax,midline,0.0,-0.1,0.23,-0.14379,0.12476,-0.4036,0.3502,FK default pose
+beagle_fore_verified,thorax_cervix,joint_centre,cervix,midline,0.0,-0.27671,0.28483,0.03293,0.06993,0.0924,0.1963,FK default pose
+beagle_fore_verified,cervix_caput,joint_centre,caput,midline,0.00559,-0.4136,0.33513,0.16982,0.01963,0.4767,0.0551,FK default pose
+beagle_fore_verified,thorax_abdomen,joint_centre,abdomen,midline,0.0,-0.06839,0.36055,-0.1754,-0.00579,-0.4923,-0.0163,FK default pose
+beagle_fore_verified,abdomen_cauda,joint_centre,cauda,midline,0.0,0.09672,0.35887,-0.34051,-0.00411,-0.9558,-0.0115,FK default pose
+beagle_fore_verified,thorax_left_scapula,joint_centre,left_scapula,far(left),0.06561,-0.28851,0.33027,0.04472,0.02449,0.1255,0.0687,FK default pose
+beagle_fore_verified,left_scapula_left_humerus,joint_centre,left_humerus,far(left),0.06907,-0.29822,0.26024,0.05444,0.09452,0.1528,0.2653,FK default pose
+beagle_fore_verified,left_humerus_left_antebrachium,joint_centre,left_antebrachium,far(left),0.07217,-0.23616,0.19828,-0.00762,0.15649,-0.0214,0.4393,FK default pose
+beagle_fore_verified,left_antebrachium_left_carpus,joint_centre,left_carpus,far(left),0.07165,-0.24554,0.0828,0.00176,0.27196,0.0049,0.7634,FK default pose
+beagle_fore_verified,left_carpus_left_forepaw,joint_centre,left_forepaw,far(left),0.0704,-0.28567,0.03798,0.04189,0.31678,0.1176,0.8892,FK default pose
+beagle_fore_verified,thorax_right_scapula,joint_centre,right_scapula,near(right),-0.06561,-0.28851,0.33027,0.04472,0.02449,0.1255,0.0687,FK default pose
+beagle_fore_verified,right_scapula_right_humerus,joint_centre,right_humerus,near(right),-0.06215,-0.29822,0.26024,0.05444,0.09452,0.1528,0.2653,FK default pose
+beagle_fore_verified,right_humerus_right_antebrachium,joint_centre,right_antebrachium,near(right),-0.05905,-0.23616,0.19828,-0.00762,0.15649,-0.0214,0.4393,FK default pose
+beagle_fore_verified,right_antebrachium_right_carpus,joint_centre,right_carpus,near(right),-0.05957,-0.24554,0.0828,0.00176,0.27196,0.0049,0.7634,FK default pose
+beagle_fore_verified,right_carpus_right_forepaw,joint_centre,right_forepaw,near(right),-0.06082,-0.28567,0.03798,0.04189,0.31678,0.1176,0.8892,FK default pose
+beagle_fore_verified,cauda_pelvis,joint_centre,pelvis,midline,0.0,0.09672,0.35887,-0.34051,-0.00411,-0.9558,-0.0115,FK default pose
+beagle_fore_verified,pelvis_left_femur,joint_centre,left_femur,far(left),0.03332,0.12957,0.30652,-0.37335,0.04824,-1.048,0.1354,FK default pose
+beagle_fore_verified,left_femur_left_crus,joint_centre,left_crus,far(left),0.03243,0.10708,0.20674,-0.35087,0.14802,-0.9849,0.4155,FK default pose
+beagle_fore_verified,left_crus_left_calx,joint_centre,left_calx,far(left),0.02769,0.15405,0.08442,-0.39784,0.27035,-1.1167,0.7589,FK default pose
+beagle_fore_verified,left_calx_left_hindpaw,joint_centre,left_hindpaw,far(left),0.02116,0.10316,0.02225,-0.34695,0.33251,-0.9739,0.9333,FK default pose
+beagle_fore_verified,pelvis_right_femur,joint_centre,right_femur,near(right),-0.03332,0.12957,0.30652,-0.37335,0.04824,-1.048,0.1354,FK default pose
+beagle_fore_verified,right_femur_right_crus,joint_centre,right_crus,near(right),-0.03421,0.10708,0.20674,-0.35087,0.14802,-0.9849,0.4155,FK default pose
+beagle_fore_verified,right_crus_right_calx,joint_centre,right_calx,near(right),-0.03895,0.15405,0.08442,-0.39784,0.27035,-1.1167,0.7589,FK default pose
+beagle_fore_verified,right_calx_right_hindpaw,joint_centre,right_hindpaw,near(right),-0.04548,0.10316,0.02225,-0.34695,0.33251,-0.9739,0.9333,FK default pose
+beagle_fore_verified,left_scapula_top,landmark,,far(left),0.05809,-0.27806,0.38577,0.03428,-0.03101,0.0962,-0.087,dorsal-most (min y) vertex of scapula mesh
+beagle_fore_verified,left_fore_toe_tip,landmark,,far(left),0.0662,-0.31432,0.00543,0.07054,0.34934,0.198,0.9806,forepaw (digit) mesh vertex farthest from MCP centre
+beagle_fore_verified,left_hind_toe_tip,landmark,,far(left),0.01616,0.06253,0.00732,-0.30631,0.34744,-0.8598,0.9753,hindpaw (digit) mesh vertex farthest from MTP centre
+beagle_fore_verified,left_olecranon_tip,landmark,,far(left),0.06792,-0.2116,0.21001,-0.03219,0.14475,-0.0904,0.4063,most caudal antebrachium vertex near the elbow
+beagle_fore_verified,left_point_of_shoulder,landmark,,far(left),0.0705,-0.3172,0.25816,0.07341,0.0966,0.2061,0.2712,most cranial humerus vertex near the shoulder (greater tubercle)
+beagle_fore_verified,left_tuber_calcanei,landmark,,far(left),0.03599,0.18054,0.08809,-0.42433,0.26667,-1.1911,0.7485,most caudal calx vertex near the hock (point of hock)
+beagle_fore_verified,right_scapula_top,landmark,,near(right),-0.06307,-0.27802,0.38626,0.03424,-0.0315,0.0961,-0.0884,dorsal-most (min y) vertex of scapula mesh
+beagle_fore_verified,right_fore_toe_tip,landmark,,near(right),-0.05843,-0.31435,0.00527,0.07057,0.34949,0.1981,0.981,forepaw (digit) mesh vertex farthest from MCP centre
+beagle_fore_verified,right_hind_toe_tip,landmark,,near(right),-0.04367,0.06253,0.00661,-0.30631,0.34816,-0.8598,0.9773,hindpaw (digit) mesh vertex farthest from MTP centre
+beagle_fore_verified,right_olecranon_tip,landmark,,near(right),-0.05442,-0.21165,0.20997,-0.03214,0.14479,-0.0902,0.4064,most caudal antebrachium vertex near the elbow
+beagle_fore_verified,right_point_of_shoulder,landmark,,near(right),-0.06307,-0.31724,0.25898,0.07345,0.09579,0.2062,0.2689,most cranial humerus vertex near the shoulder (greater tubercle)
+beagle_fore_verified,right_tuber_calcanei,landmark,,near(right),-0.04632,0.18054,0.08974,-0.42433,0.26502,-1.1911,0.7439,most caudal calx vertex near the hock (point of hock)
+beagle_fore_verified,withers_spines_top,landmark,,midline,0.00919,-0.24379,0.35476,0.0,0.0,0.0,0.0,highest thorax-mesh vertex within the scapula x-range (tips of the first thoracic spinous processes)
+beagle_fore_verified,thorax_ventral_most,landmark,,midline,-0.00961,-0.21946,0.19947,-0.02433,0.15529,-0.0683,0.4359,lowest thorax-mesh vertex (sternum/ventral rib cage)
+beagle_fore_verified,sternum_cranial_most,landmark,,midline,0.00045,-0.29203,0.21384,0.04824,0.14092,0.1354,0.3956,most cranial thorax-mesh vertex (manubrium/first ribs)
+beagle_fore_verified,nose_tip,landmark,,midline,0.00078,-0.57901,0.30281,0.33523,0.05195,0.941,0.1458,most cranial skull vertex (incisive/nasal tip)
+beagle_fore_verified,skull_top,landmark,,midline,0.00705,-0.44985,0.38501,0.20607,-0.03025,0.5784,-0.0849,highest skull vertex (sagittal crest/occiput region)
+beagle_fore_verified,chin_lowest,landmark,,midline,0.00078,-0.5381,0.25885,0.29431,0.09591,0.8261,0.2692,lowest skull/mandible vertex
+beagle_fore_verified,tail_tip,landmark,,midline,0.04937,0.39844,0.23876,-0.64223,0.116,-1.8027,0.3256,cauda-mesh vertex farthest from the lumbosacral (abdomen_cauda) joint
+beagle_fore_verified,tuber_ischiadicum,landmark,,midline,0.02941,0.17248,0.28915,-0.41627,0.06561,-1.1685,0.1842,most caudal pelvis vertex (point of buttock)
+beagle_fore_verified,iliac_crest_top,landmark,,midline,-0.02899,0.09807,0.37735,-0.34185,-0.02258,-0.9596,-0.0634,highest pelvis vertex (tuber sacrale/iliac crest)
+beagle_fore_verified,croup_sacrum_top,landmark,,midline,-0.02899,0.09807,0.37735,-0.34185,-0.02258,-0.9596,-0.0634,same as iliac_crest_top (sacrum is inside the pelvis/cauda meshes)
