@@ -18,11 +18,12 @@ import yaml
 from pydantic import BaseModel, Field, ValidationError, field_validator
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 SKEL = ROOT / 'ref/research/skeleton/derived_skeleton_ratios.csv'; KP = ROOT / 'ref/research/keypoints/proportions.json'
-RANGES = {'ratio': (0.005, 6), 'deg': (0, 360), 'mm': (1, 3000), 'kg': (0.1, 200), 'Hz': (0.01, 20), 's': (0.01, 60), 'per_min': (0.1, 600), 'fraction': (0, 1), 'units': (0, 200), 'm/s': (0, 25)}
+RANGES = {'count': (0, 400), 'ratio': (0.005, 6), 'deg': (-360, 360), 'mm': (1, 3000), 'kg': (0.1, 200), 'Hz': (0.01, 20), 's': (0.01, 60), 'per_min': (0.1, 600), 'fraction': (0, 1), 'units': (0, 200), 'm/s': (0, 25)}
 
 class Number(BaseModel):
     value: float
-    unit: Literal['ratio', 'deg', 'mm', 'kg', 'Hz', 's', 'per_min', 'fraction', 'units', 'm/s']
+    unit: Literal['count', 'ratio', 'deg', 'mm', 'kg', 'Hz', 's', 'per_min', 'fraction', 'units', 'm/s']
+    range: Optional[List[float]] = None   # a published range; value is the working pick inside it
     source: str = Field(min_length=3)
     confidence: Literal['A', 'B', 'C', 'EST']
     check: Optional[str] = None
@@ -37,10 +38,10 @@ class Number(BaseModel):
 class Species(BaseModel):
     id: str = Field(pattern=r'^[a-z][a-z0-9_]*$')
     name: str
-    base: str
+    base: Optional[str] = None   # a drawing it is adapted from, or none: built skeleton-first from its own numbers
     status: Literal['draft', 'approved'] = 'draft'
     research: Dict[str, str] = {}
-    numbers: Dict[Literal['ratios', 'bones', 'angles', 'gait', 'behaviour', 'size'], Dict[str, Number]]
+    numbers: Dict[Literal['size', 'bones', 'spine', 'skull', 'ratios', 'angles', 'limits', 'gait', 'behaviour'], Dict[str, Number]]
     traits: List[str] = []
 
 def research_tables():
@@ -58,6 +59,7 @@ def check_file(path):
         for key, n in nums.items():
             tag = f'{sp.id}.{group}.{key}'; lo, hi = RANGES[n.unit]
             if not lo <= n.value <= hi: errs.append(f'{tag} = {n.value} {n.unit} is outside the plausible range {lo}-{hi}')
+            if n.range and not (min(n.range) <= n.value <= max(n.range)): errs.append(f'{tag} = {n.value} is outside its own published range {n.range}')
             if not n.check: continue
             kind, ref = n.check.split(':', 1)
             if kind == 'skeleton':

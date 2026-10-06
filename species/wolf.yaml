@@ -1,0 +1,115 @@
+# Gray wolf (Canis lupus): the first species file, and the prototype of the species creator.
+# Built SKELETON-FIRST from the research (GrumpyDingo, Oct 6: the more accurate the better; the current two dogs are on hold and may be replaced by models built this way).
+# Every number carries a unit, a source and a confidence: A = measured, clear definition; B = peer-reviewed but second-hand or from a domestic-dog proxy;
+# C = popular source, small sample or a search snippet; EST = Firefly's estimate. `check` compares a number with the research tables (./den species check species/wolf.yaml).
+# Status: draft, for GrumpyDingo to approve. Sources: ref/research/{skeleton,keypoints,gait,motion}/REPORT.md.
+id: wolf
+name: Gray wolf
+status: draft
+research: {skeleton: gray_wolf, keypoints: wolf}
+
+numbers:
+  size:                       # field-guide body measurements (search snippets of fact sheets; ranges mix populations)
+    head_body_length:  {value: 1055, unit: mm, range: [1000, 1600], source: "PanTHERIA species mean (Jones et al. 2009); range: Western Wildlife Outreach / SDZG fact sheet", confidence: B}
+    shoulder_height:   {value: 750, unit: mm, range: [660, 840], source: "Western Wildlife Outreach / SDZG fact sheet (via search)", confidence: C}
+    tail_length:       {value: 455, unit: mm, range: [350, 560], source: "Western Wildlife Outreach / SDZG fact sheet (via search)", confidence: C}
+    ear_length:        {value: 120, unit: mm, range: [100, 145], source: "Mongolian wolf (Wikipedia, via search)", confidence: C, note: "one subspecies"}
+    hind_foot_length:  {value: 200, unit: mm, range: [160, 240], source: "Mongolian wolf (Wikipedia, via search)", confidence: C, note: "one subspecies"}
+    weight:            {value: 31.8, unit: kg, range: [31, 41], source: "PanTHERIA species mean; fact sheet M41 F31", confidence: B}
+
+  bones:                      # museum skeletons, caliper-measured: Law et al. 2025 IOB (n = 2 adult males); species means
+    scapula:   {value: 175.5, unit: mm, source: "Law et al. 2025 IOB, github chrisjlaw (derived means only)", confidence: B, note: "n=2"}
+    humerus:   {value: 232.0, unit: mm, source: "Law et al. 2025", confidence: B}
+    radius:    {value: 236.5, unit: mm, source: "Law et al. 2025", confidence: B}
+    mc3:       {value: 102.8, unit: mm, source: "Law et al. 2025 (third metacarpal)", confidence: B}
+    femur:     {value: 247.5, unit: mm, source: "Law et al. 2025", confidence: B}
+    tibia:     {value: 258.0, unit: mm, source: "Law et al. 2025", confidence: B}
+    mt3:       {value: 112.0, unit: mm, source: "Law et al. 2025 (third metatarsal)", confidence: B}
+    radius_over_humerus: {value: 1.02, unit: ratio, source: "Law et al. 2025 (brachial index)", confidence: B, check: "skeleton:brachial"}
+    tibia_over_femur:    {value: 1.04, unit: ratio, source: "Law et al. 2025 (crural index)", confidence: B, check: "skeleton:crural"}
+    mt3_over_femur:      {value: 0.45, unit: ratio, source: "Law et al. 2025", confidence: B, check: "skeleton:MT3/femur"}
+    forelimb_over_hindlimb: {value: 0.93, unit: ratio, source: "Law et al. 2025 ((hum+rad+mc3)/(fem+tib+mt3))", confidence: B, check: "skeleton:FL/HL"}
+    scapula_over_humerus: {value: 0.76, unit: ratio, source: "Law et al. 2025", confidence: B}
+
+  spine:                      # Law et al. 2025 / 2021 (centra only); vertebral formula for all canids
+    cervical:  {value: 7, unit: count, source: "Law et al. 2025 (canid formula 7-13-7-3)", confidence: A}
+    thoracic:  {value: 13, unit: count, source: "Law et al. 2025", confidence: A}
+    lumbar:    {value: 7, unit: count, source: "Law et al. 2025", confidence: A}
+    sacral:    {value: 3, unit: count, source: "Law et al. 2025", confidence: A}
+    caudal:    {value: 21, unit: count, range: [20, 23], source: "domestic dog (IMAIOS vet anatomy); wild count not found", confidence: B, note: "dog proxy"}
+    presacral_length: {value: 809, unit: mm, source: "Law et al. 2021 Am Nat (centra lengths summed)", confidence: B}
+    neck_share:   {value: 0.275, unit: fraction, source: "Law 2021 (cervical share of presacral)", confidence: B, check: "skeleton:neck_frac"}
+    thorax_share: {value: 0.433, unit: fraction, source: "Law 2021", confidence: B, check: "skeleton:thorax_frac"}
+    lumbar_share: {value: 0.292, unit: fraction, source: "Law 2021", confidence: B, check: "skeleton:lumbar_frac"}
+    rib_length:   {value: 237, unit: mm, source: "Law 2021 (mean rib, a lower bound for chest depth)", confidence: B}
+
+  skull:
+    condylobasal_length: {value: 253.5, unit: mm, source: "Law et al. 2025", confidence: B, check: "skeleton:CBL"}
+    zygomatic_breadth:   {value: 142.5, unit: mm, source: "Law et al. 2025", confidence: B, check: "skeleton:ZB"}
+    width_over_length:   {value: 0.56, unit: ratio, source: "Law et al. 2025 (ZB/CBL)", confidence: B, check: "skeleton:ZB/CBL"}
+    braincase_over_length: {value: 0.42, unit: ratio, source: "Law et al. 2025 column read as braincase length (unconfirmed)", confidence: C}
+    max_gape:            {value: 44, unit: deg, range: [40, 48], source: "Thomson 2021 J Vet Dent (domestic dogs, 44.0 +- 4.1)", confidence: B, note: "dog proxy; dingo modelled to 65 (Wroe 2008 PLOS ONE)"}
+
+  ratios:                     # 2D keypoints of wolf photos (AwA-Pose, MIT), profile photos only; height = withers to paw (unit B in the keypoint report)
+    head_over_height:        {value: 0.39, unit: ratio, source: "AwA-Pose keypoints, ref/research/keypoints (n=29)", confidence: B, check: "keypoints:sheet_ratios/head : height"}
+    muzzle_over_skull:       {value: 1.16, unit: ratio, source: "AwA-Pose keypoints (n=30)", confidence: B, check: "keypoints:sheet_ratios/muzzle : skull"}
+    chest_depth_over_height: {value: 0.54, unit: ratio, source: "AwA-Pose keypoints (n=27)", confidence: B, check: "keypoints:sheet_ratios/chest depth : height"}
+    elbow_height_over_height: {value: 0.53, unit: ratio, source: "AwA-Pose keypoints (n=29)", confidence: B, check: "keypoints:sheet_ratios/elbow height : height"}
+    tail_over_height:        {value: 0.61, unit: ratio, source: "AwA-Pose keypoints (n=26)", confidence: B, check: "keypoints:sheet_ratios/tail : height"}
+    neck_over_head:          {value: 0.77, unit: ratio, source: "AwA-Pose keypoints (n=29)", confidence: B, check: "keypoints:sheet_ratios/neck : head"}
+    body_over_height:        {value: 1.29, unit: ratio, source: "AwA-Pose keypoints (n=29; skull-to-tail-base over withers height)", confidence: C, check: "keypoints:sheet_ratios/body : height", note: "wide spread (q1-q3 0.96-1.43)"}
+
+  angles:                     # standing angles, 180 = straight
+    carpus_standing: {value: 160, unit: deg, source: "AwA-Pose keypoints, standing wolves (n=9)", confidence: C, check: "keypoints:angles_standing/front pastern (carpus) angle"}
+    hock_standing:   {value: 150, unit: deg, source: "AwA-Pose keypoints, standing wolves (n=9)", confidence: C, check: "keypoints:angles_standing/hock angle"}
+    head_muzzle_vs_skull: {value: 172, unit: deg, source: "AwA-Pose keypoints (n=9)", confidence: C, check: "keypoints:angles_standing/head: muzzle vs skull axis"}
+    ear_carriage:    {value: 19, unit: deg, source: "AwA-Pose keypoints (n=9), ear vs skull", confidence: C, check: "keypoints:angles_standing/ear carriage vs skull"}
+    tail_carriage:   {value: -75, unit: deg, range: [-81, -54], source: "AwA-Pose keypoints (n=9), tail vs topline: hangs", confidence: C, check: "keypoints:angles_standing/tail carriage vs topline", note: "negative = below the topline"}
+    shoulder_standing: {value: 120, unit: deg, source: "Anatolian shepherd standing goniometry (ROM-AS, 119.8 +- 1.2)", confidence: B, note: "dog proxy"}
+    elbow_standing:    {value: 125, unit: deg, source: "Anatolian shepherd standing goniometry (124.8 +- 6.3)", confidence: B, note: "dog proxy"}
+    stifle_standing:   {value: 145, unit: deg, source: "VetSci 2022 standing stifle", confidence: B, note: "dog proxy"}
+
+  limits:                     # passive joint limits, flexion and extension (180 = straight; carpus extends past straight)
+    elbow_flex:   {value: 36, unit: deg, range: [25, 49], source: "Jaegger 2002 Labrador goniometry (recalled, unverified); breed range Rohwedder review", confidence: C}
+    elbow_ext:    {value: 165, unit: deg, range: [155, 175], source: "Jaegger 2002; Rohwedder review", confidence: C}
+    carpus_flex:  {value: 32, unit: deg, source: "Jaegger 2002 (unverified)", confidence: C}
+    carpus_ext:   {value: 196, unit: deg, source: "Jaegger 2002 (unverified)", confidence: C}
+    stifle_flex:  {value: 42, unit: deg, source: "Jaegger 2002; standing study 40.2", confidence: B}
+    stifle_ext:   {value: 162, unit: deg, range: [160, 166], source: "Jaegger 2002; VetSci 2022", confidence: B}
+    hock_flex:    {value: 39, unit: deg, source: "Jaegger 2002 (unverified)", confidence: C}
+    hock_ext:     {value: 164, unit: deg, source: "Jaegger 2002 (unverified)", confidence: C}
+
+  gait:                       # domestic-dog gait research (no wolf kinematics were found); Maes et al. 2008 JEB unless noted
+    walk_LF_phase:  {value: 0.20, unit: fraction, range: [0.16, 0.25], source: "Maes 2008 (front follows hind on the same side)", confidence: B}
+    walk_RH_phase:  {value: 0.50, unit: fraction, source: "Maes 2008", confidence: A}
+    walk_RF_phase:  {value: 0.70, unit: fraction, range: [0.66, 0.75], source: "Maes 2008", confidence: B}
+    walk_duty:      {value: 0.65, unit: fraction, range: [0.60, 0.70], source: "estimate (walk > 0.5, Maes 2008)", confidence: EST}
+    trot_duty_fore: {value: 0.435, unit: fraction, source: "Labrador trot (treadmill study, via search)", confidence: B}
+    trot_duty_hind: {value: 0.367, unit: fraction, source: "Labrador trot", confidence: B}
+    walk_speed:     {value: 1.06, unit: m/s, source: "Holler 2010 (dogs)", confidence: B}
+    trot_speed:     {value: 4.0, unit: m/s, range: [3.6, 4.4], source: "wolf travelling trot 13-16 km/h (popular sources)", confidence: C}
+    walk_rom_shoulder: {value: 31, unit: deg, source: "treadmill reliability study (walk range of motion)", confidence: A}
+    walk_rom_elbow:    {value: 51, unit: deg, source: "treadmill reliability study", confidence: A}
+    walk_rom_hip:      {value: 34, unit: deg, source: "treadmill reliability study", confidence: A}
+    walk_rom_stifle:   {value: 35, unit: deg, source: "treadmill reliability study", confidence: A}
+    walk_rom_hock:     {value: 33, unit: deg, source: "treadmill reliability study", confidence: A}
+    trot_rom_carpus_swing: {value: 89, unit: deg, source: "GSD trot, Frontiers 2026", confidence: A}
+
+  behaviour:                  # ref/research/motion; domestic-dog numbers unless noted
+    wag_relaxed:   {value: 1.4, unit: Hz, range: [1, 4], source: "wag range 1-4 Hz (PMC12344452, PMC9356099); 1.4 Hz relaxed measured from research mocap (non-commercial, number only)", confidence: B}
+    breathing_rest: {value: 22, unit: per_min, range: [15, 30], source: "VCA Hospitals resting rate", confidence: A}
+    panting:       {value: 5.33, unit: Hz, source: "Crawford 1962 J Appl Physiol", confidence: A}
+    blink:         {value: 11.5, unit: per_min, source: "canine blink rate study (11.5 +- 2.4)", confidence: B}
+    sniff:         {value: 5, unit: Hz, source: "Craven 2010", confidence: A}
+    shake:         {value: 4.4, unit: Hz, source: "Dickerson, Mills & Hu 2012 (f ~ M^-0.22; Labrador 4.3-4.5 Hz at a similar mass)", confidence: B}
+    yawn:          {value: 2, unit: s, source: "search summaries", confidence: C}
+    play_bow:      {value: 2.25, unit: s, source: "Byosiere 2016 (n=414)", confidence: A}
+    head_tilt:     {value: 25, unit: deg, range: [15, 35], source: "no published angle; estimate", confidence: EST}
+
+traits:                       # what the numbers cannot say; for GrumpyDingo to judge
+  - "Tail hangs low and straight, bushy (the keypoint tail carriage agrees: about 75 degrees below the topline)"
+  - "Coat grey agouti with a cream underside and legs, a darker saddle, a pale face mask"
+  - "A thick ruff at the neck and shoulders"
+  - "Ears set wide with rounded tips, small for the head"
+  - "Large feet (hind foot about a fifth of head-body length)"
+  - "Long legs and a deep, narrow chest; limb ratios match a dog's of the same size, so the build and head carry the difference"

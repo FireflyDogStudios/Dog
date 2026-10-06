@@ -1,6 +1,6 @@
 # Wolf: species sheet (the prototype of the species creator)
 
-Drafted Oct 6, 2026 by Firefly from measured keypoints; **not approved yet**. Numbers come from `./den species --sheet wolf` (AwA-Pose keypoints in `ref/awa-pose`, MIT, about 44 profile photos of wolves against about 160 of medium domestic dogs). Re-run that command to reproduce them.
+**Superseded (Oct 6, later the same day): the wolf is now built skeleton-first from `species/wolf.yaml`, not adapted from the new hero.** GrumpyDingo put the two current dogs on hold, so the style-preserving method below is kept only as a record. Drafted Oct 6, 2026 by Firefly from measured keypoints. Numbers come from `./den species --sheet wolf` (AwA-Pose keypoints in `ref/awa-pose`, MIT, about 44 profile photos of wolves against about 160 of medium domestic dogs). Re-run that command to reproduce them.
 
 ## The method: style-preserving
 Our dogs are drawn in a style (head and ears bigger than life), so a wolf is not its raw photo numbers. A wolf is **the new hero's drawing times (wolf ÷ medium domestic dogs)**, measured feature by feature. The photo set has no Carolina Dog or dingo, so German shepherd, collie and dalmatian stand in for "a medium dog". The method keeps our style and changes only what makes a wolf a wolf.
