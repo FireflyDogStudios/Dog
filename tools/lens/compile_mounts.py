@@ -22,8 +22,16 @@ def path(geom, r=0):
     if isinstance(geom, MultiPolygon): geom = max(geom.geoms, key=lambda g: g.area)
     if r: geom = geom.buffer(-r, join_style=1).buffer(r, join_style=1)  # opening: rounds every convex corner to radius r, so the cut never leaves a spur
     if isinstance(geom, MultiPolygon): geom = max(geom.geoms, key=lambda g: g.area)
-    g = geom.simplify(.015, preserve_topology=True); c = list(g.exterior.coords)[:-1]
+    g = clean(geom.simplify(.015, preserve_topology=True)); c = list(g.exterior.coords)[:-1]
     return 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in c) + ' Z'
+
+def clean(g):
+    """snap to the 0.01 grid the path text is written on, then drop points closer than 0.02 (kit V2, Oct 6): the output never has duplicate nodes, so lint
+       never has to flag them after the fact. Falls back to the input if snapping would break the shape."""
+    import shapely
+    h = shapely.remove_repeated_points(shapely.set_precision(g, .01), .02)
+    if isinstance(h, MultiPolygon): h = max(h.geoms, key=lambda q: q.area)
+    return h if (not h.is_empty and h.geom_type == 'Polygon' and abs(h.area - g.area) <= .02 * max(g.area, 1e-9) + .01) else g
 
 
 from shapely.geometry import LineString, Point, box
@@ -325,7 +333,7 @@ def path_holes(geom, r=0):
     if isinstance(geom, MultiPolygon): geom = max(geom.geoms, key=lambda g: g.area)
     if r: geom = geom.buffer(-r, join_style=1).buffer(r, join_style=1)
     if isinstance(geom, MultiPolygon): geom = max(geom.geoms, key=lambda g: g.area)
-    g = geom.simplify(.015, preserve_topology=True)
+    g = clean(geom.simplify(.015, preserve_topology=True))
     ring = lambda c: 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in list(c)[:-1]) + ' Z'
     return ' '.join([ring(g.exterior.coords)] + [ring(i.coords) for i in g.interiors])
 

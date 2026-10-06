@@ -5,6 +5,10 @@
         Writes <dir>/<rig>_<phase>.png and <dir>/legend_<rig>.json (id -> what it is, in RENDER ORDER, so draw order is data).
    node tools/den/bridge.cjs hashes --rig hero,hero2 --gear <codes> --phases standing,.3 --scale 10
         Builds each (rig, code, phase) frame TWICE from scratch and prints a hash of each, for the determinism test.
+   node tools/den/bridge.cjs anim --rig hero,hero2 --gear <codes> --frames 24 --scale 8 [--box x,y,w,h] [--bg 0xd9c493] [--state ears-back] [--gait walk|stand] --out <dir>
+        Colour frames over one gait cycle (phase i/frames), every rig side by side in one image, built once and re-posed per frame. For den gif.
+   node tools/den/bridge.cjs joints --rig hero,hero2 --phases 0,.0625,... [--walk]
+        Every joint's position in drawing units at each phase (the chain multiplied by hand, the root's own scale left out), as JSON, for the gait checks.
    node tools/den/bridge.cjs pixelmatch a.png b.png [--threshold .1] [--out diff.png]
         Anti-aliasing-aware pixel diff (pixelmatch); prints the number of differing pixels.
    Needs playwright (npm install). Builds a throwaway page from engine/ each run, like V1. */
@@ -51,7 +55,30 @@ if (cmd === 'pixelmatch'){
     app.render(); const url = app.canvas.toDataURL('image/png'); app.canvas.remove(); return {url, legend, W, H};
   }, args);
   const png = u => Buffer.from(u.split(',')[1], 'base64');
-  if (cmd === 'idframes'){
+  if (cmd === 'anim'){
+    const out = opt.out || path.join(cache, 'anim'); fs.mkdirSync(out, {recursive:true}); for (const f of fs.readdirSync(out)) if (f.endsWith('.png')) fs.unlinkSync(path.join(out, f));
+    const n = +(opt.frames || 24), box = (opt.box ? String(opt.box) : '0,-4,62,42').split(',').map(Number), bg = opt.bg ? parseInt(String(opt.bg).replace('#', '0x')) : 0xd9c493, states = list(opt.state), walking = (opt.gait || 'walk') !== 'stand';
+    const res = await p.evaluate(async ({rigs, codes, n, scale, box, bg, states, walking}) => {
+      const [x0, y0, w, h] = box, W = Math.round(w * scale), H = Math.round(h * scale), app = new PIXI.Application();
+      await app.init({background:bg, width:W * rigs.length, height:H, antialias:true, resolution:1, preference:'webgl', preserveDrawingBuffer:true});
+      const dogs = rigs.map((id, i) => { const r = RIG.build(PIXI, id); r.scale.set(scale); r.position.set(i * W + (31 - x0) * scale - 31, (19 - y0) * scale - 19);
+        const m = new PIXI.Graphics().rect(i * W, 0, W, H).fill(0xffffff); app.stage.addChild(m, r); r.mask = m; states.forEach(s => r.rig.set(s, true)); r.rig.walk(walking); r.rig.seed(0); r.rig.tick(0);
+        codes.forEach(code => { const pc = GEAR.decode(code, id); if (pc) RIG.attachPiece(PIXI, r, pc, id); }); return r; });
+      const urls = [];
+      for (let k = 0; k < n; k++){ dogs.forEach(r => { r.rig.seed(k / n); r.rig.tick(0); }); app.render(); urls.push(app.canvas.toDataURL('image/png')); }
+      app.canvas.remove(); return urls; }, {rigs, codes, n, scale, box, bg, states, walking});
+    res.forEach((u, k) => fs.writeFileSync(path.join(out, `f${String(k).padStart(3, '0')}.png`), png(u))); console.log('wrote', out, res.length, 'frames');
+  } else if (cmd === 'joints'){
+    const walking = !opt.stand;
+    const res = await p.evaluate(({rigs, phases, walking}) => rigs.map(id => { const r = RIG.build(PIXI, id), out = [];
+      for (const ph of phases){ r.rig.walk(walking && ph != null); if (ph != null) r.rig.seed(ph); r.rig.tick(0); const J = {};
+        (function walk(nd, M){ nd.updateLocalTransform(); const Wm = nd === r ? new PIXI.Matrix() : M.clone().append(nd.localTransform);
+          if (nd.label && nd !== r && !(nd instanceof PIXI.Graphics) && r.rig.joints[nd.label] === nd){ const g = Wm.apply(nd.origin); J[nd.label] = [+g.x.toFixed(4), +g.y.toFixed(4)]; }
+          (nd.children || []).forEach(c => walk(c, Wm)); })(r, new PIXI.Matrix());
+        out.push({phase:ph, joints:J}); }
+      return {rig:id, frames:out}; }), {rigs, phases, walking});
+    console.log(JSON.stringify(res));
+  } else if (cmd === 'idframes'){
     const out = opt.out || path.join(cache, 'ids'); fs.mkdirSync(out, {recursive:true});
     for (const rig of rigs){ let legend = null;
       for (const [pi, ph] of phases.entries()){ const f = await frame({rig, codes, phase:ph, scale, mode:'id'}); legend = legend || f.legend; fs.writeFileSync(path.join(out, `${rig}_${pi}.png`), png(f.url)); } /* files are numbered by position in --phases */

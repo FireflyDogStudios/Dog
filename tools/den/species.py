@@ -73,6 +73,8 @@ def stats(S):
     return out
 
 def main():
+    if sys.argv[1:2] == ['check']:
+        sys.path.insert(0, str(pathlib.Path(__file__).parent)); import species_check; sys.exit(species_check.main(sys.argv[2:]))
     args = [a for a in sys.argv[1:] if not a.startswith('--')]; names = args or ['wolf', 'german_shepherd', 'collie', 'dalmatian', 'chihuahua', 'fox', 'raccoon']
     h2, L2, _ = rig_frame('hero2')
     hs = {fname: f(h2) for fname, f, _ in FEATURES}

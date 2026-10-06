@@ -11,8 +11,11 @@
              determinism [codes] the same code rendered twice from scratch must be pixel-identical (a stray Math.random fails this)
              flush [codes]       numeric flush score per piece per dog (area outside the body, Hausdorff along the seat), against tools/den/baselines.json
              legibility [codes]  line weights in pixels at game scale, and gear-vs-coat colour contrast (CIEDE2000)
+             gait                joint angles through the walk against sourced canine limits, and planted paws must not slide
              sample [n]          n random codes across every kind through lint (the code space is large; this samples it)
    species   species [names] [--sheet wolf]   real canid proportions (AwA-Pose keypoints, ref/awa-pose) next to hero2's; --sheet gives a species' style-preserving targets
+   watch     gif [codes] [--rig hero,hero2] [--frames 24] [--fps 24] [--scale 8] [--box x,y,w,h] [--bg 0xRRGGBB] [--state ears-back] [--gait stand] [--mp4] [--out f.gif]
+                                 one stride cycle as a looping GIF (and MP4), both dogs side by side, in any gear
    compare   diff a.png b.png [--engine ssim|pixelmatch]   before/after images, V1's SSIM or the anti-aliasing-aware pixelmatch
    report    report [codes]      runs every check, writes tools/den/reports/<time>.md
    admin     doctor              what is installed (and the optional backends that can be added); baseline [--update]
@@ -242,9 +245,90 @@ def sample_codes(n, seed=1):
         out.append(k + ('' if k in 'kcpt' else str(r.randrange(0, 3 if k == 'r' else 4))) + ''.join(format(x, 'x') for x in d[:6 if k in 'kcpt' else 5]))
     return out
 
+# ---------- gait checks (the research's limits, on the rig's own motion) ----------
+LIMITS_FILE = ROOT / 'ref/research/gait/gait_numbers.json'
+JOINT_TRIPLES = {'elbow': ('sh', 'fore', 'past'), 'carpus': ('fore', 'past', 'ftoe'), 'stifle': ('hip', 'shank', 'meta'), 'hock': ('shank', 'meta', 'htoe')}
+FLEX_PARTNER = {'carpus': 'elbow', 'hock': 'stifle'}   # these flex in the opposite rotational sense to their partner (carpus folds back, elbow forward; same for hock and stifle)
+
+def gait_limits():
+    d = json.load(open(LIMITS_FILE)); L = d['passiveLimits_deg']['labradorGoniometry_unverified']
+    return {'elbow': L['elbow'], 'carpus': L['carpus'], 'stifle': L['stifle'], 'hock': L['tarsus']}, L.get('source', 'Jaegger 2002 (Labrador goniometry)')
+
+def signed_turn(a, b, c):
+    v1 = (a[0] - b[0], a[1] - b[1]); v2 = (c[0] - b[0], c[1] - b[1])
+    return math.degrees(math.atan2(v1[0] * v2[1] - v1[1] * v2[0], v1[0] * v2[0] + v1[1] * v2[1]))   # signed angle from (b->a) to (b->c)
+
+def check_gait(n=64):
+    say(f'gait: joint angles and paw slide through the walk ({n} phases), against sourced canine limits')
+    lim, src = gait_limits(); phases = [round(i / n, 5) for i in range(n)]
+    out = node(DEN / 'bridge.cjs', 'joints', '--rig', ','.join(RIGS), '--phases', 'standing,' + ','.join(map(str, phases)), capture=True)
+    data = json.loads(out.strip().splitlines()[-1])
+    for R in data:
+        rig = R['rig']; frames = R['frames']; rest = frames[0]['joints']; walk = frames[1:]; problems = []; ranges = {}
+        for side in ('N', 'F'):
+            signs = {}
+            for jn, (a, b, c) in JOINT_TRIPLES.items():
+                A, B, C = a + side, b + side, c + side
+                if not all(k in rest for k in (A, B, C)): continue
+                t0 = signed_turn(rest[A], rest[B], rest[C])
+                # included angle with 180 = straight; the sign makes the rest pose read as flexed (or, for the carpus/hock, opposite to its partner)
+                sg = -signs[FLEX_PARTNER[jn]] if jn in FLEX_PARTNER and FLEX_PARTNER[jn] in signs else (1 if t0 >= 0 else -1)
+                signs[jn] = sg
+                inc = lambda J: (abs(signed_turn(J[A], J[B], J[C])) if sg * signed_turn(J[A], J[B], J[C]) >= 0 else 360 - abs(signed_turn(J[A], J[B], J[C])))
+                vals = [inc(f['joints']) for f in walk]; lo, hi = min(vals), max(vals); ranges[jn + side] = (round(inc(rest), 1), round(lo, 1), round(hi, 1))
+                if lo < lim[jn][0] - 1 or hi > lim[jn][1] + 1: problems.append(f'{jn} ({side}) {lo:.0f}-{hi:.0f} deg is outside {lim[jn][0]}-{lim[jn][1]}')
+            toe = ('ftoe' + side, 'htoe' + side)
+            for t in toe:
+                if t not in rest: continue
+                xs = [f['joints'][t][0] for f in walk]; ys = [f['joints'][t][1] for f in walk]; ground = max(ys)
+                stance = [i for i, y in enumerate(ys) if ground - y < .35]   # within .35u of its lowest point counts as planted (the toe joint is the pivot, not the pad)
+                if len(stance) < 4: continue
+                # the longest run of stance frames (cyclic), then a straight-line fit of x over phase: in a treadmill walk a planted paw moves back at constant speed
+                run, best, cur = [], [], []
+                for i in range(2 * len(walk)):
+                    k = i % len(walk)
+                    if k in stance: cur.append(i)
+                    else: best = max(best, cur, key=len); cur = []
+                best = max(best, cur, key=len)[:len(walk)]
+                if len(best) < 4: continue
+                X = [xs[i % len(walk)] for i in best]; T = list(range(len(best))); mt, mx = sum(T) / len(T), sum(X) / len(X)
+                k = sum((t - mt) * (x - mx) for t, x in zip(T, X)) / (sum((t - mt) ** 2 for t in T) or 1)
+                slide = max(abs(x - (mx + k * (t - mt))) for t, x in zip(T, X)); Y = [ys[i % len(walk)] for i in best]; drift = max(Y) - min(Y)
+                ranges['slide ' + t] = (round(slide, 3), f'height drift {drift:.2f}u over {len(best)}/{len(walk)} planted frames')
+                if slide > .3: problems.append(f'{t} slides {slide:.2f}u back and forth while planted')
+                if drift > .3: problems.append(f'{t} rises or sinks {drift:.2f}u while planted (a planted paw should stay on the ground)')
+        say(f'  {rig}: ' + '; '.join(f'{k} rest {v[0]} walk {v[1]}-{v[2]}' if isinstance(v[1], float) else f'{k} {v[0]}u ({v[1]})' for k, v in ranges.items()))
+        if not any(k.startswith('slide') for k in ranges): say(f'    note: {rig} has no toe joints, so paw slide is not measured')
+        for q in problems: fail(f'gait {rig}: {q}')
+    say(f'  limits: {src}')
+
+def cmd_gif(a):
+    import imageio.v2 as iio
+    from PIL import Image
+    rest = a.rest; opt = {}; codes = []; i = 0
+    while i < len(rest):
+        if rest[i].startswith('--'): k = rest[i][2:]; v = rest[i + 1] if i + 1 < len(rest) and not rest[i + 1].startswith('--') else True; opt[k] = v; i += 2 if v is not True else 1
+        else: codes.append(rest[i]); i += 1
+    frames, fps = int(opt.get('frames', 24)), float(opt.get('fps', 24)); outdir = CACHE / 'anim'
+    args = ['anim', '--rig', opt.get('rig', 'hero,hero2'), '--frames', frames, '--scale', opt.get('scale', 8), '--out', outdir]
+    if codes: args += ['--gear', ','.join(codes)]
+    for k in ('box', 'bg', 'state', 'gait'):
+        if k in opt: args += ['--' + k, opt[k]]
+    node(DEN / 'bridge.cjs', *args)
+    imgs = [Image.open(f).convert('RGB') for f in sorted(outdir.glob('f*.png'))]
+    out = pathlib.Path(opt.get('out', CACHE / 'anim.gif')); out.parent.mkdir(parents=True, exist_ok=True)
+    imgs[0].save(out, save_all=True, append_images=imgs[1:], duration=int(1000 / fps), loop=0, optimize=True)
+    say(f'wrote {out} ({len(imgs)} frames at {fps:g} fps, one stride cycle, loops)')
+    if opt.get('mp4'):
+        mp4 = out.with_suffix('.mp4'); import numpy as np
+        w = iio.get_writer(mp4, fps=fps, codec='libx264', quality=8, macro_block_size=2)
+        for _ in range(3):
+            for im in imgs: w.append_data(np.array(im))
+        w.close(); say(f'wrote {mp4} (three loops)')
+
 # ---------- commands ----------
 def cmd_lint(a):
-    codes = codes_of(a.rest); check_lint1(codes); check_order(codes); check_sweep(codes); check_xcheck(codes); check_determinism(codes); check_flush(codes); finish()
+    codes = codes_of(a.rest); check_lint1(codes); check_order(codes); check_sweep(codes); check_gait(); check_xcheck(codes); check_determinism(codes); check_flush(codes); finish()
 def finish():
     say(); say('ALL CHECKS PASSED' if not FAILS else f'{len(FAILS)} FAILURE(S):'); [say('  - ' + f) for f in FAILS]; sys.exit(1 if FAILS else 0)
 def cmd_report(a):
@@ -254,7 +338,7 @@ def cmd_report(a):
         def write(self, s): sys.__stdout__.write(s); buf.write(s); return len(s)
         def flush(self): sys.__stdout__.flush()
     with contextlib.redirect_stdout(Tee()):
-        t = time.time(); check_lint1(codes); check_order(codes); check_sweep(codes); check_xcheck(codes); check_determinism(codes); check_flush(codes); check_legibility(codes)
+        t = time.time(); check_lint1(codes); check_order(codes); check_sweep(codes); check_gait(); check_xcheck(codes); check_determinism(codes); check_flush(codes); check_legibility(codes)
     (DEN / 'reports').mkdir(exist_ok=True); f = DEN / 'reports' / (time.strftime('%Y%m%d-%H%M%S') + '.md')
     f.write_text('# Den kit V2 report\n\nCodes: ' + ' '.join(codes) + '\n\n```\n' + buf.getvalue() + f'\nfailures: {len(FAILS)}\n' + '\n'.join(FAILS) + '\n```\n'); say('wrote ' + str(f.relative_to(ROOT))); sys.exit(1 if FAILS else 0)
 def cmd_sample(a):
@@ -307,7 +391,7 @@ def main():
         f = LENS / V1[a.cmd]; sys.exit(subprocess.run((['node'] if f.suffix == '.cjs' else [sys.executable]) + [str(f)] + ([a.cmd] if a.cmd in ('shot', 'probe', 'export', 'piece') else []) + a.rest, cwd=ROOT, env=ENV).returncode)
     fn = {'lint': cmd_lint, 'sweep': lambda a: (check_sweep(codes_of(a.rest)), finish()), 'order': lambda a: (check_order(codes_of(a.rest)), finish()), 'xcheck': lambda a: (check_xcheck(codes_of(a.rest)), finish()),
           'determinism': lambda a: (check_determinism(codes_of(a.rest)), finish()), 'flush': lambda a: (check_flush(codes_of(a.rest)), finish()), 'legibility': lambda a: (check_legibility(codes_of(a.rest)), finish()),
-          'sample': cmd_sample, 'species': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'species.py'), *a.rest], cwd=ROOT).returncode), 'diff': cmd_diff, 'report': cmd_report, 'doctor': cmd_doctor, 'baseline': cmd_baseline}.get(a.cmd)
+          'sample': cmd_sample, 'gif': cmd_gif, 'gait': lambda a: (check_gait(), finish()), 'species': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'species.py'), *a.rest], cwd=ROOT).returncode), 'diff': cmd_diff, 'report': cmd_report, 'doctor': cmd_doctor, 'baseline': cmd_baseline}.get(a.cmd)
     if not fn: print('unknown command; run `den help`'); sys.exit(2)
     fn(a)
 if __name__ == '__main__': main()
