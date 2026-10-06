@@ -7,11 +7,11 @@ Fetched on Oct 6, 2026 by a data-gathering session (branch `claude/new-session-l
 | # | Item | Status | Main gap |
 |---|---|---|---|
 | 01 | Skin-over-bone offsets | fetched | one artist's lean short-coated dog (confidence B); plates not stored, URLs in NOTE |
-| 02 | Outline landmarks (StanfordExtra) | partly fetched | full file behind a Google form; outlines for the 25 MIT sample dogs only |
-| 03 | Dog model (OpenSim) | partly fetched | Stark 2021 model files need a SimTK login; greyhound hindlimb model fully extracted |
+| 02 | Outline landmarks (StanfordExtra) | fetched | full file obtained by GrumpyDingo via the form; 12,538 dogs, no wolf/coyote/Carolina Dog |
+| 03 | Dog model (OpenSim) | fetched | Stark files obtained by GrumpyDingo via SimTK; model joint limits are not anatomical (use the walking data) |
 | 04 | Gait curves | partly fetched | walk curves only from 2D video; JEB 2025 unreachable |
 | 05 | Muybridge plates | fetched | left/right paw assignment is a best guess; frame interval known for 2 sequences only |
-| 06 | Limb indices (Samuels 2013) | partly fetched | Dryad download needs login / anti-bot wall; 5 canid rows only, no hyenas |
+| 06 | Limb indices (Samuels 2013) | fetched | full CC0 file obtained by GrumpyDingo; two index columns look swapped (flagged) |
 | 07 | Dingo and Carolina Dog | partly fetched | no open limb-bone lengths or ear lengths; cited single facts only |
 | 08 | Wild canid keypoints | partly fetched | AP-10K / APT-36K have only dog, wolf, fox; Animal Kingdom has no licence |
 | 09 | Face and ear | partly fetched | no open ear-rotation or vocal/yawn gape-angle data |
@@ -19,10 +19,10 @@ Fetched on Oct 6, 2026 by a data-gathering session (branch `claude/new-session-l
 
 ## Needs a human
 
-1. **StanfordExtra full annotations** (item 02): fill in the form at https://forms.gle/sRtbicgxsWvRtRmUA; the link arrives by email. `02-outline-landmarks/convert_stanfordextra.py` converts the file once it's available.
-2. **Stark 2021 OpenSim dog model** (item 03): log in to SimTK at https://simtk.org/frs/?group_id=2032 and download `Full linear.zip` (MIT) and `scale_beagle.zip` (licence unstated; check before storing).
-3. **Samuels et al. 2013 data** (item 06): download the data file and README (CC0, about 52 KB) in a browser from https://datadryad.org/dataset/doi:10.5061/dryad.77tm4.
-4. **Animal Kingdom** (item 08): no licence stated and downloads go through a Google form (forms.gle/NipvmReDKaD5zUEw6). Ask the authors for a licence; it is the only source found with hyena, jackal, coyote, dingo and African wild dog keypoints.
+Done by GrumpyDingo on Oct 6 (files handed over via Google Drive, raw zips kept in Drive, not in the repo): the StanfordExtra form (item 02), the SimTK login for the Stark model (item 03) and the Dryad download (item 06). `Full dog model (curved)` and `scale_beagle` carry no licence: only cited facts from them are recorded.
+
+Still open:
+1. **Animal Kingdom** (item 08): no licence stated and downloads go through a Google form (forms.gle/NipvmReDKaD5zUEw6). Ask the authors for a licence; it is the only source found with hyena, jackal, coyote, dingo and African wild dog keypoints.
 
 ## Item summaries
 
@@ -52,41 +52,113 @@ Folder: `01-skin-offsets/`
 
 ### 02-outline-landmarks: summary
 
-**Status: partly fetched.** The full StanfordExtra annotations (`StanfordExtra_v12.json`, MIT) are **only available through a Google form**: https://forms.gle/sRtbicgxsWvRtRmUA (the download link arrives by email). GrumpyDingo needs to fill it in. No clean MIT mirror was found: the repo has no copy or release, Hugging Face has no copy, Graviti was unreachable (502), and Ultralytics' copy is AGPL.
+**Status: fetched.** GrumpyDingo got the full StanfordExtra v12 annotations through the authors' Google form on 2026-10-06.
+- **Licence:** MIT; the README says "As of 02-NOV-2024, this dataset is now MIT licensed". The zip carries no other terms.
+- **Stored:** `data.json` (14.5 MB): all 12,538 dogs in 120 breeds, with keypoints, the silhouette outline (simplified polygons) and the train/val/test split. No images.
+- **Converter:** `convert_stanfordextra.py` re-runs the conversion and the checks.
 
-| What | Number | Source |
-|---|---|---|
-| Dogs in the full v12 set (form-gated) | about 12,000, 120 breeds | StanfordExtra README / paper |
-| Dogs stored here (MIT sample) | 25 (4 breeds) | `StanfordExtra_sample.json` |
-| Keypoints labelled per dog | 20 of 24 (eyes, withers, throat never labelled) | `keypoint_definitions.csv` |
-| Outline points stored | 1,734 (about 70 per dog, 1 polygon each) | RLE masks, decoded and simplified here |
-| Keypoints inside or within 6 px of the outline | 381 / 383 | check run here |
-| Estimated size of the full conversion | about 15 MB | 1.3 KB per dog × 12k |
+| What | Number |
+|---|---|
+| Dogs / breeds | 12,538 / 120 (66-183 per breed) |
+| Split (from the .npy files, disjoint, covers all) | train 6,773, val 4,062, test 1,703 |
+| Keypoints labelled per dog | up to 20 of 24 (median 13); eyes, withers, throat never labelled |
+| Outline points | 790,725 (about 63 per dog); 60 dogs have no outline, 419 have more than one polygon |
+| Visible keypoints inside or within 6 px of the outline | 99.25% (161,482 / 162,696) |
+| Outline extent vs bbox | median IoU 0.956; bboxes are sometimes loose or wrong, so trust the outline |
 
-New here: silhouette outlines for the 25 sample dogs. `convert_stanfordextra.py` is ready to run on the full file once the form is filled in.
+## Breeds relevant to us
+Keypoints per dog and outline points per dog are averages.
+
+| Breed | Dogs | Train | Val | Test | Keypoints/dog | Outline pts/dog |
+|---|---|---|---|---|---|---|
+| dingo | 108 | 0 | 108 | 0 | 14.0 | 65 |
+| dhole | 102 | 0 | 102 | 0 | 13.2 | 67 |
+| African_hunting_dog | 84 | 1 | 83 | 0 | 13.8 | 72 |
+| basenji | 157 | 107 | 25 | 25 | 15.3 | 70 |
+| kelpie | 87 | 55 | 15 | 17 | 13.8 | 64 |
+| Mexican_hairless | 104 | 0 | 104 | 0 | 14.2 | 75 |
+| Ibizan_hound | 142 | 96 | 19 | 27 | 16.0 | 71 |
+| Siberian_husky | 127 | 77 | 30 | 20 | 14.2 | 62 |
+| malamute | 121 | 77 | 23 | 21 | 14.6 | 63 |
+| Eskimo_dog | 67 | 46 | 9 | 12 | 14.9 | 66 |
+| German_shepherd | 98 | 58 | 24 | 16 | 14.7 | 64 |
+| malinois | 100 | 64 | 19 | 17 | 15.0 | 63 |
+| Norwegian_elkhound | 143 | 92 | 29 | 22 | 15.5 | 64 |
+| Saluki | 139 | 96 | 20 | 23 | 14.9 | 79 |
+| whippet | 138 | 91 | 26 | 21 | 14.9 | 76 |
+| Irish_wolfhound | 144 | 93 | 21 | 30 | 14.1 | 65 |
+| Samoyed | 161 | 47 | 104 | 10 | 12.6 | 61 |
+| chow | 93 | 29 | 61 | 3 | 12.4 | 54 |
+| keeshond | 75 | 9 | 66 | 0 | 10.9 | 60 |
+
+- There is no wolf, coyote, jackal or Carolina Dog: Stanford Dogs has only domestic breeds plus dingo, dhole and African hunting dog.
+- The dingo is the closest match to our hero. Basenji, kelpie, Ibizan hound and Mexican hairless are the nearest pariah or primitive types.
+
+## All breeds (dogs)
+Afghan_hound 170, African_hunting_dog 84, Airedale 131, American_Staffordshire_terrier 95, Appenzeller 92, Australian_terrier 119, Bedlington_terrier 131, Bernese_mountain_dog 129, Blenheim_spaniel 138, Border_collie 79, Border_terrier 96, Boston_bull 92, Bouvier_des_Flandres 109, Brabancon_griffon 90, Brittany_spaniel 91, Cardigan 98, Chesapeake_Bay_retriever 97, Chihuahua 119, Dandie_Dinmont 118, Doberman 95, English_foxhound 122, English_setter 75, English_springer 75, EntleBucher 149, Eskimo_dog 67, French_bulldog 95, German_shepherd 98, German_short-haired_pointer 74, Gordon_setter 67, Great_Dane 110, Great_Pyrenees 136, Greater_Swiss_Mountain_dog 104, Ibizan_hound 142, Irish_setter 71, Irish_terrier 87, Irish_water_spaniel 80, Irish_wolfhound 144, Italian_greyhound 122, Japanese_spaniel 145, Kerry_blue_terrier 130, Labrador_retriever 83, Lakeland_terrier 115, Leonberg 162, Lhasa 66, Maltese_dog 183, Mexican_hairless 104, Newfoundland 87, Norfolk_terrier 95, Norwegian_elkhound 143, Norwich_terrier 119, Old_English_sheepdog 84, Pekinese 104, Pembroke 98, Pomeranian 98, Rhodesian_ridgeback 134, Rottweiler 76, Saint_Bernard 88, Saluki 139, Samoyed 161, Scotch_terrier 67, Scottish_deerhound 131, Sealyham_terrier 151, Shetland_sheepdog 75, Shih-Tzu 160, Siberian_husky 127, Staffordshire_bullterrier 99, Sussex_spaniel 108, Tibetan_mastiff 98, Tibetan_terrier 117, Walker_hound 103, Weimaraner 79, Welsh_springer_spaniel 101, West_Highland_white_terrier 80, Yorkshire_terrier 89, affenpinscher 78, basenji 157, basset 126, beagle 129, black-and-tan_coonhound 94, bloodhound 102, bluetick 110, borzoi 113, boxer 77, briard 93, bull_mastiff 83, cairn 120, chow 93, clumber 78, cocker_spaniel 80, collie 84, curly-coated_retriever 96, dhole 102, dingo 108, flat-coated_retriever 76, giant_schnauzer 83, golden_retriever 75, groenendael 83, keeshond 75, kelpie 87, komondor 89, kuvasz 89, malamute 121, malinois 100, miniature_pinscher 111, miniature_poodle 102, miniature_schnauzer 77, otterhound 113, papillon 154, pug 108, redbone 83, schipperke 86, silky_terrier 109, soft-coated_wheaten_terrier 79, standard_poodle 86, standard_schnauzer 88, toy_poodle 81, toy_terrier 139, vizsla 88, whippet 138, wire-haired_fox_terrier 105.
 
 Folder: `02-outline-landmarks/`
 
 ### 03-dog-model: summary
 
-**Status: partly fetched.**
-- **Stark et al. 2021 dog model:** the `.osim` files are behind a SimTK login (the packages are MIT, but there is no public mirror), so they are **not fetched**. The article numbers (CC BY) are recorded instead.
-- **Greyhound hindlimb model** (Ellis, Rankin & Hutchinson 2018; figshare; CC BY 4.0): **fetched**. All bodies, joints, axes, ranges and default-pose joint centres are extracted, and the raw `.osim` is kept.
+**Status: fetched.**
+- **Stark et al. 2021 dog model (SimTK `dogmodel`, MIT):** **fetched**.
+  - GrumpyDingo downloaded the packages by hand from SimTK, which needs a login, on 2026-10-06 and handed them over on Google Drive.
+  - Extracted for the Shepherd-sized full model (`full_linear`) and the Beagle forelimb paper model (`forelimb_verified`): all bodies, joints, axes and coordinates, default-pose joint centres, side-view landmarks, segment lengths, muscle path points, side-view bone outlines, and the Beagle's walking forelimb kinematics.
+  - Both raw `.osim` files are kept (MIT).
+  - `full_curved` and `scale_beagle` show no licence, so only facts from them are recorded.
+- **Greyhound hindlimb model** (Ellis, Rankin & Hutchinson 2018; figshare; CC BY 4.0): **fetched earlier, unchanged**.
 
+## Stark model: key numbers
+WH = withers height: ground (lowest paw-mesh point) to the top of the first thoracic spinous processes, at the model's default pose. Lengths are 3D distances between joint centres (right side).
+
+| Quantity | Full model (Shepherd size) | Beagle (verified) | WH fraction (Shepherd / Beagle) |
+|---|---|---|---|
+| Withers height | 0.617 m (0.635 m to the scapula top) | 0.356 m (0.388 m to the scapula top) | 1 |
+| Scapula (top of blade → shoulder) | 0.213 m | 0.128 m | 0.345 / 0.358 |
+| Humerus (shoulder → elbow) | 0.146 m | 0.088 m | 0.237 / 0.246 |
+| Antebrachium (elbow → carpus) | 0.193 m | 0.116 m | 0.313 / 0.325 |
+| Carpus + metacarpus (carpus → MCP) | 0.100 m | 0.060 m | 0.163 / 0.169 |
+| Fore digits (MCP → claw tip, EST) | 0.073 m | 0.044 m | 0.118 / 0.122 |
+| Femur (hip → stifle) | 0.170 m | 0.102 m | 0.276 / 0.287 |
+| Tibia (stifle → hock) | 0.219 m (tibia/femur 1.28) | 0.131 m | 0.354 / 0.368 |
+| Tarsus + metatarsus (hock → MTP) | 0.134 m | 0.081 m | 0.218 / 0.226 |
+| Hind digits (MTP → claw tip, EST) | 0.073 m | 0.044 m | 0.118 / 0.122 |
+| Thoracic + lumbar spine (joint centres) | 0.277 + 0.206 m | 0.222 + 0.165 m | |
+| Neck; head (atlanto-occipital → nose) | 0.182; 0.211 m | 0.146; 0.169 m | |
+| Tail (straight, lumbosacral → tip) | 0.411 m | 0.328 m | |
+
+Notes on the table:
+- **Scaling:** the Beagle file is the full model scaled ×0.6 (limbs and pelvis) and ×0.8 (trunk), from `scale_beagle`; that file's licence is unstated, so only its facts are used. Ratios within a limb are therefore identical in both models.
+- **Default-pose side angles:** shoulder 126°, elbow 130°, carpus 217° on the palmar side (overextended; the default, not a measured stance), hip 135°, stifle 146°, hock 120°.
+
+## Joint ranges
+- **The model's coordinate ranges are not anatomical.** Every sagittal coordinate is clamped to ±180° and every other rotation to ±90°.
+- **The measured ranges are the Beagle walk** (left forelimb, trials 03-10, mean curve; `stark_fore_motion_mean.csv`):
+
+| Joint (side-view angle) | Mean min…max | At touchdown | All trials min…max |
+|---|---|---|---|
+| Shoulder (cranial side) | 92…126° | 125° | 87…131° |
+| Elbow (caudal side) | 97…138° | 121° | 94…145° |
+| Carpus (palmar side; >180 = overextended) | 75…193° | 176° | 68…196° |
+| MCP (palmar side) | 138…268° (swing value doubtful) | 139° | 129…278° |
+| Scapula inclination from vertical | 14…43° | 41° | 11…44° |
+
+- **Stance timing:** forepaw stance lasts 0 → 62-65 % of the stride, a walk with a duty factor of about 0.64. Peak vertical GRF is about 97 N, about 72 % of body weight.
+
+## Greyhound hindlimb model (unchanged)
 | Quantity | Value | Source |
 |---|---|---|
-| Greyhound femur, hip→stifle centre | 0.186 m | Ellis 2018 .osim (Knee location_in_parent), scaled subject |
-| Greyhound tibia, stifle→hock centre | 0.199 m (tibia/femur 1.07) | same (Ankle location_in_parent) |
-| Greyhound metatarsus, hock→MTP; toes | ~0.106 m; ~0.052 m (EST) | bone-mesh bounds, Foot frame |
-| Hip ROM (model clamps) flex/ext; abd/add; rot | −120…+35°; −15…+45°; −30…+40° | .osim Hip_Ry / Hip_Rx / Hip_Rz |
-| Stifle ROM (Knee_Ry) | 0…135° flexion → included 180…45° | .osim |
-| Hock ROM (Ankle_Ry) | −135…−15° → included 45…165° | .osim |
-| Default pose | hip −30°, stifle included 130°, hock included 136° | .osim defaults |
-| Segment masses | thigh 2.25, shank 0.39, foot 0.15 kg (hindlimb 8.4% BM) | .osim; Ellis 2018 |
-| Dog model (Beagle) | 13.8 kg; 84 DOF; 134 muscles; forelimb DOF: scapula 5 (incl. 2 translations), shoulder 3, elbow 2, carpus 2, paw 3 | Stark 2021, text and Table 1 |
-| Dog model scaling | Beagle bones ×1.66 (limbs), ×1.25 (spine/neck/head) to fit a German Shepherd muscle model | Stark 2021, Methods |
+| Femur, hip → stifle centre | 0.186 m | Ellis 2018 .osim |
+| Tibia, stifle → hock centre | 0.199 m (tibia/femur 1.07) | same |
+| Metatarsus; toes | ~0.106 m; ~0.052 m (EST) | bone-mesh bounds |
+| Hip / stifle / hock clamps | −120…+35° / included 180…45° / included 45…165° | .osim |
 
-**Blocked:** SimTK downloads for `dogmodel` need a SimTK login (tried 3×). `web.archive.org` is blocked by egress policy. **Human step:** download `Full linear.zip` (MIT) and `scale_beagle.zip` from https://simtk.org/frs/?group_id=2032 while logged in, then re-run the extraction. The SimTK `greyhoundleg` project has no downloads; figshare has the model.
+## Not stored
+- The `.obj` meshes (about 145 MB per package).
+- `full_curved` and `scale_beagle.xml` (no licence shown).
+- The duplicate `fore_low.osim`, the working-version `.osim`/`.jnt`/`.msl` files, the raw `.mot`/`.sto`/`.xml` files (their kinematics are extracted), and the static-optimisation and inverse-dynamics results.
+- Details and doubts are in `NOTE.md`.
 
 Folder: `03-dog-model/`
 
@@ -155,23 +227,46 @@ Folder: `05-muybridge/`
 
 ### 06-limb-indices: summary
 
-**Status: partly fetched (blocked).**
-- Licence confirmed **CC0 1.0** (Dryad API). Metadata saved in `dryad_metadata.json`.
-- The data file (50 KB) and README (1.6 KB) could not be downloaded:
-  - the Dryad API now needs a login token (401);
-  - the web download sits behind an anti-bot proof-of-work wall (403), which was not bypassed;
-  - no mirrors were reachable.
-- Saved: 5 canid rows (humerus, deltopectoral crest, radius in mm) that the CRAN mvSLOUCH vignette prints from the same CC0 file. **Hyena rows not obtained.**
+**Status: fetched.** GrumpyDingo downloaded the dataset by hand (Dryad, CC0 1.0) on 2026-10-06.
+- `samuels2013_full.txt`: the full data file, 150 taxa.
+- `README_dryad.txt`: the README, verbatim.
+- `data.csv`: 20 living canids, 4 hyenas and 13 fossil canids, with every original column plus computed ratios.
 
-| Species | HuL mm | RaL mm | Brachial (RaL/HuL) | Source |
-|---|---|---|---|---|
-| Canis lupus | 212.12 | 210.94 | 0.994 | Samuels et al. 2013 (CC0), via mvSLOUCH vignette |
-| Canis latrans | 160.06 | 168.32 | 1.052 | same |
-| Canis adustus | 127.84 | 135.86 | 1.063 | same |
-| Vulpes lagopus | 106.47 | 101.89 | 0.957 | same |
-| Atelocynus microtis | 116.01 | 107.78 | 0.929 | same |
+The index formulas are now confirmed from the data (see NOTE.md). Two things to know:
+- The file's `OLI` and `URI` headers look swapped.
+- The dhole's own BI/IM values disagree with its measurements.
 
-The wolf brachial index of 0.99 agrees with Law et al. 2025 (1.02, in `ref/research/skeleton`). **Needs a human:** download the two files from the Dryad landing page in a browser (CC0). The crural index and other indices need the full file.
+## Living canids and hyenas (lengths in mm; BI, CI, IM from the file; MC3/Ra and MT3/Ti computed here)
+| Species | Ecology | HuL | RaL | MC3L | FeL | TiL | MT3L | BI Ra/Hu | CI Ti/Fe | MC3/Ra | MT3/Ti | IM |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Canis lupus (wolf) | cursorial | 212.1 | 210.9 | 89.3 | 229.5 | 233.7 | 98.6 | 0.998 | 1.018 | 0.423 | 0.422 | 0.913 |
+| Canis latrans (coyote) | cursorial | 160.1 | 168.3 | 68.3 | 179.7 | 187.9 | 77.7 | 1.052 | 1.046 | 0.406 | 0.413 | 0.893 |
+| Canis mesomelas | cursorial | 139.0 | 142.7 | 58.5 | 147.8 | 156.4 | 65.0 | 1.027 | 1.058 | 0.410 | 0.416 | 0.926 |
+| Canis adustus | cursorial | 127.8 | 135.9 | 57.4 | 138.6 | 146.7 | 63.5 | 1.063 | 1.058 | 0.423 | 0.433 | 0.924 |
+| Lycaon pictus (African wild dog) | cursorial | 189.8 | 199.1 | 79.0 | 209.7 | 215.1 | 88.7 | 1.050 | 1.025 | 0.397 | 0.413 | 0.915 |
+| Cuon alpinus (dhole) | cursorial | 150.5 | 141.4 | 71.5 | 168.6 | 162.4 | 82.1 | 0.860* | 0.963 | 0.505 | 0.506 | 0.846* |
+| Chrysocyon brachyurus | generalist | 253.7 | 264.9 | 112.1 | 270.4 | 295.2 | 128.7 | 1.045 | 1.092 | 0.423 | 0.436 | 0.917 |
+| Vulpes vulpes | cursorial | 126.9 | 123.7 | 52.1 | 134.2 | 147.6 | 67.7 | 0.975 | 1.100 | 0.421 | 0.459 | 0.890 |
+| Alopex (Vulpes) lagopus | generalist | 106.5 | 101.9 | 42.3 | 106.9 | 123.3 | 52.8 | 0.957 | 1.154 | 0.415 | 0.428 | 0.906 |
+| Vulpes macrotis | cursorial | 90.3 | 87.0 | 35.5 | 94.7 | 107.5 | 48.7 | 0.948 | 1.136 | 0.408 | 0.453 | 0.884 |
+| Vulpes zerda | cursorial | 70.7 | 65.9 | 25.2 | 73.3 | 89.0 | 37.8 | 0.932 | 1.214 | 0.383 | 0.425 | 0.842 |
+| Otocyon megalotis | cursorial | 103.6 | 106.8 | 43.7 | 115.4 | 123.9 | 55.4 | 1.023 | 1.073 | 0.409 | 0.447 | 0.881 |
+| Lycalopex gymnocerus | cursorial | 107.6 | 101.1 | 39.6 | 116.6 | 124.6 | 52.6 | 0.940 | 1.067 | 0.391 | 0.422 | 0.865 |
+| Lycalopex sp. | cursorial | 94.3 | 90.1 | 37.9 | 106.2 | 114.4 | 45.8 | 0.955 | 1.076 | 0.421 | 0.400 | 0.836 |
+| Cerdocyon thous | generalist | 105.3 | 98.5 | 45.1 | 120.0 | 120.3 | 53.3 | 0.936 | 1.004 | 0.458 | 0.443 | 0.850 |
+| Atelocynus microtis | generalist | 116.0 | 107.8 | 46.9 | 139.5 | 125.8 | 55.2 | 0.929 | 0.902 | 0.435 | 0.439 | 0.844 |
+| Speothos venaticus | generalist | 100.4 | 79.8 | 35.9 | 105.3 | 95.3 | 39.1 | 0.794 | 0.906 | 0.450 | 0.410 | 0.898 |
+| Nyctereutes procyonoides | generalist | 83.9 | 73.3 | 35.8 | 92.8 | 95.3 | 41.9 | 0.874 | 1.026 | 0.488 | 0.440 | 0.836 |
+| Urocyon cinereoargenteus | generalist | 99.0 | 87.1 | 33.0 | 108.6 | 114.5 | 50.8 | 0.880 | 1.054 | 0.380 | 0.444 | 0.834 |
+| Urocyon littoralis | generalist | 75.9 | 66.2 | 29.3 | 84.0 | 88.6 | 39.1 | 0.874 | 1.054 | 0.442 | 0.441 | 0.823 |
+| Crocuta crocuta (spotted hyena) | cursorial | 214.8 | 228.1 | 67.5 | 237.8 | 199.3 | 88.0 | 1.063 | 0.841 | 0.296 | 0.442 | 1.014 |
+| Hyaena brunnea (brown hyena) | cursorial | 198.3 | 218.6 | 82.2 | 221.7 | 181.2 | 81.1 | 1.102 | 0.818 | 0.376 | 0.447 | 1.035 |
+| Hyaena hyaena (striped hyena) | cursorial | 198.7 | 222.7 | 78.9 | 211.4 | 187.4 | 84.7 | 1.121 | 0.887 | 0.354 | 0.452 | 1.057 |
+| Proteles cristatus (aardwolf) | generalist | 120.5 | 129.9 | 59.6 | 126.6 | 128.8 | 57.4 | 1.079 | 1.018 | 0.459 | 0.445 | 0.981 |
+
+\* Dhole: from its own means, RaL/HuL = 0.940 and IM = 0.882; the file's BI and IM disagree (see NOTE.md).
+
+**For the game.** In wolf-like canids the radius is about as long as the humerus (BI about 1.0) and the tibia about as long as the femur (CI about 1.02-1.06). The metapodials are about 0.41-0.42 of the radius or tibia. Hyenas differ: fore longer than hind (IM > 1), a short tibia (CI about 0.82-0.89) and a short metacarpal (MC3/Ra about 0.30-0.38). The earlier wolf brachial index (0.994) holds; the file gives 0.998. Law et al. 2025 give 1.02 (`ref/research/skeleton`).
 
 Folder: `06-limb-indices/`
 
