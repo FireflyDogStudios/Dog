@@ -10,4 +10,6 @@ One YAML file per animal, holding every number the species creator needs, each w
 
 | File | Status |
 |---|---|
-| `wolf.yaml` | draft: the prototype; all 22 cross-checked numbers agree with the research |
+| `wolf.yaml` | draft: the prototype; all 22 cross-checked numbers agree with the research. Skeleton: `./den skeleton wolf` -> `build/wolf.skeleton.png` |
+
+`build/` holds generated files (`./den skeleton <id>` writes `<id>.skeleton.json`, `.svg`, `.png`). The skeleton builder lets bones and measured angles drive the pose, so the withers height, topline and stance length come out as results and are compared with the field numbers in its fit report. Anatomy the research does not give is a named assumption (`ASSUME` in `tools/den/skeleton.py`), listed in the JSON.

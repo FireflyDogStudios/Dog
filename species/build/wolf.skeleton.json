@@ -1,0 +1,709 @@
+{
+ "id": "wolf",
+ "name": "Gray wolf",
+ "scale_units_per_mm": 0.035266332970229394,
+ "ground_y": 35.5,
+ "joints_mm": {
+  "nose": [
+   592.9,
+   695.8
+  ],
+  "stop": [
+   454.7,
+   746.1
+  ],
+  "occiput": [
+   350.6,
+   768.2
+  ],
+  "eye": [
+   454.8,
+   772.0
+  ],
+  "tmj": [
+   417.2,
+   728.2
+  ],
+  "chin": [
+   602.5,
+   645.7
+  ],
+  "ear_base": [
+   387.0,
+   760.5
+  ],
+  "ear_tip": [
+   450.6,
+   862.3
+  ],
+  "neck_root": [
+   180.1,
+   625.2
+  ],
+  "withers": [
+   138.5,
+   694.7
+  ],
+  "scapula_top": [
+   123.5,
+   668.5
+  ],
+  "shoulder": [
+   150.4,
+   495.0
+  ],
+  "elbow": [
+   -35.2,
+   355.7
+  ],
+  "carpus": [
+   -35.2,
+   119.2
+  ],
+  "front_mcp": [
+   0.0,
+   22.6
+  ],
+  "front_toe": [
+   56.5,
+   0.0
+  ],
+  "croup": [
+   -438.9,
+   674.8
+  ],
+  "ilium_crest": [
+   -429.0,
+   644.8
+  ],
+  "hip": [
+   -506.2,
+   600.2
+  ],
+  "ischium": [
+   -600.5,
+   545.8
+  ],
+  "stifle": [
+   -446.3,
+   360.1
+  ],
+  "hock": [
+   -575.3,
+   136.6
+  ],
+  "hind_mtp": [
+   -575.3,
+   24.6
+  ],
+  "hind_toe": [
+   -513.7,
+   0.0
+  ],
+  "sacrum_end": [
+   -495.0,
+   666.9
+  ],
+  "tail_tip": [
+   -657.0,
+   242.5
+  ],
+  "sternum_front": [
+   136.5,
+   387.1
+  ],
+  "sternum_back": [
+   -141.8,
+   319.6
+  ]
+ },
+ "joints": {
+  "nose": [
+   52.87,
+   10.961
+  ],
+  "stop": [
+   47.998,
+   9.187
+  ],
+  "occiput": [
+   44.325,
+   8.407
+  ],
+  "eye": [
+   48.0,
+   8.274
+  ],
+  "tmj": [
+   46.675,
+   9.82
+  ],
+  "chin": [
+   53.209,
+   12.729
+  ],
+  "ear_base": [
+   45.61,
+   8.68
+  ],
+  "ear_tip": [
+   47.853,
+   5.091
+  ],
+  "neck_root": [
+   38.315,
+   13.45
+  ],
+  "withers": [
+   36.845,
+   11.0
+  ],
+  "scapula_top": [
+   36.316,
+   11.926
+  ],
+  "shoulder": [
+   37.264,
+   18.042
+  ],
+  "elbow": [
+   30.722,
+   22.955
+  ],
+  "carpus": [
+   30.722,
+   31.296
+  ],
+  "front_mcp": [
+   31.962,
+   34.702
+  ],
+  "front_toe": [
+   33.955,
+   35.5
+  ],
+  "croup": [
+   16.482,
+   11.703
+  ],
+  "ilium_crest": [
+   16.831,
+   12.761
+  ],
+  "hip": [
+   14.11,
+   14.332
+  ],
+  "ischium": [
+   10.784,
+   16.253
+  ],
+  "stifle": [
+   16.222,
+   22.801
+  ],
+  "hock": [
+   11.672,
+   30.681
+  ],
+  "hind_mtp": [
+   11.672,
+   34.631
+  ],
+  "hind_toe": [
+   13.845,
+   35.5
+  ],
+  "sacrum_end": [
+   14.505,
+   11.981
+  ],
+  "tail_tip": [
+   8.791,
+   26.948
+  ],
+  "sternum_front": [
+   36.774,
+   21.849
+  ],
+  "sternum_back": [
+   26.962,
+   24.23
+  ]
+ },
+ "bones": [
+  {
+   "name": "scapula",
+   "from": "scapula_top",
+   "to": "shoulder"
+  },
+  {
+   "name": "humerus",
+   "from": "shoulder",
+   "to": "elbow"
+  },
+  {
+   "name": "radius",
+   "from": "elbow",
+   "to": "carpus"
+  },
+  {
+   "name": "metacarpus",
+   "from": "carpus",
+   "to": "front_mcp"
+  },
+  {
+   "name": "front toes",
+   "from": "front_mcp",
+   "to": "front_toe"
+  },
+  {
+   "name": "femur",
+   "from": "hip",
+   "to": "stifle"
+  },
+  {
+   "name": "tibia",
+   "from": "stifle",
+   "to": "hock"
+  },
+  {
+   "name": "metatarsus",
+   "from": "hock",
+   "to": "hind_mtp"
+  },
+  {
+   "name": "hind toes",
+   "from": "hind_mtp",
+   "to": "hind_toe"
+  },
+  {
+   "name": "pelvis",
+   "from": "ilium_crest",
+   "to": "ischium"
+  },
+  {
+   "name": "neck",
+   "from": "neck_root",
+   "to": "occiput"
+  },
+  {
+   "name": "braincase",
+   "from": "occiput",
+   "to": "stop"
+  },
+  {
+   "name": "muzzle",
+   "from": "stop",
+   "to": "nose"
+  },
+  {
+   "name": "mandible",
+   "from": "tmj",
+   "to": "chin"
+  },
+  {
+   "name": "ear",
+   "from": "ear_base",
+   "to": "ear_tip"
+  },
+  {
+   "name": "sternum",
+   "from": "sternum_front",
+   "to": "sternum_back"
+  }
+ ],
+ "spine": [
+  [
+   38.315,
+   13.45
+  ],
+  [
+   36.845,
+   11.0
+  ],
+  [
+   26.663,
+   11.0
+  ],
+  [
+   16.482,
+   11.703
+  ],
+  [
+   14.505,
+   11.981
+  ]
+ ],
+ "ribs": [
+  [
+   [
+    36.845,
+    12.225
+   ],
+   [
+    36.774,
+    21.849
+   ]
+  ],
+  [
+   [
+    35.815,
+    12.245
+   ],
+   [
+    35.752,
+    22.097
+   ]
+  ],
+  [
+   [
+    34.786,
+    12.266
+   ],
+   [
+    34.73,
+    22.345
+   ]
+  ],
+  [
+   [
+    33.756,
+    12.286
+   ],
+   [
+    33.708,
+    22.593
+   ]
+  ],
+  [
+   [
+    32.727,
+    12.307
+   ],
+   [
+    32.685,
+    22.841
+   ]
+  ],
+  [
+   [
+    31.697,
+    12.327
+   ],
+   [
+    31.663,
+    23.089
+   ]
+  ],
+  [
+   [
+    30.668,
+    12.348
+   ],
+   [
+    30.641,
+    23.337
+   ]
+  ],
+  [
+   [
+    29.638,
+    12.368
+   ],
+   [
+    29.619,
+    23.585
+   ]
+  ],
+  [
+   [
+    28.609,
+    12.388
+   ],
+   [
+    28.597,
+    23.833
+   ]
+  ],
+  [
+   [
+    27.579,
+    12.409
+   ],
+   [
+    27.575,
+    24.081
+   ]
+  ],
+  [
+   [
+    26.55,
+    12.429
+   ],
+   [
+    26.797,
+    23.454
+   ]
+  ],
+  [
+   [
+    25.52,
+    12.45
+   ],
+   [
+    26.385,
+    21.27
+   ]
+  ],
+  [
+   [
+    24.491,
+    12.47
+   ],
+   [
+    25.973,
+    19.085
+   ]
+  ]
+ ],
+ "tail": [
+  [
+   14.505,
+   11.981
+  ],
+  [
+   14.167,
+   12.666
+  ],
+  [
+   13.835,
+   13.355
+  ],
+  [
+   13.51,
+   14.046
+  ],
+  [
+   13.191,
+   14.741
+  ],
+  [
+   12.879,
+   15.438
+  ],
+  [
+   12.574,
+   16.139
+  ],
+  [
+   12.275,
+   16.842
+  ],
+  [
+   11.982,
+   17.548
+  ],
+  [
+   11.697,
+   18.257
+  ],
+  [
+   11.417,
+   18.968
+  ],
+  [
+   11.145,
+   19.682
+  ],
+  [
+   10.879,
+   20.398
+  ],
+  [
+   10.62,
+   21.117
+  ],
+  [
+   10.368,
+   21.838
+  ],
+  [
+   10.122,
+   22.562
+  ],
+  [
+   9.883,
+   23.287
+  ],
+  [
+   9.651,
+   24.015
+  ],
+  [
+   9.426,
+   24.746
+  ],
+  [
+   9.208,
+   25.478
+  ],
+  [
+   8.996,
+   26.212
+  ],
+  [
+   8.791,
+   26.948
+  ]
+ ],
+ "fit": [
+  {
+   "target": "withers height from the bones (mm)",
+   "wanted": "750 [660, 840]",
+   "got": 694.7,
+   "from": "species size.shoulder_height (field, includes skin and fur)"
+  },
+  {
+   "target": "croup height / withers (topline slope)",
+   "wanted": "about 1",
+   "got": 0.971,
+   "from": "outcome of the hind leg; wolves stand roughly level"
+  },
+  {
+   "target": "shoulder angle",
+   "wanted": 120,
+   "got": 118.1,
+   "from": "species angles.shoulder_standing (dog proxy)"
+  },
+  {
+   "target": "elbow angle",
+   "wanted": 125,
+   "got": 126.9,
+   "from": "species angles.elbow_standing (dog proxy)"
+  },
+  {
+   "target": "scapula elevation",
+   "wanted": 60.0,
+   "got": 81.2,
+   "from": "assumption scapula_elevation (weak)"
+  },
+  {
+   "target": "carpus angle",
+   "wanted": 160,
+   "got": 160.0,
+   "from": "species angles.carpus_standing"
+  },
+  {
+   "target": "stifle angle",
+   "wanted": 136.0,
+   "got": 136.0,
+   "from": "assumption stifle_target"
+  },
+  {
+   "target": "hock angle",
+   "wanted": 150,
+   "got": 150.0,
+   "from": "species angles.hock_standing"
+  },
+  {
+   "target": "hip angle (pelvis vs femur)",
+   "wanted": "90-100",
+   "got": 106.0,
+   "from": "outcome; the measurement sheet suggests 90-100"
+  },
+  {
+   "target": "elbow point height / withers",
+   "wanted": 0.53,
+   "got": 0.546,
+   "from": "species ratios.elbow_height_over_height (photos, includes fur)"
+  },
+  {
+   "target": "chest depth / withers",
+   "wanted": 0.54,
+   "got": 0.54,
+   "from": "species ratios (photos)"
+  },
+  {
+   "target": "body length (occiput to tail base) / withers",
+   "wanted": 1.29,
+   "got": 1.226,
+   "from": "species ratios.body_over_height (photos)"
+  },
+  {
+   "target": "front to hind paw (mm)",
+   "wanted": "-",
+   "got": 575.3,
+   "from": "outcome of the spine length"
+  }
+ ],
+ "assumptions": {
+  "digit_height": {
+   "value": 0.22,
+   "why": "height of the toe joint above the ground, x MC3/MT3 (paw pad thickness; estimate)"
+  },
+  "digit_length": {
+   "value": 0.55,
+   "why": "toes, joint to tip, x MC3/MT3 (estimate)"
+  },
+  "olecranon": {
+   "value": 0.1,
+   "why": "point of the elbow above the joint, x radius (ulna olecranon 7-12% of ulna, Law 2025)"
+  },
+  "withers_gap": {
+   "value": 0.035,
+   "why": "withers top above the scapula top, x withers height (thoracic spines; estimate)"
+  },
+  "scapula_elevation": {
+   "value": 60.0,
+   "why": "scapula angle above horizontal, deg (typical canine layback; weak target, estimate)"
+  },
+  "croup_angle": {
+   "value": 30.0,
+   "why": "pelvis slope below horizontal, deg (breed-standard croup; estimate)"
+  },
+  "pelvis_length": {
+   "value": 0.8,
+   "why": "ilium crest to ischium, x femur (estimate)"
+  },
+  "acetabulum_at": {
+   "value": 0.45,
+   "why": "hip joint position along the pelvis from the crest (estimate)"
+  },
+  "sacrum_length": {
+   "value": 0.07,
+   "why": "sacrum, x presacral length (estimate)"
+  },
+  "neck_elevation": {
+   "value": 40.0,
+   "why": "neck angle above horizontal at standing carriage, deg (estimate; the photo number uses another definition)"
+  },
+  "skull_pitch": {
+   "value": 12.0,
+   "why": "skull axis below horizontal, deg (estimate)"
+  },
+  "mandible": {
+   "value": 0.8,
+   "why": "lower jaw length, x condylobasal length (estimate)"
+  },
+  "tmj_drop": {
+   "value": 0.1,
+   "why": "jaw joint below the skull axis, x condylobasal length (estimate)"
+  },
+  "ear_set": {
+   "value": 70.0,
+   "why": "ear angle up from the skull axis, deg (erect ears; the photo carriage number is unclear, see notes)"
+  },
+  "cervicothoracic": {
+   "value": [
+    0.06,
+    -0.1
+   ],
+   "why": "neck root from the withers point, (forward, down) x withers height (estimate)"
+  },
+  "stifle_target": {
+   "value": 136.0,
+   "why": "standing stifle, deg: mean of the two dog sources (145 mixed dogs, 128 Anatolian)"
+  }
+ }
+}
