@@ -1,0 +1,4230 @@
+{
+ "_meta": {
+  "units": "mm unless stated; ranges are [min,max]; ratios dimensionless",
+  "compiled_by": "Firefly (Claude), 2026-10-06",
+  "note": "Skeletal numbers are means of 1-3 adult male museum specimens per species (small n). Field numbers are ranges from field guides via search snippets. See REPORT.md."
+ },
+ "gray_wolf": {
+  "scientific_name": "Canis lupus",
+  "head_body_length": {
+   "value": [
+    1000,
+    1600
+   ],
+   "unit": "mm",
+   "source": "Western Wildlife Outreach / SDZG fact sheet via search (westernwildlife.org/gray-wolf-canis-lupus/library-2/; ielc.libguides.com/sdzg/factsheets/graywolf/characteristics-page)",
+   "confidence": "medium"
+  },
+  "tail_length": {
+   "value": [
+    350,
+    560
+   ],
+   "unit": "mm",
+   "source": "Western Wildlife Outreach / SDZG fact sheet via search (westernwildlife.org/gray-wolf-canis-lupus/library-2/; ielc.libguides.com/sdzg/factsheets/graywolf/characteristics-page)",
+   "confidence": "medium"
+  },
+  "shoulder_height": {
+   "value": [
+    660,
+    840
+   ],
+   "unit": "mm",
+   "source": "Western Wildlife Outreach / SDZG fact sheet via search (westernwildlife.org/gray-wolf-canis-lupus/library-2/; ielc.libguides.com/sdzg/factsheets/graywolf/characteristics-page)",
+   "confidence": "medium"
+  },
+  "ear_length": {
+   "value": [
+    100,
+    145
+   ],
+   "unit": "mm",
+   "source": "Wikipedia 'Mongolian wolf' (en.wikipedia.org/wiki/Mongolian_wolf), search snippet",
+   "confidence": "low",
+   "note": "Mongolian wolf subspecies"
+  },
+  "hind_foot_length": {
+   "value": [
+    160,
+    240
+   ],
+   "unit": "mm",
+   "source": "Wikipedia 'Mongolian wolf' (en.wikipedia.org/wiki/Mongolian_wolf), search snippet",
+   "confidence": "low",
+   "note": "Mongolian wolf subspecies"
+  },
+  "weight": {
+   "value": {
+    "male_mean": 41,
+    "female_mean": 31
+   },
+   "unit": "kg",
+   "source": "Western Wildlife Outreach / SDZG fact sheet via search (westernwildlife.org/gray-wolf-canis-lupus/library-2/; ielc.libguides.com/sdzg/factsheets/graywolf/characteristics-page)",
+   "confidence": "medium"
+  },
+  "pantheria_head_body_length": {
+   "value": 1055.0,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 31.76,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 2,
+  "condylobasal_length": {
+   "value": 253.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "zygomatic_breadth": {
+   "value": 142.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "braincase_length": {
+   "value": 105.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 179.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "scapula_length": {
+   "value": 175.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "humerus_length": {
+   "value": 232.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "radius_length": {
+   "value": 236.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "ulna_length": {
+   "value": 283.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "olecranon_length": {
+   "value": 30.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metacarpal3_length": {
+   "value": 102.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "pelvis_length": {
+   "value": 203.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "femur_length": {
+   "value": 247.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "tibia_length": {
+   "value": 258.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metatarsal3_length": {
+   "value": 112.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "calcaneus_length": {
+   "value": 59.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "sacrum_length": {
+   "value": 48.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "cervical_length_est": {
+   "value": 217.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 341.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 230.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 808.5,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 236.9,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 226.4,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 1.019,
+    "crural_index_tib_over_fem": 1.042,
+    "MT3_over_femur": 0.453,
+    "MC3_over_humerus": 0.443,
+    "scapula_over_humerus": 0.756,
+    "intermembral_(hum+rad)/(fem+tib)": 0.927,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.925,
+    "zygomatic_breadth_over_CBL": 0.562,
+    "braincase_over_CBL": 0.417,
+    "skeletal_head_body_length": 1083.7,
+    "forelimb_over_skeletal_HB": 0.527,
+    "hindlimb_over_skeletal_HB": 0.57,
+    "CBL_over_skeletal_HB": 0.234,
+    "rib_over_skeletal_HB": 0.219,
+    "forelimb_over_presacral": 0.707,
+    "neck_fraction_of_presacral": 0.275,
+    "thorax_fraction": 0.433,
+    "lumbar_fraction": 0.292
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "ratios_field_midpoints": {
+   "value": {
+    "shoulder_height_over_HB": 0.577,
+    "tail_over_HB": 0.35
+   },
+   "unit": "ratio",
+   "source": "midpoints of field ranges above",
+   "confidence": "low"
+  }
+ },
+ "coyote": {
+  "scientific_name": "Canis latrans",
+  "head_body_length": {
+   "value": [
+    750,
+    1000
+   ],
+   "unit": "mm",
+   "source": "Mammals of Texas online (depts.ttu.edu/nsrl/mammals-of-texas-online-edition/Accounts_Carnivora/Canis_latrans.php) and WTAMU species account, search snippets",
+   "confidence": "medium"
+  },
+  "tail_length": {
+   "value": [
+    300,
+    400
+   ],
+   "unit": "mm",
+   "source": "Mammals of Texas online (depts.ttu.edu/nsrl/mammals-of-texas-online-edition/Accounts_Carnivora/Canis_latrans.php) and WTAMU species account, search snippets",
+   "confidence": "medium"
+  },
+  "shoulder_height": {
+   "value": [
+    580,
+    660
+   ],
+   "unit": "mm",
+   "source": "dimensions.com/element/coyote and ADF&G coyote page, search snippets",
+   "confidence": "medium"
+  },
+  "ear_length": {
+   "value": [
+    90,
+    120
+   ],
+   "unit": "mm",
+   "source": "Mammals of Texas online (depts.ttu.edu/nsrl/mammals-of-texas-online-edition/Accounts_Carnivora/Canis_latrans.php) and WTAMU species account, search snippets",
+   "confidence": "medium"
+  },
+  "hind_foot_length": {
+   "value": [
+    165,
+    220
+   ],
+   "unit": "mm",
+   "source": "Mammals of Texas online (depts.ttu.edu/nsrl/mammals-of-texas-online-edition/Accounts_Carnivora/Canis_latrans.php) and WTAMU species account, search snippets",
+   "confidence": "medium"
+  },
+  "weight": {
+   "value": [
+    6.8,
+    20.9
+   ],
+   "unit": "kg",
+   "source": "dimensions.com/element/coyote and ADF&G coyote page, search snippets",
+   "confidence": "medium"
+  },
+  "pantheria_head_body_length": {
+   "value": 872.39,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 11.99,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 3,
+  "condylobasal_length": {
+   "value": 196.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "zygomatic_breadth": {
+   "value": 102.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "braincase_length": {
+   "value": 82.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 135.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "scapula_length": {
+   "value": 114.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "humerus_length": {
+   "value": 166.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "radius_length": {
+   "value": 170.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "ulna_length": {
+   "value": 202.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "olecranon_length": {
+   "value": 21.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metacarpal3_length": {
+   "value": 67.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "pelvis_length": {
+   "value": 130.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "femur_length": {
+   "value": 175.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "tibia_length": {
+   "value": 188.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metatarsal3_length": {
+   "value": 78.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "calcaneus_length": {
+   "value": 40.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "sacrum_length": {
+   "value": 36.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "cervical_length_est": {
+   "value": 170.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 239.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 166.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 582.7,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 164.7,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 182.7,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 1.026,
+    "crural_index_tib_over_fem": 1.078,
+    "MT3_over_femur": 0.446,
+    "MC3_over_humerus": 0.408,
+    "scapula_over_humerus": 0.686,
+    "intermembral_(hum+rad)/(fem+tib)": 0.927,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.916,
+    "zygomatic_breadth_over_CBL": 0.522,
+    "braincase_over_CBL": 0.42,
+    "skeletal_head_body_length": 802.3,
+    "forelimb_over_skeletal_HB": 0.505,
+    "hindlimb_over_skeletal_HB": 0.551,
+    "CBL_over_skeletal_HB": 0.244,
+    "rib_over_skeletal_HB": 0.205,
+    "forelimb_over_presacral": 0.695,
+    "neck_fraction_of_presacral": 0.296,
+    "thorax_fraction": 0.416,
+    "lumbar_fraction": 0.288
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "ratios_field_midpoints": {
+   "value": {
+    "shoulder_height_over_HB": 0.709,
+    "tail_over_HB": 0.4
+   },
+   "unit": "ratio",
+   "source": "midpoints of field ranges above",
+   "confidence": "low"
+  }
+ },
+ "golden_jackal": {
+  "scientific_name": "Canis aureus",
+  "head_body_length": {
+   "value": [
+    700,
+    850
+   ],
+   "unit": "mm",
+   "source": "Animal Diversity Web Canis aureus; KORA golden jackal profile (kora.ch/en/species/golden-jackal/profile); ecologyasia.com, search snippets",
+   "confidence": "medium"
+  },
+  "tail_length": {
+   "value": [
+    250,
+    300
+   ],
+   "unit": "mm",
+   "source": "Animal Diversity Web Canis aureus; KORA golden jackal profile (kora.ch/en/species/golden-jackal/profile); ecologyasia.com, search snippets",
+   "confidence": "medium"
+  },
+  "shoulder_height": {
+   "value": [
+    400,
+    500
+   ],
+   "unit": "mm",
+   "source": "Animal Diversity Web Canis aureus; KORA golden jackal profile (kora.ch/en/species/golden-jackal/profile); ecologyasia.com, search snippets",
+   "confidence": "low"
+  },
+  "ear_length": {
+   "value": {
+    "Gujarat_male_mean": 76,
+    "Lebanon_mean": 74.7,
+    "Bangladesh_male_mean": 74.1
+   },
+   "unit": "mm",
+   "source": "Mammalian Species 50(957) Canis aureus (academic.oup.com/mspecies/article/50/957/14/4972817), external measurements from Gujarat, Lebanon, Bangladesh, search snippet",
+   "confidence": "high"
+  },
+  "hind_foot_length": {
+   "value": {
+    "Lebanon_mean": 156,
+    "Bangladesh_male_mean": 162.6,
+    "Egypt_lupaster_mean": 200
+   },
+   "unit": "mm",
+   "source": "Mammalian Species 50(957) Canis aureus (academic.oup.com/mspecies/article/50/957/14/4972817), external measurements from Gujarat, Lebanon, Bangladesh, search snippet",
+   "confidence": "high",
+   "note": "Egyptian value is the African golden wolf, a different species"
+  },
+  "weight": {
+   "value": [
+    8,
+    16
+   ],
+   "unit": "kg",
+   "source": "Animal Diversity Web Canis aureus; KORA golden jackal profile (kora.ch/en/species/golden-jackal/profile); ecologyasia.com, search snippets",
+   "confidence": "medium"
+  },
+  "pantheria_head_body_length": {
+   "value": 827.53,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 9.66,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 1,
+  "condylobasal_length": {
+   "value": 147.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "zygomatic_breadth": {
+   "value": 92.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "braincase_length": {
+   "value": 65.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 104.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "scapula_length": {
+   "value": 101.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "humerus_length": {
+   "value": 126.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "radius_length": {
+   "value": 123.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "ulna_length": {
+   "value": 150.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "olecranon_length": {
+   "value": 14.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metacarpal3_length": {
+   "value": 53.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "pelvis_length": {
+   "value": 116.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "femur_length": {
+   "value": 135.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "tibia_length": {
+   "value": 140.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metatarsal3_length": {
+   "value": 62.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "calcaneus_length": {
+   "value": 31.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "sacrum_length": {
+   "value": 30.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "cervical_length_est": {
+   "value": 147.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 204.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 147.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 496.3,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 134.7,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 146.0,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 0.978,
+    "crural_index_tib_over_fem": 1.042,
+    "MT3_over_femur": 0.46,
+    "MC3_over_humerus": 0.427,
+    "scapula_over_humerus": 0.805,
+    "intermembral_(hum+rad)/(fem+tib)": 0.905,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.898,
+    "zygomatic_breadth_over_CBL": 0.627,
+    "braincase_over_CBL": 0.447,
+    "skeletal_head_body_length": 673.0,
+    "forelimb_over_skeletal_HB": 0.451,
+    "hindlimb_over_skeletal_HB": 0.503,
+    "CBL_over_skeletal_HB": 0.219,
+    "rib_over_skeletal_HB": 0.2,
+    "forelimb_over_presacral": 0.612,
+    "neck_fraction_of_presacral": 0.295,
+    "thorax_fraction": 0.41,
+    "lumbar_fraction": 0.295
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "ratios_field_midpoints": {
+   "value": {
+    "shoulder_height_over_HB": 0.581,
+    "tail_over_HB": 0.355
+   },
+   "unit": "ratio",
+   "source": "midpoints of field ranges above",
+   "confidence": "low"
+  }
+ },
+ "african_wild_dog": {
+  "scientific_name": "Lycaon pictus",
+  "head_body_length": {
+   "value": [
+    760,
+    1120
+   ],
+   "unit": "mm",
+   "source": "ADW Lycaon pictus; Mammalian Species 54(1017) (academic.oup.com/mspecies/article/54/1017/seac002/6565923), search snippets",
+   "confidence": "medium"
+  },
+  "tail_length": {
+   "value": [
+    300,
+    410
+   ],
+   "unit": "mm",
+   "source": "ADW Lycaon pictus; Mammalian Species 54(1017) (academic.oup.com/mspecies/article/54/1017/seac002/6565923), search snippets",
+   "confidence": "medium"
+  },
+  "shoulder_height": {
+   "value": [
+    610,
+    780
+   ],
+   "unit": "mm",
+   "source": "ADW Lycaon pictus; Mammalian Species 54(1017) (academic.oup.com/mspecies/article/54/1017/seac002/6565923), search snippets",
+   "confidence": "medium"
+  },
+  "weight": {
+   "value": [
+    17,
+    36
+   ],
+   "unit": "kg",
+   "source": "ADW Lycaon pictus; Mammalian Species 54(1017) (academic.oup.com/mspecies/article/54/1017/seac002/6565923), search snippets",
+   "confidence": "medium"
+  },
+  "ear_length": {
+   "value": null,
+   "unit": "mm",
+   "source": "ADW Lycaon pictus; Mammalian Species 54(1017) (academic.oup.com/mspecies/article/54/1017/seac002/6565923), search snippets",
+   "confidence": "none",
+   "note": "GAP: described as very large and rounded; no number found"
+  },
+  "pantheria_head_body_length": {
+   "value": 923.86,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 22.0,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 3,
+  "condylobasal_length": {
+   "value": 190.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "zygomatic_breadth": {
+   "value": 131.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "braincase_length": {
+   "value": 80.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 137.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "scapula_length": {
+   "value": 146.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "humerus_length": {
+   "value": 173.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "radius_length": {
+   "value": 188.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "ulna_length": {
+   "value": 228.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "olecranon_length": {
+   "value": 27.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metacarpal3_length": {
+   "value": 80.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "pelvis_length": {
+   "value": 159.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "femur_length": {
+   "value": 196.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "tibia_length": {
+   "value": 205.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metatarsal3_length": {
+   "value": 89.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "calcaneus_length": {
+   "value": 48.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "sacrum_length": {
+   "value": 43.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "cervical_length_est": {
+   "value": 187.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 290.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 196.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 701.5,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 217.4,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 188.2,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 1.089,
+    "crural_index_tib_over_fem": 1.047,
+    "MT3_over_femur": 0.453,
+    "MC3_over_humerus": 0.463,
+    "scapula_over_humerus": 0.844,
+    "intermembral_(hum+rad)/(fem+tib)": 0.899,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.9,
+    "zygomatic_breadth_over_CBL": 0.692,
+    "braincase_over_CBL": 0.421,
+    "skeletal_head_body_length": 932.9,
+    "forelimb_over_skeletal_HB": 0.474,
+    "hindlimb_over_skeletal_HB": 0.527,
+    "CBL_over_skeletal_HB": 0.204,
+    "rib_over_skeletal_HB": 0.233,
+    "forelimb_over_presacral": 0.63,
+    "neck_fraction_of_presacral": 0.278,
+    "thorax_fraction": 0.431,
+    "lumbar_fraction": 0.291
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "ratios_field_midpoints": {
+   "value": {
+    "shoulder_height_over_HB": 0.739,
+    "tail_over_HB": 0.378
+   },
+   "unit": "ratio",
+   "source": "midpoints of field ranges above",
+   "confidence": "low"
+  }
+ },
+ "red_fox": {
+  "scientific_name": "Vulpes vulpes",
+  "head_body_length": {
+   "value": [
+    455,
+    900
+   ],
+   "unit": "mm",
+   "source": "ADW Vulpes vulpes (animaldiversity.org/accounts/Vulpes_vulpes/); wildlifeonline.me.uk red fox size, search snippets",
+   "confidence": "medium"
+  },
+  "tail_length": {
+   "value": [
+    300,
+    550
+   ],
+   "unit": "mm",
+   "source": "ADW Vulpes vulpes (animaldiversity.org/accounts/Vulpes_vulpes/); wildlifeonline.me.uk red fox size, search snippets",
+   "confidence": "medium"
+  },
+  "shoulder_height": {
+   "value": [
+    350,
+    400
+   ],
+   "unit": "mm",
+   "source": "ADW Vulpes vulpes (animaldiversity.org/accounts/Vulpes_vulpes/); wildlifeonline.me.uk red fox size, search snippets",
+   "confidence": "low"
+  },
+  "ear_length": {
+   "value": [
+    77,
+    125
+   ],
+   "unit": "mm",
+   "source": "Wikipedia 'Red fox' figures quoted in search snippet (ears 7.7-12.5 cm, hind feet 12-18.5 cm)",
+   "confidence": "medium"
+  },
+  "hind_foot_length": {
+   "value": [
+    120,
+    185
+   ],
+   "unit": "mm",
+   "source": "Wikipedia 'Red fox' figures quoted in search snippet (ears 7.7-12.5 cm, hind feet 12-18.5 cm)",
+   "confidence": "medium"
+  },
+  "weight": {
+   "value": {
+    "UK_male_mean": 6.5,
+    "UK_female_mean": 5.5
+   },
+   "unit": "kg",
+   "source": "ADW Vulpes vulpes (animaldiversity.org/accounts/Vulpes_vulpes/); wildlifeonline.me.uk red fox size, search snippets",
+   "confidence": "medium"
+  },
+  "pantheria_head_body_length": {
+   "value": 627.12,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 4.82,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 3,
+  "condylobasal_length": {
+   "value": 130.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "zygomatic_breadth": {
+   "value": 73.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "braincase_length": {
+   "value": 59.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 92.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "scapula_length": {
+   "value": 73.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "humerus_length": {
+   "value": 112.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "radius_length": {
+   "value": 109.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "ulna_length": {
+   "value": 129.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "olecranon_length": {
+   "value": 12.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metacarpal3_length": {
+   "value": 46.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "pelvis_length": {
+   "value": 85.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "femur_length": {
+   "value": 117.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "tibia_length": {
+   "value": 134.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metatarsal3_length": {
+   "value": 64.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "calcaneus_length": {
+   "value": 28.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "sacrum_length": {
+   "value": 23.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "cervical_length_est": {
+   "value": 115.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 169.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 124.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 441.8,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 111.0,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 132.9,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 0.967,
+    "crural_index_tib_over_fem": 1.148,
+    "MT3_over_femur": 0.547,
+    "MC3_over_humerus": 0.408,
+    "scapula_over_humerus": 0.653,
+    "intermembral_(hum+rad)/(fem+tib)": 0.882,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.849,
+    "zygomatic_breadth_over_CBL": 0.565,
+    "braincase_over_CBL": 0.454,
+    "skeletal_head_body_length": 598.2,
+    "forelimb_over_skeletal_HB": 0.448,
+    "hindlimb_over_skeletal_HB": 0.527,
+    "CBL_over_skeletal_HB": 0.218,
+    "rib_over_skeletal_HB": 0.185,
+    "forelimb_over_presacral": 0.606,
+    "neck_fraction_of_presacral": 0.282,
+    "thorax_fraction": 0.415,
+    "lumbar_fraction": 0.304
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "ratios_field_midpoints": {
+   "value": {
+    "shoulder_height_over_HB": 0.554,
+    "tail_over_HB": 0.627
+   },
+   "unit": "ratio",
+   "source": "midpoints of field ranges above",
+   "confidence": "low"
+  },
+  "max_gape": {
+   "value": [
+    81,
+    84
+   ],
+   "unit": "deg",
+   "source": "search snippet on red fox wide gape measured by MR imaging and dissection (approx 81-84 deg); primary paper not identified",
+   "confidence": "low"
+  }
+ },
+ "spotted_hyena": {
+  "scientific_name": "Crocuta crocuta",
+  "head_body_length": {
+   "value": [
+    950,
+    1650
+   ],
+   "unit": "mm",
+   "source": "ADW Crocuta crocuta; Mammalian Species 53(1000) Hayssen & Noonan 2021 (academic.oup.com/mspecies/article/53/1000/1/6231977), search snippets",
+   "confidence": "medium"
+  },
+  "tail_length": {
+   "value": [
+    250,
+    360
+   ],
+   "unit": "mm",
+   "source": "ADW Crocuta crocuta; Mammalian Species 53(1000) Hayssen & Noonan 2021 (academic.oup.com/mspecies/article/53/1000/1/6231977), search snippets",
+   "confidence": "medium"
+  },
+  "shoulder_height": {
+   "value": [
+    700,
+    920
+   ],
+   "unit": "mm",
+   "source": "ADW Crocuta crocuta; Mammalian Species 53(1000) Hayssen & Noonan 2021 (academic.oup.com/mspecies/article/53/1000/1/6231977), search snippets",
+   "confidence": "medium"
+  },
+  "hind_foot_length": {
+   "value": 257,
+   "unit": "mm",
+   "source": "ADW Crocuta crocuta; Mammalian Species 53(1000) Hayssen & Noonan 2021 (academic.oup.com/mspecies/article/53/1000/1/6231977), search snippets",
+   "confidence": "medium",
+   "note": "mean of 2 females, DR Congo"
+  },
+  "weight": {
+   "value": {
+    "female": [
+     55,
+     86
+    ],
+    "male": [
+     45,
+     60
+    ]
+   },
+   "unit": "kg",
+   "source": "ADW Crocuta crocuta; Mammalian Species 53(1000) Hayssen & Noonan 2021 (academic.oup.com/mspecies/article/53/1000/1/6231977), search snippets",
+   "confidence": "medium"
+  },
+  "ear_length": {
+   "value": null,
+   "unit": "mm",
+   "source": "ADW Crocuta crocuta; Mammalian Species 53(1000) Hayssen & Noonan 2021 (academic.oup.com/mspecies/article/53/1000/1/6231977), search snippets",
+   "confidence": "none",
+   "note": "GAP: a 25-36 cm figure in one snippet is implausible and was rejected"
+  },
+  "pantheria_head_body_length": {
+   "value": 1300.11,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 63.37,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-15-5-4",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 2,
+  "condylobasal_length": {
+   "value": 232.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "zygomatic_breadth": {
+   "value": 163.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "braincase_length": {
+   "value": 102.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 164.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "scapula_length": {
+   "value": 185.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "humerus_length": {
+   "value": 196.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "radius_length": {
+   "value": 205.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "ulna_length": {
+   "value": 247.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "olecranon_length": {
+   "value": 27.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metacarpal3_length": {
+   "value": 91.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "pelvis_length": {
+   "value": 192.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "femur_length": {
+   "value": 226.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "tibia_length": {
+   "value": 181.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metatarsal3_length": {
+   "value": 85.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "calcaneus_length": {
+   "value": 57.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "sacrum_length": {
+   "value": 76.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "cervical_length_est": {
+   "value": 211.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 360.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 135.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 843.4,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 318.7,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 245.4,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 1.045,
+    "crural_index_tib_over_fem": 0.804,
+    "MT3_over_femur": 0.378,
+    "MC3_over_humerus": 0.466,
+    "scapula_over_humerus": 0.945,
+    "intermembral_(hum+rad)/(fem+tib)": 0.987,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 1.002,
+    "zygomatic_breadth_over_CBL": 0.704,
+    "braincase_over_CBL": 0.439,
+    "skeletal_head_body_length": 1165.3,
+    "forelimb_over_skeletal_HB": 0.424,
+    "hindlimb_over_skeletal_HB": 0.423,
+    "CBL_over_skeletal_HB": 0.199,
+    "rib_over_skeletal_HB": 0.274,
+    "forelimb_over_presacral": 0.586,
+    "neck_fraction_of_presacral": 0.299,
+    "thorax_fraction": 0.509,
+    "lumbar_fraction": 0.192
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "ratios_field_midpoints": {
+   "value": {
+    "shoulder_height_over_HB": 0.623,
+    "tail_over_HB": 0.235
+   },
+   "unit": "ratio",
+   "source": "midpoints of field ranges above",
+   "confidence": "low"
+  },
+  "brachial_index_lit": {
+   "value": 1.08,
+   "unit": "ratio",
+   "source": "Pachycrocuta brevirostris comparison quoted in search snippet (brachial/crural for Crocuta and Hyaena)",
+   "confidence": "medium"
+  },
+  "crural_index_lit": {
+   "value": 0.82,
+   "unit": "ratio",
+   "source": "Pachycrocuta brevirostris comparison quoted in search snippet (brachial/crural for Crocuta and Hyaena)",
+   "confidence": "medium"
+  }
+ },
+ "striped_hyena": {
+  "scientific_name": "Hyaena hyaena",
+  "head_body_length": {
+   "value": [
+    850,
+    1300
+   ],
+   "unit": "mm",
+   "source": "ADW/Wikipedia striped hyena via search snippets (en.wikipedia.org/wiki/Striped_hyena)",
+   "confidence": "medium"
+  },
+  "tail_length": {
+   "value": [
+    250,
+    400
+   ],
+   "unit": "mm",
+   "source": "ADW/Wikipedia striped hyena via search snippets (en.wikipedia.org/wiki/Striped_hyena)",
+   "confidence": "medium"
+  },
+  "shoulder_height": {
+   "value": [
+    600,
+    800
+   ],
+   "unit": "mm",
+   "source": "ADW/Wikipedia striped hyena via search snippets (en.wikipedia.org/wiki/Striped_hyena)",
+   "confidence": "medium"
+  },
+  "weight": {
+   "value": [
+    22,
+    55
+   ],
+   "unit": "kg",
+   "source": "ADW/Wikipedia striped hyena via search snippets (en.wikipedia.org/wiki/Striped_hyena)",
+   "confidence": "medium"
+  },
+  "pantheria_head_body_length": {
+   "value": 1104.7,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 35.07,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-14-5-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 1,
+  "condylobasal_length": {
+   "value": 220.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "zygomatic_breadth": {
+   "value": 160.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "braincase_length": {
+   "value": 98.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 151.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "scapula_length": {
+   "value": 164.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "humerus_length": {
+   "value": 183.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "radius_length": {
+   "value": 214.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "ulna_length": {
+   "value": 247.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "olecranon_length": {
+   "value": 23.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metacarpal3_length": {
+   "value": 76.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "pelvis_length": {
+   "value": 159.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "femur_length": {
+   "value": 202.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "tibia_length": {
+   "value": 183.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metatarsal3_length": {
+   "value": 84.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "calcaneus_length": {
+   "value": 43.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "sacrum_length": {
+   "value": 50.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "cervical_length_est": {
+   "value": 201.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 302.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 123.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 690.3,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 257.8,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 218.0,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 1.169,
+    "crural_index_tib_over_fem": 0.906,
+    "MT3_over_femur": 0.42,
+    "MC3_over_humerus": 0.419,
+    "scapula_over_humerus": 0.896,
+    "intermembral_(hum+rad)/(fem+tib)": 1.031,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 1.008,
+    "zygomatic_breadth_over_CBL": 0.726,
+    "braincase_over_CBL": 0.447,
+    "skeletal_head_body_length": 959.2,
+    "forelimb_over_skeletal_HB": 0.494,
+    "hindlimb_over_skeletal_HB": 0.49,
+    "CBL_over_skeletal_HB": 0.23,
+    "rib_over_skeletal_HB": 0.269,
+    "forelimb_over_presacral": 0.686,
+    "neck_fraction_of_presacral": 0.32,
+    "thorax_fraction": 0.482,
+    "lumbar_fraction": 0.197
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "ratios_field_midpoints": {
+   "value": {
+    "shoulder_height_over_HB": 0.651,
+    "tail_over_HB": 0.302
+   },
+   "unit": "ratio",
+   "source": "midpoints of field ranges above",
+   "confidence": "low"
+  },
+  "brachial_index_lit": {
+   "value": 1.07,
+   "unit": "ratio",
+   "source": "Pachycrocuta brevirostris comparison quoted in search snippet (brachial/crural for Crocuta and Hyaena)",
+   "confidence": "medium"
+  },
+  "crural_index_lit": {
+   "value": 0.88,
+   "unit": "ratio",
+   "source": "Pachycrocuta brevirostris comparison quoted in search snippet (brachial/crural for Crocuta and Hyaena)",
+   "confidence": "medium"
+  }
+ },
+ "raccoon_dog": {
+  "scientific_name": "Nyctereutes procyonoides",
+  "head_body_length": {
+   "value": [
+    450,
+    705
+   ],
+   "unit": "mm",
+   "source": "ADW Nyctereutes procyonoides; ecologyasia.com raccoon dog, search snippets",
+   "confidence": "medium"
+  },
+  "tail_length": {
+   "value": [
+    130,
+    250
+   ],
+   "unit": "mm",
+   "source": "ADW Nyctereutes procyonoides; ecologyasia.com raccoon dog, search snippets",
+   "confidence": "medium"
+  },
+  "shoulder_height": {
+   "value": [
+    380,
+    510
+   ],
+   "unit": "mm",
+   "source": "ADW Nyctereutes procyonoides; ecologyasia.com raccoon dog, search snippets",
+   "confidence": "low",
+   "note": "15-20 in from a popular source; probably too tall for a dog this short-legged; check against images"
+  },
+  "ear_length": {
+   "value": {
+    "range": [
+     35,
+     60
+    ],
+    "adult_male_mean": 51.3
+   },
+   "unit": "mm",
+   "source": "Age determination from external morphometrics in live raccoon dogs (BMC Zoology 2026, doi 10.1186/s40850-026-00260-8), adult males, search snippet",
+   "confidence": "high"
+  },
+  "hind_foot_length": {
+   "value": {
+    "range": [
+     75,
+     120
+    ],
+    "adult_male_mean": 112.5
+   },
+   "unit": "mm",
+   "source": "Age determination from external morphometrics in live raccoon dogs (BMC Zoology 2026, doi 10.1186/s40850-026-00260-8), adult males, search snippet",
+   "confidence": "high"
+  },
+  "weight": {
+   "value": [
+    4,
+    10
+   ],
+   "unit": "kg",
+   "source": "ADW Nyctereutes procyonoides; ecologyasia.com raccoon dog, search snippets",
+   "confidence": "medium",
+   "note": "seasonal: 4-6 summer, 6-10 pre-winter"
+  },
+  "pantheria_head_body_length": {
+   "value": 447.38,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 4.21,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 356.6,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 94.7,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 106.9,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "rib_over_skeletal_HB_no_sacrum": 0.204,
+    "head_over_skeletal_HB_no_sacrum": 0.231
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "ratios_field_midpoints": {
+   "value": {
+    "shoulder_height_over_HB": 0.771,
+    "tail_over_HB": 0.329
+   },
+   "unit": "ratio",
+   "source": "midpoints of field ranges above",
+   "confidence": "low"
+  },
+  "vertebral_formula": {
+   "value": "C7 T13 L7 (caudal count not found)",
+   "unit": "count",
+   "source": "Radiographic evaluation of congenital vertebral anomalies in Korean raccoon dogs (PMC8318798)",
+   "confidence": "high"
+  }
+ },
+ "arctic_fox": {
+  "scientific_name": "Vulpes lagopus",
+  "pantheria_head_body_length": {
+   "value": 564.81,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 3.58,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 3,
+  "condylobasal_length": {
+   "value": 132.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "zygomatic_breadth": {
+   "value": 75.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "braincase_length": {
+   "value": 58.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 92.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "scapula_length": {
+   "value": 73.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "humerus_length": {
+   "value": 107.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "radius_length": {
+   "value": 103.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "ulna_length": {
+   "value": 124.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "olecranon_length": {
+   "value": 13.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metacarpal3_length": {
+   "value": 41.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "pelvis_length": {
+   "value": 85.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "femur_length": {
+   "value": 109.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "tibia_length": {
+   "value": 126.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metatarsal3_length": {
+   "value": 54.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "calcaneus_length": {
+   "value": 27.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "sacrum_length": {
+   "value": 22.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "cervical_length_est": {
+   "value": 103.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 168.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 117.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 372.4,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 102.1,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 122.5,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 0.955,
+    "crural_index_tib_over_fem": 1.157,
+    "MT3_over_femur": 0.502,
+    "MC3_over_humerus": 0.387,
+    "scapula_over_humerus": 0.679,
+    "intermembral_(hum+rad)/(fem+tib)": 0.896,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.87,
+    "zygomatic_breadth_over_CBL": 0.569,
+    "braincase_over_CBL": 0.441,
+    "skeletal_head_body_length": 516.9,
+    "forelimb_over_skeletal_HB": 0.488,
+    "hindlimb_over_skeletal_HB": 0.561,
+    "CBL_over_skeletal_HB": 0.256,
+    "rib_over_skeletal_HB": 0.197,
+    "forelimb_over_presacral": 0.678,
+    "neck_fraction_of_presacral": 0.265,
+    "thorax_fraction": 0.433,
+    "lumbar_fraction": 0.302
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "fennec": {
+  "scientific_name": "Vulpes zerda",
+  "pantheria_head_body_length": {
+   "value": 374.23,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 1.32,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 1,
+  "condylobasal_length": {
+   "value": 85.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "zygomatic_breadth": {
+   "value": 46.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "braincase_length": {
+   "value": 38.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 56.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "scapula_length": {
+   "value": 43.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "humerus_length": {
+   "value": 71.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "radius_length": {
+   "value": 64.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "ulna_length": {
+   "value": 77.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "olecranon_length": {
+   "value": 7.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metacarpal3_length": {
+   "value": 25.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "pelvis_length": {
+   "value": 53.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "femur_length": {
+   "value": 70.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "tibia_length": {
+   "value": 84.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metatarsal3_length": {
+   "value": 36.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "calcaneus_length": {
+   "value": 17.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "sacrum_length": {
+   "value": 12.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "cervical_length_est": {
+   "value": 69.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 104.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 76.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 263.4,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 68.9,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 85.2,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 0.912,
+    "crural_index_tib_over_fem": 1.197,
+    "MT3_over_femur": 0.518,
+    "MC3_over_humerus": 0.355,
+    "scapula_over_humerus": 0.607,
+    "intermembral_(hum+rad)/(fem+tib)": 0.877,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.842,
+    "zygomatic_breadth_over_CBL": 0.546,
+    "braincase_over_CBL": 0.457,
+    "skeletal_head_body_length": 361.6,
+    "forelimb_over_skeletal_HB": 0.446,
+    "hindlimb_over_skeletal_HB": 0.53,
+    "CBL_over_skeletal_HB": 0.236,
+    "rib_over_skeletal_HB": 0.191,
+    "forelimb_over_presacral": 0.613,
+    "neck_fraction_of_presacral": 0.276,
+    "thorax_fraction": 0.417,
+    "lumbar_fraction": 0.307
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "maned_wolf": {
+  "scientific_name": "Chrysocyon brachyurus",
+  "pantheria_head_body_length": {
+   "value": 1245.72,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 23.32,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 1,
+  "condylobasal_length": {
+   "value": 218.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "zygomatic_breadth": {
+   "value": 127.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "braincase_length": {
+   "value": 94.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 157.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "scapula_length": {
+   "value": 153.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "humerus_length": {
+   "value": 253.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "radius_length": {
+   "value": 271.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "ulna_length": {
+   "value": 314.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "olecranon_length": {
+   "value": 23.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metacarpal3_length": {
+   "value": 117.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "pelvis_length": {
+   "value": 160.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "femur_length": {
+   "value": 271.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "tibia_length": {
+   "value": 305.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metatarsal3_length": {
+   "value": 135.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "calcaneus_length": {
+   "value": 55.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "sacrum_length": {
+   "value": 37.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "cervical_length_est": {
+   "value": 234.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 293.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 200.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 741.8,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 196.2,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 214.5,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 1.071,
+    "crural_index_tib_over_fem": 1.125,
+    "MT3_over_femur": 0.501,
+    "MC3_over_humerus": 0.463,
+    "scapula_over_humerus": 0.605,
+    "intermembral_(hum+rad)/(fem+tib)": 0.91,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.901,
+    "zygomatic_breadth_over_CBL": 0.586,
+    "braincase_over_CBL": 0.432,
+    "skeletal_head_body_length": 993.6,
+    "forelimb_over_skeletal_HB": 0.645,
+    "hindlimb_over_skeletal_HB": 0.716,
+    "CBL_over_skeletal_HB": 0.219,
+    "rib_over_skeletal_HB": 0.198,
+    "forelimb_over_presacral": 0.864,
+    "neck_fraction_of_presacral": 0.322,
+    "thorax_fraction": 0.403,
+    "lumbar_fraction": 0.275
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "dhole": {
+  "scientific_name": "Cuon alpinus",
+  "pantheria_head_body_length": {
+   "value": 987.74,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 15.8,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 1,
+  "condylobasal_length": {
+   "value": 169.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "zygomatic_breadth": {
+   "value": 106.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "braincase_length": {
+   "value": 74.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 121.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "scapula_length": {
+   "value": 120.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "humerus_length": {
+   "value": 151.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "radius_length": {
+   "value": 139.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "ulna_length": {
+   "value": 173.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "olecranon_length": {
+   "value": 20.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metacarpal3_length": {
+   "value": 64.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "pelvis_length": {
+   "value": 144.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "femur_length": {
+   "value": 172.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "tibia_length": {
+   "value": 170.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metatarsal3_length": {
+   "value": 75.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "calcaneus_length": {
+   "value": 43.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "sacrum_length": {
+   "value": 37.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "cervical_length_est": {
+   "value": 161.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 265.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 183.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 651.2,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 193.0,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 172.6,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 0.917,
+    "crural_index_tib_over_fem": 0.989,
+    "MT3_over_femur": 0.439,
+    "MC3_over_humerus": 0.423,
+    "scapula_over_humerus": 0.792,
+    "intermembral_(hum+rad)/(fem+tib)": 0.846,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.846,
+    "zygomatic_breadth_over_CBL": 0.63,
+    "braincase_over_CBL": 0.442,
+    "skeletal_head_body_length": 861.2,
+    "forelimb_over_skeletal_HB": 0.412,
+    "hindlimb_over_skeletal_HB": 0.487,
+    "CBL_over_skeletal_HB": 0.197,
+    "rib_over_skeletal_HB": 0.224,
+    "forelimb_over_presacral": 0.545,
+    "neck_fraction_of_presacral": 0.264,
+    "thorax_fraction": 0.435,
+    "lumbar_fraction": 0.301
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "ethiopian_wolf": {
+  "scientific_name": "Canis simensis",
+  "pantheria_head_body_length": {
+   "value": 938.19,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 14.36,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 1,
+  "condylobasal_length": {
+   "value": 198.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "zygomatic_breadth": {
+   "value": 98.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "braincase_length": {
+   "value": 81.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 146.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "scapula_length": {
+   "value": 122.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "humerus_length": {
+   "value": 175.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "radius_length": {
+   "value": 175.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "ulna_length": {
+   "value": 210.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "olecranon_length": {
+   "value": 19.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metacarpal3_length": {
+   "value": 69.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "pelvis_length": {
+   "value": 140.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "femur_length": {
+   "value": 185.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "tibia_length": {
+   "value": 191.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metatarsal3_length": {
+   "value": 83.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "calcaneus_length": {
+   "value": 42.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "sacrum_length": {
+   "value": 36.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "cervical_length_est": {
+   "value": 176.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 246.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 170.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 625.4,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 171.8,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 202.2,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 0.998,
+    "crural_index_tib_over_fem": 1.036,
+    "MT3_over_femur": 0.452,
+    "MC3_over_humerus": 0.398,
+    "scapula_over_humerus": 0.696,
+    "intermembral_(hum+rad)/(fem+tib)": 0.93,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.913,
+    "zygomatic_breadth_over_CBL": 0.498,
+    "braincase_over_CBL": 0.41,
+    "skeletal_head_body_length": 864.2,
+    "forelimb_over_skeletal_HB": 0.487,
+    "hindlimb_over_skeletal_HB": 0.533,
+    "CBL_over_skeletal_HB": 0.23,
+    "rib_over_skeletal_HB": 0.199,
+    "forelimb_over_presacral": 0.672,
+    "neck_fraction_of_presacral": 0.297,
+    "thorax_fraction": 0.416,
+    "lumbar_fraction": 0.287
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "black_backed_jackal": {
+  "scientific_name": "Canis mesomelas",
+  "pantheria_head_body_length": {
+   "value": 707.27,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 8.25,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 1,
+  "condylobasal_length": {
+   "value": 146.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "zygomatic_breadth": {
+   "value": 87.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "braincase_length": {
+   "value": 60.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 102.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "scapula_length": {
+   "value": 90.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "humerus_length": {
+   "value": 130.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "radius_length": {
+   "value": 136.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "ulna_length": {
+   "value": 161.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "olecranon_length": {
+   "value": 13.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metacarpal3_length": {
+   "value": 57.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "pelvis_length": {
+   "value": 104.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "femur_length": {
+   "value": 138.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "tibia_length": {
+   "value": 152.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metatarsal3_length": {
+   "value": 63.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "calcaneus_length": {
+   "value": 32.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "sacrum_length": {
+   "value": 28.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "cervical_length_est": {
+   "value": 139.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 204.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 139.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 497.3,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 137.1,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 145.6,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 1.048,
+    "crural_index_tib_over_fem": 1.101,
+    "MT3_over_femur": 0.455,
+    "MC3_over_humerus": 0.44,
+    "scapula_over_humerus": 0.697,
+    "intermembral_(hum+rad)/(fem+tib)": 0.915,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.914,
+    "zygomatic_breadth_over_CBL": 0.595,
+    "braincase_over_CBL": 0.413,
+    "skeletal_head_body_length": 671.3,
+    "forelimb_over_skeletal_HB": 0.483,
+    "hindlimb_over_skeletal_HB": 0.528,
+    "CBL_over_skeletal_HB": 0.218,
+    "rib_over_skeletal_HB": 0.204,
+    "forelimb_over_presacral": 0.652,
+    "neck_fraction_of_presacral": 0.289,
+    "thorax_fraction": 0.423,
+    "lumbar_fraction": 0.288
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "side_striped_jackal": {
+  "scientific_name": "Canis adustus",
+  "pantheria_head_body_length": {
+   "value": 745.32,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 10.39,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 1,
+  "condylobasal_length": {
+   "value": 157.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "zygomatic_breadth": {
+   "value": 84.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "braincase_length": {
+   "value": 67.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 112.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "scapula_length": {
+   "value": 98.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "humerus_length": {
+   "value": 134.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "radius_length": {
+   "value": 135.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "ulna_length": {
+   "value": 160.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "olecranon_length": {
+   "value": 13.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metacarpal3_length": {
+   "value": 60.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "pelvis_length": {
+   "value": 114.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "femur_length": {
+   "value": 145.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "tibia_length": {
+   "value": 147.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metatarsal3_length": {
+   "value": 66.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "calcaneus_length": {
+   "value": 35.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "sacrum_length": {
+   "value": 27.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "cervical_length_est": {
+   "value": 159.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 193.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 130.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 499.1,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 133.4,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 151.8,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 1.004,
+    "crural_index_tib_over_fem": 1.018,
+    "MT3_over_femur": 0.459,
+    "MC3_over_humerus": 0.45,
+    "scapula_over_humerus": 0.733,
+    "intermembral_(hum+rad)/(fem+tib)": 0.922,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.919,
+    "zygomatic_breadth_over_CBL": 0.54,
+    "braincase_over_CBL": 0.428,
+    "skeletal_head_body_length": 678.2,
+    "forelimb_over_skeletal_HB": 0.488,
+    "hindlimb_over_skeletal_HB": 0.531,
+    "CBL_over_skeletal_HB": 0.232,
+    "rib_over_skeletal_HB": 0.197,
+    "forelimb_over_presacral": 0.663,
+    "neck_fraction_of_presacral": 0.329,
+    "thorax_fraction": 0.4,
+    "lumbar_fraction": 0.27
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "bat_eared_fox": {
+  "scientific_name": "Otocyon megalotis",
+  "pantheria_head_body_length": {
+   "value": 537.63,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 4.1,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 2,
+  "condylobasal_length": {
+   "value": 108.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "zygomatic_breadth": {
+   "value": 63.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "braincase_length": {
+   "value": 45.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 75.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "scapula_length": {
+   "value": 67.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "humerus_length": {
+   "value": 96.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "radius_length": {
+   "value": 105.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "ulna_length": {
+   "value": 123.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "olecranon_length": {
+   "value": 11.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metacarpal3_length": {
+   "value": 41.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "pelvis_length": {
+   "value": 81.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "femur_length": {
+   "value": 108.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "tibia_length": {
+   "value": 117.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metatarsal3_length": {
+   "value": 54.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "calcaneus_length": {
+   "value": 25.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "sacrum_length": {
+   "value": 20.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "cervical_length_est": {
+   "value": 98.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 139.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 97.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 351.6,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 97.3,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 111.5,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 1.099,
+    "crural_index_tib_over_fem": 1.081,
+    "MT3_over_femur": 0.5,
+    "MC3_over_humerus": 0.431,
+    "scapula_over_humerus": 0.705,
+    "intermembral_(hum+rad)/(fem+tib)": 0.897,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.872,
+    "zygomatic_breadth_over_CBL": 0.579,
+    "braincase_over_CBL": 0.415,
+    "skeletal_head_body_length": 483.2,
+    "forelimb_over_skeletal_HB": 0.504,
+    "hindlimb_over_skeletal_HB": 0.578,
+    "CBL_over_skeletal_HB": 0.225,
+    "rib_over_skeletal_HB": 0.201,
+    "forelimb_over_presacral": 0.693,
+    "neck_fraction_of_presacral": 0.295,
+    "thorax_fraction": 0.416,
+    "lumbar_fraction": 0.289
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "gray_fox": {
+  "scientific_name": "Urocyon cinereoargenteus",
+  "pantheria_head_body_length": {
+   "value": 601.7,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 3.83,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 3,
+  "condylobasal_length": {
+   "value": 115.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "zygomatic_breadth": {
+   "value": 65.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "braincase_length": {
+   "value": 50.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 79.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "scapula_length": {
+   "value": 64.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "humerus_length": {
+   "value": 95.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "radius_length": {
+   "value": 83.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "ulna_length": {
+   "value": 103.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "olecranon_length": {
+   "value": 11.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metacarpal3_length": {
+   "value": 37.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "pelvis_length": {
+   "value": 81.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "femur_length": {
+   "value": 101.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "tibia_length": {
+   "value": 110.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metatarsal3_length": {
+   "value": 50.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "calcaneus_length": {
+   "value": 25.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "sacrum_length": {
+   "value": 20.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "cervical_length_est": {
+   "value": 108.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 154.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 110.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 428.5,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 91.5,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 120.9,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 0.865,
+    "crural_index_tib_over_fem": 1.095,
+    "MT3_over_femur": 0.494,
+    "MC3_over_humerus": 0.388,
+    "scapula_over_humerus": 0.674,
+    "intermembral_(hum+rad)/(fem+tib)": 0.844,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.825,
+    "zygomatic_breadth_over_CBL": 0.568,
+    "braincase_over_CBL": 0.437,
+    "skeletal_head_body_length": 570.0,
+    "forelimb_over_skeletal_HB": 0.379,
+    "hindlimb_over_skeletal_HB": 0.46,
+    "CBL_over_skeletal_HB": 0.202,
+    "rib_over_skeletal_HB": 0.16,
+    "forelimb_over_presacral": 0.504,
+    "neck_fraction_of_presacral": 0.29,
+    "thorax_fraction": 0.414,
+    "lumbar_fraction": 0.297
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "bush_dog": {
+  "scientific_name": "Speothos venaticus",
+  "pantheria_head_body_length": {
+   "value": 624.73,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 6.32,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 1,
+  "condylobasal_length": {
+   "value": 135.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "zygomatic_breadth": {
+   "value": 83.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "braincase_length": {
+   "value": 62.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 92.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "scapula_length": {
+   "value": 77.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "humerus_length": {
+   "value": 99.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "radius_length": {
+   "value": 82.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "ulna_length": {
+   "value": 110.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "olecranon_length": {
+   "value": 17.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metacarpal3_length": {
+   "value": 38.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "pelvis_length": {
+   "value": 96.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "femur_length": {
+   "value": 103.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "tibia_length": {
+   "value": 94.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "metatarsal3_length": {
+   "value": 42.3,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "calcaneus_length": {
+   "value": 28.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "sacrum_length": {
+   "value": 25.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low"
+  },
+  "cervical_length_est": {
+   "value": 114.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 187.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 113.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 422.7,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 106.9,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 130.2,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 0.828,
+    "crural_index_tib_over_fem": 0.913,
+    "MT3_over_femur": 0.409,
+    "MC3_over_humerus": 0.384,
+    "scapula_over_humerus": 0.783,
+    "intermembral_(hum+rad)/(fem+tib)": 0.919,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.916,
+    "zygomatic_breadth_over_CBL": 0.618,
+    "braincase_over_CBL": 0.462,
+    "skeletal_head_body_length": 578.4,
+    "forelimb_over_skeletal_HB": 0.381,
+    "hindlimb_over_skeletal_HB": 0.415,
+    "CBL_over_skeletal_HB": 0.234,
+    "rib_over_skeletal_HB": 0.185,
+    "forelimb_over_presacral": 0.521,
+    "neck_fraction_of_presacral": 0.275,
+    "thorax_fraction": 0.451,
+    "lumbar_fraction": 0.273
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "crab_eating_fox": {
+  "scientific_name": "Cerdocyon thous",
+  "pantheria_head_body_length": {
+   "value": 648.06,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 5.74,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "vertebral_formula_C_T_L_S": {
+   "value": "7-13-7-3",
+   "unit": "count",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "high"
+  },
+  "skeletal_n_specimens": 2,
+  "condylobasal_length": {
+   "value": 147.1,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "zygomatic_breadth": {
+   "value": 84.2,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "braincase_length": {
+   "value": 63.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "jaw_TMJ_to_canine_outlever (COL, assumed meaning)": {
+   "value": 104.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "scapula_length": {
+   "value": 89.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "humerus_length": {
+   "value": 123.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "radius_length": {
+   "value": 113.4,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "ulna_length": {
+   "value": 138.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "olecranon_length": {
+   "value": 13.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metacarpal3_length": {
+   "value": 52.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "pelvis_length": {
+   "value": 109.6,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "femur_length": {
+   "value": 134.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "tibia_length": {
+   "value": 137.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "metatarsal3_length": {
+   "value": 61.7,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "calcaneus_length": {
+   "value": 32.5,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "sacrum_length": {
+   "value": 29.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "medium"
+  },
+  "cervical_length_est": {
+   "value": 134.8,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "thoracic_length_est": {
+   "value": 201.0,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "lumbar_length_est": {
+   "value": 141.9,
+   "unit": "mm",
+   "source": "Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly",
+   "confidence": "low",
+   "note": "vertebra count x mean of measured centrum lengths (centra only, no discs)"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 463.3,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 113.5,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 135.9,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "brachial_index_rad_over_hum": 0.922,
+    "crural_index_tib_over_fem": 1.024,
+    "MT3_over_femur": 0.458,
+    "MC3_over_humerus": 0.428,
+    "scapula_over_humerus": 0.731,
+    "intermembral_(hum+rad)/(fem+tib)": 0.867,
+    "forelimb(hum+rad+MC3)/hindlimb(fem+tib+MT3)": 0.864,
+    "zygomatic_breadth_over_CBL": 0.572,
+    "braincase_over_CBL": 0.434,
+    "skeletal_head_body_length": 629.0,
+    "forelimb_over_skeletal_HB": 0.459,
+    "hindlimb_over_skeletal_HB": 0.531,
+    "CBL_over_skeletal_HB": 0.234,
+    "rib_over_skeletal_HB": 0.18,
+    "forelimb_over_presacral": 0.624,
+    "neck_fraction_of_presacral": 0.282,
+    "thorax_fraction": 0.421,
+    "lumbar_fraction": 0.297
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "brown_hyena": {
+  "scientific_name": "Hyaena brunnea",
+  "pantheria_head_body_length": {
+   "value": 1198.21,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 42.98,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  }
+ },
+ "aardwolf": {
+  "scientific_name": "Proteles cristata",
+  "pantheria_head_body_length": {
+   "value": 697.91,
+   "unit": "mm",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "pantheria_body_mass": {
+   "value": 8.14,
+   "unit": "kg",
+   "source": "PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648; Ecological Archives E090-184), via github.com/FRBCesab/datatoolboxexos",
+   "confidence": "medium",
+   "note": "species mean"
+  },
+  "presacral_vertebral_column_length (C1 to last lumbar)": {
+   "value": 477.4,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "mean_rib_length (chest depth proxy)": {
+   "value": 147.1,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  },
+  "head_length (derived: hbER*rib - body)": {
+   "value": 137.9,
+   "unit": "mm",
+   "source": "Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "low",
+   "note": "back-calculated assuming hbER=(head+body)/rib"
+  },
+  "ratios_skeletal": {
+   "value": {
+    "rib_over_skeletal_HB_no_sacrum": 0.239,
+    "head_over_skeletal_HB_no_sacrum": 0.224
+   },
+   "unit": "ratio",
+   "source": "derived by Firefly from Law et al. 2025 IOB raw data (github.com/chrisjlaw/published_data-Law_etal_2025_IOB, rawdata.csv), species mean of adult male museum specimens, computed by Firefly and Law 2021 Am Nat 'Ecological drivers of carnivoran body shape evolution' (github.com/chrisjlaw/published_data-Law_2021_AmNat, data/data.csv)",
+   "confidence": "medium"
+  }
+ },
+ "domestic_dog": {
+  "scientific_name": "Canis familiaris",
+  "vertebral_formula": {
+   "value": "C7 T13 L7 S3 Cd20-23",
+   "unit": "count",
+   "source": "IMAIOS vet-Anatomy caudal vertebrae; anatomylearner.com dog tail anatomy",
+   "confidence": "high"
+  },
+  "beagle_scapula_fraction_of_forelimb": {
+   "value": 0.281,
+   "unit": "ratio",
+   "source": "Helmsmueller et al. 2013 Ontogenetic allometry of the Beagle, BMC Vet Res 9:203 (CC-BY)",
+   "confidence": "high",
+   "note": "scapula share of anatomical forelimb length at 51 wk"
+  },
+  "beagle_brachium_fraction_of_forelimb": {
+   "value": 0.248,
+   "unit": "ratio",
+   "source": "Helmsmueller et al. 2013 BMC Vet Res 9:203",
+   "confidence": "high"
+  },
+  "standing_shoulder_angle": {
+   "value": 119.8,
+   "unit": "deg",
+   "source": "Anatolian shepherd ROM study (pmc.ncbi.nlm.nih.gov/articles/PMC13192051) via search snippet",
+   "confidence": "medium",
+   "note": "mean +-1.2"
+  },
+  "standing_elbow_angle": {
+   "value": 124.8,
+   "unit": "deg",
+   "source": "same Anatolian shepherd study",
+   "confidence": "medium",
+   "note": "mean +-6.3"
+  },
+  "standing_stifle_angle": {
+   "value": 145,
+   "unit": "deg",
+   "source": "Determination of the stifle angle at standing position in dogs, Vet Sci 2022 9:644 (PMC9697634)",
+   "confidence": "high",
+   "note": "mid-stance; older TPLA/TTA standard 135"
+  },
+  "hip_angle_pelvis_femur_ideal": {
+   "value": 125,
+   "unit": "deg",
+   "source": "siriusdog.com angulation article (breeder lore, not measured)",
+   "confidence": "low"
+  },
+  "joint_ROM_walk": {
+   "value": {
+    "carpus": [
+     20,
+     170
+    ],
+    "elbow": [
+     34,
+     145
+    ],
+    "shoulder": [
+     88,
+     144
+    ]
+   },
+   "unit": "deg (flexion, extension)",
+   "source": "goniometry reference values quoted in search snippet (Jaegger et al. 2002 style)",
+   "confidence": "medium"
+  },
+  "cephalic_index_classes": {
+   "value": {
+    "dolichocephalic": "<75",
+    "mesaticephalic": "75-80",
+    "brachycephalic": ">80"
+   },
+   "unit": "100*skull width/skull length",
+   "source": "wikidoc Cephalic index; Wikipedia Cephalic index in cats and dogs",
+   "confidence": "medium",
+   "note": "other schemes use skull index thresholds 51 and 59; no standard"
+  },
+  "max_gape_dingo": {
+   "value": 65,
+   "unit": "deg",
+   "source": "Bourke et al. 2008 PLoS ONE 'Effects of gape and tooth position on bite force ... dingo' (journals.plos.org/plosone/article?id=10.1371/journal.pone.0002200)",
+   "confidence": "medium",
+   "note": "largest gape modelled; optimal bite 25-35 deg"
+  },
+  "akc_breed_heights": {
+   "value": {
+    "Greyhound": [
+     68.6,
+     76.2
+    ],
+    "Saluki": [
+     58.4,
+     71.1
+    ],
+    "German Shepherd Dog": [
+     55.9,
+     66.0
+    ],
+    "Labrador Retriever": [
+     54.6,
+     62.2
+    ],
+    "Siberian Husky": [
+     50.8,
+     59.7
+    ],
+    "Carolina Dog": [
+     45.1,
+     49.5
+    ],
+    "Basenji": [
+     40.6,
+     43.2
+    ],
+    "Shiba Inu": [
+     34.3,
+     41.9
+    ],
+    "Beagle": [
+     33.0,
+     38.1
+    ],
+    "Bulldog": [
+     35.6,
+     38.1
+    ],
+    "Pembroke Welsh Corgi": [
+     25.4,
+     30.5
+    ],
+    "Dachshund": [
+     12.7,
+     22.9
+    ],
+    "Chihuahua": [
+     12.7,
+     20.3
+    ],
+    "Great Dane": [
+     71.1,
+     81.3
+    ]
+   },
+   "unit": "cm at withers",
+   "source": "akcdata (github.com/tmfilho/akcdata, scraped from akc.org)",
+   "confidence": "medium"
+  }
+ },
+ "dingo": {
+  "scientific_name": "Canis familiaris dingo (Canis dingo)",
+  "head_body_length": {
+   "value": [
+    860,
+    1230
+   ],
+   "unit": "mm",
+   "source": "Australian Museum dingo page (australian.museum/learn/animals/mammals/dingo/), search snippet",
+   "confidence": "medium",
+   "note": "Australian Museum calls this body length; Wikipedia gives 720-1110 head-body"
+  },
+  "tail_length": {
+   "value": [
+    260,
+    380
+   ],
+   "unit": "mm",
+   "source": "Australian Museum dingo page (australian.museum/learn/animals/mammals/dingo/), search snippet",
+   "confidence": "medium"
+  },
+  "shoulder_height": {
+   "value": [
+    440,
+    620
+   ],
+   "unit": "mm",
+   "source": "Australian Museum dingo page (australian.museum/learn/animals/mammals/dingo/), search snippet",
+   "confidence": "medium"
+  },
+  "weight": {
+   "value": [
+    12,
+    24
+   ],
+   "unit": "kg",
+   "source": "Australian Museum dingo page (australian.museum/learn/animals/mammals/dingo/), search snippet",
+   "confidence": "medium"
+  },
+  "ratios_field_midpoints": {
+   "value": {
+    "shoulder_height_over_HB": 0.507,
+    "tail_over_HB": 0.306
+   },
+   "unit": "ratio",
+   "source": "midpoints of Australian Museum ranges",
+   "confidence": "low"
+  },
+  "skull_CBL_pre1900_mean": {
+   "value": 176.89,
+   "unit": "mm",
+   "source": "Phenotypic diversity in early Australian dingoes (PMC11411105), via search snippet",
+   "confidence": "medium"
+  },
+  "limb_note": {
+   "value": "femur longer than tibia and humerus longer than radius (crural and brachial index below 1)",
+   "unit": "qualitative",
+   "source": "PMC11411105 via search snippet",
+   "confidence": "low",
+   "note": "contrasts with wolf (both about 1.02-1.04)"
+  }
+ },
+ "carolina_dog": {
+  "scientific_name": "Canis familiaris (Carolina Dog breed)",
+  "shoulder_height": {
+   "value": [
+    457,
+    610
+   ],
+   "unit": "mm",
+   "source": "UKC / CKC Carolina Dog breed standards (ukcdogs.com/carolina-dog; ckcusa.com/breeds/carolina-dog/), search snippets",
+   "confidence": "medium",
+   "note": "18-24 in (UKC says 17-24)"
+  },
+  "body_length_to_height": {
+   "value": 1.0,
+   "unit": "ratio",
+   "source": "UKC / CKC Carolina Dog breed standards (ukcdogs.com/carolina-dog; ckcusa.com/breeds/carolina-dog/), search snippets",
+   "confidence": "medium",
+   "note": "CKC: forechest-to-rump length equal to or slightly greater than withers height"
+  },
+  "elbow_height_fraction_of_withers": {
+   "value": 0.5,
+   "unit": "ratio",
+   "source": "UKC / CKC Carolina Dog breed standards (ukcdogs.com/carolina-dog; ckcusa.com/breeds/carolina-dog/), search snippets",
+   "confidence": "medium",
+   "note": "point of elbow about half the withers height; brisket reaches the elbow"
+  },
+  "weight": {
+   "value": [
+    16,
+    23
+   ],
+   "unit": "kg",
+   "source": "UKC / CKC Carolina Dog breed standards (ukcdogs.com/carolina-dog; ckcusa.com/breeds/carolina-dog/), search snippets",
+   "confidence": "medium",
+   "note": "35-50 lb"
+  },
+  "akc_height_range": {
+   "value": [
+    450.85,
+    495.3
+   ],
+   "unit": "mm",
+   "source": "akcdata (github.com/tmfilho/akcdata, scraped from akc.org)",
+   "confidence": "medium"
+  }
+ }
+}
