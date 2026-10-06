@@ -12,6 +12,7 @@
              flush [codes]       numeric flush score per piece per dog (area outside the body, Hausdorff along the seat), against tools/den/baselines.json
              legibility [codes]  line weights in pixels at game scale, and gear-vs-coat colour contrast (CIEDE2000)
              sample [n]          n random codes across every kind through lint (the code space is large; this samples it)
+   species   species [names] [--sheet wolf]   real canid proportions (AwA-Pose keypoints, ref/awa-pose) next to hero2's; --sheet gives a species' style-preserving targets
    compare   diff a.png b.png [--engine ssim|pixelmatch]   before/after images, V1's SSIM or the anti-aliasing-aware pixelmatch
    report    report [codes]      runs every check, writes tools/den/reports/<time>.md
    admin     doctor              what is installed (and the optional backends that can be added); baseline [--update]
@@ -276,6 +277,9 @@ def cmd_doctor(a):
     for name, hint, why in [('paper', 'npm i paper-jsdom', 'curve-aware booleans: compile shapes as bezier paths instead of polylines'),
                             ('@resvg/resvg-js', 'npm i @resvg/resvg-js', 'a second, deterministic renderer to cross-check Chromium'),
                             ('clipper2-ts', 'npm i @countertype/clipper2-ts', 'integer polygon clipping and offsetting in JS'),
+                            ('paper-jsdom', 'npm i paper-jsdom', 'paper.js in Node (installed Oct 6; not wired in yet)'),
+                            ('scikit-learn', 'pip install scikit-learn', 'PCA and clustering for species shape spaces'),
+                            ('pyclipper', 'pip install pyclipper', 'Clipper polygon offsetting in Python'),
                             ('uv', 'pip install uv', 'fast, pinned Python installs for each session'),
                             ('hypothesis', 'pip install hypothesis', 'property-based sampling of the code space (den sample is the simple version)'),
                             ('colour-science', 'pip install colour-science', 'more colour metrics than CIEDE2000'),
@@ -293,7 +297,7 @@ def main():
         f = LENS / V1[a.cmd]; sys.exit(subprocess.run((['node'] if f.suffix == '.cjs' else [sys.executable]) + [str(f)] + ([a.cmd] if a.cmd in ('shot', 'probe', 'export', 'piece') else []) + a.rest, cwd=ROOT, env=ENV).returncode)
     fn = {'lint': cmd_lint, 'sweep': lambda a: (check_sweep(codes_of(a.rest)), finish()), 'order': lambda a: (check_order(codes_of(a.rest)), finish()), 'xcheck': lambda a: (check_xcheck(codes_of(a.rest)), finish()),
           'determinism': lambda a: (check_determinism(codes_of(a.rest)), finish()), 'flush': lambda a: (check_flush(codes_of(a.rest)), finish()), 'legibility': lambda a: (check_legibility(codes_of(a.rest)), finish()),
-          'sample': cmd_sample, 'diff': cmd_diff, 'report': cmd_report, 'doctor': cmd_doctor, 'baseline': cmd_baseline}.get(a.cmd)
+          'sample': cmd_sample, 'species': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'species.py'), *a.rest], cwd=ROOT).returncode), 'diff': cmd_diff, 'report': cmd_report, 'doctor': cmd_doctor, 'baseline': cmd_baseline}.get(a.cmd)
     if not fn: print('unknown command; run `den help`'); sys.exit(2)
     fn(a)
 if __name__ == '__main__': main()

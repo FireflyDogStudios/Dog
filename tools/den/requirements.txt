@@ -1,0 +1,6 @@
+# Den kit V2 extras (on top of tools/lens/requirements.txt). Install: uv pip install --system -r tools/den/requirements.txt  (or pip)
+hypothesis
+colour-science
+scikit-learn
+pyclipper
+uv
