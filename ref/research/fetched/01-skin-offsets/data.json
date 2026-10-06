@@ -1,0 +1,527 @@
+{
+ "source": {
+  "title": "Handbuch der Anatomie der Tiere fuer Kuenstler: Der Hund (Ellenberger, Baum, Dittrich & Muench, Anatomie des Hundes, 1. Auflage)",
+  "plates": {
+   "Tafel 1 (exterior, left lateral)": "https://search.library.wisc.edu/digital/ATC7FOZKECJ5FE9D",
+   "Tafel 2 (superficial muscles, left lateral)": "https://search.library.wisc.edu/digital/AK5A3XN25SYOAV8V",
+   "Tafel 3 (skeleton inside body outline, left lateral)": "https://search.library.wisc.edu/digital/AHFYCAGUWKQA5Y83"
+  },
+  "image_urls": {
+   "Tafel 1": "https://asset.library.wisc.edu/iiif/1711.dl%2FTUNHELIQZJOUV8J/full/full/0/default.jpg",
+   "Tafel 2": "https://asset.library.wisc.edu/iiif/1711.dl%2FBIRFFJXL47ZDE8J/full/full/0/default.jpg",
+   "Tafel 3": "https://asset.library.wisc.edu/iiif/1711.dl%2F5CIIJ6SEYKWOG8S/full/full/0/default.jpg"
+  },
+  "licence": "Public domain (UWDC: 'No known copyright', rightsstatements.org/vocab/NKC/1.0; Wikimedia Commons copy of Tafel 3 tagged PD-old-auto-expired + PD Mark)",
+  "fetched": "2026-10-06"
+ },
+ "conventions": {
+  "plate_px": "pixels of the full-resolution UWDC scan, 3451 x 2850, origin top-left, y down; the plates show the dog's LEFT side, facing LEFT",
+  "facing_right": "x mirrored: x' = 3450 - x; y unchanged (y down)",
+  "ground_y_px": 2626.0,
+  "ground_note": "mean of the lowest pad outline of the near forepaw (2629-2631) and near hindpaw (2622-2623); far paws are drawn higher (2577, 2545) by the slightly raised viewpoint",
+  "withers_skin_y_px": 789.0,
+  "withers_height_px": 1837.0,
+  "offset": "distance from bone landmark to the skin outline drawn on the same plate (Tafel 3), along offset_direction (up/down = vertical, forward/back = horizontal), divided by withers height (ground to skin top of withers)",
+  "uncertainty_px": "estimated error of landmark identification; line positions themselves are read to +-1-2 px with a dark-pixel run finder (threshold 110 on 0-255 grey)"
+ },
+ "registration": "No cross-plate registration was needed: Tafel 3 draws the skeleton inside the body outline on one plate. The Tafel 3 outline was checked against the Tafel 1 exterior silhouette: shift x+31 px (scan offset), y 0; dorsal line agrees within 3 px at x=1300-2300, ventral chest within 4 px. Head pose differs between Tafel 1 and 3 (head is raised in Tafel 1), so head offsets come from Tafel 3 only.",
+ "landmarks": [
+  {
+   "landmark": "withers",
+   "bone_definition": "tip of highest thoracic spinous process (approx. T2-T3), directly below skin top of withers",
+   "bone_px_plate": [
+    1130,
+    838
+   ],
+   "outline_px_plate": [
+    1130,
+    789
+   ],
+   "bone_px_facing_right": [
+    2320,
+    838
+   ],
+   "outline_px_facing_right": [
+    2320,
+    789
+   ],
+   "offset_direction": "up",
+   "offset_px": 49,
+   "offset_over_withers_height": 0.0267,
+   "uncertainty_px": 3,
+   "uncertainty_over_withers_height": 0.0016,
+   "bone_height_over_withers_height": 0.973,
+   "note": "outline point = skin top of withers used for withers height"
+  },
+  {
+   "landmark": "scapula_top",
+   "bone_definition": "dorsal border of scapula (highest point), same column as withers",
+   "bone_px_plate": [
+    1130,
+    854
+   ],
+   "outline_px_plate": [
+    1130,
+    789
+   ],
+   "bone_px_facing_right": [
+    2320,
+    854
+   ],
+   "outline_px_facing_right": [
+    2320,
+    789
+   ],
+   "offset_direction": "up",
+   "offset_px": 65,
+   "offset_over_withers_height": 0.0354,
+   "uncertainty_px": 4,
+   "uncertainty_over_withers_height": 0.0022,
+   "bone_height_over_withers_height": 0.965,
+   "note": ""
+  },
+  {
+   "landmark": "point_of_shoulder",
+   "bone_definition": "cranial edge of greater tubercle of humerus (label 5)",
+   "bone_px_plate": [
+    878,
+    1270
+   ],
+   "outline_px_plate": [
+    820,
+    1270
+   ],
+   "bone_px_facing_right": [
+    2572,
+    1270
+   ],
+   "outline_px_facing_right": [
+    2630,
+    1270
+   ],
+   "offset_direction": "forward",
+   "offset_px": 58,
+   "offset_over_withers_height": 0.0316,
+   "uncertainty_px": 5,
+   "uncertainty_over_withers_height": 0.0027,
+   "bone_height_over_withers_height": 0.738,
+   "note": "Tafel 1 at same row shows chest hair fringe ~19 px further forward (outline at x~801)"
+  },
+  {
+   "landmark": "sternum_manubrium",
+   "bone_definition": "cranial tip of manubrium sterni (label 14')",
+   "bone_px_plate": [
+    855,
+    1270
+   ],
+   "outline_px_plate": [
+    820,
+    1270
+   ],
+   "bone_px_facing_right": [
+    2595,
+    1270
+   ],
+   "outline_px_facing_right": [
+    2630,
+    1270
+   ],
+   "offset_direction": "forward",
+   "offset_px": 35,
+   "offset_over_withers_height": 0.0191,
+   "uncertainty_px": 4,
+   "uncertainty_over_withers_height": 0.0022,
+   "bone_height_over_withers_height": 0.738,
+   "note": "forechest"
+  },
+  {
+   "landmark": "brisket",
+   "bone_definition": "lowest point of thoracic skeleton (sternum / costal cartilages, label 14) at x=1335",
+   "bone_px_plate": [
+    1335,
+    1573
+   ],
+   "outline_px_plate": [
+    1335,
+    1612
+   ],
+   "bone_px_facing_right": [
+    2115,
+    1573
+   ],
+   "outline_px_facing_right": [
+    2115,
+    1612
+   ],
+   "offset_direction": "down",
+   "offset_px": 39,
+   "offset_over_withers_height": 0.0212,
+   "uncertainty_px": 4,
+   "uncertainty_over_withers_height": 0.0022,
+   "bone_height_over_withers_height": 0.573,
+   "note": "Tafel 1 silhouette bottom at same x: 1616 (agrees within 4 px)"
+  },
+  {
+   "landmark": "elbow_olecranon",
+   "bone_definition": "caudal-most point of olecranon tuber (label 8)",
+   "bone_px_plate": [
+    1290,
+    1655
+   ],
+   "outline_px_plate": [
+    1307.5,
+    1655
+   ],
+   "bone_px_facing_right": [
+    2160,
+    1655
+   ],
+   "outline_px_facing_right": [
+    2142.5,
+    1655
+   ],
+   "offset_direction": "back",
+   "offset_px": 17.5,
+   "offset_over_withers_height": 0.0095,
+   "uncertainty_px": 3,
+   "uncertainty_over_withers_height": 0.0016,
+   "bone_height_over_withers_height": 0.529,
+   "note": ""
+  },
+  {
+   "landmark": "carpus_caudal",
+   "bone_definition": "caudal tip of accessory carpal bone (label 11)",
+   "bone_px_plate": [
+    1304,
+    2268
+   ],
+   "outline_px_plate": [
+    1317.5,
+    2268
+   ],
+   "bone_px_facing_right": [
+    2146,
+    2268
+   ],
+   "outline_px_facing_right": [
+    2132.5,
+    2268
+   ],
+   "offset_direction": "back",
+   "offset_px": 13.5,
+   "offset_over_withers_height": 0.0073,
+   "uncertainty_px": 3,
+   "uncertainty_over_withers_height": 0.0016,
+   "bone_height_over_withers_height": 0.195,
+   "note": ""
+  },
+  {
+   "landmark": "carpus_cranial",
+   "bone_definition": "cranial surface of carpal bones (label 10)",
+   "bone_px_plate": [
+    1199,
+    2315
+   ],
+   "outline_px_plate": [
+    1182,
+    2315
+   ],
+   "bone_px_facing_right": [
+    2251,
+    2315
+   ],
+   "outline_px_facing_right": [
+    2268,
+    2315
+   ],
+   "offset_direction": "forward",
+   "offset_px": 17,
+   "offset_over_withers_height": 0.0093,
+   "uncertainty_px": 3,
+   "uncertainty_over_withers_height": 0.0016,
+   "bone_height_over_withers_height": 0.169,
+   "note": ""
+  },
+  {
+   "landmark": "stifle_patella",
+   "bone_definition": "cranial-most point of patella (label 20)",
+   "bone_px_plate": [
+    2486,
+    1590
+   ],
+   "outline_px_plate": [
+    2470,
+    1590
+   ],
+   "bone_px_facing_right": [
+    964,
+    1590
+   ],
+   "outline_px_facing_right": [
+    980,
+    1590
+   ],
+   "offset_direction": "forward",
+   "offset_px": 16,
+   "offset_over_withers_height": 0.0087,
+   "uncertainty_px": 3,
+   "uncertainty_over_withers_height": 0.0016,
+   "bone_height_over_withers_height": 0.564,
+   "note": "outline is faint here (thin line)"
+  },
+  {
+   "landmark": "hock_caudal",
+   "bone_definition": "caudal-most point of tuber calcanei (label 24)",
+   "bone_px_plate": [
+    2969,
+    2092
+   ],
+   "outline_px_plate": [
+    2982,
+    2092
+   ],
+   "bone_px_facing_right": [
+    481,
+    2092
+   ],
+   "outline_px_facing_right": [
+    468,
+    2092
+   ],
+   "offset_direction": "back",
+   "offset_px": 13,
+   "offset_over_withers_height": 0.0071,
+   "uncertainty_px": 4,
+   "uncertainty_over_withers_height": 0.0022,
+   "bone_height_over_withers_height": 0.291,
+   "note": "library perforation stamp dots overlie this area"
+  },
+  {
+   "landmark": "hock_top",
+   "bone_definition": "top of tuber calcanei, vertical to skin outline above",
+   "bone_px_plate": [
+    2950,
+    2074.5
+   ],
+   "outline_px_plate": [
+    2950,
+    2045
+   ],
+   "bone_px_facing_right": [
+    500,
+    2074.5
+   ],
+   "outline_px_facing_right": [
+    500,
+    2045
+   ],
+   "offset_direction": "up",
+   "offset_px": 29.5,
+   "offset_over_withers_height": 0.0161,
+   "uncertainty_px": 4,
+   "uncertainty_over_withers_height": 0.0022,
+   "bone_height_over_withers_height": 0.3,
+   "note": "outline runs diagonally here; vertical offset only"
+  },
+  {
+   "landmark": "croup",
+   "bone_definition": "highest point of iliac crest (tuber sacrale region, label 15)",
+   "bone_px_plate": [
+    2350,
+    810.5
+   ],
+   "outline_px_plate": [
+    2350,
+    788.5
+   ],
+   "bone_px_facing_right": [
+    1100,
+    810.5
+   ],
+   "outline_px_facing_right": [
+    1100,
+    788.5
+   ],
+   "offset_direction": "up",
+   "offset_px": 22.0,
+   "offset_over_withers_height": 0.012,
+   "uncertainty_px": 4,
+   "uncertainty_over_withers_height": 0.0022,
+   "bone_height_over_withers_height": 0.988,
+   "note": "faint grey construction lines cross this area"
+  },
+  {
+   "landmark": "ischium",
+   "bone_definition": "caudal end of tuber ischiadicum",
+   "bone_px_plate": [
+    2776,
+    1100
+   ],
+   "outline_px_plate": [
+    2831.5,
+    1100
+   ],
+   "bone_px_facing_right": [
+    674,
+    1100
+   ],
+   "outline_px_facing_right": [
+    618.5,
+    1100
+   ],
+   "offset_direction": "back",
+   "offset_px": 55.5,
+   "offset_over_withers_height": 0.0302,
+   "uncertainty_px": 6,
+   "uncertainty_over_withers_height": 0.0033,
+   "bone_height_over_withers_height": 0.831,
+   "note": "tail root lies between bone and buttock outline; Tafel 1 not usable here (tail covers buttock)"
+  },
+  {
+   "landmark": "skull_top",
+   "bone_definition": "dorsal skull contour (frontal region just rostral of ear base, x=615)",
+   "bone_px_plate": [
+    615,
+    371
+   ],
+   "outline_px_plate": [
+    615,
+    340.5
+   ],
+   "bone_px_facing_right": [
+    2835,
+    371
+   ],
+   "outline_px_facing_right": [
+    2835,
+    340.5
+   ],
+   "offset_direction": "up",
+   "offset_px": 30.5,
+   "offset_over_withers_height": 0.0166,
+   "uncertainty_px": 3,
+   "uncertainty_over_withers_height": 0.0016,
+   "bone_height_over_withers_height": 1.228,
+   "note": "highest skull point (720,362) is under the ear base, where the skin outline is hidden by the ears"
+  },
+  {
+   "landmark": "occiput",
+   "bone_definition": "caudal-most point of skull (occipital region) to nape outline",
+   "bone_px_plate": [
+    781,
+    400
+   ],
+   "outline_px_plate": [
+    795,
+    400
+   ],
+   "bone_px_facing_right": [
+    2669,
+    400
+   ],
+   "outline_px_facing_right": [
+    2655,
+    400
+   ],
+   "offset_direction": "back",
+   "offset_px": 14,
+   "offset_over_withers_height": 0.0076,
+   "uncertainty_px": 4,
+   "uncertainty_over_withers_height": 0.0022,
+   "bone_height_over_withers_height": 1.212,
+   "note": ""
+  },
+  {
+   "landmark": "nose",
+   "bone_definition": "most rostral bone (incisive bone / incisor front, ~y 650) vs most rostral skin point of the nose (rhinarium, y 605)",
+   "bone_px_plate": [
+    204,
+    650
+   ],
+   "outline_px_plate": [
+    149.5,
+    605
+   ],
+   "bone_px_facing_right": [
+    3246,
+    650
+   ],
+   "outline_px_facing_right": [
+    3300.5,
+    605
+   ],
+   "offset_direction": "forward",
+   "offset_px": 54.5,
+   "offset_over_withers_height": 0.0297,
+   "uncertainty_px": 10,
+   "uncertainty_over_withers_height": 0.0054,
+   "bone_height_over_withers_height": 1.076,
+   "note": "horizontal distance between the two extremes; the shaded lobe at x 160-220 is the nasal cartilage (soft tissue), not bone; bone tip identification is the least certain of all"
+  },
+  {
+   "landmark": "chin",
+   "bone_definition": "ventral border of mandible below the canine, x=290",
+   "bone_px_plate": [
+    290,
+    728
+   ],
+   "outline_px_plate": [
+    290,
+    749.5
+   ],
+   "bone_px_facing_right": [
+    3160,
+    728
+   ],
+   "outline_px_facing_right": [
+    3160,
+    749.5
+   ],
+   "offset_direction": "down",
+   "offset_px": 21.5,
+   "offset_over_withers_height": 0.0117,
+   "uncertainty_px": 3,
+   "uncertainty_over_withers_height": 0.0016,
+   "bone_height_over_withers_height": 1.033,
+   "note": ""
+  }
+ ],
+ "textband_1900_standing_angles_dog": {
+  "source": "Ellenberger, Baum & Dittrich, Handbuch der Anatomie der Tiere fuer Kuenstler: Textband, Leipzig: Dieterich, 1900. https://archive.org/details/bub_gb_4JFmAAAAMAAJ (Public Domain Mark). Read from the OCR text (djvu.txt); OCR errors possible, numbers not checked against page images.",
+  "note": "included-angle values as printed (angle between the two bones); bonus, not part of the skin-offset measurement",
+  "values": [
+   {
+    "what": "scapula-humerus (shoulder) angle, dog",
+    "value": "115-120 deg"
+   },
+   {
+    "what": "humerus-forearm (elbow) angle, domestic animals generally",
+    "value": "140-150 deg"
+   },
+   {
+    "what": "humerus to vertical, dog",
+    "value": "30 deg"
+   },
+   {
+    "what": "ilium to horizontal, dog",
+    "value": "about 35 deg"
+   },
+   {
+    "what": "pelvis-femur (hip) angle, dog",
+    "value": "110 deg"
+   },
+   {
+    "what": "femur-tibia angle, dog",
+    "value": "130-135 deg (femur section); the stifle paragraph says 110-115 deg for horse and dog (OCR conflict)"
+   },
+   {
+    "what": "femur to horizontal (backwards), dog",
+    "value": "60 deg"
+   },
+   {
+    "what": "height of tuber ischiadicum, dog",
+    "value": "about 90 % of withers height (this plate: 0.83)"
+   }
+  ]
+ }
+}
