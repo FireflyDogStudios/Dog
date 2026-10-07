@@ -152,6 +152,11 @@ Notes back to Firefly use the note format in `docs/team/README.md`.
 - **Notifications:** when a check finds something that needs GrumpyDingo, Firefly also sends a push notification.
 
 ## House rules for every role
+- **Tools are pre-approved (GrumpyDingo, Oct 7):**
+  - Any member may install Python (pip or uv) and npm packages, CLI tools and other helpers they find useful, without asking.
+  - Members are encouraged to write personal scripts under `tools/<nick>/` on their own branch, plus a `tools/<nick>/setup.sh` that reinstalls their kit, since containers are fresh each time.
+  - If the whole team should have a tool, say so in your note. Firefly adds it to `package.json`, the requirements, or the session-start hook.
+  - Licence rules still apply to anything stored or shipped. GPL tools may be run, never shipped. Don't commit `node_modules`, virtual environments, caches or files over 20 MB.
 - **Sub-agents are authorized (GrumpyDingo, Oct 7):**
   - Any member may launch its own sub-agents (the Agent tool) to get past a problem, following the escalation ladder: cheapest tier first.
   - A member mid-task may use them now. A member waiting for instructions holds off until it has a task.
