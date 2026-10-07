@@ -21,8 +21,12 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent)); import skeleton3d as S3,
 T2 = ROOT / 'ref/research/scout/08-tafel2-muscles/data.json'; SKIN = ROOT / 'ref/research/fetched/01-skin-offsets/data.json'
 GRID = 2.0                                                                         # mm per side-view cell
 THICK_EST = {'temporalis': 8, 'masseter': 14, 'sternocephalicus': 14, 'sternohyoid_ventral_strap_zone': 9, 'omotransversarius': 7, 'cleidobrachialis': 12}   # mm, EST
+NECK_CREST_SKIN = 0.03                                                             # skin + crest tissue over the back of the skull, withers heights (EST)
+NECK_BOW = 0.03                                                                    # the crest bows up over the straight withers-skull line (EST)
+THROAT = 0.20                                                                      # throat skin below the occiput, withers heights (EST)
 NECK_HALF = 0.42                                                                   # neck half-width / neck depth (EST)
 ROUND = 1.0                                                                        # a muscle stands out at most its own half-width x2 (round section)
+LEG_OFF = 0.045                                                                    # leg landmarks either side of each bone, withers heights
 EDGE = 0.045                                                                       # edge roll-off, share of withers height (EST)
 ORDER = ['gluteus_medius', 'gluteus_superficialis', 'deltoid_scapular_part', 'deltoid_acromial_part', 'triceps_lateral_head', 'triceps_long_head',
          'forearm_extensor_group', 'forearm_flexor_group', 'crus_cranial_group', 'gastrocnemius', 'semitendinosus', 'tensor_fasciae_latae', 'biceps_femoris',
@@ -56,7 +60,16 @@ def build(sid):
         pairs.append((OT.PLATE_JOINTS[pj], Wj(sj)))
     pairs += [((765 - 31, 450), Wj('occ')), ((195 - 31, 570), Wj('nose'))]
     U = 1837.0; plate_n = lambda P: np.c_[-(np.asarray(P, float)[:, 0] - 1130) / U, (2626 - np.asarray(P, float)[:, 1]) / U]   # facing right, withers heights
-    src = plate_n([p for p, _ in pairs]); dst = np.array([q for _, q in pairs], float)
+    src = list(plate_n([p for p, _ in pairs])); dst = [np.asarray(q, float) for _, q in pairs]
+    PJ = {'shoulder': 'shoulder', 'elbow': 'elbow', 'carpus': 'carpus', 'front_mcp': 'mcp', 'hip': 'hip', 'stifle': 'stifle', 'hock': 'hock', 'hind_mtp': 'mtp'}
+    for a_, b_ in (('shoulder', 'elbow'), ('elbow', 'carpus'), ('carpus', 'front_mcp'), ('hip', 'stifle'), ('stifle', 'hock'), ('hock', 'hind_mtp')):
+        pa, pb = plate_n([OT.PLATE_JOINTS[a_], OT.PLATE_JOINTS[b_]]); qa, qb = Wj(PJ[a_]), Wj(PJ[b_])
+        npl = np.array([-(pb - pa)[1], (pb - pa)[0]]) / np.linalg.norm(pb - pa); nq = np.array([-(qb - qa)[1], (qb - qa)[0]]) / np.linalg.norm(qb - qa)
+        for t in (0.25, 0.5, 0.75):
+            for o in (-LEG_OFF, 0.0, LEG_OFF):                                    # points along and either side of the bone: each leg bone maps nearly rigidly
+                if o == 0.0 and t == 0.5 and False: continue
+                src.append(pa + t * (pb - pa) + o * npl); dst.append(qa + t * (qb - qa) + o * WH * nq)
+    src = np.array(src); dst = np.array(dst)
     aff = np.linalg.lstsq(np.c_[src, np.ones(len(src))], dst, rcond=None)[0]; A = lambda P: np.c_[P, np.ones(len(P))] @ aff
     tps = RBFInterpolator(src, dst - A(src), kernel='thin_plate_spline', smoothing=0.0)
     warp = lambda P: A(P) + tps(P)
@@ -65,7 +78,20 @@ def build(sid):
         import shapely
         P = Polygon(frac).buffer(0); P = max(P.geoms, key=lambda q: q.area) if P.geom_type == 'MultiPolygon' else P; P = shapely.segmentize(P, 0.004) if hasattr(shapely, 'segmentize') else P
         return Polygon(warp(np.asarray(P.exterior.coords))).buffer(0)
-    skin_poly = poly(T['skin_outline']['outline_frac_facing_right'])
+    # the skin outline: body above the elbow and stifle, plus the near legs only (the plate's outline merges the far legs in)
+    from shapely.geometry import LineString, Point, box
+    from shapely.ops import unary_union
+    skin_f = Polygon(T['skin_outline']['outline_frac_facing_right']).buffer(0)
+    pjn = {k: plate_n([v])[0] for k, v in OT.PLATE_JOINTS.items()}
+    corr = lambda chain, r: LineString([pjn[c] for c in chain]).buffer(r / U)
+    fore_c = corr(['elbow', 'carpus', 'front_mcp', 'front_toe'], 85).union(Point(pjn['front_mcp']).buffer(120 / U))
+    hind_c = corr(['stifle', 'hock', 'hind_mtp', 'hind_toe'], 95).union(Point(pjn['hind_mtp']).buffer(120 / U))
+    cut_f, cut_h = pjn['elbow'][1] + 40 / U, pjn['stifle'][1] + 40 / U; split = (pjn['elbow'][0] + pjn['hip'][0]) / 2
+    bx = skin_f.bounds
+    lower = unary_union([box(split, bx[1] - 1, bx[2] + 1, cut_f), box(bx[0] - 1, bx[1] - 1, split, cut_h)])
+    near = unary_union([skin_f.difference(lower), skin_f.intersection(fore_c), skin_f.intersection(hind_c)]).buffer(0.004).buffer(-0.004)
+    near = max(near.geoms, key=lambda q: q.area) if near.geom_type == 'MultiPolygon' else near
+    skin_poly = poly(list(near.exterior.coords))
     shapes = {k: poly(v['polygon_frac_facing_right']) for k, v in T['muscles'].items()}
     # grid
     x0, y0, x1, y1 = skin_poly.bounds; x0 -= 40; y0 = -10; x1 += 40; y1 += 40
@@ -77,6 +103,34 @@ def build(sid):
         for g_ in gs: d.polygon([((x - x0) / GRID, (y1 - y) / GRID) for x, y in g_.exterior.coords], fill=255)
         return np.asarray(im) > 0
     body = raster(skin_poly)
+    # the back hugs the bone: between the withers and the croup the topline is the spine tips' upper envelope + trapezius + skin (Ellenberger:
+    # 0.018 + 0.027 of withers height at the withers, 0.012 at the croup; Scout 08 and fetched/01), not the plate's outline
+    ax_pts = np.vstack([to_side(np.asarray(trimesh.sample.sample_surface(bones[b], 60000, seed=2)[0])) for b in ('thorax', 'abdomen', 'pelvis')])
+    ci_ = ((ax_pts[:, 0] - x0) / GRID).astype(int); ok = (ci_ >= 0) & (ci_ < Wg); env = np.full(Wg, -np.inf); np.maximum.at(env, ci_[ok], ax_pts[ok, 1])
+    env = ndimage.maximum_filter1d(np.where(np.isfinite(env), env, -1e3), size=int(40 / GRID)); env = ndimage.gaussian_filter1d(env, 20 / GRID)
+    xw, xc, xi = J['topline'][0], J['ilium'][0], J['ischium'][0]
+    yw = env[int((xw - x0) / GRID)] + WH * (0.018 + 0.027)
+    occ_top = J['skull_back'][1] + NECK_CREST_SKIN * WH                            # the crest meets the back of the skull
+    def set_top(ci, lim):
+        rows = np.where(body[:, ci])[0]
+        if not len(rows): return
+        old_top = gy[rows.min()]; body[gy > lim, ci] = False
+        if old_top < lim: body[(gy <= lim) & (gy >= old_top), ci] = True
+    def set_bottom(ci, lim):
+        rows = np.where(body[:, ci])[0]
+        if not len(rows): return
+        old_bot = gy[rows.max()]; body[gy < lim, ci] = False
+        if old_bot > lim: body[(gy >= lim) & (gy <= old_bot), ci] = True
+    sh_low = (J['shoulder'][0] + 0.06 * WH, J['shoulder'][1] - 0.02 * WH); throat = (J['occ'][0], J['occ'][1] - THROAT * WH)
+    for ci, x in enumerate(gx):
+        if xi <= x < xc:                                                           # croup to tail base: the pelvis and sacrum under thin skin
+            set_top(ci, env[ci] + 0.012 * WH)
+        elif xc <= x <= xw:                                                        # loin and back
+            k = (xw - x) / max(xw - xc, 1); set_top(ci, env[ci] + WH * ((0.018 + 0.027) * (1 - k) + 0.012 * k))
+        elif xw < x <= J['occ'][0]:                                                # neck crest (nuchal ligament): withers to skull, bowed up a little (EST)
+            k = (x - xw) / max(J['occ'][0] - xw, 1); set_top(ci, (1 - k) * yw + k * occ_top + NECK_BOW * WH * np.sin(np.pi * k))
+            if x >= sh_low[0]:                                                     # neck underline: point of the shoulder to the throat (EST)
+                k2 = (x - sh_low[0]) / max(throat[0] - sh_low[0], 1); set_bottom(ci, (1 - k2) * sh_low[1] + k2 * throat[1])
     # 2. bones toward the viewer (+X is the near, left side), z-buffered from dense surface samples
     Z = np.full((Hg, Wg), -np.inf)
     for b, g in bones.items():
@@ -101,13 +155,14 @@ def build(sid):
             lo = max(bot, cap)
             ribw = np.nanmax(np.where(bone_m[:, ci], boneZ[:, ci], np.nan)) if bone_m[:, ci].any() else 0.0
             if x < J['TL'][0]:                                                     # abdomen: half-width from the last ribs to the pelvis
-                k = (x - J['hip'][0]) / max(J['TL'][0] - J['hip'][0], 1); hw = (1 - k) * WH * 0.16 + k * WH * 0.21
+                k = (x - J['hip'][0]) / max(J['TL'][0] - J['hip'][0], 1); hw = max((1 - k) * WH * 0.16 + k * WH * 0.21, ribw + 3.0)   # the belly wall lies over the last ribs
             else: hw = max(ribw, 0.0) * 0.98
         else:
             lo = max(bot, J['elbow'][1]); hw = NECK_HALF * (top - lo)
         yc, h = (top + lo) / 2, (top - lo) / 2
         if h <= 0: continue
         e = 1 - ((gy - yc) / h) ** 2; fill[:, ci] = np.where((e > 0) & col, hw * np.sqrt(np.clip(e, 0, 1)), 0)
+    fill = np.where(body, ndimage.gaussian_filter(fill, sigma=(1.0, 6.0)), 0.0)         # no column stripes
     base = np.maximum(boneZ, fill)
     # 3. the muscles, deepest first, each a dome of its own volume on what lies under it
     surfZ = base.copy(); top = np.full(base.shape, -1, int); rep = {}
@@ -124,6 +179,9 @@ def build(sid):
         Vs = t * dome.sum() * GRID * GRID
         rep[name] = {'volume_cm3': round(V / 1000, 1), 'shown_on_near_face': round(min(Vs / V, 1.0), 2), 'area_cm2': round(m.sum() * GRID * GRID / 100, 1), 'mean_thickness_mm': round(float(Vs / (m.sum() * GRID * GRID)), 1),
                      'max_thickness_mm': round(float(t), 1), 'from': src_}
+    trunk_cols = (gx >= J['hip'][0] - 30) & (gx <= J['shoulder'][0]); neck_cols = (gx > J['shoulder'][0]) & (gx <= J['occ'][0])
+    filler = (top < 0) & (fill > boneZ + 1.0)
+    top[filler & trunk_cols[None, :]] = -2; top[filler & neck_cols[None, :]] = -3     # the belly wall (obliques) and the deep neck, unshaped
     # 4. roll the surface toward the midline at the body outline (so the near side reads round); legs keep their own bone-and-muscle relief
     dout = ndimage.distance_transform_edt(body) * GRID; roll = np.sqrt(np.clip(dout / (EDGE * WH), 0, 1))
     surfZ = np.where(body, surfZ * (0.35 + 0.65 * roll), np.nan)
@@ -138,7 +196,7 @@ def mesh_from(gx, gy, Zs, top, allz, colours):
     """height field -> triangle mesh in the 3D frame (X toward the viewer, Y back, Z up), per-vertex colour by the top muscle"""
     H, W = Zs.shape; ok = np.isfinite(Zs); idx = -np.ones((H, W), int); idx[ok] = np.arange(ok.sum())
     X, Y = np.meshgrid(gx, gy); V = np.c_[Zs[ok], -X[ok], Y[ok] + allz]
-    C = np.array([colours[t] if t >= 0 else (0.55, 0.42, 0.40) for t in top[ok]])
+    C = np.array([colours.get(t, (0.55, 0.42, 0.40)) for t in top[ok]])
     a, b, c, d = idx[:-1, :-1], idx[:-1, 1:], idx[1:, :-1], idx[1:, 1:]
     q = (a >= 0) & (b >= 0) & (c >= 0) & (d >= 0)
     F = np.r_[np.c_[a[q], c[q], b[q]], np.c_[b[q], c[q], d[q]]]
@@ -189,8 +247,8 @@ def render(sid, field, bones, png, colours):
 def main(args):
     sid = args[0]; out, field, bones = build(sid)
     (BUILD / f'{sid}.body3d.json').write_text(json.dumps(out, indent=1))
-    red = {i: (0.62, 0.16, 0.12) for i in range(len(ORDER))}
-    vivid = {i: colorsys.hsv_to_rgb((i * 0.381966) % 1.0, 0.75, 0.9) for i in range(len(ORDER))}
+    red = {i: (0.62, 0.16, 0.12) for i in range(len(ORDER))}; red.update({-2: (0.55, 0.15, 0.12), -3: (0.55, 0.15, 0.12), -1: (0.88, 0.84, 0.76)})
+    vivid = {i: colorsys.hsv_to_rgb((i * 0.381966) % 1.0, 0.75, 0.9) for i in range(len(ORDER))}; vivid.update({-2: (0.55, 0.42, 0.40), -3: (0.45, 0.38, 0.45), -1: (0.88, 0.84, 0.76)})
     render(sid, field, bones, BUILD / f'{sid}.body3d.png', red); render(sid, field, bones, BUILD / f'{sid}.body3d_map.png', vivid)
     print(f'wrote species/build/{sid}.body3d.json, .png and _map.png')
     for k, v in out['report'].items(): print(f'  {k}: {v}')
