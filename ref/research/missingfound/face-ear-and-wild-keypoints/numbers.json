@@ -1,0 +1,503 @@
+{
+  "item": "missingfound/face-ear-and-wild-keypoints",
+  "fetched": "2026-10-07",
+  "note": "Single cited facts. Gap A = ear motion, gap B = jaw/mouth during vocal and facial displays. Facts from non-commercial or no-derivatives papers are cited as facts only (nothing copied in bulk). Confidence: A = direct measurement with adequate n; B = direct but small n, ordinal scale, or indirect; C = proxy species, definition-level, or qualitative. Already-known numbers from ref/research/fetched/09-face-and-ear (max gape 44 deg dogs / 65 deg dingo model, chewing gap 2.51 cm at 2.59 Hz, yawn 2.04 s, panting up to 374/min, head tilt 16 deg) are NOT repeated here.",
+  "ear": [
+    {
+      "quantity": "pinna_orienting_amplitude_to_target",
+      "value": 10,
+      "unit": "deg",
+      "range": "up to ~20 deg in the whole data set",
+      "n": "5 cats (search coils on the pinna), hundreds of trials",
+      "context": "Cat (proxy for a mobile-eared carnivore). Visual or sound targets 18-23 deg off centre gave pinna movements of ~10 deg toward the source; the pinna does not turn as far as the target. Amplitudes in the study range up to ~20 deg.",
+      "citation": "Populin LC, Yin TCT 1998. Pinna movements of the cat during sound localization. J Neurosci 18(11):4233-4243. doi 10.1523/JNEUROSCI.18-11-04233.1998",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6792787/",
+      "licence": "CC BY-NC-SA 4.0 (fact only, nothing copied)",
+      "confidence": "C (proxy species; magnetic-coil 2-D angle is a first approximation per the authors)"
+    },
+    {
+      "quantity": "pinna_short_latency_flick",
+      "value": 25,
+      "unit": "ms (latency after sound onset)",
+      "n": "5 cats, 249 trials for latency analysis",
+      "context": "Cat. A sound evokes a fast short-latency pinna twitch ~25 ms after onset, largest in the ear nearer the sound (asymmetric: the near ear moves more), followed by a slower long-latency movement that goes with the eye/head turn. Pinna returns to its start position shortly after the sound stops. Useful as 'ear twitches first, head follows' timing.",
+      "citation": "Populin & Yin 1998 (as above)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6792787/",
+      "licence": "CC BY-NC-SA 4.0 (fact only)",
+      "confidence": "C (proxy species)"
+    },
+    {
+      "quantity": "ear_position_backward_under_fear_effect_size",
+      "value": 0.68,
+      "unit": "Cohen's d (ordinal ear-base score 1 = most back, 5 = most forward)",
+      "n": "36 dogs (owner videos, fireworks vs. control evening)",
+      "context": "Ear position scored at the BASE of the ear (not the pinna, so it works across ear types). Fireworks gave more backward ears (Wilcoxon Z = 4.05, p = 0.0005); the strongest of all measured fear signs. Panting d = 0.45, locomotion d = 0.54. No angle in degrees.",
+      "citation": "Gähwiler S, Bremhorst A, Tóth K, Riemer S 2020. Fear expressions of dogs during New Year fireworks: a video analysis. Sci Rep 10:16035",
+      "url": "https://europepmc.org/article/PMC/PMC7525486",
+      "licence": "CC BY 4.0",
+      "confidence": "B (ordinal scale, not an angle)"
+    },
+    {
+      "quantity": "ear_base_landmark_shift_under_fear",
+      "value": "ear bases move medially (toward the midline) = ears drawn back",
+      "unit": "qualitative direction from geometric morphometrics (Procrustes PCs)",
+      "n": "11 dogs with >= 10 landmark sets per condition (from 42)",
+      "context": "Automated facial landmarks on the fireworks videos. Ear-base landmarks separated fireworks from control more than any other region; mouth landmarks showed a small extra opening (panting in a few dogs). Pinna landmarks were dropped because ear shapes vary too much. Landmark data only on request (not open).",
+      "citation": "Martvel G, Riemer S 2025. Automated analysis of emotional expressions in dogs based on geometric morphometrics. Sci Rep 15. doi 10.1038/s41598-025-15741-y",
+      "url": "https://europepmc.org/article/PMC/PMC12405473",
+      "licence": "CC BY 4.0",
+      "confidence": "C (direction only)"
+    },
+    {
+      "quantity": "ear_actions_by_valence",
+      "value": "EAD102 ears adductor (ear bases come together, ears up) more in positive anticipation; EAD103 ears flattener (ears move caudally) more in frustration",
+      "unit": "event occurrence (binomial models; EAD102 estimate -1.79, EAD103 +1.84 log-odds, negative vs positive)",
+      "n": "29 Labrador Retrievers, positive and negative reward conditions",
+      "context": "DogFACS ear action descriptors: EAD101 ears forward (rostral), EAD102 adductor, EAD103 flattener (caudal), EAD104 rotator (lateral/external), EAD105 downward (ventral). Events, no angles or durations. Also: silver foxes show erect ears anticipating reward and flat, backward-rotated ears anticipating an aversive event (cited by the paper); coyote, fox and wolf flatten ears when frightened.",
+      "citation": "Bremhorst A, Sutter NA, Würbel H, Mills DS, Riemer S 2019. Differences in facial expressions during positive anticipation and frustration in dogs awaiting a reward. Sci Rep 9:19312",
+      "url": "https://europepmc.org/article/PMC/PMC6917793",
+      "licence": "CC BY 4.0",
+      "confidence": "B (events, valence direction)"
+    },
+    {
+      "quantity": "eye_blink_vs_closure_threshold",
+      "value": 0.5,
+      "unit": "s",
+      "n": "definition",
+      "context": "DogFACS: blink (AU145) = lids touch for < 0.5 s; eye closure (AU143) = >= 0.5 s. Gähwiler 2020 coded blink as eyes >= 80% closed for no more than 1 s. Useful upper bound for an idle blink.",
+      "citation": "Bremhorst et al. 2019 Table 4 (DogFACS definitions); Gähwiler et al. 2020 Table 1",
+      "url": "https://europepmc.org/article/PMC/PMC6917793",
+      "licence": "CC BY 4.0",
+      "confidence": "C (definition)"
+    }
+  ],
+  "jaw": [
+    {
+      "quantity": "vocal_rhythm_all_call_types",
+      "value": 2.0,
+      "sd": 1.1,
+      "unit": "vocalisations per second (Hz)",
+      "n": "143 vocal sequences, 30 dogs (barks 54, growls 18, whines 21, snarls 17, howls 33)",
+      "context": "Peak rate from the amplitude envelope of each sequence. No significant difference between barks, growls, howls, snarls and whines, and no effect of body weight. Use as the mouth open-close cycle rate for a barking bout (~0.5 s per bark cycle).",
+      "citation": "Déaux EC, Piette T, Gaunet F, Legou T, Arnal L, Giraud AL 2024. Dog-human vocal interactions match dogs' sensory-motor tuning. PLoS Biol 22(10):e3002789",
+      "url": "https://europepmc.org/article/PMC/PMC11444399",
+      "licence": "CC BY 4.0",
+      "confidence": "A (timing; no jaw angle)"
+    },
+    {
+      "quantity": "wolf_howl_duration",
+      "value": 5.21,
+      "sd": 2.49,
+      "unit": "s",
+      "n": "238 howls and howl-barks (Indian wolf, Canis lupus pallipes)",
+      "context": "Same study: f0 mean 422 +/- 126 Hz; social squeak 3.47 +/- 1.85 s (n = 28); whine 1.2 +/- 0.7 s (n = 2); whimper 0.4 s (n = 2). Howls were recorded both spontaneous and elicited.",
+      "citation": "Sadhukhan S, Hennelly L, Habib B 2019. Characterising the harmonic vocal repertoire of the Indian wolf (Canis lupus pallipes). PLoS ONE 14(10):e0216186",
+      "url": "https://europepmc.org/article/PMC/PMC6822943",
+      "licence": "CC BY 4.0",
+      "confidence": "A (duration)"
+    },
+    {
+      "quantity": "wolf_howl_tongue_and_jaw",
+      "value": "tongue flat on mouth floor at howl onset; tip then retracts and arches up/forward toward the palate and is held for the rest of the howl",
+      "unit": "qualitative (31 tongue movements on 50 fps video)",
+      "n": "31 howls with visible tongue; 9 analysed for vowel quality; Hudson Bay wolves, Osnabrück Zoo",
+      "context": "Howl f0 367.7 +/- 52.6 Hz (n = 9). The authors state that no published work describes how far canines lower the jaw, in general or while howling; their model assumed a 5 cm jaw-lowering notch as a conservative guess. Confirms that a howl jaw angle is not in the literature.",
+      "citation": "Ekström AG, Amici F, Delaunay M, Bohny H, Sward K, Friedrichs D, Edlund J, Oña L 2024. In a manner of speaking: dynamic tongue gestures affect vowel-like quality in howling wolves. Research Square preprint, doi 10.21203/rs.3.rs-5354163/v1",
+      "url": "https://www.researchsquare.com/article/rs-5354163/v1",
+      "licence": "CC BY 4.0",
+      "confidence": "C (qualitative, preprint)"
+    },
+    {
+      "quantity": "play_face_ROM_muscle_set",
+      "value": "wild wolf ROM = AU101 + AU109 + AU112 + AU116 + AU25 + AU27; minimal dog ROM (Beagle) = AU116 + AU25 + AU27",
+      "unit": "DogFACS action units present",
+      "n": "30 dog breeds plus wild wolves (video, DogFACS-certified coder)",
+      "context": "AU101 inner brow raiser, AU109 nose wrinkler, AU112 lip corner puller (lip corners pulled back), AU116 lower lip depressor, AU25 lips part, AU27 mouth stretch (jaw actively lowered, lower teeth, tongue and oral cavity visible). So a wolf-like play face = mouth stretched open + lip corners back + lower lip down + brow raised. No angles.",
+      "citation": "Maglieri V 2025. The evolution of dogs' 'smile': breed-specific variations in the Relaxed Open Mouth signal. Research Square preprint, doi 10.21203/rs.3.rs-6219576/v1",
+      "url": "https://www.researchsquare.com/article/rs-6219576/v1",
+      "licence": "CC BY 4.0",
+      "confidence": "B (composition, preprint)"
+    },
+    {
+      "quantity": "play_face_ROM_grades_and_mimicry_latency",
+      "value": "ROM ranges from slightly open (only the upper parts of the front lower teeth show) to wide open (lower and upper jaws fully shown); a partner copies ROM or play bow within 1 s",
+      "unit": "definition; latency < 1 s",
+      "n": "49 dogs in free play; 77% of dogs mimicked congruently",
+      "context": "Two opening levels give a natural 'small/large' play-face pair; the 1 s mimicry window is a timing cue for two dogs playing.",
+      "citation": "Palagi E, Nicotra V, Cordoni G 2015. Rapid mimicry and emotional contagion in domestic dogs. R Soc Open Sci 2:150505",
+      "url": "https://europepmc.org/article/PMC/PMC4807458",
+      "licence": "CC BY 4.0",
+      "confidence": "B (definition and timing)"
+    },
+    {
+      "quantity": "mouth_action_definitions",
+      "value": "AU25 lips part (any separation); AU26 jaw drop (relaxed, teeth apart); AU27 mouth stretch (active, lower teeth, tongue and oral cavity visible); AU12 lip corner puller (corners move caudally); AU110 upper lip raiser; AU109+110 nose wrinkler and upper lip raiser (snarl); panting AD126 = AU26 + tongue show AD19 + fast shallow breaths; yawn = mouth wide open >= 1 s",
+      "unit": "definitions",
+      "n": "-",
+      "context": "Gives the stage list for jaw poses: closed -> lips part -> relaxed drop (pant, ROM small) -> stretch (yawn, ROM wide, howl). Snarl = AU109+110 (lip lifted off canines, nose wrinkled). In frustration, AU25 and AU26 were more common than in positive anticipation.",
+      "citation": "Bremhorst et al. 2019 Table 4 (DogFACS); Gähwiler et al. 2020 Table 1 (yawn >= 1 s)",
+      "url": "https://europepmc.org/article/PMC/PMC6917793",
+      "licence": "CC BY 4.0",
+      "confidence": "C (definitions)"
+    }
+  ],
+  "not_found": [
+    "Any measured ear angle (pinna rotation or elevation in degrees) in dogs, wolves, foxes or other canids.",
+    "Durations of single ear movements (flick, flatten, prick) in canids; only the cat 25 ms flick latency.",
+    "Jaw opening angle or gape during barking, howling, yawning, panting, play face or snarling in any canid (Ekström 2024 says this is undescribed).",
+    "Lip-corner retraction distance or angle in snarl or play face.",
+    "Growl and bark single-call durations from an open source (Policht 2021 shows them in figures only)."
+  ],
+  "verified_oct7_comparisons": {
+    "note": "Added 2026-10-07 by a Firefly fact-check agent while checking research notes pasted by GrumpyDingo from another AI assistant (no sources given). Only the items below were verified against a real source; 'kind' says whether a number is measured for that species, a comparison from a related species, or a game guess. See COMPARISONS.md.",
+    "items": [
+      {
+        "quantity": "max_gape_skull_canis",
+        "value": 27,
+        "unit": "deg",
+        "n": "6 species, 16 specimens (genus mean)",
+        "context": "wolf, coyote, jackals, dog, dingo (genus mean) (Canis). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "B (genus mean; coyote/jackal not separated; skull definition)",
+        "kind": "comparison"
+      },
+      {
+        "quantity": "max_gape_skull_cuon",
+        "value": 27,
+        "unit": "deg",
+        "n": "1 species, 3 specimens (genus mean)",
+        "context": "dhole (Cuon). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "B (skull, n = 3; definition caveat)",
+        "kind": "measured"
+      },
+      {
+        "quantity": "max_gape_skull_lycaon",
+        "value": 29,
+        "unit": "deg",
+        "n": "1 species, 3 specimens (genus mean)",
+        "context": "African wild dog (table spells it Lyacon) (Lycaon). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "B (skull, n = 3; definition caveat)",
+        "kind": "measured"
+      },
+      {
+        "quantity": "max_gape_skull_vulpes",
+        "value": 28,
+        "unit": "deg",
+        "n": "6 species, 11 specimens (genus mean)",
+        "context": "foxes (Vulpes). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "B",
+        "kind": "comparison"
+      },
+      {
+        "quantity": "max_gape_skull_nyctereutes",
+        "value": 25,
+        "unit": "deg",
+        "n": "1 species, 1 specimens (genus mean)",
+        "context": "raccoon dog (Nyctereutes). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "C (n = 1)",
+        "kind": "measured"
+      },
+      {
+        "quantity": "max_gape_skull_crocuta",
+        "value": 26,
+        "unit": "deg",
+        "n": "1 species, 3 specimens (genus mean)",
+        "context": "spotted hyena (Crocuta). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "B (skull, n = 3; definition caveat)",
+        "kind": "measured"
+      },
+      {
+        "quantity": "max_gape_skull_hyaena",
+        "value": 29,
+        "unit": "deg",
+        "n": "2 species, 3 specimens (genus mean)",
+        "context": "striped and brown hyenas (Hyaena). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "B (skull, n = 3)",
+        "kind": "measured"
+      },
+      {
+        "quantity": "max_gape_skull_proteles",
+        "value": 31,
+        "unit": "deg",
+        "n": "1 species, 2 specimens (genus mean)",
+        "context": "aardwolf (Proteles). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "C (n = 2)",
+        "kind": "measured"
+      },
+      {
+        "quantity": "max_gape_skull_panthera",
+        "value": 47,
+        "unit": "deg",
+        "n": "4 species, 10 specimens (genus mean)",
+        "context": "lion, tiger, jaguar, leopard (genus mean) (Panthera). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "B (genus mean; lion not separated)",
+        "kind": "comparison"
+      },
+      {
+        "quantity": "max_gape_skull_neofelis",
+        "value": 59,
+        "unit": "deg",
+        "n": "1 species, 1 specimens (genus mean)",
+        "context": "clouded leopard (Neofelis). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "C (n = 1); widest of the living cats in this table",
+        "kind": "comparison"
+      },
+      {
+        "quantity": "max_gape_skull_smilodon",
+        "value": 113,
+        "unit": "deg",
+        "n": "1 species, 2 specimens (genus mean)",
+        "context": "Smilodon fatalis (sabretooth, fossil) (Smilodon). Andersson 2011 definition: maximum gape = angle formed between the craniomandibular joint and the incisor tips at maximum jaw extension, on museum skulls. Values are systematically LOWER than live/anaesthetised or bony-gape values from other studies (dog 27 here vs 44 +/- 4 live in Thomson 2021; Panthera 47 here vs 65-77 bony gape in Deutsch 2025), so use them as RATIOS between species, not as absolute angles.",
+        "citation": "Andersson K, Norman D, Werdelin L 2011. Sabretoothed carnivores and the killing of large prey. PLoS ONE 6(10):e24971, Table S1 (doi 10.1371/journal.pone.0024971)",
+        "url": "https://europepmc.org/article/PMC/PMC3198467",
+        "licence": "CC BY 4.0",
+        "confidence": "C (fossil)",
+        "kind": "comparison"
+      },
+      {
+        "quantity": "max_bony_gape_felids",
+        "value": "65-70 (earlier literature); lion > 70; jaguar 76.91 (largest living cat in their sample); Smilodon fatalis mean 106.89",
+        "unit": "deg",
+        "n": "11 extant felid skulls (one per species) + 20 Smilodon",
+        "context": "Maximum bony gape (MBG) = widest rotation of the jaw joint on a dry skull without disarticulation: an upper bound with no muscles or ligaments. The text lists ocelot, bobcat, lion and jaguar above 70 and serval and black-footed cat below 65; the clouded leopard (Neofelis, one skull) is in neither list, so it falls inside 65-70 in this sample (inferred from the text; per-species values are only in a figure). Also quotes Emerson & Radinsky 1980: Smilodon 90-95 vs 65-70 in extant felids. Contradicts the claim that a clouded leopard gape 'approaches 100 deg'.",
+        "citation": "Deutsch AR, Berger A, Martens LL, Witt BR, et al. 2025. Myological and osteological approaches to gape and bite force reconstruction in Smilodon fatalis. Anat Rec (Hoboken). PMC12506842",
+        "url": "https://europepmc.org/article/PMC/PMC12506842",
+        "licence": "CC BY-NC 4.0 (fact only)",
+        "confidence": "B (dry skulls, n = 1 per species)",
+        "kind": "comparison"
+      },
+      {
+        "quantity": "dingo_bite_force_vs_gape_FE",
+        "value": {
+          "65": [
+            231.99,
+            620.33
+          ],
+          "55": [
+            269.29,
+            712.25
+          ],
+          "45": [
+            312.86,
+            806.36
+          ],
+          "35": [
+            374.43,
+            916.16
+          ],
+          "25": [
+            450.39,
+            1021.43
+          ],
+          "15": [
+            496.79,
+            1071.53
+          ],
+          "5": [
+            511.8,
+            1091.17
+          ]
+        },
+        "unit": "gape deg -> [canine bite N, carnassial bite N]",
+        "n": "1 dingo skull (AM 38587), finite-element model",
+        "context": "Bite force falls as gape widens. 65 deg was the model's maximal gape (set by the authors). The authors' 'optimal bite angle' of 25-35 deg is where the largest step-up in bite force occurs (25 deg for canines, 35 deg for carnassials) while cranial stress plateaus below 25 deg; it is not the gape of maximum force (that is the narrowest, 5 deg). A carnassial bite at max gape gave 2.7x the canine force with 30% lower mandible stress.",
+        "citation": "Bourke J, Wroe S, Moreno K, McHenry C, Clausen P 2008. Effects of gape and tooth position on bite force and skull stress in the dingo (Canis lupus dingo) using a 3-dimensional finite element approach. PLoS ONE 3(5):e2200, Table 1",
+        "url": "https://europepmc.org/article/PMC/PMC2376057",
+        "licence": "CC BY 4.0",
+        "confidence": "B (model, one skull)",
+        "kind": "measured"
+      },
+      {
+        "quantity": "dingo_optimal_bite_angle",
+        "value": "25 (canine) - 35 (carnassial)",
+        "unit": "deg",
+        "n": "FE model",
+        "context": "Confirms the pasted claim '25-35 deg optimal bite angle for a dingo', with the meaning above (best gain in force for the stress cost). Use as the 'bite' pose angle, not the yawn.",
+        "citation": "Bourke et al. 2008 (as above)",
+        "url": "https://europepmc.org/article/PMC/PMC2376057",
+        "licence": "CC BY 4.0",
+        "confidence": "B",
+        "kind": "measured"
+      },
+      {
+        "quantity": "african_wild_dog_mimetic_and_auricular_muscles",
+        "value": "well-developed auricular muscles (leverage and fine control of the large mobile ears); LAOM and RAOL (eyebrow / eye-corner muscles) enlarged, comparable in size to domestic dogs; orbicularis oculi also comparable",
+        "unit": "qualitative (abstract)",
+        "n": "1 adult male, dissection",
+        "context": "The real source behind the pasted '2024 study'. Single specimen; the abstract gives no muscle masses or fibre types (full text is subscription; not read). Adds a C-grade reason to give the wild dog the most ear mobility and the most brow movement of the wild canids.",
+        "citation": "Smith HF, Felix MA, Rocco FA, Lynch LM, Valdez D 2024. Adaptations to sociality in the mimetic and auricular musculature of the African wild dog (Lycaon pictus). Anat Rec 307(10):3327-3343. doi 10.1002/ar.25441",
+        "url": "https://doi.org/10.1002/ar.25441",
+        "licence": "Wiley subscription (not open access): fact from the abstract only",
+        "confidence": "C (n = 1, qualitative)",
+        "kind": "measured"
+      },
+      {
+        "quantity": "canid_ears_flattened_in_fear",
+        "value": "coyote, fox and wolf flatten the ears in frightening situations",
+        "unit": "qualitative",
+        "n": "-",
+        "context": "Supports 'ears laid back = fear/submission' for coyotes. The original is Fox 1970 (Behaviour 36:49-73, doi 10.1163/156853970X00042; Brill, subscription, not read); the statement is quoted from Bremhorst et al. 2019, which is CC BY. No source found for 'level and out to the side = content' in coyotes.",
+        "citation": "Bremhorst et al. 2019, Sci Rep 9:19312 (citing Fox 1970)",
+        "url": "https://europepmc.org/article/PMC/PMC6917793",
+        "licence": "CC BY 4.0",
+        "confidence": "C (qualitative, second-hand)",
+        "kind": "measured"
+      },
+      {
+        "quantity": "dhole_calls_and_oral_tract",
+        "value": "yaps (short low-frequency calls) and high-frequency squeaks that sound like human whistles; biphonation; oral vocal tract 172 mm (male), 162 mm (female)",
+        "unit": "qualitative + mm",
+        "n": "4 captive dholes (calls), 1 male + 1 female (anatomy)",
+        "context": "Confirms 'whistles, yaps'. Same paper: a cineradiographic study found a domestic dog keeps its MOUTH CLOSED while whining (air through the nose), so whine and dhole squeak can be drawn with a nearly closed mouth.",
+        "citation": "Frey R, Volodin IA, Fritsch G, Volodina EV 2016. Potential sources of high frequency and biphonic vocalization in the dhole (Cuon alpinus). PLoS ONE 11(1):e0146330",
+        "url": "https://europepmc.org/article/PMC/PMC4701476",
+        "licence": "CC BY 4.0",
+        "confidence": "B",
+        "kind": "measured"
+      },
+      {
+        "quantity": "ear_guess_coyote_jackal_dingo",
+        "value": {
+          "orient_turn": "10-20",
+          "flick_turn": "5-10",
+          "alert_forward": "+10",
+          "flatten_back": "-60 to -75",
+          "rotate_out_side": "+-30",
+          "flick_duration_s": "0.1-0.2"
+        },
+        "unit": "deg / s",
+        "n": "-",
+        "context": "Game guess by Firefly, not a measurement. Angles relative to the neutral ear; + = forward/up, - = back. See COMPARISONS.md for the reasoning. Prick-eared Canis. Orient turn from the cat proxy (Populin & Yin 1998: ~10, up to ~20 deg); flatten and rotate are drawn poses, not measured. Ears move independently but one ear only a few tens of degrees, never 180.",
+        "citation": "none (guess)",
+        "url": null,
+        "licence": "-",
+        "confidence": "C",
+        "kind": "guess"
+      },
+      {
+        "quantity": "ear_guess_dhole",
+        "value": {
+          "orient_turn": "8-15",
+          "flatten_back": "-45 to -60",
+          "rotate_out_side": "+-20"
+        },
+        "unit": "deg",
+        "n": "-",
+        "context": "Game guess by Firefly, not a measurement. Angles relative to the neutral ear; + = forward/up, - = back. See COMPARISONS.md for the reasoning. Shorter rounded ears read as smaller swings.",
+        "citation": "none (guess)",
+        "url": null,
+        "licence": "-",
+        "confidence": "C",
+        "kind": "guess"
+      },
+      {
+        "quantity": "ear_guess_african_wild_dog",
+        "value": {
+          "orient_turn": "15-25",
+          "flatten_back": "-70 to -90",
+          "rotate_out_side": "+-40"
+        },
+        "unit": "deg",
+        "n": "-",
+        "context": "Game guess by Firefly, not a measurement. Angles relative to the neutral ear; + = forward/up, - = back. See COMPARISONS.md for the reasoning. Largest, most mobile ears; well-developed auricular muscles (Smith et al. 2024, qualitative).",
+        "citation": "none (guess)",
+        "url": null,
+        "licence": "-",
+        "confidence": "C",
+        "kind": "guess"
+      },
+      {
+        "quantity": "ear_guess_hyena",
+        "value": {
+          "orient_turn": "8-15",
+          "flatten_back": "-45 to -60",
+          "rotate_out_side": "+-20"
+        },
+        "unit": "deg",
+        "n": "-",
+        "context": "Game guess by Firefly, not a measurement. Angles relative to the neutral ear; + = forward/up, - = back. See COMPARISONS.md for the reasoning. Rounded (spotted) or pointed (striped) ears; no data. Kept conservative.",
+        "citation": "none (guess)",
+        "url": null,
+        "licence": "-",
+        "confidence": "C",
+        "kind": "guess"
+      },
+      {
+        "quantity": "gape_guess_by_species",
+        "value": {
+          "coyote_jackal_dingo_wolf": {
+            "max": 44,
+            "yawn": "40-44",
+            "howl": "15-20",
+            "bark": "15-25",
+            "pant": "10-20",
+            "whine_squeak": "0-5"
+          },
+          "dhole": {
+            "max": 44,
+            "yawn": "40-44",
+            "howl_or_whistle": "0-10",
+            "yap": "10-20",
+            "pant": "10-20"
+          },
+          "african_wild_dog": {
+            "max": 47,
+            "yawn": "42-47",
+            "hoo_call": "10-15",
+            "twitter": "5-15",
+            "pant": "10-20"
+          },
+          "spotted_hyena": {
+            "max": 42,
+            "yawn": "38-42",
+            "whoop": "10-20",
+            "giggle": "15-25",
+            "pant": "10-20"
+          },
+          "striped_hyena": {
+            "max": 47,
+            "yawn": "42-47",
+            "pant": "10-20"
+          }
+        },
+        "unit": "deg",
+        "n": "-",
+        "context": "Game guess by Firefly, not a measurement. Angles relative to the neutral ear; + = forward/up, - = back. See COMPARISONS.md for the reasoning. Max = live dog 44 +/- 4 deg (Thomson 2021) scaled by each genus's ratio to Canis in Andersson 2011 Table S1 (Cuon 27/27, Lycaon 29/27, Crocuta 26/27, Hyaena 29/27). Yawn = AU27 mouth stretch held >= 1 s, so near max. Bark/pant = AU26 jaw drop range. Hard limit for any canid: 65 (dingo FE model max). Call names for wild dog and hyena are standard field terms, not checked here.",
+        "citation": "none (guess)",
+        "url": null,
+        "licence": "-",
+        "confidence": "C",
+        "kind": "guess"
+      }
+    ]
+  }
+}

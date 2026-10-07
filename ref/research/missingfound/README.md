@@ -1,0 +1,21 @@
+# Missing, found: the gaps from the data fetch, hunted again
+
+Oct 7, 2026, at GrumpyDingo's request. After `ref/research/fetched/` (see its `REPORT.md` and `docs/claude/DEN-DATA-FETCH-HANDOFF.md`), Firefly listed what was still missing or doubtful. This folder holds what a second search found. Same rules as `fetched/`: permissive data only, single cited facts from anything else, every number with its source, licence and confidence. Each folder has `NOTE.md` (sources, method) and `SUMMARY.md` (results). Nothing in `fetched/` or `species/` was changed: corrections are written here for Firefly to apply.
+
+| Folder | Gap | Status | Headline |
+|---|---|---|---|
+| `dingo-limb-bones/` | No measured dingo / Carolina Dog limb bones; the back-calculated ones used formulas recalled from memory | partly found | Harcourt 1974 formulas verified from two CC BY papers; **the tibia intercept in `07-dingo` was wrong (+9.41, not +21.62)**, so dingo tibia ≈ 182.5 mm, not 178.3. Humerus 166, radius 164, femur 177 mm (EST, ±5 %). Four real Iron Age landrace-dog limb sets (CC BY) sit with wolf ratios, not coyote. CC0 dingo ear 90-100 mm and hind foot 195-210 mm. Real dingo bones are probably in the Koungoulos 2022 PhD thesis (Sydney; blocked, licence unknown). |
+| `joint-ranges/` | The muscle model's ±180° limits are fake | partly found | Passive goniometry for all six limb joints from 13 CC BY studies, plus jump and sit-to-stand ranges, and a proposed **hard / comfortable limits table** for the rig. Carpus: 200 unloaded, up to 240 under load. Suggests raising the wolf hock limit to 175-180. Reusing 2020 text added; its Tables 2-3 still wanted. No neck, tail, toe, wolf or dingo data. |
+| `walk-footfall-and-muybridge/` | Front-paw walk phase 0.135 (fetched) vs 0.20 (wolf.yaml); Muybridge L/R guesses | settled / mostly settled | Same definition (Hildebrand limb phase). 0.135 = brisk walk of heavy retrievers; 0.20 was a midpoint, not a measurement. **Recommend 0.16 for the wolf, 0.17 for a dingo-sized dog** (range 0.12-0.22 with speed). Muybridge: 707 and Maggie A were mirrored in `05-muybridge` and are corrected here; 706 and Maggie B confirmed; 708, 704, 705 still open. |
+| `face-ear-and-wild-keypoints/` | Ear rotation, jaw angles, wild-canid keypoints | partly / partly / not found | No measured ear or jaw angles exist for any canid. Found timing facts (howl 5.2 s, calls ~2 per s, play-face mimicry within 1 s, ear positions by mood) and DogFACS mouth stages. No permissively licensed keypoints for coyote, jackal, dhole, wild dog or hyena. These must come from our own clips or photos. `COMPARISONS.md` checks a set of unsourced notes from another AI (jackal 180° ear turn unsupported; lion 50° and clouded leopard 100° gapes wrong; B-DoPED, SMAL, BITE non-commercial) and gives per-species ear and gape tables split into measured / comparison / guess, with skull gapes for dhole 27°, wild dog 29°, hyenas 26-29° (Andersson 2011, CC BY). |
+
+## For Firefly to apply (suggestions, not done)
+1. `07-dingo/data.csv`: replace the dingo tibia estimate with 182.5 mm and cite the verified formulas (`dingo-limb-bones/`).
+2. `species/wolf.yaml`: walk front-paw phase 0.20 → 0.16 (range 0.12-0.20); hock extension limit → about 175-180; carpus extension split into unloaded 200 / loaded 240.
+3. `05-muybridge/data.json`: take the corrected labels for 707 and Maggie A from `walk-footfall-and-muybridge/data.json`.
+4. Rig limits: start from `joint-ranges/SUMMARY.md`.
+
+## Still needs a human (optional)
+- **Koungoulos 2022 PhD thesis** (University of Sydney eScholarship): open in a browser, check its licence; if open, drop the PDF in the Drive `ref` folder. Likely the only source of measured dingo limb bones.
+- **Reusing 2020 Tables 2-3** (VCOT Open, CC BY): on the article page, open "Table 2" and "Table 3" and paste them, or save the PDF to Drive.
+- **Our own reference clips** for ear angles, jaw angles and wild-canid proportions (see `face-ear-and-wild-keypoints/SUMMARY.md` for the shot list).

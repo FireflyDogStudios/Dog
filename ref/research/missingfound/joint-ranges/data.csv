@@ -1,0 +1,146 @@
+source_id,breed,n_dogs,state,method,joint,side,quantity,included_deg,sd_deg,original_deg,conversion,licence,use,confidence,note
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,shoulder,R,max_flexion,51,8,51,none,CC BY 4.0,table,A,healthy adults 16-48 mo; single examiner
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,shoulder,L,max_flexion,52,9,52,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,shoulder,R,max_extension,160,19,160,none,CC BY 4.0,table,A,authors note some dogs resisted full shoulder extension
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,shoulder,L,max_extension,160,20,160,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,elbow,R,max_flexion,51,13,51,none,CC BY 4.0,table,A,heavy forearm muscle limits flexion in this breed
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,elbow,L,max_flexion,49,12,49,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,elbow,R,max_extension,174,11,174,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,elbow,L,max_extension,175,9,175,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,carpus,R,max_flexion,32,7,32,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,carpus,L,max_flexion,32,7,32,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,carpus,R,max_extension,204,8,204,none (>180 = hyperextension),CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,carpus,L,max_extension,204,8,204,none (>180 = hyperextension),CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,hip,R,max_flexion,58,10,58,none; hip = femur vs tuber sacrale-tuber ischiadicum line,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,hip,L,max_flexion,59,10,59,none; hip = femur vs tuber sacrale-tuber ischiadicum line,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,hip,R,max_extension,181,7,181,none; hip = femur vs tuber sacrale-tuber ischiadicum line,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,hip,L,max_extension,179,7,179,none; hip = femur vs tuber sacrale-tuber ischiadicum line,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,stifle,R,max_flexion,58,8,58,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,stifle,L,max_flexion,59,10,59,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,stifle,R,max_extension,172,8,172,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,stifle,L,max_extension,174,8,174,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,tarsus,R,max_flexion,40,6,40,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,tarsus,L,max_flexion,39,7,39,none,CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,tarsus,R,max_extension,188,7,188,none (>180 = hyperextension),CC BY 4.0,table,A,
+formenton2019,french_bulldog,20,awake_lateral_recumbency,plastic_goniometer,tarsus,L,max_extension,188,6,188,none (>180 = hyperextension),CC BY 4.0,table,A,
+thomovsky2016,miniature_dachshund,15,awake_lateral_recumbency,plastic_goniometer,hip,both,max_flexion,51.6,,51.6,none,CC BY (Hindawi),table,C,dogs with thoracolumbar disc extrusion (paretic/paraplegic) measured within 24 h; pooled mean of 30 limbs; groups 49.1-54.3
+thomovsky2016,miniature_dachshund,15,awake_lateral_recumbency,plastic_goniometer,hip,both,max_extension,154.7,,154.7,none,CC BY (Hindawi),table,C,groups 152.5-156.5
+thomovsky2016,miniature_dachshund,15,awake_lateral_recumbency,plastic_goniometer,stifle,both,max_flexion,50.1,,50.1,none,CC BY (Hindawi),table,C,groups 46-56
+thomovsky2016,miniature_dachshund,15,awake_lateral_recumbency,plastic_goniometer,stifle,both,max_extension,160.3,,160.3,none,CC BY (Hindawi),table,C,groups 157.3-164.2
+thomovsky2016,miniature_dachshund,15,awake_lateral_recumbency,plastic_goniometer,tarsus,both,max_flexion,39.3,,39.3,none,CC BY (Hindawi),table,C,groups 39.2-39.5
+thomovsky2016,miniature_dachshund,15,awake_lateral_recumbency,plastic_goniometer,tarsus,both,max_extension,169.4,,169.4,none,CC BY (Hindawi),table,C,groups 167.5-171.5
+volz2024,mixed_large_breeds_healthy,11,awake_lateral_recumbency,plastic_goniometer_scale_covered,stifle,one,max_comfortable_flexion,38.9,3.4,38.9,none,CC BY 4.0,table,A,3 Labrador 3 GSD 1 each mixed/Aussie/Ridgeback/Malinois/GSP; 28.7 kg; all 3 observers
+volz2024,mixed_large_breeds_healthy,11,awake_lateral_recumbency,plastic_goniometer_scale_covered,stifle,one,max_comfortable_extension,152,3.4,152,none,CC BY 4.0,table,A,observers ranged 146-159; awake dogs resist full stifle extension (compliance effect about 10 deg)
+volz2024,mixed_breeds_CCL_disease,15,awake_lateral_recumbency,plastic_goniometer_scale_covered,stifle,affected,max_comfortable_extension,140,17,140,none,CC BY 4.0,table,A,diseased stifles lose extension not flexion (flexion 44.2 +- 8.7)
+duarte2025,belgian_malinois,6,awake,plastic_goniometer,elbow,both,max_flexion,30.0,7.5,30.0,none,CC BY 4.0,table,B,police working dogs mean age 10.6 y; n=12 joints; baseline before treatment
+duarte2025,belgian_malinois,6,awake,plastic_goniometer,elbow,both,max_extension,162.5,4.6,162.5,none,CC BY 4.0,table,B,
+duarte2025,belgian_malinois,6,awake,plastic_goniometer,stifle,both,max_flexion,39.9,3.0,39.9,none,CC BY 4.0,table,B,
+duarte2025,belgian_malinois,6,awake,plastic_goniometer,stifle,both,max_extension,161.2,6.8,161.2,none,CC BY 4.0,table,B,
+duarte2025,belgian_malinois,6,awake,plastic_goniometer,tarsus,both,max_flexion,32.8,9.7,32.8,none,CC BY 4.0,table,B,
+duarte2025,belgian_malinois,6,awake,plastic_goniometer,tarsus,both,max_extension,152.5,16.3,152.5,none,CC BY 4.0,table,B,large SD
+duarte2025,labrador,5,awake,plastic_goniometer,elbow,both,max_flexion,35.5,3.7,35.5,none,CC BY 4.0,table,B,n=10 joints
+duarte2025,labrador,5,awake,plastic_goniometer,elbow,both,max_extension,157.8,6.7,157.8,none,CC BY 4.0,table,B,
+duarte2025,labrador,5,awake,plastic_goniometer,stifle,both,max_flexion,41.9,3.3,41.9,none,CC BY 4.0,table,B,
+duarte2025,labrador,5,awake,plastic_goniometer,stifle,both,max_extension,159.6,13.3,159.6,none,CC BY 4.0,table,B,
+duarte2025,labrador,5,awake,plastic_goniometer,tarsus,both,max_flexion,38.2,1.6,38.2,none,CC BY 4.0,table,B,
+duarte2025,labrador,5,awake,plastic_goniometer,tarsus,both,max_extension,163.5,5.2,163.5,none,CC BY 4.0,table,B,
+duarte2025,dutch_shepherd,3,awake,plastic_goniometer,elbow,both,max_flexion,37.6,2.6,37.6,none,CC BY 4.0,table,B,n=6 joints
+duarte2025,dutch_shepherd,3,awake,plastic_goniometer,elbow,both,max_extension,155.1,10.2,155.1,none,CC BY 4.0,table,B,
+duarte2025,dutch_shepherd,3,awake,plastic_goniometer,stifle,both,max_flexion,43.0,2.7,43.0,none,CC BY 4.0,table,B,
+duarte2025,dutch_shepherd,3,awake,plastic_goniometer,stifle,both,max_extension,158.7,4.0,158.7,none,CC BY 4.0,table,B,
+duarte2025,dutch_shepherd,3,awake,plastic_goniometer,tarsus,both,max_flexion,35.9,2.7,35.9,none,CC BY 4.0,table,B,
+duarte2025,dutch_shepherd,3,awake,plastic_goniometer,tarsus,both,max_extension,161.8,2.2,161.8,none,CC BY 4.0,table,B,
+duarte2025,german_shepherd,2,awake,plastic_goniometer,elbow,both,max_flexion,32.4,2.6,32.4,none,CC BY 4.0,table,C,n=4 joints
+duarte2025,german_shepherd,2,awake,plastic_goniometer,elbow,both,max_extension,162.2,2.4,162.2,none,CC BY 4.0,table,C,
+duarte2025,german_shepherd,2,awake,plastic_goniometer,stifle,both,max_flexion,40.3,0.5,40.3,none,CC BY 4.0,table,C,
+duarte2025,german_shepherd,2,awake,plastic_goniometer,stifle,both,max_extension,161.0,1.5,161.0,none,CC BY 4.0,table,C,
+duarte2025,german_shepherd,2,awake,plastic_goniometer,tarsus,both,max_flexion,39.0,1.2,39.0,none,CC BY 4.0,table,C,
+duarte2025,german_shepherd,2,awake,plastic_goniometer,tarsus,both,max_extension,160.0,5.1,160.0,none,CC BY 4.0,table,C,
+duarte2025,all_police_dogs,16,awake,plastic_goniometer,elbow,both,max_flexion,33.4,6.0,33.4,none,CC BY 4.0,table,B,overall n=32 joints; 25.3 kg
+duarte2025,all_police_dogs,16,awake,plastic_goniometer,elbow,both,max_extension,159.6,7.2,159.6,none,CC BY 4.0,table,B,
+duarte2025,all_police_dogs,16,awake,plastic_goniometer,stifle,both,max_flexion,41.1,3.6,41.1,none,CC BY 4.0,table,B,
+duarte2025,all_police_dogs,16,awake,plastic_goniometer,stifle,both,max_extension,160.2,9.4,160.2,none,CC BY 4.0,table,B,
+duarte2025,all_police_dogs,16,awake,plastic_goniometer,tarsus,both,max_flexion,35.8,6.6,35.8,none,CC BY 4.0,table,B,
+duarte2025,all_police_dogs,16,awake,plastic_goniometer,tarsus,both,max_extension,158.6,11.8,158.6,none,CC BY 4.0,table,B,
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,carpus,both,max_flexion,24.2,2.7,24.2,none,CC BY 4.0,table,C,patients with chronic ortho/neuro disease BEFORE therapy; after 10 sessions 21.3
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,carpus,both,max_extension,189.2,3.9,189.2,none (>180 = hyperextension),CC BY 4.0,table,C,after 192.2
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,elbow,both,max_flexion,24.3,3.2,24.3,none,CC BY 4.0,table,C,after 22.3; tighter than Jaegger method values
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,elbow,both,max_extension,160.8,2.8,160.8,none,CC BY 4.0,table,C,after 162.8
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,shoulder,both,max_flexion,40.3,6.6,40.3,none,CC BY 4.0,table,C,after 38.5
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,shoulder,both,max_extension,161.0,2.0,161.0,none,CC BY 4.0,table,C,after 162.8
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,tarsus,both,max_flexion,38.4,2.0,38.4,none,CC BY 4.0,table,C,after 37.3
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,tarsus,both,max_extension,166.8,2.3,166.8,none,CC BY 4.0,table,C,after 168.3
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,stifle,both,max_flexion,42.7,2.5,42.7,none,CC BY 4.0,table,C,after 39.2
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,stifle,both,max_extension,158.8,2.9,158.8,none,CC BY 4.0,table,C,after 161.5
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,hip,both,max_flexion,48.6,3.6,48.6,none,CC BY 4.0,table,C,after 45.9
+twarowska2025,mixed_patients,50,awake_lateral_recumbency,plastic_goniometer,hip,both,max_extension,156.1,2.9,156.1,none,CC BY 4.0,table,C,after 159.7
+inal2026,anatolian_shepherd,17,propofol_sedated,radiograph_at_end_feel,hip,both,max_flexion,59.67,7.36,59.67,none,CC BY-NC-ND 4.0,fact_only,B,goniometer read 44.8 (underestimates flexion over heavy gluteals); 51.2 kg dogs
+inal2026,anatolian_shepherd,17,propofol_sedated,radiograph_at_end_feel,hip,both,max_extension,146.94,4.20,146.94,none,CC BY-NC-ND 4.0,fact_only,B,goniometer read 153.6
+inal2026,anatolian_shepherd,17,propofol_sedated,radiograph_at_end_feel,elbow,both,max_flexion,30.88,2.64,30.88,none,CC BY-NC-ND 4.0,fact_only,B,goniometer 32.1
+inal2026,anatolian_shepherd,17,propofol_sedated,radiograph_at_end_feel,carpus,both,max_extension,175.90,2.56,175.90,none,CC BY-NC-ND 4.0,fact_only,C,far below other studies (189-204); likely a landmark/convention difference or breed; treat with care
+jaegger2002,labrador,16,awake_and_sedated(no difference),plastic_goniometer+radiograph,stifle,both,max_flexion,41,,41,none,not open (AJVR),fact_only,B,median as quoted by Pinna 2021 (CC BY); sedation did not change ROM
+jaegger2002,labrador,16,awake_and_sedated(no difference),plastic_goniometer+radiograph,stifle,both,max_extension,162,,162,none,not open (AJVR),fact_only,B,median as quoted by Pinna 2021 (CC BY)
+jaegger2002,labrador,16,awake,plastic_goniometer,carpus,both,max_flexion,32,,32,none,not open (AJVR),fact_only,C,recalled widely cited value; unverified here
+jaegger2002,labrador,16,awake,plastic_goniometer,carpus,both,max_extension,196,,196,none,not open (AJVR),fact_only,C,recalled; unverified
+jaegger2002,labrador,16,awake,plastic_goniometer,elbow,both,max_flexion,36,,36,none,not open (AJVR),fact_only,C,recalled; unverified
+jaegger2002,labrador,16,awake,plastic_goniometer,elbow,both,max_extension,165,,165,none,not open (AJVR),fact_only,C,recalled; unverified
+jaegger2002,labrador,16,awake,plastic_goniometer,shoulder,both,max_flexion,57,,57,none,not open (AJVR),fact_only,C,recalled; unverified
+jaegger2002,labrador,16,awake,plastic_goniometer,shoulder,both,max_extension,165,,165,none,not open (AJVR),fact_only,C,recalled; unverified
+jaegger2002,labrador,16,awake,plastic_goniometer,hip,both,max_flexion,50,,50,none,not open (AJVR),fact_only,C,recalled; unverified
+jaegger2002,labrador,16,awake,plastic_goniometer,hip,both,max_extension,162,,162,none,not open (AJVR),fact_only,C,recalled; unverified
+jaegger2002,labrador,16,awake,plastic_goniometer,tarsus,both,max_flexion,39,,39,none,not open (AJVR),fact_only,C,recalled; unverified
+jaegger2002,labrador,16,awake,plastic_goniometer,tarsus,both,max_extension,164,,164,none,not open (AJVR),fact_only,C,recalled; unverified
+birdwhistell2025,german_shepherd_unaffected,10,awake,plastic_goniometer,stifle,both,max_extension_with_hip_hyperflexed,147,1.8,147,none,CC BY 4.0,table,A,hamstring stretch angle; range 144-150; 20 limbs
+birdwhistell2025,retriever_unaffected,10,awake,plastic_goniometer,stifle,both,max_extension_with_hip_hyperflexed,147,3.3,147,none,CC BY 4.0,table,A,range 138-150; two-joint hamstrings cost about 15 deg of stifle extension when the hip is fully flexed
+king2023,mixed_breed,22,awake,plastic_goniometer,stifle,both,max_extension,180.08,6.13,180.08,none,CC BY 4.0 (conference abstract),fact_only,C,hypermobility poster (Acta Vet Scand 65 Suppl 1 PO.23); much higher than other studies; method not detailed
+king2023,mixed_breed,22,awake,plastic_goniometer,shoulder,both,max_abduction,40.48,7.04,40.48,frontal plane; not a sagittal angle,CC BY 4.0 (conference abstract),fact_only,C,
+clarke2020,mixed_elbow_OA,24,sedated_vs_awake,plastic_goniometer,elbow,affected,sedation_effect_on_flexion,-5,,-5,delta deg (more flexion),not open (Vet Surg),fact_only,B,general anaesthesia -3; extension +6 sedated / +2 GA; total ROM +11 sedated
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,shoulder,trailing_fore,peak_flexion,114.1,1.5,114.1,none (intersegmental),CC BY 4.0,table,A,bar 120% withers; values are SE of estimated marginal means
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,shoulder,leading_fore,peak_extension,141.5,2.1,141.5,none,CC BY 4.0,table,A,bar 120%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,elbow,trailing_fore,peak_flexion,119.2,2.0,119.2,none,CC BY 4.0,table,A,bar 120%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,elbow,leading_fore,peak_extension,163.4,1.2,163.4,none,CC BY 4.0,table,A,bar 100%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,carpus,trailing_fore,peak_flexion,184.2,2.2,184.2,none (palmar side; >180 = hyperextended),CC BY 4.0,table,A,carpus never flexes below straight during take-off stance
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,carpus,trailing_fore,peak_extension,238.1,2.9,238.1,none (palmar side; 58 deg past straight),CC BY 4.0,table,A,bar 120%; loaded hyperextension exceeds passive goniometry (189-204)
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,carpus,leading_fore,peak_extension,233.0,3.1,233.0,none,CC BY 4.0,table,A,bar 100%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,hip,trailing_hind,peak_flexion,127.4,1.9,127.4,none; hip = cranial dorsal iliac spine-trochanter vs femur,CC BY 4.0,table,A,bar 120%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,hip,trailing_hind,peak_extension,172.2,1.5,172.2,none,CC BY 4.0,table,A,bar 120%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,stifle,trailing_hind,peak_flexion,129.8,1.4,129.8,none,CC BY 4.0,table,A,bar 120%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,stifle,leading_hind,peak_extension,161.1,1.3,161.1,none,CC BY 4.0,table,A,bar 80%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,tarsus,trailing_hind,peak_flexion,102.9,1.8,102.9,none,CC BY 4.0,table,A,bar 120%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,tarsus,leading_hind,peak_extension,176.9,1.0,176.9,none,CC BY 4.0,table,A,bar 120%
+inkila2025,border_collie,17,active_jump_takeoff_stance,3D_marker_mocap,tarsus,both_hind,rom,71.5,1.6,71.5,none,CC BY 4.0,table,A,bar 120%; largest take-off ROM of any joint
+ellis2018,greyhound,6,active_sit_to_stand,3D_marker_mocap,hip,L_hind,flex_ext_excursion,53.4,5.6,53.4,excursion only (no absolute angles in text),CC BY 4.0,table,A,39 trials; StS lasts 1.14 +- 0.16 s; hip then stifle then hock extend in sequence
+ellis2018,greyhound,6,active_sit_to_stand,3D_marker_mocap,stifle,L_hind,flex_ext_excursion,78.5,10.7,78.5,excursion only,CC BY 4.0,table,A,
+ellis2018,greyhound,6,active_sit_to_stand,3D_marker_mocap,tarsus,L_hind,flex_ext_excursion,88.7,15.7,88.7,excursion only,CC BY 4.0,table,A,about 2x trot ROM
+ellis2018,greyhound,6,active_sit_to_stand,3D_marker_mocap,hip,L_hind,abduction_excursion,18.5,9.9,18.5,frontal plane,CC BY 4.0,table,B,
+feeney2007,labrador,10,active_sit_to_stand,2D_video,shoulder,fore,excursion,27,,27,excursion,not open (AJVR),fact_only,B,as quoted by Ellis 2018
+feeney2007,labrador,10,active_sit_to_stand,2D_video,elbow,fore,excursion,37,,37,excursion,not open (AJVR),fact_only,B,as quoted by Ellis 2018
+feeney2007,labrador,10,active_sit_to_stand,2D_video,carpus,fore,excursion,70,,70,excursion,not open (AJVR),fact_only,B,as quoted by Ellis 2018
+feeney2007,labrador,10,active_sit_to_stand,2D_video,hip,hind,excursion,35,,35,excursion,not open (AJVR),fact_only,B,as quoted by Ellis 2018
+feeney2007,labrador,10,active_sit_to_stand,2D_video,stifle,hind,excursion,62,,62,excursion,not open (AJVR),fact_only,B,as quoted by Ellis 2018
+feeney2007,labrador,10,active_sit_to_stand,2D_video,tarsus,hind,excursion,66,,66,excursion,not open (AJVR),fact_only,B,as quoted by Ellis 2018
+newton_nunamaker1985,dog_general,,passive,textbook,hip,hind,total_passive_rom,160,,160,ROM only,book (not open),fact_only,C,as quoted by Ellis 2018 (Textbook of Small Animal Orthopaedics Table 8-1)
+newton_nunamaker1985,dog_general,,passive,textbook,stifle,hind,total_passive_rom,140,,140,ROM only,book (not open),fact_only,C,as quoted by Ellis 2018
+newton_nunamaker1985,dog_general,,passive,textbook,tarsus,hind,total_passive_rom,170,,170,ROM only,book (not open),fact_only,C,as quoted by Ellis 2018
+gregersen_carrier2004,dog,,active_jump,sonomicrometry+video,stifle,hind,excursion,120,,120,excursion,not open (JEB),fact_only,C,as quoted by Ellis 2018: about 120 deg knee extension ROM in jumping
+williams2009,greyhound,,active_gallop_acceleration,mocap,tarsus,hind,excursion,70,,70,excursion,not open,fact_only,C,as quoted by Ellis 2018: hip 35 / knee 35 / ankle 70
+schaub2021,german_shepherd,4,active_trot,biplanar_xray_rotoscoping,lumbar_L7_S1,midline,sagittal_rom,5.1,,5.1,segmental rotation,CC BY 4.0,table,A,in vivo; walk 3.6 +- 0.7; L6 about 3.1-3.3
+schaub2021,german_shepherd,4,active_walk,biplanar_xray_rotoscoping,pelvis,midline,sagittal_rom,7.8,2.5,7.8,pelvic pitch,CC BY 4.0,table,A,trot 6.7 +- 1.9; lateral 10.9 walk / 9.0 trot; axial 12.1 walk
+benninger2004,gsd_and_others,25,cadaver,pure_moment_testing,lumbosacral,midline,sagittal_rotation_max,39,,39,segmental,not open (AJVR),fact_only,C,'up to 39 deg' as quoted by Schaub 2021; cadaver; GSD less motion than other breeds
+becker2026,mixed_20-35kg,10,cadaver_2Nm,spine_testing_rig,lumbar_L1_L5,midline,flexion,7.7,1.0,7.7,4 motion segments total,CC BY 4.0,table,B,intact specimens; muscles removed; low torque so a lower bound
+becker2026,mixed_20-35kg,10,cadaver_2Nm,spine_testing_rig,lumbar_L1_L5,midline,extension,5.0,2.5,5.0,4 motion segments total,CC BY 4.0,table,B,sagittal total 12.7 +- 3.1
+becker2026,mixed_20-35kg,10,cadaver_2Nm,spine_testing_rig,lumbar_L1_L5,midline,lateral_bending_total,25.8,3.0,25.8,4 motion segments total,CC BY 4.0,table,B,axial rotation total 2.6 +- 0.6
+braund1977,chondro_and_nonchondro,,radiograph,radiograph,lumbosacral,midline,relative_mobility,,,,ratio,not open,fact_only,C,lumbosacral motion about 3x any other lumbar level; L6-L7 second most mobile
+vilar2026,belgian_malinois,10,active_bite_impact,2D_video_kinovea,head_neck,midline,head_neck_angle,162.26,12.53,162.26,angle at occiput between nasal line and occiput-xiphoid line,CC BY 4.0,table,C,IGP long attack at sleeve impact; 95% CI 153-171; not a joint limit
+thomson2021,dog,,awake,photo/goniometer,jaw,midline,max_gape,44,4,44,none,not open (J Vet Dent),fact_only,B,already in species/wolf.yaml; dingo skull model 65 (Wroe 2008)
+stark2021_walk,beagle,1,active_walk,mocap_ik,mcp,LF,min_max_included,129-278,,129-278,palmar side; >180 dorsiflexed,CC BY 4.0,see 03-dog-model,C,from ref/research/fetched/03-dog-model (swing value doubtful); only digit data found
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,stifle,,max_flexion,42,14,42,none,CC BY 4.0,fact,B,from the Discussion text (Tables 2-3 not yet obtained); females; mean of triplicate
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,stifle,,max_extension,146,14,146,none,CC BY 4.0,fact,B,from the Discussion text
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,hip,,max_flexion,57,11,57,none,CC BY 4.0,fact,B,from the Discussion text
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,tarsus,,max_flexion,48,12,48,none,CC BY 4.0,fact,B,from the Discussion text; measured with the stifle fully flexed
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,tarsus,,max_extension,175,17,175,none,CC BY 4.0,fact,B,from the Discussion text
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,stifle,,max_flexion,51,7,51,none,closed (quoted in Reusing 2020 CC BY),fact,C,mean weight 30 kg
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,stifle,,max_extension,145,9,145,none,closed (quoted in Reusing 2020 CC BY),fact,C,
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,hip,,max_flexion,72,8,72,none,closed (quoted in Reusing 2020 CC BY),fact,C,
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,tarsus,,max_flexion,110,10,110,none,closed (quoted in Reusing 2020 CC BY),fact,C,stifle held at 90 deg, which limits tarsal flexion (Reusing's explanation)
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,tarsus,,max_extension,158,10,158,none,closed (quoted in Reusing 2020 CC BY),fact,C,
