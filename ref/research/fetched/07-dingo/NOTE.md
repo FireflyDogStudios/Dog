@@ -44,7 +44,7 @@ Column `stat` gives mean / range / individual / standard / derived.
    - alert tail at 45° above horizontal.
    The UKC height (17.75-19.5 in) comes from the Wikipedia infobox; ukcdogs.com was reachable but not parsed.
 9. **Derived (EST):** dingo humerus, radius, femur and tibia lengths, found by inverting Harcourt's (1974) shoulder-height equations at the Koungoulos mean height of 542.2 mm.
-   - Coefficients recalled from memory: humerus 3.43x - 26.54; radius 3.18x + 19.51; femur 3.14x - 12.96; tibia 2.92x + 21.62 (mm).
+   - Coefficients recalled from memory: humerus 3.43x - 26.54; radius 3.18x + 19.51; femur 3.14x - 12.96; tibia 2.92x + 21.62 (mm). **Correction (Oct 7):** the tibia intercept is **+9.41**, verified from CC BY papers in `../../missingfound/dingo-limb-bones/NOTE.md` (tibia estimate now 182.5 mm); the +21.62 above was a recall error.
    - Placeholders only. **Verify against Harcourt 1974 before use.**
 
 ## Conversions

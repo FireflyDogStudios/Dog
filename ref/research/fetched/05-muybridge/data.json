@@ -5,7 +5,7 @@
  "licence": "Public domain (1887 publication; Muybridge d. 1904). Commons tags all files \"Public domain\".",
  "conventions": {
   "contact": "1 = paw on ground, 0 = in the air, \"?\" = unclear",
-  "sides": "lateral cameras show the dog moving to the RIGHT, so its RIGHT side faces the camera: near (brighter, less occluded) limbs scored as RF/RH, far limbs as LF/LH. For the gallops the L/R labels follow this near/far reading plus Muybridge 1893 (\"lands upon the left fore foot, the right fore will next touch the ground ... land upon the right hind foot ... the left hind now descends\"); treat L/R identity as assumed, the fore/hind order and the contact pattern as observed.",
+  "sides": "lateral cameras show the dog moving to the RIGHT, so its RIGHT side faces the camera: near (brighter, less occluded) limbs are RF/RH, far limbs LF/LH. Since the Oct 7 correction (see `corrections`), L/R on 706, 707, Maggie A and Maggie B is checked against the plates (near-limb occlusion, rear-oblique rows, floor scale) or Muybridge's own 1902 text; 708 is 50/50 (blur) and 704/705 are not scored per limb. The earlier labels fitted to Muybridge 1893's generic description proved mirrored on 707 and Maggie A.",
   "duty_factor": "fraction of frames in stance on this plate (duty_known ignores \"?\"; duty_min counts \"?\" as 0, duty_max as 1). Plates hold 1-2 strides at coarse sampling, so expect +/-0.1 or worse.",
   "frame_index": "Muybridge frame number as printed on the plate (lateral series)"
  },
@@ -1479,12 +1479,60 @@
   }
  ],
  "summary": {
+  "regenerated": "2026-10-07 by Atlas from the corrected `plates` (each plate's `label_status` and `derived`); approved as A-002 item 4 in docs/log/APPROVALS.md",
   "footfall_order_by_plate": {
-   "706": "lateral sequence, irregular: LH(3) LF(4) RH(5) RF(7) | RH(9) LF(10) RF(12); long lateral-pair support (RF+RH frames 1-3)",
-   "707": "RH, LH, LF, RF, suspension (rotary; hind lead L, fore lead R); one suspension per stride, after the fores",
-   "708": "LF, (RF unclear), gathered suspension, RH, LH, extended suspension (rotary, double suspension)",
-   "maggie_A": "RH, LH, extended suspension, LF, RF, gathered suspension (rotary, double suspension)",
-   "maggie_B": "LF, RF, gathered suspension, RH, LH, extended suspension (rotary, double suspension; matches Muybridge 1893 description)"
+   "706": "lateral-sequence walk or amble breaking into a trot, irregular: touchdowns LH@3, LF@4, RH@5, LH@7, RF@7, RH@10, LF@10, LH@12; L/R confirmed",
+   "707": "LH, RH, RF, LF, suspension (rotary gallop; lead hind RIGHT, lead fore LEFT); one suspension per stride; L/R confirmed (was mirrored)",
+   "708": "fore/hind order observed: LF, (RF unclear), gathered suspension, RH, LH, extended suspension (rotary, double suspension); L/R 50/50 because of blur, the mirror (RF ..., LH, RH) is equally likely",
+   "maggie_A": "LH, RH, extended suspension, RF, LF, gathered suspension (rotary, double suspension; lead hind RIGHT, lead fore LEFT); L/R checked on frames 1, 2, 4, 5 (was mirrored)",
+   "maggie_B": "RH, LH, extended suspension, LF, RF, gathered suspension (rotary, double suspension); confirmed by Muybridge 1902 p.158; same cycle as the earlier 'LF, RF, susp, RH, LH' started at a different foot"
+  },
+  "duty_factor_by_plate": {
+   "706": {
+    "LF": 0.42,
+    "RF": 0.64,
+    "LH": 0.58,
+    "RH": 0.75
+   },
+   "707": {
+    "LF": 0.43,
+    "RF": 0.25,
+    "LH": 0.25,
+    "RH": 0.25
+   },
+   "708": {
+    "LF": 0.4,
+    "RF": 0.0,
+    "LH": 0.1,
+    "RH": 0.22
+   },
+   "709 (BPL copy) = 710 (USC copy)": {
+    "LF": 0.18,
+    "RF": 0.25,
+    "LH": 0.27,
+    "RH": 0.18
+   },
+   "710 (BPL copy)": {
+    "LF": 0.2,
+    "RF": 0.3,
+    "LH": 0.09,
+    "RH": 0.09
+   }
+  },
+  "feet_down_over_4_by_plate": {
+   "704": [
+    0.71,
+    0.77
+   ],
+   "705": [
+    0.48,
+    0.62
+   ],
+   "706": 0.58,
+   "707": 0.28,
+   "708": 0.17,
+   "709 (BPL copy) = 710 (USC copy)": 0.21,
+   "710 (BPL copy)": 0.15
   }
  },
  "corrections": {

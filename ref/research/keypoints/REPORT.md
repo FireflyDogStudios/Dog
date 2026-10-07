@@ -2,6 +2,8 @@
 
 Firefly, Oct 6 2026. Research only: nothing in the game or the tools changed. Method reused (read-only import) from `tools/den/species.py`. Scripts were run from the scratchpad; every number below is in `proportions.json`.
 
+> **Out of date (Oct 7, Atlas; approval A-002 item 6).** AP-10K and APT-36K were fetched on Oct 6 after all (`../fetched/08-wild-keypoints/`, 7,078 dog/wolf/fox instances), and the full MIT StanfordExtra v12 is in `../fetched/02-outline-landmarks/`. `stanfordextra_breeds_unitB.csv` has been regenerated from that MIT data (120 breeds, incl. dingo and dhole; `tools/atlas/regen_unitB.py`). The StanfordExtra numbers quoted below and the `se_unitB` block of `proportions.json` still come from the AGPL-labelled Ultralytics mirror and await the same regeneration.
+
 ## 1. Survey
 
 Reachable from here: github.com, raw.githubusercontent.com, GitHub release assets. Blocked: Google Drive, OneDrive (1drv.ms), Zenodo, Hugging Face, arXiv, the dataset websites on github.io. The GitHub REST API (and code search) only works for this session's own repo, so repos were inspected with `git clone --depth 1`.

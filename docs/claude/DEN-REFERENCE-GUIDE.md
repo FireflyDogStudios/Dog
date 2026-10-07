@@ -58,10 +58,10 @@ None. The four from the second search were applied on Oct 7 (GrumpyDingo said ye
 |---|---|---|---|
 | Skin over bone, 17 landmarks | withers +0.027 up, brisket +0.021 down, ischium +0.030 back, elbow 0.010, stifle 0.009, hock 0.007 (× withers height) | `fetched/01-skin-offsets/data.json` | one lean short-coated dog in a 1900 atlas (B); add coat for wolf and dingo |
 | Bone side-view outlines | every bone of the Beagle as a polygon | `fetched/03-dog-model/stark_bone_outlines.json` | Beagle proportions |
-| Muscles | 158 muscle lines: origin, via points, insertion | `fetched/03-dog-model/stark_muscles.csv` | lines, not volumes; use them to place bulges |
+| Muscles | 158 muscle lines: origin, via points, insertion | `fetched/03-dog-model/stark_muscles.csv` | lines, not volumes; use them to place bulges. **Eight trunk muscles are placeholders** (iliocostalis, longissimus, quadratus lumborum, sacrocaudalis, both sides: Fmax 1.0 N, L_opt 0.01 m); exclude them from any volume or force step (`fetched/03-dog-model/NOTE.md`) |
 | Real dog outlines | 12,538 dogs, 120 breeds, outline polygons + 20 keypoints; dingo 108, dhole 102, African wild dog 84, basenji 157, kelpie 87 | `fetched/02-outline-landmarks/data.json` (MIT) | mixed poses and views; filter for profiles |
 | Body ratios from photos | wolf head 0.39, chest 0.54, elbow 0.53 of height, etc. | `ref/research/keypoints/proportions.json`; `keypoints/REPORT.md` tables A–E | photos include fur |
-| Muscle plate (where bulges show) | Ellenberger Tafel 2, public domain | URL in `fetched/01-skin-offsets/NOTE.md` | **found, not measured yet** |
+| Muscle plate (where bulges show) | Ellenberger Tafel 2, public domain: 25 superficial muscle polygons with bulge per muscle (fraction of WH), registered to Tafel 3 | `scout/08-tafel2-muscles/` (`data.json`, `SUMMARY.md`) | measured Oct 7 (grade B); identities are Scout's reading of an unkeyed plate ("h" is ambiguous) |
 
 ## 6. Head, skull and jaw
 | I need | Headline | File | Catch |

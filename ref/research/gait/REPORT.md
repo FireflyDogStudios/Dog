@@ -1,5 +1,7 @@
 # Canine gait kinematics: numbers for the Den rig
 
+> **Partly superseded (Oct 7, Atlas; approval A-002 item 5).** Measured values now exist in `../fetched/04-gait-curves/` (curves, duty factors, phases, joint extremes) and `../missingfound/walk-footfall-and-muybridge/` (walk limb phase). Prefer those wherever they overlap. Known conflicts: trot hind duty factor here 0.367 vs measured 0.417-0.43; trot RF phase here 0.02 (hind first) vs measured 0.936-0.96 (fore lands just before LH); walk duty "no measured value" here vs 0.58-0.64 measured; the Jaegger 2002 limits here were recalled, not verified (only the stifle is verified). Kept for its sources and gallop estimates, which have no measured replacement yet.
+
 Research pass by a Firefly research agent, Oct 6, 2026. Companion file: `gait_numbers.json` (every number with a source and a confidence grade). Saved here by Firefly from the agent's hand-back, because the agent could not write `.md` files itself.
 
 ## Trust and conventions
