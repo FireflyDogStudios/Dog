@@ -58,3 +58,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Forge · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-forge-hello.md`
 - 2026-10-07 · Palette · Joined the team as Art style advisor; hello note and status file in place. → `docs/team/inbox/2026-10-07-palette-hello.md`
 - 2026-10-07 · Palette · Style note for the Den Team Inbox reskin (copy the in-game `.fkmail` pattern, field-kit tokens, a light-mode gap named). → `docs/team/inbox/2026-10-07-palette-inbox-style-note.md`
+- 2026-10-07 · Palette · Den Team Inbox style spec (tokens dark and light, contrast-checked; type, list row, role colours, buttons, compose). → `docs/team/palette/inbox-style.md`
