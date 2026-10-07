@@ -19,4 +19,5 @@ export default async ({run,W,open,fld})=>{
  for(const v of ['default','blocked','noconn']) await run('d',...W.desktop,'dark',[[`conn-${v}-dark`,fld('conn')]],v);
  await run('p',...W.phone,'light',[['conn-blocked-phone-light',async p=>{await p.click('#conn-chip')}]],'blocked');
  await run('d',...W.desktop,'dark',[['outbox-blocked-dark',async p=>{await fld('outbox')(p);await open('Moss tone')(p)}]],'blocked');
+ await run('d',...W.desktop,'dark',[['conn-courier-error-dark',fld('conn')]],'courier-err');
 };

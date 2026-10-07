@@ -53,6 +53,12 @@ const b2=await box(); ok(b2.w>b1.w+100&&b2.h>b1.h+50,'dragging the grip resizes 
 await p.mouse.move(0,0); await p.keyboard.press('Escape'); await p.keyboard.press('Escape'); await p.keyboard.press('c'); const b3=await box(); ok(Math.abs(b3.x-b2.x)<2&&Math.abs(b3.w-b2.w)<2,'position and size are remembered');
 await p.dblclick('#c-head h2'); const b4=await box(); ok(b4.w<b2.w&&b4.y>b2.y,'double-click on the header resets it');
 await p.keyboard.press('Escape'); await p.keyboard.press('Escape');
+// courier row
+for (const [v, want] of [['default','Last ran 12 min ago, delivered 2'],['courier-err','1 error'],['nocourier','Has not reported yet']]) {
+  const q = await (await b.newContext({viewport:{width:1280,height:800}})).newPage(); q.on('pageerror',e=>errs.push(e.message));
+  await q.addInitScript(initFor(v)); await q.goto('file://'+process.argv[2]); await q.waitForTimeout(400); await q.click('[data-f="conn"]');
+  ok((await q.textContent('#conn')).includes(want),'courier row ('+v+'): '+want); await q.context().close();
+}
 // connection check and blocked sends
 for (const [v, chip] of [['blocked','Firefly delivers'],['noconn','Live sessions off'],['default','Connected']]) {
   const q = await (await b.newContext({viewport:{width:1280,height:800}})).newPage(); q.on('pageerror',e=>errs.push(e.message));

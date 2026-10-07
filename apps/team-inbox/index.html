@@ -248,7 +248,7 @@ a.btn:hover { border-color: var(--gold); color: var(--gold); }
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const state = { notes: [], members: [], sent: [], mail: [], drafts: [], outbox: [], sessions: null, sync: null };
+const state = { notes: [], members: [], sent: [], mail: [], drafts: [], outbox: [], sessions: null, sync: null, courier: null };
 const view = { folder: 'inbox', cur: null, checked: new Set(), pane: 'list', fresh: new Set(), q: '', prev: 'inbox' };
 let db = null;
 const ME = 'GrumpyDingo';
@@ -368,7 +368,7 @@ function msgHTML(m, open) {
     <div class="mh-sub">${hasTo ? 'to ' + esc(m.to.join(', ') || '…') + (m.cc.length ? ' · cc ' + esc(m.cc.join(', ')) : '') : 'to Firefly, GrumpyDingo'}</div></div><span class="mh-date">${shortDate(m.ts, m.raw)}</span>`;
   const body = `<div class="mb">${m.needs ? `<span class="needs">Needs: ${esc(m.needs)}</span>` : ''}
     ${m.body ? `<p class="body">${esc(m.body)}</p>` : m.kind === 'sent' ? '<p class="body mh-sub">The text of this message was not saved by an older version of the inbox.</p>' : ''}
-    ${m.kind === 'outbox' ? `<div class="path">${m.status === 'sending' ? 'Sending now…' : m.policy ? 'Queued: Firefly delivers it. Sending from this page is off for this account, so it waits here, then moves to Sent as delivered by Firefly. Retry tries once from here.' : 'Not delivered. It is waiting in the Outbox; Retry tries again, and Firefly can relay it.'}</div>${m.results.length ? `<ul class="results">${m.results.map((r) => `<li class="${r.ok ? 'good' : 'bad'}">${esc(r.nick)}: ${r.ok ? 'delivered' : esc(failWhy(r.code))}</li>`).join('')}</ul>` : ''}` : ''}
+    ${m.kind === 'outbox' ? `<div class="path">${m.status === 'sending' ? 'Sending now…' : m.policy ? 'Queued: Firefly delivers it. Sending from this page is off for this account, so it waits here; the hourly courier (or Firefly) delivers it and it moves to Sent as delivered. Retry tries once from here.' : 'Not delivered. It is waiting in the Outbox; Retry tries again, and Firefly can relay it.'}</div>${m.results.length ? `<ul class="results">${m.results.map((r) => `<li class="${r.ok ? 'good' : 'bad'}">${esc(r.nick)}: ${r.ok ? 'delivered' : esc(failWhy(r.code))}</li>`).join('')}</ul>` : ''}` : ''}
     ${m.status && m.kind === 'sent' ? `<div class="path">${esc(m.status)}${m.results.filter((r) => !r.ok).length ? ' · not sent to ' + esc(m.results.filter((r) => !r.ok).map((r) => r.nick).join(', ')) : ''}</div>` : ''}
     ${m.kind === 'mail' ? `<div class="path">${esc(m.type)}${m.branch ? ' · on ' + esc(m.branch) : ''} · ${esc(m.id)}</div>` : ''}
     ${m.path ? `<div class="path">${esc(m.branch ? m.branch + ' · ' : '')}${esc(m.path)}</div>` : ''}</div>`;
@@ -472,6 +472,13 @@ function connRows() {
   rows.push(sd.ok === true ? { id: 'send', title: 'Sending to sessions', lvl: 'ok', what: 'Working. The last message was delivered ' + ago2(sd.at) + '.', fix: '' }
     : sd.ok === false ? { id: 'send', title: 'Sending to sessions', lvl: c === 'blocked_by_policy' ? 'warn' : 'bad', code: c, what: (FIX[c] || FIX.upstream_error)[0] + (c === 'blocked_by_policy' ? '' : ' Last try ' + ago2(sd.at) + '.'), fix: (FIX[c] || FIX.upstream_error)[1], kind: (FIX[c] || FIX.upstream_error)[2] }
     : { id: 'send', title: 'Sending to sessions', lvl: 'warn', what: 'Not tried yet in this browser.', fix: 'The first message you send will show here whether sending works. Anything that cannot be sent waits in the Outbox.' });
+  const K = state.courier, kt = K && Date.parse(K.last_run), nxt = (40 - new Date().getUTCMinutes() + 60) % 60 || 60;
+  const nOf = (v) => Array.isArray(v) ? v.length : typeof v === 'number' ? v : v ? 1 : 0, errs = K ? nOf(K.errors) : 0;
+  const errTxt = K && errs ? (Array.isArray(K.errors) ? K.errors.map((e) => typeof e === 'string' ? e : JSON.stringify(e)).join('; ') : String(K.errors)) : '';
+  rows.push({ id: 'courier', title: 'Den Courier (delivers your queued messages)', lvl: !kt ? 'warn' : errs ? 'warn' : Date.now() - kt > 100 * 60e3 ? 'warn' : 'ok',
+    what: !kt ? 'Has not reported yet. Messages in the Outbox wait for its next run (hourly, at 40 past).'
+      : `Last ran ${ago2(kt)}, delivered ${nOf(K.delivered)}${errs ? `, ${errs} error${errs > 1 ? 's' : ''}` : ''}. Next run in about ${nxt} min.`,
+    fix: !kt ? '' : errs ? 'Those messages stay in the Outbox and the next run tries again. ' + errTxt.slice(0, 200) : Date.now() - kt > 100 * 60e3 ? 'It looks like a run was missed. Queued messages wait; Firefly can deliver them by hand.' : '' });
   const P = conn.perms;
   rows.push({ id: 'perm', title: 'This page\'s permissions', lvl: !P ? 'warn' : Object.values(P).includes('denied') ? 'bad' : 'ok',
     what: P ? Object.entries(P).map(([k, v]) => `${k}: ${v}`).join(' · ') : 'Not readable in this view.', fix: P && Object.values(P).includes('denied') ? 'Something is switched off. Open the Permissions menu and turn it back on.' : '', kind: 'perm' });
@@ -722,6 +729,7 @@ document.addEventListener('keydown', (e) => {
   if (!db) { $('sync').textContent = 'The board needs you signed in to claude.ai to load.'; return; }
   const feed = (name, order, dir, key) => { try { db.collection(name).orderBy(order, dir).onSnapshot((snap) => { state[key] = snap.docs.map((d) => ({ _id: d.id, ...d.data() })); render(); }, () => {}); } catch {} };
   feed('notes', 'date', 'desc', 'notes'); feed('members', 'order', 'asc', 'members'); feed('sent', 'at', 'desc', 'sent'); feed('mail', 'date', 'desc', 'mail'); feed('drafts', 'at', 'desc', 'drafts'); feed('outbox', 'at', 'desc', 'outbox');
+  db.doc('meta/courier').onSnapshot((d) => { state.courier = d.exists ? d.data() : null; render(); }, () => {});
   db.doc('meta/sync').onSnapshot((d) => { state.sync = d.exists ? d.data() : null; render(); }, () => {});
 })();
 
