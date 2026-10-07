@@ -21,8 +21,9 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent)); import skeleton3d as S3,
 T2 = ROOT / 'ref/research/scout/08-tafel2-muscles/data.json'; SKIN = ROOT / 'ref/research/fetched/01-skin-offsets/data.json'
 GRID = 2.0                                                                         # mm per side-view cell
 THICK_EST = {'temporalis': 8, 'masseter': 14, 'sternocephalicus': 14, 'sternohyoid_ventral_strap_zone': 9, 'omotransversarius': 7, 'cleidobrachialis': 12}   # mm, EST
-NECK_CREST_SKIN = 0.03                                                             # skin + crest tissue over the back of the skull, withers heights (EST)
-NECK_BOW = 0.03                                                                    # the crest bows up over the straight withers-skull line (EST)
+TOPLINE = ROOT / 'ref/research/scout/15-topline/topline_profile.csv'           # skin above the bone envelope by station, Ellenberger Tafel 3 (Scout 15, B)
+C2_SKIN = 0.022                                                                    # skin over the C2 spine top, withers heights (Scout 15, B); also used over the back of the skull (EST)
+WITHERS_SKIN = 0.026                                                               # skin over the T1-T2 spine tips (Scout 15, B)
 THROAT = 0.20                                                                      # throat skin below the occiput, withers heights (EST)
 NECK_HALF = 0.42                                                                   # neck half-width / neck depth (EST)
 ROUND = 1.0                                                                        # a muscle stands out at most its own half-width x2 (round section)
@@ -40,8 +41,11 @@ def build(sid):
     from shapely.geometry import Polygon
     from PIL import Image, ImageDraw
     sk = json.load(open(BUILD / f'{sid}.skel3d.json')); J = sk['joints_side_mm']
+    prof = [r for r in __import__('csv').reader(l for l in open(TOPLINE) if not l.startswith('#')) if len(r) > 6 and r[0] != 'station' and r[3]]
+    prof = sorted((float(r[3]), float(r[6].split()[0])) for r in prof if float(r[3]) >= 0)   # (s, offset): withers 0 .. tail root 1
     M = json.load(open(BUILD / f'{sid}.muscles3d.json'))['muscles']; T = json.load(open(T2))
     sp = __import__('yaml').safe_load(open(ROOT / f'species/{sid}.yaml'))['numbers']; mass_k = (sp['size']['weight']['value'] / B3.SRC_MASS) ** (2 / 3)
+    # Stark's forces are set for the 13.81 kg Beagle (Scout 14, checked in OpenSim), so mass^(2/3) gives x1.74 for 31.8 kg; sigma 0.3 MPa confirmed (Scout 14, A)
     bones = {}
     for b, t in sk['bodies'].items():
         sc = trimesh.load(S3.MESH / f'meshes/{b}.glb'); g = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc
@@ -103,14 +107,20 @@ def build(sid):
         for g_ in gs: d.polygon([((x - x0) / GRID, (y1 - y) / GRID) for x, y in g_.exterior.coords], fill=255)
         return np.asarray(im) > 0
     body = raster(skin_poly)
-    # the back hugs the bone: between the withers and the croup the topline is the spine tips' upper envelope + trapezius + skin (Ellenberger:
-    # 0.018 + 0.027 of withers height at the withers, 0.012 at the croup; Scout 08 and fetched/01), not the plate's outline
-    ax_pts = np.vstack([to_side(np.asarray(trimesh.sample.sample_surface(bones[b], 60000, seed=2)[0])) for b in ('thorax', 'abdomen', 'pelvis')])
+    # the back hugs the bone: from the withers to the ischium the topline is the bone envelope (spine tips, iliac crest, scapula top) plus the
+    # skin offset Scout 15 measured on Ellenberger Tafel 3 (0.026 of withers height at the withers, 0.007 at T8, ~0.008 over the loin, 0.015 at
+    # the tail root); the back muscles never rise above the spine tips (Scout 14). Not the plate's outline.
+    ax_pts = np.vstack([to_side(np.asarray(trimesh.sample.sample_surface(bones[b], 60000, seed=2)[0])) for b in ('thorax', 'abdomen', 'pelvis', 'left_scapula')])
     ci_ = ((ax_pts[:, 0] - x0) / GRID).astype(int); ok = (ci_ >= 0) & (ci_ < Wg); env = np.full(Wg, -np.inf); np.maximum.at(env, ci_[ok], ax_pts[ok, 1])
     env = ndimage.maximum_filter1d(np.where(np.isfinite(env), env, -1e3), size=int(40 / GRID)); env = ndimage.gaussian_filter1d(env, 20 / GRID)
-    xw, xc, xi = J['topline'][0], J['ilium'][0], J['ischium'][0]
-    yw = env[int((xw - x0) / GRID)] + WH * (0.018 + 0.027)
-    occ_top = J['skull_back'][1] + NECK_CREST_SKIN * WH                            # the crest meets the back of the skull
+    cau = to_side(np.asarray(bones['cauda'].vertices)); x_tail = float(cau[:, 0].max())     # the tail root: the front of the first caudal vertebra
+    xw, xi = J['topline'][0], J['ischium'][0]
+    yw = env[int((xw - x0) / GRID)] + WITHERS_SKIN * WH
+    # the neck crest follows the nuchal ligament: a straight chord from the C2 spine top to the T1 spine tips, skin on top (Scout 15)
+    cv = to_side(np.asarray(bones['cervix'].vertices)); front = cv[cv[:, 0] > cv[:, 0].max() - 0.2 * np.ptp(cv[:, 0])]
+    c2 = front[np.argmax(front[:, 1])]; c2_top = c2[1] + C2_SKIN * WH
+    occ_top = J['skull_back'][1] + C2_SKIN * WH                                    # the crest meets the back of the skull (EST)
+    ps, po = np.array([p[0] for p in prof]), np.array([p[1] for p in prof])
     def set_top(ci, lim):
         rows = np.where(body[:, ci])[0]
         if not len(rows): return
@@ -123,14 +133,14 @@ def build(sid):
         if old_bot > lim: body[(gy >= lim) & (gy <= old_bot), ci] = True
     sh_low = (J['shoulder'][0] + 0.06 * WH, J['shoulder'][1] - 0.02 * WH); throat = (J['occ'][0], J['occ'][1] - THROAT * WH)
     for ci, x in enumerate(gx):
-        if xi <= x < xc:                                                           # croup to tail base: the pelvis and sacrum under thin skin
-            set_top(ci, env[ci] + 0.012 * WH)
-        elif xc <= x <= xw:                                                        # loin and back
-            k = (xw - x) / max(xw - xc, 1); set_top(ci, env[ci] + WH * ((0.018 + 0.027) * (1 - k) + 0.012 * k))
-        elif xw < x <= J['occ'][0]:                                                # neck crest (nuchal ligament): withers to skull, bowed up a little (EST)
-            k = (x - xw) / max(J['occ'][0] - xw, 1); set_top(ci, (1 - k) * yw + k * occ_top + NECK_BOW * WH * np.sin(np.pi * k))
-            if x >= sh_low[0]:                                                     # neck underline: point of the shoulder to the throat (EST)
-                k2 = (x - sh_low[0]) / max(throat[0] - sh_low[0], 1); set_bottom(ci, (1 - k2) * sh_low[1] + k2 * throat[1])
+        if xi <= x <= xw:                                                          # withers to the ischium: bone envelope + Scout 15's skin offset
+            set_top(ci, env[ci] + WH * np.interp((xw - x) / max(xw - x_tail, 1), ps, po))
+        elif xw < x <= c2[0]:                                                      # neck crest: the C2-T1 chord, skin 0.026 at the withers to 0.022 at C2
+            k = (x - xw) / max(c2[0] - xw, 1); set_top(ci, (1 - k) * yw + k * c2_top)
+        elif c2[0] < x <= J['occ'][0]:                                             # over the axis to the back of the skull
+            k = (x - c2[0]) / max(J['occ'][0] - c2[0], 1); set_top(ci, (1 - k) * c2_top + k * occ_top)
+        if xw < x <= J['occ'][0] and x >= sh_low[0]:                               # neck underline: point of the shoulder to the throat (EST)
+            k2 = (x - sh_low[0]) / max(throat[0] - sh_low[0], 1); set_bottom(ci, (1 - k2) * sh_low[1] + k2 * throat[1])
     # 2. bones toward the viewer (+X is the near, left side), z-buffered from dense surface samples
     Z = np.full((Hg, Wg), -np.inf)
     for b, g in bones.items():
@@ -186,9 +196,30 @@ def build(sid):
     dout = ndimage.distance_transform_edt(body) * GRID; roll = np.sqrt(np.clip(dout / (EDGE * WH), 0, 1))
     surfZ = np.where(body, surfZ * (0.35 + 0.65 * roll), np.nan)
     covered = (top >= 0) | (fill > 0) | bone_m
+    def girth(p, d):                                                               # walk from point p along direction d through the body: an ellipse through
+        p, d = np.asarray(p, float), np.asarray(d, float) / np.linalg.norm(d)      # that section's depth and its near-side half-width, shares of WH
+        pts = p[None, :] + np.arange(-600, 600, GRID / 2)[:, None] * d[None, :]
+        ci = ((pts[:, 0] - x0) / GRID).astype(int); ri = ((y1 - pts[:, 1]) / GRID).astype(int); ok = (ci >= 0) & (ci < Wg) & (ri >= 0) & (ri < Hg)
+        ins = np.zeros(len(pts), bool); ins[ok] = body[ri[ok], ci[ok]]
+        lab, _ = ndimage.label(ins); k = lab[np.argmin(np.abs(np.arange(len(pts)) - len(pts) // 2))]
+        sel = (lab == k) & (k > 0)
+        if not sel.any(): return None
+        b = sel.sum() * GRID / 4; a = float(np.nanmax(surfZ[ri[sel], ci[sel]]))
+        return round(float(np.pi * (3 * (a + b) - np.sqrt((3 * a + b) * (a + 3 * b))) / WH), 2), round(2 * a / WH, 2), round(2 * b / WH, 2)
+    chord = np.array([c2[0] - xw, c2[1] - yw]); mid = np.array([(xw + c2[0]) / 2, (yw + c2[1]) / 2]) - 0.08 * WH * np.array([-chord[1], chord[0]]) / np.linalg.norm(chord)
+    cut = lambda x, cap: body[:, int((x - x0) / GRID)] & (gy >= cap)              # trunk sections stop at the elbow / stifle line
+    topl = {}                                                                      # skin topline over Scout 15's stations, shares of the withers skin height
+    for nm, s_ in (('withers', 0.0), ('T8', 0.256), ('L3', 0.595), ('croup', 0.773), ('tail root', 1.0)):
+        ci = int((xw - s_ * (xw - x_tail) - x0) / GRID); rows = np.where(body[:, ci])[0]; topl[nm] = round(float(gy[rows.min()] / yw), 3) if len(rows) else None
+    girths = {'neck at mid-neck (across the neck)': girth(mid, [-chord[1], chord[0]])}
+    for nm, x, cap in (('chest at the elbow', J['elbow'][0], J['elbow'][1]), ('waist at the last rib', J['TL'][0], J['stifle'][1])):
+        ci = int((x - x0) / GRID); rows = np.where(cut(x, cap))[0]; a = float(np.nanmax(surfZ[rows, ci])); b = (gy[rows.min()] - gy[rows.max()]) / 2
+        girths[nm] = (round(float(np.pi * (3 * (a + b) - np.sqrt((3 * a + b) * (a + 3 * b))) / WH), 2), round(2 * a / WH, 2), round(2 * b / WH, 2))
     rep_all = {'TPS bending (share of withers height, beyond an affine stretch)': round(bend, 3),
                'body outline covered by muscle, filler or bone': round(float((covered & body).sum() / body.sum()), 3),
-               'muscles from the plate': len(rep), 'estimated (not in Stark)': [k for k, v in rep.items() if v['from'] != 'Hill volume']}
+               'muscles from the plate': len(rep), 'C2 spine top (side mm)': [round(float(c2[0])), round(float(c2[1]))], 'tail root x (mm)': round(x_tail),
+               'topline over the withers (wolf photo, fur: mid-back 0.97, croup 0.92, tail root 0.82; plate dog level)': topl,
+               'girth, width, depth (WH; Scout 14 tape: neck 0.53, chest 1.07-1.20, waist 0.77; chest width 0.19-0.26)': girths, 'estimated (not in Stark)': [k for k, v in rep.items() if v['from'] != 'Hill volume']}
     return {'id': sid, 'report': rep_all, 'muscles': rep, 'grid': {'x0': x0, 'y1': y1, 'mm': GRID, 'shape': [Hg, Wg]},
             'skin_outline_mm': [list(map(float, p)) for p in skin_poly.exterior.coords]}, (gx, gy, surfZ, top, allz), bones
 

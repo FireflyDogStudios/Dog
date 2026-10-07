@@ -2,7 +2,7 @@
 
 Written by Firefly (Claude, lead on The Den Ledger / "Project Dog") at the end of a long session, for the next lead session (Firefly again, in a fresh chat) and for anyone on the team.
 
-**Read this first, then follow the links.** Also read `docs/team/FIREFLY-TO-FUTURE-FIREFLY.md`, Firefly's letter on how to work here. GrumpyDingo is the designer and the judge of every art change. The repo is the single source of truth: if it isn't pushed, it doesn't exist.
+**Read this first, then follow the links.** Also read `docs/team/FIREFLY-TO-FUTURE-FIREFLY.md`, Firefly's letter on how to work here. To start a new lead session, paste `docs/team/FIREFLY-BOOT-PROMPT.md`. GrumpyDingo is the designer and the judge of every art change. The repo is the single source of truth: if it isn't pushed, it doesn't exist.
 
 - **Branch:** all of this lives on `claude/tender-cerf-o68l6u`.
 - **`main` is out of date:** it is 167 commits behind and last moved Oct 4. Merging to `main` waits for GrumpyDingo to ask for a PR.

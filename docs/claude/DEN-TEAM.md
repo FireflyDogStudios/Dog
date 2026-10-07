@@ -35,6 +35,7 @@ The rule: **when we meet a kind of work, one specialist owns it, and Firefly coo
 | **Scale** | Balance | Power curves, drop rates, short simulations (GrumpyDingo's rule), always talked through before any change | After items and armour (GrumpyDingo's order) |
 | **Trail** | Level designer | The Meadow first: zones, pacing, encounter placement | When zones come back |
 | **Fetch** | Quick lookups | One-off questions with an obvious source (a page, a licence, a fact); hands anything harder to Scout | When quick questions start queuing |
+| **Relay** | Team tools (proposed Oct 7) | The team's own tools: the Den Team Inbox page, `tools/team/`, messaging and the board, later a forum or announcement feed if we need one; separate from Lever, who builds tools for the game | When the team tools need more than small fixes |
 | **Lever** | Tools and admin panel | An admin layer for GrumpyDingo: view and edit game data, spawn items and creatures, jump to states, debug views | Early once game work resumes: it speeds everyone up |
 
 ### Model by task (Firefly's advice)
@@ -58,6 +59,26 @@ The session's model is the member's own judgement. Its sub-agents do the legwork
 | Fetch | Haiku | — | The bottom rung of the ladder: cheap and fast |
 
 Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDingo chose). Pick the current version of each tier when a session is created.
+
+## Who is on the team now (Oct 7, 2026: all 14 checked in through the inbox)
+| Nick | Session (sidebar title) | Session id | Branch | Model |
+|---|---|---|---|---|
+| Firefly | TDL - Firefly | session_01M4gWGGkNvKFFogmDge6rmm | claude/tender-cerf-o68l6u | Opus |
+| Scout | Research - Scout | session_01JhasS1BSEHipFggiRCbice | claude/new-session-l3ubx0 | Fable |
+| Atlas | Mapping Research - Atlas | session_01UWuYpPE3X82diV4sxofzQK | claude/vibrant-ride-ygz0gn | Opus |
+| Shutter | Photographer - Shutter | session_01RUkkhBduKH4dJya4uNaraX | claude/nifty-hypatia-yrgots | Opus |
+| Forge | Builder - Forge | session_01QagMk1rju8WRfFGbE11Nut | claude/team-forge | Sonnet |
+| Spark | Engine - Spark | session_01EVwTaWgivURyh39taxSBDj | claude/team-spark | Opus |
+| Palette | Style - Palette | session_01PV3UtHY2hfaa5KT8SneWrA | claude/team-palette | Opus |
+| Reel | Story - Reel | session_01F3A34gKdsAmB5sYkNrZ8Sm | claude/team-reel | Opus |
+| Echo | Sound - Echo | session_01Y43GxKB6svFQrmKreFRYTA | claude/team-echo | Sonnet |
+| Loom | Systems - Loom | session_01Tp4WZFWnJZqKhtfv7NSUaa | claude/team-loom | Opus |
+| Scale | Balance - Scale | session_01M7mkpnGqE3fmiQZ5pGq5uS | claude/team-scale | Sonnet |
+| Trail | Levels - Trail | session_01Pq2sVGNsi8hMqfCyvgPy5w | claude/team-trail | Sonnet |
+| Lever | Tools - Lever | session_01ExPFiqQT7c1Zuf3VJnvtDF | claude/team-lever | Sonnet |
+| Fetch | Lookups - Fetch | session_01UZfS4Syx7i9SZCDxWWZ1V1 | claude/team-fetch | Haiku |
+
+Atlas and Shutter were set up before the roster and run on Opus; the roster's advice is Sonnet for both, so switch them when convenient. Relay (team tools) is proposed, not created. The ten new members were created by Firefly with `create_session`: environment `env_01BLVVELePRskCWCuN9F8bX4`, source branch `claude/tender-cerf-o68l6u`, each its own outcome branch. On the first run, Forge also pushed to Firefly's branch; the welcomes now say "only to your branch".
 
 ## How work moves
 1. **Requests:** the lead writes a request file and names it in `APPROVALS.md` when it needs GrumpyDingo's yes.
@@ -100,10 +121,11 @@ Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDi
 Every message between Firefly (or GrumpyDingo) and a member uses this shape, so anyone can tell at a glance what it asks and where the answer goes. The Den Team Inbox page builds it for GrumpyDingo.
 ```
 DEN-MSG v1
-To: <nick> (<role>)
+To: <nick>, <nick> …
+Cc: <nick> … (optional: read it, reply only if it touches your work)
 From: Firefly (lead) | GrumpyDingo
 Re: <subject, a few words>
-Type: request | answer | fyi | welcome
+Type: request | news | answer | fyi | welcome
 Priority: now | next | later
 Approved by: GrumpyDingo (A-0nn) | not needed
 Request file: <docs/claude/DEN-...md, if there is one>
@@ -115,13 +137,15 @@ Reply: leave a note in docs/team/inbox/ on your branch and update docs/team/stat
 ```
 Notes back to Firefly use the note format in `docs/team/README.md`.
 
+- **News to everyone:** pick "Everyone on the team" on the Den Team Inbox page, with Type `news`. The page sends the same message to every active member's session, one at a time, Cc Firefly, and records it in its `sent` collection.
+
 ## The Den Team Inbox (GrumpyDingo's view)
 - **URL:** https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK (private; source `apps/team-inbox/index.html`).
 - **What it shows:**
   - the notes that need GrumpyDingo;
   - the team board: role, status file, and the session's live state, read through the Claude Code Remote connector every minute;
   - every note, with "mark read" and "done" buttons;
-  - a composer for DEN-MSG messages.
+  - a composer for DEN-MSG messages, with To, Cc and "Everyone on the team". It sends each message into the recipients' sessions through the connector (an in-page confirm first; the first send asks GrumpyDingo to allow it), or copies it.
 - **Who fills it:** Firefly runs `tools/team/inbox.py` and copies new notes and status files into the page's store, `notes/<id>`, `members/<nick>` and `meta/sync`.
 - **Notifications:** when a check finds something that needs GrumpyDingo, Firefly also sends a push notification.
 
