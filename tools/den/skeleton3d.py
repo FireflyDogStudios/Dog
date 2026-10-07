@@ -14,7 +14,8 @@ import sys, json, csv, math, pathlib, subprocess
 import numpy as np, yaml
 from scipy.optimize import least_squares
 ROOT = pathlib.Path(__file__).resolve().parents[2]; BUILD = ROOT / 'species/build'
-OSIM = ROOT / 'ref/research/fetched/03-dog-model/stark_beagle_fore_verified.osim'; MESH = ROOT / 'ref/research/scout/10-stark-meshes'
+OSIM = ROOT / 'ref/research/fetched/03-dog-model/stark_beagle_fore_verified.osim'; BEAGLE_TRUNK = 0.8   # Stark's Beagle = the Shepherd-sized model x0.8 (trunk), x0.6 (limbs)
+MESH = ROOT / 'ref/research/scout/10-stark-meshes'
 
 def load():
     import opensim as osim
@@ -72,11 +73,12 @@ def build(sid, head='awa'):
     mesh_scale = {b: [scales0[b] * c for c in vec[b]] for b in vec}
     cs = m.getCoordinateSet(); C = lambda n: cs.get(n)
     for i in range(cs.getSize()): cs.get(i).set_clamped(False); cs.get(i).set_locked(False)         # the model's default ranges are not anatomical (fetched/03 NOTE); limits are checked separately
-    # the scapula slides on the ribcage through translation coordinates, which Model.scale leaves at the Beagle's values: scale them with the thorax
-    # (x across and z up by the girth ratio, y along the spine by the thorax length ratio), so the blade sits where it does on the Beagle's ribcage
+    # the scapula slides on the ribcage through translation coordinates. Model.scale leaves them alone, and the Beagle file never rescaled them from the
+    # Shepherd-sized original (identical values in both files; every other joint is the Shepherd's x0.8 trunk / x0.6 limbs). So: Shepherd value x 0.8
+    # (to the Beagle's trunk) x the wolf/Beagle thorax factors (x across and z up by girth, y along the spine by thorax length)
     for sd in ('left', 'right'):
         for ax, k in (('x', cross), ('y', f['thorax']), ('z', cross)):
-            c = C(f'{sd}_r_m_superioris_trans{ax}'); c.setDefaultValue(c.getDefaultValue() * k)
+            c = C(f'{sd}_r_m_superioris_trans{ax}'); c.setDefaultValue(c.getDefaultValue() * BEAGLE_TRUNK * k)
     s = m.initSystem()
     # stance: solve the sagittal angles
     free = ['thorax_sagittal', 'left_r_m_superioris_sagittal', 'left_r_deltoidea_sagittal', 'left_r_cubitalis_sagittal', 'left_r_carpalis_sagittal', 'left_r_forepaw_sagittal',
@@ -97,7 +99,7 @@ def build(sid, head='awa'):
         cg = np.array([side(q) for q in to_ground(m, s, 'caput', cap_local, mesh_scale['caput'])])
         if INOSE is None: INOSE, IBACK = int(np.argmax(cg[:, 0])), int(np.argmin(cg[:, 0]))
         P['nose'] = cg[INOSE]; P['skull_back'] = cg[IBACK]
-        tg = np.array([side(q) for q in to_ground(m, s, 'thorax', th_local, mesh_scale['thorax'])]); P['topline'] = tg[np.argmax(tg[:, 1])]   # top of the thoracic spines: the real withers
+        tg = np.array([side(q) for q in to_ground(m, s, 'thorax', th_local, mesh_scale['thorax'])]); over = tg[(tg[:, 0] >= sg[:, 0].min()) & (tg[:, 0] <= sg[:, 0].max())]; P['topline'] = over[np.argmax(over[:, 1])]   # withers: the highest spine tip above the shoulder blades
         P['ftoe'] = fp[np.argmax(fp[:, 0])]; P['htoe'] = hp[np.argmax(hp[:, 0])]; P['fpad'] = fp[np.argmin(fp[:, 1])]; P['hpad'] = hp[np.argmin(hp[:, 1])]
         return P
     GR_ = lambda P: min(P['fpad'][1], P['hpad'][1]); WH_ = lambda P: P['scap_top'][1] - GR_(P)
@@ -144,7 +146,7 @@ def build(sid, head='awa'):
            'scapula-top height above ground (mm)': round(float(P['scap_top'][1] - ground), 1), 'elbow height / scapula-top height': round(float((P['elbow'][1] - ground) / (P['scap_top'][1] - ground)), 3),
            'bony neck, T1 to occiput, above horizontal': round(math.degrees(math.atan2(P['occ'][1] - P['T1'][1], P['occ'][0] - P['T1'][0])), 1),
            'withers-to-skull line above horizontal (AwA wolves 26)': round(math.degrees(math.atan2(P['occ'][1] - P['scap_top'][1], P['occ'][0] - P['scap_top'][0])), 1),
-           'spine top above scapula top (share of WH)': round(float((P['topline'][1] - P['scap_top'][1]) / (P['scap_top'][1] - ground)), 3)}
+           'withers spine tip above scapula top (share of WH; sourced 0.025)': round(float((P['topline'][1] - P['scap_top'][1]) / (P['scap_top'][1] - ground)), 3)}
     # outline proportions (bone + skin + summer fur), the same way the wolf photos were measured
     WHb = P['scap_top'][1] - ground; Hs = HS_(P)
     th = to_ground(m, s, 'thorax', mesh_pts('thorax', 6000), mesh_scale['thorax']); chest_bone = th[:, 2].min() - ground
@@ -155,7 +157,8 @@ def build(sid, head='awa'):
             'nose forward / height': RAT['nose_forward_over_height']['value'], 'nose height / height': RAT['nose_height_over_height']['value']}
     fit['outline check (skeleton / real wolves)'] = {k: f'{outline[k]:.2f} / {want[k]:.2f}' for k in outline}
     return {'id': sid, 'scale_factors': {k: round(v, 3) for k, v in f.items()}, 'beagle_mm': {k: round(float(v), 1) for k, v in beagle.items()}, 'species_mm': wolf,
-            'bodies': T, 'joints_side_mm': {k: [round(float(v[0]), 1), round(float(v[1] - ground), 1)] for k, v in P.items()}, 'fit': fit, 'cost': float(sol.cost), 'cross_scale': round(cross, 3)}
+            'bodies': T, 'joints_side_mm': {k: [round(float(v[0]), 1), round(float(v[1] - ground), 1)] for k, v in P.items()}, 'fit': fit, 'cost': float(sol.cost), 'cross_scale': round(cross, 3),
+            'body_factors': {b: list(v) for b, v in vec.items()}, 'coords': {cs.get(i).getName(): cs.get(i).getValue(s) for i in range(cs.getSize())}}   # for muscles3d: the same bones in the same stance
 
 BLENDER = r'''
 import bpy, json, sys

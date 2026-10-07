@@ -44,6 +44,11 @@ The thoracic spines stand 0.17 of withers height above the scapula top (sourced 
 **With the discs (Scout 13, Oct 7):** body length 1.24 (inside the 1.08–1.48 spread, 8% over the median, as Scout predicted); the longer neck folds even more upright. Suspects: the nose target comes from only 2 photos (C), and the neck's resting angle has no wolf source.
 **Neck check (Oct 7):** the AwA head line from 15 standing wolves (26°) gives the same pose as the 2-photo nose target: bony neck 62°, nose 0.56 forward, 0.85 high. A 40° bony neck puts the head line at 3° and the nose at 0.77 high, far from real wolves. The steep bony neck stands; it should look right once the neck muscles and mane go on.
 
+## Found Oct 7 (muscles step M1)
+- The Beagle model's scapula translations are the Shepherd's (never rescaled); fixed (×0.8). The skeleton moved: body length 1.17, chest floor 0.46, nose 0.67 forward and 0.91 high (photos 0.54 / 0.85, plates 0.69 / 1.0).
+- Stark's simplified muscle paths are straight lines: 18 muscles are too short or too long even in Stark's own default pose, and many lines cut through the ribcage. The curved paths exist only in the unlicensed "Full curved" package (facts only, not stored).
+- Missing from the muscle set: the neck (only trapezius, rhomboid, brachiocephalicus), the abdominal wall, the head (masseter, temporalis). Fill from Tafel 2 and the skin offsets.
+
 ## Decisions for GrumpyDingo (one at a time, when they come up)
 - ~~Apply the fact-check's 13 suggested values to the wolf~~ done Oct 6 (GrumpyDingo said yes); the rebuilt skeleton hits every angle target.
 - The Carolina Dog: the player's own species needs its own species file (dingo and pariah-dog numbers). Build it right after the wolf?

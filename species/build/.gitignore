@@ -6,3 +6,6 @@
 .*.skel3d_t.png
 .skel3d_obj*/
 .skel3d_render*.py
+.muscles3d_obj/
+.muscles3d_render.py
+.*.muscles3d_render.json
