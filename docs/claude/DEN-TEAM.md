@@ -184,7 +184,12 @@ Id: 2026-10-08-palette-to-lever-style-hook.md
 
 ## The Den Team Inbox (GrumpyDingo's view)
 - **Delivery (decided Oct 7):** GrumpyDingo's personal plan has no organization settings, so the page can't send into sessions: claude.ai answers `send_message` with `blocked_by_policy`. Mail from the page waits in the Outbox, and Firefly delivers it (`relay_outbox.py`, Lever) at every check. Reading live session state still works.
-- **The Den Courier (Oct 7, GrumpyDingo):** an hourly Routine (`trig_01FTYTicUVjUty7RqDC7K6F1`, a fresh session at :40, no notifications) that delivers the page's outbox and writes `meta/courier`. It has no repo checkout, so members post their own notes to the store (`mail.py post`, Lever). Cost about $0.14 a run on the default model before trimming; watch it.
+- **Mail pickup (GrumpyDingo, Oct 7; replaces the hourly courier, now disabled):** every member checks GrumpyDingo's Outbox at the start of each working block:
+  1. ToolSearch `select:ArtifactData`, then `list` `outbox` at https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK.
+  2. For each doc whose `to` or `cc` holds your nick (any case) and whose `picked_up` doesn't: read `text` as GrumpyDingo's message to you and act on it.
+  3. Mark it: `update` with `picked_up` = the old list plus your nick, pinned with `if_version`. If that makes every To and Cc nick picked up, use one `batch` to `set` `sent/<id>` (the doc's fields, plus `results` with "picked up by <nick>") and `delete` `outbox/<id>`.
+  4. Something urgent for GrumpyDingo goes in a note whose "Needs from Firefly" names GrumpyDingo; it shows under Needs you.
+  - **Idle members** see mail only when something wakes them. When GrumpyDingo says "push my messages", Firefly delivers the whole Outbox with `send_message` and moves each message to Sent. The courier Routine (`trig_01FTYTicUVjUty7RqDC7K6F1`) stays disabled unless GrumpyDingo asks for it.
 - **URL:** https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK (private; source `apps/team-inbox/index.html`).
 - **What it shows:**
   - the notes that need GrumpyDingo;
