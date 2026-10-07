@@ -218,7 +218,7 @@ pre.out { margin: 6px 0 0; background: var(--bg); border: 1px solid var(--rule);
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const state = { notes: [], members: [], sent: [], drafts: [], outbox: [], sessions: null, sync: null };
+const state = { notes: [], members: [], sent: [], mail: [], drafts: [], outbox: [], sessions: null, sync: null };
 const view = { folder: 'inbox', cur: null, checked: new Set(), pane: 'list', fresh: new Set(), q: '', prev: 'inbox' };
 let db = null;
 const ME = 'GrumpyDingo';
@@ -248,18 +248,22 @@ function items() {
     out.push({ kind: 'sent', coll: 'sent', id: s._id, nick: s.from || ME, to: s.to || [], cc: s.cc || [], subject: s.re || '(no subject)', body: s.body || '',
       status: all ? `Delivered to ${ok} of ${all}` : '', raw: s.at, ts: Date.parse(s.at) || 0, ord: -i, unread: false, archived: !!s.archived, trashed: !!s.trashed, starred: !!s.starred,
       thread: threadKey(s.re, s.thread), type: s.type, results: s.results || [] }); });
+  state.mail.forEach((x, i) => out.push({ kind: 'mail', coll: 'mail', id: x._id, nick: x.from || '?', to: x.to || [], cc: x.cc || [], subject: x.re || '(no subject)', body: x.body || '', type: x.type || '', branch: x.branch || '',
+    raw: x.date, ts: Date.parse(x.date) || 0, ord: -i, unread: !x.seen, starred: !!x.starred, trashed: false, archived: false, thread: threadKey(x.re, x.thread) }));
   state.drafts.forEach((d, i) => out.push({ kind: 'draft', coll: 'drafts', id: d._id, nick: ME, to: d.to || [], cc: d.cc || [], subject: d.re || '(no subject)', body: d.body || '', raw: d.at, ts: Date.parse(d.at) || 0, ord: -i,
     unread: false, thread: threadKey(d.re, d.thread) }));
   state.outbox.forEach((o, i) => out.push({ kind: 'outbox', coll: 'outbox', id: o._id, nick: ME, to: o.to || [], cc: o.cc || [], subject: o.re || '(no subject)', body: o.body || '', raw: o.at, ts: Date.parse(o.at) || 0, ord: -i,
     unread: false, thread: threadKey(o.re, o.thread), status: o.status || 'queued', results: o.results || [] }));
   return out;
 }
+const mutable = (m) => m.kind === 'note' || m.kind === 'sent' || m.kind === 'mail';
 const hay = (m) => [m.nick, m.subject, m.body, m.needs, m.path, m.branch, m.status, m.to.join(' '), m.cc.join(' ')].join(' ').toLowerCase();
 const inFolder = {
   search: (m) => { const w = view.q.toLowerCase().split(/\s+/).filter(Boolean); if (!w.length) return false; const h = hay(m); return w.every((x) => h.includes(x)); },
   inbox: (m) => m.kind === 'note' && !m.trashed && !m.archived,
   needs: (m) => m.kind === 'note' && !m.trashed && m.needsYou,
-  starred: (m) => (m.kind === 'note' || m.kind === 'sent') && !m.trashed && m.starred,
+  starred: (m) => mutable(m) && !m.trashed && m.starred,
+  mail: (m) => m.kind === 'mail',
   drafts: (m) => m.kind === 'draft',
   outbox: (m) => m.kind === 'outbox',
   sent: (m) => m.kind === 'sent' && !m.trashed && !m.archived,
@@ -268,10 +272,10 @@ const inFolder = {
 };
 const FOLDERS = [
   ['inbox', 'Inbox', '▤'], ['needs', 'Needs you', '!'], ['starred', 'Starred', '★'], ['', 'Write', ''], ['drafts', 'Drafts', '✎'], ['outbox', 'Outbox', '⇧'], ['sent', 'Sent', '➤'],
-  ['', 'Keep', ''], ['archive', 'Archive', '▣'], ['trash', 'Trash', '✕'], ['', 'Den', ''], ['team', 'Team', '☻']];
+  ['', 'Keep', ''], ['archive', 'Archive', '▣'], ['trash', 'Trash', '✕'], ['', 'Den', ''], ['mail', 'Team mail', '✉'], ['team', 'Team', '☻']];
 function counts(all) {
   const c = {}; for (const k in inFolder) c[k] = all.filter(inFolder[k]).length;
-  c.unread = all.filter((m) => inFolder.inbox(m) && m.unread).length; return c;
+  c.unread = all.filter((m) => inFolder.inbox(m) && m.unread).length; c.mailUnread = all.filter((m) => m.kind === 'mail' && m.unread).length; return c;
 }
 
 /* groups: messages of one thread that sit in the current folder, newest first */
@@ -283,28 +287,29 @@ function groups(all) {
   return [...by.entries()].map(([k, ms]) => { ms.sort((a, b) => key(b) - key(a)); return { key: k, ms, top: ms[0], unread: ms.some((m) => m.unread), starred: ms.some((m) => m.starred) }; })
     .sort((a, b) => key(b.top) - key(a.top));
 }
-const threadAll = (all, key) => all.filter((m) => (m.kind === 'note' || m.kind === 'sent') && m.thread === key && (view.folder === 'search' ? true : view.folder === 'trash' ? m.trashed : !m.trashed)).sort((a, b) => (a.ts + a.ord * 1e-3) - (b.ts + b.ord * 1e-3));
+const threadAll = (all, key) => all.filter((m) => mutable(m) && m.thread === key && (view.folder === 'search' ? true : view.folder === 'trash' ? m.trashed : !m.trashed)).sort((a, b) => (a.ts + a.ord * 1e-3) - (b.ts + b.ord * 1e-3));
 
 /* store writes (notes and sent keep every existing field; new fields are additive) */
 async function patch(m, p) {
-  const src = m.coll === 'notes' ? state.notes : m.coll === 'sent' ? state.sent : null; const doc = src && src.find((x) => x._id === m.id); if (doc) Object.assign(doc, p);
+  const src = m.coll === 'notes' ? state.notes : m.coll === 'sent' ? state.sent : m.coll === 'mail' ? state.mail : null; const doc = src && src.find((x) => x._id === m.id); if (doc) Object.assign(doc, p);
   if (db) { try { await db.doc(m.coll + '/' + m.id).update(p); } catch {} }
 }
 const P = {
-  read: (m) => m.kind === 'note' ? { state: 'read' } : {}, unread: () => ({ state: 'new' }),
+  read: (m) => m.kind === 'note' ? { state: 'read' } : m.kind === 'mail' ? { seen: true } : {}, unread: (m) => m.kind === 'note' ? { state: 'new' } : m.kind === 'mail' ? { seen: false } : {},
   archive: (m) => m.kind === 'note' ? { state: 'done' } : { archived: true }, unarchive: (m) => m.kind === 'note' ? { state: 'read' } : { archived: false },
   trash: () => ({ trashed: true }), restore: () => ({ trashed: false }),
 };
 const applyTo = (ms, how) => {
   if (how === 'drop') { ms.filter((m) => m.kind === 'draft' || m.kind === 'outbox').forEach((m) => drop(m.coll, m.id)); return render(); }
   if (how === 'retry') { ms.filter((m) => m.kind === 'outbox').forEach((m) => deliver(m.id)); return render(); }
-  ms.filter((m) => m.kind === 'note' || m.kind === 'sent').forEach((m) => patch(m, P[how](m))); render(); };
+  const keep = ['read', 'unread'].includes(how) ? mutable : (m) => m.kind === 'note' || m.kind === 'sent';
+  ms.filter(keep).forEach((m) => patch(m, P[how](m))); render(); };
 
 /* rendering */
 const prevText = (m) => (m.body || m.status || (m.kind === 'sent' ? 'Sent to ' + m.to.join(', ') : '')).replace(/\s+/g, ' ').slice(0, 140);
 function rowHTML(g) {
-  const m = g.top, mine = m.kind !== 'note'; const who = mine ? 'To ' + (m.to.join(', ') || '…') : m.nick;
-  const tag = view.folder === 'search' ? `<span class="cnt">${m.trashed ? 'Trash' : m.archived ? 'Archive' : { note: 'Inbox', sent: 'Sent', draft: 'Draft', outbox: 'Outbox' }[m.kind]}</span>` : '';
+  const m = g.top, mine = m.kind !== 'note' && m.kind !== 'mail'; const who = mine ? 'To ' + (m.to.join(', ') || '…') : m.kind === 'mail' ? `${m.nick} → ${m.to.join(', ') || '…'}` : m.nick;
+  const tag = view.folder === 'search' ? `<span class="cnt">${m.trashed ? 'Trash' : m.archived ? 'Archive' : { note: 'Inbox', mail: 'Team mail', sent: 'Sent', draft: 'Draft', outbox: 'Outbox' }[m.kind]}</span>` : '';
   const flag = tag + (g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? `<span class="flag">${esc(m.status)}</span>` : '');
   return `<div class="row ${g.unread ? 'unread' : ''} ${view.cur === g.key ? 'cur' : ''}" data-act="open" data-key="${esc(g.key)}" role="button" tabindex="0">
     <input type="checkbox" data-act="check" data-key="${esc(g.key)}" ${view.checked.has(g.key) ? 'checked' : ''} aria-label="Select">
@@ -312,15 +317,15 @@ function rowHTML(g) {
     <div class="mid"><div class="top1"><span class="who" style="--c:${colour(mine ? ME : m.nick)}">${esc(who)}</span>${g.ms.length > 1 ? `<span class="cnt">${g.ms.length}</span>` : ''}${flag}</div>
       <div class="subj">${esc(m.subject)}</div><div class="prev">${esc(prevText(m))}</div></div>
     <div class="side"><span>${shortDate(m.ts, m.raw)}</span>${g.unread ? '<span class="udot" title="Unread"></span>' : ''}
-      ${m.kind === 'note' || m.kind === 'sent' ? `<button type="button" class="star ${g.starred ? 'on' : ''}" data-act="star" data-key="${esc(g.key)}" aria-label="Star" aria-pressed="${g.starred}">${g.starred ? '★' : '☆'}</button>` : ''}</div>
+      ${mutable(m) ? `<button type="button" class="star ${g.starred ? 'on' : ''}" data-act="star" data-key="${esc(g.key)}" aria-label="Star" aria-pressed="${g.starred}">${g.starred ? '★' : '☆'}</button>` : ''}</div>
   </div>`;
 }
-const EMPTY = { inbox: 'Nothing here. Notes from the team land in the Inbox.', needs: 'Nothing waiting on GrumpyDingo.', starred: 'No starred messages.', drafts: 'No drafts.', outbox: 'The Outbox is empty: everything you sent has been delivered.',
+const EMPTY = { mail: 'No team mail yet. Members write to each other with tools/team/mail.py; Firefly\'s sync copies it here.', inbox: 'Nothing here. Notes from the team land in the Inbox.', needs: 'Nothing waiting on GrumpyDingo.', starred: 'No starred messages.', drafts: 'No drafts.', outbox: 'The Outbox is empty: everything you sent has been delivered.',
   search: 'No messages match.', sent: 'Nothing sent yet.', archive: 'Nothing archived. Done notes live here.', trash: 'Trash is empty.' };
 function renderList(all, gs) {
   const name = view.folder === 'search' ? 'Search' : (FOLDERS.find((f) => f[0] === view.folder) || [0, ''])[1]; const n = view.checked.size;
   const bulk = n ? `<span class="sel-info">${n} selected</span><div class="bulk">
-      ${view.folder === 'drafts' || view.folder === 'outbox' ? (view.folder === 'outbox' ? '<button type="button" data-act="bulk" data-how="retry">Retry</button>' : '') + '<button type="button" data-act="bulk" data-how="drop">Delete</button>' : view.folder === 'trash' ? '<button type="button" data-act="bulk" data-how="restore">Restore</button>' : `<button type="button" data-act="bulk" data-how="read">Mark read</button><button type="button" data-act="bulk" data-how="unread">Mark unread</button>
+      ${view.folder === 'mail' ? '<button type="button" data-act="bulk" data-how="read">Mark read</button><button type="button" data-act="bulk" data-how="unread">Mark unread</button>' : view.folder === 'drafts' || view.folder === 'outbox' ? (view.folder === 'outbox' ? '<button type="button" data-act="bulk" data-how="retry">Retry</button>' : '') + '<button type="button" data-act="bulk" data-how="drop">Delete</button>' : view.folder === 'trash' ? '<button type="button" data-act="bulk" data-how="restore">Restore</button>' : `<button type="button" data-act="bulk" data-how="read">Mark read</button><button type="button" data-act="bulk" data-how="unread">Mark unread</button>
       ${view.folder === 'archive' ? '<button type="button" data-act="bulk" data-how="unarchive">Move to inbox</button>' : '<button type="button" data-act="bulk" data-how="archive">Archive</button>'}<button type="button" data-act="bulk" data-how="trash">Trash</button>`}
       <button type="button" class="ghost" data-act="bulk" data-how="clear">Clear</button></div>`
     : `<h2>${esc(name)}</h2><span class="sel-info">${gs.length ? gs.length + (gs.length === 1 ? ' conversation' : ' conversations') : ''}</span>`;
@@ -328,26 +333,29 @@ function renderList(all, gs) {
     (gs.length ? gs.map(rowHTML).join('') : `<div class="empty">${esc(EMPTY[view.folder] || '')}</div>`);
 }
 function msgHTML(m, open) {
-  const mine = m.kind !== 'note';
+  const mine = m.kind !== 'note' && m.kind !== 'mail', hasTo = m.kind !== 'note';
   const head = `${avatar(mine ? ME : m.nick)}<div><div class="mh-who">${esc(mine ? ME : m.nick)}${!mine && memberOf(m.nick) ? ` <span class="mh-sub">· ${esc(memberOf(m.nick).role)}</span>` : ''}</div>
-    <div class="mh-sub">${mine ? 'to ' + esc(m.to.join(', ') || '…') + (m.cc.length ? ' · cc ' + esc(m.cc.join(', ')) : '') : 'to Firefly, GrumpyDingo'}</div></div><span class="mh-date">${shortDate(m.ts, m.raw)}</span>`;
+    <div class="mh-sub">${hasTo ? 'to ' + esc(m.to.join(', ') || '…') + (m.cc.length ? ' · cc ' + esc(m.cc.join(', ')) : '') : 'to Firefly, GrumpyDingo'}</div></div><span class="mh-date">${shortDate(m.ts, m.raw)}</span>`;
   const body = `<div class="mb">${m.needs ? `<span class="needs">Needs: ${esc(m.needs)}</span>` : ''}
     ${m.body ? `<p class="body">${esc(m.body)}</p>` : m.kind === 'sent' ? '<p class="body mh-sub">The text of this message was not saved by an older version of the inbox.</p>' : ''}
     ${m.kind === 'outbox' ? `<div class="path">Outbox: ${esc(m.status)}${m.status === 'queued' ? ' (waiting for the Claude Code Remote connector)' : ''}</div>${m.results.length ? `<ul class="results">${m.results.map((r) => `<li class="${r.ok ? 'good' : 'bad'}">${esc(r.nick)}: ${r.ok ? 'delivered' : 'not sent (' + esc(failWhy(r.code)) + ')'}</li>`).join('')}</ul>` : ''}` : ''}
     ${m.status && m.kind === 'sent' ? `<div class="path">${esc(m.status)}${m.results.filter((r) => !r.ok).length ? ' · not sent to ' + esc(m.results.filter((r) => !r.ok).map((r) => r.nick).join(', ')) : ''}</div>` : ''}
+    ${m.kind === 'mail' ? `<div class="path">${esc(m.type)}${m.branch ? ' · on ' + esc(m.branch) : ''} · ${esc(m.id)}</div>` : ''}
     ${m.path ? `<div class="path">${esc(m.branch ? m.branch + ' · ' : '')}${esc(m.path)}</div>` : ''}</div>`;
   return `<details class="msg ${m.needsYou ? 'need' : ''} ${mine ? 'mine' : ''}" ${open ? 'open' : ''}><summary>${head}</summary>${body}</details>`;
 }
 function renderRead(all, gs) {
   const g = gs.find((x) => x.key === view.cur);
   if (!g) { $('read').innerHTML = `<div class="empty">${view.folder === 'team' ? '' : 'Select a message to read it.'}</div>`; return; }
-  const ms = (g.top.kind === 'note' || g.top.kind === 'sent') ? threadAll(all, g.key) : g.ms;
-  const acts = ms.filter((m) => m.kind === 'note' || m.kind === 'sent');
+  const ms = mutable(g.top) ? threadAll(all, g.key) : g.ms;
+  const acts = ms.filter(mutable);
   const srch = view.folder === 'search', t = view.folder === 'trash' || (srch && g.top.trashed), arch = view.folder === 'archive' || (srch && g.top.archived);
   const kind = g.top.kind;
   const mailTools = !t && acts.length ? '<button type="button" data-act="reply">Reply</button><button type="button" data-act="replyall">Reply all</button><button type="button" data-act="forward">Forward</button>' : '';
   const ownTools = kind === 'outbox' ? '<button type="button" class="primary" data-act="retry">Retry</button><button type="button" data-act="edit">Edit</button><button type="button" data-act="del">Delete</button>' : kind === 'draft' ? '<button type="button" class="primary" data-act="edit">Edit</button><button type="button" data-act="del">Delete</button>' : '';
-  const tools = ownTools || mailTools + (acts.length ? (t ? '<button type="button" data-act="one" data-how="restore">Restore</button>' :
+  const mailOnly = g.top.kind === 'mail' && view.folder === 'mail';
+  const mailBar = `<button type="button" data-act="one" data-how="unread">Mark unread</button><button type="button" class="${g.starred ? 'on' : ''}" data-act="star" data-key="${esc(g.key)}" aria-pressed="${g.starred}">${g.starred ? '★ Starred' : '☆ Star'}</button>`;
+  const tools = ownTools || mailTools + (mailOnly ? mailBar : acts.length ? (t ? '<button type="button" data-act="one" data-how="restore">Restore</button>' :
     `<button type="button" data-act="one" data-how="${arch ? 'unarchive' : 'archive'}">${arch ? 'Move to inbox' : 'Archive'}</button>
      <button type="button" data-act="one" data-how="unread">Mark unread</button>
      <button type="button" class="${g.starred ? 'on' : ''}" data-act="star" data-key="${esc(g.key)}" aria-pressed="${g.starred}">${g.starred ? '★ Starred' : '☆ Star'}</button>
@@ -380,7 +388,7 @@ function render() {
   const all = items(), c = counts(all);
   $('nav').innerHTML = '<button type="button" class="primary compose-btn" data-act="compose">✎ Write</button>' + FOLDERS.map(([k, label, ic]) => !k ? `<div class="grp">${label}</div>` :
     `<button type="button" class="fld ${view.folder === k ? 'on' : ''}" data-act="folder" data-f="${k}"><span class="ic">${ic}</span>${label}${
-      k === 'inbox' ? (c.unread ? `<span class="n">${c.unread}</span>` : '') : k === 'needs' ? (c.needs ? `<span class="n hot">${c.needs}</span>` : '') :
+      k === 'inbox' ? (c.unread ? `<span class="n">${c.unread}</span>` : '') : k === 'mail' ? (c.mailUnread ? `<span class="n">${c.mailUnread}</span>` : '') : k === 'needs' ? (c.needs ? `<span class="n hot">${c.needs}</span>` : '') :
       ['drafts', 'outbox'].includes(k) ? (c[k] ? `<span class="n">${c[k]}</span>` : '') : ''}</button>`).join('') + '<button type="button" class="ghost keys" data-act="help">Shortcuts ( ? )</button>';
   document.title = (c.needs ? `(${c.needs}) ` : '') + 'Den Team Inbox';
   const team = view.folder === 'team'; $('team').hidden = !team; $('list').hidden = team; $('read').hidden = team;
@@ -451,13 +459,14 @@ function openCompose(init = {}) {
   $('cmp').scrollTop = 0; ($('c-to').querySelector('input') && !init.to ? $('c-to-in') : $('c-body')).focus();
 }
 function closeCompose(save = true) { if (!cmp.open) return; if (save) saveDraft(true); clearTimeout(cmp.timer); cmp.open = false; $('cmp').hidden = true; $('cmp').innerHTML = ''; render(); }
-const quote = (m) => `\n\n${m.nick === ME || m.kind !== 'note' ? ME : m.nick} wrote (${m.raw ? String(m.raw).slice(0, 10) : ''}):\n` + String(m.body || '').split('\n').map((l) => '> ' + l).join('\n');
+const quote = (m) => `\n\n${m.kind === 'note' || m.kind === 'mail' ? m.nick : ME} wrote (${m.raw ? String(m.raw).slice(0, 10) : ''}):\n` + String(m.body || '').split('\n').map((l) => '> ' + l).join('\n');
 function replyInit(how) {
   const g = groupOf(view.cur); if (!g) return null; const ms = threadAll(items(), g.key); const t = ms[ms.length - 1]; if (!t) return null;
   const re = (p) => new RegExp('^' + p + ':', 'i').test(t.subject) ? t.subject : (p === 're' ? 'Re: ' : 'Fwd: ') + t.subject;
-  if (how === 'forward') return { re: re('fwd'), thread: g.key, body: `\n\n--- Forwarded message ---\nFrom: ${t.kind === 'note' ? t.nick : ME}\nSubject: ${t.subject}\n\n${t.body || ''}` };
+  if (how === 'forward') return { re: re('fwd'), thread: g.key, body: `\n\n--- Forwarded message ---\nFrom: ${t.kind === 'note' || t.kind === 'mail' ? t.nick : ME}\nSubject: ${t.subject}\n\n${t.body || ''}` };
   let to, cc = [];
-  if (t.kind === 'note') { to = [t.nick]; if (how === 'replyall' && t.nick.toLowerCase() !== 'firefly') cc = ['Firefly']; } else { to = [...t.to]; if (how === 'replyall') cc = [...t.cc]; }
+  if (t.kind === 'mail') { to = [t.nick]; if (how === 'replyall') cc = [...new Set([...t.to, ...t.cc])].filter((n) => n.toLowerCase() !== t.nick.toLowerCase() && n !== ME); }
+  else if (t.kind === 'note') { to = [t.nick]; if (how === 'replyall' && t.nick.toLowerCase() !== 'firefly') cc = ['Firefly']; } else { to = [...t.to]; if (how === 'replyall') cc = [...t.cc]; }
   return { to, cc, re: re('re'), thread: g.key, body: quote(t) };
 }
 
@@ -484,7 +493,7 @@ async function deliver(id) {
 
 /* actions */
 function openKey(key) { const dg = groupOf(key); if (dg && dg.top.kind === 'draft') { const d = state.drafts.find((x) => x._id === dg.top.id) || {}; return openCompose({ id: d._id, to: d.to, cc: d.cc, re: d.re, body: d.body, type: d.type, pri: d.pri, appr: d.appr, thread: d.thread }); }
-    view.cur = key; view.pane = 'read'; const g = groupOf(view.cur); view.fresh = new Set(); if (g) g.ms.filter((m) => m.kind === 'note' && m.unread).forEach((m) => { view.fresh.add(m.id); patch(m, P.read(m)); }); return render();
+    view.cur = key; view.pane = 'read'; const g = groupOf(view.cur); view.fresh = new Set(); if (g) g.ms.filter((m) => (m.kind === 'note' || m.kind === 'mail') && m.unread).forEach((m) => { view.fresh.add(m.id); patch(m, P.read(m)); }); return render();
 }
 
 function groupOf(key) { return groups(items()).find((g) => g.key === key); }
@@ -521,7 +530,7 @@ document.addEventListener('click', (e) => {
   if (a === 'folder') { $('q').value = ''; view.q = ''; view.folder = el.dataset.f; view.cur = null; view.checked.clear(); view.pane = 'list'; return render(); }
   if (a === 'pane') { view.pane = el.dataset.pane; if (view.pane === 'folders' && view.folder === 'team') view.folder = 'inbox'; if (el.dataset.pane === 'list') view.cur = null; return render(); }
   if (a === 'open') return openKey(el.dataset.key);
-  if (a === 'star') { e.stopPropagation(); const g = groupOf(el.dataset.key); if (!g) return; const on = !g.starred; g.ms.filter((m) => m.kind === 'note' || m.kind === 'sent').forEach((m) => patch(m, { starred: on })); return render(); }
+  if (a === 'star') { e.stopPropagation(); const g = groupOf(el.dataset.key); if (!g) return; const on = !g.starred; g.ms.filter(mutable).forEach((m) => patch(m, { starred: on })); return render(); }
   if (a === 'bulk') { const how = el.dataset.how; if (how === 'clear') { view.checked.clear(); return render(); } const ms = [...view.checked].flatMap((k) => (groupOf(k) || { ms: [] }).ms); view.checked.clear(); return applyTo(ms, how); }
   if (a === 'one') { const g = groupOf(view.cur); if (!g) return; const how = el.dataset.how; const ms = threadAll(items(), g.key); if (how !== 'unread') { view.cur = null; view.pane = 'list'; } return applyTo(ms, how); }
 });
@@ -580,7 +589,7 @@ document.addEventListener('keydown', (e) => {
   db = await window.claude?.use?.('db');
   if (!db) { $('sync').textContent = 'The board needs you signed in to claude.ai to load.'; return; }
   const feed = (name, order, dir, key) => { try { db.collection(name).orderBy(order, dir).onSnapshot((snap) => { state[key] = snap.docs.map((d) => ({ _id: d.id, ...d.data() })); render(); }, () => {}); } catch {} };
-  feed('notes', 'date', 'desc', 'notes'); feed('members', 'order', 'asc', 'members'); feed('sent', 'at', 'desc', 'sent'); feed('drafts', 'at', 'desc', 'drafts'); feed('outbox', 'at', 'desc', 'outbox');
+  feed('notes', 'date', 'desc', 'notes'); feed('members', 'order', 'asc', 'members'); feed('sent', 'at', 'desc', 'sent'); feed('mail', 'date', 'desc', 'mail'); feed('drafts', 'at', 'desc', 'drafts'); feed('outbox', 'at', 'desc', 'outbox');
   db.doc('meta/sync').onSnapshot((d) => { state.sync = d.exists ? d.data() : null; render(); }, () => {});
 })();
 

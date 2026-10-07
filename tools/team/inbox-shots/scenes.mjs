@@ -5,6 +5,9 @@ export default async ({run,W,open,fld})=>{
   await run('d',...W.desktop,sch,[[`desktop-${sch}`,open('Gear fit')]]);
   await run('d',...W.desktop,sch,[[`desktop-reply-${sch}`,async p=>{await open('Gear fit')(p);await rep(p);}],[`desktop-compose-${sch}`,async p=>{await p.click('[data-act="cmp-discard"]');await comp(p);}]]);
  }
+ await run('d',...W.desktop,'dark',[['desktop-mail-dark',async p=>{await fld('mail')(p);await open('style hook')(p);}]]);
+ await run('d',...W.desktop,'light',[['desktop-mail-light',async p=>{await fld('mail')(p);await open('style hook')(p);}]]);
+ await run('p',...W.phone,'dark',[['phone-mail-dark',async p=>{await p.click('.back >> nth=0');await fld('mail')(p);await open('style hook')(p);}]]);
  await run('d',...W.desktop,'dark',[['desktop-search-dark',async p=>{await p.fill('#q','gear');}],['desktop-help-dark',async p=>{await p.fill('#q','');await p.click('body',{position:{x:5,y:5}});await p.keyboard.press('?');}]]);
  await run('p',...W.phone,'light',[['phone-search-light',async p=>{await p.fill('#q','moss');}]]);
  await run('d',...W.desktop,'dark',[['desktop-team-dark',fld('team')],['desktop-outbox-dark',async p=>{await fld('outbox')(p);await open('Moss tone')(p);}]]);

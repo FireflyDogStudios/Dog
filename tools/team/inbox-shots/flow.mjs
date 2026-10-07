@@ -19,6 +19,13 @@ ok((await p.textContent('#nav')).match(/Outbox\s*2/)!==null,'outbox count 2');
 await p.evaluate(()=>{window.okAll=true}); await p.click('.row:has-text("Test")'); await p.click('[data-act="retry"]'); await p.waitForTimeout(500);
 await p.click('[data-f="sent"]'); ok((await p.textContent('#list')).includes('Test'),'retry delivers, message lands in Sent');
 await p.click('[data-f="drafts"]'); ok((await p.textContent('#list')).includes('Next round')&&!(await p.textContent('#list')).includes('Test'),'draft removed after send');
+// team mail folder
+await p.click('[data-f="mail"]'); ok((await p.textContent('#nav')).match(/Team mail\s*1/)!==null,'team mail unread count 1');
+ok((await p.textContent('#list')).includes('Lever → Palette')&&(await p.textContent('#list')).includes('Forge → Scout'),'member-to-member rows shown');
+await p.click('.row:has-text("style hook")'); ok((await p.textContent('#read')).includes('Roster colours later')&&(await p.textContent('#read')).includes('claude/team-palette'),'thread read with both messages and branch');
+ok(!(await p.textContent('#read')).includes('Archive')&&!(await p.textContent('#read')).includes('Trash'),'mail is read-only (no archive or trash)');
+ok((await p.textContent('#nav')).match(/Team mail\s*1/)===null,'opening marks it read');
+await p.click('[data-act="reply"]'); ok((await p.inputValue('#c-re')).startsWith('Re: ')&&(await p.textContent('#c-to-chips')).includes('Lever'),'reply goes to the sender of the latest message'); await p.keyboard.press('Escape'); await p.keyboard.press('Escape');
 // phase 3: search and shortcuts
 await p.click('[data-f="inbox"]'); await p.fill('#q','moss'); await p.waitForTimeout(150);
 ok((await p.textContent('#list')).includes('Style note')&&!(await p.textContent('#list')).includes('Missing-found'),'search finds across folders');

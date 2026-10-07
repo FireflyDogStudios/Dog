@@ -18,3 +18,8 @@ Collections the page reads. Existing ones keep every field; additions are option
 
 ## Folders (computed, not stored)
 Inbox = notes not archived/trashed. Needs you = notes that need GrumpyDingo. Archive = `state: done`. Trash = `trashed`. Starred = `starred`.
+
+## Team mail (member to member; `tools/team/mail.py all --json` produces these)
+- `mail/<id>`: `id, thread, from, to[], cc[], re, type, date, body, branch, branches[]`. `<id>` is the mail file name without `.md`.
+- Added by the page for GrumpyDingo's own view: `seen` (bool), `starred` (bool). **Firefly's sync must merge into these docs (`update`, or `set` that keeps `seen` and `starred`), not replace them.**
+- The page shows them read-only (no archive or trash) in the Team mail folder, threaded by `thread`. Reply, Reply all and Forward go out as ordinary messages through the compose window, so they appear in Sent and in the same thread.
