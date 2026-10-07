@@ -40,11 +40,12 @@ Joint landmarks read through fur (especially the stifle) were too uncertain to a
 | nose forward of withers | 0.54 | 0.54 (only with the neck almost upright) |
 | nose height | 0.85 | 0.87 |
 The thoracic spines stand 0.17 of withers height above the scapula top (sourced 0.035): the ribcage is too tall for the scapula, or the scapula sits too low on it. That extra height also shrinks the body-length ratio. Next: fix where the scapula sits on the ribcage, then re-check the neck.
+**Fixed Oct 7:** the scapula's translation coordinates were left at Beagle size by `Model.scale`; scaled with the thorax they give body length 1.17, chest floor 0.42 (range 0.42–0.56), nose 0.54 forward and 0.85 high, spines 0.08 above the blade. Still open: the neck stands near upright to reach the photographed nose position (neck or skull still long?), and the jaw renders slightly open.
 
 ## Decisions for GrumpyDingo (one at a time, when they come up)
 - ~~Apply the fact-check's 13 suggested values to the wolf~~ done Oct 6 (GrumpyDingo said yes); the rebuilt skeleton hits every angle target.
 - The Carolina Dog: the player's own species needs its own species file (dingo and pariah-dog numbers). Build it right after the wolf?
-- Which new model becomes the hero, and which the companion, once the current two are retired?
+- Which new model becomes the hero, and which the companion, once the current two are retired? **Leaning (GrumpyDingo, Oct 7):** reliable Carolina Dog data may never exist, and Huskies are much better documented, so the main hero may pivot to a Husky; the Carolina Dog is deferred to a later date. The bestiary and lore are unchanged until GrumpyDingo says otherwise.
 - The licence holds: the non-commercial motion curves and the copyleft keypoint file stay out of the repo unless he says otherwise.
 - ~~More data~~ fetched Oct 7 by a separate session (`ref/research/fetched/`, merged by Firefly).
 - ~~Walk footfall phase conflict~~ settled Oct 7: LF 0.16 wolf, 0.17 dingo-sized dog (applied).

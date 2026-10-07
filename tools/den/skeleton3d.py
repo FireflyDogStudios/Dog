@@ -71,6 +71,11 @@ def build(sid):
     mesh_scale = {b: [scales0[b] * c for c in vec[b]] for b in vec}
     cs = m.getCoordinateSet(); C = lambda n: cs.get(n)
     for i in range(cs.getSize()): cs.get(i).set_clamped(False); cs.get(i).set_locked(False)         # the model's default ranges are not anatomical (fetched/03 NOTE); limits are checked separately
+    # the scapula slides on the ribcage through translation coordinates, which Model.scale leaves at the Beagle's values: scale them with the thorax
+    # (x across and z up by the girth ratio, y along the spine by the thorax length ratio), so the blade sits where it does on the Beagle's ribcage
+    for sd in ('left', 'right'):
+        for ax, k in (('x', cross), ('y', f['thorax']), ('z', cross)):
+            c = C(f'{sd}_r_m_superioris_trans{ax}'); c.setDefaultValue(c.getDefaultValue() * k)
     s = m.initSystem()
     # stance: solve the sagittal angles
     free = ['thorax_sagittal', 'left_r_m_superioris_sagittal', 'left_r_deltoidea_sagittal', 'left_r_cubitalis_sagittal', 'left_r_carpalis_sagittal', 'left_r_forepaw_sagittal',

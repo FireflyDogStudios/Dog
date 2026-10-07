@@ -27,13 +27,14 @@
 6. **Hairless or short-coated dogs, standing side-on** (Xoloitzcuintli, Peruvian Inca Orchid, American Hairless Terrier, Pharaoh Hound, Ibizan Hound): the skin-layer reference with no fur in the way.
 
 ## Species, in priority order (from `docs/DEN-BESTIARY.md`)
-1. **Carolina Dog** (the hero) and **dingo**, then **New Guinea singing dog**: these are the scarcest; widen the search (breed clubs and rescues that publish under CC, Flickr via Openverse, Wikimedia Commons, iNaturalist research-grade observations with CC BY).
+1. **Siberian Husky** (Oct 7: the likely main hero, since Carolina Dog data is so scarce; Alaskan Malamute as a close second).
 2. **Grey wolf:** more of what Scout started (Scout's set is in `scout/01-body-templates/wolf/`; don't duplicate it).
-3. **Mixed-breed dogs** (the likely companion), **domestic breeds** (terriers, hounds, shepherds).
-4. **Coyote, golden jackal, side-striped jackal, African wild dog.**
-5. **Red, arctic, fennec, gray, swift, kit and corsac foxes; raccoon dog.**
-6. **Spotted, striped and brown hyenas; raccoon, badger, otter.**
-7. **Prey and others:** deer, rabbit, hare, rodents.
+3. **Carolina Dog**, **dingo**, **New Guinea singing dog** (deferred, but catalogue any you meet; they are scarce, so widen the search: breed clubs and rescues that publish under CC, Flickr via Openverse, Wikimedia Commons, iNaturalist research-grade observations with CC BY).
+4. **Mixed-breed dogs** (the likely companion), **domestic breeds** (terriers, hounds, shepherds).
+5. **Coyote, golden jackal, side-striped jackal, African wild dog.**
+6. **Red, arctic, fennec, gray, swift, kit and corsac foxes; raccoon dog.**
+7. **Spotted, striped and brown hyenas; raccoon, badger, otter.**
+8. **Prey and others:** deer, rabbit, hare, rodents.
 
 ## `catalogue.csv` columns
 `file, species, pose, url, author, licence, licence_url, facing (left/right), stance (square/walking/trotting/other), legs_visible (0-4), occlusion (none/slight/heavy), head (forward/turned/close-up), tail (hanging/raised/curled/hidden), sex (if known), age (adult/juvenile), coat (summer/winter/short/unknown), size_px, real_animal_check (how you checked), rank, notes`
@@ -42,4 +43,4 @@
 Photos that GrumpyDingo or friends take themselves of real Carolina Dogs (or any dogs) standing side-on are the best possible source: owned outright, no licence questions. If any arrive, catalogue them the same way with `licence: owned by GrumpyDingo (project use)`.
 
 ## First assignment
-The Carolina Dog and the dingo: standing side-on first, then walking, then head profiles. Report the counts per pose, the best five per species, and what you could not find.
+The Siberian Husky: standing side-on first, then walking, trotting, then head profiles. Report the counts per pose, the best five, and what you could not find. If time allows, the Alaskan Malamute the same way.
