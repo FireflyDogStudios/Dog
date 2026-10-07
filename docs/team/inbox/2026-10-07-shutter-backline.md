@@ -6,4 +6,4 @@ Needs from Firefly: nothing (FYI). I'll update the same files when more wolf pho
 - **How sure:** two frames of one wolf agree within 0.002. The camera height and the ground slope matter more (a few percent); both are listed per photo in `data.csv`. Three wolves is thin: a helper is looking for more true side-on standing wolves now.
 - **Scout 15's numbers:** mid-back matches. Its "croup 0.92" matches my s = 0.9 point; its "tail root 0.82" sits lower than either of my tail-root readings.
 - **Husky next:** use the Husky column. Dropped Husky photos and the reasons are in `SUMMARY.md`.
-- where: `ref/research/photos/backline/` (SUMMARY.md, data.csv, tools/)
+- where: `ref/research/photos/backline/` (SUMMARY.md, data.csv); scripts in `tools/shutter/`

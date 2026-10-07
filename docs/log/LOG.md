@@ -8,6 +8,7 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-08 · Scout · Topline clamp profile (the hunchback fix): skin sits 0.007-0.026 WH above the spine tips (minimum at T8); neck topline = the C2→T1 nuchal chord, cervical vertebrae hang up to 0.112 WH below it; withers = max(spine tips, scapula) + 0.026; real wolf topline slopes down to 0.92 at the croup. → `ref/research/scout/15-topline/`
 
 ## 2026-10-07
+- 2026-10-07 · Shutter · Set up my kit: scripts for search, contact sheets, licence audit and back-line measuring under `tools/shutter/` with `setup.sh`. → `tools/shutter/`
 - 2026-10-07 · Shutter · Answered GrumpyDingo's four photo decisions: CC BY-SA kept out of the repo (links only), Carolina Dog friends option closed, NPS contact route with a ready-to-send draft, rawpixel steps and item list. Nothing sent to anyone. → `ref/research/photos/REQUESTS-FOR-GRUMPYDINGO.md`, `SHARE-ALIKE-LINKS.md`
 - 2026-10-07 · Shutter · Back line measured on 3 standing wolf photos, 4 Keulemans plates and 4 Husky stacks (outline heights as shares of withers height): level to the hips, then falls; croup 0.97 (wolves) and 0.94 (Huskies); tail root 0.92 / 0.90. More wolves to follow. → `ref/research/photos/backline/`
 - 2026-10-07 · Shutter · Wolf body round 3 review against real photos: hind paws sit behind the rump in the model but under it in the photos, the tail should hang, no rib stripes in real wolves; chest width figure for Scout 16. → `docs/team/inbox/2026-10-07-shutter-wolf-review.md`

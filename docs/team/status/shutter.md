@@ -4,3 +4,4 @@ Working on: back-line request (first delivery pushed; more wolf photos arrive wh
 Last push: Decisions answered: share-alike links, NPS draft, rawpixel steps
 Blocked: no
 Needs Firefly: no. Model tiers this round: Sonnet did the research and writing; a general-purpose helper (Sonnet) is searching for standing wolves.
+Setup: tools/shutter/setup.sh (rembg + onnxruntime for cut-outs; scripts listed in tools/shutter/README.md)

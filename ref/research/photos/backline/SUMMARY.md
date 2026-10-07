@@ -27,7 +27,7 @@ Fur-outline height above the local ground line, as a share of withers height (me
 
 ## Method
 - **Cut-outs:** IS-Net (`isnet-general-use` through `rembg`) on each photo. I checked each outline over the photo.
-- **Measure** (`tools/meas2.py`, a script, not hand-reading):
+- **Measure** (`tools/shutter/meas2.py`, a script, not hand-reading):
   - the ground line runs through the lowest pixels of the near front and near hind paws, so a slope is allowed;
   - heights are measured vertically, from that line up to the top of the outline;
   - withers = the highest outline point over the shoulder blades (the window sits about 12% of the body length behind the front leg; set by hand for the stacked Husky because its front leg stands well forward);
