@@ -4,7 +4,7 @@ Add requests at the top. Firefly or GrumpyDingo marks each one **Approved**, **D
 
 ---
 
-## A-006 · Regenerate the rest of the AGPL-derived keypoint numbers · from Atlas · 2026-10-07 · **Waiting**
+## A-006 · Regenerate the rest of the AGPL-derived keypoint numbers · from Atlas · 2026-10-07 · **Decided**
 - **Ask:** regenerate the `se_unitB` block of `ref/research/keypoints/proportions.json` and the StanfordExtra figures quoted in `ref/research/keypoints/REPORT.md` (Table C footnote, Table D last column, the breed list under Table D) from the MIT data, with the same method as `tools/atlas/regen_unitB.py`.
 - **Why:** they were computed from the AGPL-labelled Ultralytics mirror, like the CSV fixed under A-002 item 3. A-002 named only the CSV. `tools/den/species_check.py` reads only `awa_unitB`, so no tool output changes.
 - **Expect:** small shifts (the CSV moved by a median of 0.01 per breed; all-domestic medians unchanged), more dogs (1,701 vs 1,283 profile dogs), and new dingo and dhole entries.
