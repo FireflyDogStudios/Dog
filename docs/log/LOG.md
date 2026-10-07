@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-07
+- 2026-10-07 · Fetch · Mail test: checked Lever's branch; mail.py not ready (phase 1 only, phase 2 with mail.py is next). Left note for Firefly. → `docs/team/inbox/2026-10-07-fetch-mail-test.md`
 - 2026-10-07 · Fetch · Welcome: set up status file and inbox note. Waiting for first request. → `docs/team/status/fetch.md`, `docs/team/inbox/2026-10-07-fetch-hello.md`
 - 2026-10-07 · Firefly · **Keynote:** Firefly's letter to the next Firefly (how to work as lead; first ten minutes; lessons); DEN-TEAM gains the delegation rule (Firefly does not search) and the escalation ladder (Haiku → Sonnet → Opus/Fable, gaps back to Firefly), plus a planned quick-lookup member, Fetch. → `docs/team/FIREFLY-TO-FUTURE-FIREFLY.md`, `docs/claude/DEN-TEAM.md`
 - 2026-10-07 · Firefly · The Den Team Inbox page (needs-you notes, the team board with live session state, all notes, a DEN-MSG composer), filled with the roster and three open notes; DEN-TEAM gains the full studio (Forge, Spark, Palette, Reel, Echo, Loom, Scale, Trail, Lever), model advice by task and the DEN-MSG v1 message format; 12 welcome messages written, not sent. → https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK, `apps/team-inbox/`, `docs/team/welcome/`
