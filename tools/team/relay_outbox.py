@@ -12,7 +12,7 @@ fetched with the ArtifactData tool, and writes the JSON the agent pastes back in
   3. send_message to each session id with that text; note who it reached
   4. python3 tools/team/relay_outbox.py finish <dir>/outbox --delivered "<id>=Forge,Palette" --out <dir>/writes
                                                                                     writes <dir>/writes/*.json and prints the batch `writes` list
-  5. ArtifactData action=batch writes=<that list>                                  moves delivered messages to sent/ ("relayed by Firefly") and
+  5. ArtifactData action=batch writes=<that list>                                  moves delivered messages to sent/ ("delivered by Firefly") and
                                                                                     keeps the rest in the outbox with what is still undelivered
 Input may be a directory of <id>.json files, one such file, or a JSON array. Each document is {id, version, data:{...}} or the bare fields."""
 import argparse, json, os, sys
@@ -90,12 +90,12 @@ def cmd_finish(a):
         if d['version'] is None:
             sys.exit(f'{i} has no version: fetch it with ArtifactData first so the write can be pinned')
         reasons = sorted({str(r.get('code')) for r in (o.get('results') or []) if not r.get('ok') and r.get('code')})
-        note = f"relayed by {by}" + (f" (the page's send was {reasons[0]})" if reasons and not reasons[0].startswith('relayed') else '')
+        note = f"delivered by {by}" + (f" (the page's send was {reasons[0]})" if reasons and not reasons[0].startswith(('relayed', 'delivered')) else '')
         results = [r for r in (o.get('results') or []) if r.get('ok')] + [{'nick': n, 'ok': True, 'code': note} for n in nicks if n in targets(o)]
         got = {r['nick'] for r in results}
         left = [n for n in targets(o) if n not in got]
         if left:
-            data = {'status': 'failed', 'results': results + [{'nick': n, 'ok': False, 'code': 'not yet relayed'} for n in left]}
+            data = {'status': 'failed', 'results': results + [{'nick': n, 'ok': False, 'code': 'not yet delivered'} for n in left]}
             f = os.path.join(a.out, f'{i}.outbox.json'); json.dump(data, open(f, 'w'), indent=1)
             writes.append({'op': 'update', 'collection': 'outbox', 'doc_id': i, 'file_path': os.path.abspath(f), 'if_version': d['version']})
         else:

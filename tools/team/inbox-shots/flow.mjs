@@ -54,7 +54,7 @@ await p.mouse.move(0,0); await p.keyboard.press('Escape'); await p.keyboard.pres
 await p.dblclick('#c-head h2'); const b4=await box(); ok(b4.w<b2.w&&b4.y>b2.y,'double-click on the header resets it');
 await p.keyboard.press('Escape'); await p.keyboard.press('Escape');
 // connection check and blocked sends
-for (const [v, chip] of [['blocked','Sending blocked'],['noconn','Live sessions off'],['default','Connected']]) {
+for (const [v, chip] of [['blocked','Firefly delivers'],['noconn','Live sessions off'],['default','Connected']]) {
   const q = await (await b.newContext({viewport:{width:1280,height:800}})).newPage(); q.on('pageerror',e=>errs.push(e.message));
   await q.addInitScript(initFor(v)); await q.goto('file://'+process.argv[2]); await q.waitForTimeout(500);
   ok((await q.textContent('#conn-chip')).toLowerCase().includes(chip.toLowerCase()), 'status chip says "'+chip+'" ('+v+')');
@@ -63,8 +63,12 @@ for (const [v, chip] of [['blocked','Sending blocked'],['noconn','Live sessions 
     await q.click('.compose-btn'); await q.click('[data-act="cmp-all"]'); await q.fill('#c-re','Blocked test'); await q.fill('#c-body','x'); await q.click('[data-act="cmp-send"]');
     ok((await q.textContent('#c-confirm-text')).includes('Sending is blocked'),'confirm warns that it will wait in the Outbox');
     await q.click('[data-act="cmp-go"]'); await q.waitForTimeout(500);
+    ok(!(await q.evaluate(()=>window.__bc)),'once blocked_by_policy has been seen, send_message is not called again');
     ok((await q.textContent('#list')).includes('Queued: Firefly delivers')&&!(await q.textContent('#list')).includes('Not delivered'),'a policy-blocked send reads "Queued: Firefly delivers", not failed');
     ok((await q.textContent('#toast')).includes('Queued'),'toast says it is queued for Firefly');
+    await q.click('.row:has-text("Blocked test")'); await q.click('[data-act="retry"]'); await q.waitForTimeout(400); ok((await q.evaluate(()=>window.__bc))===1,'Retry still tries once, by hand');
+    ok(!(await q.innerHTML('#conn-chip')).includes('Sending blocked')&&(await q.textContent('#conn-chip')).includes('Firefly delivers'),'chip is calm: "Firefly delivers"');
+    await q.click('[data-f="conn"]'); ok(!(await q.innerHTML('#conn')).includes('crow bad'),'no red rows when only sending is policy-blocked');
   }
   await q.context().close();
 }

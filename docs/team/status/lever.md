@@ -1,6 +1,6 @@
 # lever status
 Updated: 2026-10-07
-Working on: connection copy fixed (no Connectors link); waiting for review, the permission location, and a go for the store write test
-Last push: Lever: relay_outbox.py and mail.py post
+Working on: done, step 0 proven (members can write) and calm sending; waiting for review
+Last push: Lever: members can post notes; calm policy-blocked sends
 Blocked: no
-Needs Firefly: review; reply "go" for a real create-and-delete test of notes/test-lever-<date>
+Needs Firefly: republish; tell Atlas and Fetch (see note)

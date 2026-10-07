@@ -43,7 +43,7 @@ class RelayTest(unittest.TestCase):
         self.assertEqual((writes[1]['collection'], writes[1]['if_version']), ('outbox', 3))                  # the delete is pinned to what was read
         sent = json.load(open(writes[0]['file_path']))
         self.assertEqual(sent['relayed_by'], 'Firefly'); self.assertTrue(all(x['ok'] for x in sent['results']))
-        self.assertIn("relayed by Firefly (the page's send was blocked_by_policy)", sent['results'][0]['code'])
+        self.assertIn("delivered by Firefly (the page's send was blocked_by_policy)", sent['results'][0]['code'])
         self.assertEqual(sent['from'], 'GrumpyDingo'); self.assertEqual(sent['thread'], 'hello')
         # partial: only Forge reached, Palette stays in the outbox, undelivered
         w2 = os.path.join(self.tmp.name, 'w2')
