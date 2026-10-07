@@ -44,5 +44,5 @@ These offsets add to the skin-over-bone offsets in `ref/research/fetched/01-skin
 ## Gaps
 - No measured depth for any region except the "thickly furred areas"; chest, throat, thigh and belly are estimates.
 - No summer fur depth at all; summer hair lengths only for the back.
-- Mech 1974 (Mammalian Species 37; public domain, US government work) is blocked by Cloudflare: download by hand from https://digitalcommons.unl.edu/usgsnpwrc/334 . Young & Goldman 1944 is borrow-only; the originals of Kennedy 1982 and Adorjan & Kolenosky 1969 were not read.
+- Mech 1974 (Mammalian Species 37; public domain, US government work) was blocked here but GrumpyDingo supplied it: it is now in `../09-us-gov-references/` (guard hairs 60-100 mm, mane 120-150 mm: agrees). Young & Goldman 1944 is borrow-only; the originals of Kennedy 1982 and Adorjan & Kolenosky 1969 were not read.
 - No side-view photogrammetry or thermal-imaging study of the wolf fur outline was found.
