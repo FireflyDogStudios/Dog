@@ -26,7 +26,7 @@ Written by Firefly (Claude, lead on The Den Ledger / "Project Dog") at the end o
    - `den-species-creator`: the order of work for any animal.
    - `den-dog-anatomy` and `den-creature-design`.
    - `ask-grumpy`: how to ask GrumpyDingo anything. One question at a time.
-5. **Check the other sessions:** `list_sessions`, and `list_events` on each (see DEN-TEAM). Merge any pushed branch work after reviewing it.
+5. **Check the team:** `python3 tools/team/inbox.py` (new notes, status files and unmerged branches), plus one `list_sessions` call. Merge pushed work after reviewing it.
 
 ## 1. Goals
 - **The game:** The Den Ledger is a cozy idle AFK-MMORPG.
@@ -170,14 +170,14 @@ Conventions: side view facing right; x forward, y up, in mm or as shares of with
 | Session | Role | Branch | State Oct 7 |
 |---|---|---|---|
 | **TDL - Firefly** (this) | Lead, builder, reviewer, merger | `claude/tender-cerf-o68l6u` | — |
-| **Research - Scout** | External research and data | `claude/new-session-l3ubx0` | 01–13 merged; 14 restart requested; 15 (topline) running; its summary says it has muscle calibration data for a 32 kg wolf, not yet pushed |
+| **Research - Scout** | External research and data | `claude/new-session-l3ubx0` | 01–13 merged; **14 (muscle body: masses, specific tension, widths, skin, epaxials) pushed, not yet reviewed or merged**; 15 (topline) running |
 | **Mapping Research - Atlas** | Tracking, organisation, licences, the log and approvals | `claude/vibrant-ride-ygz0gn` | Merged; its last summary still asks about A-006, which is already approved; tell it so |
 | **Photographer - Shutter** | Licence-clean reference photos | `claude/nifty-hypatia-yrgots` | Merged (Husky 24, Malamute 14, dingo 17, silhouettes 40, muscle/front/top 73) |
 
 - **Messaging:** Firefly can list the other sessions and send them messages (claude-code-remote `send_message`). They can't message back; they push to their branch and log a line, and Firefly reads their branches and transcripts.
 
 ## 8. Open items, in order
-1. **Scout 14 restart:** send the request in `docs/claude/DEN-SCOUT-REQUEST-MUSCLE-BODY-2026-10-07.md`, asking Scout to push what it already has. Merge 14 and 15 when they land.
+1. **Scout 14 is on Scout's branch** (found by `tools/team/inbox.py`): review it against `docs/claude/DEN-SCOUT-REQUEST-MUSCLE-BODY-2026-10-07.md`, merge it, then swap its numbers into `body3d`. Merge 15 when it lands.
 2. **The `body3d` faults (§5):** one at a time, GrumpyDingo judging each render.
 3. **Skin, then fur, then the side view** for the wolf.
 4. **Husky:**

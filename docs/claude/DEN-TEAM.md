@@ -21,6 +21,20 @@ Proposed by Firefly at GrumpyDingo's request ("promote you to a lead role; creat
 | *Later:* **Builder** | Builder - Forge | Opus or Sonnet | — | Well-specified build slices from the lead (for example the Husky species file and its skeleton run), so the lead's context stays light | its own branch |
 | *Later:* **Game** | Game - Smith | Sonnet or Opus | — | The game and gear code when that work resumes (gear refit to hero2 or the new hero, engine wiring, Pixi slices), with the kill checks | its own branch |
 
+### The studio, as needs come up (GrumpyDingo, Oct 7)
+The rule: **when we meet a kind of work, one specialist owns it, and Firefly coordinates.** Each specialist works on one system or aspect, so no session grows into one big ball. They join as the work arrives, not before.
+
+| Role | Session name | Model | Owns | Joins when |
+|---|---|---|---|---|
+| **Creative engineer** | Engine - Spark | Opus | The game engine as a whole (`engine/`, the build, wiring the newer `se.js` and `rig.js` into the game); works with the Builders (the "Forgers"); the engine-level calls on how systems fit together | When game work resumes after the dog hurdle |
+| **Builders ("Forgers")** | Forge - <topic> | Sonnet or Opus | One well-specified build slice each (a species run, a gear refit, a Pixi slice), handed over by Firefly or Spark | Now for species slices; more as needed |
+| **Art style advisor** | Style - Palette | Opus | The look: style tests on the new models, references (learn, never copy), style guides, judging consistency before GrumpyDingo judges | Once the wolf has skin and fur (style tests) |
+| **Sound engineer** | Sound - Echo | Sonnet | Sound design and music direction: open-licence sound libraries, a sound engine with presets (like Proton for effects), the sound map per action | When game work resumes |
+| **Systems designer** | Systems - Loom | Opus | Game systems design (loot, skills and status, crafting, idle loop, progression), written as specs first | When game work resumes |
+| **Balance** | Balance - Scale | Sonnet | The numbers: power curves, drop rates, simulations (short ones; GrumpyDingo's rule), always talked through before changes | After items and armour (GrumpyDingo's order) |
+| **Level designer** | Levels - Trail | Sonnet | The Meadow first: zones, pacing, encounter placement | When zones come back |
+| **Tools and admin panel** | Tools - Lever | Sonnet | An admin layer for GrumpyDingo: view and edit game data, spawn items and creatures, jump to states, toggle debug views; built as an engine panel in the game or a separate artifact | When game work resumes (early: it speeds everyone up) |
+
 Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDingo chose). Pick the current version of each tier when a session is created.
 
 ## How work moves
@@ -33,7 +47,12 @@ Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDi
    - Files: `SUMMARY.md` (the answer first), `NOTE.md` (method, searches, what was rejected), `data.csv` (one row per number, with source, licence and grade).
    - Plus one line in `docs/log/LOG.md`. No PRs.
 4. **Review:** the lead spot-checks the claims against the files (licences, numbers, a few images by eye), merges, and logs the merge.
-5. **Status:** sessions can't message the lead back. The lead reads their branches, their `post_turn_summary` (via `list_sessions`) and their transcripts (`list_events`).
+5. **Status and notes for Firefly (the inbox):** sessions can't message the lead back, so they leave notes in the repo instead, and the lead reads only what is new.
+   - **A note** is a short file `docs/team/inbox/<YYYY-MM-DD>-<role>-<slug>.md` on the role's branch. It says what happened, what it needs from Firefly (or "FYI"), and links. Keep it to a few lines; the detail stays in the delivery folder.
+   - **Status:** each role keeps one file, `docs/team/status/<role>.md`: current task, last push, blocked or not, needs Firefly yes or no. Overwrite it; don't append.
+   - **Firefly checks with one command:** `python3 tools/team/inbox.py`. It fetches every role branch and prints only notes and status files Firefly hasn't merged yet. It reads git only, so it costs almost nothing. Plus one `list_sessions` call for each session's own summary ("needs action" shows there too).
+   - **When Firefly checks:** at the start of each working block, and when GrumpyDingo says a role has finished.
+   - **Notes are retired** by merging the branch (the note is then in Firefly's tree). Firefly answers in the next request or message, never in the role's files.
 6. **Decisions:** go to GrumpyDingo one at a time (the `ask-grumpy` skill), with the lead's recommendation first.
 
 ## House rules for every role
