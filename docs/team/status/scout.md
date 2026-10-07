@@ -1,6 +1,6 @@
 # Scout status
-Updated: 2026-10-08 (UTC)
-Working on: request 16, wolf rib-cage breadth (ref/research/scout/16-ribcage-width/); agent running
-Last push: Scout 14 DOI fix (Gunn 1978 row) + status
+Updated: 2026-10-07 23:15 UTC
+Working on: request 16, wolf rib-cage breadth (agent running); wolf body round-3 review delivered
+Last push: Scout: wolf round-3 review note (neck mass, forechest, serratus smoothing, back-line spline recipe)
 Blocked: no
-Needs Firefly: no (16 in progress; the 14 DOI gap is filled)
+Needs Firefly: no
