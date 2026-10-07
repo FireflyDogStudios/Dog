@@ -1,15 +1,15 @@
 # Den materials: what we have, and what each gives us
 
-Kept by Firefly, started Oct 7, 2026 (GrumpyDingo asked for a master list of materials). The numbers themselves are mapped in `docs/claude/DEN-REFERENCE-GUIDE.md`; this list is about **ingredients**: what each thing is, what job it can do, and what it cannot. About 57 MB of research is in `ref/research/`; the raw 3D model zips are in GrumpyDingo's Drive.
+Kept by Firefly, started Oct 7, 2026 (corrected the same day from Atlas's audit, A-003) (GrumpyDingo asked for a master list of materials). The numbers themselves are mapped in `docs/claude/DEN-REFERENCE-GUIDE.md`; this list is about **ingredients**: what each thing is, what job it can do, and what it cannot. About 57 MB of research is in `ref/research/`; the raw 3D model zips are in GrumpyDingo's Drive.
 
 ## 1. Bones and skeletons
 | Material | What it is | Gives us | Can't give us | Where |
 |---|---|---|---|---|
-| Museum bone lengths | Limb bones, spine and skull for 22 canids (Law 2025) | Real bone lengths and ratios per species | Shapes, poses | `ref/research/skeleton/` |
+| Museum bone lengths | Limb bones, spine and skull: 18 species with bone means (16 canids + 2 hyenas; Law 2025) | Real bone lengths and ratios per species | Shapes, poses | `ref/research/skeleton/` |
 | Limb indices, 150 carnivores | Bone measurements (CC0) | Ratios for coyote, foxes, jackals, hyenas | Dingo (none exist) | `fetched/06-limb-indices/` |
-| Dingo bone estimates | Back-calculated from 117 measured dingoes (±5%) | Hero-size bones | Measured dingo bones (none exist in open sources) | `missingfound/dingo-limb-bones/` |
+| Dingo bone estimates | Back-calculated from 117 dingoes whose shoulder heights were themselves reconstructed from bones (±5%) | Hero-size bones | Measured dingo bones (none exist in open sources) | `missingfound/dingo-limb-bones/` |
 | Stark dog model, 2D | Every bone's side-view outline, joint centres, segment lengths (real Beagle + Shepherd-sized version) | Real bone **shapes** in side view | The Shepherd version is a non-uniformly stretched Beagle | `fetched/03-dog-model/` |
-| Stark dog model, 3D | 70 bone meshes and the OpenSim files | Real **3D bones** for a 3D build | Only the `.osim` files are in the repo; the meshes are still in Drive zips | Drive `den-ledger-everything/ref`, `fetched/03-dog-model/*.osim` |
+| Stark dog model, 3D | 24 body meshes (GLB, mm, decimated; 31 of the 70 OBJs used) and the OpenSim files | Real **3D bones**: `./den skeleton3d` builds the wolf from them | Raw zips and full-resolution meshes stay in Drive; 4 trunk muscles per side have a placeholder force of 1.0 N | `scout/10-stark-meshes/`, `fetched/03-dog-model/*.osim` |
 | Greyhound hindlimb model | OpenSim model (CC BY) | Hind-leg joints and muscles | Forelimb | `fetched/03-dog-model/` |
 | MuJoCo dog | DeepMind's physics dog (Apache) | A rigged 3D dog for physics checks | Real proportions (it's a Pharaoh Dog, simplified) | installed (`dm_control`) |
 | Two real wolf skulls, 3D | CT/3D scans with jaws, measured (CC BY) | The **head**: real skull shape, eye, jaw hinge, teeth, gape limits | Soft tissue | `missingfound/wolf-skull/` |
@@ -27,7 +27,7 @@ Kept by Firefly, started Oct 7, 2026 (GrumpyDingo asked for a master list of mat
 ## 3. Fur, colour and surface
 | Material | Gives us | Limits | Where |
 |---|---|---|---|
-| Wolf coat thickness by region, summer and winter | How far fur stands off the skin (withers and back measured, the rest estimated) | Mostly estimates beyond the back | `scout/03-wolf-coat/` |
+| Wolf coat thickness by region, summer and winter | How far fur stands off the skin (withers and back measured, the rest estimated) | Mostly estimates beyond the back; Mech 1974 (*Mammalian Species* 37, US government work) is in Drive | `scout/03-wolf-coat/` |
 | Dingo and Carolina Dog coat | Estimates | All estimates | `scout/04-dingo-coat/` |
 | Tail bone vs brush width | Tail shape and carriage | | `scout/05-tail/` |
 | Coat colour palettes | Hex colours per body region for wolf, dingo, Carolina Dog | Lighting not corrected | `fetched/10-coat-palettes/` |
@@ -64,7 +64,7 @@ Kept by Firefly, started Oct 7, 2026 (GrumpyDingo asked for a master list of mat
 - **How it moves:** gait, limits, behaviour. Strong.
 
 ## 8. Missing, or not yet in hand
-- **The Stark 3D bone meshes in the repo** (they're in Drive), needed for a 3D build.
+- **Intervertebral disc share** (every spine length is vertebral bodies only; request out to Scout), and **a muscle-name crosswalk**.
 - **A full-body 3D wolf, dingo or dog** under an open licence (not searched yet).
 - **Dingo and Carolina Dog templates** (Scout's next delivery), and a dingo-type skull (none exists openly).
 - **Measured:** ear rotation, jaw angles in behaviour, wild-canid keypoints (coyote, jackal, dhole, wild dog, hyena), dingo bones.

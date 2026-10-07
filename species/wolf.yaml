@@ -53,7 +53,7 @@ numbers:
   ratios:                     # 2D keypoints of wolf photos (AwA-Pose, MIT), profile photos only; height = withers to paw (unit B in the keypoint report)
     head_over_height:        {value: 0.39, unit: ratio, source: "AwA-Pose keypoints, ref/research/keypoints (n=29)", confidence: B, check: "keypoints:sheet_ratios/head : height"}
     muzzle_over_skull:       {value: 1.16, unit: ratio, source: "AwA-Pose keypoints (n=30)", confidence: B, check: "keypoints:sheet_ratios/muzzle : skull"}
-    chest_depth_over_height: {value: 0.54, unit: ratio, source: "AwA-Pose keypoints (n=27)", confidence: B, check: "keypoints:sheet_ratios/chest depth : height"}
+    chest_depth_over_height: {value: 0.54, unit: ratio, source: "AwA-Pose keypoints (n=27); OUTER SURFACE measure, fur included: never apply to bone (A-002; the 3D skeleton takes chest depth from the real ribcage)", confidence: C, check: "keypoints:sheet_ratios/chest depth : height"}
     elbow_height_over_height: {value: 0.53, unit: ratio, source: "AwA-Pose keypoints (n=29)", confidence: B, check: "keypoints:sheet_ratios/elbow height : height"}
     tail_over_height:        {value: 0.61, unit: ratio, source: "AwA-Pose keypoints (n=26)", confidence: B, check: "keypoints:sheet_ratios/tail : height"}
     neck_over_head:          {value: 0.77, unit: ratio, source: "AwA-Pose keypoints (n=29)", confidence: B, check: "keypoints:sheet_ratios/neck : head"}
@@ -99,7 +99,7 @@ numbers:
     walk_RF_phase:  {value: 0.66, unit: fraction, range: [0.62, 0.70], source: "RH + LF phase (symmetric walk: 0.50 + 0.16; corrected Oct 7)", confidence: B}
     walk_duty:      {value: 0.65, unit: fraction, range: [0.60, 0.70], source: "estimate (walk > 0.5, Maes 2008)", confidence: EST}
     trot_duty_fore: {value: 0.435, unit: fraction, source: "Labrador trot (treadmill study, via search)", confidence: B}
-    trot_duty_hind: {value: 0.367, unit: fraction, source: "Labrador trot", confidence: B}
+    trot_duty_hind: {value: 0.425, unit: fraction, range: [0.367, 0.43], source: "Catavitello 2015 retrievers, measured (ref/research/fetched/04-gait-curves/duty_phase.csv; corrected Oct 7 from 0.367, A-002)", confidence: B}
     walk_speed:     {value: 1.06, unit: m/s, source: "Holler 2010 (dogs)", confidence: B}
     trot_speed:     {value: 4.0, unit: m/s, range: [3.6, 4.4], source: "wolf travelling trot 13-16 km/h (popular sources)", confidence: C}
     walk_rom_shoulder: {value: 31, unit: deg, source: "treadmill reliability study (walk range of motion)", confidence: A}

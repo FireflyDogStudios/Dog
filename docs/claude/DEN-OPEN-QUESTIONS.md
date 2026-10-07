@@ -23,6 +23,15 @@ Kept by Firefly, started Oct 6, 2026. Two kinds: **research questions** (facts t
 ## Found Oct 7 (photo template test)
 - The real wolf photo (Scout template 01) disagrees with the skeleton: chest depth with fur 0.44 vs 0.59 of surface height; elbow height 0.52 vs 0.43; nose forward of withers 0.54 vs 0.61. Suspect: `ratios.chest_depth_over_height` 0.54 (AwA keypoints have no brisket point) and the head and neck carriage. Next: measure the best Scout wolf photos the same way and correct the skeleton.
 
+## Found Oct 7 (3D skeleton vs the wolf photo, outline proportions as shares of withers height)
+| | photo | 3D skeleton |
+|---|---|---|
+| chest floor height | 0.56 | 0.58 (matches: the 3D ribcage fixes the old 2D chest error) |
+| body length (point of shoulder to buttock) | 1.15 | 1.01 (trunk ~12% short; suspect Law's spine lengths are vertebral bodies only, without the discs) |
+| nose forward of withers | 0.54 | 0.81 (neck and head reach too far forward) |
+| nose height | 0.75 | 0.88 |
+Joint landmarks read through fur (especially the stifle) were too uncertain to align on: front and hind legs gave scales 34% apart. Use outline points, and more than one photo.
+
 ## Decisions for GrumpyDingo (one at a time, when they come up)
 - ~~Apply the fact-check's 13 suggested values to the wolf~~ done Oct 6 (GrumpyDingo said yes); the rebuilt skeleton hits every angle target.
 - The Carolina Dog: the player's own species needs its own species file (dingo and pariah-dog numbers). Build it right after the wolf?
