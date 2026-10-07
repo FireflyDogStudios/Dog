@@ -1,0 +1,26 @@
+# Caudal vertebrae measured by Scout from the Stark et al. 2021 dog model mesh new-cauda.obj (SimTK "dogmodel", full_linear/Geometry; MIT licence, Copyright (c) 2021 FSU Jena, Heiko Stark; see ref/research/fetched/03-dog-model/LICENSE-stark.txt).
+# Model withers height 616.8 mm (ref/research/fetched/03-dog-model/stark_bone_outlines.json). The cauda body includes the sacrum.
+# Method: vertices projected to the side view; centreline from the skeleton of the closed silhouette; each vertex given an arc position s (mm from the lumbosacral end) and a perpendicular offset.
+# Joints placed at gaps in vertex density along s (checked by eye on an unrolled image); boundaries +-1.5 mm; the sacrum/Cd1-Cd3 split and the tip (Cd18-19 merged) are least certain.
+# height = dorsoventral extent perpendicular to the centreline in 0.5 mm slices; width = lateral (left-right) extent. *_mid = median over the middle 30 % of the bone (centrum); *_max includes transverse processes, haemal arches and dorsal processes.
+# pos_frac = centre of the bone as a fraction of the caudal series length (Cd1 start to tip = 399.8 mm). Confidence B (one model dog, mesh from CT of a single specimen; vertebra count 18-19 here vs dog average 20).
+bone,s_start_mm,s_end_mm,length_mm,height_mid_mm,height_max_mm,width_mid_mm,width_max_mm,pos_frac
+sacrum,0,48,48,16.4,34.5,34.5,51.3,
+Cd1,48,62,14.0,11.8,13.8,14.0,28.1,0.018
+Cd2,62,78.8,16.8,11.6,13.2,13.7,27.9,0.056
+Cd3,78.8,96.4,17.6,12.2,14.3,15.0,21.7,0.099
+Cd4,96.4,116.4,20.0,9.8,11.7,12.0,20.2,0.146
+Cd5,116.4,139.4,23.0,8.4,12.7,8.7,15.2,0.200
+Cd6,139.4,165.2,25.8,8.3,12.4,7.5,11.4,0.261
+Cd7,165.2,192.8,27.6,7.5,11.8,7.1,9.7,0.328
+Cd8,192.8,220,27.2,7.7,10.4,6.9,8.8,0.396
+Cd9,220,247,27.0,7.0,9.6,6.2,8.3,0.464
+Cd10,247,273.4,26.4,6.2,8.8,5.7,7.5,0.531
+Cd11,273.4,298.5,25.1,5.3,8.2,5.0,6.7,0.595
+Cd12,298.5,322.7,24.2,4.5,7.4,4.7,6.1,0.657
+Cd13,322.7,346.3,23.6,3.9,7.0,4.0,5.4,0.717
+Cd14,346.3,367.7,21.4,3.4,5.7,3.5,5.2,0.773
+Cd15,367.7,387,19.3,3.0,5.0,3.2,4.4,0.824
+Cd16,387,405.3,18.3,2.4,4.2,2.5,4.1,0.871
+Cd17,405.3,422,16.7,2.1,3.3,2.0,3.4,0.915
+Cd18-19 (tip),422,447.8,25.8,1.5,2.3,1.5,2.5,0.968
