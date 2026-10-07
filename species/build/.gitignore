@@ -12,3 +12,6 @@
 .bellies3d_obj/
 .bellies3d_render.py
 .*.bellies3d_render.json
+.body3d_obj/
+.body3d_render.py
+.*.body3d_render.json
