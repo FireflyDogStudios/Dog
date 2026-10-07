@@ -90,3 +90,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Lever · Policy-blocked sends read as queued for Firefly; Connection view mentions the org toggle. → `apps/team-inbox/index.html`
 - 2026-10-07 · Lever · Step 0 proven (members can write notes to the store, post tested end to end and cleaned up); policy-blocked sends are calm and not retried. → `tools/team/`, `apps/team-inbox/`, `docs/team/README.md`
 - 2026-10-07 · Lever · Connection view shows meta/courier (last run, delivered, errors); mail.py post confirmed. → `apps/team-inbox/`
+- 2026-10-07 · Lever · tools/lever/setup.sh and README: kit reinstall for fresh containers. → `tools/lever/`
