@@ -34,6 +34,7 @@ The rule: **when we meet a kind of work, one specialist owns it, and Firefly coo
 | **Loom** | Systems designer | Game systems as specs first: loot, skills and status, crafting, the idle loop, progression | When game work resumes |
 | **Scale** | Balance | Power curves, drop rates, short simulations (GrumpyDingo's rule), always talked through before any change | After items and armour (GrumpyDingo's order) |
 | **Trail** | Level designer | The Meadow first: zones, pacing, encounter placement | When zones come back |
+| **Fetch** | Quick lookups | One-off questions with an obvious source (a page, a licence, a fact); hands anything harder to Scout | When quick questions start queuing |
 | **Lever** | Tools and admin panel | An admin layer for GrumpyDingo: view and edit game data, spawn items and creatures, jump to states, debug views | Early once game work resumes: it speeds everyone up |
 
 ### Model by task (Firefly's advice)
@@ -54,6 +55,7 @@ The session's model is the member's own judgement. Its sub-agents do the legwork
 | Scale | Sonnet, with Opus review of any curve change | Sim runs → itself | Numbers work; the decisions go to GrumpyDingo |
 | Trail | Sonnet | — | Layout and pacing on top of Loom's systems |
 | Lever | Sonnet | Test runs → Haiku | Straightforward tool building |
+| Fetch | Haiku | — | The bottom rung of the ladder: cheap and fast |
 
 Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDingo chose). Pick the current version of each tier when a session is created.
 
@@ -74,6 +76,25 @@ Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDi
    - **When Firefly checks:** at the start of each working block, and when GrumpyDingo says a role has finished.
    - **Notes are retired** by merging the branch (the note is then in Firefly's tree). Firefly answers in the next request or message, never in the role's files.
 6. **Decisions:** go to GrumpyDingo one at a time (the `ask-grumpy` skill), with the lead's recommendation first.
+
+## Delegation and the escalation ladder (GrumpyDingo, Oct 7)
+**Firefly does not search.** Every lookup goes to a team member and comes back as a delivery or a note, even a simple one. Firefly still reads the repo to build and review.
+- **Searches outside the repo** go to Scout. **Licence, provenance and repo housekeeping** go to Atlas. **Photos** go to Shutter.
+
+**The ladder.** A search starts on the cheapest tier that might manage it and moves up only when it has to:
+
+| Tier | Model | Good for | Move up when |
+|---|---|---|---|
+| 1 | Haiku | A known source: fetch a page, check a licence, list links, count rows, confirm a fact that has one obvious home | Not found after a few tries, or the answer needs reading closely |
+| 2 | Sonnet | Finding across several sources, reading papers, pulling numbers out of tables, writing them up with sources | Sources disagree, nothing open exists, or the answer needs a judgement or a derivation |
+| 3 | Opus (or Fable, for Scout) | Conflicting evidence, measuring or deriving a number ourselves, deciding what is trustworthy, designing a workaround | Still nothing: report the gap to Firefly |
+
+- **Record the climb:** each delivery's `NOTE.md` says which tiers ran and why each one stopped.
+- **Gaps:** a gap at tier 3 goes to Firefly as a note. Firefly then decides one of three things:
+  - ask GrumpyDingo (a human source: a login, an email, their own photos);
+  - accept the gap;
+  - propose a new team member when the same kind of gap keeps coming up.
+- **Quick lookups:** a planned member, **Fetch** (Haiku), would take one-off questions so they don't load Scout. It hands anything harder to Scout. It joins when quick questions start queuing.
 
 ## Message format (DEN-MSG v1)
 Every message between Firefly (or GrumpyDingo) and a member uses this shape, so anyone can tell at a glance what it asks and where the answer goes. The Den Team Inbox page builds it for GrumpyDingo.
