@@ -32,6 +32,7 @@ None. The four from the second search were applied on Oct 7 (GrumpyDingo said ye
 | Village-dog skeletons | four complete Iron Age Anatolian limb sets (CC BY) | `missingfound/dingo-limb-bones/` | they sit with the **wolf**, not the coyote: use wolf ratios for the Carolina Dog |
 | Beagle and "Shepherd" segment lengths | every segment in m and withers units | `fetched/03-dog-model/stark_segments.csv` | the Shepherd is the Beagle scaled ×1.66 limbs, ×1.25 trunk, not measured |
 | Spine | 7-13-7-3 + 20 caudal; neck 27.5%, thorax 43.3%, lumbar 29.2% of presacral | `species/wolf.yaml` (`spine`); `skeleton/REPORT.md` §3 | B |
+| Intervertebral discs | share of each region: neck 0.15, thorax 0.15, lumbar 0.18; length with discs = centra / (1 − share); sacrum none | `species/wolf.yaml` (`disc_share_*`); `scout/13-disc-share/` | dog values (no wild canid has any); thorax EST |
 
 ## 3. Standing skeleton layout
 | I need | Headline | File | Catch |
@@ -40,7 +41,9 @@ None. The four from the second search were applied on Oct 7 (GrumpyDingo said ye
 | Pelvis | crest–ischium axis 40° below horizontal (radiographs 43), length 0.80 × femur, hip joint 60% along and below the line | `factcheck/REPORT.md` Q6; `ASSUME` in `tools/den/skeleton.py` | drop below the line is an estimate |
 | Withers, neck root, paw | withers 0.025 × height above the scapula; neck root 0.10 down; toe joint 0.22 × MC3/MT3 up, toes 0.55 × | `ASSUME` in `tools/den/skeleton.py`; `factcheck` Q7–Q8 | C / EST |
 | Every assumption in the builder | name, value, why | `ASSUME` in `tools/den/skeleton.py`; `species/build/<id>.skeleton.json` | edit there |
-| The current wolf skeleton | targets vs achieved | `species/build/wolf.skeleton.png` and `.json` | body length ~8% short of photos |
+| Outline proportions of real wolves | body length 1.15, chest floor 0.47, nose 0.54 forward and 0.85 high (shares of height, fur surface) | `species/wolf.yaml` (`ratios`); `ref/research/wolf-photo-proportions/` | 7 wolves (3 photos, 4 plates), ±0.03 each |
+| Head and neck carriage | withers-to-skull line **26°** above the ground (AwA, 15 standing wolves; the 3D default); skull axis 20° nose-down; the bony neck then stands ~62° (resting X-rays of other mammals agree) | `species/wolf.yaml` (`head_line_standing`); `factcheck/REPORT.md` Q9; `species/build/wolf.skel3d.heads.png` | C; the 2-photo nose target gives the same pose |
+| The current wolf skeleton | targets vs achieved | `species/build/wolf.skeleton.png` and `.json` (2D); `species/build/wolf.skel3d.png` and `.json` (3D, the main one) | 3D vs 7 real wolves: body length 1.24 (1.15), chest floor 0.42 (0.47), nose 0.56 / 0.85 (0.54 / 0.85) |
 
 ## 4. Joint limits and non-walk poses
 | I need | Headline | File | Catch |

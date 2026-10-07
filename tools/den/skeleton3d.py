@@ -39,7 +39,7 @@ def to_ground(m, s, body, P_mm, scale):
     Rm = np.array([[R.get(i, j) for j in range(3)] for i in range(3)]); pm = np.array([p.get(i) for i in range(3)]) * 1000
     return (np.asarray(P_mm) * np.asarray(scale)) @ Rm.T + pm
 
-def build(sid, head='photos'):
+def build(sid, head='awa'):
     osim, m, s = load(); sp = yaml.safe_load(open(ROOT / f'species/{sid}.yaml'))['numbers']; B = sp['bones']; SP = sp['spine']; SK = sp['skull']; A = sp['angles']; RAT = sp['ratios']
     d = lambda a, b: np.linalg.norm(jc(m, s, CH[a]) - jc(m, s, CH[b]))
     scales0 = {r['body']: float(r['mesh_scale_beagle'].split()[0]) for r in csv.DictReader(open(MESH / 'bodies.csv'))}
@@ -102,9 +102,9 @@ def build(sid, head='photos'):
         return P
     GR_ = lambda P: min(P['fpad'][1], P['hpad'][1]); WH_ = lambda P: P['scap_top'][1] - GR_(P)
     HS_ = lambda P: max(P['topline'][1], P['scap_top'][1]) - GR_(P) + 0.067 * WH_(P)    # outline height, as the photos were measured: highest back point + skin + fur
-    def head_res(P):   # three ways to place the head (den skeleton3d <id> --head photos|awa|neck40)
-        if head == 'awa':      # AwA wolf standing photos, n = 15: withers-to-skull line 26 deg above the ground (fact-check Q9)
-            return [(math.degrees(math.atan2(P['occ'][1] - P['scap_top'][1], P['occ'][0] - P['scap_top'][0])) - 26) / 2]
+    def head_res(P):   # three ways to place the head (den skeleton3d <id> --head awa|photos|neck40); awa is the default (GrumpyDingo, Oct 7: the best-sourced)
+        if head == 'awa':      # angles.head_line_standing: withers-to-skull line above the ground (AwA wolf photos, n = 15)
+            return [(math.degrees(math.atan2(P['occ'][1] - P['scap_top'][1], P['occ'][0] - P['scap_top'][0])) - A['head_line_standing']['value']) / 2]
         if head == 'neck40':   # the bony neck (T1 to occiput) 40 deg above horizontal (estimate, the 2D skeleton's value)
             return [(math.degrees(math.atan2(P['occ'][1] - P['T1'][1], P['occ'][0] - P['T1'][0])) - 40) / 2]
         return [(((P['nose'][0] + 0.037 * WH_(P)) - P['scap_top'][0]) / HS_(P) - RAT['nose_forward_over_height']['value']) / 0.02,   # photos 01 and 05: nose position
@@ -194,7 +194,7 @@ def render(sid, out, tag=''):
     im = Image.open(BUILD / f'{sid}.skel3d{tag}.png'); ImageOps.mirror(im).save(BUILD / f'{sid}.skel3d{tag}.png')   # facing right, like the game
 
 def main(args):
-    sid = args[0]; head = args[args.index('--head') + 1] if '--head' in args else 'photos'; tag = '' if head == 'photos' else f'.{head}'
+    sid = args[0]; head = args[args.index('--head') + 1] if '--head' in args else 'awa'; tag = '' if head == 'awa' else f'.{head}'
     out = build(sid, head); out['head'] = head; render(sid, out, tag)
     print(f'wrote species/build/{sid}.skel3d{tag}.json and .png  (solve cost {out["cost"]:.3f})')
     print('  scale factors (species / Beagle):', out['scale_factors'])
