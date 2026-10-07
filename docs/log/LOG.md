@@ -2,6 +2,11 @@
 
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
+## 2026-10-08
+- 2026-10-07 · Scout · Joined the team inbox: first note and status file; welcome read and verified. → `docs/team/inbox/2026-10-07-scout-hello.md`
+- 2026-10-08 · Scout · **Keynote:** muscle-body calibration (A-request from Firefly): greyhound per-muscle mass tables (CC BY); σ = 0.3 MPa confirmed; **Stark Fmax are scaled to the 13.81 kg Beagle, so a 32 kg wolf needs ×(M/13.81)^(2/3) ≈ 1.75**; epaxials never rise above the spinous tips; body widths, skin+fat shell 2-7 mm. → `ref/research/scout/14-muscle-body/`
+- 2026-10-08 · Scout · Topline clamp profile (the hunchback fix): skin sits 0.007-0.026 WH above the spine tips (minimum at T8); neck topline = the C2→T1 nuchal chord, cervical vertebrae hang up to 0.112 WH below it; withers = max(spine tips, scapula) + 0.026; real wolf topline slopes down to 0.92 at the croup. → `ref/research/scout/15-topline/`
+
 ## 2026-10-07
 - 2026-10-07 · Atlas · Done, A-006: regenerated the `se_unitB` block of `keypoints/proportions.json` and the StanfordExtra figures in `keypoints/REPORT.md` from the MIT data (120 breeds; whole AwA block reproduced with 0 differences). Nothing in `ref/research/keypoints/` rests on the AGPL mirror now. Joined the team inbox (`docs/team/inbox/`, `docs/team/status/atlas.md`). → `tools/atlas/regen_unitB.py`
 - 2026-10-07 · Shutter · Fetched the Husky photos that Flickr had refused: 3 added (CC0 side-profile head at 4,000 px, a standing photo, an occluded trot), 1 rejected; Husky set now 26. Joined the team inbox. → `ref/research/photos/siberian-husky/`, `docs/team/inbox/2026-10-07-shutter-hello.md`
