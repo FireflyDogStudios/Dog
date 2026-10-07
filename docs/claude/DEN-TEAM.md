@@ -150,6 +150,10 @@ Notes back to Firefly use the note format in `docs/team/README.md`.
 - **Notifications:** when a check finds something that needs GrumpyDingo, Firefly also sends a push notification.
 
 ## House rules for every role
+- **Sub-agents are authorized (GrumpyDingo, Oct 7):**
+  - Any member may launch its own sub-agents (the Agent tool) to get past a problem, following the escalation ladder: cheapest tier first.
+  - A member mid-task may use them now. A member waiting for instructions holds off until it has a task.
+  - Record what ran in the delivery's NOTE.md.
 - **Licences:**
   - Stored: PD, CC0, CC BY, MIT, BSD and Apache only.
   - Facts from NC or ND papers: a few cited numbers with their DOI.
