@@ -20,6 +20,9 @@ Kept by Firefly, started Oct 6, 2026. Two kinds: **research questions** (facts t
 ## Prior art (answered Oct 6: see `ref/research/prior-art/REPORT.md`)
 14. Has anyone built **skeleton-first, data-driven quadruped or canine characters**, in games, animation tools or science (for example Spore, SMAL/SMALR, musculoskeletal dog models, procedural quadruped generators, parametric 2D rigs)? What worked, what failed, and what should we copy or avoid?
 
+## Found Oct 7 (photo template test)
+- The real wolf photo (Scout template 01) disagrees with the skeleton: chest depth with fur 0.44 vs 0.59 of surface height; elbow height 0.52 vs 0.43; nose forward of withers 0.54 vs 0.61. Suspect: `ratios.chest_depth_over_height` 0.54 (AwA keypoints have no brisket point) and the head and neck carriage. Next: measure the best Scout wolf photos the same way and correct the skeleton.
+
 ## Decisions for GrumpyDingo (one at a time, when they come up)
 - ~~Apply the fact-check's 13 suggested values to the wolf~~ done Oct 6 (GrumpyDingo said yes); the rebuilt skeleton hits every angle target.
 - The Carolina Dog: the player's own species needs its own species file (dingo and pariah-dog numbers). Build it right after the wolf?
