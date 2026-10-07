@@ -75,3 +75,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Loom · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-loom-hello.md`
 - 2026-10-07 · Lever · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-lever-hello.md`
 - 2026-10-07 · Echo · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-echo-hello.md`
+- 2026-10-07 · Lever · Den Team Inbox reskinned in the field kit look (desktop, half, phone, dark and light). → `apps/team-inbox/index.html`, `docs/team/lever/inbox-theme/`
