@@ -839,6 +839,8 @@
   "skull axis below horizontal": 20.7,
   "scapula-top height above ground (mm)": 673.6,
   "elbow height / scapula-top height": 0.535,
+  "bony neck, T1 to occiput, above horizontal": 64.2,
+  "withers-to-skull line above horizontal (AwA wolves 26)": 29.5,
   "spine top above scapula top (share of WH)": 0.079,
   "outline check (skeleton / real wolves)": {
    "body length / height": "1.24 / 1.15",
@@ -849,6 +851,7 @@
  },
  "cost": 17.365269889122576,
  "cross_scale": 2.003,
+ "head": "photos",
  "bbox": [
   [
    -172.72810766239363,
