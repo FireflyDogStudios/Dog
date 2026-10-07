@@ -1,0 +1,17 @@
+Title:    Australian Shepherd Dog "Diego" by Revopoint POP
+Author:   rapterron (https://sketchfab.com/rapterron)
+Source:   https://sketchfab.com/3d-models/06353b8c5b754ea3a8b8ca6cf0cf90af
+Licence:  Creative Commons Attribution 4.0 International (CC BY 4.0)
+          https://creativecommons.org/licenses/by/4.0/
+          (verified 2026-10-07 via https://api.sketchfab.com/v3/models/06353b8c5b754ea3a8b8ca6cf0cf90af -> license.slug = "by")
+File:     diego_scan.glb  (md5 43df1d9308074fc81e03ebc200f32ccb)
+Obtained: 2026-10-07 from the Objaverse 1.0 mirror on Hugging Face (no login needed):
+          https://huggingface.co/datasets/allenai/objaverse/resolve/main/glbs/000-092/06353b8c5b754ea3a8b8ca6cf0cf90af.glb
+          This is the GLB Sketchfab generated from the author's upload, captured by Objaverse
+          (dataset licence ODC-By 1.0; each object keeps its own licence, here CC BY 4.0).
+          Not modified.
+
+Attribution line to use:
+  "Australian Shepherd Dog "Diego" by Revopoint POP" by rapterron (https://sketchfab.com/3d-models/06353b8c5b754ea3a8b8ca6cf0cf90af), licensed under CC BY 4.0. Used as reference / modified.
+
+Subject: a real Australian Shepherd ("Diego"), lying asleep, curled. Scanned with a Revopoint POP structured-light scanner, cleaned in Meshmixer (author note, 2021). Geometry only (no texture image), 699k faces; bounding box about 131 x 38 x 149 file units (units not stated; rescale from real dog size). Underside and the ground contact are open/flat.

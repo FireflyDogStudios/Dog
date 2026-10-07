@@ -1,0 +1,17 @@
+Title:    Ella of Golden House
+Author:   3DFascination (3dfascination) (https://sketchfab.com/3dfascination)
+Source:   https://sketchfab.com/3d-models/1100336a3ab94d478e41e3136429cae4
+Licence:  Creative Commons Attribution 4.0 International (CC BY 4.0)
+          https://creativecommons.org/licenses/by/4.0/
+          (verified 2026-10-07 via https://api.sketchfab.com/v3/models/1100336a3ab94d478e41e3136429cae4 -> license.slug = "by")
+File:     ella_scan.glb  (md5 5ed4c7e99b7bfa28c5b02414755f87b1)
+Obtained: 2026-10-07 from the Objaverse 1.0 mirror on Hugging Face (no login needed):
+          https://huggingface.co/datasets/allenai/objaverse/resolve/main/glbs/000-077/1100336a3ab94d478e41e3136429cae4.glb
+          This is the GLB Sketchfab generated from the author's upload, captured by Objaverse
+          (dataset licence ODC-By 1.0; each object keeps its own licence, here CC BY 4.0).
+          Not modified.
+Author's note on Sketchfab: "Scanned with 3D scamera One+ Processed and Printed by 3D bellafigura Lab" (2015).
+Subject: a real golden retriever, sitting (scan of the live dog; texture shows real coat).
+
+Attribution line to use:
+  "Ella of Golden House" by 3DFascination (https://sketchfab.com/3d-models/1100336a3ab94d478e41e3136429cae4), licensed under CC BY 4.0. Used as reference / modified.

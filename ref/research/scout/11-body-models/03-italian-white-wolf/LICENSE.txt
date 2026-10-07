@@ -1,0 +1,18 @@
+Title:    Italian White Wolf
+Author:   SDPM Esare (sdpm) (https://sketchfab.com/sdpm)
+Source:   https://sketchfab.com/3d-models/1de9441cb0744c0d8459ce957b8d0a57
+Licence:  Creative Commons Attribution 4.0 International (CC BY 4.0)
+          https://creativecommons.org/licenses/by/4.0/
+          (verified 2026-10-07 via https://api.sketchfab.com/v3/models/1de9441cb0744c0d8459ce957b8d0a57 -> license.slug = "by")
+File:     italian_white_wolf.glb  (md5 b148c1e964b3e065bbd6c060946af0c9)
+Obtained: 2026-10-07 from the Objaverse 1.0 mirror on Hugging Face (no login needed):
+          https://huggingface.co/datasets/allenai/objaverse/resolve/main/glbs/000-009/1de9441cb0744c0d8459ce957b8d0a57.glb
+          This is the GLB Sketchfab generated from the author's upload, captured by Objaverse
+          (dataset licence ODC-By 1.0; each object keeps its own licence, here CC BY 4.0).
+          Not modified.
+
+Attribution line to use:
+  "Italian White Wolf" by SDPM Esare (sdpm) (https://sketchfab.com/3d-models/1de9441cb0744c0d8459ce957b8d0a57), licensed under CC BY 4.0. Used as reference / modified.
+
+Subject: artist-made (sculpted/modelled) grey wolf, Canis lupus italicus, standing neutral pose, 30k faces, one 1024x1024 texture, no rig. Bounding box about 2.43 (nose to tail tip) x 1.47 (height to ear tips) x 0.62 file units (units not stated).
+Provenance note: an identical mesh (same 30,484 faces) was uploaded later by another account (hamidkhan224, "Gray Wolf", 2022-03-23, also CC BY). sdpm uploaded first (2021-09-18), so sdpm is credited; a human should confirm sdpm is the original maker before shipping anything derived from it.
