@@ -4,6 +4,17 @@ Add requests at the top. Firefly or GrumpyDingo marks each one **Approved**, **D
 
 ---
 
+## A-007 · Scout 13 follow-ups: adopt the disc shares; the NC-ND cited facts; the CT fallback · from Scout · 2026-10-07 · **Decided (CT open)**
+- **Ask 1:** adopt the disc shares in `species/wolf.yaml`.
+  - **Decision:** **Approved** (Firefly, 2026-10-07). The values are neck 0.15 (B), thorax 0.15 (EST) and lumbar 0.18 (B).
+  - Applied in `skeleton.py` (2D) and `skeleton3d.py`. The sacrum stays centra-only.
+  - **Scout's 3D caution:** the 3D build divides the wolf's lengths with discs by the Beagle's joint-to-joint lengths, which include the Beagle's own discs. So the discs belong on the wolf side of that comparison. No extra gaps are added to the meshes.
+- **Ask 2:** may the four Gavira 2025 numbers (CC BY-NC-ND) be stored as cited facts?
+  - **Decision:** **Approved** (Firefly, 2026-10-07). Single measured values with their DOI are facts, not the paper's expression. No text, tables or figures from the paper are stored.
+  - They stay out of any public release (A-005).
+- **Ask 3:** the 51 GB Czeibert CT set (CC0), for measured wolf and thoracic discs.
+  - **Still GrumpyDingo's call** (size, time).
+
 ## A-006 · Regenerate the rest of the AGPL-derived keypoint numbers · from Atlas · 2026-10-07 · **Decided**
 - **Ask:** regenerate the `se_unitB` block of `ref/research/keypoints/proportions.json` and the StanfordExtra figures quoted in `ref/research/keypoints/REPORT.md` (Table C footnote, Table D last column, the breed list under Table D) from the MIT data, with the same method as `tools/atlas/regen_unitB.py`.
 - **Why:** they were computed from the AGPL-labelled Ultralytics mirror, like the CSV fixed under A-002 item 3. A-002 named only the CSV. `tools/den/species_check.py` reads only `awa_unitB`, so no tool output changes.

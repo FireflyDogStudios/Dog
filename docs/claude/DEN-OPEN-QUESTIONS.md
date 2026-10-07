@@ -41,6 +41,7 @@ Joint landmarks read through fur (especially the stifle) were too uncertain to a
 | nose height | 0.85 | 0.87 |
 The thoracic spines stand 0.17 of withers height above the scapula top (sourced 0.035): the ribcage is too tall for the scapula, or the scapula sits too low on it. That extra height also shrinks the body-length ratio. Next: fix where the scapula sits on the ribcage, then re-check the neck.
 **Fixed Oct 7:** the scapula's translation coordinates were left at Beagle size by `Model.scale`; scaled with the thorax they give body length 1.17, chest floor 0.42 (range 0.42–0.56), nose 0.54 forward and 0.85 high, spines 0.08 above the blade. Still open: the neck stands near upright to reach the photographed nose position (neck or skull still long?), and the jaw renders slightly open.
+**With the discs (Scout 13, Oct 7):** body length 1.24 (inside the 1.08–1.48 spread, 8% over the median, as Scout predicted); the longer neck folds even more upright. Suspects: the nose target comes from only 2 photos (C), and the neck's resting angle has no wolf source.
 
 ## Decisions for GrumpyDingo (one at a time, when they come up)
 - ~~Apply the fact-check's 13 suggested values to the wolf~~ done Oct 6 (GrumpyDingo said yes); the rebuilt skeleton hits every angle target.

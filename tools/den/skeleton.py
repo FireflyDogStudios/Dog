@@ -50,6 +50,8 @@ def build(sp, withers_units=24.5, ground_y=35.5):
     fem, tib, mt3 = (B[k]['value'] for k in ('femur', 'tibia', 'mt3'))
     carpus_ang = num(sp, 'angles', 'carpus_standing'); stifle_ang = num(sp, 'angles', 'stifle_standing'); hock_ang = num(sp, 'angles', 'hock_standing'); shoulder_ang = num(sp, 'angles', 'shoulder_standing'); elbow_ang = num(sp, 'angles', 'elbow_standing')
     pre = num(sp, 'spine', 'presacral_length'); thor = pre * num(sp, 'spine', 'thorax_share'); lumb = pre * num(sp, 'spine', 'lumbar_share'); neck = pre * num(sp, 'spine', 'neck_share')
+    disc = lambda k: 1 / (1 - sp['numbers']['spine'].get(f'disc_share_{k}', {}).get('value', 0.0))   # add the discs (Scout 13); the sacrum stays centra-only
+    thor *= disc('thorax'); lumb *= disc('lumbar'); neck *= disc('neck')
     cbl = num(sp, 'skull', 'condylobasal_length'); bcl = num(sp, 'skull', 'braincase_over_length') * cbl
     chest = num(sp, 'ratios', 'chest_depth_over_height') * H; tail_len = num(sp, 'size', 'tail_length'); tail_carry = num(sp, 'angles', 'tail_carriage')
     ear = num(sp, 'size', 'ear_length'); muzzle_bend = 180 - num(sp, 'angles', 'head_muzzle_vs_skull')

@@ -54,8 +54,9 @@ def build(sid):
             'femur': B['femur']['value'], 'tibia': B['tibia']['value'], 'mt': B['mt3']['value'], 'thorax': pre * SP['thorax_share']['value'],
             'lumbar': pre * SP['lumbar_share']['value'], 'neck': pre * SP['neck_share']['value'], 'skull': SK['condylobasal_length']['value']}
     f = {k: wolf[k] / beagle[k] for k in wolf}
-    disc = 1 + SP.get('disc_share', {}).get('value', 0.0)                              # vertebral bodies + discs
-    f['thorax'] *= disc; f['lumbar'] *= disc; f['neck'] *= disc
+    # Law's spine lengths are vertebral bodies only; the Beagle's joint-to-joint lengths include its discs, so the wolf gets its discs (Scout 13) before comparing.
+    # The meshes are not given extra gaps: they scale with their own.
+    for k in ('thorax', 'lumbar', 'neck'): f[k] /= 1 - SP.get(f'disc_share_{k}', {}).get('value', 0.0)
     body_f = {'thorax': f['thorax'], 'abdomen': f['lumbar'], 'cervix': f['neck'], 'caput': f['skull'], 'cauda': (f['lumbar'] + f['femur']) / 2, 'pelvis': f['femur']}
     for sd in ('left', 'right'):
         body_f.update({f'{sd}_scapula': f['scapula'], f'{sd}_humerus': f['humerus'], f'{sd}_antebrachium': f['radius'], f'{sd}_carpus': f['mc'], f'{sd}_forepaw': f['mc'],
