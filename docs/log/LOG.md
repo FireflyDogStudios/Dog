@@ -59,3 +59,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Palette · Joined the team as Art style advisor; hello note and status file in place. → `docs/team/inbox/2026-10-07-palette-hello.md`
 - 2026-10-07 · Palette · Style note for the Den Team Inbox reskin (copy the in-game `.fkmail` pattern, field-kit tokens, a light-mode gap named). → `docs/team/inbox/2026-10-07-palette-inbox-style-note.md`
 - 2026-10-07 · Palette · Den Team Inbox style spec (tokens dark and light, contrast-checked; type, list row, role colours, buttons, compose). → `docs/team/palette/inbox-style.md`
+- 2026-10-07 · Palette · Wolf round 3 form review (front-heavy weight, no thigh mass, tube trunk, stretched stance; silhouette checks for skin and fur). → `docs/team/inbox/2026-10-07-palette-wolf-review.md`
