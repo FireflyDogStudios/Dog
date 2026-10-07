@@ -11,7 +11,7 @@ Oct 7, 2026, at GrumpyDingo's request. After `ref/research/fetched/` (see its `R
 
 | `wolf-skull/` | Real wolf skull shape, jaw hinge and gape | found | Two MRI PAS wolf skull scans (CC BY 4.0, Open Forest Data): CBL 244 / 226 mm, zygomatic breadth 143 / 140; jaw hinge level with the tooth row at 0.75-0.77 CBL behind the nose; gape EST natural 46-50°, hard 64-73° (supports wolf.yaml 50/65); side and top outlines, landmarks, four decimated GLB meshes. wolf.yaml's braincase 0.42 is not basion-nasion (0.55-0.57). |
 | `atlas-plates/` | Firefly could not reach the UW library | found | Ellenberger-Baum Tafel 1 and Tafel 3 at full resolution (no known copyright): the images `fetched/01-skin-offsets` was measured on. |
-| `skull-candidates/` | More skulls for the species list | in progress | `AUTOMATION.md`: proposed `./den skulls` pipeline (discover, licence, fetch, normalise, register landmarks, measure, outline, export, QA). Candidate links per species and bulk collections: harvest running. |
+| `skull-candidates/` | More skulls for the species list | links found (nothing downloaded) | `AUTOMATION.md`: proposed `./den skulls` pipeline (discover, licence, fetch, normalise, register landmarks, measure, outline, export, QA). `candidates.csv` (408 models, 190 usable) and `collections.csv` (25 bulk sources), all licence-checked; best picks per species in `SUMMARY.md`. No usable 3D for dingo-type dogs, side-striped jackal, striped hyena or *C. lupaster*; Meloro & Tamagnini 2021 (CC0) gives 2D skull shapes for every wild target species. |
 
 ## For Firefly to apply (suggestions, not done)
 1. `07-dingo/data.csv`: replace the dingo tibia estimate with 182.5 mm and cite the verified formulas (`dingo-limb-bones/`).
