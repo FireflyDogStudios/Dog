@@ -3,6 +3,8 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-07
+- 2026-10-07 · Firefly · Reviewed and merged Atlas's branch (docs only; findings spot-checked: NaN count, AGPL provenance, placeholder muscles, trot duty factor all confirmed). Decided A-001 to A-005 in `APPROVALS.md`; applied A-001 (`CLAUDE.md` pointer), A-002 items 1–2 (`species/wolf.yaml`: chest ratio relabelled as a surface measure, trot hind duty 0.425) and A-003 (`DEN-MATERIALS.md`). A-005 (public licence) is GrumpyDingo's call.
+- 2026-10-07 · Firefly · Built `./den skeleton3d` (real Stark bones scaled per bone to the wolf, stood in sourced angles with OpenSim, rendered in Blender) and `./den overlay3d` (check against a real photo): chest matches, trunk ~12% short, neck and head too far forward. → `species/build/wolf.skel3d.png`, `docs/claude/DEN-OPEN-QUESTIONS.md`
 - 2026-10-07 · Atlas · **Keynote:** the wolf chest depth of 0.54 is a misapplied photo ratio (AwA mid-back to belly, with fur, applied to bone withers height). Bone evidence points to about 0.35–0.40 WH. → `docs/research-package/06-gaps-and-risks.md#wrong-data`
 - 2026-10-07 · Atlas · **Keynote:** `fetched/02-outline-landmarks/data.json` holds 15,554 `NaN` tokens (not strict JSON); `keypoints/stanfordextra_breeds_unitB.csv` came from the AGPL Ultralytics mirror; 4 Stark trunk muscles have 1.0 N placeholder Fmax. → `docs/research-package/06-gaps-and-risks.md`
 - 2026-10-07 · Atlas · **Keynote:** the Stark 3D meshes are in the repo (`scout/10-stark-meshes/`), not only in Drive as `DEN-MATERIALS.md` says. Mech 1974 *Canis lupus* is now in Drive, though `scout/03-wolf-coat` lists it as blocked. → `docs/log/APPROVALS.md`
