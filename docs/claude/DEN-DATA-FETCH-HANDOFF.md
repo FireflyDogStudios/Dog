@@ -1,6 +1,6 @@
 # Data fetch: handoff for Firefly
 
-Written Oct 7, 2026 by the data-fetch session (GrumpyDingo's request), for Firefly; updated the same day after a second search for the gaps. It covers what was fetched for `docs/claude/DEN-DATA-WISHLIST.md`, where everything lives (repo and Drive), the licences and credits, the caveats, and what to do next. Per-item detail is in `ref/research/fetched/REPORT.md`, `ref/research/missingfound/README.md` and each folder's `NOTE.md` / `SUMMARY.md`.
+Written Oct 7, 2026 by **Scout** (the data-fetch session; GrumpyDingo named it), for Firefly; updated the same day after a second search for the gaps. It covers what was fetched for `docs/claude/DEN-DATA-WISHLIST.md`, where everything lives (repo and Drive), the licences and credits, the caveats, and what to do next. Per-item detail is in `ref/research/fetched/REPORT.md`, `ref/research/missingfound/README.md` and each folder's `NOTE.md` / `SUMMARY.md`.
 
 ## 0. Warnings first (read before using any number)
 1. **Corrections are written, not applied.** Several earlier numbers turned out wrong or weak; the fixes sit in `ref/research/missingfound/` and were **not** copied into `fetched/` or `species/`. Apply them yourself (list in section 3a):
