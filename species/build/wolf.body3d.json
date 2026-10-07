@@ -2,8 +2,37 @@
  "id": "wolf",
  "report": {
   "TPS bending (share of withers height, beyond an affine stretch)": 0.144,
-  "body outline covered by muscle, filler or bone": 0.953,
+  "body outline covered by muscle, filler or bone": 0.954,
   "muscles from the plate": 25,
+  "C2 spine top (side mm)": [
+   512,
+   824
+  ],
+  "tail root x (mm)": -241,
+  "topline over the withers (wolf photo, fur: mid-back 0.97, croup 0.92, tail root 0.82; plate dog level)": {
+   "withers": 0.998,
+   "T8": 1.006,
+   "L3": 1.036,
+   "croup": 1.028,
+   "tail root": 1.014
+  },
+  "girth, width, depth (WH; Scout 14 tape: neck 0.53, chest 1.07-1.20, waist 0.77; chest width 0.19-0.26)": {
+   "neck at mid-neck (across the neck)": [
+    1.18,
+    0.4,
+    0.35
+   ],
+   "chest at the elbow": [
+    1.56,
+    0.42,
+    0.56
+   ],
+   "waist at the last rib": [
+    1.43,
+    0.45,
+    0.45
+   ]
+  },
   "estimated (not in Stark)": [
    "sternohyoid_ventral_strap_zone",
    "sternocephalicus",
@@ -24,10 +53,10 @@
   },
   "gluteus_superficialis": {
    "volume_cm3": 64.7,
-   "shown_on_near_face": 0.46,
-   "area_cm2": 23.6,
-   "mean_thickness_mm": 12.5,
-   "max_thickness_mm": 21.3,
+   "shown_on_near_face": 0.48,
+   "area_cm2": 24.0,
+   "mean_thickness_mm": 13.0,
+   "max_thickness_mm": 22.4,
    "from": "Hill volume"
   },
   "deltoid_scapular_part": {
@@ -97,7 +126,7 @@
   "semitendinosus": {
    "volume_cm3": 110.3,
    "shown_on_near_face": 0.31,
-   "area_cm2": 36.6,
+   "area_cm2": 36.9,
    "mean_thickness_mm": 9.4,
    "max_thickness_mm": 16.1,
    "from": "Hill volume"
@@ -169,7 +198,7 @@
   "trapezius_thoracic": {
    "volume_cm3": 40.2,
    "shown_on_near_face": 1.0,
-   "area_cm2": 98.7,
+   "area_cm2": 98.2,
    "mean_thickness_mm": 4.1,
    "max_thickness_mm": 7.5,
    "from": "Hill volume"
@@ -177,9 +206,9 @@
   "trapezius_cervical": {
    "volume_cm3": 26.6,
    "shown_on_near_face": 1.0,
-   "area_cm2": 167.0,
-   "mean_thickness_mm": 1.6,
-   "max_thickness_mm": 2.6,
+   "area_cm2": 159.3,
+   "mean_thickness_mm": 1.7,
+   "max_thickness_mm": 2.8,
    "from": "Hill volume"
   },
   "cleidobrachialis": {
@@ -193,9 +222,9 @@
   "brachiocephalicus_cleidocephalicus": {
    "volume_cm3": 69.1,
    "shown_on_near_face": 1.0,
-   "area_cm2": 234.8,
-   "mean_thickness_mm": 2.9,
-   "max_thickness_mm": 5.6,
+   "area_cm2": 245.3,
+   "mean_thickness_mm": 2.8,
+   "max_thickness_mm": 5.2,
    "from": "Hill volume"
   },
   "masseter": {
