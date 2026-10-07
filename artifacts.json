@@ -6,22 +6,93 @@
     "source": "apps/den-ledger/src",
     "build": "node apps/den-ledger/build.mjs",
     "publish": "apps/den-ledger/dist/index.html",
-    "attachedFiles": ["art-base.css", "art-alt.css", "pixi.min.js", "proton.web.min.js"],
+    "attachedFiles": [
+      "art-base.css",
+      "art-alt.css",
+      "pixi.min.js",
+      "proton.web.min.js"
+    ],
     "attachedFilesSource": "apps/den-ledger/public",
-    "capabilities": ["db", "user"],
+    "capabilities": [
+      "db",
+      "user"
+    ],
     "status": "live"
   },
-  "gear-bench": { "url": "https://claude.ai/artifact/YM5BQsk83Kwd1S6pGG3EcL", "attachedFiles": ["pixi.min.js"], "title": "Den Gear Bench", "source": "apps/gear-bench/index.html", "publish": "apps/gear-bench/index.html", "status": "live" },
-  "pixi-bench": { "url": "https://claude.ai/artifact/LXdgL2k38t7ZdjDBk5r4Bw", "title": "Den Pixi Bench", "source": "apps/pixi-bench/index.html", "publish": "apps/pixi-bench/index.html", "status": "live" },
-  "dingo-workbench": { "url": "https://claude.ai/artifact/2N5JULUbfKNkKB3szMUo8Y", "title": "Den Dingo Workbench", "source": "apps/dingo-workbench/index.html", "publish": "apps/dingo-workbench/index.html", "status": "live" },
-  "stillroom": { "url": "https://claude.ai/artifact/T5Y5iGAeRTPMQEfFhJJs4M", "title": "Den Stillroom", "source": "apps/stillroom/index.html", "publish": "apps/stillroom/index.html", "status": "live" },
+  "gear-bench": {
+    "url": "https://claude.ai/artifact/YM5BQsk83Kwd1S6pGG3EcL",
+    "attachedFiles": [
+      "pixi.min.js"
+    ],
+    "title": "Den Gear Bench",
+    "source": "apps/gear-bench/index.html",
+    "publish": "apps/gear-bench/index.html",
+    "status": "live"
+  },
+  "pixi-bench": {
+    "url": "https://claude.ai/artifact/LXdgL2k38t7ZdjDBk5r4Bw",
+    "title": "Den Pixi Bench",
+    "source": "apps/pixi-bench/index.html",
+    "publish": "apps/pixi-bench/index.html",
+    "status": "live"
+  },
+  "dingo-workbench": {
+    "url": "https://claude.ai/artifact/2N5JULUbfKNkKB3szMUo8Y",
+    "title": "Den Dingo Workbench",
+    "source": "apps/dingo-workbench/index.html",
+    "publish": "apps/dingo-workbench/index.html",
+    "status": "live"
+  },
+  "stillroom": {
+    "url": "https://claude.ai/artifact/T5Y5iGAeRTPMQEfFhJJs4M",
+    "title": "Den Stillroom",
+    "source": "apps/stillroom/index.html",
+    "publish": "apps/stillroom/index.html",
+    "status": "live"
+  },
   "archive": {
-    "den-ledger-oct1": { "url": "https://claude.ai/artifact/NUJoMc4k9TXFYGMdPwgu3F", "source": "archive/den-ledger-oct1/index.html", "note": "older copy of the game (Oct 1)" },
-    "smithy": { "url": "https://claude.ai/artifact/AX1AckrJ39AdzZ16Vt4XSs", "source": "archive/smithy/index.html", "note": "gear-crafting prototype (Oct 2); its source became the Smithy block" },
-    "weapon-forge": { "url": "https://claude.ai/artifact/VWys8gnSDCt1LJyXwM9nCs", "source": "archive/weapon-forge/index.html" },
-    "inventory-mockup": { "url": "https://claude.ai/artifact/9bxWvmV1DkVnA2Z4BnDRAt", "source": "archive/inventory-mockup/index.html" },
-    "field-kit": { "url": "https://claude.ai/artifact/1vXfDMziP9Va4AjkpKLEUd", "source": "archive/field-kit/index.html" },
-    "look-studio": { "url": "https://claude.ai/artifact/3hynkNvYbjrdsSDy4Mw2Jw", "source": "archive/look-studio/index.html" },
-    "dingo-style-studio": { "url": "https://claude.ai/artifact/MVxnkDzLu3inYcetEXc1xi", "source": "archive/dingo-style-studio/project", "note": "Design-type canvas; only its project/ files are kept. Weapon images referenced as /_blob/... are not in the repo." }
+    "den-ledger-oct1": {
+      "url": "https://claude.ai/artifact/NUJoMc4k9TXFYGMdPwgu3F",
+      "source": "archive/den-ledger-oct1/index.html",
+      "note": "older copy of the game (Oct 1)"
+    },
+    "smithy": {
+      "url": "https://claude.ai/artifact/AX1AckrJ39AdzZ16Vt4XSs",
+      "source": "archive/smithy/index.html",
+      "note": "gear-crafting prototype (Oct 2); its source became the Smithy block"
+    },
+    "weapon-forge": {
+      "url": "https://claude.ai/artifact/VWys8gnSDCt1LJyXwM9nCs",
+      "source": "archive/weapon-forge/index.html"
+    },
+    "inventory-mockup": {
+      "url": "https://claude.ai/artifact/9bxWvmV1DkVnA2Z4BnDRAt",
+      "source": "archive/inventory-mockup/index.html"
+    },
+    "field-kit": {
+      "url": "https://claude.ai/artifact/1vXfDMziP9Va4AjkpKLEUd",
+      "source": "archive/field-kit/index.html"
+    },
+    "look-studio": {
+      "url": "https://claude.ai/artifact/3hynkNvYbjrdsSDy4Mw2Jw",
+      "source": "archive/look-studio/index.html"
+    },
+    "dingo-style-studio": {
+      "url": "https://claude.ai/artifact/MVxnkDzLu3inYcetEXc1xi",
+      "source": "archive/dingo-style-studio/project",
+      "note": "Design-type canvas; only its project/ files are kept. Weapon images referenced as /_blob/... are not in the repo."
+    }
+  },
+  "team-inbox": {
+    "url": "https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK",
+    "title": "Den Team Inbox",
+    "source": "apps/team-inbox/index.html",
+    "publish": "apps/team-inbox/index.html",
+    "capabilities": [
+      "db",
+      "mcp: Claude Code Remote / list_sessions"
+    ],
+    "store": "notes/<id>, members/<nick>, meta/sync (Firefly fills them after tools/team/inbox.py)",
+    "status": "live"
   }
 }

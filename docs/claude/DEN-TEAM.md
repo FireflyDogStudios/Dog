@@ -22,18 +22,38 @@ Proposed by Firefly at GrumpyDingo's request ("promote you to a lead role; creat
 | *Later:* **Game** | Game - Smith | Sonnet or Opus | — | The game and gear code when that work resumes (gear refit to hero2 or the new hero, engine wiring, Pixi slices), with the kill checks | its own branch |
 
 ### The studio, as needs come up (GrumpyDingo, Oct 7)
-The rule: **when we meet a kind of work, one specialist owns it, and Firefly coordinates.** Each specialist works on one system or aspect, so no session grows into one big ball. They join as the work arrives, not before.
+The rule: **when we meet a kind of work, one specialist owns it, and Firefly coordinates.** Each specialist works on one system or aspect, so no session grows into one big ball. Setting a member up costs nothing: they get a welcome message (`docs/team/welcome/<nick>.md`) and wait for their first request.
 
-| Role | Session name | Model | Owns | Joins when |
-|---|---|---|---|---|
-| **Creative engineer** | Engine - Spark | Opus | The game engine as a whole (`engine/`, the build, wiring the newer `se.js` and `rig.js` into the game); works with the Builders (the "Forgers"); the engine-level calls on how systems fit together | When game work resumes after the dog hurdle |
-| **Builders ("Forgers")** | Forge - <topic> | Sonnet or Opus | One well-specified build slice each (a species run, a gear refit, a Pixi slice), handed over by Firefly or Spark | Now for species slices; more as needed |
-| **Art style advisor** | Style - Palette | Opus | The look: style tests on the new models, references (learn, never copy), style guides, judging consistency before GrumpyDingo judges | Once the wolf has skin and fur (style tests) |
-| **Sound engineer** | Sound - Echo | Sonnet | Sound design and music direction: open-licence sound libraries, a sound engine with presets (like Proton for effects), the sound map per action | When game work resumes |
-| **Systems designer** | Systems - Loom | Opus | Game systems design (loot, skills and status, crafting, idle loop, progression), written as specs first | When game work resumes |
-| **Balance** | Balance - Scale | Sonnet | The numbers: power curves, drop rates, simulations (short ones; GrumpyDingo's rule), always talked through before changes | After items and armour (GrumpyDingo's order) |
-| **Level designer** | Levels - Trail | Sonnet | The Meadow first: zones, pacing, encounter placement | When zones come back |
-| **Tools and admin panel** | Tools - Lever | Sonnet | An admin layer for GrumpyDingo: view and edit game data, spawn items and creatures, jump to states, toggle debug views; built as an engine panel in the game or a separate artifact | When game work resumes (early: it speeds everyone up) |
+| Nick | Role | Owns | First real work |
+|---|---|---|---|
+| **Forge** | Builders (the "Forgers"; Forge-1, Forge-2 … when several run) | One well-specified build slice each: a species run, a gear refit, a Pixi slice | The Husky: measure Shutter's stacks, write `species/husky.yaml`, run the skeleton |
+| **Spark** | Creative engineer | The game engine as a whole: `engine/`, the build, wiring the newer `se.js` and `rig.js` into the game; how systems fit together; leads the Forgers on engine work | When game work resumes |
+| **Palette** | Art style advisor | The look: style tests on the new models, style guides, consistency checks before GrumpyDingo judges; learns from references, never copies | Once the wolf has skin and fur |
+| **Reel** | Storyboard | Scenes, sequences and screen flows before anyone builds them: beat sheets, shot lists, rough boards (simple SVG or text panels), the idle loop's moments, the companion's first meeting | When the hero's look is settled |
+| **Echo** | Sound engineer | Open-licence sound libraries, a sound engine with presets (as Proton is for effects), the sound map per action | When game work resumes |
+| **Loom** | Systems designer | Game systems as specs first: loot, skills and status, crafting, the idle loop, progression | When game work resumes |
+| **Scale** | Balance | Power curves, drop rates, short simulations (GrumpyDingo's rule), always talked through before any change | After items and armour (GrumpyDingo's order) |
+| **Trail** | Level designer | The Meadow first: zones, pacing, encounter placement | When zones come back |
+| **Lever** | Tools and admin panel | An admin layer for GrumpyDingo: view and edit game data, spawn items and creatures, jump to states, debug views | Early once game work resumes: it speeds everyone up |
+
+### Model by task (Firefly's advice)
+The session's model is the member's own judgement. Its sub-agents do the legwork, matched to the task. Review always sits one tier above bulk work.
+
+| Member | Session | Task → sub-agent tier | Why |
+|---|---|---|---|
+| Firefly | Opus | Codebase searches → Explore; long test or build runs → Sonnet | Reviewing, merging and building need the strongest judgement |
+| Scout | Fable (GrumpyDingo's choice) or Opus | Reading and extracting papers → Sonnet; fetching pages, licence pages, link lists → Haiku; cross-checking a number across sources → Scout itself | Research mistakes are expensive. Bulk fetches are not |
+| Atlas | Sonnet | Link and licence sweeps, counts, NaN checks → Haiku; licence edge cases → up to Firefly | Careful organising; rarely needs deep invention |
+| Shutter | Sonnet | Searching and pre-screening by metadata → Haiku; looking at each image and the final licence call → Shutter | Judging images needs vision and care; the searching is bulk |
+| Forge | Sonnet; Opus for 3D, geometry or solver work | Running builds and renders → itself; repo searches → Explore | Slices are well specified; hard geometry earns Opus |
+| Spark | Opus | Code reading → Explore; test runs → Sonnet | Engine architecture is the costliest place to be wrong |
+| Palette | Opus | Gathering references → Haiku; style tests → itself | Taste and consistency need the strongest eye |
+| Reel | Opus | Drafting panels and shot lists → Sonnet | Storytelling choices need taste; drafting doesn't |
+| Echo | Sonnet | Library sweeps and licence pages → Haiku | Mostly sourcing and wiring presets |
+| Loom | Opus | Reading the existing docs → Sonnet | System design shapes everything after it |
+| Scale | Sonnet, with Opus review of any curve change | Sim runs → itself | Numbers work; the decisions go to GrumpyDingo |
+| Trail | Sonnet | — | Layout and pacing on top of Loom's systems |
+| Lever | Sonnet | Test runs → Haiku | Straightforward tool building |
 
 Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDingo chose). Pick the current version of each tier when a session is created.
 
@@ -54,6 +74,35 @@ Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDi
    - **When Firefly checks:** at the start of each working block, and when GrumpyDingo says a role has finished.
    - **Notes are retired** by merging the branch (the note is then in Firefly's tree). Firefly answers in the next request or message, never in the role's files.
 6. **Decisions:** go to GrumpyDingo one at a time (the `ask-grumpy` skill), with the lead's recommendation first.
+
+## Message format (DEN-MSG v1)
+Every message between Firefly (or GrumpyDingo) and a member uses this shape, so anyone can tell at a glance what it asks and where the answer goes. The Den Team Inbox page builds it for GrumpyDingo.
+```
+DEN-MSG v1
+To: <nick> (<role>)
+From: Firefly (lead) | GrumpyDingo
+Re: <subject, a few words>
+Type: request | answer | fyi | welcome
+Priority: now | next | later
+Approved by: GrumpyDingo (A-0nn) | not needed
+Request file: <docs/claude/DEN-...md, if there is one>
+Deliver to: <branch> · <folder>
+---
+<plain bullets: what to do, what to watch for>
+---
+Reply: leave a note in docs/team/inbox/ on your branch and update docs/team/status/<nick>.md.
+```
+Notes back to Firefly use the note format in `docs/team/README.md`.
+
+## The Den Team Inbox (GrumpyDingo's view)
+- **URL:** https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK (private; source `apps/team-inbox/index.html`).
+- **What it shows:**
+  - the notes that need GrumpyDingo;
+  - the team board: role, status file, and the session's live state, read through the Claude Code Remote connector every minute;
+  - every note, with "mark read" and "done" buttons;
+  - a composer for DEN-MSG messages.
+- **Who fills it:** Firefly runs `tools/team/inbox.py` and copies new notes and status files into the page's store, `notes/<id>`, `members/<nick>` and `meta/sync`.
+- **Notifications:** when a check finds something that needs GrumpyDingo, Firefly also sends a push notification.
 
 ## House rules for every role
 - **Licences:**
