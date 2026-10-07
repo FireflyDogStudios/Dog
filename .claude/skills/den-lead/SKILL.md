@@ -16,7 +16,7 @@ GrumpyDingo designs and judges. Firefly coordinates 13 members and builds. The r
    - Mark notes you've handled `done`.
    - Update `members/firefly` and `meta/sync`.
    - Read before writing, and pin every write with `if_version`. Batch the writes.
-5. **Mail out:** `list` `outbox`. The hourly **Den Courier** (Routine `trig_01FTYTicUVjUty7RqDC7K6F1`, at :40) normally delivers it. If anything sits there for over an hour, or `meta/courier` shows errors, deliver it yourself: `send_message` the doc's `text` verbatim to each member's `session_id`, then `set sent/<id>` and `delete outbox/<id>` in one batch.
+5. **Mail out:** members pick up their own Outbox mail when they start work (DEN-TEAM "Mail pickup"). On "push my messages" from GrumpyDingo, `list` `outbox` and `send_message` each doc's `text` verbatim to every To and Cc member who hasn't picked it up yet. Then, in one batch, `set sent/<id>` (results "delivered by Firefly") and `delete outbox/<id>`. Mail older than a day: mention it to GrumpyDingo. The hourly courier Routine is **disabled** (GrumpyDingo, Oct 7); never re-enable it unasked.
 6. **Log** one line in `docs/log/LOG.md` for anything that changed, commit and push.
 
 ## 2. Who to ask for what
@@ -66,9 +66,9 @@ Reply: a note in docs/team/inbox/ on your branch, and update docs/team/status/<n
 
 ## 4. The inbox page and the courier (facts that cost time to learn)
 - **The page uses one connector, Claude Code Remote** (`list_sessions`, `send_message`). It is built in, so it isn't listed at claude.ai/customize/connectors.
-- **Sends from the page fail with `blocked_by_policy`.** GrumpyDingo is on a personal plan, and the "Enable artifact connectors" org setting doesn't exist there. Mail goes Outbox → courier → Sent. That's normal; don't treat it as a bug.
-- **The courier's sessions have no repo checkout.** They can read and write the store, but not git.
-- **Cost:** a run was about $0.14 on the default model before trimming. A model change is GrumpyDingo's call.
+- **Sends from the page fail with `blocked_by_policy`.** GrumpyDingo is on a personal plan, and the "Enable artifact connectors" org setting doesn't exist there. Mail goes Outbox → member pickup (or Firefly on "push my messages") → Sent. That's normal; don't treat it as a bug.
+- **Sessions can read and write the page's store with ArtifactData** (shown by the courier test); Routine sessions get no repo checkout.
+- **The hourly courier cost about $0.14 a run, so it's disabled.** Ongoing costs are GrumpyDingo's call.
 - **Republishing the page:** `Artifact` read first, then publish `apps/team-inbox/index.html` to the same URL and omit `capabilities` (that keeps `db` and `mcp`). Members never publish.
 
 ## 5. Review checklist before any merge
