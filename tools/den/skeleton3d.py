@@ -30,9 +30,42 @@ CH = {'shoulder': 'left_scapula_left_humerus', 'elbow': 'left_humerus_left_anteb
       'hip': 'pelvis_left_femur', 'stifle': 'left_femur_left_crus', 'hock': 'left_crus_left_calx', 'mtp': 'left_calx_left_hindpaw',
       'T1': 'thorax_cervix', 'TL': 'thorax_abdomen', 'LS': 'abdomen_cauda', 'occ': 'cervix_caput'}
 
+MESHFILE = {}   # body -> a species' own mesh in place of Stark's (e.g. the wolf's real skull), in the Stark body's local frame and units
+def mesh_file(body): return MESHFILE.get(body, MESH / f'meshes/{body}.glb')
+def mesh_for(sk, body):   # for the later steps: the mesh a built skeleton used for this body
+    m = sk['bodies'][body].get('mesh'); return ROOT / m if m else MESH / f'meshes/{body}.glb'
+
+def fit_skull(sid, spec, CBL, scale):
+    """A real skull scan (ref/research/missingfound/wolf-skull: x forward, y up, z right, mm, origin at the jaw hinge; jaw closed) in place of the
+       Beagle's head: scaled to the species' condylobasal length, its occipital condyles pinned on the head joint (the Beagle head's origin), and
+       turned onto the Beagle braincase by a trimmed point fit (the closest 60% of points; the Beagle's open jaw finds no partner and is ignored).
+       Written in the Beagle head's local frame, divided by the head's mesh scale, so every step places it exactly like the bone it replaces."""
+    import trimesh
+    from scipy.spatial import cKDTree
+    src_dir = ROOT / spec['source']; wid = str(spec['specimen'])
+    ld = lambda f: (lambda sc: sc.to_geometry() if hasattr(sc, 'to_geometry') else sc)(trimesh.load(src_dir / f))
+    sk, mb = ld(f'wolf_{wid}_skull.glb'), ld(f'wolf_{wid}_mandible.glb')
+    lm = json.load(open(src_dir / 'data.json'))['wolves'][wid]; k = CBL / lm['condylobasal_length_mm']; L = lm['landmarks_3d_mm']
+    M = np.array([[0, 0, -1], [-1, 0, 0], [0, 1, 0]], float)                       # (forward, up, right) -> Stark body (X left, Y back, Z up)
+    to_b = lambda P: (np.asarray(P, float) @ M.T) * k
+    sc = trimesh.load(MESH / 'meshes/caput.glb'); bg = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc
+    Bw = np.asarray(bg.vertices) * np.asarray(scale); tree = cKDTree(Bw)
+    Vs = to_b(sk.vertices); cond = to_b([(np.array(L['occipital_condyle_caudal_right']) + np.array(L['occipital_condyle_caudal_left'])) / 2])[0]
+    src = Vs[np.random.default_rng(0).choice(len(Vs), 6000, replace=False)]; R = np.eye(3); t = -cond
+    for _ in range(80):
+        P = src @ R.T + t; d, i = tree.query(P); keep = d < np.quantile(d, 0.6)
+        A = np.vstack([P[keep], np.repeat((cond @ R.T + t)[None], 200, 0)]); Bq = np.vstack([Bw[i[keep]], np.zeros((200, 3))])   # condyles stay on the joint
+        ca, cb = A.mean(0), Bq.mean(0); U, _, Vt = np.linalg.svd((A - ca).T @ (Bq - cb)); D = np.diag([1, 1, np.sign(np.linalg.det(Vt.T @ U.T))]); dR = Vt.T @ D @ U.T
+        R = dR @ R; t = dR @ (t - ca) + cb
+    gap = float(np.median(tree.query(src @ R.T + t)[0])); turn = float(np.degrees(np.arccos(np.clip((np.trace(R) - 1) / 2, -1, 1))))
+    g = trimesh.util.concatenate([sk, mb]); g = trimesh.Trimesh((to_b(g.vertices) @ R.T + t) / np.asarray(scale), g.faces, process=False)
+    out = BUILD / 'meshes' / sid; out.mkdir(parents=True, exist_ok=True); f = out / 'caput.glb'; g.export(f)
+    return f, {'specimen': wid, 'scaled to CBL': round(k, 3), 'median gap to the Beagle braincase (mm)': round(gap, 1),
+               'turned off the axis map (deg)': round(turn, 1), 'condyles to head joint (mm)': round(float(np.linalg.norm(cond @ R.T + t)), 1)}
+
 def mesh_pts(body, n=4000):
     import trimesh
-    sc = trimesh.load(MESH / f'meshes/{body}.glb'); g = sc.dump(concatenate=True) if hasattr(sc, 'dump') else sc
+    sc = trimesh.load(mesh_file(body)); g = sc.dump(concatenate=True) if hasattr(sc, 'dump') else sc
     v = np.asarray(g.vertices); return v[np.random.default_rng(0).choice(len(v), min(n, len(v)), replace=False)]
 
 def to_ground(m, s, body, P_mm, scale):
@@ -65,20 +98,40 @@ def build(sid, head='awa'):
     # limb bones: stretched along their own axis (body Z) by their length ratio; thickness by the overall size ratio (mean of the limb ratios)
     cross = float(np.mean([f[k] for k in ('humerus', 'radius', 'femur', 'tibia')])); limb = lambda b: any(t in b for t in ('scapula', 'humerus', 'antebrachium', 'carpus', 'forepaw', 'femur', 'crus', 'calx', 'hindpaw'))
     vec = {b: ((cross, cross, k) if limb(b) else (cross, k, cross) if b in ('thorax', 'abdomen', 'cervix') else (k, k, k)) for b, k in body_f.items()}
+    # the rib cage's width: per-bone scaling keeps the Beagle's barrel chest (0.45 of withers height wide at wolf size); squash it sideways to the
+    # species' width (Scout 16: wolf ~0.26), using withers height from the last build (the side view does not depend on the width)
+    lat = 1.0; tw = SP.get('thorax_width_over_wh')
+    if tw:
+        th = mesh_pts('thorax', 20000) * scales0['thorax'] * cross; prev = BUILD / f'{sid}.skel3d.json'
+        wh = json.load(open(prev))['joints_side_mm']['scap_top'][1] if prev.exists() else 0.9 * sp['size']['shoulder_height']['value']
+        lat = tw['value'] * wh / np.ptp(th[:, 0]); vec['thorax'] = (cross * lat, f['thorax'], cross)
     # trunk and neck: length (body Y, along the spine) by the spine ratio, depth and width (X, Z) by the overall size ratio, so the ribcage keeps a real depth
     ss = osim.ScaleSet()
     for b, v in vec.items():
         sc = osim.Scale(); sc.setSegmentName(b); sc.setScaleFactors(osim.Vec3(*v)); sc.setApply(True); ss.cloneAndAppend(sc)
     m.scale(s, ss, True); s = m.initSystem()
     mesh_scale = {b: [scales0[b] * c for c in vec[b]] for b in vec}
+    MESHFILE.clear(); skull_fit = None
+    sk_mesh = (yaml.safe_load(open(ROOT / f'species/{sid}.yaml')).get('meshes') or {}).get('caput')
+    if sk_mesh:                                                                    # the species' own skull scan in place of the Beagle head
+        MESHFILE['caput'], skull_fit = fit_skull(sid, sk_mesh, SK['condylobasal_length']['value'], mesh_scale['caput'])
     cs = m.getCoordinateSet(); C = lambda n: cs.get(n)
     for i in range(cs.getSize()): cs.get(i).set_clamped(False); cs.get(i).set_locked(False)         # the model's default ranges are not anatomical (fetched/03 NOTE); limits are checked separately
     # the scapula slides on the ribcage through translation coordinates. Model.scale leaves them alone, and the Beagle file never rescaled them from the
     # Shepherd-sized original (identical values in both files; every other joint is the Shepherd's x0.8 trunk / x0.6 limbs). So: Shepherd value x 0.8
     # (to the Beagle's trunk) x the wolf/Beagle thorax factors (x across and z up by girth, y along the spine by thorax length)
     for sd in ('left', 'right'):
-        for ax, k in (('x', cross), ('y', f['thorax']), ('z', cross)):
+        for ax, k in (('x', cross * lat), ('y', f['thorax']), ('z', cross)):          # the blades follow the narrower ribs inward
             c = C(f'{sd}_r_m_superioris_trans{ax}'); c.setDefaultValue(c.getDefaultValue() * BEAGLE_TRUNK * k)
+    # the head joint: Stark's Beagle puts it ~10 mm below and ahead of the atlas (out in space; ~18 mm once scaled to a wolf), so the skull floated.
+    # Move it onto the atlas's cranial face: the neck mesh's midline, its front-most point, at the mean height of its front 8 mm (the articular foveae).
+    import trimesh
+    sc_ = trimesh.load(mesh_file('cervix')); V = np.asarray((sc_.to_geometry() if hasattr(sc_, 'to_geometry') else sc_).vertices) * np.asarray(mesh_scale['cervix'])
+    fr = V[V[:, 1] < V[:, 1].min() + 8 * mesh_scale['cervix'][1] / scales0['cervix']]
+    atlas = np.array([(V[:, 0].min() + V[:, 0].max()) / 2, V[:, 1].min(), fr[:, 2].mean()])
+    po = m.updJointSet().get(CH['occ']).upd_frames(0)                               # the joint's frame on the neck (cervix_offset)
+    head_moved = float(np.linalg.norm(atlas - np.array([po.get_translation().get(i) for i in range(3)]) * 1000))
+    po.set_translation(osim.Vec3(*(atlas / 1000)))
     s = m.initSystem()
     # stance: solve the sagittal angles
     free = ['thorax_sagittal', 'left_r_m_superioris_sagittal', 'left_r_deltoidea_sagittal', 'left_r_cubitalis_sagittal', 'left_r_carpalis_sagittal', 'left_r_forepaw_sagittal',
@@ -136,6 +189,7 @@ def build(sid, head='awa'):
     for i in range(m.getBodySet().getSize()):
         b = m.getBodySet().get(i); X = b.getTransformInGround(s); R = X.R(); p = X.p()
         T[b.getName()] = {'R': [[R.get(r, c) for c in range(3)] for r in range(3)], 'p_mm': [p.get(k) * 1000 for k in range(3)], 'mesh_scale': mesh_scale[b.getName()]}
+        if b.getName() in MESHFILE: T[b.getName()]['mesh'] = str(MESHFILE[b.getName()].relative_to(ROOT))
     withers = max(P['scap_top'][1], P['T1'][1]) - ground
     fit = {'scapula elevation': round(math.degrees(math.atan2(P['scap_top'][1] - P['shoulder'][1], -(P['scap_top'][0] - P['shoulder'][0]))), 1),
            'shoulder': round(ang(P['scap_top'], P['shoulder'], P['elbow']), 1), 'elbow': round(ang(P['shoulder'], P['elbow'], P['carpus']), 1),
@@ -157,7 +211,7 @@ def build(sid, head='awa'):
             'nose forward / height': RAT['nose_forward_over_height']['value'], 'nose height / height': RAT['nose_height_over_height']['value']}
     fit['outline check (skeleton / real wolves)'] = {k: f'{outline[k]:.2f} / {want[k]:.2f}' for k in outline}
     return {'id': sid, 'scale_factors': {k: round(v, 3) for k, v in f.items()}, 'beagle_mm': {k: round(float(v), 1) for k, v in beagle.items()}, 'species_mm': wolf,
-            'bodies': T, 'joints_side_mm': {k: [round(float(v[0]), 1), round(float(v[1] - ground), 1)] for k, v in P.items()}, 'fit': fit, 'cost': float(sol.cost), 'cross_scale': round(cross, 3),
+            'bodies': T, 'joints_side_mm': {k: [round(float(v[0]), 1), round(float(v[1] - ground), 1)] for k, v in P.items()}, 'fit': fit, 'skull_fit': skull_fit, 'thorax_lateral_squash': round(lat, 3), 'head_joint_moved_onto_atlas_mm': round(head_moved, 1), 'cost': float(sol.cost), 'cross_scale': round(cross, 3),
             'body_factors': {b: list(v) for b, v in vec.items()}, 'coords': {cs.get(i).getName(): cs.get(i).getValue(s) for i in range(cs.getSize())}}   # for muscles3d: the same bones in the same stance
 
 BLENDER = r'''
@@ -186,7 +240,7 @@ def render(sid, out, tag=''):
     import trimesh
     od = BUILD / f'.skel3d_obj{tag}'; od.mkdir(exist_ok=True); P = []
     for b, t in out['bodies'].items():
-        sc = trimesh.load(MESH / f'meshes/{b}.glb'); g = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc
+        sc = trimesh.load(mesh_for(out, b)); g = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc
         g = g.copy(); g.vertices = (np.asarray(g.vertices) * np.asarray(t['mesh_scale'])) @ np.array(t['R']).T + np.array(t['p_mm'])
         g.export(od / f'{b}.obj'); P.append(np.asarray(g.vertices)[::50])
     P = np.vstack(P); out['bbox'] = [P.min(0).tolist(), P.max(0).tolist()]; out['obj_dir'] = str(od)

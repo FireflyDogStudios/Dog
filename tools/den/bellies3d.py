@@ -99,7 +99,7 @@ def build(sid):
     sp = __import__('yaml').safe_load(open(ROOT / f'species/{sid}.yaml'))['numbers']; mass = sp['size']['weight']['value']; mass_k = (mass / SRC_MASS) ** (2 / 3)
     surf, bones = {}, {}
     for b, t in sk['bodies'].items():
-        sc = trimesh.load(S3.MESH / f'meshes/{b}.glb'); g = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc
+        sc = trimesh.load(S3.mesh_for(sk, b)); g = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc
         pts, fi = trimesh.sample.sample_surface(g, 40000, seed=0); surf[b] = (np.asarray(pts), np.asarray(g.face_normals)[fi])
         g = g.copy(); g.vertices = (np.asarray(g.vertices) * np.asarray(t['mesh_scale'])) @ np.array(t['R']).T + np.array(t['p_mm']); bones[b] = g
     field = bone_field(sk, surf)

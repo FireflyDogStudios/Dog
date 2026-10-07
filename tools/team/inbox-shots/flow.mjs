@@ -1,0 +1,37 @@
+// Functional check of compose -> outbox -> sent against the mock store (nothing is written anywhere real).
+import { chromium } from 'playwright';
+import { init } from './mock.mjs';
+const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const p = await (await b.newContext({viewport:{width:1280,height:800}})).newPage();
+const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(init.replace("callTool:async()=>{}","callTool:async(s,t,a)=>{(window.calls=window.calls||[]).push(a.session_id); if(a.session_id==='s2'&&!window.okAll) throw {code:'server_unavailable'};}"));
+await p.goto('file://'+process.argv[2]); await p.waitForTimeout(400);
+const ok=(c,m)=>console.log(c?'PASS':'FAIL',m);
+await p.click('.compose-btn'); await p.fill('#c-to-in','for'); await p.keyboard.press('Enter');
+await p.click('[data-act="cmp-all"]');
+ok((await p.textContent('#c-to-chips')).includes('Forge')&&(await p.textContent('#c-cc-chips')).includes('Firefly'),'everyone fills To and Cc');
+await p.fill('#c-re','Test'); await p.fill('#c-body','hello');
+await p.waitForTimeout(1200); ok((await p.textContent('#c-saved')).includes('saved'),'autosave to drafts');
+await p.click('[data-act="cmp-send"]'); ok(await p.isVisible('#c-confirm'),'confirm shown');
+await p.click('[data-act="cmp-go"]'); await p.waitForTimeout(500);
+ok((await p.textContent('#list')).includes('Test'),'failed send sits in outbox');
+ok((await p.textContent('#nav')).match(/Outbox\s*2/)!==null,'outbox count 2');
+await p.evaluate(()=>{window.okAll=true}); await p.click('.row:has-text("Test")'); await p.click('[data-act="retry"]'); await p.waitForTimeout(500);
+await p.click('[data-f="sent"]'); ok((await p.textContent('#list')).includes('Test'),'retry delivers, message lands in Sent');
+await p.click('[data-f="drafts"]'); ok((await p.textContent('#list')).includes('Next round')&&!(await p.textContent('#list')).includes('Test'),'draft removed after send');
+// phase 3: search and shortcuts
+await p.click('[data-f="inbox"]'); await p.fill('#q','moss'); await p.waitForTimeout(150);
+ok((await p.textContent('#list')).includes('Style note')&&!(await p.textContent('#list')).includes('Missing-found'),'search finds across folders');
+await p.fill('#q','Moss tone'); ok((await p.textContent('#list')).includes('Moss tone')&&(await p.textContent('#list')).includes('Outbox'),'search reaches the outbox, row tagged');
+await p.keyboard.press('Escape'); ok((await p.inputValue('#q'))==='','Esc clears search'); 
+await p.click('[data-f="inbox"]'); await p.click('body',{position:{x:5,y:5}});
+await p.keyboard.press('j'); ok((await p.textContent('#read')).includes('Gear fit'),'j opens first message');
+await p.keyboard.press('j'); ok((await p.textContent('#read')).includes('Missing-found'),'j moves on');
+await p.keyboard.press('k'); ok((await p.textContent('#read')).includes('Gear fit'),'k moves back');
+await p.keyboard.press('s'); ok(await p.isVisible('.rh .on'),'s stars');
+await p.keyboard.press('r'); ok(await p.isVisible('#cmp')&&(await p.inputValue('#c-re')).startsWith('Re: '),'r opens reply');
+await p.keyboard.press('Escape'); ok(!(await p.isVisible('#cmp')),'Esc closes compose');
+await p.keyboard.press('e'); await p.click('[data-f="archive"]'); ok((await p.textContent('#list')).includes('Gear fit'),'e archives');
+await p.keyboard.press('c'); ok(await p.isVisible('#cmp'),'c composes'); await p.keyboard.press('Escape'); ok(await p.isVisible('#cmp'),'first Esc only closes the suggestions'); await p.keyboard.press('Escape'); ok(!(await p.isVisible('#cmp')),'second Esc closes compose');
+await p.keyboard.press('?'); ok(await p.isVisible('#help'),'? shows help');
+console.log('errors:',errs.length?errs:'none'); await b.close();

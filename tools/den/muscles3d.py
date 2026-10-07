@@ -44,7 +44,7 @@ def build(sid):
     import trimesh
     from scipy.spatial import cKDTree
     scales0 = {r['body']: float(r['mesh_scale_beagle'].split()[0]) for r in csv.DictReader(open(S3.MESH / 'bodies.csv'))}
-    def surface(b): sc = trimesh.load(S3.MESH / f'meshes/{b}.glb'); g = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc; return np.asarray(trimesh.sample.sample_surface(g, 40000, seed=0)[0])
+    def surface(b): sc = trimesh.load(S3.mesh_for(sk, b)); g = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc; return np.asarray(trimesh.sample.sample_surface(g, 40000, seed=0)[0])
     SURF = {b: surface(b) for b in sk['bodies']}
     def tree_in(mod, st, b, scale):   # a body's bone surface in ground, mm
         X = mod.getBodySet().get(b).getTransformInGround(st); R = X.R(); p = X.p()

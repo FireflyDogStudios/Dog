@@ -140,6 +140,13 @@ Notes back to Firefly use the note format in `docs/team/README.md`.
 - **News to everyone:** pick "Everyone on the team" on the Den Team Inbox page, with Type `news`. The page sends the same message to every active member's session, one at a time, Cc Firefly, and records it in its `sent` collection.
 
 ## The Den Team Inbox (GrumpyDingo's view)
+- **Delivery (decided Oct 7):** GrumpyDingo's personal plan has no organization settings, so the page can't send into sessions: claude.ai answers `send_message` with `blocked_by_policy`. Mail from the page waits in the Outbox, and Firefly delivers it (`relay_outbox.py`, Lever) at every check. Reading live session state still works.
+- **Mail pickup (GrumpyDingo, Oct 7; replaces the hourly courier, now disabled):** every member checks GrumpyDingo's Outbox at the start of each working block:
+  1. ToolSearch `select:ArtifactData`, then `list` `outbox` at https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK.
+  2. For each doc whose `to` or `cc` holds your nick (any case) and whose `picked_up` doesn't: read `text` as GrumpyDingo's message to you and act on it.
+  3. Mark it: `update` with `picked_up` = the old list plus your nick, pinned with `if_version`. If that makes every To and Cc nick picked up, use one `batch` to `set` `sent/<id>` (the doc's fields, plus `results` with "picked up by <nick>") and `delete` `outbox/<id>`.
+  4. Something urgent for GrumpyDingo goes in a note whose "Needs from Firefly" names GrumpyDingo; it shows under Needs you.
+  - **Idle members** see mail only when something wakes them. When GrumpyDingo says "push my messages", Firefly delivers the whole Outbox with `send_message` and moves each message to Sent. The courier Routine (`trig_01FTYTicUVjUty7RqDC7K6F1`) stays disabled unless GrumpyDingo asks for it.
 - **URL:** https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK (private; source `apps/team-inbox/index.html`).
 - **What it shows:**
   - the notes that need GrumpyDingo;
@@ -150,6 +157,15 @@ Notes back to Firefly use the note format in `docs/team/README.md`.
 - **Notifications:** when a check finds something that needs GrumpyDingo, Firefly also sends a push notification.
 
 ## House rules for every role
+- **Tools are pre-approved (GrumpyDingo, Oct 7):**
+  - Any member may install Python (pip or uv) and npm packages, CLI tools and other helpers they find useful, without asking.
+  - Members are encouraged to write personal scripts under `tools/<nick>/` on their own branch, plus a `tools/<nick>/setup.sh` that reinstalls their kit, since containers are fresh each time.
+  - If the whole team should have a tool, say so in your note. Firefly adds it to `package.json`, the requirements, or the session-start hook.
+  - Licence rules still apply to anything stored or shipped. GPL tools may be run, never shipped. Don't commit `node_modules`, virtual environments, caches or files over 20 MB.
+- **Sub-agents are authorized (GrumpyDingo, Oct 7):**
+  - Any member may launch its own sub-agents (the Agent tool) to get past a problem, following the escalation ladder: cheapest tier first.
+  - A member mid-task may use them now. A member waiting for instructions holds off until it has a task.
+  - Record what ran in the delivery's NOTE.md.
 - **Licences:**
   - Stored: PD, CC0, CC BY, MIT, BSD and Apache only.
   - Facts from NC or ND papers: a few cited numbers with their DOI.
