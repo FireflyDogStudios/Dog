@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-07
+- 2026-10-07 · Shutter · Alaskan Malamute photos: 14 licence-checked images (standing 6, walking 1, head 4, lying 3; no trotting or sitting found under allowed licences). Best side-on show stacks and a large CC BY Wonderlane dog; best gaiting set is CC BY-SA (Wojciech Pędzich), listed for a permission request. → `ref/research/photos/alaskan-malamute/`
 - 2026-10-07 · Shutter · Dingo photos: 17 new licence-checked images (standing 5, walking 6, head 5, lying 1; none trotting or sitting); best are a wild dingo walking side-on (PDM, flagged) and two true side-on stands (CC BY 2.0). One PDM item from a state university removed as unclear. → `ref/research/photos/dingo/`
 - 2026-10-07 · Shutter · Carolina Dog search widened (Flickr search, Openverse tags, Commons category): no usable side view under an allowed licence; 4 public-domain Commons photos found, all shot from above; search paused as Husky and Malamute now come first. → `ref/research/photos/carolina-dog/NOTE.md`
 - 2026-10-07 · Firefly · Measured outline proportions of 7 standing wolves (3 photos, 4 Keulemans plates): body length 1.15 of height (skeleton 1.01), chest floor 0.47 (skeleton 0.58), nose forward 0.54 in photos (skeleton 0.81). → `ref/research/wolf-photo-proportions/`. Merged Atlas's A-002 items 3–7 and Scout 09; approved A-006.
