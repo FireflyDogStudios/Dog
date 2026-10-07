@@ -433,14 +433,13 @@ function render() {
 /* ---- connection check: what works, in plain words, and how to fix what doesn't (codes from the runtime's mcp.d.ts) ---- */
 const conn = { dbOk: null, live: { ok: null, code: '', at: 0 }, send: { ok: null, code: '', at: 0 }, perms: null };
 const POLICY = ['blocked_by_policy', 'not_in_manifest', 'approval_required', 'server_not_connected', 'needs_reauth', 'selection_required', 'not_granted', 'capability_disabled'];
-const CONNECTORS = 'https://claude.ai/customize/connectors';
 const FIX = {
-  server_not_connected: ['Claude Code Remote is not connected to your account.', 'Connect it under Connectors, then reload this page.', 'connectors'],
-  selection_required: ['You have more than one connector called Claude Code Remote.', 'Choose one when the page asks, or remove the extra one under Connectors.', 'connectors'],
-  needs_reauth: ['The sign-in for Claude Code Remote has expired.', 'Reconnect it under Connectors, then reload this page.', 'connectors'],
+  server_not_connected: ['Claude Code Remote is not available to this page.', 'Open this page\'s Permissions panel and check it is allowed. Claude Code Remote is built in, so it is not something to add under Connectors. If it is not listed in Permissions, tell Firefly.', 'perm'],
+  selection_required: ['More than one connection has the name Claude Code Remote.', 'Choose one when the page asks. If it does not ask, open the Permissions panel, or tell Firefly.', 'perm'],
+  needs_reauth: ['The sign-in for Claude Code Remote has expired.', 'Reload the page while signed in to claude.ai. If it keeps happening, open the Permissions panel, or tell Firefly.', 'perm'],
   not_in_manifest: ['Claude Code Remote is switched off for this page.', 'Turn it back on in this page\'s Permissions menu.', 'perm'],
   approval_required: ['The page needs your approval to use Claude Code Remote and did not get it.', 'Allow it in the Permissions menu, then try again.', 'perm'],
-  blocked_by_policy: ['A policy on your account or organization blocks this tool for pages.', 'Nothing to fix on the page. Your messages wait in the Outbox and Firefly delivers them. An organization owner may be able to allow it in the connector settings.', 'connectors'],
+  blocked_by_policy: ['A policy on the account or organization blocks this tool for pages.', 'Nothing to fix on the page, and trying again will not help. Your messages wait in the Outbox and Firefly delivers them. Firefly is finding where the policy can be changed.', 'perm'],
   server_unavailable: ['Claude Code did not answer.', 'Try again in a minute. Nothing is lost: unsent mail stays in the Outbox.', ''],
   upstream_error: ['Claude Code returned an error.', 'Try again in a minute. Check the recipient\'s session before resending, in case it did arrive.', ''],
   tool_error: ['Claude Code ran the tool and it reported a failure.', 'Check that the recipient\'s session is running, then retry from the Outbox.', ''],
@@ -488,7 +487,7 @@ function renderConn() {
   $('conn').innerHTML = `<h2>Connection</h2><p class="sub">What works right now, in plain words, and what to do about what doesn't. Nothing here sends a message.</p>` +
     connRows().map((r) => `<div class="crow ${r.lvl}"><span class="dt"></span><div><h3>${esc(r.title)}</h3><p class="what">${esc(r.what)}</p>${r.fix ? `<p class="fix">${esc(r.fix)}</p>` : ''}
       ${r.code ? `<p class="fix"><code>${esc(r.code)}</code></p>` : ''}
-      ${r.kind === 'connectors' ? `<div class="acts"><a class="btn" href="${CONNECTORS}" target="_blank" rel="noopener">Open Connectors</a><button type="button" data-act="perm">Permissions</button></div>` : r.kind === 'perm' ? '<div class="acts"><button type="button" data-act="perm">Open Permissions</button></div>' : ''}</div></div>`).join('') +
+      ${r.kind === 'perm' ? '<div class="acts"><button type="button" data-act="perm">Open Permissions</button></div>' : ''}</div></div>`).join('') +
     (connRows().find((r) => r.id === 'send' && r.lvl === 'bad') ? '<p class="sub">While sending is blocked, write as usual: each message goes to the Outbox, marked "Not delivered". Firefly delivers queued messages and they move to Sent as "relayed by Firefly".</p>' : '');
 }
 
@@ -733,8 +732,8 @@ document.addEventListener('keydown', (e) => {
     const c = ev.error.code; conn.live = { ok: false, code: c, at: Date.now() };
     if (['needs_reauth', 'server_not_connected', 'blocked_by_policy', 'approval_required', 'not_in_manifest'].includes(c)) { state.sessions = null; render(); }
     banner.hidden = false; live.textContent = 'Live sessions: unavailable';
-    banner.textContent = c === 'needs_reauth' ? 'Reconnect Claude Code Remote in claude.ai Settings → Connectors to see live session state.'
-      : c === 'server_not_connected' ? 'Add the Claude Code Remote connector in claude.ai Settings → Connectors to see live session state.'
+    banner.textContent = c === 'needs_reauth' ? 'The sign-in for Claude Code Remote expired. Reload the page while signed in to claude.ai to see live session state.'
+      : c === 'server_not_connected' ? 'Claude Code Remote is not available to this page. Open the Connection page for what to check.'
       : c === 'not_in_manifest' || c === 'approval_required' ? 'Live session state is turned off for this page. Allow Claude Code Remote in the page\'s permissions to see it.'
       : c === 'server_unavailable' ? 'Claude Code is not answering right now; the board will refresh on its own.'
       : 'Live session state could not load (' + c + '). The notes and status above still work.';

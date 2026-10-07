@@ -59,7 +59,7 @@ for (const [v, chip] of [['blocked','Sending blocked'],['noconn','Live sessions 
   await q.addInitScript(initFor(v)); await q.goto('file://'+process.argv[2]); await q.waitForTimeout(500);
   ok((await q.textContent('#conn-chip')).toLowerCase().includes(chip.toLowerCase()), 'status chip says "'+chip+'" ('+v+')');
   if (v==='blocked') {
-    await q.click('[data-f="conn"]'); ok((await q.textContent('#conn')).includes('blocked_by_policy')&&(await q.textContent('#conn')).includes('Open Connectors'),'connection view names the code and offers Connectors');
+    await q.click('[data-f="conn"]'); ok((await q.textContent('#conn')).includes('blocked_by_policy')&&(await q.textContent('#conn')).includes('Open Permissions')&&!(await q.textContent('#conn')).includes('Connectors'),'connection view names the code, offers Permissions and does not send you to Connectors');
     await q.click('.compose-btn'); await q.click('[data-act="cmp-all"]'); await q.fill('#c-re','Blocked test'); await q.fill('#c-body','x'); await q.click('[data-act="cmp-send"]');
     ok((await q.textContent('#c-confirm-text')).includes('Sending is blocked'),'confirm warns that it will wait in the Outbox');
     await q.click('[data-act="cmp-go"]'); await q.waitForTimeout(500);
