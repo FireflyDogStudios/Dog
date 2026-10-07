@@ -59,6 +59,7 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · GrumpyDingo · `DEN-BESTIARY.md`, the current animal list; style is open for new species. → `docs/DEN-BESTIARY.md`
 - 2026-10-06–07 · Scout · Data fetch items 01–11 (skin offsets, StanfordExtra, Stark, gait curves, Muybridge, Samuels, dingo, wild keypoints, face and ear, palettes, ethograms). → `ref/research/fetched/REPORT.md`
 - 2026-10-07 · Forge · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-forge-hello.md`
+- 2026-10-07 · Trail · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-trail-hello.md`
 - 2026-10-07 · Spark · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-spark-hello.md`
 - 2026-10-07 · Scale · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-scale-hello.md`
 - 2026-10-07 · Reel · Joined the team as Storyboard; hello note and status file in place. → `docs/team/inbox/2026-10-07-reel-hello.md`
