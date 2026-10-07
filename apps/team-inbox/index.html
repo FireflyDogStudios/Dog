@@ -3,14 +3,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral+SC:wght@500;600&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600&display=swap">
 <style>
-/* The Den Team Inbox, in the game's field kit look (050-field-kit.css tokens, 010-base.css light scheme).
-   One column: what needs GrumpyDingo, the team board, the notes log, the composer.
-   One heading scale (h1 / h2 / card title), one card style (.card), one button style (button, + .primary). */
+/* The Den Team Inbox: a three-pane mail client in the game's field kit look (050-field-kit.css tokens, 010-base.css light scheme).
+   Folders | message list | reading pane. Below 900px one pane shows at a time. */
 :root {
   --bg: #dfe6df; --panel: #eef2ec; --panel-2: #e6ece4; --ink: #1f2e2c; --muted: #56655f; --line: #c3cfc6;
-  --gold: #8a5a10; --gold-soft: rgba(138,90,16,.45); --rule: rgba(31,46,44,.14);
-  --btn: #e2a24f; --btn-ink: #2a1a08; --btn-edge: #9a5c16;
-  --moss: #2f6b45; --warn: #a8323f; --gold-wash: rgba(226,162,79,.22);
+  --gold: #8a5a10; --gold-soft: rgba(138,90,16,.45); --rule: rgba(31,46,44,.14); --gold-wash: rgba(226,162,79,.22);
+  --btn: #e2a24f; --btn-ink: #2a1a08; --btn-edge: #9a5c16; --moss: #2f6b45; --warn: #a8323f; --sel: rgba(47,107,69,.12);
+  --m1: #8a5a10; --m2: #2f6b45; --m3: #2d6f86; --m4: #a8323f; --m5: #6a4a9a; --m6: #7a6a1e;
   --display: "Spectral SC", Georgia, serif;
   --body: "Barlow", "Segoe UI", system-ui, sans-serif;
   --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
@@ -19,51 +18,102 @@
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #0b0f0d; --panel: #141b17; --panel-2: #1b241f; --ink: #ece3cf; --muted: #9fa898; --line: rgba(236,227,207,.13);
-  --gold: #d9a441; --gold-soft: rgba(217,164,65,.42); --rule: rgba(236,227,207,.10);
-  --btn: #d9a441; --btn-ink: #17120a; --btn-edge: #8a6420;
-  --moss: #7fae7a; --warn: #d0675a; --gold-wash: rgba(217,164,65,.12); color-scheme: dark } }
+  --gold: #d9a441; --gold-soft: rgba(217,164,65,.42); --rule: rgba(236,227,207,.10); --gold-wash: rgba(217,164,65,.12);
+  --btn: #d9a441; --btn-ink: #17120a; --btn-edge: #8a6420; --moss: #7fae7a; --warn: #d0675a; --sel: rgba(127,174,122,.12);
+  --m1: #d9a441; --m2: #7fae7a; --m3: #6fb3cc; --m4: #d0675a; --m5: #a98bd6; --m6: #c4b45a; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #0b0f0d; --panel: #141b17; --panel-2: #1b241f; --ink: #ece3cf; --muted: #9fa898; --line: rgba(236,227,207,.13);
-  --gold: #d9a441; --gold-soft: rgba(217,164,65,.42); --rule: rgba(236,227,207,.10);
-  --btn: #d9a441; --btn-ink: #17120a; --btn-edge: #8a6420;
-  --moss: #7fae7a; --warn: #d0675a; --gold-wash: rgba(217,164,65,.12); color-scheme: dark }
+  --gold: #d9a441; --gold-soft: rgba(217,164,65,.42); --rule: rgba(236,227,207,.10); --gold-wash: rgba(217,164,65,.12);
+  --btn: #d9a441; --btn-ink: #17120a; --btn-edge: #8a6420; --moss: #7fae7a; --warn: #d0675a; --sel: rgba(127,174,122,.12);
+  --m1: #d9a441; --m2: #7fae7a; --m3: #6fb3cc; --m4: #d0675a; --m5: #a98bd6; --m6: #c4b45a; color-scheme: dark }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
+html, body { height: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 500 15px/1.5 var(--body); }
-.wrap { max-width: 1040px; margin: 0 auto; padding: 20px 16px 48px; display: grid; gap: 26px; }
-header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--gold-soft); padding-bottom: 12px; }
-h1, h2 { font-family: var(--display); font-weight: 500; letter-spacing: .04em; margin: 0; }
-h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.1; text-wrap: balance; }
-h1 small { display: block; font: 600 12px/1.4 var(--cond); color: var(--muted); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
-h2 { font-size: 19px; line-height: 1.2; color: var(--gold); display: flex; align-items: center; gap: 10px; }
-.meta { font: 500 12px/1.5 var(--cond); letter-spacing: .06em; color: var(--muted); text-align: right; }
-.count { display: inline-flex; min-width: 24px; height: 22px; padding: 0 8px; align-items: center; justify-content: center; border-radius: 3px; background: var(--btn); color: var(--btn-ink); font: 700 13px var(--cond); }
-.count.zero { background: transparent; border: 1px solid var(--rule); color: var(--muted); }
-section { display: grid; gap: 12px; align-content: start; }
-.sub { color: var(--muted); font-size: 13px; margin: 0; max-width: 72ch; }
-.notes { display: grid; gap: 10px; }
-.card, .note, .member, details.compose { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; }
-.note { border-left: 3px solid var(--line); padding: 12px 14px; display: grid; gap: 6px; min-width: 0; }
-.note.need { border-left-color: var(--gold); background: linear-gradient(90deg, var(--gold-wash), transparent 55%), var(--panel); }
-.note.done { opacity: .6; }
-.note-top { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
-.note-top strong { font: 600 16px/1.3 var(--body); }
-.who { font: 600 12px var(--cond); color: var(--gold); text-transform: uppercase; letter-spacing: .12em; }
-.when { font: 500 12px var(--cond); letter-spacing: .04em; color: var(--muted); margin-left: auto; }
-.needs { font: 600 12px var(--cond); letter-spacing: .08em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold-soft); padding: 2px 8px; border-radius: 2px; justify-self: start; }
-.body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; }
-.path { font: 12px var(--mono); color: var(--muted); overflow-wrap: anywhere; }
-.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: .04em; margin: 0; }
 button, select, input, textarea { font: inherit; color: inherit; }
-button { background: transparent; border: 1px solid var(--gold-soft); color: var(--ink); border-radius: 3px; padding: 5px 12px; cursor: pointer; font: 600 12px var(--cond); letter-spacing: .1em; text-transform: uppercase; }
+button { background: transparent; border: 1px solid var(--gold-soft); color: var(--ink); border-radius: 3px; padding: 5px 12px; cursor: pointer; font: 600 12px var(--cond); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
 button:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
 button:active:not(:disabled) { transform: translateY(1px); }
 button:disabled { opacity: .5; cursor: default; }
-button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 button.primary { background: linear-gradient(180deg, #e2b158, #c48d2f); color: #17120a; border-color: var(--btn-edge); }
 button.primary:hover:not(:disabled) { color: #17120a; filter: brightness(1.06); }
+button.ghost { border-color: transparent; }
+button.on { color: var(--gold); border-color: var(--gold); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* shell */
+.app { height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto 1fr; max-width: 1500px; margin: 0 auto; }
+.top { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--gold-soft); }
+.top h1 { font-size: 22px; line-height: 1.1; color: var(--ink); }
+.top h1 small { display: block; font: 600 11px/1.3 var(--cond); color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
+.top .meta { margin-left: auto; font: 500 12px/1.4 var(--cond); letter-spacing: .06em; color: var(--muted); text-align: right; }
+.panes { display: grid; grid-template-columns: 210px minmax(300px, 380px) minmax(0, 1fr); min-height: 0; }
+.pane { min-height: 0; overflow: auto; border-right: 1px solid var(--rule); }
+.pane:last-child { border-right: 0; }
+.back { display: none; }
+
+/* folders */
+.nav { padding: 12px 8px; display: flex; flex-direction: column; gap: 2px; background: var(--panel); }
+.nav .compose-btn { margin: 0 4px 12px; padding: 9px 12px; }
+.nav .grp { font: 600 11px var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding: 12px 10px 4px; }
+.fld { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; border: 0; border-left: 2px solid transparent; border-radius: 2px; padding: 8px 10px; font: 600 14px var(--cond); letter-spacing: .08em; }
+.fld .n { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--muted); letter-spacing: 0; }
+.fld .n.hot { background: var(--btn); color: var(--btn-ink); border-radius: 3px; padding: 0 7px; font-weight: 700; }
+.fld.on { background: var(--gold-wash); border-left-color: var(--gold); color: var(--gold); }
+.fld .ic { width: 16px; text-align: center; flex: none; opacity: .85; }
+
+/* message list */
+.list { display: flex; flex-direction: column; background: var(--bg); }
+.lh { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--panel); border-bottom: 1px solid var(--rule); min-height: 46px; }
+.lh h2 { font-size: 17px; color: var(--gold); flex: 1; }
+.lh .sel-info { font: 600 12px var(--cond); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.lh .bulk { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; justify-content: flex-end; }
+.row { display: grid; grid-template-columns: 22px 34px minmax(0, 1fr) auto; gap: 4px 10px; align-items: start; padding: 10px 12px; border-bottom: 1px solid var(--rule); cursor: pointer; border-left: 3px solid transparent; }
+.row:hover { background: var(--panel-2); }
+.row.cur { background: var(--sel); border-left-color: var(--gold); }
+.row.unread { background: linear-gradient(90deg, var(--gold-wash), transparent 40%); }
+.row.unread .subj { font-weight: 700; }
+.row input { margin: 5px 0 0; accent-color: var(--gold); }
+.av { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font: 600 15px var(--display); color: var(--bg); background: var(--c, var(--m1)); flex: none; }
+.row .mid { min-width: 0; }
+.row .top1 { display: flex; align-items: baseline; gap: 8px; }
+.row .who { font: 600 13px var(--cond); letter-spacing: .1em; text-transform: uppercase; color: var(--c, var(--gold)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .cnt { font: 600 11px var(--cond); color: var(--muted); border: 1px solid var(--rule); border-radius: 8px; padding: 0 6px; }
+.row .subj { font: 600 14.5px/1.3 var(--body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .prev { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .side { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font: 500 12px var(--cond); letter-spacing: .04em; color: var(--muted); white-space: nowrap; }
+.star { border: 0; background: none; padding: 0 2px; font-size: 16px; line-height: 1; color: var(--muted); letter-spacing: 0; }
+.star.on { color: var(--gold); }
+.flag { font: 700 10px var(--cond); letter-spacing: .1em; text-transform: uppercase; color: var(--btn-ink); background: var(--btn); border-radius: 2px; padding: 0 5px; }
+.udot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); display: inline-block; }
+.empty { color: var(--muted); font-size: 14px; padding: 28px 18px; text-align: center; }
+
+/* reading pane */
+.read { background: var(--panel); }
+.rh { position: sticky; top: 0; z-index: 2; background: var(--panel); border-bottom: 1px solid var(--rule); padding: 10px 18px 10px; display: grid; gap: 8px; }
+.rh h2 { font-size: 20px; line-height: 1.25; }
+.tools { display: flex; flex-wrap: wrap; gap: 6px; }
+.msgs { padding: 14px 18px 40px; display: grid; gap: 12px; max-width: 860px; }
+.msg { border: 1px solid var(--line); border-radius: 4px; background: var(--bg); }
+.msg.need { border-left: 3px solid var(--gold); }
+.msg > summary, .msg > .mh { list-style: none; display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 14px; cursor: pointer; }
+.msg > summary::-webkit-details-marker { display: none; }
+.msg .mh-who { font: 600 14px var(--body); }
+.msg .mh-sub { font-size: 12.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.msg .mh-date { font: 500 12px var(--cond); letter-spacing: .04em; color: var(--muted); }
+.msg .mb { padding: 2px 16px 14px 58px; display: grid; gap: 8px; }
+.msg .body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14.5px; }
+.needs { font: 600 12px var(--cond); letter-spacing: .08em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold-soft); padding: 2px 8px; border-radius: 2px; justify-self: start; }
+.path { font: 12px var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+.msg.mine { border-style: dashed; }
+
+/* team view */
+.team { grid-column: 2 / -1; padding: 16px 18px 40px; background: var(--bg); overflow: auto; min-height: 0; }
+.team h2 { color: var(--gold); font-size: 19px; }
+.team .sub { color: var(--muted); font-size: 13px; margin: 2px 0 12px; max-width: 72ch; }
 .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
-.member { padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.member { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; }
 .member.planned { border-style: dashed; background: transparent; }
 .member .nick { font: 500 17px/1.2 var(--display); letter-spacing: .04em; display: flex; align-items: center; gap: 8px; }
 .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); flex: none; }
@@ -71,212 +121,234 @@ button.primary:hover:not(:disabled) { color: #17120a; filter: brightness(1.06); 
 .dot.blocked, .dot.failed { background: var(--warn); }
 .dot.review_ready, .dot.need { background: var(--gold); box-shadow: 0 0 0 3px var(--gold-wash); }
 .member .role { font-size: 13px; color: var(--muted); }
-.member .state { font: 12px/1.45 var(--mono); color: var(--ink); overflow-wrap: anywhere; }
+.member .state { font: 12px/1.45 var(--mono); overflow-wrap: anywhere; }
 .member .tier { font: 600 11px var(--cond); color: var(--muted); text-transform: uppercase; letter-spacing: .12em; }
-.banner { font-size: 13px; color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 8px 10px; }
-.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.toolbar label { font: 600 12px var(--cond); letter-spacing: .12em; text-transform: uppercase; }
-.empty { color: var(--muted); font-size: 14px; padding: 14px; border: 1px dashed var(--rule); border-radius: 3px; text-align: center; }
-details.compose { padding: 12px 14px; }
-details.compose summary { cursor: pointer; font: 500 17px var(--display); letter-spacing: .04em; color: var(--gold); }
-.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
-.form label { display: grid; gap: 4px; font: 600 12px var(--cond); color: var(--muted); text-transform: uppercase; letter-spacing: .12em; }
-.form input, .form select, .form textarea { background: var(--bg); border: 1px solid var(--rule); border-radius: 2px; padding: 6px 8px; font: 500 14px var(--body); text-transform: none; letter-spacing: 0; color: var(--ink); width: 100%; }
-.form .wide { grid-column: 1 / -1; }
-.flabel { font: 600 12px var(--cond); color: var(--muted); text-transform: uppercase; letter-spacing: .12em; display: block; margin-bottom: 4px; }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.form .chip, .chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--rule); border-radius: 2px; padding: 3px 10px; font: 600 13px var(--cond); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); cursor: pointer; background: var(--bg); }
-.chip:has(input:checked) { border-color: var(--gold); color: var(--gold); }
-.chip input { accent-color: var(--gold); margin: 0; width: auto; }
-.chip.off { opacity: .4; cursor: not-allowed; }
-.confirm { margin-top: 10px; padding: 10px; border: 1px solid var(--gold-soft); background: var(--gold-wash); border-radius: 3px; display: grid; gap: 8px; }
-.results { margin: 8px 0 0; padding-left: 18px; font: 12.5px/1.6 var(--mono); }
-.results .bad { color: var(--warn); } .results .good { color: var(--moss); }
-pre.out { margin: 10px 0 0; background: var(--bg); border: 1px solid var(--rule); border-radius: 3px; padding: 10px; font: 12.5px/1.5 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
-@media (max-width: 520px) { .wrap { padding-inline: 12px; gap: 20px; } .meta { text-align: left; } .when { margin-left: 0; width: 100%; } .board { grid-template-columns: 1fr; } .actions button { flex: 1 1 auto; } }
+.banner { font-size: 13px; color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 8px 10px; margin-bottom: 12px; }
+
+/* below 900px: one pane at a time */
+@media (max-width: 899px) {
+  .panes { grid-template-columns: minmax(0, 1fr); }
+  .pane, .team { display: none; border-right: 0; }
+  .app[data-pane="folders"] .nav, .app[data-pane="list"] .list, .app[data-pane="read"] .read { display: block; }
+  .app[data-pane="list"] .list { display: flex; }
+  .app[data-pane="team"] .team { display: block; grid-column: 1; }
+  .back { display: inline-block; }
+  .top { padding: 8px 12px; }
+  .top .meta { display: none; }
+  .rh, .msgs { padding-inline: 12px; }
+  .msg .mb { padding-left: 14px; }
+}
 @media (prefers-reduced-motion: no-preference) { .dot.working { animation: pulse 2.4s ease-in-out infinite; } @keyframes pulse { 50% { opacity: .55; } } }
 </style>
 
-<div class="wrap">
-  <header>
+<div class="app" id="app" data-pane="list">
+  <header class="top">
+    <button type="button" class="ghost back" data-act="pane" data-pane="folders" aria-label="Folders">☰</button>
     <h1><small>Project Dog · the den's dispatch board</small>Den Team Inbox</h1>
     <div class="meta"><div id="sync">Waiting for the board…</div><div id="live">Live sessions: connecting…</div></div>
   </header>
-
-  <section aria-labelledby="h-need" class="need-first">
-    <h2 id="h-need">Needs you <span class="count zero" id="need-count">0</span></h2>
-    <p class="sub">Notes from the team that ask GrumpyDingo or Firefly for a decision or a review.</p>
-    <div class="notes" id="need-list"><div class="empty">Nothing waiting. When a team member leaves a note that needs a decision, it lands here.</div></div>
-  </section>
-
-  <section aria-labelledby="h-team">
-    <h2 id="h-team">The team</h2>
-    <p class="sub">Each member's role, what their status file says, and their session's live state from Claude Code.</p>
-    <div class="banner" id="live-banner" hidden></div>
-    <div class="board" id="board"><div class="empty">The roster appears here once Firefly fills the board.</div></div>
-  </section>
-
-  <section aria-labelledby="h-log">
-    <h2 id="h-log">All notes</h2>
-    <div class="toolbar">
-      <label for="filter" class="sub">Show</label>
-      <select id="filter"><option value="open">open notes</option><option value="all">everything</option><option value="done">done</option></select>
-    </div>
-    <div class="notes" id="log"><div class="empty">No notes yet. Team members leave them in <code>docs/team/inbox/</code> on their branch; Firefly copies them here when checking.</div></div>
-  </section>
-
-  <section aria-labelledby="h-compose">
-    <details class="compose" id="compose">
-      <summary id="h-compose">Write to the team</summary>
-      <p class="sub">Builds the message in the team's set format (DEN-MSG v1) and sends it straight into each recipient's Claude Code session, one by one. Everyone in To and Cc gets the same message.</p>
-      <div class="form">
-        <div class="wide"><span class="flabel">To</span><div class="chips" id="m-to"></div></div>
-        <div class="wide"><span class="flabel">Cc</span><div class="chips" id="m-cc"></div></div>
-        <div class="wide actions"><button type="button" id="m-all">Everyone on the team</button><button type="button" id="m-none">Clear</button></div>
-        <label for="m-type">Type<select id="m-type"><option>request</option><option>news</option><option>answer</option><option>fyi</option><option>welcome</option></select></label>
-        <label for="m-pri">Priority<select id="m-pri"><option>next</option><option>now</option><option>later</option></select></label>
-        <label for="m-appr">Approved by<input id="m-appr" value="GrumpyDingo"></label>
-        <label for="m-re" class="wide">Subject<input id="m-re" placeholder="What this is about, in a few words"></label>
-        <label for="m-body" class="wide">Message<textarea id="m-body" rows="5" placeholder="Plain bullets: what to do, where to deliver, anything to watch out for"></textarea></label>
-      </div>
-      <pre class="out" id="m-out"></pre>
-      <div class="actions" style="margin-top:8px">
-        <button class="primary" id="m-send" type="button">Send</button>
-        <button id="m-copy" type="button">Copy instead</button>
-        <span class="sub" id="m-copied" aria-live="polite"></span>
-      </div>
-      <div class="confirm" id="m-confirm" hidden>
-        <span id="m-confirm-text"></span>
-        <div class="actions"><button class="primary" id="m-go" type="button">Send now</button><button id="m-cancel" type="button">Cancel</button></div>
-      </div>
-      <ul class="results" id="m-results"></ul>
-    </details>
-  </section>
+  <div class="panes">
+    <nav class="pane nav" id="nav" aria-label="Folders"></nav>
+    <section class="pane list" id="list" aria-label="Messages"></section>
+    <section class="pane read" id="read" aria-label="Reading pane"></section>
+    <section class="team" id="team" hidden>
+      <h2>The team</h2>
+      <p class="sub">Each member's role, what their status file says, and their session's live state from Claude Code.</p>
+      <div class="banner" id="live-banner" hidden></div>
+      <div class="board" id="board"><div class="empty">The roster appears here once Firefly fills the board.</div></div>
+    </section>
+  </div>
 </div>
 
 <script>
 const $ = (id) => document.getElementById(id);
-const state = { notes: [], members: [], sessions: null, sync: null };
-const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const state = { notes: [], members: [], sent: [], drafts: [], outbox: [], sessions: null, sync: null };
+const view = { folder: 'inbox', cur: null, checked: new Set(), pane: 'list', fresh: new Set() };
+let db = null;
+const ME = 'GrumpyDingo';
+
 const ago = (iso) => { const t = Date.parse(iso); if (!t) return iso || ''; const m = Math.round((Date.now() - t) / 60000);
   return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : Math.round(m / 1440) + ' d ago'; };
 const needsYou = (n) => n.state !== 'done' && n.needs && !/^(nothing|fyi|none)/i.test(n.needs);
-let db = null;
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function shortDate(ts, raw) {
+  if (!ts) return esc(raw || '');
+  const d = new Date(ts), now = new Date();
+  if (/T/.test(raw || '') && d.toDateString() === now.toDateString()) return d.toTimeString().slice(0, 5);
+  return d.getUTCDate() + ' ' + MON[d.getUTCMonth()] + (d.getUTCFullYear() !== now.getUTCFullYear() ? ' ' + d.getUTCFullYear() : '');
+}
+const threadKey = (subject, explicit) => explicit || String(subject || '').toLowerCase().replace(/^\s*((re|fwd?)\s*:\s*)+/i, '').replace(/\s+/g, ' ').trim();
+const memberOf = (nick) => state.members.find((m) => m.nick && m.nick.toLowerCase() === String(nick || '').toLowerCase());
+function colour(nick) { let h = 0; for (const ch of String(nick || '?').toLowerCase()) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return `var(--m${(h % 6) + 1})`; }
+const avatar = (nick) => `<span class="av" style="--c:${colour(nick)}">${esc(String(nick || '?').trim().charAt(0).toUpperCase())}</span>`;
 
-function noteHTML(n) {
-  const cls = ['note', needsYou(n) ? 'need' : '', n.state === 'done' ? 'done' : ''].join(' ');
-  return `<article class="${cls}">
-    <div class="note-top"><span class="who">${esc(n.nick || n.from)}</span><strong>${esc(n.headline)}</strong><span class="when">${esc(n.date)}${n.state === 'new' ? ' · new' : ''}</span></div>
-    ${n.needs ? `<span class="needs">Needs: ${esc(n.needs)}</span>` : ''}
-    ${n.body ? `<p class="body">${esc(n.body)}</p>` : ''}
-    ${n.path ? `<div class="path">${esc(n.branch ? n.branch + ' · ' : '')}${esc(n.path)}</div>` : ''}
-    ${db ? `<div class="actions">${n.state === 'new' ? `<button type="button" data-id="${esc(n._id)}" data-set="read">Mark read</button>` : ''}${n.state !== 'done' ? `<button type="button" data-id="${esc(n._id)}" data-set="done">Done</button>` : `<button type="button" data-id="${esc(n._id)}" data-set="read">Reopen</button>`}</div>` : ''}
-  </article>`;
+/* One message shape for every folder. Fields from the store: see STORE.md. */
+function items() {
+  const out = [];
+  state.notes.forEach((n, i) => out.push({ kind: 'note', coll: 'notes', id: n._id, nick: n.nick || n.from || '?', to: [], cc: [], subject: n.headline || '(no subject)', body: n.body || '',
+    needs: n.needs || '', needsYou: needsYou(n), branch: n.branch || '', path: n.path || '', raw: n.date, ts: Date.parse(n.at || n.date) || 0, ord: -i,
+    unread: n.state === 'new', archived: n.state === 'done', trashed: !!n.trashed, starred: !!n.starred, thread: threadKey(n.headline, n.thread) }));
+  state.sent.forEach((s, i) => { const ok = (s.results || []).filter((r) => r.ok).length, all = (s.results || []).length;
+    out.push({ kind: 'sent', coll: 'sent', id: s._id, nick: s.from || ME, to: s.to || [], cc: s.cc || [], subject: s.re || '(no subject)', body: s.body || '',
+      status: all ? `Delivered to ${ok} of ${all}` : '', raw: s.at, ts: Date.parse(s.at) || 0, ord: -i, unread: false, archived: !!s.archived, trashed: !!s.trashed, starred: !!s.starred,
+      thread: threadKey(s.re, s.thread), type: s.type, results: s.results || [] }); });
+  state.drafts.forEach((d, i) => out.push({ kind: 'draft', coll: 'drafts', id: d._id, nick: ME, to: d.to || [], cc: d.cc || [], subject: d.re || '(no subject)', body: d.body || '', raw: d.at, ts: Date.parse(d.at) || 0, ord: -i,
+    unread: false, thread: threadKey(d.re, d.thread) }));
+  state.outbox.forEach((o, i) => out.push({ kind: 'outbox', coll: 'outbox', id: o._id, nick: ME, to: o.to || [], cc: o.cc || [], subject: o.re || '(no subject)', body: o.body || '', raw: o.at, ts: Date.parse(o.at) || 0, ord: -i,
+    unread: false, thread: threadKey(o.re, o.thread), status: o.status || 'queued', results: o.results || [] }));
+  return out;
+}
+const inFolder = {
+  inbox: (m) => m.kind === 'note' && !m.trashed && !m.archived,
+  needs: (m) => m.kind === 'note' && !m.trashed && m.needsYou,
+  starred: (m) => (m.kind === 'note' || m.kind === 'sent') && !m.trashed && m.starred,
+  drafts: (m) => m.kind === 'draft',
+  outbox: (m) => m.kind === 'outbox',
+  sent: (m) => m.kind === 'sent' && !m.trashed && !m.archived,
+  archive: (m) => (m.kind === 'note' || m.kind === 'sent') && !m.trashed && m.archived,
+  trash: (m) => (m.kind === 'note' || m.kind === 'sent') && m.trashed,
+};
+const FOLDERS = [
+  ['inbox', 'Inbox', '▤'], ['needs', 'Needs you', '!'], ['starred', 'Starred', '★'], ['', 'Write', ''], ['drafts', 'Drafts', '✎'], ['outbox', 'Outbox', '⇧'], ['sent', 'Sent', '➤'],
+  ['', 'Keep', ''], ['archive', 'Archive', '▣'], ['trash', 'Trash', '✕'], ['', 'Den', ''], ['team', 'Team', '☻']];
+function counts(all) {
+  const c = {}; for (const k in inFolder) c[k] = all.filter(inFolder[k]).length;
+  c.unread = all.filter((m) => inFolder.inbox(m) && m.unread).length; return c;
+}
+
+/* groups: messages of one thread that sit in the current folder, newest first */
+function groups(all) {
+  const f = inFolder[view.folder]; if (!f) return [];
+  const by = new Map();
+  all.filter(f).forEach((m) => { const k = (view.folder === 'drafts' || view.folder === 'outbox') ? m.kind + ':' + m.id : m.thread || m.kind + ':' + m.id; (by.get(k) || by.set(k, []).get(k)).push(m); });
+  const key = (m) => m.ts * 1 + m.ord * 1e-3;
+  return [...by.entries()].map(([k, ms]) => { ms.sort((a, b) => key(b) - key(a)); return { key: k, ms, top: ms[0], unread: ms.some((m) => m.unread), starred: ms.some((m) => m.starred) }; })
+    .sort((a, b) => key(b.top) - key(a.top));
+}
+const threadAll = (all, key) => all.filter((m) => (m.kind === 'note' || m.kind === 'sent') && m.thread === key && (view.folder === 'trash' ? m.trashed : !m.trashed)).sort((a, b) => (a.ts + a.ord * 1e-3) - (b.ts + b.ord * 1e-3));
+
+/* store writes (notes and sent keep every existing field; new fields are additive) */
+async function patch(m, p) {
+  const src = m.coll === 'notes' ? state.notes : m.coll === 'sent' ? state.sent : null; const doc = src && src.find((x) => x._id === m.id); if (doc) Object.assign(doc, p);
+  if (db) { try { await db.doc(m.coll + '/' + m.id).update(p); } catch {} }
+}
+const P = {
+  read: (m) => m.kind === 'note' ? { state: 'read' } : {}, unread: () => ({ state: 'new' }),
+  archive: (m) => m.kind === 'note' ? { state: 'done' } : { archived: true }, unarchive: (m) => m.kind === 'note' ? { state: 'read' } : { archived: false },
+  trash: () => ({ trashed: true }), restore: () => ({ trashed: false }),
+};
+const applyTo = (ms, how) => { ms.filter((m) => m.kind === 'note' || m.kind === 'sent').forEach((m) => patch(m, P[how](m))); render(); };
+
+/* rendering */
+const prevText = (m) => (m.body || m.status || (m.kind === 'sent' ? 'Sent to ' + m.to.join(', ') : '')).replace(/\s+/g, ' ').slice(0, 140);
+function rowHTML(g) {
+  const m = g.top, mine = m.kind !== 'note'; const who = mine ? 'To ' + (m.to.join(', ') || '…') : m.nick;
+  const flag = g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? `<span class="flag">${esc(m.status)}</span>` : '';
+  return `<div class="row ${g.unread ? 'unread' : ''} ${view.cur === g.key ? 'cur' : ''}" data-act="open" data-key="${esc(g.key)}" role="button" tabindex="0">
+    <input type="checkbox" data-act="check" data-key="${esc(g.key)}" ${view.checked.has(g.key) ? 'checked' : ''} aria-label="Select">
+    ${avatar(mine ? ME : m.nick)}
+    <div class="mid"><div class="top1"><span class="who" style="--c:${colour(mine ? ME : m.nick)}">${esc(who)}</span>${g.ms.length > 1 ? `<span class="cnt">${g.ms.length}</span>` : ''}${flag}</div>
+      <div class="subj">${esc(m.subject)}</div><div class="prev">${esc(prevText(m))}</div></div>
+    <div class="side"><span>${shortDate(m.ts, m.raw)}</span>${g.unread ? '<span class="udot" title="Unread"></span>' : ''}
+      ${m.kind === 'note' || m.kind === 'sent' ? `<button type="button" class="star ${g.starred ? 'on' : ''}" data-act="star" data-key="${esc(g.key)}" aria-label="Star" aria-pressed="${g.starred}">${g.starred ? '★' : '☆'}</button>` : ''}</div>
+  </div>`;
+}
+const EMPTY = { inbox: 'Nothing here. Notes from the team land in the Inbox.', needs: 'Nothing waiting on GrumpyDingo.', starred: 'No starred messages.', drafts: 'No drafts.', outbox: 'The Outbox is empty: everything you sent has been delivered.',
+  sent: 'Nothing sent yet.', archive: 'Nothing archived. Done notes live here.', trash: 'Trash is empty.' };
+function renderList(all, gs) {
+  const name = (FOLDERS.find((f) => f[0] === view.folder) || [0, ''])[1]; const n = view.checked.size;
+  const bulk = n ? `<span class="sel-info">${n} selected</span><div class="bulk">
+      ${view.folder === 'trash' ? '<button type="button" data-act="bulk" data-how="restore">Restore</button>' : `<button type="button" data-act="bulk" data-how="read">Mark read</button><button type="button" data-act="bulk" data-how="unread">Mark unread</button>
+      ${view.folder === 'archive' ? '<button type="button" data-act="bulk" data-how="unarchive">Move to inbox</button>' : '<button type="button" data-act="bulk" data-how="archive">Archive</button>'}<button type="button" data-act="bulk" data-how="trash">Trash</button>`}
+      <button type="button" class="ghost" data-act="bulk" data-how="clear">Clear</button></div>`
+    : `<h2>${esc(name)}</h2><span class="sel-info">${gs.length ? gs.length + (gs.length === 1 ? ' conversation' : ' conversations') : ''}</span>`;
+  $('list').innerHTML = `<div class="lh">${bulk}</div>` +
+    (gs.length ? gs.map(rowHTML).join('') : `<div class="empty">${esc(EMPTY[view.folder] || '')}</div>`);
+}
+function msgHTML(m, open) {
+  const mine = m.kind !== 'note';
+  const head = `${avatar(mine ? ME : m.nick)}<div><div class="mh-who">${esc(mine ? ME : m.nick)}${!mine && memberOf(m.nick) ? ` <span class="mh-sub">· ${esc(memberOf(m.nick).role)}</span>` : ''}</div>
+    <div class="mh-sub">${mine ? 'to ' + esc(m.to.join(', ') || '…') + (m.cc.length ? ' · cc ' + esc(m.cc.join(', ')) : '') : 'to Firefly, GrumpyDingo'}</div></div><span class="mh-date">${shortDate(m.ts, m.raw)}</span>`;
+  const body = `<div class="mb">${m.needs ? `<span class="needs">Needs: ${esc(m.needs)}</span>` : ''}
+    ${m.body ? `<p class="body">${esc(m.body)}</p>` : m.kind === 'sent' ? '<p class="body mh-sub">The text of this message was not saved by an older version of the inbox.</p>' : ''}
+    ${m.status && m.kind === 'sent' ? `<div class="path">${esc(m.status)}${m.results.filter((r) => !r.ok).length ? ' · not sent to ' + esc(m.results.filter((r) => !r.ok).map((r) => r.nick).join(', ')) : ''}</div>` : ''}
+    ${m.path ? `<div class="path">${esc(m.branch ? m.branch + ' · ' : '')}${esc(m.path)}</div>` : ''}</div>`;
+  return `<details class="msg ${m.needsYou ? 'need' : ''} ${mine ? 'mine' : ''}" ${open ? 'open' : ''}><summary>${head}</summary>${body}</details>`;
+}
+function renderRead(all, gs) {
+  const g = gs.find((x) => x.key === view.cur);
+  if (!g) { $('read').innerHTML = `<div class="empty">${view.folder === 'team' ? '' : 'Select a message to read it.'}</div>`; return; }
+  const ms = (g.top.kind === 'note' || g.top.kind === 'sent') ? threadAll(all, g.key) : g.ms;
+  const acts = ms.filter((m) => m.kind === 'note' || m.kind === 'sent');
+  const t = view.folder === 'trash';
+  const tools = acts.length ? (t ? '<button type="button" data-act="one" data-how="restore">Restore</button>' :
+    `<button type="button" data-act="one" data-how="${view.folder === 'archive' ? 'unarchive' : 'archive'}">${view.folder === 'archive' ? 'Move to inbox' : 'Archive'}</button>
+     <button type="button" data-act="one" data-how="unread">Mark unread</button>
+     <button type="button" class="${g.starred ? 'on' : ''}" data-act="star" data-key="${esc(g.key)}" aria-pressed="${g.starred}">${g.starred ? '★ Starred' : '☆ Star'}</button>
+     <button type="button" data-act="one" data-how="trash">Trash</button>`) : '';
+  $('read').innerHTML = `<div class="rh"><div class="tools"><button type="button" class="ghost back" data-act="pane" data-pane="list">← Back</button>${tools}</div><h2>${esc(g.top.subject)}</h2></div>
+    <div class="msgs">${ms.map((m, i) => msgHTML(m, i === ms.length - 1 || m.unread || view.fresh.has(m.id))).join('')}</div>`;
 }
 
 function sessionFor(m) {
   const list = state.sessions; if (!list || !m.session) return null;
   return list.find((s) => (s.title || '').toLowerCase() === m.session.toLowerCase()) || null;
 }
+function renderBoard() {
+  if (!state.members.length) return;
+  $('board').innerHTML = state.members.map((m) => {
+    const s = sessionFor(m); const bucket = s ? String(s.status_bucket || '').replace('SESSION_STATUS_BUCKET_', '').toLowerCase() : '';
+    const pts = s && (s.post_turn_summary || (s.external_metadata || {}).post_turn_summary) || {};
+    const live = s ? `${bucket.replace('_', ' ') || 'idle'} · ${ago(s.updated_at)}${pts.status_detail ? '\n' + pts.status_detail : ''}${pts.needs_action ? '\nneeds: ' + pts.needs_action : ''}` : '';
+    const dotc = m.state === 'planned' ? '' : (pts.needs_action ? 'need' : bucket);
+    return `<div class="member ${m.state === 'planned' ? 'planned' : ''}">
+      <div class="nick"><span class="dot ${esc(dotc)}"></span>${esc(m.nick)}</div>
+      <div class="role">${esc(m.role)}</div>
+      <div class="tier">${esc(m.state === 'planned' ? 'planned · ' : '')}${esc(m.tier || '')}</div>
+      ${m.working ? `<div class="state">${esc(m.working)}${m.blocked && !/^(no)/i.test(m.blocked) ? '\nblocked: ' + esc(m.blocked) : ''}</div>` : ''}
+      ${live ? `<div class="state" style="color:var(--muted);white-space:pre-wrap">${esc(live)}</div>` : ''}
+    </div>`; }).join('');
+}
 
 function render() {
-  const open = state.notes.filter((n) => n.state !== 'done');
-  const need = state.notes.filter(needsYou);
-  $('need-count').textContent = need.length; $('need-count').classList.toggle('zero', need.length === 0);
-  document.title = (need.length ? `(${need.length}) ` : '') + 'Den Team Inbox';
-  $('need-list').innerHTML = need.length ? need.map(noteHTML).join('') : '<div class="empty">Nothing waiting. When a team member leaves a note that needs a decision, it lands here.</div>';
-  const f = $('filter').value; const shown = f === 'all' ? state.notes : f === 'done' ? state.notes.filter((n) => n.state === 'done') : open;
-  $('log').innerHTML = shown.length ? shown.map(noteHTML).join('') : '<div class="empty">No notes in this view.</div>';
-  if (state.members.length) {
-    $('board').innerHTML = state.members.map((m) => {
-      const s = sessionFor(m); const bucket = s ? String(s.status_bucket || '').replace('SESSION_STATUS_BUCKET_', '').toLowerCase() : '';
-      const pts = s && (s.post_turn_summary || (s.external_metadata || {}).post_turn_summary) || {};
-      const live = s ? `${bucket.replace('_', ' ') || 'idle'} · ${ago(s.updated_at)}${pts.status_detail ? '\n' + pts.status_detail : ''}${pts.needs_action ? '\nneeds: ' + pts.needs_action : ''}` : '';
-      const dotc = m.state === 'planned' ? '' : (pts.needs_action ? 'need' : bucket);
-      return `<div class="member ${m.state === 'planned' ? 'planned' : ''}">
-        <div class="nick"><span class="dot ${esc(dotc)}"></span>${esc(m.nick)}</div>
-        <div class="role">${esc(m.role)}</div>
-        <div class="tier">${esc(m.state === 'planned' ? 'planned · ' : '')}${esc(m.tier || '')}</div>
-        ${m.working ? `<div class="state">${esc(m.working)}${m.blocked && !/^no/i.test(m.blocked) ? '\nblocked: ' + esc(m.blocked) : ''}</div>` : ''}
-        ${live ? `<div class="state" style="color:var(--muted);white-space:pre-wrap">${esc(live)}</div>` : ''}
-      </div>`; }).join('');
-    chips(); compose();
-  }
+  const all = items(), c = counts(all);
+  $('nav').innerHTML = FOLDERS.map(([k, label, ic]) => !k ? `<div class="grp">${label}</div>` :
+    `<button type="button" class="fld ${view.folder === k ? 'on' : ''}" data-act="folder" data-f="${k}"><span class="ic">${ic}</span>${label}${
+      k === 'inbox' ? (c.unread ? `<span class="n">${c.unread}</span>` : '') : k === 'needs' ? (c.needs ? `<span class="n hot">${c.needs}</span>` : '') :
+      ['drafts', 'outbox'].includes(k) ? (c[k] ? `<span class="n">${c[k]}</span>` : '') : ''}</button>`).join('');
+  document.title = (c.needs ? `(${c.needs}) ` : '') + 'Den Team Inbox';
+  const team = view.folder === 'team'; $('team').hidden = !team; $('list').hidden = team; $('read').hidden = team;
+  if (team) renderBoard(); else { const gs = groups(all); view.checked = new Set([...view.checked].filter((k) => gs.some((g) => g.key === k))); renderList(all, gs); renderRead(all, gs); }
+  $('app').dataset.pane = team ? 'team' : view.pane;
   $('sync').textContent = state.sync ? `Board filled by Firefly ${ago(state.sync.checked_at)}` : 'Waiting for the board…';
 }
 
-const picked = { to: new Set(), cc: new Set() };
-function chips() {
-  ['to', 'cc'].forEach((k) => {
-    $('m-' + k).innerHTML = state.members.map((m) => {
-      const ok = !!m.session_id; const on = picked[k].has(m._id);
-      return `<label class="chip ${ok ? '' : 'off'}" title="${ok ? esc(m.role) : 'Not on the team yet'}"><input type="checkbox" data-k="${k}" data-id="${esc(m._id)}" ${on ? 'checked' : ''} ${ok ? '' : 'disabled'}>${esc(m.nick)}</label>`;
-    }).join('');
-  });
-}
-const nicks = (set) => state.members.filter((m) => set.has(m._id)).map((m) => m.nick);
-function recipients() { const ids = new Set([...picked.to, ...picked.cc]); return state.members.filter((m) => ids.has(m._id) && m.session_id); }
-function compose() {
-  const to = nicks(picked.to), cc = nicks(picked.cc);
-  const msg = [`DEN-MSG v1`, `To: ${to.join(', ') || '…'}`, ...(cc.length ? [`Cc: ${cc.join(', ')}`] : []), `From: GrumpyDingo (via the Den Team Inbox)`,
-    `Re: ${$('m-re').value || '…'}`, `Type: ${$('m-type').value}`, `Priority: ${$('m-pri').value}`, `Approved by: ${$('m-appr').value || 'not needed'}`, `---`,
-    $('m-body').value || '…', `---`, `Reply: leave a note in docs/team/inbox/ on your branch and update docs/team/status/<your nick>.md. Cc'd members: read it; reply only if it touches your work.`].join('\n');
-  $('m-out').textContent = msg; return msg;
-}
-document.addEventListener('change', (e) => { const c = e.target.closest('input[data-k]'); if (!c) return; const set = picked[c.dataset.k];
-  c.checked ? set.add(c.dataset.id) : set.delete(c.dataset.id); if (c.checked) picked[c.dataset.k === 'to' ? 'cc' : 'to'].delete(c.dataset.id); chips(); compose(); });
-$('m-all').addEventListener('click', () => { picked.cc.clear(); state.members.forEach((m) => m.session_id && m._id !== 'firefly' && picked.to.add(m._id)); picked.cc.add('firefly'); chips(); compose(); });
-$('m-none').addEventListener('click', () => { picked.to.clear(); picked.cc.clear(); chips(); compose(); });
-['m-type', 'm-pri', 'm-appr', 'm-re', 'm-body'].forEach((id) => $(id).addEventListener('input', compose));
-$('m-copy').addEventListener('click', async () => {
-  const text = compose();
-  try { await navigator.clipboard.writeText(text); $('m-copied').textContent = 'Copied'; }
-  catch { const r = document.createRange(); r.selectNodeContents($('m-out')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $('m-copied').textContent = 'Selected: press Ctrl+C or Cmd+C'; }
+/* actions */
+function groupOf(key) { return groups(items()).find((g) => g.key === key); }
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-act]'); if (!el) return; const a = el.dataset.act;
+  if (a === 'check') { e.stopPropagation(); view.checked[el.checked ? 'add' : 'delete'](el.dataset.key); return render(); }
+  if (a === 'folder') { view.folder = el.dataset.f; view.cur = null; view.checked.clear(); view.pane = 'list'; return render(); }
+  if (a === 'pane') { view.pane = el.dataset.pane; if (view.pane === 'folders' && view.folder === 'team') view.folder = 'inbox'; if (el.dataset.pane === 'list') view.cur = null; return render(); }
+  if (a === 'open') { view.cur = el.dataset.key; view.pane = 'read'; const g = groupOf(view.cur); view.fresh = new Set(); if (g) g.ms.filter((m) => m.kind === 'note' && m.unread).forEach((m) => { view.fresh.add(m.id); patch(m, P.read(m)); }); return render(); }
+  if (a === 'star') { e.stopPropagation(); const g = groupOf(el.dataset.key); if (!g) return; const on = !g.starred; g.ms.filter((m) => m.kind === 'note' || m.kind === 'sent').forEach((m) => patch(m, { starred: on })); return render(); }
+  if (a === 'bulk') { const how = el.dataset.how; if (how === 'clear') { view.checked.clear(); return render(); } const ms = [...view.checked].flatMap((k) => (groupOf(k) || { ms: [] }).ms); view.checked.clear(); return applyTo(ms, how); }
+  if (a === 'one') { const g = groupOf(view.cur); if (!g) return; const how = el.dataset.how; const ms = threadAll(items(), g.key); if (how !== 'unread') { view.cur = null; view.pane = 'list'; } return applyTo(ms, how); }
 });
-let mcpRef = null;
-$('m-send').addEventListener('click', () => {
-  const rs = recipients(); $('m-results').innerHTML = '';
-  if (!rs.length) { $('m-copied').textContent = 'Pick at least one recipient first.'; return; }
-  if (!$('m-re').value.trim() || !$('m-body').value.trim()) { $('m-copied').textContent = 'Add a subject and a message first.'; return; }
-  if (!mcpRef) { $('m-copied').textContent = 'Sending needs the Claude Code Remote connector; use Copy instead.'; return; }
-  $('m-copied').textContent = ''; $('m-confirm-text').textContent = `Send this to ${rs.length} session${rs.length > 1 ? 's' : ''}: ${rs.map((m) => m.nick).join(', ')}? Each one starts working on it.`;
-  $('m-confirm').hidden = false;
-});
-$('m-cancel').addEventListener('click', () => { $('m-confirm').hidden = true; });
-$('m-go').addEventListener('click', async () => {
-  $('m-confirm').hidden = true; const text = compose(); const rs = recipients(); const out = [];
-  $('m-send').disabled = true;
-  for (const m of rs) {
-    const li = document.createElement('li'); li.textContent = `${m.nick}: sending…`; $('m-results').appendChild(li);
-    try { await mcpRef.callTool('Claude Code Remote', 'send_message', { session_id: m.session_id, message: text }); li.textContent = `${m.nick}: delivered`; li.className = 'good'; out.push({ nick: m.nick, ok: true }); }
-    catch (err) { const c = err && err.code; li.className = 'bad';
-      li.textContent = `${m.nick}: not sent (${c === 'approval_required' || c === 'not_in_manifest' ? 'allow Claude Code Remote for this page, then try again' : c === 'server_unavailable' || c === 'upstream_error' ? 'Claude Code did not answer; check their session before resending' : c || 'error'})`;
-      out.push({ nick: m.nick, ok: false, code: c || 'error' }); }
-  }
-  $('m-send').disabled = false;
-  if (db) { try { await db.collection('sent').add({ at: new Date().toISOString(), to: nicks(picked.to), cc: nicks(picked.cc), re: $('m-re').value, type: $('m-type').value, results: out }); } catch {} }
-});
+document.addEventListener('keydown', (e) => { const r = e.target.closest && e.target.closest('.row'); if (r && e.target === r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); r.click(); } });
 
-$('filter').addEventListener('change', render);
-document.addEventListener('click', async (e) => {
-  const b = e.target.closest('button[data-set]'); if (!b || !db) return;
-  b.disabled = true;
-  try { await db.doc('notes/' + b.dataset.id).update({ state: b.dataset.set }); }
-  catch { b.disabled = false; b.textContent = 'Could not save'; }
-});
-
-compose(); render();
-
+/* store and live sessions */
 (async () => {
   db = await window.claude?.use?.('db');
   if (!db) { $('sync').textContent = 'The board needs you signed in to claude.ai to load.'; return; }
-  db.collection('notes').orderBy('date', 'desc').onSnapshot((snap) => { state.notes = snap.docs.map((d) => ({ _id: d.id, ...d.data() })); render(); }, () => {});
-  db.collection('members').orderBy('order').onSnapshot((snap) => { state.members = snap.docs.map((d) => ({ _id: d.id, ...d.data() })); render(); }, () => {});
+  const feed = (name, order, dir, key) => { try { db.collection(name).orderBy(order, dir).onSnapshot((snap) => { state[key] = snap.docs.map((d) => ({ _id: d.id, ...d.data() })); render(); }, () => {}); } catch {} };
+  feed('notes', 'date', 'desc', 'notes'); feed('members', 'order', 'asc', 'members'); feed('sent', 'at', 'desc', 'sent'); feed('drafts', 'at', 'desc', 'drafts'); feed('outbox', 'at', 'desc', 'outbox');
   db.doc('meta/sync').onSnapshot((d) => { state.sync = d.exists ? d.data() : null; render(); }, () => {});
 })();
 
 (async () => {
-  const mcp = await window.claude?.use?.('mcp'); mcpRef = mcp;
+  const mcp = await window.claude?.use?.('mcp'); window.mcpRef = mcp;
   const live = $('live'), banner = $('live-banner');
   if (!mcp) { live.textContent = 'Live sessions: off in this view'; return; }
   mcp.watchTool('Claude Code Remote', 'list_sessions', { mine: true, limit: 30 }, (ev) => {
@@ -295,4 +367,5 @@ compose(); render();
       : 'Live session state could not load (' + c + '). The notes and status above still work.';
   }, { refetchInterval: 60000 });
 })();
+render();
 </script>

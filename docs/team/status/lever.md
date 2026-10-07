@@ -1,6 +1,6 @@
 # lever status
 Updated: 2026-10-07
-Working on: done, inbox reskin (request docs/claude/DEN-LEVER-REQUEST-inbox-theme-2026-10-07.md), waiting for review
-Last push: Lever: Den Team Inbox in the field kit look
+Working on: inbox rebuild as a mail client, phase 1 of 3 done (layout, folders, reading); phase 2 compose and outbox next
+Last push: Lever: inbox phase 1
 Blocked: no
-Needs Firefly: review and republish of apps/team-inbox/index.html
+Needs Firefly: no
