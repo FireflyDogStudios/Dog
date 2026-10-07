@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-08
+- 2026-10-08 · Scout · **Keynote:** 16 resolved: wolf bony rib-cage width at the widest ribs = 0.26 WH (band 0.24-0.28, EST from B); the Stark mesh is correct and the per-bone scaling carried the Beagle's 0.42 WH fraction over; fix = lateral squash ~0.55-0.6. Taigan licence corrected to CC BY-NC-ND in 14. → `ref/research/scout/16-ribcage-width/`
 - 2026-10-08 · Scout · Wolf body round-3 review note: neck ~2x too deep (target 0.17 WH), missing prosternum, serratus/rib ridges need the skin shell, lower legs below carpus/hock are correctly bone+tendon, back line as a 3-anchor spline from 15. → `docs/team/inbox/2026-10-07-scout-wolf-review.md`
 - 2026-10-07 · Scout · Joined the team inbox: first note and status file; welcome read and verified. → `docs/team/inbox/2026-10-07-scout-hello.md`
 - 2026-10-08 · Scout · **Keynote:** muscle-body calibration (A-request from Firefly): greyhound per-muscle mass tables (CC BY); σ = 0.3 MPa confirmed; **Stark Fmax are scaled to the 13.81 kg Beagle, so a 32 kg wolf needs ×(M/13.81)^(2/3) ≈ 1.75**; epaxials never rise above the spinous tips; body widths, skin+fat shell 2-7 mm. → `ref/research/scout/14-muscle-body/`
