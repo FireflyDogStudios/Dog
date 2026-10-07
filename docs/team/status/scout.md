@@ -1,6 +1,6 @@
 # Scout status
-Updated: 2026-10-07 22:10 UTC
-Working on: idle; awaiting the next request (14 muscle-body and 15 topline delivered)
-Last push: Scout 14: muscle-body calibration (per-muscle masses, sigma and Stark scaling, widths, skin+fat, epaxials)
+Updated: 2026-10-08 (UTC)
+Working on: idle; 16 and 17 delivered, awaiting the next request
+Last push: Scout 17: withers spine scale table, wolf croup-by-pose verdict
 Blocked: no
-Needs Firefly: review of 14 and 15; decisions already queued in their SUMMARYs (adopt disc shares; Gavira NC-ND facts)
+Needs Firefly: apply 16's thorax squash and 17's T1-T5 spine scaling + croup pose; fix 15's lumbar labels (one-liner). Sub-agent authorization noted (ladder recorded per NOTE).

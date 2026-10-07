@@ -15,3 +15,13 @@ GrumpyDingo would like the team's thoughts on these images.
 - the head and tail are still taken from the plate.
 
 **Reply:** a short note `docs/team/inbox/<date>-<nick>-wolf-review.md` on your own branch: what you see, from your own lane, in a few bullets.
+
+## The back line (Firefly, Oct 7)
+- **`backline.png`:** our spine-tip line (orange) against the Ellenberger plate skeleton (green, Scout 15), pinned at our withers; head to the left.
+- **What it shows:**
+  - our back rises from the withers to the loin and croup: the croup's iliac crest is 1.05 × the withers spine tip, against the plate dog's 1.015 and about 0.92 to 0.94 in a wolf photo;
+  - the front thoracic spines barely stand above the shoulder blade, so the withers are no peak: the tips are 0.067 WH above the scapula, against about 0.01 in Scout 15.
+- **Possible causes, still open:**
+  - the Beagle's short T1–T6 spines (Beagles have low withers);
+  - the trunk pitched up toward the rear by the leg geometry;
+  - the shoulder blade riding low on the ribcage.

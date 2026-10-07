@@ -183,6 +183,8 @@ Id: 2026-10-08-palette-to-lever-style-hook.md
 ```
 
 ## The Den Team Inbox (GrumpyDingo's view)
+- **Delivery (decided Oct 7):** GrumpyDingo's personal plan has no organization settings, so the page can't send into sessions: claude.ai answers `send_message` with `blocked_by_policy`. Mail from the page waits in the Outbox, and Firefly delivers it (`relay_outbox.py`, Lever) at every check. Reading live session state still works.
+- **The Den Courier (Oct 7, GrumpyDingo):** an hourly Routine (`trig_01FTYTicUVjUty7RqDC7K6F1`, a fresh session at :40, no notifications) that delivers the page's outbox and writes `meta/courier`. It has no repo checkout, so members post their own notes to the store (`mail.py post`, Lever). Cost about $0.14 a run on the default model before trimming; watch it.
 - **URL:** https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK (private; source `apps/team-inbox/index.html`).
 - **What it shows:**
   - the notes that need GrumpyDingo;
@@ -193,6 +195,15 @@ Id: 2026-10-08-palette-to-lever-style-hook.md
 - **Notifications:** when a check finds something that needs GrumpyDingo, Firefly also sends a push notification.
 
 ## House rules for every role
+- **Tools are pre-approved (GrumpyDingo, Oct 7):**
+  - Any member may install Python (pip or uv) and npm packages, CLI tools and other helpers they find useful, without asking.
+  - Members are encouraged to write personal scripts under `tools/<nick>/` on their own branch, plus a `tools/<nick>/setup.sh` that reinstalls their kit, since containers are fresh each time.
+  - If the whole team should have a tool, say so in your note. Firefly adds it to `package.json`, the requirements, or the session-start hook.
+  - Licence rules still apply to anything stored or shipped. GPL tools may be run, never shipped. Don't commit `node_modules`, virtual environments, caches or files over 20 MB.
+- **Sub-agents are authorized (GrumpyDingo, Oct 7):**
+  - Any member may launch its own sub-agents (the Agent tool) to get past a problem, following the escalation ladder: cheapest tier first.
+  - A member mid-task may use them now. A member waiting for instructions holds off until it has a task.
+  - Record what ran in the delivery's NOTE.md.
 - **Licences:**
   - Stored: PD, CC0, CC BY, MIT, BSD and Apache only.
   - Facts from NC or ND papers: a few cited numbers with their DOI.
