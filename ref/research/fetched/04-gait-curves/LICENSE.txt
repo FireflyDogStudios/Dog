@@ -19,3 +19,7 @@ Attribution:
 - Miao H, Zhu L, Zheng L, Qian Z, Ren L (2026) Comparative kinematic analysis of
   forelimb and hindlimb cushioning strategies in German Shepherd dogs. Front Vet
   Sci 13: 1878605. doi:10.3389/fvets.2026.1878605. CC BY.
+- Goldner B, Fischer S, Nolte I, Schilling N (2018) Kinematic adaptions to induced
+  short-term pelvic limb lameness in trotting dogs. BMC Vet Res 14: 183.
+  doi:10.1186/s12917-018-1484-2. Article CC BY 4.0; data CC0 1.0 (as stated in the
+  article). Additional files 1 and 2 (sound-trot joint angles extracted).

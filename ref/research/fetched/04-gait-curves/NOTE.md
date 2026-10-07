@@ -8,7 +8,7 @@ Fetched 2026-10-06 by a research sub-agent for item 04 of `docs/claude/DEN-DATA-
   - Every angle is converted to the **included angle between the two bones, 180 = straight**. Values above 180 mean hyperextension; this happens at the carpus in stance.
   - The joint names are shoulder, elbow, carpus, hip, stifle and tarsus (tarsus means the hock).
 - `duty_phase.csv`: duty factors, touchdown phases relative to left hind (LH = 0, fraction of LH stride), stride frequency, speed and stride length. Some rows are computed by us and some are published; the `note` column says which.
-- `joint_extremes.csv`: published standing angles and trot extremes, converted to included angles. Also holds the cushioning-phase range of motion (ROM) values from Miao 2026.
+- `joint_extremes.csv`: published standing angles and trot extremes, converted to included angles. Also holds the cushioning-phase range of motion (ROM) values from Miao 2026, and (since Oct 7) Goldner 2018 sound-trot touchdown, lift-off, stance/swing min, max and ROM for six joints.
 - `LICENSE.txt`: licence and attribution for each source.
 
 Processing scripts lived in `/tmp/item04/scripts/` and are not in the repo. Raw downloads were deleted after processing.
@@ -111,19 +111,52 @@ Processing scripts lived in `/tmp/item04/scripts/` and are not in the repo. Raw 
 - **Licence:** CC BY.
 - **What we extracted:** joint angular change during the cushioning (impact) phase only, at walk and trot, for 4 police German shepherds. It goes into `joint_extremes.csv`. These are not full-stride curves.
 
+## Source 5: Goldner, Fischer, Nolte & Schilling 2018 (`goldner2018`)
+Added 2026-10-07 by a follow-up sub-agent.
+- **Title:** "Kinematic adaptions to induced short-term pelvic limb lameness in trotting dogs." BMC Veterinary Research 14: 183. doi:10.1186/s12917-018-1484-2 (PMC5998594)
+- **Files:** Additional file 1 (thoracic limbs) and Additional file 2 (pelvic limbs), Word .doc tables:
+  - https://static-content.springer.com/esm/art%3A10.1186%2Fs12917-018-1484-2/MediaObjects/12917_2018_1484_MOESM1_ESM.doc
+  - https://static-content.springer.com/esm/art%3A10.1186%2Fs12917-018-1484-2/MediaObjects/12917_2018_1484_MOESM2_ESM.doc
+  - Full text read from https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5998594/fullTextXML
+- **Licence:** article CC BY 4.0; the article states the CC0 1.0 waiver applies to the data made available in it.
+- **Dogs:** 8 Beagles (7 m, 1 f), 15.1 ± 1.2 kg, trotting on a four-belt force treadmill at 1.4 m/s. Vicon, 6 infrared cameras, 22 skin markers; angles projected onto the sagittal plane (2D). Touchdown and lift-off from the force plates. 10 consecutive strides per dog.
+- **What we extracted:** only the **sound (control) trot** columns, for the six joints (shoulder, elbow, carpal = carpus, hip, knee = stifle, tarsal = tarsus), on both sides:
+  - `touchdown`, `liftoff`, `stance_min`, `stance_max`, `stance_rom`, `swing_min`, `swing_max`, `swing_rom`.
+  - `sd_deg` is the published SD between dogs. The published mSD (mean within-dog SD over 10 strides) is kept in the `note` column.
+  - Side: the paper names limbs relative to the later-lamed right hind ("ipsilateral" = right, "contralateral" = left). In the sound condition these are simply the left (`L`) and right (`R`) limbs.
+  - `*_rom` rows hold a range in degrees in the `included_deg` column, not an angle.
+  - Not stored: the lame-condition columns, the Diff/P columns, the segment angles (scapula, humerus, antebrachium, manus, pelvis, femur, crus, pes) and the limb angles. They are in the .doc files if ever needed.
+- **Angle convention and conversion:**
+  - The tables say "for definition of angles, see Fig. 1 in [16]". Ref. 16 is **Goldner B, Fuchs A, Nolte I, Schilling N (2015) "Kinematic adaptations to tripedal locomotion in dogs", Vet J 204: 192–200, doi:10.1016/j.tvjl.2015.03.003**. It is Elsevier and **not open access** (Europe PMC: not OA, no PMC copy), so we could not read Fig. 1.
+  - We instead verified the convention from the tables themselves: for shoulder, elbow, carpus, knee and tarsus, the published joint angle equals the **sum of the two adjacent segment angles** at both touchdown and lift-off, on both sides (shoulder = scapula + humerus, elbow = humerus + antebrachium, carpus = antebrachium + manus, knee = femur + crus, tarsus = crus + pes; 19 of 20 checks within 0.1°, carpus LO left 0.7°). Each segment angle is taken against the same reference line from alternate sides, so the sum is the included angle between the bones on the flexor side.
+  - The values behave as included angles with 180 = straight: the carpus exceeds 180 in stance (hyperextension, max 208–220°) and drops to 79–87° in swing, matching Humphries 2020 (82–220°). So **no conversion was applied**; `included_deg` = published value and `original_flexion_deg` is blank.
+  - **Hip caveat:** the hip joint angle does not equal any simple sum or difference of the published pelvis and femur segment angles (180 − (pelvis − femur) misses by 7–9°), so its pelvic axis cannot be reconstructed without ref. 16. Treat hip values (94–117°) as this lab's own convention, not comparable with Humphries' S1–GT–LFC hip (129–163°).
+- **Comparison with the other trot data (sound, included °, min–max over the stride):**
+
+  | Joint | Goldner 2018, Beagle (L/R) | Humphries 2020 LRD (S4) |
+  |---|---|---|
+  | Shoulder | 91–110 / 94–119 | 102–142 |
+  | Elbow | 60–125 / 68–134 | 77–146 |
+  | Carpus | 79–208 / 87–220 | 82–220 |
+  | Stifle | 93–145 / 96–147 | 101–165 |
+  | Tarsus | 109–156 / 109–157 | 98–167 |
+  | Hip (own convention) | 95–117 / 95–117 | 129–163 |
+
+- **Left/right asymmetry:** the left forelimb sits about 9–10° more flexed than the right in shoulder and elbow. That is in the published sound data; we did not alter it.
+
 ---
 
 ## Checked but not stored
 | Source | Why not stored |
 |---|---|
 | Pit Bull 2021, "Kinematics of healthy American Pit Bull Terrier dogs", Vet Med (Praha), PMC11927105 | CC BY-NC. Not stored. |
-| Charles et al. 2025, "The biomechanics of working dog locomotion I: Steady-state trotting", J Exp Biol 228, doi:10.1242/jeb.250523 | Europe PMC lists it as CC BY. journals.biologists.com returned HTTP 403 three times, and doi.org twice. No data deposit was found on Zenodo, Dryad or figshare. Not fetched. |
+| Charles et al. 2025, "The biomechanics of working dog locomotion I: Steady-state trotting", J Exp Biol 228, doi:10.1242/jeb.250523 | Crossref licence: CC BY 4.0 (from 2025-09-15). journals.biologists.com returned HTTP 403 three times, and doi.org twice (Oct 6). Retried Oct 7: (1) the Crossref-listed PDF link journals.biologists.com/jeb/article-pdf/doi/10.1242/jeb.250523/3665346/jeb250523.pdf gave 403; (2) Europe PMC has no full text (MED 40843505, "Subscription required", fullTextXML 404). No bioRxiv preprint is linked to it (bioRxiv publisher API for 10.1242, 2025–2026, has no dog-locomotion entry; Crossref has no posted-content match). No data deposit on Zenodo, Dryad or figshare. Not fetched. |
 | Charles et al. 2025, "The biomechanics of working dog locomotion II: Loaded trotting", doi:10.1242/jeb.250524 | Licence not given; host blocked (403). |
 | Agostinho et al. 2011, "Kinematic analysis of Labrador Retrievers and Rottweilers trotting on a treadmill", Vet Comp Orthop Traumatol | Not open access; no supplement. |
 | Hottinger et al. 1996 (AJVR) | Not open access; no PMC copy. |
 | Fischer & Lilje, *Dogs in Motion* | Copyrighted book. |
 | "Comparative kinematic gait analysis in young and old Beagle dogs", J Vet Sci 2017, PMC5746446 | CC BY-NC. Not stored. |
-| Goldner et al. 2018, "Kinematic adaptions to induced short-term pelvic limb lameness in trotting dogs", BMC Vet Res, PMC5998594; figshare 10.6084/m9.figshare.6505124 and 6505139 | CC BY + CC0, so it could be stored. Its sound-trot TD, LO, min, max and ROM tables (.doc) were not extracted, because the angle definitions sit in another paper (its ref. 16). A possible follow-up. |
+| Goldner et al. 2015, "Kinematic adaptations to tripedal locomotion in dogs", Vet J 204: 192–200, doi:10.1016/j.tvjl.2015.03.003 | Defines the angles used by Goldner 2018 (its Fig. 1). Elsevier, not open access. Not fetched; the convention was verified from the 2018 tables instead (see Source 5). |
 | Humphries 2020 OSF kinetic files | CC BY, but 17–290 MB per file, so not downloaded. |
 | pmc.ncbi.nlm.nih.gov article pages | Served a reCAPTCHA page. We used the Europe PMC REST full text instead. |
 | journals.biologists.com, www.mdpi.com | HTTP 403 from this environment. |
