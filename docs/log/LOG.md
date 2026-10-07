@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-08
+- 2026-10-07 · Scout · Joined the team inbox: first note and status file; welcome read and verified. → `docs/team/inbox/2026-10-07-scout-hello.md`
 - 2026-10-08 · Scout · **Keynote:** muscle-body calibration (A-request from Firefly): greyhound per-muscle mass tables (CC BY); σ = 0.3 MPa confirmed; **Stark Fmax are scaled to the 13.81 kg Beagle, so a 32 kg wolf needs ×(M/13.81)^(2/3) ≈ 1.75**; epaxials never rise above the spinous tips; body widths, skin+fat shell 2-7 mm. → `ref/research/scout/14-muscle-body/`
 - 2026-10-08 · Scout · Topline clamp profile (the hunchback fix): skin sits 0.007-0.026 WH above the spine tips (minimum at T8); neck topline = the C2→T1 nuchal chord, cervical vertebrae hang up to 0.112 WH below it; withers = max(spine tips, scapula) + 0.026; real wolf topline slopes down to 0.92 at the croup. → `ref/research/scout/15-topline/`
 
