@@ -165,7 +165,7 @@ def build(sid):
             lo = max(bot, cap)
             ribw = np.nanmax(np.where(bone_m[:, ci], boneZ[:, ci], np.nan)) if bone_m[:, ci].any() else 0.0
             if x < J['TL'][0]:                                                     # abdomen: half-width from the last ribs to the pelvis
-                k = (x - J['hip'][0]) / max(J['TL'][0] - J['hip'][0], 1); hw = max((1 - k) * WH * 0.16 + k * WH * 0.21, ribw + 3.0)   # the belly wall lies over the last ribs
+                k = (x - J['hip'][0]) / max(J['TL'][0] - J['hip'][0], 1); hw = max((1 - k) * WH * 0.075 + k * WH * 0.083, ribw + 3.0)   # half-widths: mid-loin 0.075, last rib 0.083 of WH (Scout 14 from waist girth, EST); never inside the ribs
             else: hw = max(ribw, 0.0) * 0.98
         else:
             lo = max(bot, J['elbow'][1]); hw = NECK_HALF * (top - lo)
