@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-07
+- 2026-10-07 · Shutter · Fetched the Husky photos that Flickr had refused: 3 added (CC0 side-profile head at 4,000 px, a standing photo, an occluded trot), 1 rejected; Husky set now 26. Joined the team inbox. → `ref/research/photos/siberian-husky/`, `docs/team/inbox/2026-10-07-shutter-hello.md`
 - 2026-10-07 · Fetch · Welcome: set up status file and inbox note. Waiting for first request. → `docs/team/status/fetch.md`, `docs/team/inbox/2026-10-07-fetch-hello.md`
 - 2026-10-07 · Firefly · Boot prompt for a new lead session (setup steps, how to work, objectives, the task list in order). → `docs/team/FIREFLY-BOOT-PROMPT.md`
 - 2026-10-07 · Firefly · **Keynote:** the team is up. Welcomes went out one at a time and every member answered with a hello note and a status file: Scout, Atlas, Shutter (existing, plus team news), then the ten new members Firefly created (Forge, Spark, Palette, Reel, Echo, Loom, Scale, Trail, Lever, Fetch), each on `claude/team-<nick>`. Roster with session ids in `DEN-TEAM.md`; the Den Team Inbox board shows all 14.
