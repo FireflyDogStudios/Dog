@@ -7,7 +7,8 @@
    the bones, the muscles, the skin-landmark targets and how far the outline misses each).
 
    Method:
-   1. Bones: every near-side (left) Beagle bone outline is moved onto the species skeleton. Limb bones by their two joint centres (stretched along the
+   1. Bones: every near-side (left) bone outline of the REAL Beagle (the 2021 paper's forelimb-verified model; the Shepherd-sized model is the Beagle
+      stretched x1.66 in the limbs but x1.25 in the trunk, which distorts the chest, so it only supplies the muscle lines, placed by its own landmarks) is moved onto the species skeleton. Limb bones by their two joint centres (stretched along the
       bone to the species' length, width kept in withers-height units); thorax, pelvis and skull by three landmarks each (affine).
    2. Muscles: every muscle line whose bodies are mapped is moved with its bodies and thickened by its cross-section: PCSA = max isometric force /
       specific tension (0.3 MPa, an assumption), drawn with the diameter of a circle of that area.
@@ -34,14 +35,14 @@ ASSUME = {
 }
 A = {k: v[0] for k, v in ASSUME.items()}
 
-def load_stark():
+def load_stark(model):
     lm = {}
     for r in csv.DictReader(open(M / 'stark_side_view.csv')):
-        if r['model'] == 'full_linear': lm[r['point']] = np.array([float(r['side_x_wh']), float(r['side_y_wh'])])
-    bones = json.load(open(M / 'stark_bone_outlines.json'))['full_linear']['wh']
+        if r['model'] == model: lm[r['point']] = np.array([float(r['side_x_wh']), float(r['side_y_wh'])])
+    bones = json.load(open(M / 'stark_bone_outlines.json'))[model]['wh']
     mus = {}
     for r in csv.DictReader(open(M / 'stark_muscles.csv')):
-        if r['model'] != 'full_linear': continue
+        if r['model'] != model: continue
         mus.setdefault(r['muscle'], {'F': float(r['max_isometric_force_N']), 'pts': []})['pts'].append((int(r['point_index']), r['body'], np.array([float(r['side_x_wh']), float(r['side_y_wh'])])))
     for m in mus.values(): m['pts'].sort(key=lambda t: t[0])
     return lm, bones, mus
@@ -59,36 +60,39 @@ def affine3(P3, Q3):
 def build(sid):
     sk = json.load(open(BUILD / f'{sid}.skeleton.json')); J0 = sk['joints_mm']; W = J0['withers']; H = W[1]
     J = {k: np.array([(v[0] - W[0]) / H, (H - v[1]) / H]) for k, v in J0.items()}          # the species skeleton in the Stark frame: withers at 0,0; y down; ground at y = 1
-    lm, bones, mus = load_stark()
-    jc = lambda a, b: lm[f'{a}_{b}'] if f'{a}_{b}' in lm else lm[f'{b}_{a}']
-    # where the species' thoracolumbar and lumbosacral joints sit: along the topline, at the Stark depths below it
-    sp = sk.get('spine'); topline = (J['withers'], J['croup']); pre_t = 0.433 / (0.433 + 0.292)
-    # the thoracic spine starts at T1 (the neck root, ahead of and below the withers), not at the withers: measure the thorax from there
-    sp_y = yaml.safe_load(open(ROOT / f'species/{sid}.yaml'))['numbers']['spine']; Hmm = H
-    thor = sp_y['presacral_length']['value'] * sp_y['thorax_share']['value'] / Hmm; lumb = sp_y['presacral_length']['value'] * sp_y['lumbar_share']['value'] / Hmm
-    T1 = J['neck_root']; LS = J['croup'] + (lm['abdomen_cauda'] - lm['croup_sacrum_top'])
-    u = (LS - T1) / np.linalg.norm(LS - T1); TL = T1 + u * thor * np.linalg.norm(LS - T1) / (thor + lumb)   # T1 to LS split in the measured thorax:lumbar ratio
     depth_bone = (J['sternum_back'][1]) - A['fur_chest'] - 0.0212           # photo chest depth minus fur minus the brisket skin offset
-    ventral = np.array([lm['thorax_ventral_most'][0] * (J['shoulder'][0] / lm['left_scapula_left_humerus'][0] if lm['left_scapula_left_humerus'][0] else 1), depth_bone])
-    # the trunk (thorax and lumbar spine) moves as ONE piece, set by the topline (withers, croup) and the chest floor, so ribs and spine stay together
-    sw, sc = lm['withers_spines_top'], lm['croup_sacrum_top']; span = (J['croup'][0] - J['withers'][0]) / (sc[0] - sw[0])
-    ventral = np.array([J['withers'][0] + (lm['thorax_ventral_most'][0] - sw[0]) * span, depth_bone])
-    trunk = affine3([sw, sc, lm['thorax_ventral_most']], [J['withers'], J['croup'], ventral])
-    T = {
-      'left_scapula': along(lm['left_scapula_top'], jc('left_scapula', 'left_humerus'), J['scapula_top'], J['shoulder']),
-      'left_humerus': along(jc('left_scapula', 'left_humerus'), jc('left_humerus', 'left_antebrachium'), J['shoulder'], J['elbow']),
-      'left_antebrachium': along(jc('left_humerus', 'left_antebrachium'), jc('left_antebrachium', 'left_carpus'), J['elbow'], J['carpus']),
-      'left_carpus': along(jc('left_antebrachium', 'left_carpus'), jc('left_carpus', 'left_forepaw'), J['carpus'], J['front_mcp']),
-      'left_forepaw': along(jc('left_carpus', 'left_forepaw'), lm['left_fore_toe_tip'], J['front_mcp'], J['front_toe']),
-      'left_femur': along(jc('pelvis', 'left_femur'), jc('left_femur', 'left_crus'), J['hip'], J['stifle']),
-      'left_crus': along(jc('left_femur', 'left_crus'), jc('left_crus', 'left_calx'), J['stifle'], J['hock']),
-      'left_calx': along(jc('left_crus', 'left_calx'), jc('left_calx', 'left_hindpaw'), J['hock'], J['hind_mtp']),
-      'left_hindpaw': along(jc('left_calx', 'left_hindpaw'), lm['left_hind_toe_tip'], J['hind_mtp'], J['hind_toe']),
-      'pelvis': affine3([lm['iliac_crest_top'], lm['tuber_ischiadicum'], jc('pelvis', 'left_femur')], [J['ilium_crest'], J['ischium'], J['hip']]),
-      'thorax': trunk, 'abdomen': trunk,
-      'cervix': along(lm['thorax_cervix'], lm['cervix_caput'], J['neck_root'], J['occiput']),
-      'caput': affine3([lm['cervix_caput'], lm['nose_tip'], lm['chin_lowest']], [J['occiput'], J['nose'], J['chin']]),
-    }
+    def transforms(lm):
+        """every Stark body onto the species skeleton, from one model's own landmarks (so that model's scaling cancels out)"""
+        jc = lambda a, b: lm[f'{a}_{b}'] if f'{a}_{b}' in lm else lm[f'{b}_{a}']
+        # the trunk (thorax and lumbar spine) moves as ONE piece, set by the topline (withers, croup) and the chest floor, so ribs and spine stay together
+        sw, sc = lm['withers_spines_top'], lm['croup_sacrum_top']; span = (J['croup'][0] - J['withers'][0]) / (sc[0] - sw[0])
+        ventral = np.array([J['withers'][0] + (lm['thorax_ventral_most'][0] - sw[0]) * span, depth_bone])
+        trunk = affine3([sw, sc, lm['thorax_ventral_most']], [J['withers'], J['croup'], ventral])
+        T = {
+          'left_scapula': along(lm['left_scapula_top'], jc('left_scapula', 'left_humerus'), J['scapula_top'], J['shoulder']),
+          'left_humerus': along(jc('left_scapula', 'left_humerus'), jc('left_humerus', 'left_antebrachium'), J['shoulder'], J['elbow']),
+          'left_antebrachium': along(jc('left_humerus', 'left_antebrachium'), jc('left_antebrachium', 'left_carpus'), J['elbow'], J['carpus']),
+          'left_carpus': along(jc('left_antebrachium', 'left_carpus'), jc('left_carpus', 'left_forepaw'), J['carpus'], J['front_mcp']),
+          'left_forepaw': along(jc('left_carpus', 'left_forepaw'), lm['left_fore_toe_tip'], J['front_mcp'], J['front_toe']),
+          'left_femur': along(jc('pelvis', 'left_femur'), jc('left_femur', 'left_crus'), J['hip'], J['stifle']),
+          'left_crus': along(jc('left_femur', 'left_crus'), jc('left_crus', 'left_calx'), J['stifle'], J['hock']),
+          'left_calx': along(jc('left_crus', 'left_calx'), jc('left_calx', 'left_hindpaw'), J['hock'], J['hind_mtp']),
+          'left_hindpaw': along(jc('left_calx', 'left_hindpaw'), lm['left_hind_toe_tip'], J['hind_mtp'], J['hind_toe']),
+          'pelvis': affine3([lm['iliac_crest_top'], lm['tuber_ischiadicum'], jc('pelvis', 'left_femur')], [J['ilium_crest'], J['ischium'], J['hip']]),
+          'thorax': trunk, 'abdomen': trunk,
+          'cervix': along(lm['thorax_cervix'], lm['cervix_caput'], J['neck_root'], J['occiput']),
+          'caput': affine3([lm['cervix_caput'], lm['nose_tip'], lm['chin_lowest']], [J['occiput'], J['nose'], J['chin']]),
+        }
+        stretch = {k: round(float(np.linalg.norm(J[d] - J[c]) / np.linalg.norm(jc(*x) - jc(*y))), 3) for k, (x, y, c, d) in {
+            'humerus': (('left_scapula', 'left_humerus'), ('left_humerus', 'left_antebrachium'), 'shoulder', 'elbow'),
+            'radius': (('left_humerus', 'left_antebrachium'), ('left_antebrachium', 'left_carpus'), 'elbow', 'carpus'),
+            'femur': (('pelvis', 'left_femur'), ('left_femur', 'left_crus'), 'hip', 'stifle'),
+            'tibia': (('left_femur', 'left_crus'), ('left_crus', 'left_calx'), 'stifle', 'hock')}.items()}
+        stretch['trunk_along_back'] = round(float(span), 3)
+        return T, stretch, lm
+    lm_v, bones, _ = load_stark('beagle_fore_verified')     # the real Beagle (Simon, 13.8 kg): bone shapes and proportions
+    lm_f, _, mus = load_stark('full_linear')                  # the Shepherd-sized model: the only one with all 158 muscle lines (its own landmarks place them)
+    T, stretch, lm = transforms(lm_v); Tm, _, _ = transforms(lm_f)
     BODY = {'thorax', 'abdomen', 'pelvis', 'cervix', 'caput', 'left_scapula', 'left_humerus', 'left_femur'}
     FORE = {'left_antebrachium', 'left_carpus', 'left_forepaw'}; HIND = {'left_crus', 'left_calx', 'left_hindpaw'}
     bone_polys = {}
@@ -102,9 +106,9 @@ def build(sid):
     for name, m in mus.items():
         if name.startswith('right_'): continue
         bs = {b for _, b, _ in m['pts']}
-        if not bs <= set(T): continue
-        pts = [T[b](p[None, :])[0] for _, b, p in m['pts']]
-        r = math.sqrt(m['F'] / (A['specific_tension_MPa'] * 1e6) / math.pi) / json.load(open(M / 'stark_bone_outlines.json'))['full_linear']['withers_height_m'] if False else math.sqrt(m['F'] / (A['specific_tension_MPa'] * 1e6) / math.pi) / 0.6168
+        if not bs <= set(Tm): continue
+        pts = [Tm[b](p[None, :])[0] for _, b, p in m['pts']]
+        r = math.sqrt(m['F'] / (A['specific_tension_MPa'] * 1e6) / math.pi) / 0.6168   # thickness in the Shepherd-sized model's withers heights
         if len(pts) > 1:
             line = LineString(pts); n = max(6, int(line.length / 0.01)); g = []
             for i in range(n):   # thickest in the middle, A['muscle_end'] x at the ends (bellies and tendons)
@@ -147,7 +151,7 @@ def build(sid):
     out = {'id': sid, 'units': 'wh: withers-height units, withers at 0,0, y down, ground at y = 1; units: drawing units (same frame as the skeleton)',
            'layers_wh': {k: [list(map(lambda q: [round(q[0], 4), round(q[1], 4)], v.exterior.coords))] for k, v in layers.items()},
            'layers_units': {k: to_units(v.exterior.coords) for k, v in layers.items()},
-           'trunk_stretch_vs_beagle': round(float(span), 3), 'skin_checks': checks, 'median_skin_offset_wh': round(med, 4), 'bone_chest_depth_wh': round(float(depth_bone), 4),
+           'stretch_vs_beagle': stretch, 'skin_checks': checks, 'median_skin_offset_wh': round(med, 4), 'bone_chest_depth_wh': round(float(depth_bone), 4),
            'assumptions': {k: {'value': v[0], 'why': v[1]} for k, v in ASSUME.items()}}
     return out, bone_polys, mlines, J, layers, checks
 
