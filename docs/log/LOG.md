@@ -57,3 +57,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-06–07 · Scout · Data fetch items 01–11 (skin offsets, StanfordExtra, Stark, gait curves, Muybridge, Samuels, dingo, wild keypoints, face and ear, palettes, ethograms). → `ref/research/fetched/REPORT.md`
 - 2026-10-07 · Forge · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-forge-hello.md`
 - 2026-10-07 · Palette · Joined the team as Art style advisor; hello note and status file in place. → `docs/team/inbox/2026-10-07-palette-hello.md`
+- 2026-10-07 · Palette · Style note for the Den Team Inbox reskin (copy the in-game `.fkmail` pattern, field-kit tokens, a light-mode gap named). → `docs/team/inbox/2026-10-07-palette-inbox-style-note.md`
