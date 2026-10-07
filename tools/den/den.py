@@ -14,7 +14,8 @@
              gait                joint angles through the walk against sourced canine limits, and planted paws must not slide
              sample [n]          n random codes across every kind through lint (the code space is large; this samples it)
    species   species [names] [--sheet wolf]   real canid proportions (AwA-Pose keypoints, ref/awa-pose) next to hero2's; --sheet gives a species' style-preserving targets
-   build     skeleton <id>        a species' standing skeleton from species/<id>.yaml: species/build/<id>.skeleton.json/.svg/.png with a fit report
+   build     outline <id>         grow the side-view outline over the skeleton (Stark bones and muscles, Ellenberger skin offsets): species/build/<id>.outline.*
+             skeleton <id>        a species' standing skeleton from species/<id>.yaml: species/build/<id>.skeleton.json/.svg/.png with a fit report
    watch     gif [codes] [--rig hero,hero2] [--frames 24] [--fps 24] [--scale 8] [--box x,y,w,h] [--bg 0xRRGGBB] [--state ears-back] [--gait stand] [--mp4] [--out f.gif]
                                  one stride cycle as a looping GIF (and MP4), both dogs side by side, in any gear
    compare   diff a.png b.png [--engine ssim|pixelmatch]   before/after images, V1's SSIM or the anti-aliasing-aware pixelmatch
@@ -412,7 +413,7 @@ def main():
         f = LENS / V1[a.cmd]; sys.exit(subprocess.run((['node'] if f.suffix == '.cjs' else [sys.executable]) + [str(f)] + ([a.cmd] if a.cmd in ('shot', 'probe', 'export', 'piece') else []) + a.rest, cwd=ROOT, env=ENV).returncode)
     fn = {'lint': cmd_lint, 'sweep': lambda a: (check_sweep(codes_of(a.rest)), finish()), 'order': lambda a: (check_order(codes_of(a.rest)), finish()), 'xcheck': lambda a: (check_xcheck(codes_of(a.rest)), finish()),
           'determinism': lambda a: (check_determinism(codes_of(a.rest)), finish()), 'flush': lambda a: (check_flush(codes_of(a.rest)), finish()), 'legibility': lambda a: (check_legibility(codes_of(a.rest)), finish()),
-          'sample': cmd_sample, 'skeleton': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'skeleton.py'), *a.rest], cwd=ROOT).returncode), 'gif': cmd_gif, 'gait': lambda a: (check_gait(), finish()), 'species': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'species.py'), *a.rest], cwd=ROOT).returncode), 'diff': cmd_diff, 'report': cmd_report, 'doctor': cmd_doctor, 'baseline': cmd_baseline}.get(a.cmd)
+          'sample': cmd_sample, 'skeleton': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'skeleton.py'), *a.rest], cwd=ROOT).returncode), 'outline': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'outline.py'), *a.rest], cwd=ROOT).returncode), 'gif': cmd_gif, 'gait': lambda a: (check_gait(), finish()), 'species': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'species.py'), *a.rest], cwd=ROOT).returncode), 'diff': cmd_diff, 'report': cmd_report, 'doctor': cmd_doctor, 'baseline': cmd_baseline}.get(a.cmd)
     if not fn: print('unknown command; run `den help`'); sys.exit(2)
     fn(a)
 if __name__ == '__main__': main()
