@@ -24,6 +24,19 @@ PLATE_JOINTS = {'shoulder': (950, 1290), 'elbow': (1174, 1736), 'carpus': (1230,
 PAIR = {'withers': 'withers', 'scapula_top': 'scapula_top', 'croup': 'croup', 'ischium': 'ischium'}   # Ellenberger landmark -> skeleton joint
 
 def silhouette_mask():
+    """the plate dog cut out by IS-Net (rembg; model Apache 2.0): a learned segmenter that follows shape, not brightness, so white socks stay in and
+       notches stay out. Falls back to GrabCut if rembg is missing. Tafel 1 pixels; cached."""
+    cache = BUILD / '.tafel1_isnet.npy'
+    if cache.exists(): return np.load(cache)
+    try:
+        from rembg import remove, new_session
+        m = np.asarray(remove(Image.open(PLATES / 'tafel1_exterior_left-lateral.jpg').convert('RGB'), session=new_session('isnet-general-use'), only_mask=True)) > 128
+        lab = measure.label(m); m = ndi.binary_fill_holes(lab == max(measure.regionprops(lab), key=lambda q: q.area).label)
+        BUILD.mkdir(exist_ok=True); np.save(cache, m); return m
+    except ImportError:
+        return grabcut_mask()
+
+def grabcut_mask():
     """the plate dog cut out with GrabCut (OpenCV): seeded by a brightness threshold, it follows the real edge through the engraving's hatching. Tafel 1 pixels."""
     import cv2
     cache = BUILD / '.tafel1_grabcut.npy'
