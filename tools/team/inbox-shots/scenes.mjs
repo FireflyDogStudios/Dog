@@ -10,6 +10,7 @@ export default async ({run,W,open,fld})=>{
  await run('p',...W.phone,'dark',[['phone-mail-dark',async p=>{await p.click('.back >> nth=0');await fld('mail')(p);await open('style hook')(p);}]]);
  await run('d',...W.desktop,'dark',[['desktop-search-dark',async p=>{await p.fill('#q','gear');}],['desktop-help-dark',async p=>{await p.fill('#q','');await p.click('body',{position:{x:5,y:5}});await p.keyboard.press('?');}]]);
  await run('p',...W.phone,'light',[['phone-search-light',async p=>{await p.fill('#q','moss');}]]);
+ await run('d',...W.desktop,'dark',[['desktop-compose-moved-dark',async p=>{await p.keyboard.press('Escape');await p.evaluate(()=>{});await p.click('.compose-btn');const r=await p.evaluate(()=>{const b=document.getElementById('cmp').getBoundingClientRect();return [b.left,b.top,b.width,b.height]});await p.mouse.move(r[0]+250,r[1]+18);await p.mouse.down();await p.mouse.move(r[0]-120,r[1]+60,{steps:5});await p.mouse.up();const q=await p.evaluate(()=>{const b=document.getElementById('cmp').getBoundingClientRect();return [b.right,b.bottom]});await p.mouse.move(q[0]-6,q[1]-6);await p.mouse.down();await p.mouse.move(q[0]-150,q[1]-90,{steps:5});await p.mouse.up();await p.fill('#c-body','Window moved and shrunk.');}]]);
  await run('d',...W.desktop,'dark',[['desktop-team-dark',fld('team')],['desktop-outbox-dark',async p=>{await fld('outbox')(p);await open('Moss tone')(p);}]]);
  for(const sch of ['dark','light']){
   await run('h',...W.half,sch,[[`half-list-${sch}`,null],[`half-read-${sch}`,open('Gear fit')]]);

@@ -135,11 +135,19 @@ button.on { color: var(--gold); border-color: var(--gold); }
 .cmp-h { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--gold-soft); }
 .cmp-h h2 { font-size: 17px; color: var(--gold); flex: 1; }
 .cmp-h .saved { font: 500 12px var(--cond); letter-spacing: .06em; color: var(--muted); }
-.cmp-b { padding: 10px 14px; overflow: auto; display: grid; gap: 10px; min-height: 0; }
+.cmp-b { padding: 10px 14px; overflow: auto; display: flex; flex-direction: column; gap: 10px; min-height: 0; flex: 1 1 auto; }
+.cmp-b label.grow { flex: 1 1 auto; display: grid; grid-template-rows: auto 1fr; min-height: 150px; }
+.cmp-b label.grow textarea { height: 100%; min-height: 120px; resize: none; }
+.cmp.sized { border-bottom: 1px solid var(--gold-soft); border-radius: 4px; }
+.cmp-h { cursor: grab; user-select: none; touch-action: none; }
+.cmp-h.drag { cursor: grabbing; }
+.cmp-h button { cursor: pointer; }
+.grip { position: absolute; right: 0; bottom: 0; width: 22px; height: 22px; cursor: nwse-resize; touch-action: none;
+  background: linear-gradient(135deg, transparent 0 52%, var(--gold-soft) 52% 58%, transparent 58% 70%, var(--gold-soft) 70% 76%, transparent 76%); }
 .cmp-f { display: flex; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--rule); }
 .cmp label, .cmp .lab { display: grid; gap: 3px; font: 600 12px var(--cond); color: var(--muted); text-transform: uppercase; letter-spacing: .12em; }
 .cmp input, .cmp select, .cmp textarea { background: var(--bg); border: 1px solid var(--rule); border-radius: 2px; padding: 6px 8px; font: 500 14px var(--body); text-transform: none; letter-spacing: 0; color: var(--ink); width: 100%; }
-.cmp textarea { min-height: 150px; resize: vertical; }
+.cmp textarea { min-height: 150px; }
 .cmp .row3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
 .rc { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; background: var(--bg); border: 1px solid var(--rule); border-radius: 2px; padding: 4px 6px; }
 .rc:focus-within { border-color: var(--gold); }
@@ -180,7 +188,9 @@ pre.out { margin: 6px 0 0; background: var(--bg); border: 1px solid var(--rule);
   .q { max-width: none; }
   .rh, .msgs { padding-inline: 12px; }
   .msg .mb { padding-left: 14px; }
-  .cmp { inset: 0; width: 100%; max-height: none; border: 0; border-radius: 0; }
+  .cmp { inset: 0 !important; width: 100% !important; height: auto !important; max-height: none !important; border: 0; border-radius: 0; }
+  .grip { display: none; }
+  .cmp-h { cursor: default; }
   .fab { display: block; }
   .app[data-pane="folders"] ~ .fab, .app[data-pane="team"] ~ .fab { display: none; }
 }
@@ -421,17 +431,17 @@ const isEmpty = (f) => !f.to.length && !f.cc.length && !f.re.trim() && !f.body.t
 function cmpHTML(init) {
   const opt = (list, v) => list.map((o) => `<option ${o === v ? 'selected' : ''}>${o}</option>`).join('');
   const rc = (f, label) => `<div class="lab">${label}${f === 'cc' ? ' <span style="float:right"><button type="button" data-act="cmp-all">Everyone on the team</button></span>' : ''}<div class="rc" id="c-${f}"><span id="c-${f}-chips"></span><input id="c-${f}-in" data-f="${f}" autocomplete="off" placeholder="Add a name" aria-label="${label}"><div class="sug" id="c-${f}-sug" hidden></div></div></div>`;
-  return `<div class="cmp-h"><h2>${init.re ? 'Message' : 'New message'}</h2><span class="saved" id="c-saved"></span><button type="button" class="ghost" data-act="cmp-close">Save &amp; close</button></div>
+  return `<div class="cmp-h" id="c-head" title="Drag to move; double-click to reset"><h2>${init.re ? 'Message' : 'New message'}</h2><span class="saved" id="c-saved"></span><button type="button" class="ghost" data-act="cmp-close">Save &amp; close</button></div>
   <div class="cmp-b">${rc('to', 'To')}${rc('cc', 'Cc')}
     <label>Subject<input id="c-re" value="${esc(init.re || '')}" placeholder="What this is about, in a few words"></label>
     <div class="row3"><label>Type<select id="c-type">${opt(['request', 'news', 'answer', 'fyi', 'welcome'], init.type || 'request')}</select></label>
       <label>Priority<select id="c-pri">${opt(['next', 'now', 'later'], init.pri || 'next')}</select></label>
       <label>Approved by<input id="c-appr" value="${esc(init.appr == null ? ME : init.appr)}"></label></div>
-    <label>Message<textarea id="c-body" placeholder="Plain bullets: what to do, where to deliver, anything to watch out for">${esc(init.body || '')}</textarea></label>
+    <label class="grow">Message<textarea id="c-body" placeholder="Plain bullets: what to do, where to deliver, anything to watch out for">${esc(init.body || '')}</textarea></label>
     <details><summary>DEN-MSG v1 preview (filled in for you)</summary><pre class="out" id="c-out"></pre></details>
     <div class="msg-line" id="c-msg" aria-live="polite"></div>
     <div class="confirm" id="c-confirm" hidden><span id="c-confirm-text"></span><div class="tools"><button type="button" class="primary" data-act="cmp-go">Send now</button><button type="button" data-act="cmp-cancel">Cancel</button></div></div></div>
-  <div class="cmp-f"><button type="button" class="primary" data-act="cmp-send">Send</button><button type="button" data-act="cmp-copy">Copy instead</button><button type="button" class="ghost" data-act="cmp-discard" style="margin-left:auto">Discard</button></div>`;
+  <div class="cmp-f"><button type="button" class="primary" data-act="cmp-send">Send</button><button type="button" data-act="cmp-copy">Copy instead</button><button type="button" class="ghost" data-act="cmp-discard" style="margin-left:auto">Discard</button></div><div class="grip" id="c-grip" title="Drag to resize"></div>`;
 }
 function drawChips() {
   ['to', 'cc'].forEach((f) => { $('c-' + f + '-chips').innerHTML = cmp[f].map((n) => `<span class="chip ${canSend(n) ? '' : 'off'}" title="${canSend(n) ? esc((memberOf(n) || {}).role) : 'Not on the team yet: cannot be sent to'}">${esc(n)}<button type="button" data-act="cmp-rm" data-f="${f}" data-nick="${esc(n)}" aria-label="Remove ${esc(n)}">×</button></span>`).join(''); });
@@ -455,7 +465,9 @@ function saveDraft(final) {
 function openCompose(init = {}) {
   clearTimeout(cmp.timer);
   Object.assign(cmp, { open: true, id: init.id || uid(), to: [...(init.to || [])], cc: [...(init.cc || [])], thread: init.thread || '' });
-  $('cmp').hidden = false; $('cmp').innerHTML = cmpHTML(init); drawChips();
+  $('cmp').hidden = false; $('cmp').innerHTML = cmpHTML(init); drawChips(); applyBox();
+  $('c-head').addEventListener('pointerdown', (e) => startGesture(e, 'move')); $('c-grip').addEventListener('pointerdown', (e) => startGesture(e, 'size'));
+  $('c-head').addEventListener('dblclick', (e) => { if (e.target.closest('button')) return; cmp.box = null; saveBox(); applyBox(); });
   $('cmp').scrollTop = 0; ($('c-to').querySelector('input') && !init.to ? $('c-to-in') : $('c-body')).focus();
 }
 function closeCompose(save = true) { if (!cmp.open) return; if (save) saveDraft(true); clearTimeout(cmp.timer); cmp.open = false; $('cmp').hidden = true; $('cmp').innerHTML = ''; render(); }
@@ -469,6 +481,32 @@ function replyInit(how) {
   else if (t.kind === 'note') { to = [t.nick]; if (how === 'replyall' && t.nick.toLowerCase() !== 'firefly') cc = ['Firefly']; } else { to = [...t.to]; if (how === 'replyall') cc = [...t.cc]; }
   return { to, cc, re: re('re'), thread: g.key, body: quote(t) };
 }
+
+
+/* ---- move and resize the compose window (desktop only; remembered in this browser) ---- */
+const BOX_KEY = 'den-inbox-compose-box';
+const wide = () => window.innerWidth >= 900;
+try { cmp.box = JSON.parse(localStorage.getItem(BOX_KEY)); } catch { cmp.box = null; }
+if (!cmp.box || ['x', 'y', 'w', 'h'].some((k) => typeof cmp.box[k] !== 'number')) cmp.box = null;
+function applyBox() {
+  const el = $('cmp'), b = cmp.box;
+  if (!wide() || !b) { el.style.cssText = ''; el.classList.remove('sized'); return; }
+  const w = Math.min(Math.max(b.w, 380), innerWidth - 16), h = Math.min(Math.max(b.h, 320), innerHeight - 16);
+  const x = Math.min(Math.max(b.x, 0), innerWidth - w), y = Math.min(Math.max(b.y, 0), innerHeight - h);
+  Object.assign(el.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px', right: 'auto', bottom: 'auto', maxHeight: 'none' }); el.classList.add('sized');
+  cmp.box = { x, y, w, h };
+}
+function saveBox() { try { if (cmp.box) localStorage.setItem(BOX_KEY, JSON.stringify(cmp.box)); else localStorage.removeItem(BOX_KEY); } catch {} }
+function startGesture(e, kind) {
+  if (!wide() || e.button > 0 || (kind === 'move' && e.target.closest('button'))) return;
+  const el = $('cmp'); if (!cmp.box) { const r = el.getBoundingClientRect(); cmp.box = { x: r.left, y: r.top, w: r.width, h: r.height }; applyBox(); }
+  const o = { ...cmp.box, px: e.clientX, py: e.clientY }; const h = $('c-head'); if (kind === 'move') h.classList.add('drag');
+  const t = e.currentTarget; t.setPointerCapture(e.pointerId); e.preventDefault();
+  const move = (m) => { if (kind === 'move') { cmp.box.x = o.x + m.clientX - o.px; cmp.box.y = o.y + m.clientY - o.py; } else { cmp.box.w = o.w + m.clientX - o.px; cmp.box.h = o.h + m.clientY - o.py; } applyBox(); };
+  const up = () => { t.removeEventListener('pointermove', move); h.classList.remove('drag'); saveBox(); };
+  t.addEventListener('pointermove', move); t.addEventListener('pointerup', up, { once: true }); t.addEventListener('pointercancel', up, { once: true });
+}
+window.addEventListener('resize', applyBox);
 
 /* ---- delivery: Outbox -> Sent ---- */
 const sending = new Set();

@@ -1,6 +1,6 @@
 # lever status
-Updated: 2026-10-07 (after the sub-agents news; none used so far)
-Working on: nothing now. Team mail folder and mail.py are already built and pushed (548ba84); waiting for Atlas rules, Fetch test and the next request
-Last push: Lever: team mail folder in the inbox client
+Updated: 2026-10-07
+Working on: done, movable and resizable compose window (GrumpyDingo request); waiting for review
+Last push: Lever: compose window can be moved and resized
 Blocked: no
-Needs Firefly: review; the sync that relays mail and writes mail/<id>
+Needs Firefly: review and republish; pass the reply in the note to GrumpyDingo

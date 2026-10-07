@@ -41,4 +41,14 @@ await p.keyboard.press('Escape'); ok(!(await p.isVisible('#cmp')),'Esc closes co
 await p.keyboard.press('e'); await p.click('[data-f="archive"]'); ok((await p.textContent('#list')).includes('Gear fit'),'e archives');
 await p.keyboard.press('c'); ok(await p.isVisible('#cmp'),'c composes'); await p.keyboard.press('Escape'); ok(await p.isVisible('#cmp'),'first Esc only closes the suggestions'); await p.keyboard.press('Escape'); ok(!(await p.isVisible('#cmp')),'second Esc closes compose');
 await p.keyboard.press('?'); ok(await p.isVisible('#help'),'? shows help');
+// movable and resizable compose window
+await p.keyboard.press('Escape'); await p.click('[data-f="inbox"]'); await p.keyboard.press('c');
+const box=async()=>p.evaluate(()=>{const r=document.getElementById('cmp').getBoundingClientRect();return {x:r.left,y:r.top,w:r.width,h:r.height}});
+const b0=await box(); await p.mouse.move(b0.x+200,b0.y+18); await p.mouse.down(); await p.mouse.move(b0.x+100,b0.y+18-30,{steps:6}); await p.mouse.up();
+const b1=await box(); ok(Math.abs((b1.x-b0.x)+100)<3&&Math.abs((b1.y-b0.y)+30)<4,'dragging the header moves the window');
+await p.mouse.move(b1.x+b1.w-6,b1.y+b1.h-6); await p.mouse.down(); await p.mouse.move(b1.x+b1.w+120,b1.y+b1.h+60,{steps:6}); await p.mouse.up();
+const b2=await box(); ok(b2.w>b1.w+100&&b2.h>b1.h+50,'dragging the grip resizes it');
+await p.mouse.move(0,0); await p.keyboard.press('Escape'); await p.keyboard.press('Escape'); await p.keyboard.press('c'); const b3=await box(); ok(Math.abs(b3.x-b2.x)<2&&Math.abs(b3.w-b2.w)<2,'position and size are remembered');
+await p.dblclick('#c-head h2'); const b4=await box(); ok(b4.w<b2.w&&b4.y>b2.y,'double-click on the header resets it');
+await p.keyboard.press('Escape'); await p.keyboard.press('Escape');
 console.log('errors:',errs.length?errs:'none'); await b.close();
