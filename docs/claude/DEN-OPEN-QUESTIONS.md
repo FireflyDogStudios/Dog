@@ -27,4 +27,5 @@ Kept by Firefly, started Oct 6, 2026. Two kinds: **research questions** (facts t
 - The licence holds: the non-commercial motion curves and the copyleft keypoint file stay out of the repo unless he says otherwise.
 - ~~More data~~ fetched Oct 7 by a separate session (`ref/research/fetched/`, merged by Firefly).
 - ~~Walk footfall phase conflict~~ settled Oct 7: LF 0.16 wolf, 0.17 dingo-sized dog (applied).
-- How realistic vs stylised the final look should be (he said accuracy first, style later).
+- How realistic vs stylised the final look should be: **open (Oct 7)**. GrumpyDingo: the flat style came from "stone knives and bear skins"; with the research in hand, aim to be amazing and go from there. Plan: style tests on the anatomy-complete wolf.
+- Sex-specific anatomy (the male sheath, which the outline step removed by mistake on Oct 7): a per-species, per-sex detail; whether the game shows it is GrumpyDingo's call.
