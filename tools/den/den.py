@@ -23,7 +23,7 @@
 
    The default code set is one of every kind (collar, guard, three rings, armor, paw covers, four bracelets). Pass codes to test others.
    Everything measures in drawing units (62x38). The ID pass is the second opinion: it needs no colours, no eyeballs, and no palette luck."""
-import sys, os, re, json, math, subprocess, pathlib, time, random, argparse
+import shutil, sys, os, re, json, math, subprocess, pathlib, time, random, argparse
 ROOT = pathlib.Path(__file__).resolve().parents[2]; DEN = ROOT / 'tools/den'; LENS = ROOT / 'tools/lens'; CACHE = DEN / '.cache'; CACHE.mkdir(exist_ok=True, parents=True)
 sys.path.insert(0, str(LENS))
 ENV = {**os.environ, 'NODE_PATH': str(ROOT / 'node_modules')}
@@ -357,6 +357,15 @@ def cmd_doctor(a):
     say('Node:')
     for p in ['playwright', 'pixelmatch', 'pngjs']:
         f = ROOT / 'node_modules' / p / 'package.json'; say(f'  ok   {p} {json.load(open(f))["version"]}' if f.exists() else f'  MISSING {p}   npm install')
+    say('Industry tools (Oct 7; heavy ones install in the background at session start, log /tmp/den-heavy.log):')
+    for p, why in [('bpy', 'Blender 4.2 headless: bone meshes, Rigify metarigs, Cycles CPU renders'), ('opensim', 'OpenSim 4.6: the Beagle and greyhound musculoskeletal models'),
+                   ('mujoco', 'MuJoCo physics: gait simulation'), ('pyvista', 'VTK meshes'), ('trimesh', 'mesh loading and side-view projection'), ('ikpy', 'IK chains'),
+                   ('skia-pathops', 'Skia path booleans (Chrome and Android use the same engine)'), ('polars', 'fast tables (12k-dog keypoint sets)'), ('statsmodels', 'regressions on species data'),
+                   ('pdfplumber', 'tables out of PDF supplements'), ('pycocotools', 'COCO keypoints and masks'), ('mypy', 'Python type checks'), ('pyoxipng', 'lossless PNG shrinking')]:
+        try: say(f'  ok   {p} {m.version(p)}')
+        except Exception: say(f'  not yet {p}   ({why})')
+    for t in ('inkscape', 'gifsicle', 'ffmpeg', 'convert', 'ruff', 'eslint'):
+        say(f'  {"ok  " if shutil.which(t) else "not yet"} {t}')
     say('Kit: V1 at tools/lens (git tag kit-v1, commit 70c9ee0); V2 at tools/den')
     say('Optional backends (extra options, they replace nothing; each is added only when wanted):')
     for name, hint, why in [('paper', 'npm i paper-jsdom', 'curve-aware booleans: compile shapes as bezier paths instead of polylines'),

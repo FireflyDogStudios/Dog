@@ -16,3 +16,15 @@ svgelements
 bezier
 imageio
 imageio-ffmpeg
+# Oct 7: research and pipeline tools (light)
+trimesh
+opencv-python-headless
+pycocotools
+pdfplumber
+ikpy
+polars
+statsmodels
+hypothesis
+mypy
+skia-pathops
+pyoxipng
