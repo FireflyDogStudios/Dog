@@ -141,6 +141,7 @@ Notes back to Firefly use the note format in `docs/team/README.md`.
 
 ## The Den Team Inbox (GrumpyDingo's view)
 - **Delivery (decided Oct 7):** GrumpyDingo's personal plan has no organization settings, so the page can't send into sessions: claude.ai answers `send_message` with `blocked_by_policy`. Mail from the page waits in the Outbox, and Firefly delivers it (`relay_outbox.py`, Lever) at every check. Reading live session state still works.
+- **The Den Courier (Oct 7, GrumpyDingo):** an hourly Routine (`trig_01FTYTicUVjUty7RqDC7K6F1`, a fresh session at :40, no notifications) that delivers the page's outbox and writes `meta/courier`. It has no repo checkout, so members post their own notes to the store (`mail.py post`, Lever). Cost about $0.14 a run on the default model before trimming; watch it.
 - **URL:** https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK (private; source `apps/team-inbox/index.html`).
 - **What it shows:**
   - the notes that need GrumpyDingo;
