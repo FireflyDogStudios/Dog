@@ -9,7 +9,9 @@ Method as written in ref/research/keypoints/REPORT.md section 3 (the original sc
   line pointing back (+90 upright, 0 laid back, about -100 hanging); tail carriage = base-to-tip against straight back (+up).
 
   python3 tools/atlas/regen_unitB.py --validate   rerun the method on AwA-Pose and compare with proportions.json awa_unitB
-  python3 tools/atlas/regen_unitB.py              write the CSV"""
+  python3 tools/atlas/regen_unitB.py              write the CSV
+  python3 tools/atlas/regen_unitB.py --validate-block   rerun the full statistics block on AwA and compare with awa_unitB
+  python3 tools/atlas/regen_unitB.py --proportions      rewrite the se_unitB block of proportions.json (A-006)"""
 import json, math, sys, statistics as st, csv
 SE = 'ref/research/fetched/02-outline-landmarks/data.json'
 AWA = 'ref/awa-pose/canids.json'
@@ -134,4 +136,75 @@ def main():
         w = csv.writer(fh); w.writerow(cols); w.writerows(rows)
     print(f'wrote {OUT}: {len(rows) - 1} breeds, ALL_DOMESTIC n_profile {rows[0][1]}')
 
-if __name__ == '__main__': main()
+if __name__ == '__main__' and not {'--validate-block', '--proportions'} & set(sys.argv): main()
+
+# ---- A-006: the full statistics block (props, sheet_ratios, angles) in proportions.json ----
+# Only the measures StanfordExtra's points allow; the others stay null, as in the original se_unitB block.
+def _elbow_height(p):
+    return p['front_paw'][1] - p['front_thai'][1] if 'front_paw' in p and 'front_thai' in p else None
+def _ratio(a, b):
+    return None if a is None or b is None or not b else a / b
+TOP = FEATURES['topline-to-paw']
+SHEET = {
+    'body : topline-to-paw': lambda p: _ratio(1.0, TOP(p)),
+    'head : topline-to-paw': lambda p: _ratio(FEATURES['head'](p), TOP(p)),
+    'elbow height : topline-to-paw': lambda p: _ratio(_elbow_height(p), TOP(p)),
+    'tail : topline-to-paw': lambda p: _ratio(FEATURES['tail'](p), TOP(p)),
+}
+BLOCK_ANGLES = {'front pastern (carpus) angle': ANGLES['carpus angle (standing)'], 'hock angle': ANGLES['hock angle (standing)'],
+                'ear carriage vs skull': ear_carriage, 'tail carriage vs topline': tail_carriage}
+NULL_PROPS = ['chest depth', 'neck', 'muzzle', 'height (withers)']
+NULL_SHEET = ['body : height', 'head : height', 'muzzle : skull', 'chest depth : height', 'elbow height : height', 'tail : height', 'neck : head']
+NULL_ANG = ['neck vs back line', 'head: muzzle vs skull axis']
+
+def _desc(v, nd):
+    v = [x for x in v if x is not None]
+    if not v: return None
+    r = lambda x: round(x, nd) if nd else float(round(x))
+    q = st.quantiles(v, n=4) if len(v) >= 4 else None   # quartiles only from 4 values up, as in the original
+    return {'n': len(v), 'median': r(st.median(v)), 'q1': r(q[0]) if q else None, 'q3': r(q[2]) if q else None, 'min': r(min(v)), 'max': r(max(v))}
+
+def block(S, keys):
+    """keys = the original entry's key order, so the rewritten block keeps its layout"""
+    stand = [p for p in S if standing(p)]
+    props = {f: (None if f in NULL_PROPS else _desc([FEATURES[f](p) for p in S], 2)) for f in keys['props']}
+    sheet = {f: (None if f in NULL_SHEET else _desc([SHEET[f](p) for p in S], 2)) for f in keys['sheet_ratios']}
+    ang = lambda pool: {f: (None if f in NULL_ANG else _desc([BLOCK_ANGLES[f](p) for p in pool], 0)) for f in keys['angles_standing']}
+    return {'n_profile': len(S), 'n_standing': len(stand), 'props': props, 'sheet_ratios': sheet, 'angles_standing': ang(stand), 'angles_all_profile': ang(S)}
+
+def compare(a, b, path=''):
+    """yield (path, a, b) wherever two blocks differ"""
+    if isinstance(a, dict) and isinstance(b, dict):
+        for k in a:
+            yield from compare(a[k], b.get(k), f'{path}/{k}')
+    elif a != b:
+        yield path, a, b
+
+def validate_block():
+    D = json.load(open(AWA)); P = json.load(open('ref/research/keypoints/proportions.json'))
+    keys = {k: list(v) for k, v in P['se_unitB']['ALL_DOMESTIC'].items() if isinstance(v, dict)}
+    diffs = 0
+    for sp, ref in P['awa_unitB'].items():
+        S = [q for q in (frame(e['kp']) for e in D[sp]) if q and profile(q)]
+        mine = block(S, keys)
+        for path, a, b in compare(mine, ref):
+            if a is None: continue   # measures StanfordExtra cannot give are left null on purpose
+            diffs += 1; print(f'{sp}{path}: mine {a} stored {b}')
+    print(f'AwA block check: {diffs} differences on the measures StanfordExtra allows')
+    return diffs
+
+def write_block():
+    f = 'ref/research/keypoints/proportions.json'; s = open(f).read(); P = json.loads(s)
+    keys = {k: list(v) for k, v in P['se_unitB']['ALL_DOMESTIC'].items() if isinstance(v, dict)}
+    D = json.load(open(SE))
+    per = {b: [q for q in (frame(se_points(e['kp'])) for e in dogs) if q and profile(q)] for b, dogs in D.items()}
+    every = block([p for s_ in per.values() for p in s_], keys)
+    order = list(P['se_unitB']) + [b for b in per if b not in P['se_unitB']]   # keep the existing order; new breeds at the end
+    new = {b: every if b == 'ALL_DOMESTIC' else block(per[b], keys) for b in order if b == 'ALL_DOMESTIC' or b in per}
+    P['se_unitB'] = new
+    indent = 1 if s.startswith('{\n "') else 2 if s.startswith('{\n  "') else None
+    open(f, 'w').write(json.dumps(P, indent=indent, ensure_ascii=False) + ('\n' if s.endswith('\n') else ''))
+    print(f'rewrote se_unitB: {len(new) - 1} breeds, ALL_DOMESTIC n_profile {new["ALL_DOMESTIC"]["n_profile"]}')
+
+if __name__ == '__main__' and '--validate-block' in sys.argv: validate_block()
+if __name__ == '__main__' and '--proportions' in sys.argv: write_block()
