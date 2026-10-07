@@ -35,6 +35,7 @@ The rule: **when we meet a kind of work, one specialist owns it, and Firefly coo
 | **Scale** | Balance | Power curves, drop rates, short simulations (GrumpyDingo's rule), always talked through before any change | After items and armour (GrumpyDingo's order) |
 | **Trail** | Level designer | The Meadow first: zones, pacing, encounter placement | When zones come back |
 | **Fetch** | Quick lookups | One-off questions with an obvious source (a page, a licence, a fact); hands anything harder to Scout | When quick questions start queuing |
+| **Relay** | Team tools (proposed Oct 7) | The team's own tools: the Den Team Inbox page, `tools/team/`, messaging and the board, later a forum or announcement feed if we need one; separate from Lever, who builds tools for the game | When the team tools need more than small fixes |
 | **Lever** | Tools and admin panel | An admin layer for GrumpyDingo: view and edit game data, spawn items and creatures, jump to states, debug views | Early once game work resumes: it speeds everyone up |
 
 ### Model by task (Firefly's advice)
@@ -100,10 +101,11 @@ Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDi
 Every message between Firefly (or GrumpyDingo) and a member uses this shape, so anyone can tell at a glance what it asks and where the answer goes. The Den Team Inbox page builds it for GrumpyDingo.
 ```
 DEN-MSG v1
-To: <nick> (<role>)
+To: <nick>, <nick> …
+Cc: <nick> … (optional: read it, reply only if it touches your work)
 From: Firefly (lead) | GrumpyDingo
 Re: <subject, a few words>
-Type: request | answer | fyi | welcome
+Type: request | news | answer | fyi | welcome
 Priority: now | next | later
 Approved by: GrumpyDingo (A-0nn) | not needed
 Request file: <docs/claude/DEN-...md, if there is one>
@@ -115,13 +117,15 @@ Reply: leave a note in docs/team/inbox/ on your branch and update docs/team/stat
 ```
 Notes back to Firefly use the note format in `docs/team/README.md`.
 
+- **News to everyone:** pick "Everyone on the team" on the Den Team Inbox page, with Type `news`. The page sends the same message to every active member's session, one at a time, Cc Firefly, and records it in its `sent` collection.
+
 ## The Den Team Inbox (GrumpyDingo's view)
 - **URL:** https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK (private; source `apps/team-inbox/index.html`).
 - **What it shows:**
   - the notes that need GrumpyDingo;
   - the team board: role, status file, and the session's live state, read through the Claude Code Remote connector every minute;
   - every note, with "mark read" and "done" buttons;
-  - a composer for DEN-MSG messages.
+  - a composer for DEN-MSG messages, with To, Cc and "Everyone on the team". It sends each message into the recipients' sessions through the connector (an in-page confirm first; the first send asks GrumpyDingo to allow it), or copies it.
 - **Who fills it:** Firefly runs `tools/team/inbox.py` and copies new notes and status files into the page's store, `notes/<id>`, `members/<nick>` and `meta/sync`.
 - **Notifications:** when a check finds something that needs GrumpyDingo, Firefly also sends a push notification.
 

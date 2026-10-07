@@ -64,6 +64,14 @@ details.compose summary { cursor: pointer; font: 700 16px var(--display); }
 .form label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
 .form input, .form select, .form textarea { background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 6px 8px; font-size: 14px; text-transform: none; letter-spacing: 0; color: var(--ink); }
 .form .wide { grid-column: 1 / -1; }
+.flabel { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 14px; padding: 3px 10px; font-size: 13px; cursor: pointer; background: var(--bg); }
+.chip input { accent-color: var(--pine); margin: 0; }
+.chip.off { opacity: 0.45; cursor: not-allowed; }
+.confirm { margin-top: 10px; padding: 10px; border: 1px solid var(--amber); background: var(--amber-soft); border-radius: 6px; display: grid; gap: 8px; }
+.results { margin: 8px 0 0; padding-left: 18px; font: 12.5px/1.6 var(--mono); }
+.results .bad { color: var(--danger); } .results .good { color: var(--ok); }
 pre.out { margin: 10px 0 0; background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 10px; font: 12.5px/1.5 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
 @media (prefers-reduced-motion: no-preference) { .dot.working { animation: pulse 2.4s ease-in-out infinite; } @keyframes pulse { 50% { opacity: 0.55; } } }
 </style>
@@ -98,18 +106,29 @@ pre.out { margin: 10px 0 0; background: var(--bg); border: 1px solid var(--line)
 
   <section aria-labelledby="h-compose">
     <details class="compose" id="compose">
-      <summary id="h-compose">Write a message to a team member</summary>
-      <p class="sub">Builds the message in the team's set format (DEN-MSG v1). Copy it and paste it into their session, or hand it to Firefly to send.</p>
+      <summary id="h-compose">Write to the team</summary>
+      <p class="sub">Builds the message in the team's set format (DEN-MSG v1) and sends it straight into each recipient's Claude Code session, one by one. Everyone in To and Cc gets the same message.</p>
       <div class="form">
-        <label for="m-to">To<select id="m-to"></select></label>
-        <label for="m-type">Type<select id="m-type"><option>request</option><option>answer</option><option>fyi</option><option>welcome</option></select></label>
+        <div class="wide"><span class="flabel">To</span><div class="chips" id="m-to"></div></div>
+        <div class="wide"><span class="flabel">Cc</span><div class="chips" id="m-cc"></div></div>
+        <div class="wide actions"><button type="button" id="m-all">Everyone on the team</button><button type="button" id="m-none">Clear</button></div>
+        <label for="m-type">Type<select id="m-type"><option>request</option><option>news</option><option>answer</option><option>fyi</option><option>welcome</option></select></label>
         <label for="m-pri">Priority<select id="m-pri"><option>next</option><option>now</option><option>later</option></select></label>
         <label for="m-appr">Approved by<input id="m-appr" value="GrumpyDingo"></label>
         <label for="m-re" class="wide">Subject<input id="m-re" placeholder="What this is about, in a few words"></label>
         <label for="m-body" class="wide">Message<textarea id="m-body" rows="5" placeholder="Plain bullets: what to do, where to deliver, anything to watch out for"></textarea></label>
       </div>
       <pre class="out" id="m-out"></pre>
-      <div class="actions" style="margin-top:8px"><button class="primary" id="m-copy" type="button">Copy message</button><span class="sub" id="m-copied" aria-live="polite"></span></div>
+      <div class="actions" style="margin-top:8px">
+        <button class="primary" id="m-send" type="button">Send</button>
+        <button id="m-copy" type="button">Copy instead</button>
+        <span class="sub" id="m-copied" aria-live="polite"></span>
+      </div>
+      <div class="confirm" id="m-confirm" hidden>
+        <span id="m-confirm-text"></span>
+        <div class="actions"><button class="primary" id="m-go" type="button">Send now</button><button id="m-cancel" type="button">Cancel</button></div>
+      </div>
+      <ul class="results" id="m-results"></ul>
     </details>
   </section>
 </div>
@@ -160,25 +179,63 @@ function render() {
         ${m.working ? `<div class="state">${esc(m.working)}${m.blocked && !/^no/i.test(m.blocked) ? '\nblocked: ' + esc(m.blocked) : ''}</div>` : ''}
         ${live ? `<div class="state" style="color:var(--muted);white-space:pre-wrap">${esc(live)}</div>` : ''}
       </div>`; }).join('');
-    const opts = state.members.map((m) => `<option value="${esc(m.nick)}|${esc(m.role)}">${esc(m.nick)} (${esc(m.role)})</option>`).join('');
-    if ($('m-to').dataset.n !== String(state.members.length)) { $('m-to').innerHTML = opts; $('m-to').dataset.n = String(state.members.length); compose(); }
+    chips(); compose();
   }
   $('sync').textContent = state.sync ? `Board filled by Firefly ${ago(state.sync.checked_at)}` : 'Waiting for the board…';
 }
 
+const picked = { to: new Set(), cc: new Set() };
+function chips() {
+  ['to', 'cc'].forEach((k) => {
+    $('m-' + k).innerHTML = state.members.map((m) => {
+      const ok = !!m.session_id; const on = picked[k].has(m._id);
+      return `<label class="chip ${ok ? '' : 'off'}" title="${ok ? esc(m.role) : 'Not on the team yet'}"><input type="checkbox" data-k="${k}" data-id="${esc(m._id)}" ${on ? 'checked' : ''} ${ok ? '' : 'disabled'}>${esc(m.nick)}</label>`;
+    }).join('');
+  });
+}
+const nicks = (set) => state.members.filter((m) => set.has(m._id)).map((m) => m.nick);
+function recipients() { const ids = new Set([...picked.to, ...picked.cc]); return state.members.filter((m) => ids.has(m._id) && m.session_id); }
 function compose() {
-  const [nick, role] = ($('m-to').value || 'Scout|Research').split('|');
-  const msg = [`DEN-MSG v1`, `To: ${nick} (${role})`, `From: GrumpyDingo (via the Den Team Inbox)`, `Re: ${$('m-re').value || '…'}`, `Type: ${$('m-type').value}`,
-    `Priority: ${$('m-pri').value}`, `Approved by: ${$('m-appr').value || 'not needed'}`, `---`, $('m-body').value || '…', `---`,
-    `Reply: leave a note in docs/team/inbox/ on your branch and update docs/team/status/${nick.toLowerCase()}.md.`].join('\n');
+  const to = nicks(picked.to), cc = nicks(picked.cc);
+  const msg = [`DEN-MSG v1`, `To: ${to.join(', ') || '…'}`, ...(cc.length ? [`Cc: ${cc.join(', ')}`] : []), `From: GrumpyDingo (via the Den Team Inbox)`,
+    `Re: ${$('m-re').value || '…'}`, `Type: ${$('m-type').value}`, `Priority: ${$('m-pri').value}`, `Approved by: ${$('m-appr').value || 'not needed'}`, `---`,
+    $('m-body').value || '…', `---`, `Reply: leave a note in docs/team/inbox/ on your branch and update docs/team/status/<your nick>.md. Cc'd members: read it; reply only if it touches your work.`].join('\n');
   $('m-out').textContent = msg; return msg;
 }
-['m-to', 'm-type', 'm-pri', 'm-appr', 'm-re', 'm-body'].forEach((id) => $(id).addEventListener('input', compose));
+document.addEventListener('change', (e) => { const c = e.target.closest('input[data-k]'); if (!c) return; const set = picked[c.dataset.k];
+  c.checked ? set.add(c.dataset.id) : set.delete(c.dataset.id); if (c.checked) picked[c.dataset.k === 'to' ? 'cc' : 'to'].delete(c.dataset.id); chips(); compose(); });
+$('m-all').addEventListener('click', () => { picked.cc.clear(); state.members.forEach((m) => m.session_id && m._id !== 'firefly' && picked.to.add(m._id)); picked.cc.add('firefly'); chips(); compose(); });
+$('m-none').addEventListener('click', () => { picked.to.clear(); picked.cc.clear(); chips(); compose(); });
+['m-type', 'm-pri', 'm-appr', 'm-re', 'm-body'].forEach((id) => $(id).addEventListener('input', compose));
 $('m-copy').addEventListener('click', async () => {
   const text = compose();
   try { await navigator.clipboard.writeText(text); $('m-copied').textContent = 'Copied'; }
   catch { const r = document.createRange(); r.selectNodeContents($('m-out')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $('m-copied').textContent = 'Selected: press Ctrl+C or Cmd+C'; }
 });
+let mcpRef = null;
+$('m-send').addEventListener('click', () => {
+  const rs = recipients(); $('m-results').innerHTML = '';
+  if (!rs.length) { $('m-copied').textContent = 'Pick at least one recipient first.'; return; }
+  if (!$('m-re').value.trim() || !$('m-body').value.trim()) { $('m-copied').textContent = 'Add a subject and a message first.'; return; }
+  if (!mcpRef) { $('m-copied').textContent = 'Sending needs the Claude Code Remote connector; use Copy instead.'; return; }
+  $('m-copied').textContent = ''; $('m-confirm-text').textContent = `Send this to ${rs.length} session${rs.length > 1 ? 's' : ''}: ${rs.map((m) => m.nick).join(', ')}? Each one starts working on it.`;
+  $('m-confirm').hidden = false;
+});
+$('m-cancel').addEventListener('click', () => { $('m-confirm').hidden = true; });
+$('m-go').addEventListener('click', async () => {
+  $('m-confirm').hidden = true; const text = compose(); const rs = recipients(); const out = [];
+  $('m-send').disabled = true;
+  for (const m of rs) {
+    const li = document.createElement('li'); li.textContent = `${m.nick}: sending…`; $('m-results').appendChild(li);
+    try { await mcpRef.callTool('Claude Code Remote', 'send_message', { session_id: m.session_id, message: text }); li.textContent = `${m.nick}: delivered`; li.className = 'good'; out.push({ nick: m.nick, ok: true }); }
+    catch (err) { const c = err && err.code; li.className = 'bad';
+      li.textContent = `${m.nick}: not sent (${c === 'approval_required' || c === 'not_in_manifest' ? 'allow Claude Code Remote for this page, then try again' : c === 'server_unavailable' || c === 'upstream_error' ? 'Claude Code did not answer; check their session before resending' : c || 'error'})`;
+      out.push({ nick: m.nick, ok: false, code: c || 'error' }); }
+  }
+  $('m-send').disabled = false;
+  if (db) { try { await db.collection('sent').add({ at: new Date().toISOString(), to: nicks(picked.to), cc: nicks(picked.cc), re: $('m-re').value, type: $('m-type').value, results: out }); } catch {} }
+});
+
 $('filter').addEventListener('change', render);
 document.addEventListener('click', async (e) => {
   const b = e.target.closest('button[data-set]'); if (!b || !db) return;
@@ -198,7 +255,7 @@ compose(); render();
 })();
 
 (async () => {
-  const mcp = await window.claude?.use?.('mcp');
+  const mcp = await window.claude?.use?.('mcp'); mcpRef = mcp;
   const live = $('live'), banner = $('live-banner');
   if (!mcp) { live.textContent = 'Live sessions: off in this view'; return; }
   mcp.watchTool('Claude Code Remote', 'list_sessions', { mine: true, limit: 30 }, (ev) => {
