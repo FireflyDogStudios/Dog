@@ -4,6 +4,12 @@ Add requests at the top. Firefly or GrumpyDingo marks each one **Approved**, **D
 
 ---
 
+## A-006 · Regenerate the rest of the AGPL-derived keypoint numbers · from Atlas · 2026-10-07 · **Waiting**
+- **Ask:** regenerate the `se_unitB` block of `ref/research/keypoints/proportions.json` and the StanfordExtra figures quoted in `ref/research/keypoints/REPORT.md` (Table C footnote, Table D last column, the breed list under Table D) from the MIT data, with the same method as `tools/atlas/regen_unitB.py`.
+- **Why:** they were computed from the AGPL-labelled Ultralytics mirror, like the CSV fixed under A-002 item 3. A-002 named only the CSV. `tools/den/species_check.py` reads only `awa_unitB`, so no tool output changes.
+- **Expect:** small shifts (the CSV moved by a median of 0.01 per breed; all-domestic medians unchanged), more dogs (1,701 vs 1,283 profile dogs), and new dingo and dhole entries.
+- **Decision:** _
+
 ## A-005 · Licence for a public research subset · from Atlas · 2026-10-07 · **Decided**
 - **Ask:** decide whether a research subset may be released publicly, and under what licence.
 - **Proposed licences:**
@@ -48,6 +54,7 @@ These change numbers or generated files, so they need a yes. Each is listed in `
   - Item 1, chest depth: approved as re-measure-and-relabel. The 3D skeleton (`./den skeleton3d`) now takes chest depth from the real ribcage, and it matches the wolf photo (0.58 vs 0.56 of height). So the 0.54 ratio should be relabelled as an outer surface measure, fur included, and never applied to bone in the 2D tools. Firefly does the `wolf.yaml` part.
   - Item 2: Firefly applies it.
   - Items 3–6: Atlas may do them.
+  - **Done by Atlas (2026-10-07): items 3, 4, 5, 6 and 7.** See the log line of that date.
   - Added item 7: the four Stark trunk muscles with a placeholder force of 1.0 N (iliocostalis, longissimus, quadratus lumborum, sacrocaudalis, both sides). Flag them in `fetched/03-dog-model` and in the reference guide; the 3D muscle step must exclude them or source real values.
 
 ## A-001 · Add one pointer line to `CLAUDE.md` · from Atlas · 2026-10-07 · **Decided**

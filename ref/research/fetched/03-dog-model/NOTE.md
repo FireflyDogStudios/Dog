@@ -50,6 +50,7 @@ Fetched 2026-10-06 by Firefly data-fetch agents. The greyhound part (section B) 
 - **Segment lengths** (`stark_segments.csv`) are measured between consecutive joint centres and landmarks, in 3D and projected to the side view.
   - Chains: thoracic and lumbar spine, neck, head, tail, lumbosacral→hip, forelimb (scapula top–shoulder–elbow–carpus–MCP–claw tip) and hindlimb (hip–stifle–hock–MTP–claw tip).
   - Within each limb, the ratios are identical in the two models.
+- **Placeholder muscles (flagged Oct 7, approval A-002 item 7):** in `full_linear`, eight trunk muscles carry placeholder parameters, **max isometric force 1.0 N and optimal fibre length 0.01 m**: `left_/right_iliocostalis`, `left_/right_longissimus`, `left_/right_quadratus_lumborum`, `left_/right_sacrocaudalis` (the next-smallest force in the file is 5.65 N). They are not physiological. Any Hill-volume or force step (the 3D muscle step in `../../scout/12-body-tools/SUMMARY.md`) must exclude them or source real values. Their paths (origin and insertion) are usable as lines.
 - **Muscles** (`stark_muscles.csv`): long format, one row per path point. It gives the local position in the body frame, the global position at the default pose, and the side-view position in m and WH.
   - These are **lines**, not volumes. Paths also wrap over the cylinders listed in `data.json`; the wrapping is not computed here.
 - **Bone outlines** (`stark_bone_outlines.json`):

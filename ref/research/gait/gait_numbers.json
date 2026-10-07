@@ -1,5 +1,6 @@
 {
   "_meta": {
+    "superseded": "Partly superseded Oct 7 (Atlas, approval A-002 item 5): prefer ref/research/fetched/04-gait-curves/ and ref/research/missingfound/walk-footfall-and-muybridge/ where they overlap; see the REPORT.md banner for the known conflicts.",
     "compiled": "2026-10-06",
     "by": "Firefly (Claude) research pass",
     "angleConvention": "Sagittal included angle between segments, 180 = straight, smaller = more flexed; carpus exceeds 180 (hyperextension) in stance. Shoulder=scapula-humerus, elbow=humerus-antebrachium, carpus=antebrachium-metacarpus, hip=pelvis-femur, stifle=femur-tibia, tarsus=tibia-metatarsus.",
