@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-07
+- 2026-10-07 · Firefly · Boot prompt for a new lead session (setup steps, how to work, objectives, the task list in order). → `docs/team/FIREFLY-BOOT-PROMPT.md`
 - 2026-10-07 · Firefly · **Keynote:** the team is up. Welcomes went out one at a time and every member answered with a hello note and a status file: Scout, Atlas, Shutter (existing, plus team news), then the ten new members Firefly created (Forge, Spark, Palette, Reel, Echo, Loom, Scale, Trail, Lever, Fetch), each on `claude/team-<nick>`. Roster with session ids in `DEN-TEAM.md`; the Den Team Inbox board shows all 14.
 - 2026-10-07 · Firefly · Welcomes sent to Scout, Atlas and Shutter; each answered with a hello note and a status file (the inbox works). Created the first new member, Builder - Forge (`claude/team-forge`). The Den Team Inbox page now sends messages (To, Cc, Everyone) straight into members' sessions; DEN-MSG gains Cc and a news type; Relay proposed for team tools. → https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK
 - 2026-10-07 · Firefly · **Keynote:** Firefly's letter to the next Firefly (how to work as lead; first ten minutes; lessons); DEN-TEAM gains the delegation rule (Firefly does not search) and the escalation ladder (Haiku → Sonnet → Opus/Fable, gaps back to Firefly), plus a planned quick-lookup member, Fetch. → `docs/team/FIREFLY-TO-FUTURE-FIREFLY.md`, `docs/claude/DEN-TEAM.md`
