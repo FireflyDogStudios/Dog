@@ -46,8 +46,11 @@ button.on { color: var(--gold); border-color: var(--gold); }
 .app { height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto 1fr; max-width: 1500px; margin: 0 auto; }
 .top { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--gold-soft); }
 .top h1 { font-size: 22px; line-height: 1.1; color: var(--ink); }
+.top h1 { flex: none; }
 .top h1 small { display: block; font: 600 11px/1.3 var(--cond); color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
-.top .meta { margin-left: auto; font: 500 12px/1.4 var(--cond); letter-spacing: .06em; color: var(--muted); text-align: right; }
+.q { flex: 1 1 220px; max-width: 420px; margin-left: auto; background: var(--bg); border: 1px solid var(--rule); border-radius: 2px; padding: 6px 10px; font: 500 14px var(--body); color: var(--ink); min-width: 0; }
+.q:focus { border-color: var(--gold); outline: 0; }
+.top .meta { margin-left: 8px; font: 500 12px/1.4 var(--cond); letter-spacing: .06em; color: var(--muted); text-align: right; }
 .panes { display: grid; grid-template-columns: 210px minmax(300px, 380px) minmax(0, 1fr); min-height: 0; }
 .pane { min-height: 0; overflow: auto; border-right: 1px solid var(--rule); }
 .pane:last-child { border-right: 0; }
@@ -156,6 +159,11 @@ pre.out { margin: 6px 0 0; background: var(--bg); border: 1px solid var(--rule);
 .results { margin: 0; padding-left: 18px; font: 12.5px/1.6 var(--mono); }
 .results .bad { color: var(--warn); } .results .good { color: var(--moss); }
 .fab { display: none; position: fixed; right: 16px; bottom: 16px; z-index: 30; padding: 11px 18px; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
+.help { position: fixed; inset: 0; margin: auto; z-index: 70; width: min(420px, calc(100vw - 32px)); height: fit-content; background: var(--panel); border: 1px solid var(--gold-soft); border-radius: 4px; padding: 16px 18px; box-shadow: 0 20px 50px rgba(0,0,0,.55); display: grid; gap: 10px; }
+.help h2 { color: var(--gold); font-size: 18px; }
+.help dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 0; font-size: 14px; }
+.help dt { font: 600 13px var(--mono); color: var(--gold); } .help dd { margin: 0; }
+.nav .keys { margin: 14px 4px 0; }
 .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 60; background: var(--panel); border: 1px solid var(--gold-soft); padding: 8px 16px; border-radius: 3px; font-size: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.4); max-width: calc(100vw - 32px); }
 
 /* below 900px: one pane at a time */
@@ -168,6 +176,8 @@ pre.out { margin: 6px 0 0; background: var(--bg); border: 1px solid var(--rule);
   .back { display: inline-block; }
   .top { padding: 8px 12px; }
   .top .meta { display: none; }
+  .top h1 small { display: none; }
+  .q { max-width: none; }
   .rh, .msgs { padding-inline: 12px; }
   .msg .mb { padding-left: 14px; }
   .cmp { inset: 0; width: 100%; max-height: none; border: 0; border-radius: 0; }
@@ -181,6 +191,7 @@ pre.out { margin: 6px 0 0; background: var(--bg); border: 1px solid var(--rule);
   <header class="top">
     <button type="button" class="ghost back" data-act="pane" data-pane="folders" aria-label="Folders">☰</button>
     <h1><small>Project Dog · the den's dispatch board</small>Den Team Inbox</h1>
+    <input type="search" id="q" class="q" placeholder="Search all mail  ( / )" aria-label="Search all mail" autocomplete="off">
     <div class="meta"><div id="sync">Waiting for the board…</div><div id="live">Live sessions: connecting…</div></div>
   </header>
   <div class="panes">
@@ -198,12 +209,17 @@ pre.out { margin: 6px 0 0; background: var(--bg); border: 1px solid var(--rule);
 <button type="button" class="primary fab" id="fab" data-act="compose">✎ Write</button>
 <aside class="cmp" id="cmp" hidden aria-label="New message"></aside>
 <div class="toast" id="toast" role="status" hidden></div>
+<aside class="help" id="help" hidden aria-label="Keyboard shortcuts"><h2>Shortcuts</h2>
+  <dl><dt>c</dt><dd>Write a message</dd><dt>/</dt><dd>Search</dd><dt>j / k</dt><dd>Next / previous message</dd><dt>x</dt><dd>Select / unselect</dd>
+  <dt>r / a / f</dt><dd>Reply / reply all / forward</dd><dt>e</dt><dd>Archive (or move back to inbox)</dd><dt>s</dt><dd>Star</dd><dt>u</dt><dd>Mark unread</dd><dt># or Delete</dt><dd>Trash</dd>
+  <dt>Esc</dt><dd>Close, clear search, go back</dd><dt>Ctrl+Enter</dt><dd>Send, in the compose window</dd><dt>?</dt><dd>This list</dd></dl>
+  <button type="button" data-act="help">Close</button></aside>
 
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const state = { notes: [], members: [], sent: [], drafts: [], outbox: [], sessions: null, sync: null };
-const view = { folder: 'inbox', cur: null, checked: new Set(), pane: 'list', fresh: new Set() };
+const view = { folder: 'inbox', cur: null, checked: new Set(), pane: 'list', fresh: new Set(), q: '', prev: 'inbox' };
 let db = null;
 const ME = 'GrumpyDingo';
 
@@ -238,7 +254,9 @@ function items() {
     unread: false, thread: threadKey(o.re, o.thread), status: o.status || 'queued', results: o.results || [] }));
   return out;
 }
+const hay = (m) => [m.nick, m.subject, m.body, m.needs, m.path, m.branch, m.status, m.to.join(' '), m.cc.join(' ')].join(' ').toLowerCase();
 const inFolder = {
+  search: (m) => { const w = view.q.toLowerCase().split(/\s+/).filter(Boolean); if (!w.length) return false; const h = hay(m); return w.every((x) => h.includes(x)); },
   inbox: (m) => m.kind === 'note' && !m.trashed && !m.archived,
   needs: (m) => m.kind === 'note' && !m.trashed && m.needsYou,
   starred: (m) => (m.kind === 'note' || m.kind === 'sent') && !m.trashed && m.starred,
@@ -260,12 +278,12 @@ function counts(all) {
 function groups(all) {
   const f = inFolder[view.folder]; if (!f) return [];
   const by = new Map();
-  all.filter(f).forEach((m) => { const k = (view.folder === 'drafts' || view.folder === 'outbox') ? m.kind + ':' + m.id : m.thread || m.kind + ':' + m.id; (by.get(k) || by.set(k, []).get(k)).push(m); });
+  all.filter(f).forEach((m) => { const k = (m.kind === 'draft' || m.kind === 'outbox') ? m.kind + ':' + m.id : m.thread || m.kind + ':' + m.id; (by.get(k) || by.set(k, []).get(k)).push(m); });
   const key = (m) => m.ts * 1 + m.ord * 1e-3;
   return [...by.entries()].map(([k, ms]) => { ms.sort((a, b) => key(b) - key(a)); return { key: k, ms, top: ms[0], unread: ms.some((m) => m.unread), starred: ms.some((m) => m.starred) }; })
     .sort((a, b) => key(b.top) - key(a.top));
 }
-const threadAll = (all, key) => all.filter((m) => (m.kind === 'note' || m.kind === 'sent') && m.thread === key && (view.folder === 'trash' ? m.trashed : !m.trashed)).sort((a, b) => (a.ts + a.ord * 1e-3) - (b.ts + b.ord * 1e-3));
+const threadAll = (all, key) => all.filter((m) => (m.kind === 'note' || m.kind === 'sent') && m.thread === key && (view.folder === 'search' ? true : view.folder === 'trash' ? m.trashed : !m.trashed)).sort((a, b) => (a.ts + a.ord * 1e-3) - (b.ts + b.ord * 1e-3));
 
 /* store writes (notes and sent keep every existing field; new fields are additive) */
 async function patch(m, p) {
@@ -286,7 +304,8 @@ const applyTo = (ms, how) => {
 const prevText = (m) => (m.body || m.status || (m.kind === 'sent' ? 'Sent to ' + m.to.join(', ') : '')).replace(/\s+/g, ' ').slice(0, 140);
 function rowHTML(g) {
   const m = g.top, mine = m.kind !== 'note'; const who = mine ? 'To ' + (m.to.join(', ') || '…') : m.nick;
-  const flag = g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? `<span class="flag">${esc(m.status)}</span>` : '';
+  const tag = view.folder === 'search' ? `<span class="cnt">${m.trashed ? 'Trash' : m.archived ? 'Archive' : { note: 'Inbox', sent: 'Sent', draft: 'Draft', outbox: 'Outbox' }[m.kind]}</span>` : '';
+  const flag = tag + (g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? `<span class="flag">${esc(m.status)}</span>` : '');
   return `<div class="row ${g.unread ? 'unread' : ''} ${view.cur === g.key ? 'cur' : ''}" data-act="open" data-key="${esc(g.key)}" role="button" tabindex="0">
     <input type="checkbox" data-act="check" data-key="${esc(g.key)}" ${view.checked.has(g.key) ? 'checked' : ''} aria-label="Select">
     ${avatar(mine ? ME : m.nick)}
@@ -297,9 +316,9 @@ function rowHTML(g) {
   </div>`;
 }
 const EMPTY = { inbox: 'Nothing here. Notes from the team land in the Inbox.', needs: 'Nothing waiting on GrumpyDingo.', starred: 'No starred messages.', drafts: 'No drafts.', outbox: 'The Outbox is empty: everything you sent has been delivered.',
-  sent: 'Nothing sent yet.', archive: 'Nothing archived. Done notes live here.', trash: 'Trash is empty.' };
+  search: 'No messages match.', sent: 'Nothing sent yet.', archive: 'Nothing archived. Done notes live here.', trash: 'Trash is empty.' };
 function renderList(all, gs) {
-  const name = (FOLDERS.find((f) => f[0] === view.folder) || [0, ''])[1]; const n = view.checked.size;
+  const name = view.folder === 'search' ? 'Search' : (FOLDERS.find((f) => f[0] === view.folder) || [0, ''])[1]; const n = view.checked.size;
   const bulk = n ? `<span class="sel-info">${n} selected</span><div class="bulk">
       ${view.folder === 'drafts' || view.folder === 'outbox' ? (view.folder === 'outbox' ? '<button type="button" data-act="bulk" data-how="retry">Retry</button>' : '') + '<button type="button" data-act="bulk" data-how="drop">Delete</button>' : view.folder === 'trash' ? '<button type="button" data-act="bulk" data-how="restore">Restore</button>' : `<button type="button" data-act="bulk" data-how="read">Mark read</button><button type="button" data-act="bulk" data-how="unread">Mark unread</button>
       ${view.folder === 'archive' ? '<button type="button" data-act="bulk" data-how="unarchive">Move to inbox</button>' : '<button type="button" data-act="bulk" data-how="archive">Archive</button>'}<button type="button" data-act="bulk" data-how="trash">Trash</button>`}
@@ -324,12 +343,12 @@ function renderRead(all, gs) {
   if (!g) { $('read').innerHTML = `<div class="empty">${view.folder === 'team' ? '' : 'Select a message to read it.'}</div>`; return; }
   const ms = (g.top.kind === 'note' || g.top.kind === 'sent') ? threadAll(all, g.key) : g.ms;
   const acts = ms.filter((m) => m.kind === 'note' || m.kind === 'sent');
-  const t = view.folder === 'trash';
+  const srch = view.folder === 'search', t = view.folder === 'trash' || (srch && g.top.trashed), arch = view.folder === 'archive' || (srch && g.top.archived);
   const kind = g.top.kind;
   const mailTools = !t && acts.length ? '<button type="button" data-act="reply">Reply</button><button type="button" data-act="replyall">Reply all</button><button type="button" data-act="forward">Forward</button>' : '';
   const ownTools = kind === 'outbox' ? '<button type="button" class="primary" data-act="retry">Retry</button><button type="button" data-act="edit">Edit</button><button type="button" data-act="del">Delete</button>' : kind === 'draft' ? '<button type="button" class="primary" data-act="edit">Edit</button><button type="button" data-act="del">Delete</button>' : '';
   const tools = ownTools || mailTools + (acts.length ? (t ? '<button type="button" data-act="one" data-how="restore">Restore</button>' :
-    `<button type="button" data-act="one" data-how="${view.folder === 'archive' ? 'unarchive' : 'archive'}">${view.folder === 'archive' ? 'Move to inbox' : 'Archive'}</button>
+    `<button type="button" data-act="one" data-how="${arch ? 'unarchive' : 'archive'}">${arch ? 'Move to inbox' : 'Archive'}</button>
      <button type="button" data-act="one" data-how="unread">Mark unread</button>
      <button type="button" class="${g.starred ? 'on' : ''}" data-act="star" data-key="${esc(g.key)}" aria-pressed="${g.starred}">${g.starred ? '★ Starred' : '☆ Star'}</button>
      <button type="button" data-act="one" data-how="trash">Trash</button>`) : '');
@@ -362,7 +381,7 @@ function render() {
   $('nav').innerHTML = '<button type="button" class="primary compose-btn" data-act="compose">✎ Write</button>' + FOLDERS.map(([k, label, ic]) => !k ? `<div class="grp">${label}</div>` :
     `<button type="button" class="fld ${view.folder === k ? 'on' : ''}" data-act="folder" data-f="${k}"><span class="ic">${ic}</span>${label}${
       k === 'inbox' ? (c.unread ? `<span class="n">${c.unread}</span>` : '') : k === 'needs' ? (c.needs ? `<span class="n hot">${c.needs}</span>` : '') :
-      ['drafts', 'outbox'].includes(k) ? (c[k] ? `<span class="n">${c[k]}</span>` : '') : ''}</button>`).join('');
+      ['drafts', 'outbox'].includes(k) ? (c[k] ? `<span class="n">${c[k]}</span>` : '') : ''}</button>`).join('') + '<button type="button" class="ghost keys" data-act="help">Shortcuts ( ? )</button>';
   document.title = (c.needs ? `(${c.needs}) ` : '') + 'Den Team Inbox';
   const team = view.folder === 'team'; $('team').hidden = !team; $('list').hidden = team; $('read').hidden = team;
   if (team) renderBoard(); else { const gs = groups(all); view.checked = new Set([...view.checked].filter((k) => gs.some((g) => g.key === k))); renderList(all, gs); renderRead(all, gs); }
@@ -464,9 +483,14 @@ async function deliver(id) {
 }
 
 /* actions */
+function openKey(key) { const dg = groupOf(key); if (dg && dg.top.kind === 'draft') { const d = state.drafts.find((x) => x._id === dg.top.id) || {}; return openCompose({ id: d._id, to: d.to, cc: d.cc, re: d.re, body: d.body, type: d.type, pri: d.pri, appr: d.appr, thread: d.thread }); }
+    view.cur = key; view.pane = 'read'; const g = groupOf(view.cur); view.fresh = new Set(); if (g) g.ms.filter((m) => m.kind === 'note' && m.unread).forEach((m) => { view.fresh.add(m.id); patch(m, P.read(m)); }); return render();
+}
+
 function groupOf(key) { return groups(items()).find((g) => g.key === key); }
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-act]'); if (!el) return; const a = el.dataset.act;
+  if (a === 'help') { $('help').hidden = !$('help').hidden; return; }
   if (a === 'compose') return openCompose();
   if (a === 'reply' || a === 'replyall' || a === 'forward') { const i = replyInit(a); return i && openCompose(i); }
   if (a === 'cmp-close') return closeCompose(true);
@@ -494,10 +518,9 @@ document.addEventListener('click', (e) => {
     const d = state.drafts.find((x) => x._id === o.id) || {}; return openCompose({ id: o.id, to: d.to, cc: d.cc, re: d.re, body: d.body, type: d.type, pri: d.pri, appr: d.appr, thread: d.thread }); }
   if (a === 'del') { const g = groupOf(view.cur); if (!g) return; drop(g.top.coll, g.top.id); view.cur = null; view.pane = 'list'; return render(); }
   if (a === 'check') { e.stopPropagation(); view.checked[el.checked ? 'add' : 'delete'](el.dataset.key); return render(); }
-  if (a === 'folder') { view.folder = el.dataset.f; view.cur = null; view.checked.clear(); view.pane = 'list'; return render(); }
+  if (a === 'folder') { $('q').value = ''; view.q = ''; view.folder = el.dataset.f; view.cur = null; view.checked.clear(); view.pane = 'list'; return render(); }
   if (a === 'pane') { view.pane = el.dataset.pane; if (view.pane === 'folders' && view.folder === 'team') view.folder = 'inbox'; if (el.dataset.pane === 'list') view.cur = null; return render(); }
-  if (a === 'open') { const dg = groupOf(el.dataset.key); if (dg && dg.top.kind === 'draft') { const d = state.drafts.find((x) => x._id === dg.top.id) || {}; return openCompose({ id: d._id, to: d.to, cc: d.cc, re: d.re, body: d.body, type: d.type, pri: d.pri, appr: d.appr, thread: d.thread }); }
-    view.cur = el.dataset.key; view.pane = 'read'; const g = groupOf(view.cur); view.fresh = new Set(); if (g) g.ms.filter((m) => m.kind === 'note' && m.unread).forEach((m) => { view.fresh.add(m.id); patch(m, P.read(m)); }); return render(); }
+  if (a === 'open') return openKey(el.dataset.key);
   if (a === 'star') { e.stopPropagation(); const g = groupOf(el.dataset.key); if (!g) return; const on = !g.starred; g.ms.filter((m) => m.kind === 'note' || m.kind === 'sent').forEach((m) => patch(m, { starred: on })); return render(); }
   if (a === 'bulk') { const how = el.dataset.how; if (how === 'clear') { view.checked.clear(); return render(); } const ms = [...view.checked].flatMap((k) => (groupOf(k) || { ms: [] }).ms); view.checked.clear(); return applyTo(ms, how); }
   if (a === 'one') { const g = groupOf(view.cur); if (!g) return; const how = el.dataset.how; const ms = threadAll(items(), g.key); if (how !== 'unread') { view.cur = null; view.pane = 'list'; } return applyTo(ms, how); }
@@ -511,8 +534,46 @@ document.addEventListener('keydown', (e) => {
     const f = t.dataset.f;
     if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); const first = $('c-' + f + '-sug').querySelector('button'); if (first) addRcpt(f, first.dataset.nick); else if (t.value.trim()) { const m = memberOf(t.value.trim()); addRcpt(f, m ? m.nick : t.value.trim()); } return; }
     if (e.key === 'Backspace' && !t.value && cmp[f].length) { cmp[f].pop(); drawChips(); dirty(); return; }
-    if (e.key === 'Escape') hideSug(f);
+    if (e.key === 'Escape' && !$('c-' + f + '-sug').hidden) { hideSug(f); e.preventDefault(); }
   } const r = e.target.closest && e.target.closest('.row'); if (r && e.target === r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); r.click(); } });
+
+
+/* ---- search and keyboard shortcuts ---- */
+$('q').addEventListener('input', () => {
+  const q = $('q').value; if (q.trim() && view.folder !== 'search') { view.prev = view.folder === 'team' ? 'inbox' : view.folder; view.folder = 'search'; }
+  if (!q.trim() && view.folder === 'search') view.folder = view.prev || 'inbox';
+  view.q = q; view.cur = null; view.checked.clear(); view.pane = 'list'; render();
+});
+function step(d) { const gs = groups(items()); if (!gs.length) return; const i = gs.findIndex((g) => g.key === view.cur); const n = gs[Math.min(gs.length - 1, Math.max(0, i < 0 ? (d > 0 ? 0 : gs.length - 1) : i + d))]; openKey(n.key); const r = document.querySelector('.row.cur'); if (r) r.scrollIntoView({ block: 'nearest' }); }
+function press(sel) { const b = document.querySelector(sel); if (b) b.click(); return !!b; }
+document.addEventListener('keydown', (e) => {
+  const t = e.target, typing = t.matches && t.matches('input, textarea, select, [contenteditable]');
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && t.closest && t.closest('#cmp')) { e.preventDefault(); return press('[data-act="cmp-send"]'); }
+  if (e.key === 'Escape') {
+    if (!$('help').hidden) { $('help').hidden = true; return; }
+    if (cmp.open) { if (e.defaultPrevented) return; return closeCompose(true); }
+    if (view.q) { $('q').value = ''; $('q').dispatchEvent(new Event('input')); return $('q').blur(); }
+    if (view.cur) { view.cur = null; view.pane = 'list'; return render(); }
+    return;
+  }
+  if (typing || e.ctrlKey || e.metaKey || e.altKey || cmp.open) return;
+  const k = e.key; const one = (how) => press(`[data-act="one"][data-how="${how}"]`);
+  if (k === '/') { e.preventDefault(); return $('q').focus(); }
+  if (k === '?') return void ($('help').hidden = !$('help').hidden);
+  if (k === 'c') { e.preventDefault(); return openCompose(); }
+  if (view.folder === 'team') return;
+  if (k === 'j') return step(1);
+  if (k === 'k') return step(-1);
+  if (k === 'x' && view.cur) { view.checked[view.checked.has(view.cur) ? 'delete' : 'add'](view.cur); return render(); }
+  if (!view.cur) return;
+  if (k === 'r') return press('[data-act="reply"]');
+  if (k === 'a') return press('[data-act="replyall"]');
+  if (k === 'f') return press('[data-act="forward"]');
+  if (k === 'e') return one('archive') || one('unarchive');
+  if (k === 'u') return one('unread');
+  if (k === '#' || k === 'Delete') return one('trash') || press('[data-act="del"]');
+  if (k === 's') press('.rh [data-act="star"]');
+});
 
 /* store and live sessions */
 (async () => {

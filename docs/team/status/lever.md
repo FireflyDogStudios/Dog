@@ -1,6 +1,6 @@
 # lever status
 Updated: 2026-10-07
-Working on: inbox mail client, phase 2 of 3 done (compose, drafts, outbox); phase 3 search and shortcuts next
-Last push: Lever: inbox phase 2
+Working on: done, team inbox rebuilt as a mail client (phases 1-3), waiting for review
+Last push: Lever: inbox phase 3 (search and shortcuts)
 Blocked: no
-Needs Firefly: no
+Needs Firefly: review and republish of apps/team-inbox/index.html

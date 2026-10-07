@@ -78,3 +78,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Lever · Den Team Inbox reskinned in the field kit look (desktop, half, phone, dark and light). → `apps/team-inbox/index.html`, `docs/team/lever/inbox-theme/`
 - 2026-10-07 · Lever · Team inbox rebuilt as a three-pane mail client, phase 1 of 3 (folders, list, reading). → `apps/team-inbox/`, `docs/team/lever/inbox-theme/`
 - 2026-10-07 · Lever · Team inbox phase 2 of 3: compose window, reply/forward, drafts, outbox with retry. → `apps/team-inbox/`
+- 2026-10-07 · Lever · Team inbox phase 3 of 3: search and keyboard shortcuts; rebuild complete. → `apps/team-inbox/`
