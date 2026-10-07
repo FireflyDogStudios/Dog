@@ -1,2 +1,4 @@
 .tafel1_grabcut.npy
 .tafel1_isnet.npy
+.skel3d_obj/
+.skel3d_render.py

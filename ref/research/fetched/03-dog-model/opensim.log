@@ -212,3 +212,458 @@
 
 	In Component '/forceset/left_trapezius_cervical' of type Millard2012EquilibriumMuscle.
 	Thrown at Millard2012EquilibriumMuscle.cpp:431 in extendFinalizeFromProperties().).
+[2026-10-07 06:30:53.217] [info] Updating Model file from 30000 to latest format...
+[2026-10-07 06:30:53.219] [warning] Model name 'Stark (2021) Spezzoo-scaled' contains whitespace.
+[2026-10-07 06:30:53.219] [warning] It was renamed to 'Stark(2021)Spezzoo-scaled'.
+[2026-10-07 06:30:53.315] [info] Loaded model Stark(2021)Spezzoo-scaled from file stark_beagle_fore_verified.osim
+[2026-10-07 06:30:53.317] [warning] Couldn't find file 'box.obj'.
+[2026-10-07 06:30:53.317] [warning] Couldn't find file 'new-thorax.obj'.
+[2026-10-07 06:30:53.317] [warning] Couldn't find file 'new-cervix.obj'.
+[2026-10-07 06:30:53.317] [warning] Couldn't find file 'new-caput.obj'.
+[2026-10-07 06:30:53.317] [warning] Couldn't find file 'new-abdomen.obj'.
+[2026-10-07 06:30:53.317] [warning] Couldn't find file 'new-cauda.obj'.
+[2026-10-07 06:30:53.317] [warning] Couldn't find file 'new_stretched-scapula_l.obj'.
+[2026-10-07 06:30:53.317] [warning] Couldn't find file 'new_stretched-humerus_l.obj'.
+[2026-10-07 06:30:53.318] [warning] Couldn't find file 'new_stretched-antebrachium_l.obj'.
+[2026-10-07 06:30:53.318] [warning] Couldn't find file 'new_stretched-carpus_l.obj'.
+[2026-10-07 06:30:53.318] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_l.obj'.
+[2026-10-07 06:30:53.318] [warning] Couldn't find file 'new_stretched-digiti_manus_l.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-scapula_r.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-humerus_r.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-antebrachium_r.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-carpus_r.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_r.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-digiti_manus_r.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-pelvis.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-femur_l.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-crus_l.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-calx_l.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-calx_tarsus_l.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-calx_metatarsus_l.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-digiti_pedis_l.obj'.
+[2026-10-07 06:30:53.319] [warning] Couldn't find file 'new_stretched-femur_r.obj'.
+[2026-10-07 06:30:53.320] [warning] Couldn't find file 'new_stretched-crus_r.obj'.
+[2026-10-07 06:30:53.320] [warning] Couldn't find file 'new_stretched-calx_r.obj'.
+[2026-10-07 06:30:53.320] [warning] Couldn't find file 'new_stretched-calx_tarsus_r.obj'.
+[2026-10-07 06:30:53.320] [warning] Couldn't find file 'new_stretched-calx_metatarsus_r.obj'.
+[2026-10-07 06:30:53.320] [warning] Couldn't find file 'new_stretched-digiti_pedis_r.obj'.
+[2026-10-07 06:30:53.321] [info] 'ControllerSet' was renamed and is being set to 'controllerset'.
+[2026-10-07 06:30:53.324] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.324] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.324] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.324] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.324] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.324] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.324] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.324] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.325] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.325] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:30:53.325] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.325] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:30:53.325] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.325] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:30:53.325] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:30:53.325] [info] 'ComponentSet' was renamed and is being set to 'componentset'.
+[2026-10-07 06:32:40.840] [info] Updating Model file from 30000 to latest format...
+[2026-10-07 06:32:40.841] [warning] Model name 'Stark (2021) Spezzoo-scaled' contains whitespace.
+[2026-10-07 06:32:40.841] [warning] It was renamed to 'Stark(2021)Spezzoo-scaled'.
+[2026-10-07 06:32:40.902] [info] Loaded model Stark(2021)Spezzoo-scaled from file /home/user/Dog/ref/research/fetched/03-dog-model/stark_beagle_fore_verified.osim
+[2026-10-07 06:32:40.903] [warning] Couldn't find file 'box.obj'.
+[2026-10-07 06:32:40.903] [warning] Couldn't find file 'new-thorax.obj'.
+[2026-10-07 06:32:40.903] [warning] Couldn't find file 'new-cervix.obj'.
+[2026-10-07 06:32:40.903] [warning] Couldn't find file 'new-caput.obj'.
+[2026-10-07 06:32:40.903] [warning] Couldn't find file 'new-abdomen.obj'.
+[2026-10-07 06:32:40.903] [warning] Couldn't find file 'new-cauda.obj'.
+[2026-10-07 06:32:40.903] [warning] Couldn't find file 'new_stretched-scapula_l.obj'.
+[2026-10-07 06:32:40.903] [warning] Couldn't find file 'new_stretched-humerus_l.obj'.
+[2026-10-07 06:32:40.903] [warning] Couldn't find file 'new_stretched-antebrachium_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-carpus_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-digiti_manus_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-scapula_r.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-humerus_r.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-antebrachium_r.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-carpus_r.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_r.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-digiti_manus_r.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-pelvis.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-femur_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-crus_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-calx_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-calx_tarsus_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-calx_metatarsus_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-digiti_pedis_l.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-femur_r.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-crus_r.obj'.
+[2026-10-07 06:32:40.904] [warning] Couldn't find file 'new_stretched-calx_r.obj'.
+[2026-10-07 06:32:40.905] [warning] Couldn't find file 'new_stretched-calx_tarsus_r.obj'.
+[2026-10-07 06:32:40.905] [warning] Couldn't find file 'new_stretched-calx_metatarsus_r.obj'.
+[2026-10-07 06:32:40.905] [warning] Couldn't find file 'new_stretched-digiti_pedis_r.obj'.
+[2026-10-07 06:32:40.905] [info] 'ControllerSet' was renamed and is being set to 'controllerset'.
+[2026-10-07 06:32:40.907] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.907] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.907] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.907] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:32:40.908] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:32:40.909] [info] 'ComponentSet' was renamed and is being set to 'componentset'.
+[2026-10-07 06:32:43.692] [warning] Coordinate.setValue:  coordinate thorax_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:43.759] [warning] Coordinate.setValue:  coordinate m_inferioris_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:43.770] [warning] Coordinate.setValue:  coordinate left_r_coxae_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:43.781] [warning] Coordinate.setValue:  coordinate left_r_genus_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:43.792] [warning] Coordinate.setValue:  coordinate left_r_talocruralis_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:43.803] [warning] Coordinate.setValue:  coordinate left_r_hindpaw_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:43.813] [warning] Coordinate.setValue:  coordinate cervix_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:43.823] [warning] Coordinate.setValue:  coordinate caput_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:46.382] [warning] Coordinate.setValue:  coordinate right_r_m_superioris_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:46.382] [warning] Coordinate.setValue:  coordinate right_r_deltoidea_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:46.382] [warning] Coordinate.setValue:  coordinate right_r_cubitalis_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:46.382] [warning] Coordinate.setValue:  coordinate right_r_carpalis_sagittal is locked. Unable to change its value.
+[2026-10-07 06:32:46.382] [warning] Coordinate.setValue:  coordinate right_r_forepaw_sagittal is locked. Unable to change its value.
+[2026-10-07 06:33:36.339] [info] Updating Model file from 30000 to latest format...
+[2026-10-07 06:33:36.340] [warning] Model name 'Stark (2021) Spezzoo-scaled' contains whitespace.
+[2026-10-07 06:33:36.340] [warning] It was renamed to 'Stark(2021)Spezzoo-scaled'.
+[2026-10-07 06:33:36.363] [info] Loaded model Stark(2021)Spezzoo-scaled from file stark_beagle_fore_verified.osim
+[2026-10-07 06:33:36.364] [warning] Couldn't find file 'box.obj'.
+[2026-10-07 06:33:36.364] [warning] Couldn't find file 'new-thorax.obj'.
+[2026-10-07 06:33:36.364] [warning] Couldn't find file 'new-cervix.obj'.
+[2026-10-07 06:33:36.364] [warning] Couldn't find file 'new-caput.obj'.
+[2026-10-07 06:33:36.364] [warning] Couldn't find file 'new-abdomen.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new-cauda.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-scapula_l.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-humerus_l.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-antebrachium_l.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-carpus_l.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_l.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-digiti_manus_l.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-scapula_r.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-humerus_r.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-antebrachium_r.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-carpus_r.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_r.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-digiti_manus_r.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-pelvis.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-femur_l.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-crus_l.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-calx_l.obj'.
+[2026-10-07 06:33:36.365] [warning] Couldn't find file 'new_stretched-calx_tarsus_l.obj'.
+[2026-10-07 06:33:36.366] [warning] Couldn't find file 'new_stretched-calx_metatarsus_l.obj'.
+[2026-10-07 06:33:36.366] [warning] Couldn't find file 'new_stretched-digiti_pedis_l.obj'.
+[2026-10-07 06:33:36.366] [warning] Couldn't find file 'new_stretched-femur_r.obj'.
+[2026-10-07 06:33:36.366] [warning] Couldn't find file 'new_stretched-crus_r.obj'.
+[2026-10-07 06:33:36.366] [warning] Couldn't find file 'new_stretched-calx_r.obj'.
+[2026-10-07 06:33:36.366] [warning] Couldn't find file 'new_stretched-calx_tarsus_r.obj'.
+[2026-10-07 06:33:36.366] [warning] Couldn't find file 'new_stretched-calx_metatarsus_r.obj'.
+[2026-10-07 06:33:36.366] [warning] Couldn't find file 'new_stretched-digiti_pedis_r.obj'.
+[2026-10-07 06:33:36.367] [info] 'ControllerSet' was renamed and is being set to 'controllerset'.
+[2026-10-07 06:33:36.368] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.368] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.368] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:33:36.369] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:33:36.370] [info] 'ComponentSet' was renamed and is being set to 'componentset'.
+[2026-10-07 06:34:08.278] [info] Updating Model file from 30000 to latest format...
+[2026-10-07 06:34:08.279] [warning] Model name 'Stark (2021) Spezzoo-scaled' contains whitespace.
+[2026-10-07 06:34:08.279] [warning] It was renamed to 'Stark(2021)Spezzoo-scaled'.
+[2026-10-07 06:34:08.321] [info] Loaded model Stark(2021)Spezzoo-scaled from file /home/user/Dog/ref/research/fetched/03-dog-model/stark_beagle_fore_verified.osim
+[2026-10-07 06:34:08.322] [warning] Couldn't find file 'box.obj'.
+[2026-10-07 06:34:08.322] [warning] Couldn't find file 'new-thorax.obj'.
+[2026-10-07 06:34:08.322] [warning] Couldn't find file 'new-cervix.obj'.
+[2026-10-07 06:34:08.322] [warning] Couldn't find file 'new-caput.obj'.
+[2026-10-07 06:34:08.322] [warning] Couldn't find file 'new-abdomen.obj'.
+[2026-10-07 06:34:08.322] [warning] Couldn't find file 'new-cauda.obj'.
+[2026-10-07 06:34:08.322] [warning] Couldn't find file 'new_stretched-scapula_l.obj'.
+[2026-10-07 06:34:08.322] [warning] Couldn't find file 'new_stretched-humerus_l.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-antebrachium_l.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-carpus_l.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_l.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-digiti_manus_l.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-scapula_r.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-humerus_r.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-antebrachium_r.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-carpus_r.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_r.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-digiti_manus_r.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-pelvis.obj'.
+[2026-10-07 06:34:08.323] [warning] Couldn't find file 'new_stretched-femur_l.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-crus_l.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-calx_l.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-calx_tarsus_l.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-calx_metatarsus_l.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-digiti_pedis_l.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-femur_r.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-crus_r.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-calx_r.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-calx_tarsus_r.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-calx_metatarsus_r.obj'.
+[2026-10-07 06:34:08.324] [warning] Couldn't find file 'new_stretched-digiti_pedis_r.obj'.
+[2026-10-07 06:34:08.326] [info] 'ControllerSet' was renamed and is being set to 'controllerset'.
+[2026-10-07 06:34:08.328] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.328] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.328] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.329] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.329] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.329] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.329] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.329] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.330] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.330] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:34:08.330] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.330] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:34:08.330] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.330] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:34:08.330] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:34:08.331] [info] 'ComponentSet' was renamed and is being set to 'componentset'.
+[2026-10-07 06:34:08.871] [warning] Coordinate.setValue:  coordinate thorax_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:08.943] [warning] Coordinate.setValue:  coordinate m_inferioris_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:08.956] [warning] Coordinate.setValue:  coordinate left_r_coxae_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:08.969] [warning] Coordinate.setValue:  coordinate left_r_genus_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:08.983] [warning] Coordinate.setValue:  coordinate left_r_talocruralis_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:09.000] [warning] Coordinate.setValue:  coordinate left_r_hindpaw_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:09.017] [warning] Coordinate.setValue:  coordinate cervix_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:09.034] [warning] Coordinate.setValue:  coordinate caput_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:09.850] [warning] Coordinate.setValue:  coordinate right_r_m_superioris_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:09.850] [warning] Coordinate.setValue:  coordinate right_r_deltoidea_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:09.850] [warning] Coordinate.setValue:  coordinate right_r_cubitalis_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:09.850] [warning] Coordinate.setValue:  coordinate right_r_carpalis_sagittal is locked. Unable to change its value.
+[2026-10-07 06:34:09.850] [warning] Coordinate.setValue:  coordinate right_r_forepaw_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:15.141] [info] Updating Model file from 30000 to latest format...
+[2026-10-07 06:35:15.143] [warning] Model name 'Stark (2021) Spezzoo-scaled' contains whitespace.
+[2026-10-07 06:35:15.143] [warning] It was renamed to 'Stark(2021)Spezzoo-scaled'.
+[2026-10-07 06:35:15.184] [info] Loaded model Stark(2021)Spezzoo-scaled from file /home/user/Dog/ref/research/fetched/03-dog-model/stark_beagle_fore_verified.osim
+[2026-10-07 06:35:15.185] [warning] Couldn't find file 'box.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new-thorax.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new-cervix.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new-caput.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new-abdomen.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new-cauda.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new_stretched-scapula_l.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new_stretched-humerus_l.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new_stretched-antebrachium_l.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new_stretched-carpus_l.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_l.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new_stretched-digiti_manus_l.obj'.
+[2026-10-07 06:35:15.186] [warning] Couldn't find file 'new_stretched-scapula_r.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-humerus_r.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-antebrachium_r.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-carpus_r.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_r.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-digiti_manus_r.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-pelvis.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-femur_l.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-crus_l.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-calx_l.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-calx_tarsus_l.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-calx_metatarsus_l.obj'.
+[2026-10-07 06:35:15.187] [warning] Couldn't find file 'new_stretched-digiti_pedis_l.obj'.
+[2026-10-07 06:35:15.188] [warning] Couldn't find file 'new_stretched-femur_r.obj'.
+[2026-10-07 06:35:15.188] [warning] Couldn't find file 'new_stretched-crus_r.obj'.
+[2026-10-07 06:35:15.188] [warning] Couldn't find file 'new_stretched-calx_r.obj'.
+[2026-10-07 06:35:15.188] [warning] Couldn't find file 'new_stretched-calx_tarsus_r.obj'.
+[2026-10-07 06:35:15.188] [warning] Couldn't find file 'new_stretched-calx_metatarsus_r.obj'.
+[2026-10-07 06:35:15.188] [warning] Couldn't find file 'new_stretched-digiti_pedis_r.obj'.
+[2026-10-07 06:35:15.189] [info] 'ControllerSet' was renamed and is being set to 'controllerset'.
+[2026-10-07 06:35:15.192] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.192] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.192] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.193] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.193] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.193] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.193] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.193] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.193] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.193] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:35:15.194] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.194] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:35:15.194] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.194] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:35:15.194] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:15.194] [info] 'ComponentSet' was renamed and is being set to 'componentset'.
+[2026-10-07 06:35:15.803] [warning] Coordinate.setValue:  coordinate thorax_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:15.894] [warning] Coordinate.setValue:  coordinate m_inferioris_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:15.905] [warning] Coordinate.setValue:  coordinate left_r_coxae_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:15.915] [warning] Coordinate.setValue:  coordinate left_r_genus_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:15.926] [warning] Coordinate.setValue:  coordinate left_r_talocruralis_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:15.937] [warning] Coordinate.setValue:  coordinate left_r_hindpaw_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:15.948] [warning] Coordinate.setValue:  coordinate cervix_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:15.959] [warning] Coordinate.setValue:  coordinate caput_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:17.715] [warning] Coordinate.setValue:  coordinate right_r_m_superioris_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:17.715] [warning] Coordinate.setValue:  coordinate right_r_deltoidea_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:17.715] [warning] Coordinate.setValue:  coordinate right_r_cubitalis_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:17.715] [warning] Coordinate.setValue:  coordinate right_r_carpalis_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:17.715] [warning] Coordinate.setValue:  coordinate right_r_forepaw_sagittal is locked. Unable to change its value.
+[2026-10-07 06:35:59.791] [info] Updating Model file from 30000 to latest format...
+[2026-10-07 06:35:59.792] [warning] Model name 'Stark (2021) Spezzoo-scaled' contains whitespace.
+[2026-10-07 06:35:59.792] [warning] It was renamed to 'Stark(2021)Spezzoo-scaled'.
+[2026-10-07 06:35:59.820] [info] Loaded model Stark(2021)Spezzoo-scaled from file /home/user/Dog/ref/research/fetched/03-dog-model/stark_beagle_fore_verified.osim
+[2026-10-07 06:35:59.821] [warning] Couldn't find file 'box.obj'.
+[2026-10-07 06:35:59.821] [warning] Couldn't find file 'new-thorax.obj'.
+[2026-10-07 06:35:59.821] [warning] Couldn't find file 'new-cervix.obj'.
+[2026-10-07 06:35:59.821] [warning] Couldn't find file 'new-caput.obj'.
+[2026-10-07 06:35:59.821] [warning] Couldn't find file 'new-abdomen.obj'.
+[2026-10-07 06:35:59.821] [warning] Couldn't find file 'new-cauda.obj'.
+[2026-10-07 06:35:59.821] [warning] Couldn't find file 'new_stretched-scapula_l.obj'.
+[2026-10-07 06:35:59.821] [warning] Couldn't find file 'new_stretched-humerus_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-antebrachium_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-carpus_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-digiti_manus_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-scapula_r.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-humerus_r.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-antebrachium_r.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-carpus_r.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_r.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-digiti_manus_r.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-pelvis.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-femur_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-crus_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-calx_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-calx_tarsus_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-calx_metatarsus_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-digiti_pedis_l.obj'.
+[2026-10-07 06:35:59.822] [warning] Couldn't find file 'new_stretched-femur_r.obj'.
+[2026-10-07 06:35:59.823] [warning] Couldn't find file 'new_stretched-crus_r.obj'.
+[2026-10-07 06:35:59.823] [warning] Couldn't find file 'new_stretched-calx_r.obj'.
+[2026-10-07 06:35:59.823] [warning] Couldn't find file 'new_stretched-calx_tarsus_r.obj'.
+[2026-10-07 06:35:59.823] [warning] Couldn't find file 'new_stretched-calx_metatarsus_r.obj'.
+[2026-10-07 06:35:59.823] [warning] Couldn't find file 'new_stretched-digiti_pedis_r.obj'.
+[2026-10-07 06:35:59.824] [info] 'ControllerSet' was renamed and is being set to 'controllerset'.
+[2026-10-07 06:35:59.825] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.825] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.825] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.825] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.825] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:35:59.826] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:35:59.827] [info] 'ComponentSet' was renamed and is being set to 'componentset'.
+[2026-10-07 06:37:53.921] [info] Updating Model file from 30000 to latest format...
+[2026-10-07 06:37:53.922] [warning] Model name 'Stark (2021) Spezzoo-scaled' contains whitespace.
+[2026-10-07 06:37:53.922] [warning] It was renamed to 'Stark(2021)Spezzoo-scaled'.
+[2026-10-07 06:37:53.955] [info] Loaded model Stark(2021)Spezzoo-scaled from file /home/user/Dog/ref/research/fetched/03-dog-model/stark_beagle_fore_verified.osim
+[2026-10-07 06:37:53.956] [warning] Couldn't find file 'box.obj'.
+[2026-10-07 06:37:53.956] [warning] Couldn't find file 'new-thorax.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new-cervix.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new-caput.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new-abdomen.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new-cauda.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-scapula_l.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-humerus_l.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-antebrachium_l.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-carpus_l.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_l.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-digiti_manus_l.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-scapula_r.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-humerus_r.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-antebrachium_r.obj'.
+[2026-10-07 06:37:53.957] [warning] Couldn't find file 'new_stretched-carpus_r.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_r.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-digiti_manus_r.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-pelvis.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-femur_l.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-crus_l.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-calx_l.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-calx_tarsus_l.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-calx_metatarsus_l.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-digiti_pedis_l.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-femur_r.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-crus_r.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-calx_r.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-calx_tarsus_r.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-calx_metatarsus_r.obj'.
+[2026-10-07 06:37:53.958] [warning] Couldn't find file 'new_stretched-digiti_pedis_r.obj'.
+[2026-10-07 06:37:53.959] [info] 'ControllerSet' was renamed and is being set to 'controllerset'.
+[2026-10-07 06:37:53.961] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.962] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.962] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.962] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.962] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.962] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.962] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.962] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.963] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.963] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:37:53.963] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.963] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:37:53.963] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.963] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:37:53.963] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:37:53.963] [info] 'ComponentSet' was renamed and is being set to 'componentset'.
+[2026-10-07 06:38:56.884] [info] Updating Model file from 30000 to latest format...
+[2026-10-07 06:38:56.885] [warning] Model name 'Stark (2021) Spezzoo-scaled' contains whitespace.
+[2026-10-07 06:38:56.885] [warning] It was renamed to 'Stark(2021)Spezzoo-scaled'.
+[2026-10-07 06:38:56.906] [info] Loaded model Stark(2021)Spezzoo-scaled from file /home/user/Dog/ref/research/fetched/03-dog-model/stark_beagle_fore_verified.osim
+[2026-10-07 06:38:56.907] [warning] Couldn't find file 'box.obj'.
+[2026-10-07 06:38:56.907] [warning] Couldn't find file 'new-thorax.obj'.
+[2026-10-07 06:38:56.907] [warning] Couldn't find file 'new-cervix.obj'.
+[2026-10-07 06:38:56.907] [warning] Couldn't find file 'new-caput.obj'.
+[2026-10-07 06:38:56.907] [warning] Couldn't find file 'new-abdomen.obj'.
+[2026-10-07 06:38:56.907] [warning] Couldn't find file 'new-cauda.obj'.
+[2026-10-07 06:38:56.907] [warning] Couldn't find file 'new_stretched-scapula_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-humerus_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-antebrachium_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-carpus_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-digiti_manus_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-scapula_r.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-humerus_r.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-antebrachium_r.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-carpus_r.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-carpus_metacarpus_r.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-digiti_manus_r.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-pelvis.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-femur_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-crus_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-calx_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-calx_tarsus_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-calx_metatarsus_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-digiti_pedis_l.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-femur_r.obj'.
+[2026-10-07 06:38:56.908] [warning] Couldn't find file 'new_stretched-crus_r.obj'.
+[2026-10-07 06:38:56.909] [warning] Couldn't find file 'new_stretched-calx_r.obj'.
+[2026-10-07 06:38:56.909] [warning] Couldn't find file 'new_stretched-calx_tarsus_r.obj'.
+[2026-10-07 06:38:56.909] [warning] Couldn't find file 'new_stretched-calx_metatarsus_r.obj'.
+[2026-10-07 06:38:56.909] [warning] Couldn't find file 'new_stretched-digiti_pedis_r.obj'.
+[2026-10-07 06:38:56.909] [info] 'ControllerSet' was renamed and is being set to 'controllerset'.
+[2026-10-07 06:38:56.911] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.911] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.911] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.911] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.911] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.911] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.912] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.912] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.912] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.912] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:38:56.912] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.912] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:38:56.912] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.912] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_1'.
+[2026-10-07 06:38:56.912] [warning] GeometryPath 'path' has subcomponents with duplicate name 'pathwrap'. The duplicate is being renamed to 'pathwrap_0'.
+[2026-10-07 06:38:56.912] [info] 'ComponentSet' was renamed and is being set to 'componentset'.
