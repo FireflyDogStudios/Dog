@@ -1,10 +1,23 @@
 # Data fetch: handoff for Firefly
 
-Written Oct 7, 2026 by the data-fetch session (GrumpyDingo's request), for Firefly. It covers what was fetched for `docs/claude/DEN-DATA-WISHLIST.md`, where everything lives (repo and Drive), the licences and credits, the caveats, and what to do next. Per-item detail is in `ref/research/fetched/REPORT.md` and each item's `NOTE.md`.
+Written Oct 7, 2026 by the data-fetch session (GrumpyDingo's request), for Firefly; updated the same day after a second search for the gaps. It covers what was fetched for `docs/claude/DEN-DATA-WISHLIST.md`, where everything lives (repo and Drive), the licences and credits, the caveats, and what to do next. Per-item detail is in `ref/research/fetched/REPORT.md`, `ref/research/missingfound/README.md` and each folder's `NOTE.md` / `SUMMARY.md`.
+
+## 0. Warnings first (read before using any number)
+1. **Corrections are written, not applied.** Several earlier numbers turned out wrong or weak; the fixes sit in `ref/research/missingfound/` and were **not** copied into `fetched/` or `species/`. Apply them yourself (list in section 3a):
+   - dingo tibia: 182.5 mm, not 178.3 (the old estimate used a wrong Harcourt intercept);
+   - walk front-paw phase: 0.16 (wolf) / 0.17 (dingo-sized dog), not 0.135 or the wolf file's 0.20;
+   - Muybridge plates 707 and Maggie A: every left/right label in `05-muybridge` is mirrored.
+2. **The Stark model's joint limits are fake** (±180° on every flexion axis) and its default pose is not a stance. Use `missingfound/joint-ranges/SUMMARY.md` for rig limits.
+3. **Dingo bone lengths are estimates**, back-calculated from a measured shoulder height (n = 117) with verified formulas, ±5 %. No measured dingo or Carolina Dog limb bone exists in open sources. Use them for size; use **wolf ratios** for proportions (four real village-type dog skeletons sit with the wolf, not the coyote).
+4. **No measured ear angle or behavioural jaw angle exists for any canid.** The ear and gape values in `missingfound/face-ear-and-wild-keypoints/COMPARISONS.md` are split into measured / comparison / **guess** columns; the guesses are guesses. Own reference clips beat them.
+5. **No permissively licensed keypoints exist for coyote, jackal, dhole, African wild dog or hyena.** Every candidate (Animal Kingdom, SMAL, D-SMAL, BITE, B-DoPED, Animal3D, DogFLW, Ultralytics dog-pose, SuperAnimal-Quadruped) is non-commercial, unlicensed or AGPL. Do not use them for the game, not even "just for proportions".
+6. **Unsourced AI notes were checked, not trusted.** GrumpyDingo pasted notes from another AI assistant; several claims were wrong (jackal ears "rotating 180°", lion yawn "50°", clouded leopard gape "100°", B-DoPED's authorship). Only the verified items made it into the repo (`COMPARISONS.md`, "Claims checked").
+7. **Some sources are facts only.** Many numbers come from closed or non-commercial papers and are stored as single cited facts, never as tables. Keep it that way; the `licence` / `use` columns say which.
+8. **Credits are owed** for every CC BY / MIT source once anything built from them ships (section 5).
 
 ## 1. The branch
 - **Branch:** `claude/new-session-l3ubx0`, started from your `claude/tender-cerf-o68l6u` (so it carries your unmerged commits too). One commit per item, all pushed. No PR opened.
-- **Scope:** only `ref/research/fetched/` and this file were added. No game, engine, bench or tool code was touched.
+- **Scope:** only `ref/research/fetched/` (first search), `ref/research/missingfound/` (second search) and this file were added. No game, engine, bench or tool code, and nothing in `species/`, was touched.
 - **Size:** about 30 MB in total; the largest file is `02-outline-landmarks/data.json` (14.5 MB). Nothing over 20 MB.
 - **To merge:** merge it into your branch (or main when you're ready). It shouldn't conflict: every file is new.
 
@@ -39,13 +52,21 @@ Matched to your plan (silhouette over the skeleton, then the gait engine, then t
    - `02-outline-landmarks/data.json` has real outlines for dingo (108 dogs), dhole (102), African hunting dog (84), basenji (157), kelpie (87).
 2. **Gait engine:**
    - `04-gait-curves/curves.csv`: angle vs % stride. Trot: Humphries 2020 (3D, 10 Labradors). Walk: Catavitello 2015 (2D) and the Beagle forelimb walking data in `03-dog-model/stark_fore_motion_mean.csv` (3D, shoulder 92-126, elbow 97-138).
-   - Duty factors: walk about 0.58-0.64, trot about 0.42-0.46. Within the trot, duty factor scales as speed^-0.28 (fore) / ^-0.24 (hind), stride length as speed^0.59, cycle time as speed^-0.39 (Charles 2025, 27 working dogs): ready-made rules for speeding the gait up. Walk footfall phases (LH = 0): LF 0.135, RH 0.49, RF 0.63. Trot: the diagonal fore lands about 4-6 % of the stride before its hind.
+   - Duty factors: walk about 0.58-0.64, trot about 0.42-0.46. Within the trot, duty factor scales as speed^-0.28 (fore) / ^-0.24 (hind), stride length as speed^0.59, cycle time as speed^-0.39 (Charles 2025, 27 working dogs): ready-made rules for speeding the gait up. Walk footfall phases (LH = 0): **use LF 0.16-0.17, RH 0.50, RF 0.66-0.67** (missingfound recommendation; the fetched 0.135 is a brisk walk of heavy retrievers). Trot: the diagonal fore lands about 4-6 % of the stride before its hind.
    - Muybridge gallop duty factors 0.15-0.28 (a bit below the 0.25-0.35 estimate in `gait/REPORT.md`); Maggie's gallop stride 0.25 s, 2.85 m.
 3. **Carolina Dog file:**
    - Dingo shoulder height 542 mm (n = 117), condylobasal length 176.9 mm (n = 63), weight about 15 kg. Carolina Dog standard 457-610 mm, 15.9-22.7 kg.
-   - Bone ratios: no dingo limb bones exist in open sources. Use wolf / coyote ratios (`06-limb-indices`) or segment ratios from the Stark model, marked as proxies.
+   - Bones: humerus ~166, radius ~164, ulna ~193, femur ~177, **tibia ~183** mm (EST ±5 %, `missingfound/dingo-limb-bones/`). Proportions from **wolf** ratios (R/H ~1.0, T/F ~1.02-1.04), MC3/MT3 and scapula too, marked as proxies. CC0 dingo ear 90-100 mm, hind foot 195-210 mm (2 wild males).
    - Palette: `10-coat-palettes`; Carolina coats run ginger to cream, 4 of 5 with a dark muzzle mask. Pick one photo for a coherent coat rather than the median.
-4. **Idle behaviour:** `11-ethograms/SUMMARY.md` has a sourced idle loop (sleep bouts 17-36 min real time, shake-off at state changes, scent roll 45-70 s, look-around as the main awake state, activity at dawn and dusk).
+4. **Rig limits:** `missingfound/joint-ranges/SUMMARY.md` has a hard / comfortable table per joint from 13 CC BY goniometry studies plus jump and sit-to-stand data. Carpus extension: 200 unloaded, up to 240 while bearing weight. Stifle: clamp to <=150 when the hip is flexed past ~70 (hamstring coupling).
+5. **Face:** gape hard limit 65, natural max 44; guessed per behaviour (yawn 40-44, bark 15-25, howl 15-20, pant 10-20) in `COMPARISONS.md`. Ears: turn to sound 10-20°, flatten 60-75°, flick 0.1-0.2 s (guesses from cat and DogFACS comparisons).
+6. **Idle behaviour:** `11-ethograms/SUMMARY.md` has a sourced idle loop (sleep bouts 17-36 min real time, shake-off at state changes, scent roll 45-70 s, look-around as the main awake state, activity at dawn and dusk).
+
+## 3a. Edits suggested for your files (from `missingfound/README.md`; none applied)
+1. `ref/research/fetched/07-dingo/data.csv`: dingo tibia 178.3 → 182.5 mm; cite Harcourt 1974 as verified in Baranowski 2025 and Onar 2021 (both CC BY).
+2. `species/wolf.yaml`: walk front-paw phase 0.20 → 0.16 (range 0.12-0.20); hock extension limit 164 → about 175-180; carpus extension split into unloaded 200 / loaded 240.
+3. `ref/research/fetched/05-muybridge/data.json`: take the corrected 707 and Maggie A labels (and 706's two contact fixes) from `missingfound/walk-footfall-and-muybridge/data.json`.
+4. Rig: start the joint clamps from `missingfound/joint-ranges/SUMMARY.md`.
 
 ## 4. Caveats you should know before using any of it
 - **01:** one artist's drawing of one dog (confidence B). The archive.org book in the wishlist is the 1949 Dover edition (borrow-only), not used. The plates were not stored (GrumpyDingo's rule this round: images only for Muybridge); their full-size URLs are in `NOTE.md`.
@@ -58,11 +79,13 @@ Matched to your plan (silhouette over the skeleton, then the gait engine, then t
   - Catavitello's carpus and hip use non-standard segments (flagged in the convention column).
   - Goldner's hip uses the lab's own convention.
   - Goldner's right shoulder and elbow are 9-10° more open than the left in the published sound-dog data; that is in the source.
-- **05:** left/right paw assignment is a best guess (fore/hind and timing are certain). Plate 706 is labelled "trotting" but is an irregular walk. Plate numbers 709/710 differ between library copies, so the data says Maggie sequences A and B.
+- **05:** left/right labels were best guesses; the second search confirmed 706 and Maggie B, found 707 and Maggie A mirrored (corrections in `missingfound/`), and could not settle 708 (blur), 704 and 705 (oblique views). Fore/hind and timing are certain. Plate 706 is labelled "trotting" but is an irregular walk. Plate numbers 709/710 differ between library copies, so the data says Maggie sequences A and B.
 - **06:** the file's `OLI` and `URI` headers look swapped; the dhole's published BI/IM disagree with its own measurements. Use the `calc_*` columns.
-- **07:** the dingo femur and humerus (about 177 / 166 mm) are back-calculated with formulas recalled from memory: **verify before use**.
+- **07:** the femur and humerus estimates (177 / 166 mm) are confirmed by the verified formulas; the **tibia (178.3) is wrong**, use 182.5. All are estimates (±5 %), not measurements.
 - **08:** AP-10K and APT-36K have only dog, wolf and red fox (no coyote, jackal, dhole, wild dog, hyena, raccoon dog). Their keypoint names are "shoulder / elbow / paw", but on a dog the "shoulder" sits at about the elbow and the "elbow" at about the carpus: read the warning in its `NOTE.md`.
 - **10:** colours carry each photo's lighting (no white balance correction).
+- **missingfound/joint-ranges:** goniometry is passive and from dogs (no wolf or dingo data); hip numbers depend on how each study draws the pelvic line, so compare hips within one method only. No neck, tail or toe ranges exist.
+- **missingfound/walk-footfall:** the wolf value is borrowed from long-legged dogs (no wolf walk timing exists), confidence B−.
 
 ## 5. Credits to add (`CREDITS`) when anything ships
 These licences require attribution (CC BY / MIT keep the notice):
@@ -72,6 +95,7 @@ These licences require attribution (CC BY / MIT keep the notice):
 - Gait papers in `04-gait-curves/LICENSE.txt` (Catavitello 2015, Humphries 2020, Fischer 2018, Goldner 2018, JEB 2025).
 - AP-10K (CC BY 4.0) and APT-36K (MIT).
 - Each CC BY photo in `10-coat-palettes/NOTE.md` (author + licence), and the CC BY papers in `09` and `11`.
+- The CC BY papers behind `missingfound/` (each folder's `NOTE.md` lists them: goniometry studies, Baranowski 2025, Onar 2021, Bourke 2008, Andersson 2011, Frey 2016 and others).
 - Public domain sources (Ellenberger-Baum, Muybridge) need no credit, but a thank-you line is nice.
 
 ## 6. The Drive folder: `My Drive / den-ledger-everything / ref`
@@ -98,7 +122,9 @@ Owned by GrumpyDingo's account. The **raw downloads live here, not in the repo**
 - **Stark forelimb extras not yet extracted:** joint moments (`inverse_dynamics*.sto`) and muscle activations and forces (`StaticOptimization`). Useful if you ever want "effort" to drive secondary motion (for example, which muscles bulge in stance).
 - **Ellenberger Tafel 2 (muscles)** was found but not measured: a public-domain side view of the superficial muscles, the best source for where bulges show under the skin. URL in `01-skin-offsets/NOTE.md`.
 - **Free-ranging village dog time budget** (the closest thing to a Carolina Dog's day): only paywalled papers found (Banerjee & Bhadra 2021).
-- **No open data at all** for: ear rotation angles, jaw angle while barking or yawning, circling before lying down, scratching or stretching rates, dingo limb bones, dingo or Carolina Dog ear length. These need our own reference-clip measurements (the wishlist's fallback).
+- **Koungoulos 2022 PhD thesis** (University of Sydney eScholarship): probably holds measured limb bones for 117 dingoes. Blocked by a bot check here; licence unknown. GrumpyDingo can open it in a browser and check.
+- **Reusing 2020 Tables 2-3** (VCOT Open, CC BY): its text is in `missingfound/joint-ranges/`; the two tables (every joint for 7 dog size groups) still need copying from the article page or its PDF.
+- **No open data at all** for: ear rotation angles, jaw angle while barking or yawning, neck / tail / toe ranges of motion, circling before lying down, scratching or stretching rates, wolf or dingo walk footfall timing, Carolina Dog skeletal data. These need our own reference-clip measurements; `missingfound/face-ear-and-wild-keypoints/SUMMARY.md` has a shot list.
 - **Keypoints for coyote, jackal, dhole, wild dog and hyena**: no permissive source exists. StanfordExtra's dingo, dhole and African hunting dog outlines are the best substitute.
 
 ## 8. Libraries that could help
@@ -125,7 +151,7 @@ Per the libraries-first rule, check each licence before adding. All below are pe
 - OpenSim itself is not needed: the `.osim` files are plain XML.
 
 ## 9. Recommendations
-1. **Merge first, then build one species file:** a `species/carolina.yaml` draft using dingo numbers (07) and Stark or wolf ratios as proxies, each with its confidence, so `./den species check` can compare it with the new tables.
+1. **Merge first, apply the section 3a edits (with GrumpyDingo's OK), then build one species file:** a `species/carolina.yaml` draft using dingo sizes (07 + missingfound) and wolf ratios as proxies, each with its confidence, so `./den species check` can compare it with the new tables.
 2. **Silhouette:** grow the Stark bone outlines (03) by the Ellenberger offsets (01) with shapely, then compare the result with the StanfordExtra dingo and basenji outlines (02) scaled to withers height. Show GrumpyDingo big renders on flat backgrounds, one change at a time.
 3. **Gait engine targets:** use Humphries (3D trot) and the Stark Beagle walk as targets, Goldner and Fischer as checks, Muybridge for footfall timing. Fit each curve with a few Fourier terms.
 4. **Add a fetched-data check to `./den`**, for example `./den species check` reading `ref/research/fetched/*/data.*`, so every number keeps its source.
@@ -134,7 +160,9 @@ Per the libraries-first rule, check each licence before adding. All below are pe
 ## 10. Lessons from this session (for the next fetch)
 - **Wikimedia rate-limits (HTTP 429)** parallel sessions hard; use a descriptive User-Agent, one request every few seconds, and the standard thumbnail widths only.
 - **Blocked here:** journals.biologists.com, MDPI, Wiley, bioRxiv (429), web.archive.org (network policy), SimTK and Dryad downloads (login / anti-bot). GrumpyDingo can fetch these in a browser and drop them in the Drive folder.
+- **Subagents may be refused writing `SUMMARY.md`** ("return findings as text"); the orchestrator then saves it.
+- **Treat pasted notes from other AIs as leads:** verify each claim and licence before it enters the repo.
 - **Facts vs data:** single facts with citation are fine from any paper; bulk tables only from CC0 / CC BY / MIT / PD. A dataset's terms of use are a contract and can forbid use even of "facts" (Animal Kingdom).
 
 ## 11. Second search: `ref/research/missingfound/` (Oct 7)
-After this handoff, GrumpyDingo asked for the remaining gaps to be hunted again. Results are in `ref/research/missingfound/README.md`: verified Harcourt formulas (the `07-dingo` tibia estimate was wrong: 182.5 mm, not 178.3), proposed rig joint limits from 13 CC BY goniometry studies, the walk front-paw phase settled at **0.16 (wolf) / 0.17 (dingo-sized dog)** instead of 0.20, two Muybridge plates (707, Maggie A) with mirrored left/right labels corrected, and confirmation that no ear angles, jaw angles or permissive wild-canid keypoints exist. The README lists the edits suggested for `07-dingo`, `05-muybridge` and `species/wolf.yaml`; none were applied.
+After the first handoff, GrumpyDingo asked for the remaining gaps to be hunted again. `ref/research/missingfound/README.md` indexes the four folders (`dingo-limb-bones`, `joint-ranges`, `walk-footfall-and-muybridge`, `face-ear-and-wild-keypoints`, the last with `COMPARISONS.md`). Their results are merged into the sections above: warnings (0), suggested edits (3a), numbers (3), caveats (4), credits (5) and open items (7).
