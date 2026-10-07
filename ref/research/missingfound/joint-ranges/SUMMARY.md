@@ -5,7 +5,7 @@
 - **Spine:** thin data (cadaver, plus in-vivo lumbosacral).
 - **Neck, tail and digit goniometry:** not found.
 - **Wolf or dingo goniometry:** none exists.
-- **Breed data:** the best bulk table (Reusing 2020, CC BY) is behind a bot wall.
+- **Breed data:** Reusing 2020 (CC BY): the text is in hand (large dogs: stifle 42/146, hip flexion 57, tarsus 48/175; size trends), but its Tables 2-3 with all joints for 7 size groups are still missing (bot wall).
 
 Convention: included angle, 180 = straight, >180 = hyperextended. Data in `data.csv`; sources and licences in `NOTE.md`.
 
@@ -68,7 +68,7 @@ Changes to consider:
 - Mark the Jaegger stifle numbers as verified (41/162, via Pinna 2021). The other Jaegger numbers stay unverified.
 
 ## Gaps
-- **Reusing 2020 (VCOT Open 3:e66, doi:10.1055/s-0040-1713825, CC BY 4.0).** Full passive ROM for 7 size and chondrodystrophy groups. Blocked by Thieme's bot wall; a person needs to download the PDF.
+- **Reusing 2020 Tables 2-3 (VCOT Open 3:e66, doi:10.1055/s-0040-1713825, CC BY 4.0).** The text is in; the two tables (all joints, 7 size groups) need a person to copy them or save the PDF.
 - **Neck flexion and extension, tail ROM, digit goniometry:** none found in open literature.
 - **Wolf and dingo:** no goniometry exists. These values are dog proxies.
 - **Lying, play bow and stretch:** no kinematics found.

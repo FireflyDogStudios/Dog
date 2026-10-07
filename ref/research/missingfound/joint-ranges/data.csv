@@ -134,3 +134,13 @@ braund1977,chondro_and_nonchondro,,radiograph,radiograph,lumbosacral,midline,rel
 vilar2026,belgian_malinois,10,active_bite_impact,2D_video_kinovea,head_neck,midline,head_neck_angle,162.26,12.53,162.26,angle at occiput between nasal line and occiput-xiphoid line,CC BY 4.0,table,C,IGP long attack at sleeve impact; 95% CI 153-171; not a joint limit
 thomson2021,dog,,awake,photo/goniometer,jaw,midline,max_gape,44,4,44,none,not open (J Vet Dent),fact_only,B,already in species/wolf.yaml; dingo skull model 65 (Wroe 2008)
 stark2021_walk,beagle,1,active_walk,mocap_ik,mcp,LF,min_max_included,129-278,,129-278,palmar side; >180 dorsiflexed,CC BY 4.0,see 03-dog-model,C,from ref/research/fetched/03-dog-model (swing value doubtful); only digit data found
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,stifle,,max_flexion,42,14,42,none,CC BY 4.0,fact,B,from the Discussion text (Tables 2-3 not yet obtained); females; mean of triplicate
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,stifle,,max_extension,146,14,146,none,CC BY 4.0,fact,B,from the Discussion text
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,hip,,max_flexion,57,11,57,none,CC BY 4.0,fact,B,from the Discussion text
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,tarsus,,max_flexion,48,12,48,none,CC BY 4.0,fact,B,from the Discussion text; measured with the stifle fully flexed
+reusing2020,large_ncd_mixed_breeds_26-45kg,11,awake_lateral_recumbency,plastic_goniometer,tarsus,,max_extension,175,17,175,none,CC BY 4.0,fact,B,from the Discussion text
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,stifle,,max_flexion,51,7,51,none,closed (quoted in Reusing 2020 CC BY),fact,C,mean weight 30 kg
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,stifle,,max_extension,145,9,145,none,closed (quoted in Reusing 2020 CC BY),fact,C,
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,hip,,max_flexion,72,8,72,none,closed (quoted in Reusing 2020 CC BY),fact,C,
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,tarsus,,max_flexion,110,10,110,none,closed (quoted in Reusing 2020 CC BY),fact,C,stifle held at 90 deg, which limits tarsal flexion (Reusing's explanation)
+nicholson2007_via_reusing2020,greyhound,,awake,goniometer,tarsus,,max_extension,158,10,158,none,closed (quoted in Reusing 2020 CC BY),fact,C,

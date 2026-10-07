@@ -49,3 +49,14 @@ Raw downloads are in `/tmp/mf-rom/` and are not in the repo. All web content was
 - Inal 2026 (Anatolian): CC BY-NC-ND, so the full table is not stored. Four cited facts only.
 - Jaegger 2002, Thomas 2006, Hady 2015 (Labrador vs Border Collie, J Vet Med Anim Health; not found in Europe PMC), Ates (Kangal), Mann (greyhound pelvic limb), Sabanci 2016, Feeney 2007, Yoshikawa 2023, Benninger 2004/2006, Gradner 2007, Birch & Lesniak 2013: closed. Facts from abstracts or quotes only.
 - No open wolf or dingo joint-ROM data exist in Europe PMC.
+
+
+## Update 2026-10-07: Reusing 2020, partly in hand
+GrumpyDingo pasted the article's HTML text (Thieme still blocks this workspace: a 4.7 KB bot-check page on both HTML and PDF). The text is CC BY 4.0 but **Tables 2 and 3 (all joints, all 7 groups) are hidden behind "opens in new window" links and were not included**. What the text gives, now in `data.csv`:
+- **Method:** 77 healthy young adult female dogs, 11 per group; non-chondrodystrophic (NCD) miniature (<=5 kg), small (5.1-10.9), medium (11-25.9), large (26-44.9), giant (>=45); chondrodystrophic (CD) small and medium. Awake, lateral recumbency, universal plastic goniometer, triplicate by one experienced examiner. Included angles (same convention as ours). Tarsal flexion measured with the stifle fully flexed.
+- **Large NCD (the size class nearest a wolf; a dingo sits between medium and large):** stifle 42 +- 14 / 146 +- 14, hip flexion 57 +- 11, tarsus 48 +- 12 / 175 +- 17.
+- **Greyhound comparison it quotes (Nicholson 2007):** stifle 51 / 145, hip flexion 72, tarsus 110 / 158 (stifle held at 90 deg, which limits tarsal flexion).
+- **Size trends (NCD):** maximum flexion angles of shoulder, elbow and carpus rise with size (larger dogs flex less), except giants, which flex like small dogs. Giants have the largest extension angles at every joint except the carpus (miniatures extend the carpus most). Elbow, stifle and tarsus PROM do not differ with size; miniatures have the most hip and carpus mobility; shoulder PROM is largest in giants and smallest in large dogs.
+- **For the rig:** tarsus 175 extension supports raising the hock limit to about 175-180 (as proposed in SUMMARY.md); stifle 146 extension in awake large dogs is lower than the 160-166 of other studies, so keep 160-170 as the hard limit and treat ~146 as a comfortable relaxed extension.
+
+**Still wanted:** Tables 2 and 3. Opening the "Table 2" and "Table 3" links on the article page and copying them (or saving the PDF via "PDF Download") would add every joint for all 7 size groups.
