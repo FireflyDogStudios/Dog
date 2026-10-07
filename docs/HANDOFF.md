@@ -1,3 +1,5 @@
+> **Superseded for current work (Oct 7, 2026):** read `docs/claude/DEN-LEAD-HANDOFF.md` first. This file is the Oct 3 game snapshot (before the `apps/den-ledger/src` split) and stays for the game-side details.
+
 # The Den Ledger — everything, packed (Oct 3, 2026)
 
 A cozy idle AFK-MMORPG about a Carolina Dog (American Dingo). Designed by **GrumpyDingo** (a dingo dog; the game is about a dingo, built by dingoes, with dog values). Coded with Claude, who goes by **Firefly** on this project. This zip is the whole thing: the game, its engines, the benches, the test harness, every design doc, the two skills Firefly works from, the references, and this note for whoever picks up the mantle.
