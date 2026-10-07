@@ -1,10 +1,11 @@
 // Functional check of compose -> outbox -> sent against the mock store (nothing is written anywhere real).
 import { chromium } from 'playwright';
-import { init } from './mock.mjs';
+import { init, initFor } from './mock.mjs';
 const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
 const p = await (await b.newContext({viewport:{width:1280,height:800}})).newPage();
 const errs=[]; p.on('pageerror',e=>errs.push(e.message));
-await p.addInitScript(init.replace("callTool:async()=>{}","callTool:async(s,t,a)=>{(window.calls=window.calls||[]).push(a.session_id); if(a.session_id==='s2'&&!window.okAll) throw {code:'server_unavailable'};}"));
+await p.addInitScript(init);
+await p.addInitScript("window.__call=async(s,t,a)=>{(window.calls=window.calls||[]).push(a.session_id); if(a.session_id==='s2'&&!window.okAll) throw {code:'server_unavailable'};}");
 await p.goto('file://'+process.argv[2]); await p.waitForTimeout(400);
 const ok=(c,m)=>console.log(c?'PASS':'FAIL',m);
 await p.click('.compose-btn'); await p.fill('#c-to-in','for'); await p.keyboard.press('Enter');
@@ -39,7 +40,8 @@ await p.keyboard.press('s'); ok(await p.isVisible('.rh .on'),'s stars');
 await p.keyboard.press('r'); ok(await p.isVisible('#cmp')&&(await p.inputValue('#c-re')).startsWith('Re: '),'r opens reply');
 await p.keyboard.press('Escape'); ok(!(await p.isVisible('#cmp')),'Esc closes compose');
 await p.keyboard.press('e'); await p.click('[data-f="archive"]'); ok((await p.textContent('#list')).includes('Gear fit'),'e archives');
-await p.keyboard.press('c'); ok(await p.isVisible('#cmp'),'c composes'); await p.keyboard.press('Escape'); ok(await p.isVisible('#cmp'),'first Esc only closes the suggestions'); await p.keyboard.press('Escape'); ok(!(await p.isVisible('#cmp')),'second Esc closes compose');
+await p.keyboard.press('c'); ok(await p.isVisible('#cmp'),'c composes'); await p.keyboard.press('Escape'); ok(!(await p.isVisible('#cmp')),'Esc closes compose');
+await p.keyboard.press('c'); await p.click('#c-to-in'); await p.waitForTimeout(120); ok(await p.isVisible('#c-to-sug'),'clicking the To field shows suggestions'); await p.keyboard.press('Escape'); ok(await p.isVisible('#cmp'),'Esc with suggestions open only closes the suggestions'); await p.keyboard.press('Escape');
 await p.keyboard.press('?'); ok(await p.isVisible('#help'),'? shows help');
 // movable and resizable compose window
 await p.keyboard.press('Escape'); await p.click('[data-f="inbox"]'); await p.keyboard.press('c');
@@ -51,4 +53,19 @@ const b2=await box(); ok(b2.w>b1.w+100&&b2.h>b1.h+50,'dragging the grip resizes 
 await p.mouse.move(0,0); await p.keyboard.press('Escape'); await p.keyboard.press('Escape'); await p.keyboard.press('c'); const b3=await box(); ok(Math.abs(b3.x-b2.x)<2&&Math.abs(b3.w-b2.w)<2,'position and size are remembered');
 await p.dblclick('#c-head h2'); const b4=await box(); ok(b4.w<b2.w&&b4.y>b2.y,'double-click on the header resets it');
 await p.keyboard.press('Escape'); await p.keyboard.press('Escape');
+// connection check and blocked sends
+for (const [v, chip] of [['blocked','Sending blocked'],['noconn','Live sessions off'],['default','Connected']]) {
+  const q = await (await b.newContext({viewport:{width:1280,height:800}})).newPage(); q.on('pageerror',e=>errs.push(e.message));
+  await q.addInitScript(initFor(v)); await q.goto('file://'+process.argv[2]); await q.waitForTimeout(500);
+  ok((await q.textContent('#conn-chip')).toLowerCase().includes(chip.toLowerCase()), 'status chip says "'+chip+'" ('+v+')');
+  if (v==='blocked') {
+    await q.click('[data-f="conn"]'); ok((await q.textContent('#conn')).includes('blocked_by_policy')&&(await q.textContent('#conn')).includes('Open Connectors'),'connection view names the code and offers Connectors');
+    await q.click('.compose-btn'); await q.click('[data-act="cmp-all"]'); await q.fill('#c-re','Blocked test'); await q.fill('#c-body','x'); await q.click('[data-act="cmp-send"]');
+    ok((await q.textContent('#c-confirm-text')).includes('Sending is blocked'),'confirm warns that it will wait in the Outbox');
+    await q.click('[data-act="cmp-go"]'); await q.waitForTimeout(500);
+    ok((await q.textContent('#list')).includes('Not delivered'),'blocked send stays in the Outbox as "Not delivered"');
+    ok((await q.textContent('#toast')).includes('Not delivered'),'toast says it was not delivered, with the reason');
+  }
+  await q.context().close();
+}
 console.log('errors:',errs.length?errs:'none'); await b.close();

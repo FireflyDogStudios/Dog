@@ -174,6 +174,21 @@ pre.out { margin: 6px 0 0; background: var(--bg); border: 1px solid var(--rule);
 .nav .keys { margin: 14px 4px 0; }
 .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 60; background: var(--panel); border: 1px solid var(--gold-soft); padding: 8px 16px; border-radius: 3px; font-size: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.4); max-width: calc(100vw - 32px); }
 
+/* connection check */
+.chip-conn { display: inline-flex; align-items: center; gap: 7px; padding: 4px 10px; border: 1px solid var(--rule); border-radius: 2px; font: 600 12px var(--cond); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; flex: none; }
+.chip-conn .dt, .crow .dt { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); flex: none; }
+.chip-conn.ok .dt, .crow.ok .dt { background: var(--moss); } .chip-conn.warn .dt, .crow.warn .dt { background: var(--gold); } .chip-conn.bad .dt, .crow.bad .dt { background: var(--warn); }
+.chip-conn.bad { border-color: var(--warn); } .chip-conn.warn { border-color: var(--gold-soft); }
+.crow { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; margin-bottom: 10px; max-width: 760px; }
+.crow .dt { margin-top: 6px; }
+.crow h3 { font: 600 15px var(--body); letter-spacing: 0; margin: 0; }
+.crow .what { margin: 2px 0 0; }
+.crow .fix { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.crow .acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.crow.bad { border-left: 3px solid var(--warn); } .crow.warn { border-left: 3px solid var(--gold); }
+a.btn { display: inline-block; background: transparent; border: 1px solid var(--gold-soft); color: var(--ink); border-radius: 3px; padding: 5px 12px; font: 600 12px var(--cond); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
+a.btn:hover { border-color: var(--gold); color: var(--gold); }
+.flag.bad { background: var(--warn); color: #fff; }
 /* below 900px: one pane at a time */
 @media (max-width: 899px) {
   .panes { grid-template-columns: minmax(0, 1fr); }
@@ -185,7 +200,10 @@ pre.out { margin: 6px 0 0; background: var(--bg); border: 1px solid var(--rule);
   .top { padding: 8px 12px; }
   .top .meta { display: none; }
   .top h1 small { display: none; }
-  .q { max-width: none; }
+  .top { flex-wrap: wrap; }
+  .top h1 { font-size: 19px; }
+  .chip-conn { margin-left: auto; }
+  .q { order: 3; flex: 1 1 100%; max-width: none; margin-left: 0; }
   .rh, .msgs { padding-inline: 12px; }
   .msg .mb { padding-left: 14px; }
   .cmp { inset: 0 !important; width: 100% !important; height: auto !important; max-height: none !important; border: 0; border-radius: 0; }
@@ -202,12 +220,14 @@ pre.out { margin: 6px 0 0; background: var(--bg); border: 1px solid var(--rule);
     <button type="button" class="ghost back" data-act="pane" data-pane="folders" aria-label="Folders">☰</button>
     <h1><small>Project Dog · the den's dispatch board</small>Den Team Inbox</h1>
     <input type="search" id="q" class="q" placeholder="Search all mail  ( / )" aria-label="Search all mail" autocomplete="off">
+    <button type="button" class="chip-conn" id="conn-chip" data-act="folder" data-f="conn"><span class="dt"></span><span id="conn-chip-text">Checking…</span></button>
     <div class="meta"><div id="sync">Waiting for the board…</div><div id="live">Live sessions: connecting…</div></div>
   </header>
   <div class="panes">
     <nav class="pane nav" id="nav" aria-label="Folders"></nav>
     <section class="pane list" id="list" aria-label="Messages"></section>
     <section class="pane read" id="read" aria-label="Reading pane"></section>
+    <section class="team" id="conn" hidden aria-label="Connection check"></section>
     <section class="team" id="team" hidden>
       <h2>The team</h2>
       <p class="sub">Each member's role, what their status file says, and their session's live state from Claude Code.</p>
@@ -256,7 +276,7 @@ function items() {
     unread: n.state === 'new', archived: n.state === 'done', trashed: !!n.trashed, starred: !!n.starred, thread: threadKey(n.headline, n.thread) }));
   state.sent.forEach((s, i) => { const ok = (s.results || []).filter((r) => r.ok).length, all = (s.results || []).length;
     out.push({ kind: 'sent', coll: 'sent', id: s._id, nick: s.from || ME, to: s.to || [], cc: s.cc || [], subject: s.re || '(no subject)', body: s.body || '',
-      status: all ? `Delivered to ${ok} of ${all}` : '', raw: s.at, ts: Date.parse(s.at) || 0, ord: -i, unread: false, archived: !!s.archived, trashed: !!s.trashed, starred: !!s.starred,
+      status: all ? ((s.results || []).some((r) => /relayed/i.test(r.code || '')) ? 'Relayed by Firefly' : `Delivered to ${ok} of ${all}`) : '', raw: s.at, ts: Date.parse(s.at) || 0, ord: -i, unread: false, archived: !!s.archived, trashed: !!s.trashed, starred: !!s.starred,
       thread: threadKey(s.re, s.thread), type: s.type, results: s.results || [] }); });
   state.mail.forEach((x, i) => out.push({ kind: 'mail', coll: 'mail', id: x._id, nick: x.from || '?', to: x.to || [], cc: x.cc || [], subject: x.re || '(no subject)', body: x.body || '', type: x.type || '', branch: x.branch || '',
     raw: x.date, ts: Date.parse(x.date) || 0, ord: -i, unread: !x.seen, starred: !!x.starred, trashed: false, archived: false, thread: threadKey(x.re, x.thread) }));
@@ -282,7 +302,7 @@ const inFolder = {
 };
 const FOLDERS = [
   ['inbox', 'Inbox', '▤'], ['needs', 'Needs you', '!'], ['starred', 'Starred', '★'], ['', 'Write', ''], ['drafts', 'Drafts', '✎'], ['outbox', 'Outbox', '⇧'], ['sent', 'Sent', '➤'],
-  ['', 'Keep', ''], ['archive', 'Archive', '▣'], ['trash', 'Trash', '✕'], ['', 'Den', ''], ['mail', 'Team mail', '✉'], ['team', 'Team', '☻']];
+  ['', 'Keep', ''], ['archive', 'Archive', '▣'], ['trash', 'Trash', '✕'], ['', 'Den', ''], ['mail', 'Team mail', '✉'], ['team', 'Team', '☻'], ['conn', 'Connection', '⚡']];
 function counts(all) {
   const c = {}; for (const k in inFolder) c[k] = all.filter(inFolder[k]).length;
   c.unread = all.filter((m) => inFolder.inbox(m) && m.unread).length; c.mailUnread = all.filter((m) => m.kind === 'mail' && m.unread).length; return c;
@@ -320,7 +340,7 @@ const prevText = (m) => (m.body || m.status || (m.kind === 'sent' ? 'Sent to ' +
 function rowHTML(g) {
   const m = g.top, mine = m.kind !== 'note' && m.kind !== 'mail'; const who = mine ? 'To ' + (m.to.join(', ') || '…') : m.kind === 'mail' ? `${m.nick} → ${m.to.join(', ') || '…'}` : m.nick;
   const tag = view.folder === 'search' ? `<span class="cnt">${m.trashed ? 'Trash' : m.archived ? 'Archive' : { note: 'Inbox', mail: 'Team mail', sent: 'Sent', draft: 'Draft', outbox: 'Outbox' }[m.kind]}</span>` : '';
-  const flag = tag + (g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? `<span class="flag">${esc(m.status)}</span>` : '');
+  const flag = tag + (g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? `<span class="flag ${m.status === 'sending' ? '' : 'bad'}">${m.status === 'sending' ? 'Sending' : 'Not delivered'}</span>` : '');
   return `<div class="row ${g.unread ? 'unread' : ''} ${view.cur === g.key ? 'cur' : ''}" data-act="open" data-key="${esc(g.key)}" role="button" tabindex="0">
     <input type="checkbox" data-act="check" data-key="${esc(g.key)}" ${view.checked.has(g.key) ? 'checked' : ''} aria-label="Select">
     ${avatar(mine ? ME : m.nick)}
@@ -348,7 +368,7 @@ function msgHTML(m, open) {
     <div class="mh-sub">${hasTo ? 'to ' + esc(m.to.join(', ') || '…') + (m.cc.length ? ' · cc ' + esc(m.cc.join(', ')) : '') : 'to Firefly, GrumpyDingo'}</div></div><span class="mh-date">${shortDate(m.ts, m.raw)}</span>`;
   const body = `<div class="mb">${m.needs ? `<span class="needs">Needs: ${esc(m.needs)}</span>` : ''}
     ${m.body ? `<p class="body">${esc(m.body)}</p>` : m.kind === 'sent' ? '<p class="body mh-sub">The text of this message was not saved by an older version of the inbox.</p>' : ''}
-    ${m.kind === 'outbox' ? `<div class="path">Outbox: ${esc(m.status)}${m.status === 'queued' ? ' (waiting for the Claude Code Remote connector)' : ''}</div>${m.results.length ? `<ul class="results">${m.results.map((r) => `<li class="${r.ok ? 'good' : 'bad'}">${esc(r.nick)}: ${r.ok ? 'delivered' : 'not sent (' + esc(failWhy(r.code)) + ')'}</li>`).join('')}</ul>` : ''}` : ''}
+    ${m.kind === 'outbox' ? `<div class="path">${m.status === 'sending' ? 'Sending now…' : 'Not delivered. It is waiting in the Outbox; Retry tries again, and Firefly can relay it.'}</div>${m.results.length ? `<ul class="results">${m.results.map((r) => `<li class="${r.ok ? 'good' : 'bad'}">${esc(r.nick)}: ${r.ok ? 'delivered' : esc(failWhy(r.code))}</li>`).join('')}</ul>` : ''}` : ''}
     ${m.status && m.kind === 'sent' ? `<div class="path">${esc(m.status)}${m.results.filter((r) => !r.ok).length ? ' · not sent to ' + esc(m.results.filter((r) => !r.ok).map((r) => r.nick).join(', ')) : ''}</div>` : ''}
     ${m.kind === 'mail' ? `<div class="path">${esc(m.type)}${m.branch ? ' · on ' + esc(m.branch) : ''} · ${esc(m.id)}</div>` : ''}
     ${m.path ? `<div class="path">${esc(m.branch ? m.branch + ' · ' : '')}${esc(m.path)}</div>` : ''}</div>`;
@@ -401,12 +421,76 @@ function render() {
       k === 'inbox' ? (c.unread ? `<span class="n">${c.unread}</span>` : '') : k === 'mail' ? (c.mailUnread ? `<span class="n">${c.mailUnread}</span>` : '') : k === 'needs' ? (c.needs ? `<span class="n hot">${c.needs}</span>` : '') :
       ['drafts', 'outbox'].includes(k) ? (c[k] ? `<span class="n">${c[k]}</span>` : '') : ''}</button>`).join('') + '<button type="button" class="ghost keys" data-act="help">Shortcuts ( ? )</button>';
   document.title = (c.needs ? `(${c.needs}) ` : '') + 'Den Team Inbox';
-  const team = view.folder === 'team'; $('team').hidden = !team; $('list').hidden = team; $('read').hidden = team;
-  if (team) renderBoard(); else { const gs = groups(all); view.checked = new Set([...view.checked].filter((k) => gs.some((g) => g.key === k))); renderList(all, gs); renderRead(all, gs); }
+  const team = view.folder === 'team' || view.folder === 'conn'; $('team').hidden = view.folder !== 'team'; $('conn').hidden = view.folder !== 'conn'; $('list').hidden = team; $('read').hidden = team;
+  if (view.folder === 'team') renderBoard(); else if (view.folder === 'conn') renderConn(); else { const gs = groups(all); view.checked = new Set([...view.checked].filter((k) => gs.some((g) => g.key === k))); renderList(all, gs); renderRead(all, gs); }
   $('app').dataset.pane = team ? 'team' : view.pane;
+  renderConn();
   $('sync').textContent = state.sync ? `Board filled by Firefly ${ago(state.sync.checked_at)}` : 'Waiting for the board…';
 }
 
+
+
+/* ---- connection check: what works, in plain words, and how to fix what doesn't (codes from the runtime's mcp.d.ts) ---- */
+const conn = { dbOk: null, live: { ok: null, code: '', at: 0 }, send: { ok: null, code: '', at: 0 }, perms: null };
+const POLICY = ['blocked_by_policy', 'not_in_manifest', 'approval_required', 'server_not_connected', 'needs_reauth', 'selection_required', 'not_granted', 'capability_disabled'];
+const CONNECTORS = 'https://claude.ai/customize/connectors';
+const FIX = {
+  server_not_connected: ['Claude Code Remote is not connected to your account.', 'Connect it under Connectors, then reload this page.', 'connectors'],
+  selection_required: ['You have more than one connector called Claude Code Remote.', 'Choose one when the page asks, or remove the extra one under Connectors.', 'connectors'],
+  needs_reauth: ['The sign-in for Claude Code Remote has expired.', 'Reconnect it under Connectors, then reload this page.', 'connectors'],
+  not_in_manifest: ['Claude Code Remote is switched off for this page.', 'Turn it back on in this page\'s Permissions menu.', 'perm'],
+  approval_required: ['The page needs your approval to use Claude Code Remote and did not get it.', 'Allow it in the Permissions menu, then try again.', 'perm'],
+  blocked_by_policy: ['A policy on your account or organization blocks this tool for pages.', 'Nothing to fix on the page. Your messages wait in the Outbox and Firefly delivers them. An organization owner may be able to allow it in the connector settings.', 'connectors'],
+  server_unavailable: ['Claude Code did not answer.', 'Try again in a minute. Nothing is lost: unsent mail stays in the Outbox.', ''],
+  upstream_error: ['Claude Code returned an error.', 'Try again in a minute. Check the recipient\'s session before resending, in case it did arrive.', ''],
+  tool_error: ['Claude Code ran the tool and it reported a failure.', 'Check that the recipient\'s session is running, then retry from the Outbox.', ''],
+  not_granted: ['This view has no connector access.', 'Open the page in claude.ai while signed in.', ''],
+  capability_disabled: ['This view cannot use connectors.', 'Open the page in claude.ai while signed in.', ''],
+  not_on_team: ['That person is not on the team roster yet.', 'Remove them, or ask Firefly to add them.', ''],
+};
+const codeOf = (c) => { const k = String(c || ''); return POLICY.concat(['server_unavailable', 'upstream_error', 'tool_error', 'not_on_team']).find((x) => k.includes(x)) || (k && !/^relayed/i.test(k) ? 'upstream_error' : ''); };
+const ago2 = (t) => ago(new Date(t).toISOString());
+function sendHistory() {
+  if (conn.send.at) return conn.send;
+  let best = null;
+  const take = (at, ok, code) => { const t = Date.parse(at) || 0; if (!best || t > best.at) best = { at: t, ok, code }; };
+  state.outbox.forEach((o) => (o.results || []).filter((r) => !r.ok).forEach((r) => take(o.at, false, codeOf(r.code))));
+  state.sent.forEach((x) => (x.results || []).forEach((r) => take(x.at, !!r.ok && !/relayed/i.test(r.code || ''), codeOf(r.code))));
+  return best || { ok: null, code: '', at: 0 };
+}
+function connRows() {
+  const rows = [], sd = sendHistory();
+  rows.push({ id: 'store', title: 'The message store', lvl: db ? 'ok' : 'bad', what: db ? 'Loaded. Notes, mail, drafts and sent messages are live.' : 'Not loaded.', fix: db ? '' : 'Sign in to claude.ai and open the page there.' });
+  const t = state.sync && Date.parse(state.sync.checked_at);
+  rows.push({ id: 'sync', title: 'Notes from the team', lvl: !t ? 'warn' : Date.now() - t > 6 * 3600e3 ? 'warn' : 'ok',
+    what: t ? `Board last filled by Firefly ${ago2(t)}.` : 'Waiting for the board.', fix: 'New notes appear here when Firefly syncs them, or when a member posts one themselves. Team mail appears the same way.' });
+  const L = conn.live;
+  rows.push(L.ok ? { id: 'live', title: 'Live sessions', lvl: 'ok', what: 'Working. Each member\'s state on the Team page is current (' + ago2(L.at) + ').', fix: '' }
+    : L.ok === false ? { id: 'live', title: 'Live sessions', lvl: 'bad', code: L.code, what: (FIX[codeOf(L.code)] || FIX.upstream_error)[0], fix: (FIX[codeOf(L.code)] || FIX.upstream_error)[1], kind: (FIX[codeOf(L.code)] || FIX.upstream_error)[2] }
+    : { id: 'live', title: 'Live sessions', lvl: 'warn', what: 'Connecting…', fix: '' });
+  const c = codeOf(sd.code);
+  rows.push(sd.ok === true ? { id: 'send', title: 'Sending to sessions', lvl: 'ok', what: 'Working. The last message was delivered ' + ago2(sd.at) + '.', fix: '' }
+    : sd.ok === false ? { id: 'send', title: 'Sending to sessions', lvl: 'bad', code: c, what: (FIX[c] || FIX.upstream_error)[0] + ' Last try ' + ago2(sd.at) + '.', fix: (FIX[c] || FIX.upstream_error)[1], kind: (FIX[c] || FIX.upstream_error)[2] }
+    : { id: 'send', title: 'Sending to sessions', lvl: 'warn', what: 'Not tried yet in this browser.', fix: 'The first message you send will show here whether sending works. Anything that cannot be sent waits in the Outbox.' });
+  const P = conn.perms;
+  rows.push({ id: 'perm', title: 'This page\'s permissions', lvl: !P ? 'warn' : Object.values(P).includes('denied') ? 'bad' : 'ok',
+    what: P ? Object.entries(P).map(([k, v]) => `${k}: ${v}`).join(' · ') : 'Not readable in this view.', fix: P && Object.values(P).includes('denied') ? 'Something is switched off. Open the Permissions menu and turn it back on.' : '', kind: 'perm' });
+  return rows;
+}
+function connSummary() {
+  const rows = connRows(), bad = rows.find((r) => r.lvl === 'bad' && r.id !== 'perm') || rows.find((r) => r.lvl === 'bad');
+  if (bad) return { lvl: 'bad', text: bad.id === 'send' ? (bad.code === 'blocked_by_policy' ? 'Sending blocked' : 'Sending problem') : bad.id === 'live' ? 'Live sessions off' : bad.id === 'store' ? 'No store' : 'Check permissions' };
+  return rows.some((r) => r.lvl === 'warn' && r.id !== 'sync') ? { lvl: 'warn', text: 'Connected' } : { lvl: 'ok', text: 'All connected' };
+}
+function renderConn() {
+  const sum = connSummary(); $('conn-chip').className = 'chip-conn ' + sum.lvl; $('conn-chip-text').textContent = sum.text;
+  if ($('conn').hidden) return;
+  $('conn').innerHTML = `<h2>Connection</h2><p class="sub">What works right now, in plain words, and what to do about what doesn't. Nothing here sends a message.</p>` +
+    connRows().map((r) => `<div class="crow ${r.lvl}"><span class="dt"></span><div><h3>${esc(r.title)}</h3><p class="what">${esc(r.what)}</p>${r.fix ? `<p class="fix">${esc(r.fix)}</p>` : ''}
+      ${r.code ? `<p class="fix"><code>${esc(r.code)}</code></p>` : ''}
+      ${r.kind === 'connectors' ? `<div class="acts"><a class="btn" href="${CONNECTORS}" target="_blank" rel="noopener">Open Connectors</a><button type="button" data-act="perm">Permissions</button></div>` : r.kind === 'perm' ? '<div class="acts"><button type="button" data-act="perm">Open Permissions</button></div>' : ''}</div></div>`).join('') +
+    (connRows().find((r) => r.id === 'send' && r.lvl === 'bad') ? '<p class="sub">While sending is blocked, write as usual: each message goes to the Outbox, marked "Not delivered". Firefly delivers queued messages and they move to Sent as "relayed by Firefly".</p>' : '');
+}
 
 /* ---- store helpers for drafts, outbox and sent (new collections; see STORE.md) ---- */
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -415,7 +499,7 @@ async function put(coll, id, data) { const { _id, ...rest } = mirror(coll, id, d
 async function drop(coll, id) { state[coll] = state[coll].filter((x) => x._id !== id); if (db) { try { await db.doc(coll + '/' + id).delete(); } catch {} } }
 let toastT = null;
 function toast(t) { $('toast').textContent = t; $('toast').hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { $('toast').hidden = true; }, 3500); }
-const failWhy = (c) => c === 'approval_required' || c === 'not_in_manifest' ? 'allow Claude Code Remote for this page, then retry' : c === 'server_unavailable' || c === 'upstream_error' ? 'Claude Code did not answer; check their session before retrying' : c || 'error';
+const failWhy = (c) => (FIX[codeOf(c)] || FIX.upstream_error)[0];
 
 /* ---- compose ---- */
 const cmp = { open: false, id: null, to: [], cc: [], thread: '', timer: null, chain: Promise.resolve() };
@@ -430,7 +514,7 @@ function denMsg(f) {
 const isEmpty = (f) => !f.to.length && !f.cc.length && !f.re.trim() && !f.body.trim();
 function cmpHTML(init) {
   const opt = (list, v) => list.map((o) => `<option ${o === v ? 'selected' : ''}>${o}</option>`).join('');
-  const rc = (f, label) => `<div class="lab">${label}${f === 'cc' ? ' <span style="float:right"><button type="button" data-act="cmp-all">Everyone on the team</button></span>' : ''}<div class="rc" id="c-${f}"><span id="c-${f}-chips"></span><input id="c-${f}-in" data-f="${f}" autocomplete="off" placeholder="Add a name" aria-label="${label}"><div class="sug" id="c-${f}-sug" hidden></div></div></div>`;
+  const rc = (f, label) => `<div class="lab">${label}${f === 'to' ? ' <span style="float:right"><button type="button" data-act="cmp-all">Everyone on the team</button></span>' : ''}<div class="rc" id="c-${f}"><span id="c-${f}-chips"></span><input id="c-${f}-in" data-f="${f}" autocomplete="off" placeholder="Add a name" aria-label="${label}"><div class="sug" id="c-${f}-sug" hidden></div></div></div>`;
   return `<div class="cmp-h" id="c-head" title="Drag to move; double-click to reset"><h2>${init.re ? 'Message' : 'New message'}</h2><span class="saved" id="c-saved"></span><button type="button" class="ghost" data-act="cmp-close">Save &amp; close</button></div>
   <div class="cmp-b">${rc('to', 'To')}${rc('cc', 'Cc')}
     <label>Subject<input id="c-re" value="${esc(init.re || '')}" placeholder="What this is about, in a few words"></label>
@@ -449,6 +533,7 @@ function drawChips() {
 }
 function addRcpt(f, nick) { const o = f === 'to' ? 'cc' : 'to'; cmp[o] = cmp[o].filter((n) => n !== nick); if (!cmp[f].includes(nick)) cmp[f].push(nick); $('c-' + f + '-in').value = ''; hideSug(f); drawChips(); dirty(); }
 function showSug(f) {
+  if (!cmp.open || !$('c-' + f + '-in')) return;
   const q = $('c-' + f + '-in').value.trim().toLowerCase(); const box = $('c-' + f + '-sug');
   const hits = state.members.filter((m) => !cmp.to.includes(m.nick) && !cmp.cc.includes(m.nick) && (!q || m.nick.toLowerCase().includes(q) || String(m.role || '').toLowerCase().includes(q)));
   box.innerHTML = hits.map((m, i) => `<button type="button" class="${i === 0 ? 'hi' : ''}" data-act="cmp-pick" data-f="${f}" data-nick="${esc(m.nick)}">${esc(m.nick)} <small>${esc(m.role || '')}${m.session_id ? '' : ' · not on the team yet'}</small></button>`).join('');
@@ -514,18 +599,20 @@ async function deliver(id) {
   const o = state.outbox.find((x) => x._id === id); if (!o || sending.has(id)) return; sending.add(id);
   const targets = [...new Set([...o.to, ...o.cc])]; const results = (o.results || []).filter((r) => r.ok); const done = new Set(results.map((r) => r.nick));
   await put('outbox', id, { status: 'sending' }); render();
-  if (!window.mcpRef) { await put('outbox', id, { status: 'queued' }); sending.delete(id); render(); return toast('Sending needs the Claude Code Remote connector. The message is waiting in the Outbox.'); }
+  if (!window.mcpRef) { await put('outbox', id, { status: 'queued', results: o.results || [] }); sending.delete(id); render(); return toast('Not delivered: this view has no connector access. It is waiting in the Outbox.'); }
+  let stop = '';
   for (const nick of targets) {
     if (done.has(nick)) continue; const m = memberOf(nick);
     if (!m || !m.session_id) { results.push({ nick, ok: false, code: 'not_on_team' }); continue; }
-    try { await window.mcpRef.callTool('Claude Code Remote', 'send_message', { session_id: m.session_id, message: o.text }); results.push({ nick, ok: true }); }
-    catch (err) { results.push({ nick, ok: false, code: (err && err.code) || 'error' }); }
+    if (stop) { results.push({ nick, ok: false, code: stop }); continue; }                 // a policy or connector problem fails every call the same way: do not hammer it
+    try { await window.mcpRef.callTool('Claude Code Remote', 'send_message', { session_id: m.session_id, message: o.text }); results.push({ nick, ok: true }); conn.send = { ok: true, code: '', at: Date.now() }; }
+    catch (err) { const code = (err && err.code) || 'upstream_error'; results.push({ nick, ok: false, code }); conn.send = { ok: false, code, at: Date.now() }; if (POLICY.includes(code)) stop = code; }
   }
   sending.delete(id);
   if (results.every((r) => r.ok)) {
     await put('sent', id, { at: new Date().toISOString(), from: ME, to: o.to, cc: o.cc, re: o.re, type: o.type, body: o.body, thread: o.thread, text: o.text, results });
     await drop('outbox', id); toast('Delivered to ' + results.map((r) => r.nick).join(', ')); view.folder = 'sent'; view.cur = null;
-  } else { await put('outbox', id, { status: 'failed', results }); toast('Some messages were not delivered. See the Outbox.'); }
+  } else { await put('outbox', id, { status: 'failed', results }); const bad = results.find((r) => !r.ok); toast('Not delivered: ' + failWhy(bad.code) + ' It is waiting in the Outbox.'); }
   render();
 }
 
@@ -537,6 +624,7 @@ function openKey(key) { const dg = groupOf(key); if (dg && dg.top.kind === 'draf
 function groupOf(key) { return groups(items()).find((g) => g.key === key); }
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-act]'); if (!el) return; const a = el.dataset.act;
+  if (a === 'perm') { (async () => { const pm = await window.claude?.use?.('permissions'); try { await pm.manage(); conn.perms = await pm.state(); } catch { toast('Open the Permissions menu on this page to change this.'); } render(); })(); return; }
   if (a === 'help') { $('help').hidden = !$('help').hidden; return; }
   if (a === 'compose') return openCompose();
   if (a === 'reply' || a === 'replyall' || a === 'forward') { const i = replyInit(a); return i && openCompose(i); }
@@ -551,7 +639,7 @@ document.addEventListener('click', (e) => {
     if (!f.to.length && !f.cc.length) return void ($('c-msg').textContent = 'Pick at least one recipient first.');
     if (bad.length) return void ($('c-msg').textContent = 'Not on the team yet, remove them first: ' + bad.join(', '));
     if (!f.re.trim() || !f.body.trim()) return void ($('c-msg').textContent = 'Add a subject and a message first.');
-    const n = new Set([...f.to, ...f.cc]).size; $('c-confirm-text').textContent = `Send this to ${n} session${n > 1 ? 's' : ''}: ${[...new Set([...f.to, ...f.cc])].join(', ')}? Each one starts working on it.`; $('c-confirm').hidden = false; return;
+    const n = new Set([...f.to, ...f.cc]).size; $('c-confirm-text').textContent = `Send this to ${n} session${n > 1 ? 's' : ''}: ${[...new Set([...f.to, ...f.cc])].join(', ')}? Each one starts working on it.` + (sendHistory().ok === false && POLICY.includes(codeOf(sendHistory().code)) ? ' Sending is blocked for this page right now, so it will wait in the Outbox until it is delivered.' : ''); $('c-confirm').hidden = false; return;
   }
   if (a === 'cmp-cancel') { $('c-confirm').hidden = true; return; }
   if (a === 'cmp-go') {
@@ -566,7 +654,7 @@ document.addEventListener('click', (e) => {
   if (a === 'del') { const g = groupOf(view.cur); if (!g) return; drop(g.top.coll, g.top.id); view.cur = null; view.pane = 'list'; return render(); }
   if (a === 'check') { e.stopPropagation(); view.checked[el.checked ? 'add' : 'delete'](el.dataset.key); return render(); }
   if (a === 'folder') { $('q').value = ''; view.q = ''; view.folder = el.dataset.f; view.cur = null; view.checked.clear(); view.pane = 'list'; return render(); }
-  if (a === 'pane') { view.pane = el.dataset.pane; if (view.pane === 'folders' && view.folder === 'team') view.folder = 'inbox'; if (el.dataset.pane === 'list') view.cur = null; return render(); }
+  if (a === 'pane') { view.pane = el.dataset.pane; if (view.pane === 'folders' && (view.folder === 'team' || view.folder === 'conn')) view.folder = 'inbox'; if (el.dataset.pane === 'list') view.cur = null; return render(); }
   if (a === 'open') return openKey(el.dataset.key);
   if (a === 'star') { e.stopPropagation(); const g = groupOf(el.dataset.key); if (!g) return; const on = !g.starred; g.ms.filter(mutable).forEach((m) => patch(m, { starred: on })); return render(); }
   if (a === 'bulk') { const how = el.dataset.how; if (how === 'clear') { view.checked.clear(); return render(); } const ms = [...view.checked].flatMap((k) => (groupOf(k) || { ms: [] }).ms); view.checked.clear(); return applyTo(ms, how); }
@@ -574,7 +662,7 @@ document.addEventListener('click', (e) => {
 });
 document.addEventListener('input', (e) => { const t = e.target; if (!t.closest || !t.closest('#cmp')) return; if (t.dataset.f) return showSug(t.dataset.f); drawChips(); dirty(); });
 document.addEventListener('change', (e) => { if (e.target.closest && e.target.closest('#cmp')) { drawChips(); dirty(); } });
-document.addEventListener('focusin', (e) => { if (e.target.dataset && e.target.dataset.f && e.target.closest('#cmp')) showSug(e.target.dataset.f); });
+document.addEventListener('pointerdown', (e) => { const t = e.target; if (t.dataset && t.dataset.f && t.closest && t.closest('#cmp') && t.tagName === 'INPUT') setTimeout(() => showSug(t.dataset.f), 0); });
 document.addEventListener('focusout', (e) => { const f = e.target.dataset && e.target.dataset.f; if (f && e.target.closest('#cmp')) setTimeout(() => hideSug(f), 180); });
 document.addEventListener('keydown', (e) => {
   const t = e.target; if (t.dataset && t.dataset.f && t.closest && t.closest('#cmp')) {
@@ -587,7 +675,7 @@ document.addEventListener('keydown', (e) => {
 
 /* ---- search and keyboard shortcuts ---- */
 $('q').addEventListener('input', () => {
-  const q = $('q').value; if (q.trim() && view.folder !== 'search') { view.prev = view.folder === 'team' ? 'inbox' : view.folder; view.folder = 'search'; }
+  const q = $('q').value; if (q.trim() && view.folder !== 'search') { view.prev = (view.folder === 'team' || view.folder === 'conn') ? 'inbox' : view.folder; view.folder = 'search'; }
   if (!q.trim() && view.folder === 'search') view.folder = view.prev || 'inbox';
   view.q = q; view.cur = null; view.checked.clear(); view.pane = 'list'; render();
 });
@@ -608,7 +696,7 @@ document.addEventListener('keydown', (e) => {
   if (k === '/') { e.preventDefault(); return $('q').focus(); }
   if (k === '?') return void ($('help').hidden = !$('help').hidden);
   if (k === 'c') { e.preventDefault(); return openCompose(); }
-  if (view.folder === 'team') return;
+  if (view.folder === 'team' || view.folder === 'conn') return;
   if (k === 'j') return step(1);
   if (k === 'k') return step(-1);
   if (k === 'x' && view.cur) { view.checked[view.checked.has(view.cur) ? 'delete' : 'add'](view.cur); return render(); }
@@ -631,17 +719,18 @@ document.addEventListener('keydown', (e) => {
   db.doc('meta/sync').onSnapshot((d) => { state.sync = d.exists ? d.data() : null; render(); }, () => {});
 })();
 
+(async () => { try { const pm = await window.claude?.use?.('permissions'); if (pm) { conn.perms = await pm.state(); render(); } } catch {} })();
 (async () => {
   const mcp = await window.claude?.use?.('mcp'); window.mcpRef = mcp;
   const live = $('live'), banner = $('live-banner');
-  if (!mcp) { live.textContent = 'Live sessions: off in this view'; return; }
+  if (!mcp) { conn.live = { ok: false, code: 'not_granted', at: Date.now() }; live.textContent = 'Live sessions: off in this view'; render(); return; }
   mcp.watchTool('Claude Code Remote', 'list_sessions', { mine: true, limit: 30 }, (ev) => {
     if (ev.type === 'data') {
       const p = ev.result.payload; const list = (p && p.ccr && p.ccr.data) || (p && p.data) || (Array.isArray(p) ? p : null);
-      if (list) { state.sessions = list; banner.hidden = true; live.textContent = 'Live sessions: ' + (ev.result.cache ? 'updated ' + ago(new Date(ev.result.cache.storedAt).toISOString()) : 'just now'); render(); }
+      conn.live = { ok: true, code: '', at: Date.now() }; if (list) { state.sessions = list; banner.hidden = true; live.textContent = 'Live sessions: ' + (ev.result.cache ? 'updated ' + ago(new Date(ev.result.cache.storedAt).toISOString()) : 'just now'); render(); }
       return;
     }
-    const c = ev.error.code;
+    const c = ev.error.code; conn.live = { ok: false, code: c, at: Date.now() };
     if (['needs_reauth', 'server_not_connected', 'blocked_by_policy', 'approval_required', 'not_in_manifest'].includes(c)) { state.sessions = null; render(); }
     banner.hidden = false; live.textContent = 'Live sessions: unavailable';
     banner.textContent = c === 'needs_reauth' ? 'Reconnect Claude Code Remote in claude.ai Settings → Connectors to see live session state.'

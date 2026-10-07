@@ -16,4 +16,7 @@ export default async ({run,W,open,fld})=>{
   await run('h',...W.half,sch,[[`half-list-${sch}`,null],[`half-read-${sch}`,open('Gear fit')]]);
   await run('p',...W.phone,sch,[[`phone-list-${sch}`,null],[`phone-read-${sch}`,open('Gear fit')],[`phone-folders-${sch}`,async p=>{await p.click('.back >> nth=0')}],[`phone-compose-${sch}`,async p=>{await p.click('[data-f="inbox"]');await p.click('#fab');await p.fill('#c-to-in','f');}]]);
  }
+ for(const v of ['default','blocked','noconn']) await run('d',...W.desktop,'dark',[[`conn-${v}-dark`,fld('conn')]],v);
+ await run('p',...W.phone,'light',[['conn-blocked-phone-light',async p=>{await p.click('#conn-chip')}]],'blocked');
+ await run('d',...W.desktop,'dark',[['outbox-blocked-dark',async p=>{await fld('outbox')(p);await open('Moss tone')(p)}]],'blocked');
 };
