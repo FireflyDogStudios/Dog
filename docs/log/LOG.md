@@ -2,6 +2,9 @@
 
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
+## 2026-10-08
+- 2026-10-08 · Scout · Topline clamp profile (the hunchback fix): skin sits 0.007-0.026 WH above the spine tips (minimum at T8); neck topline = the C2→T1 nuchal chord, cervical vertebrae hang up to 0.112 WH below it; withers = max(spine tips, scapula) + 0.026; real wolf topline slopes down to 0.92 at the croup. → `ref/research/scout/15-topline/`
+
 ## 2026-10-07
 - 2026-10-07 · Firefly · Muscles step M2, plate-shaped (work in progress): `./den body3d wolf` warps the 25 Tafel 2 muscles and the skin outline onto the 3D skeleton and packs them as a near-side muscle body (Hill volumes, capped at a round section; 6 missing muscles at EST thickness; trunk and neck filler). 83% of the outline covered. Known faults: the plate's legs (near and far merged) do not sit on the wolf's leg bones yet, the filler shows column stripes, the flank filler is not yet coloured as the belly wall, head and tail still from the plate. → `species/build/wolf.body3d_map.png`
 - 2026-10-07 · Firefly · Muscles step M2, first slice: `./den bellies3d wolf` gives the 19 Tafel 2 surface muscles that exist in Stark's model a Hill volume (σ 0.3 MPa; force scaled from the model's 13.81 kg to 31.8 kg, EST) as bellies bent out of the bones; trunk sheets kept outside the ribcage hull. All 150 real muscles weigh 11.1 kg, 35% of body weight (dogs 45–57% with every muscle). Bulge check vs the plate: 5 close (brachiocephalicus, trapezius thoracic, tensor, crus cranial, gluteus medius roughly), 7 too thin in profile, 3 too big. Reads as lumps, not a wolf yet. → `species/build/wolf.bellies3d.png`
