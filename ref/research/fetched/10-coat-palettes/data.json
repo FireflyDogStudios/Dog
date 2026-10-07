@@ -1,7 +1,7 @@
 {
  "item": "10-coat-palettes",
  "fetched": "2026-10-06",
- "method": "Thumbnails (<=1280 px wide) from upload.wikimedia.org, converted to sRGB from any embedded ICC profile (Adobe RGB for two photos). Each region = hand-placed box [x0,y0,x1,y1] in the thumbnail's pixel coordinates (y down). Colour = per-channel median of the pixels whose luma lies between the 10th and 90th percentile of the box (trims glints and deep shadow). sd = mean per-channel standard deviation of the raw box (texture/noise indicator). Species summary = per-channel median across photos for each region.",
+ "method": "Thumbnails (<=1280 px wide) from upload.wikimedia.org, converted to sRGB from any embedded ICC profile (Adobe RGB for two photos). Each region = hand-placed box [x0,y0,x1,y1] in the thumbnail's pixel coordinates (y down). Colour = per-channel median of the pixels whose luma lies between the 10th and 90th percentile of the box (trims glints and deep shadow). sd = mean per-channel standard deviation of the raw box (texture/noise indicator). Species summary = per-channel median across photos for each region. Update 2026-10-07: 3 Carolina Dog and 2 dingo photos added with the same method (Wikimedia standard thumbnail sizes or Flickr 1024 px; ICC converted where embedded); summaries recomputed.",
  "species": {
   "wolf": {
    "photos": [
@@ -463,6 +463,13 @@
       "#9b8e7b"
      ]
     },
+    "belly": {
+     "hex": "#b8a58f",
+     "n_photos": 1,
+     "inputs": [
+      "#b8a58f"
+     ]
+    },
     "legs": {
      "hex": "#c5ab8f",
      "n_photos": 3,
@@ -470,13 +477,6 @@
       "#b8aa7f",
       "#c5ab8f",
       "#cfcabd"
-     ]
-    },
-    "belly": {
-     "hex": "#b8a58f",
-     "n_photos": 1,
-     "inputs": [
-      "#b8a58f"
      ]
     }
    }
@@ -1019,82 +1019,262 @@
        "sd": 18.0
       }
      }
+    },
+    {
+     "file_title": "File:Dingo at West Australian Reptile Park.jpg",
+     "page": "https://commons.wikimedia.org/wiki/File:Dingo_at_West_Australian_Reptile_Park.jpg",
+     "author": "S J Bennett from Australia (Flickr)",
+     "licence": "CC BY 2.0",
+     "licence_url": "https://creativecommons.org/licenses/by/2.0",
+     "original_size": [
+      1024,
+      783
+     ],
+     "sampled_image_width": 960,
+     "sampled_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Dingo_at_West_Australian_Reptile_Park.jpg/960px-Dingo_at_West_Australian_Reptile_Park.jpg",
+     "view": "lying, three-quarter, facing right, head close to camera",
+     "lighting_note": "bright diffuse light in an enclosure; chest under the head is shaded (excluded from summary); legs = pale foreleg, mixed with shadow (sd 30); embedded Canon sRGB profile applied",
+     "excluded_from_summary": [
+      "chest"
+     ],
+     "regions": {
+      "back": {
+       "hex": "#e0c3ba",
+       "box": [
+        270,
+        190,
+        350,
+        230
+       ],
+       "px": 3200,
+       "sd": 13.1
+      },
+      "flank": {
+       "hex": "#d7b9a2",
+       "box": [
+        300,
+        300,
+        400,
+        380
+       ],
+       "px": 8000,
+       "sd": 14.9
+      },
+      "chest": {
+       "hex": "#8c7d74",
+       "box": [
+        550,
+        380,
+        585,
+        415
+       ],
+       "px": 1225,
+       "sd": 22.0
+      },
+      "legs": {
+       "hex": "#a99e95",
+       "box": [
+        480,
+        505,
+        560,
+        528
+       ],
+       "px": 1840,
+       "sd": 30.4
+      },
+      "face_mask": {
+       "hex": "#dfd4cd",
+       "box": [
+        640,
+        350,
+        670,
+        378
+       ],
+       "px": 840,
+       "sd": 12.2
+      },
+      "muzzle_top": {
+       "hex": "#dad1cf",
+       "box": [
+        685,
+        350,
+        705,
+        378
+       ],
+       "px": 560,
+       "sd": 14.9
+      },
+      "brow": {
+       "hex": "#877a72",
+       "box": [
+        650,
+        240,
+        690,
+        268
+       ],
+       "px": 1120,
+       "sd": 37.7
+      },
+      "ear_inside": {
+       "hex": "#241813",
+       "box": [
+        500,
+        170,
+        528,
+        210
+       ],
+       "px": 1120,
+       "sd": 26.1
+      },
+      "nose": {
+       "hex": "#252327",
+       "box": [
+        702,
+        420,
+        738,
+        445
+       ],
+       "px": 900,
+       "sd": 62.3
+      },
+      "eye": {
+       "hex": "#664235",
+       "box": [
+        614,
+        297,
+        630,
+        309
+       ],
+       "px": 192,
+       "sd": 39.9
+      }
+     }
+    },
+    {
+     "file_title": "File:Australian Dingo.jpg",
+     "page": "https://commons.wikimedia.org/wiki/File:Australian_Dingo.jpg",
+     "author": "Alessandro from Milan, Italy (Flickr)",
+     "licence": "CC BY 2.0",
+     "licence_url": "https://creativecommons.org/licenses/by/2.0",
+     "original_size": [
+      800,
+      533
+     ],
+     "sampled_image_width": 800,
+     "sampled_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Australian_Dingo.jpg",
+     "view": "standing in spinifex, three-quarter facing camera, small in frame (~130 px long) and soft",
+     "lighting_note": "low warm sun (late day), outback; only back and flank sampled (head and legs too small or hidden by grass)",
+     "excluded_from_summary": [],
+     "regions": {
+      "flank": {
+       "hex": "#a16f47",
+       "box": [
+        445,
+        305,
+        490,
+        322
+       ],
+       "px": 765,
+       "sd": 19.8
+      },
+      "back": {
+       "hex": "#936e4e",
+       "box": [
+        450,
+        298,
+        485,
+        304
+       ],
+       "px": 210,
+       "sd": 22.6
+      }
+     }
     }
    ],
    "summary_palette": {
     "back": {
-     "hex": "#c0773b",
-     "n_photos": 3,
+     "hex": "#c0774e",
+     "n_photos": 5,
      "inputs": [
       "#f8cc92",
       "#6f4f3b",
-      "#c07735"
+      "#c07735",
+      "#e0c3ba",
+      "#936e4e"
      ]
     },
     "flank": {
-     "hex": "#ad6832",
-     "n_photos": 3,
+     "hex": "#ad6f47",
+     "n_photos": 5,
      "inputs": [
       "#f9e0b3",
       "#6c4b32",
-      "#ad6826"
+      "#ad6826",
+      "#d7b9a2",
+      "#a16f47"
      ]
     },
     "legs": {
-     "hex": "#9e6a4e",
-     "n_photos": 3,
+     "hex": "#a48472",
+     "n_photos": 4,
      "inputs": [
       "#f9e3b5",
       "#866a4e",
-      "#9e520a"
+      "#9e520a",
+      "#a99e95"
      ]
     },
     "face_mask": {
-     "hex": "#b5c1bf",
-     "n_photos": 3,
+     "hex": "#cacac0",
+     "n_photos": 4,
      "inputs": [
       "#b5c1c1",
       "#897661",
-      "#e5d9bf"
+      "#e5d9bf",
+      "#dfd4cd"
      ]
     },
     "muzzle_top": {
-     "hex": "#8a6f46",
-     "n_photos": 3,
+     "hex": "#ac7e4d",
+     "n_photos": 4,
      "inputs": [
       "#8a6f45",
       "#856646",
-      "#cd8c54"
+      "#cd8c54",
+      "#dad1cf"
      ]
     },
     "ear_inside": {
-     "hex": "#4c301f",
-     "n_photos": 4,
+     "hex": "#422f15",
+     "n_photos": 5,
      "inputs": [
       "#423115",
       "#3b2f29",
       "#a68e79",
-      "#552802"
+      "#552802",
+      "#241813"
      ]
     },
     "nose": {
-     "hex": "#24252c",
-     "n_photos": 4,
+     "hex": "#252327",
+     "n_photos": 5,
      "inputs": [
       "#181c23",
       "#414247",
       "#302e36",
-      "#191b1a"
+      "#191b1a",
+      "#252327"
      ]
     },
     "eye": {
-     "hex": "#302517",
-     "n_photos": 4,
+     "hex": "#413826",
+     "n_photos": 5,
      "inputs": [
       "#120e07",
       "#413a38",
       "#503826",
-      "#201208"
+      "#201208",
+      "#664235"
      ]
     },
     "belly": {
@@ -1106,10 +1286,11 @@
      ]
     },
     "brow": {
-     "hex": "#9a7b59",
-     "n_photos": 1,
+     "hex": "#907a66",
+     "n_photos": 2,
      "inputs": [
-      "#9a7b59"
+      "#9a7b59",
+      "#877a72"
      ]
     }
    }
@@ -1316,66 +1497,492 @@
        "sd": 34.6
       }
      }
+    },
+    {
+     "file_title": "File:Carolinadog20020713a.jpg",
+     "page": "https://commons.wikimedia.org/wiki/File:Carolinadog20020713a.jpg",
+     "author": "Flaxseedoil",
+     "licence": "Public domain",
+     "licence_url": "",
+     "original_size": [
+      640,
+      480
+     ],
+     "sampled_image_width": 500,
+     "sampled_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Carolinadog20020713a.jpg/500px-Carolinadog20020713a.jpg",
+     "view": "standing, facing camera (front view, slightly from above); 'flank' is the side of the chest/shoulder seen from the front",
+     "lighting_note": "2002 compact camera, open daylight on grey gravel; 500 px Wikimedia standard thumbnail (the 640 px original stayed HTTP 429); small patches",
+     "excluded_from_summary": [],
+     "regions": {
+      "back": {
+       "hex": "#846048",
+       "box": [
+        250,
+        100,
+        275,
+        130
+       ],
+       "px": 750,
+       "sd": 10.5
+      },
+      "flank": {
+       "hex": "#6b4633",
+       "box": [
+        276,
+        140,
+        290,
+        175
+       ],
+       "px": 490,
+       "sd": 9.8
+      },
+      "legs": {
+       "hex": "#754824",
+       "box": [
+        285,
+        295,
+        295,
+        325
+       ],
+       "px": 300,
+       "sd": 13.7
+      },
+      "face_mask": {
+       "hex": "#584336",
+       "box": [
+        248,
+        247,
+        258,
+        258
+       ],
+       "px": 110,
+       "sd": 34.1
+      },
+      "ear_inside": {
+       "hex": "#4f3222",
+       "box": [
+        242,
+        182,
+        252,
+        197
+       ],
+       "px": 150,
+       "sd": 21.5
+      },
+      "nose": {
+       "hex": "#212627",
+       "box": [
+        258,
+        262,
+        272,
+        272
+       ],
+       "px": 140,
+       "sd": 20.7
+      },
+      "eye": {
+       "hex": "#3a1d1c",
+       "box": [
+        284,
+        231,
+        290,
+        236
+       ],
+       "px": 30,
+       "sd": 22.9
+      }
+     }
+    },
+    {
+     "file_title": "File:DixieDingo 0019.jpg",
+     "page": "https://commons.wikimedia.org/wiki/File:DixieDingo_0019.jpg",
+     "author": "Apishion",
+     "licence": "Public domain",
+     "licence_url": "",
+     "original_size": [
+      2304,
+      3072
+     ],
+     "sampled_image_width": 1280,
+     "sampled_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/DixieDingo_0019.jpg/1280px-DixieDingo_0019.jpg",
+     "view": "standing, three-quarter from above, head turned left; wire fence in front of the forequarters (boxes placed between wires)",
+     "lighting_note": "soft daylight on grass; back is the brightest (top-lit) area; 'legs' is the hind leg (forelegs crossed by the fence); belly = pale groin patch, mixed (sd 29); 'chest' = pale throat/chest",
+     "excluded_from_summary": [],
+     "regions": {
+      "back": {
+       "hex": "#eabb9f",
+       "box": [
+        730,
+        520,
+        800,
+        560
+       ],
+       "px": 2800,
+       "sd": 13.3
+      },
+      "flank": {
+       "hex": "#be9576",
+       "box": [
+        720,
+        650,
+        820,
+        720
+       ],
+       "px": 7000,
+       "sd": 12.4
+      },
+      "belly": {
+       "hex": "#b3a698",
+       "box": [
+        785,
+        752,
+        812,
+        775
+       ],
+       "px": 621,
+       "sd": 29.1
+      },
+      "legs": {
+       "hex": "#c9a78a",
+       "box": [
+        940,
+        880,
+        960,
+        940
+       ],
+       "px": 1200,
+       "sd": 19.3
+      },
+      "chest": {
+       "hex": "#dbcec6",
+       "box": [
+        368,
+        905,
+        388,
+        925
+       ],
+       "px": 400,
+       "sd": 12.5
+      },
+      "face_mask": {
+       "hex": "#867470",
+       "box": [
+        425,
+        840,
+        445,
+        858
+       ],
+       "px": 360,
+       "sd": 40.6
+      },
+      "muzzle_top": {
+       "hex": "#a89089",
+       "box": [
+        455,
+        815,
+        475,
+        835
+       ],
+       "px": 400,
+       "sd": 21.4
+      },
+      "brow": {
+       "hex": "#e5b896",
+       "box": [
+        440,
+        720,
+        470,
+        750
+       ],
+       "px": 900,
+       "sd": 12.9
+      },
+      "ear_inside": {
+       "hex": "#9a7c7e",
+       "box": [
+        505,
+        648,
+        525,
+        668
+       ],
+       "px": 400,
+       "sd": 34.2
+      },
+      "nose": {
+       "hex": "#3c393e",
+       "box": [
+        500,
+        885,
+        525,
+        905
+       ],
+       "px": 500,
+       "sd": 35.7
+      },
+      "eye": {
+       "hex": "#4a322b",
+       "box": [
+        425,
+        788,
+        440,
+        797
+       ],
+       "px": 135,
+       "sd": 16.5
+      }
+     }
+    },
+    {
+     "file_title": "Carolina Dog, fetch (Flickr 43486694605)",
+     "page": "https://www.flickr.com/photos/142840521@N06/43486694605",
+     "author": "SteveMcD (Flickr)",
+     "licence": "CC BY 2.0",
+     "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+     "original_size": null,
+     "sampled_image_width": 1024,
+     "sampled_url": "https://live.staticflickr.com/1886/43486694605_c23ab954d2_b.jpg",
+     "found_via": "Openverse (api.openverse.org, q=carolinadog, license=cc0,by,pdm); licence re-checked on the Flickr page (licence id 4 = CC BY 2.0)",
+     "view": "full side view, trotting, facing left, ball in mouth",
+     "lighting_note": "overcast/shade in a park; slight cool-magenta cast (B close to G); pale cream dog with white chest and legs, which sit in shadow and read blue-grey (chest, belly, legs excluded from summary); ICC sRGB IEC61966-2.1",
+     "excluded_from_summary": [
+      "chest",
+      "belly",
+      "legs"
+     ],
+     "regions": {
+      "back": {
+       "hex": "#d3bcb9",
+       "box": [
+        560,
+        158,
+        640,
+        185
+       ],
+       "px": 2160,
+       "sd": 11.0
+      },
+      "flank": {
+       "hex": "#9f857f",
+       "box": [
+        520,
+        230,
+        620,
+        290
+       ],
+       "px": 6000,
+       "sd": 20.7
+      },
+      "belly": {
+       "hex": "#9a8480",
+       "box": [
+        530,
+        325,
+        580,
+        345
+       ],
+       "px": 1000,
+       "sd": 23.2
+      },
+      "chest": {
+       "hex": "#79717b",
+       "box": [
+        360,
+        310,
+        390,
+        345
+       ],
+       "px": 1050,
+       "sd": 13.1
+      },
+      "legs": {
+       "hex": "#848393",
+       "box": [
+        372,
+        410,
+        388,
+        460
+       ],
+       "px": 800,
+       "sd": 19.5
+      },
+      "face_mask": {
+       "hex": "#aca6b1",
+       "box": [
+        312,
+        178,
+        330,
+        193
+       ],
+       "px": 270,
+       "sd": 11.8
+      },
+      "muzzle_top": {
+       "hex": "#bdb6c3",
+       "box": [
+        240,
+        166,
+        256,
+        176
+       ],
+       "px": 160,
+       "sd": 21.1
+      },
+      "brow": {
+       "hex": "#c3b4b5",
+       "box": [
+        300,
+        135,
+        325,
+        150
+       ],
+       "px": 375,
+       "sd": 11.0
+      },
+      "ear_inside": {
+       "hex": "#644650",
+       "box": [
+        262,
+        80,
+        274,
+        110
+       ],
+       "px": 360,
+       "sd": 16.5
+      },
+      "nose": {
+       "hex": "#0c0b0d",
+       "box": [
+        206,
+        180,
+        222,
+        193
+       ],
+       "px": 208,
+       "sd": 24.8
+      },
+      "eye": {
+       "hex": "#1a1618",
+       "box": [
+        287,
+        159,
+        297,
+        166
+       ],
+       "px": 70,
+       "sd": 31.9
+      }
+     }
     }
    ],
    "summary_palette": {
     "back": {
-     "hex": "#84664a",
-     "n_photos": 2,
+     "hex": "#8b6958",
+     "n_photos": 5,
      "inputs": [
       "#7d6958",
-      "#8b643d"
+      "#8b643d",
+      "#846048",
+      "#eabb9f",
+      "#d3bcb9"
      ]
     },
     "flank": {
-     "hex": "#957958",
-     "n_photos": 2,
+     "hex": "#9f825f",
+     "n_photos": 5,
      "inputs": [
       "#81705f",
-      "#a98251"
+      "#a98251",
+      "#6b4633",
+      "#be9576",
+      "#9f857f"
      ]
     },
     "legs": {
      "hex": "#7c5f40",
-     "n_photos": 2,
+     "n_photos": 4,
      "inputs": [
       "#7d6855",
-      "#7a562b"
+      "#7a562b",
+      "#754824",
+      "#c9a78a"
      ]
     },
     "face_mask": {
-     "hex": "#504238",
-     "n_photos": 2,
+     "hex": "#584338",
+     "n_photos": 5,
      "inputs": [
       "#4f4138",
-      "#504338"
+      "#504338",
+      "#584336",
+      "#867470",
+      "#aca6b1"
      ]
     },
     "nose": {
-     "hex": "#262a2a",
-     "n_photos": 2,
+     "hex": "#212627",
+     "n_photos": 5,
      "inputs": [
       "#303537",
-      "#1c1e1d"
+      "#1c1e1d",
+      "#212627",
+      "#3c393e",
+      "#0c0b0d"
      ]
     },
     "ear_inside": {
-     "hex": "#4c3e30",
-     "n_photos": 2,
+     "hex": "#504032",
+     "n_photos": 5,
      "inputs": [
       "#493b32",
-      "#50402d"
+      "#50402d",
+      "#4f3222",
+      "#9a7c7e",
+      "#644650"
      ]
     },
     "eye": {
-     "hex": "#3f3633",
-     "n_photos": 2,
+     "hex": "#3e312b",
+     "n_photos": 5,
      "inputs": [
       "#403c38",
-      "#3e312e"
+      "#3e312e",
+      "#3a1d1c",
+      "#4a322b",
+      "#1a1618"
+     ]
+    },
+    "chest": {
+     "hex": "#dbcec6",
+     "n_photos": 1,
+     "inputs": [
+      "#dbcec6"
+     ]
+    },
+    "belly": {
+     "hex": "#b3a698",
+     "n_photos": 1,
+     "inputs": [
+      "#b3a698"
+     ]
+    },
+    "muzzle_top": {
+     "hex": "#b2a3a6",
+     "n_photos": 2,
+     "inputs": [
+      "#a89089",
+      "#bdb6c3"
+     ]
+    },
+    "brow": {
+     "hex": "#d4b6a6",
+     "n_photos": 2,
+     "inputs": [
+      "#e5b896",
+      "#c3b4b5"
      ]
     }
    }
   }
- }
+ },
+ "updated": "2026-10-07"
 }

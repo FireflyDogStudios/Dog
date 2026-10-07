@@ -1,6 +1,6 @@
 # 10-coat-palettes: notes
 
-Fetched 2026-10-06. Sampled colours only; **no photos are stored in the repo** (thumbnails were kept in `/tmp/item10/`).
+Fetched 2026-10-06; updated 2026-10-07. Sampled colours only; **no photos are stored in the repo** (thumbnails were kept in `/tmp/item10/`).
 
 ## Sources
 Wikimedia Commons API (`https://commons.wikimedia.org/w/api.php`, `generator=categorymembers`, `prop=imageinfo`, `iiprop=url|extmetadata|size`) on:
@@ -23,6 +23,11 @@ The licence was taken from each file's `LicenseShortName` metadata. Accepted: Pu
 | dingo | [Canis lupus dingo 2.jpg](https://commons.wikimedia.org/wiki/File:Canis_lupus_dingo_2.jpg) | Sam Fraser-Smith (Flickr) | CC BY 2.0 |
 | Carolina Dog | [Carolina Dog 1.jpg](https://commons.wikimedia.org/wiki/File:Carolina_Dog_1.jpg) | Flaxseedoil | Public domain |
 | Carolina Dog | [Carolinadog20020630a.jpg](https://commons.wikimedia.org/wiki/File:Carolinadog20020630a.jpg) | Flaxseedoil | Public domain |
+| Carolina Dog | [Carolinadog20020713a.jpg](https://commons.wikimedia.org/wiki/File:Carolinadog20020713a.jpg) (added Oct 7) | Flaxseedoil | Public domain |
+| Carolina Dog | [DixieDingo 0019.jpg](https://commons.wikimedia.org/wiki/File:DixieDingo_0019.jpg) (added Oct 7) | Apishion | Public domain |
+| Carolina Dog | [Carolina Dog, fetch](https://www.flickr.com/photos/142840521@N06/43486694605) (Flickr, added Oct 7) | SteveMcD | CC BY 2.0 |
+| dingo | [Dingo at West Australian Reptile Park.jpg](https://commons.wikimedia.org/wiki/File:Dingo_at_West_Australian_Reptile_Park.jpg) (added Oct 7) | S J Bennett (Flickr) | CC BY 2.0 |
+| dingo | [Australian Dingo.jpg](https://commons.wikimedia.org/wiki/File:Australian_Dingo.jpg) (added Oct 7) | Alessandro from Milan (Flickr) | CC BY 2.0 |
 
 The licence URL, original size, view and lighting for each photo are in `data.json`. Attribution for CC BY: credit the author and licence as listed above. The colours themselves are facts measured from the photos.
 
@@ -56,12 +61,32 @@ The licence URL, original size, view and lighting for each photo are in `data.js
 | dingo | Canis lupus dingo 2.jpg | #c07735 | #ad6826 | #a29789 | — | #9e520a | #e5d9bf | #cd8c54 | — | #552802 | #191b1a | #201208 |
 | carolina | Carolina Dog 1.jpg | #7d6958 | #81705f | — | — | #7d6855 | #4f4138 | — | — | #493b32 | #303537 | #403c38 |
 | carolina | Carolinadog20020630a.jpg | #8b643d | #a98251 | — | #977c55 | #7a562b | #504338 | — | — | #50402d | #1c1e1d | #3e312e |
+| dingo | Dingo at West Australian Reptile Park.jpg | #e0c3ba | #d7b9a2 | — | #8c7d74 (x) | #a99e95 | #dfd4cd | #dad1cf | #877a72 | #241813 | #252327 | #664235 |
+| dingo | Australian Dingo.jpg | #936e4e | #a16f47 | — | — | — | — | — | — | — | — | — |
+| carolina | Carolinadog20020713a.jpg | #846048 | #6b4633 | — | — | #754824 | #584336 | — | — | #4f3222 | #212627 | #3a1d1c |
+| carolina | DixieDingo 0019.jpg | #eabb9f | #be9576 | #b3a698 | #dbcec6 | #c9a78a | #867470 | #a89089 | #e5b896 | #9a7c7e | #3c393e | #4a322b |
+| carolina | Carolina Dog, fetch (Flickr 43486694605) | #d3bcb9 | #9f857f | #9a8480 (x) | #79717b (x) | #848393 (x) | #aca6b1 | #bdb6c3 | #c3b4b5 | #644650 | #0c0b0d | #1a1618 |
+
+(x) = sampled but excluded from the species summary (shaded).
+
+## Update 2026-10-07 (retry and extra Carolina Dog photos)
+- **Retry:** Commons API (`prop=imageinfo`, `iiurlwidth=1200`) with User-Agent `DenDataFetch/1.0 (research; contact via repo)`, one request every 5–20 s.
+  - upload.wikimedia.org **originals** still returned HTTP 429 for Carolinadog20020713a.jpg (4 tries) and Dingo at West Australian Reptile Park.jpg (3 tries). Australian Dingo.jpg (800 px original) came through on the 2nd try.
+  - The thumbnail host only serves **standard widths**: a non-standard width such as 639 or 1000 px gives HTTP 400 ("Use thumbnail sizes listed on https://w.wiki/GHai"). We used the 1280 px thumbnail of DixieDingo 0019.jpg, the 960 px thumbnail of the reptile-park dingo, and the **500 px** thumbnail of Carolinadog20020713a.jpg (its original is 640 × 480, and 640 is not a standard size). The exact sampled URL is in each photo's `sampled_url` in `data.json`.
+- **New permissive Carolina Dog photo:** searched Openverse (`api.openverse.org/v1/images`, `license=cc0,by,pdm`) for "carolina dog", "carolinadog", "american dingo" and "dixie dingo". Most "carolina dog" hits are unrelated (North/South Carolina). Relevant hits:
+  - **Used:** "Carolina Dog, fetch" by SteveMcD, Flickr 43486694605, CC BY 2.0 (checked on the Flickr page: licence id 4 = CC BY 2.0). The owner tagged it carolinadog and americandingo. Full side view, 1024 px.
+  - Not used: three more SteveMcD photos of the **same dog** ("She's all ears" 39494971195, "Wild dog and Fruit Loops" 26520881918, "Tsuki et fruit loops" 48491118751), all CC BY 2.0, so that one dog does not count several times. "She's all ears" would be a good extra source for a pale ear inside and a frontal face if needed.
+  - Not used: "Carolina Dog" by gaber1556, Flickr 45875844865, Public Domain Mark: a 305 × 499 indoor head crop under warm artificial light.
+- **The Carolina Dog sample is now 5 photos** (4 public domain, 1 CC BY 2.0). Caveats:
+  - Three of them are by Flaxseedoil ("Riverside Rescue", 2002) and may show the same few dogs.
+  - The Flickr dog is a pale cream individual, and the DixieDingo 0019 dog is light red-fawn. The two older photos show darker ginger dogs. The per-channel median sits between them, so the summary is a middling ginger-fawn. Use the per-photo values to pick a lighter or darker coat.
+  - The Flickr dog's white chest, belly and legs are in shadow and read blue-grey, so they are excluded from the summary.
+- **The dingo sample is now 7 photos** (6 contribute to the summary). The reptile-park dingo is pale ginger in bright diffuse light (its shaded chest is excluded). The Australian Dingo is tiny and soft in low warm sun, so only its back and flank were sampled.
+- Breed identity of the new Carolina Dog photos is as stated by the uploaders. It is not verified.
 
 ## Not done or blocked
 - Commons API and upload.wikimedia.org repeatedly returned **HTTP 429** (rate limit, retry-after 20–55 s). Category queries worked after backing off and changing the User-Agent string.
-- These downloads failed after 3 or more spaced retries each:
-  - **Carolinadog20020713a.jpg** (PD, Flaxseedoil) and **DixieDingo 0019.jpg** (PD, Apishion), the other two permissive Carolina Dog photos, so the Carolina palette rests on 2 photos;
-  - dingo photos *Dingo at West Australian Reptile Park.jpg* and *Australian Dingo.jpg*.
+- On Oct 6 these downloads failed after 3 or more spaced retries each: Carolinadog20020713a.jpg, DixieDingo 0019.jpg, Dingo at West Australian Reptile Park.jpg and Australian Dingo.jpg. **All four were fetched on Oct 7** (see the update above; one only as a 500 px thumbnail).
 - Not used after viewing:
   - *Dingo at Fogg Dam.jpg* (dog too small, motion);
   - *RWY2198-Edit.jpg* (wolf, small and blue-graded);
