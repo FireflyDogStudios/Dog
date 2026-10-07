@@ -70,20 +70,33 @@ numbers:
     elbow_standing:    {value: 140, unit: deg, range: [137, 145], source: "weight-bearing radiographs 137 +- 13 (Anat Rec 2022); Rohwedder 145; the Anatolian goniometry 124.8 reads low on every joint (fact-check Q2)", confidence: B, note: "dog proxy"}
     stifle_standing:   {value: 142, unit: deg, range: [136, 146], source: "Giansetto 2022 Vet Sci 145; standing radiographs 142.9 (AJVR 2026); fact-check Q4", confidence: B, note: "dog proxy"}
 
-  limits:                     # passive joint limits, flexion and extension (180 = straight; carpus extends past straight)
-    elbow_flex:   {value: 36, unit: deg, range: [25, 49], source: "Jaegger 2002 Labrador goniometry (recalled, unverified); breed range Rohwedder review", confidence: C}
-    elbow_ext:    {value: 165, unit: deg, range: [155, 175], source: "Jaegger 2002; Rohwedder review", confidence: C}
-    carpus_flex:  {value: 32, unit: deg, source: "Jaegger 2002 (unverified)", confidence: C}
-    carpus_ext:   {value: 196, unit: deg, source: "Jaegger 2002 (unverified)", confidence: C}
-    stifle_flex:  {value: 42, unit: deg, source: "Jaegger 2002; standing study 40.2", confidence: B}
-    stifle_ext:   {value: 162, unit: deg, range: [160, 166], source: "Jaegger 2002; VetSci 2022", confidence: B}
-    hock_flex:    {value: 39, unit: deg, source: "Jaegger 2002 (unverified)", confidence: C}
-    hock_ext:     {value: 164, unit: deg, source: "Jaegger 2002 (unverified)", confidence: C}
+  limits:                     # rig joint limits, included angle (180 = straight). HARD = the clamp, at the passive anatomical limit; COMFORT = the band gait and idle stay inside; sit, lie, jump, stretch and play may use the band between. Dog data: no wolf goniometry exists (corrected Oct 7)
+    shoulder_flex:   {value: 45, unit: deg, source: "hard flexion limit; ref/research/missingfound/joint-ranges (CC BY goniometry tables; police dogs, mixed breeds, French Bulldog, Dachshund; Jaegger 2002)", confidence: B}
+    shoulder_ext:    {value: 165, unit: deg, source: "hard extension limit; same", confidence: B}
+    shoulder_comfort: {value: 145, unit: deg, range: [85, 145], source: "comfortable band for gait and idle (range = low, high); trot/walk extremes in ref/research/fetched/04-gait-curves", confidence: B}
+    elbow_flex:   {value: 30, unit: deg, source: "hard flexion limit; ref/research/missingfound/joint-ranges (CC BY goniometry tables; police dogs, mixed breeds, French Bulldog, Dachshund; Jaegger 2002)", confidence: B}
+    elbow_ext:    {value: 165, unit: deg, source: "hard extension limit; same", confidence: B}
+    elbow_comfort: {value: 155, unit: deg, range: [60, 155], source: "comfortable band for gait and idle (range = low, high); trot/walk extremes in ref/research/fetched/04-gait-curves", confidence: B}
+    carpus_flex:   {value: 30, unit: deg, source: "hard flexion limit; ref/research/missingfound/joint-ranges (CC BY goniometry tables; police dogs, mixed breeds, French Bulldog, Dachshund; Jaegger 2002)", confidence: A}
+    carpus_ext:    {value: 200, unit: deg, source: "hard extension limit; same", confidence: A, note: "unloaded; up to 240 only while the paw bears weight (see carpus_ext_loaded)"}
+    carpus_comfort: {value: 225, unit: deg, range: [75, 225], source: "comfortable band for gait and idle (range = low, high); trot/walk extremes in ref/research/fetched/04-gait-curves", confidence: A}
+    hip_flex:   {value: 50, unit: deg, source: "hard flexion limit; ref/research/missingfound/joint-ranges (CC BY goniometry tables; police dogs, mixed breeds, French Bulldog, Dachshund; Jaegger 2002)", confidence: B}
+    hip_ext:    {value: 175, unit: deg, source: "hard extension limit; same", confidence: B}
+    hip_comfort: {value: 170, unit: deg, range: [90, 170], source: "comfortable band for gait and idle (range = low, high); trot/walk extremes in ref/research/fetched/04-gait-curves", confidence: B}
+    stifle_flex:   {value: 40, unit: deg, source: "hard flexion limit; ref/research/missingfound/joint-ranges (CC BY goniometry tables; police dogs, mixed breeds, French Bulldog, Dachshund; Jaegger 2002)", confidence: A}
+    stifle_ext:    {value: 170, unit: deg, source: "hard extension limit; same", confidence: A}
+    stifle_comfort: {value: 163, unit: deg, range: [85, 163], source: "comfortable band for gait and idle (range = low, high); trot/walk extremes in ref/research/fetched/04-gait-curves", confidence: A}
+    hock_flex:   {value: 38, unit: deg, source: "hard flexion limit; ref/research/missingfound/joint-ranges (CC BY goniometry tables; police dogs, mixed breeds, French Bulldog, Dachshund; Jaegger 2002)", confidence: B}
+    hock_ext:    {value: 180, unit: deg, source: "hard extension limit; same", confidence: B, note: "raised from 164 (the jump and French Bulldog data exceed it)"}
+    hock_comfort: {value: 175, unit: deg, range: [80, 175], source: "comfortable band for gait and idle (range = low, high); trot/walk extremes in ref/research/fetched/04-gait-curves", confidence: B}
+    carpus_ext_loaded: {value: 240, unit: deg, range: [224, 240], source: "weight-bearing hyperextension: trot 224 (GSD), jump take-off 238 (Inkila 2025, CC BY); clamp set at 240", confidence: A}
+    stifle_ext_hip_flexed: {value: 150, unit: deg, range: [144, 150], source: "two-joint coupling: with the hip fully flexed (under about 70) the stifle extends only to 147 +- 3 (hamstring stretch angle)", confidence: B}
+    jaw_gape:   {value: 65, unit: deg, range: [44, 65], source: "hard limit 65 (dingo skull model, Wroe 2008); comfortable 0-44 (Thomson 2021)", confidence: B}
 
   gait:                       # domestic-dog gait research (no wolf kinematics were found); Maes et al. 2008 JEB unless noted
-    walk_LF_phase:  {value: 0.20, unit: fraction, range: [0.16, 0.25], source: "Maes 2008 (front follows hind on the same side)", confidence: B}
+    walk_LF_phase:  {value: 0.16, unit: fraction, range: [0.12, 0.20], source: "Hildebrand limb phase for a wolf-sized canid (ref/research/missingfound/walk-footfall-and-muybridge; corrected Oct 7 from 0.20); 0.17 for a dingo-sized dog", confidence: B}
     walk_RH_phase:  {value: 0.50, unit: fraction, source: "Maes 2008", confidence: A}
-    walk_RF_phase:  {value: 0.70, unit: fraction, range: [0.66, 0.75], source: "Maes 2008", confidence: B}
+    walk_RF_phase:  {value: 0.66, unit: fraction, range: [0.62, 0.70], source: "RH + LF phase (symmetric walk: 0.50 + 0.16; corrected Oct 7)", confidence: B}
     walk_duty:      {value: 0.65, unit: fraction, range: [0.60, 0.70], source: "estimate (walk > 0.5, Maes 2008)", confidence: EST}
     trot_duty_fore: {value: 0.435, unit: fraction, source: "Labrador trot (treadmill study, via search)", confidence: B}
     trot_duty_hind: {value: 0.367, unit: fraction, source: "Labrador trot", confidence: B}

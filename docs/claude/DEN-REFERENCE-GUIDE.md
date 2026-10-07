@@ -12,16 +12,12 @@ Kept by Firefly, started Oct 7, 2026 at GrumpyDingo's request. **A map, not a me
 - **Licences:** only permissive data is stored as tables. Closed or non-commercial papers appear as single cited facts. The non-commercial motion curves and the copyleft keypoint file are **held out of the repo** (in Firefly's scratchpad only). Credits owed before shipping: section 15.
 - **Species files** (`species/*.yaml`) are the only place numbers feed the rig. Check one with `./den species check species/<id>.yaml`; build its skeleton with `./den skeleton <id>`.
 
-## 1. Pending corrections (written, not applied yet)
-From `ref/research/missingfound/README.md` and `docs/claude/DEN-DATA-FETCH-HANDOFF.md` §3a; waiting on GrumpyDingo's OK.
-| What | Now | Corrected | Where |
-|---|---|---|---|
-| Dingo tibia | 178.3 mm | **182.5 mm** (Harcourt tibia intercept +9.41, not +21.62) | `fetched/07-dingo/data.csv` |
-| Walk front-paw phase (LF after LH) | 0.20 (wolf file); 0.135 (fetched) | **0.16 wolf, 0.17 dingo-sized dog** | `species/wolf.yaml`; `missingfound/walk-footfall-and-muybridge/` |
-| Hock extension limit | 164 | about 175–180 | `species/wolf.yaml` |
-| Carpus extension | 196 | 200 resting, **240 loaded** | `species/wolf.yaml` |
-| Muybridge 707 and Maggie A | L/R as in `05-muybridge` | **mirrored**; plus two contact fixes on 706 | `missingfound/walk-footfall-and-muybridge/data.json` |
-| Rig joint clamps | ±180 in the Stark model | the table in `missingfound/joint-ranges/SUMMARY.md` | — |
+## 1. Pending corrections
+None. The four from the second search were applied on Oct 7 (GrumpyDingo said yes):
+- dingo tibia 182.5 mm in `fetched/07-dingo/data.csv`;
+- `species/wolf.yaml`: walk phases LF 0.16, RF 0.66; new `limits` group (hard clamp + comfortable band per joint, carpus 240 loaded, hock 180, stifle coupling, jaw);
+- corrected Muybridge labels in `fetched/05-muybridge/data.json` (note in its `NOTE.md`);
+- `./den gait` checks against the new limits (comfortable band for walking, hard clamp never).
 
 ## 2. Body size and bones
 | I need | Headline | File | Catch |
@@ -49,6 +45,7 @@ From `ref/research/missingfound/README.md` and `docs/claude/DEN-DATA-FETCH-HANDO
 ## 4. Joint limits and non-walk poses
 | I need | Headline | File | Catch |
 |---|---|---|---|
+| Rig limits in use (hard + comfortable) | per joint, plus carpus 240 loaded, stifle 150 when the hip is flexed, jaw 65 | `species/wolf.yaml` (`limits`) | dog data |
 | Passive limits, all six limb joints | shoulder 48–57 / 160–165; elbow 30–36 / 155–165; carpus 30–33 / 189–204; hip 45–60 / 147–181; stifle 38–43 / 152–166; tarsus 33–43 / 153–188 | `missingfound/joint-ranges/SUMMARY.md` and `data.csv` | dog breeds only; no wolf or dingo goniometry exists |
 | Loaded limits | carpus 224 at a trot, **238** at jump take-off | same | passive goniometry stops at ~200 |
 | Two-joint coupling | stifle only extends to ~147 when the hip is fully flexed | same | — |
@@ -93,14 +90,14 @@ From `ref/research/missingfound/README.md` and `docs/claude/DEN-DATA-FETCH-HANDO
 ## 9. Gait
 | I need | Headline | File | Catch |
 |---|---|---|---|
-| Walk footfall order and phase | LH 0, LF **0.16** (wolf), RH 0.50, RF ~0.66–0.70 | `missingfound/walk-footfall-and-muybridge/`; `gait/REPORT.md` §1 | see section 1 (pending) |
+| Walk footfall order and phase | LH 0, LF **0.16** (wolf; 0.17 dingo-sized), RH 0.50, RF 0.66 | `species/wolf.yaml`; `missingfound/walk-footfall-and-muybridge/` | — |
 | Duty factor | walk ~0.58–0.65; trot 0.42–0.46; gallop 0.15–0.28 (Muybridge) | `fetched/04-gait-curves/duty_phase.csv`; `fetched/05-muybridge/` | — |
 | Joint angle through the stride | trot: Humphries 2020 (3D, 10 Labradors); walk: Catavitello 2015 (2D) and the Stark Beagle forelimb walk (3D: shoulder 92–126, elbow 97–138) | `fetched/04-gait-curves/curves.csv`; `fetched/03-dog-model/stark_fore_motion_mean.csv` | Catavitello's carpus and hip use non-standard segments |
 | Speeding up a trot | stride length ∝ speed^0.59; cycle time ∝ speed^−0.39; duty ∝ speed^−0.28 fore, ^−0.24 hind | `fetched/04-gait-curves/` (JEB 2025 supplement) | trot only |
 | Joint range of motion at walk and trot | walk: shoulder 31, elbow 51, hip 34, stifle 35, hock 33 | `species/wolf.yaml` (`gait`); `gait/REPORT.md` §4 | dog data |
 | Speeds | walk ~1.06 m/s; wolf travelling trot 3.6–4.4 m/s | `species/wolf.yaml` | C for the wolf trot |
-| Footfall checks against photos | Muybridge plates 704–710, per-frame paw contacts; Maggie's gallop stride 0.25 s, 2.85 m | `fetched/05-muybridge/` (images kept, public domain) | L/R fixes pending (section 1) |
-| Our rig against the limits | `./den gait` | `tools/den/den.py` | current dogs fail: elbows 152–177° |
+| Footfall checks against photos | Muybridge plates 704–710, per-frame paw contacts; Maggie's gallop stride 0.25 s, 2.85 m | `fetched/05-muybridge/` (images kept, public domain) | L/R corrected Oct 7; 704, 705, 708 unconfirmed |
+| Our rig against the limits | `./den gait` | `tools/den/den.py` | current dogs fail: elbows 152–177° (past the 165 clamp), stifles 68–115° (below the 85 comfortable floor) |
 | How to build the gait engine | paw goals in leg-length units, two girdles + flexible spine, IK | `ref/research/procedural/REPORT.md`; `ref/research/prior-art/REPORT.md` lessons | — |
 
 ## 10. Behaviour and idle

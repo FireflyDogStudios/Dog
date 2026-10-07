@@ -252,8 +252,12 @@ JOINT_TRIPLES = {'elbow': ('sh', 'fore', 'past'), 'carpus': ('fore', 'past', 'ft
 FLEX_PARTNER = {'carpus': 'elbow', 'hock': 'stifle'}   # these flex in the opposite rotational sense to their partner (carpus folds back, elbow forward; same for hock and stifle)
 
 def gait_limits():
-    d = json.load(open(LIMITS_FILE)); L = d['passiveLimits_deg']['labradorGoniometry_unverified']
-    return {'elbow': L['elbow'], 'carpus': L['carpus'], 'stifle': L['stifle'], 'hock': L['tarsus']}, L.get('source', 'Jaegger 2002 (Labrador goniometry)')
+    """the reference species' limits (species/wolf.yaml, from ref/research/missingfound/joint-ranges): per joint (comfort low, comfort high, hard flex, hard ext)"""
+    import yaml
+    L = yaml.safe_load(open(ROOT / 'species/wolf.yaml'))['numbers']['limits']; out = {}
+    for j in ('elbow', 'carpus', 'stifle', 'hock'):
+        lo, hi = L[j + '_comfort']['range']; out[j] = (lo, hi, L[j + '_flex']['value'], L[j + '_ext']['value'])
+    return out, 'species/wolf.yaml limits (dog goniometry, ref/research/missingfound/joint-ranges): walk must stay inside the comfortable band, never past the hard clamp'
 
 def signed_turn(a, b, c):
     v1 = (a[0] - b[0], a[1] - b[1]); v2 = (c[0] - b[0], c[1] - b[1])
@@ -277,7 +281,9 @@ def check_gait(n=64):
                 signs[jn] = sg
                 inc = lambda J: (abs(signed_turn(J[A], J[B], J[C])) if sg * signed_turn(J[A], J[B], J[C]) >= 0 else 360 - abs(signed_turn(J[A], J[B], J[C])))
                 vals = [inc(f['joints']) for f in walk]; lo, hi = min(vals), max(vals); ranges[jn + side] = (round(inc(rest), 1), round(lo, 1), round(hi, 1))
-                if lo < lim[jn][0] - 1 or hi > lim[jn][1] + 1: problems.append(f'{jn} ({side}) {lo:.0f}-{hi:.0f} deg is outside {lim[jn][0]}-{lim[jn][1]}')
+                cl, ch, hf, he = lim[jn]
+                if lo < hf - 1 or hi > he + 1: problems.append(f'{jn} ({side}) {lo:.0f}-{hi:.0f} deg goes past the hard clamp {hf}-{he}')
+                elif lo < cl - 1 or hi > ch + 1: problems.append(f'{jn} ({side}) {lo:.0f}-{hi:.0f} deg leaves the comfortable band {cl}-{ch} (gait and idle stay inside it)')
             toe = ('ftoe' + side, 'htoe' + side)
             for t in toe:
                 if t not in rest: continue

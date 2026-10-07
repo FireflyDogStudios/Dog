@@ -41,7 +41,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 2,
@@ -53,7 +54,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 4,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 3,
@@ -65,7 +67,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 4,
@@ -77,7 +80,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 5,
@@ -89,7 +93,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 6,
@@ -101,7 +106,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 7,
@@ -113,7 +119,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 8,
@@ -125,7 +132,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 9,
@@ -137,7 +145,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 10,
@@ -149,7 +158,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 4,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 11,
@@ -161,7 +171,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 12,
@@ -173,7 +184,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 2,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     }
    ],
    "derived": {
@@ -185,7 +197,8 @@
      0.71,
      0.77
     ]
-   }
+   },
+   "label_status": "unchanged: oblique views only, per-limb identity still not scored (feet-down counts only). See NOTE.md for the 960 px single-frame USC scans found for 704."
   },
   {
    "plate": 705,
@@ -217,7 +230,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 2,
@@ -229,7 +243,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 3,
@@ -241,7 +256,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 4,
@@ -253,7 +269,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 2,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 5,
@@ -265,7 +282,8 @@
      "RH": "?",
      "feet_down_min": 1,
      "feet_down_max": 2,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 6,
@@ -277,7 +295,8 @@
      "RH": "?",
      "feet_down_min": 1,
      "feet_down_max": 2,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 7,
@@ -289,7 +308,8 @@
      "RH": "?",
      "feet_down_min": 3,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 8,
@@ -301,7 +321,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 9,
@@ -313,7 +334,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 3,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 10,
@@ -325,7 +347,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 2,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 11,
@@ -337,7 +360,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 2,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     },
     {
      "index": 12,
@@ -349,7 +373,8 @@
      "RH": "?",
      "feet_down_min": 2,
      "feet_down_max": 2,
-     "note": "front-oblique view"
+     "note": "front-oblique view",
+     "confirmed": false
     }
    ],
    "derived": {
@@ -361,7 +386,8 @@
      0.48,
      0.62
     ]
-   }
+   },
+   "label_status": "unchanged: oblique views only, per-limb identity still not scored (feet-down counts only)."
   },
   {
    "plate": 706,
@@ -389,9 +415,13 @@
      "col": 1,
      "LF": 0,
      "RF": 1,
-     "LH": "?",
+     "LH": 0,
      "RH": 1,
-     "note": "far fore (LF) folded in swing; far hind hidden behind near hind"
+     "note": "LH in swing, hidden behind RH (it is in the air in frame 2 and lands in frame 3): inferred",
+     "confirmed": true,
+     "changed_from_05": {
+      "LH": "?"
+     }
     },
     {
      "index": 2,
@@ -401,7 +431,8 @@
      "RF": 1,
      "LH": 0,
      "RH": 1,
-     "note": "only the right (near) lateral pair down"
+     "note": "only the near (right) lateral pair down; far limbs darker and in swing",
+     "confirmed": true
     },
     {
      "index": 3,
@@ -411,27 +442,36 @@
      "RF": 1,
      "LH": 1,
      "RH": 1,
-     "note": ""
+     "note": "LH lands (scale ~21.4); RH toe still on its spot (~18.2-18.7); LF reaching, in the air",
+     "confirmed": true
     },
     {
      "index": 4,
      "row": 1,
      "col": 4,
      "LF": 1,
-     "RF": "?",
+     "RF": 1,
      "LH": 1,
      "RH": 0,
-     "note": "RF heel up, toe may still touch"
+     "note": "LF lands (~26.6); RF toe still on its spot (~23.0-23.2, toe-off); RH passing forward in the air",
+     "confirmed": true,
+     "changed_from_05": {
+      "RF": "?"
+     }
     },
     {
      "index": 5,
      "row": 1,
      "col": 5,
-     "LF": "?",
+     "LF": 1,
      "RF": 0,
      "LH": 1,
      "RH": 1,
-     "note": "LF hidden behind folded RF"
+     "note": "LF hidden behind folded RF but at the same scale spot as in frames 4 and 6: planted (inferred); RH lands (~24.7)",
+     "confirmed": true,
+     "changed_from_05": {
+      "LF": "?"
+     }
     },
     {
      "index": 6,
@@ -439,9 +479,13 @@
      "col": 6,
      "LF": 1,
      "RF": 0,
-     "LH": "?",
+     "LH": 0,
      "RH": 1,
-     "note": ""
+     "note": "LH lifted (paw in the air at ~23); RF reaching, in the air",
+     "confirmed": true,
+     "changed_from_05": {
+      "LH": "?"
+     }
     },
     {
      "index": 7,
@@ -451,7 +495,8 @@
      "RF": 1,
      "LH": 1,
      "RH": 1,
-     "note": ""
+     "note": "RF lands (~31.6); LH lands (~28.0); RH still on its spot (~24.9); far fore (dark) in swing",
+     "confirmed": true
     },
     {
      "index": 8,
@@ -461,7 +506,8 @@
      "RF": 1,
      "LH": 1,
      "RH": 0,
-     "note": "RH lifting at rear"
+     "note": "RH lifting at rear (back paw not on its frame-7 spot); LH and RF planted",
+     "confirmed": true
     },
     {
      "index": 9,
@@ -470,8 +516,12 @@
      "LF": 0,
      "RF": 1,
      "LH": 1,
-     "RH": 1,
-     "note": ""
+     "RH": 0,
+     "note": "CHANGED RH 1->0: the front hind paw is toe-down in the air at ~30.5 and lands at ~32.5 in frame 10",
+     "confirmed": true,
+     "changed_from_05": {
+      "RH": 1
+     }
     },
     {
      "index": 10,
@@ -481,7 +531,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 1,
-     "note": "LF lands ahead; RF lifting"
+     "note": "LF lands (~36.1); RH lands (~32.5); LH toe lifted at ~29.4; RF folded in the air",
+     "confirmed": true
     },
     {
      "index": 11,
@@ -489,29 +540,39 @@
      "col": 5,
      "LF": 1,
      "RF": 0,
-     "LH": "?",
+     "LH": 0,
      "RH": 1,
-     "note": ""
+     "note": "LH in swing, a thin dark leg behind RH (inferred 0); LF (dark, far) planted; RF (light, near) folded in swing",
+     "confirmed": true,
+     "changed_from_05": {
+      "LH": "?"
+     }
     },
     {
      "index": 12,
      "row": 2,
      "col": 6,
-     "LF": 1,
-     "RF": 1,
+     "LF": 0,
+     "RF": "?",
      "LH": 1,
-     "RH": "?",
-     "note": "RF reaching, appears to touch"
+     "RH": 1,
+     "note": "CHANGED LF 1->0: dark far fore is lifting, paw flexed and off the ground; LH lands (~36.6); RH toe still down; RF reaching, may touch",
+     "confirmed": true,
+     "changed_from_05": {
+      "LF": 1,
+      "RF": 1,
+      "RH": "?"
+     }
     }
    ],
    "derived": {
     "duty_factor": {
      "LF": {
-      "duty_known": 0.45,
+      "duty_known": 0.42,
       "duty_min": 0.42,
-      "duty_max": 0.5,
+      "duty_max": 0.42,
       "n_frames": 12,
-      "n_unknown": 1
+      "n_unknown": 0
      },
      "RF": {
       "duty_known": 0.64,
@@ -521,46 +582,73 @@
       "n_unknown": 1
      },
      "LH": {
-      "duty_known": 0.78,
+      "duty_known": 0.58,
       "duty_min": 0.58,
-      "duty_max": 0.83,
+      "duty_max": 0.58,
       "n_frames": 12,
-      "n_unknown": 3
+      "n_unknown": 0
      },
      "RH": {
-      "duty_known": 0.82,
+      "duty_known": 0.75,
       "duty_min": 0.75,
-      "duty_max": 0.83,
+      "duty_max": 0.75,
       "n_frames": 12,
-      "n_unknown": 1
+      "n_unknown": 0
      }
     },
     "touchdown_sequence": [
      "LH@3",
      "LF@4",
      "RH@5",
+     "LH@7",
      "RF@7",
-     "RH@9",
+     "RH@10",
      "LF@10",
-     "LH@12",
-     "RF@12"
+     "LH@12"
     ],
     "feet_down_per_frame": [
      2,
      2,
      3,
-     2,
-     2,
-     2,
+     3,
      3,
      2,
      3,
      2,
      2,
-     3
+     2,
+     2,
+     2
     ],
     "mean_feet_down": 2.33,
     "duty_from_feet_down": 0.58
+   },
+   "label_status": "L/R confirmed. Near side = dog's right (dog moves right; scale numerals read normally, so the print is not mirrored). Far limbs are darker; planted paws were tracked against the numbered floor scale (a planted paw keeps its scale value). Two contacts flipped (frame 9 RH 1->0, frame 12 LF 1->0), frame 12 RF downgraded 1->?, six unknowns resolved (f1 LH, f4 RF, f5 LF, f6 LH, f11 LH, f12 RH).",
+   "gait_reading": "Frames 3-7: lateral-sequence walk, LH(3) LF(4) RH(5) RF(7); limb phase about 1 interval / 4-interval hind stride = 0.25 (quantisation +/-0.12). From frame 7 the diagonal pairs land together (LH+RF at 7, RH+LF at 10): the dog breaks into a trot, which fits the catalogue \"trotting, interrupted\" and Muybridge 1902 \"an irregular stride\".",
+   "stride_estimates": {
+    "hind_touchdown_to_touchdown_frames": {
+     "LH": [
+      3,
+      7,
+      12
+     ],
+     "RH": [
+      5,
+      10
+     ]
+    },
+    "fore_touchdown_to_touchdown_frames": {
+     "LF": [
+      4,
+      10
+     ],
+     "RF": [
+      7,
+      12
+     ]
+    },
+    "mean_stride_s": 0.55,
+    "note": "about 5 intervals of 0.110 s; frame quantisation +/-0.055 s per event"
    }
   },
   {
@@ -588,21 +676,31 @@
      "index": 1,
      "row": 1,
      "col": 1,
-     "LF": 0,
-     "RF": 1,
+     "LF": 1,
+     "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "single support on white-socked near fore"
+     "note": "single support on the lead fore = LF (far): same phase as frame 7, where the planted leg passes behind the raised near (right) fore",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": 1
+     },
+     "confirmed": true
     },
     {
      "index": 2,
      "row": 1,
      "col": 2,
-     "LF": 0,
-     "RF": "?",
+     "LF": "?",
+     "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "suspension after fore push-off; RF toe may just be leaving"
+     "note": "suspension after fore push-off; LF toe may just be leaving",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": "?"
+     },
+     "confirmed": false
     },
     {
      "index": 3,
@@ -610,9 +708,14 @@
      "col": 3,
      "LF": 0,
      "RF": 0,
-     "LH": 0,
-     "RH": 1,
-     "note": "near hind lands first"
+     "LH": 1,
+     "RH": 0,
+     "note": "trailing hind lands = LH (far): its upper leg is hidden behind the near thigh, whose leg (RH) swings forward; rear-oblique view agrees (planted hind on the left of the tail)",
+     "changed_from_05": {
+      "LH": 0,
+      "RH": 1
+     },
+     "confirmed": true
     },
     {
      "index": 4,
@@ -622,17 +725,25 @@
      "RF": 0,
      "LH": 1,
      "RH": 1,
-     "note": ""
+     "note": "both hinds down: LH behind, RH (from the near thigh) ahead; rear view shows both hinds planted",
+     "confirmed": true
     },
     {
      "index": 5,
      "row": 2,
      "col": 1,
-     "LF": 1,
-     "RF": 0,
-     "LH": 1,
-     "RH": 0,
-     "note": "far fore (LF) lands; trailing hind lifted"
+     "LF": 0,
+     "RF": 1,
+     "LH": 0,
+     "RH": 1,
+     "note": "trailing fore lands = RF (near: elbow bulges over the body outline); far fore (LF) reaching; LH lifted, RH planted",
+     "changed_from_05": {
+      "LF": 1,
+      "RF": 0,
+      "LH": 1,
+      "RH": 0
+     },
+     "confirmed": true
     },
     {
      "index": 6,
@@ -642,17 +753,23 @@
      "RF": 1,
      "LH": 0,
      "RH": 0,
-     "note": "RF lands ahead of LF"
+     "note": "RF behind (near shoulder), LF ahead emerging from under the chest = lead fore",
+     "confirmed": true
     },
     {
      "index": 7,
      "row": 2,
      "col": 3,
-     "LF": 0,
-     "RF": 1,
+     "LF": 1,
+     "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "same phase as frame 1"
+     "note": "single support on the lead fore LF (far); the near (right) fore is raised and crosses in front of it",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": 1
+     },
+     "confirmed": true
     },
     {
      "index": 8,
@@ -662,24 +779,25 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "suspension"
+     "note": "suspension",
+     "confirmed": true
     }
    ],
    "derived": {
     "duty_factor": {
      "LF": {
-      "duty_known": 0.25,
-      "duty_min": 0.25,
-      "duty_max": 0.25,
-      "n_frames": 8,
-      "n_unknown": 0
-     },
-     "RF": {
       "duty_known": 0.43,
       "duty_min": 0.38,
       "duty_max": 0.5,
       "n_frames": 8,
       "n_unknown": 1
+     },
+     "RF": {
+      "duty_known": 0.25,
+      "duty_min": 0.25,
+      "duty_max": 0.25,
+      "n_frames": 8,
+      "n_unknown": 0
      },
      "LH": {
       "duty_known": 0.25,
@@ -697,10 +815,10 @@
      }
     },
     "touchdown_sequence": [
-     "RH@3",
-     "LH@4",
-     "LF@5",
-     "RF@6"
+     "LH@3",
+     "RH@4",
+     "RF@5",
+     "LF@6"
     ],
     "feet_down_per_frame": [
      1,
@@ -714,7 +832,8 @@
     ],
     "mean_feet_down": 1.12,
     "duty_from_feet_down": 0.28
-   }
+   },
+   "label_status": "CHANGED: every L/R label was mirrored in 05. Corrected sequence LH, RH, RF, LF, then one suspension: still a rotary gallop (as Muybridge 1902 captions Series 57), but the lead hind is RIGHT and the lead fore is LEFT. Confirmed by near-thigh and near-shoulder occlusion in the lateral frames and by the rear-oblique row (frames 3-4)."
   },
   {
    "plate": 708,
@@ -744,7 +863,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "heavy motion blur on whole plate"
+     "note": "heavy motion blur on whole plate",
+     "confirmed": false
     },
     {
      "index": 2,
@@ -754,7 +874,8 @@
      "RF": "?",
      "LH": 0,
      "RH": 0,
-     "note": "lead fore folded up; trailing fore still planted"
+     "note": "lead fore folded up; trailing fore still planted",
+     "confirmed": false
     },
     {
      "index": 3,
@@ -764,7 +885,8 @@
      "RF": "?",
      "LH": 0,
      "RH": 0,
-     "note": "gathered suspension"
+     "note": "gathered suspension",
+     "confirmed": false
     },
     {
      "index": 4,
@@ -774,7 +896,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 1,
-     "note": ""
+     "note": "",
+     "confirmed": false
     },
     {
      "index": 5,
@@ -784,7 +907,8 @@
      "RF": 0,
      "LH": 1,
      "RH": 0,
-     "note": ""
+     "note": "",
+     "confirmed": false
     },
     {
      "index": 6,
@@ -794,7 +918,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "extended suspension"
+     "note": "extended suspension",
+     "confirmed": false
     },
     {
      "index": 7,
@@ -804,7 +929,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": ""
+     "note": "",
+     "confirmed": false
     },
     {
      "index": 8,
@@ -814,7 +940,8 @@
      "RF": "?",
      "LH": 0,
      "RH": 0,
-     "note": ""
+     "note": "",
+     "confirmed": false
     },
     {
      "index": 9,
@@ -824,7 +951,8 @@
      "RF": 0,
      "LH": 0,
      "RH": "?",
-     "note": "gathered; a hind may be touching"
+     "note": "gathered; a hind may be touching",
+     "confirmed": false
     },
     {
      "index": 10,
@@ -834,7 +962,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 1,
-     "note": "hind lands"
+     "note": "hind lands",
+     "confirmed": false
     }
    ],
    "derived": {
@@ -888,7 +1017,8 @@
     ],
     "mean_feet_down": 0.7,
     "duty_from_feet_down": 0.17
-   }
+   },
+   "label_status": "UNCERTAIN, unchanged. Motion blur hides which leg is near. The 05 labels were chosen to fit Muybridge 1893's generic description (right hind lands first), and that choice proved mirrored on both other checkable plates (707, Maggie A). Treat L/R here as 50/50: the observed fore/hind order and the contact counts stand; the mirror (LH, RH / RF, LF) is equally likely."
   },
   {
    "plate": "709 (BPL copy) = 710 (USC copy)",
@@ -918,9 +1048,14 @@
      "col": 1,
      "LF": 0,
      "RF": 0,
-     "LH": 0,
-     "RH": 1,
-     "note": "trailing hind planted; fore swinging forward under chest"
+     "LH": 1,
+     "RH": 0,
+     "note": "trailing hind LH planted (far: grey upper leg hidden behind the near thigh); RH swinging forward. Rear view: planted hind on the left of the tail",
+     "changed_from_05": {
+      "LH": 0,
+      "RH": 1
+     },
+     "confirmed": true
     },
     {
      "index": 2,
@@ -930,7 +1065,8 @@
      "RF": 0,
      "LH": 1,
      "RH": 1,
-     "note": ""
+     "note": "LH toe at rear, RH (from the near thigh) planted ahead = lead hind. Rear view: right hind planted",
+     "confirmed": true
     },
     {
      "index": 3,
@@ -940,17 +1076,23 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "extended suspension"
+     "note": "extended suspension",
+     "confirmed": true
     },
     {
      "index": 4,
      "row": 1,
      "col": 4,
-     "LF": 1,
-     "RF": 0,
+     "LF": 0,
+     "RF": 1,
      "LH": 0,
      "RH": 0,
-     "note": ""
+     "note": "trailing fore lands = RF (near: continuous with the lit shoulder); LF (far) reaching",
+     "changed_from_05": {
+      "LF": 1,
+      "RF": 0
+     },
+     "confirmed": true
     },
     {
      "index": 5,
@@ -960,17 +1102,23 @@
      "RF": 1,
      "LH": 0,
      "RH": 0,
-     "note": ""
+     "note": "both fores down: RF behind, LF ahead = lead fore",
+     "confirmed": true
     },
     {
      "index": 6,
      "row": 1,
      "col": 6,
-     "LF": 0,
-     "RF": "?",
+     "LF": "?",
+     "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "gathered; lead fore toe may still touch"
+     "note": "gathered; lead fore (LF) toe may still touch",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": "?"
+     },
+     "confirmed": false
     },
     {
      "index": 7,
@@ -978,9 +1126,14 @@
      "col": 1,
      "LF": 0,
      "RF": 0,
-     "LH": "?",
-     "RH": 1,
-     "note": ""
+     "LH": 1,
+     "RH": "?",
+     "note": "second stride: same lead assumed (LH trailing)",
+     "changed_from_05": {
+      "LH": "?",
+      "RH": 1
+     },
+     "confirmed": false
     },
     {
      "index": 8,
@@ -988,9 +1141,14 @@
      "col": 2,
      "LF": 0,
      "RF": 0,
-     "LH": 1,
-     "RH": "?",
-     "note": ""
+     "LH": "?",
+     "RH": 1,
+     "note": "second stride: same lead assumed",
+     "changed_from_05": {
+      "LH": 1,
+      "RH": "?"
+     },
+     "confirmed": false
     },
     {
      "index": 9,
@@ -1000,7 +1158,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "extended suspension"
+     "note": "extended suspension",
+     "confirmed": true
     },
     {
      "index": 10,
@@ -1010,68 +1169,78 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "extended suspension"
+     "note": "extended suspension",
+     "confirmed": true
     },
     {
      "index": 11,
      "row": 2,
      "col": 5,
-     "LF": 1,
-     "RF": 0,
+     "LF": 0,
+     "RF": 1,
      "LH": 0,
      "RH": 0,
-     "note": ""
+     "note": "second stride: trailing fore, same lead assumed",
+     "changed_from_05": {
+      "LF": 1,
+      "RF": 0
+     },
+     "confirmed": false
     },
     {
      "index": 12,
      "row": 2,
      "col": 6,
-     "LF": 0,
-     "RF": 1,
+     "LF": 1,
+     "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "lead fore planted; trailing fore lifted"
+     "note": "second stride: lead fore planted, same lead assumed",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": 1
+     },
+     "confirmed": false
     }
    ],
    "derived": {
     "duty_factor": {
      "LF": {
+      "duty_known": 0.18,
+      "duty_min": 0.17,
+      "duty_max": 0.25,
+      "n_frames": 12,
+      "n_unknown": 1
+     },
+     "RF": {
       "duty_known": 0.25,
       "duty_min": 0.25,
       "duty_max": 0.25,
       "n_frames": 12,
       "n_unknown": 0
      },
-     "RF": {
-      "duty_known": 0.18,
-      "duty_min": 0.17,
-      "duty_max": 0.25,
-      "n_frames": 12,
-      "n_unknown": 1
-     },
      "LH": {
-      "duty_known": 0.18,
-      "duty_min": 0.17,
-      "duty_max": 0.25,
-      "n_frames": 12,
-      "n_unknown": 1
-     },
-     "RH": {
       "duty_known": 0.27,
       "duty_min": 0.25,
       "duty_max": 0.33,
       "n_frames": 12,
       "n_unknown": 1
+     },
+     "RH": {
+      "duty_known": 0.18,
+      "duty_min": 0.17,
+      "duty_max": 0.25,
+      "n_frames": 12,
+      "n_unknown": 1
      }
     },
     "touchdown_sequence": [
-     "LH@2",
-     "LF@4",
-     "RF@5",
-     "RH@7",
-     "LH@8",
-     "LF@11",
-     "RF@12"
+     "RH@2",
+     "RF@4",
+     "LF@5",
+     "LH@7",
+     "RF@11",
+     "LF@12"
     ],
     "feet_down_per_frame": [
      1,
@@ -1089,7 +1258,8 @@
     ],
     "mean_feet_down": 0.83,
     "duty_from_feet_down": 0.21
-   }
+   },
+   "label_status": "CHANGED: every L/R label was mirrored in 05. Corrected sequence LH, RH, extended suspension, RF, LF, gathered suspension (rotary; lead hind RIGHT, lead fore LEFT). Frames 1, 2, 4, 5 checked directly (lateral occlusion + rear row); frames 6-8 and 11-12 assume the dog kept the same lead in its second stride."
   },
   {
    "plate": "710 (BPL copy)",
@@ -1124,7 +1294,8 @@
      "RF": 1,
      "LH": 0,
      "RH": 0,
-     "note": "single support on lead fore (Muybridge: same phase as 6 and 11)"
+     "note": "single support on lead fore (Muybridge: same phase as 6 and 11)",
+     "confirmed": true
     },
     {
      "index": 2,
@@ -1134,7 +1305,8 @@
      "RF": "?",
      "LH": 0,
      "RH": 0,
-     "note": ""
+     "note": "",
+     "confirmed": true
     },
     {
      "index": 3,
@@ -1144,7 +1316,8 @@
      "RF": 0,
      "LH": "?",
      "RH": 1,
-     "note": ""
+     "note": "",
+     "confirmed": true
     },
     {
      "index": 4,
@@ -1154,7 +1327,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "extended suspension"
+     "note": "extended suspension",
+     "confirmed": true
     },
     {
      "index": 5,
@@ -1164,7 +1338,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": ""
+     "note": "",
+     "confirmed": true
     },
     {
      "index": 6,
@@ -1174,7 +1349,8 @@
      "RF": 1,
      "LH": 0,
      "RH": 0,
-     "note": ""
+     "note": "",
+     "confirmed": true
     },
     {
      "index": 7,
@@ -1184,7 +1360,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "gathered suspension (Muybridge 1902)"
+     "note": "gathered suspension (Muybridge 1902)",
+     "confirmed": true
     },
     {
      "index": 8,
@@ -1194,7 +1371,8 @@
      "RF": 0,
      "LH": 1,
      "RH": "?",
-     "note": ""
+     "note": "",
+     "confirmed": true
     },
     {
      "index": 9,
@@ -1204,7 +1382,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "extended suspension (Muybridge 1902)"
+     "note": "extended suspension (Muybridge 1902)",
+     "confirmed": true
     },
     {
      "index": 10,
@@ -1214,7 +1393,8 @@
      "RF": 0,
      "LH": 0,
      "RH": 0,
-     "note": "landing on trailing fore (Muybridge 1902)"
+     "note": "landing on trailing fore (Muybridge 1902)",
+     "confirmed": true
     },
     {
      "index": 11,
@@ -1224,7 +1404,8 @@
      "RF": 1,
      "LH": 0,
      "RH": 0,
-     "note": "support transferred to lead fore (Muybridge 1902)"
+     "note": "support transferred to lead fore (Muybridge 1902)",
+     "confirmed": true
     },
     {
      "index": 12,
@@ -1234,7 +1415,8 @@
      "RF": "?",
      "LH": 0,
      "RH": 0,
-     "note": ""
+     "note": "",
+     "confirmed": true
     }
    ],
    "derived": {
@@ -1291,9 +1473,9 @@
      0
     ],
     "mean_feet_down": 0.58,
-    "duty_from_feet_down": 0.15,
-    "stride_time_s": 0.245
-   }
+    "duty_from_feet_down": 0.15
+   },
+   "label_status": "CONFIRMED by Muybridge himself, Animals in Motion (1902) p.158, which names the feet with his symbols (left fore open triangle, right fore filled triangle, left hind open circle, right hind filled circle): \"phase 6 ... the hound on [RF] ... in 7 [suspension] ... alights [RH] ... quickly follows with [LH] ... in 9 [extended flight] ... the landing takes place on [LF]. In 11 the support is transferred to [RF]\". No change. The halftone is too coarse to check near/far independently. Frames 1-5 and 12 repeat phases 6-11 (Muybridge: 11 repeats 6)."
   }
  ],
  "summary": {
@@ -1304,5 +1486,10 @@
    "maggie_A": "RH, LH, extended suspension, LF, RF, gathered suspension (rotary, double suspension)",
    "maggie_B": "LF, RF, gathered suspension, RH, LH, extended suspension (rotary, double suspension; matches Muybridge 1893 description)"
   }
+ },
+ "corrections": {
+  "date": "2026-10-07",
+  "by": "Firefly, from ref/research/missingfound/walk-footfall-and-muybridge/data.json",
+  "what": "707 and Maggie A (709 BPL = 710 USC) left/right labels mirrored; 706 two contact fixes; each frame now carries a confirmed flag. 708 (blur), 704 and 705 (oblique views) still unconfirmed."
  }
 }

@@ -68,3 +68,6 @@ All images are under 2 MB. Commons thumbnails at standard widths: 1920 px for BP
 - The Commons API rate-limited heavily (429), probably because the egress IP is shared with parallel agents. Backoff and retry got through.
 - No higher-resolution scan of the BPL "710" (Maggie sequence B) plate was found on Commons. The 1902 reprint page was used instead.
 - Smithsonian, NGA, the Library of Congress site and DPLA were not needed: the USC and BPL scans on Commons were enough. The DPLA copies on Commons are the BPL scans at about 1000 px. A loc.gov search for these plates returned nothing relevant.
+
+## Correction (Oct 7, 2026, Firefly)
+The `plates` list in `data.json` was replaced with the corrected copy from `ref/research/missingfound/walk-footfall-and-muybridge/data.json`: plate 707 and Maggie A had every left/right label mirrored, plate 706 had two contact fixes, and every frame now carries a `confirmed` flag. Plates 708 (blur), 704 and 705 (oblique views) are still unconfirmed. The SUMMARY table above predates this fix for 706, 707 and Maggie A.

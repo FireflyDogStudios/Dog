@@ -26,5 +26,5 @@ Kept by Firefly, started Oct 6, 2026. Two kinds: **research questions** (facts t
 - Which new model becomes the hero, and which the companion, once the current two are retired?
 - The licence holds: the non-commercial motion curves and the copyleft keypoint file stay out of the repo unless he says otherwise.
 - ~~More data~~ fetched Oct 7 by a separate session (`ref/research/fetched/`, merged by Firefly).
-- New conflict to settle from the data: walk footfall phase LF 0.135 (fetched gait data) vs 0.20 in `species/wolf.yaml` (range 0.16–0.25).
+- ~~Walk footfall phase conflict~~ settled Oct 7: LF 0.16 wolf, 0.17 dingo-sized dog (applied).
 - How realistic vs stylised the final look should be (he said accuracy first, style later).
