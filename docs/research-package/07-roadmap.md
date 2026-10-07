@@ -11,7 +11,7 @@
 | 2 | **Fix the wolf chest depth** ([T1](04-research-threads.md#t1)) | `species/wolf.yaml` updated with n and IQR; skeleton regenerated; outline/skeleton fur handling reconciled |
 | 3 | **Clean the known errors** | StanfordExtra NaN removed on load; unitB CSV regenerated from MIT data; Muybridge summary regenerated; `ref/research/gait/` marked superseded; `wolf.yaml` trot DF updated; NOTE errata applied |
 | 4 | **Schema and provenance ledger v0** | `ocr/schema.json` + `values.csv` loaded from `species/wolf.yaml` and 5+ source folders; pydantic validation passes |
-| 5 | **Credits file** | `CREDITS-RESEARCH.md` generated from every licence CSV and NOTE |
+| 5 | **Credits file** | `ref/research/CREDITS-RESEARCH.md` generated from every licence CSV and NOTE (**done Oct 7**; re-run `tools/atlas/credits.py` after each delivery) |
 | 6 | **Disc share received from Scout** | `ref/research/scout/13-disc-share/` exists |
 | 7 | **Shared log in use** | Firefly, Scout and Atlas each have entries in `docs/log/LOG.md` |
 

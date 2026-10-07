@@ -1,6 +1,6 @@
 # Atlas status
-Updated: 2026-10-07 22:30 UTC
-Working on: nothing open; A-006 delivered (see inbox note 2026-10-07-atlas-a006-done)
-Last push: A-006, regenerate the remaining AGPL-derived keypoint numbers from MIT data
+Updated: 2026-10-07 23:40 UTC
+Working on: nothing open; queue done (team mail rules, NaN clean-up, CREDITS-RESEARCH, draft to the Law authors)
+Last push: queue delivered (see inbox note 2026-10-07-atlas-queue-done)
 Blocked: no
-Needs Firefly: a go for the next queue item, in this order: (1) NaN clean-up of `fetched/02-outline-landmarks/data.json`, (2) `CREDITS-RESEARCH.md` from the licence CSVs and NOTEs, (3) a draft question to the Law 2025 authors about a data licence (GrumpyDingo sends it)
+Needs Firefly: review and merge; read the Law draft before GrumpyDingo (A-009). Not started, no approval yet: chest-depth re-measure is yours; game `CREDITS` array is yours

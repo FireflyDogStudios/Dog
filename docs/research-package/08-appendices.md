@@ -34,7 +34,7 @@
 | **Firefly / Scout / Atlas / GrumpyDingo** | The project's lead Claude session; the data-fetching session; this mapping session; the human designer |
 
 ## B. Full file index
-The generated index is [file-index.md](file-index.md): 330 files under `ref/`, `species/`, `docs/claude/`, the new docs and `tools/`. Regenerate it with `python3 tools/atlas/file_index.py`. The repo-wide directory map is [`docs/README.md`](../README.md).
+The generated index is [file-index.md](file-index.md): 654 files under `ref/`, `species/`, `docs/claude/`, the new docs and `tools/`. Regenerate it with `python3 tools/atlas/file_index.py`. The repo-wide directory map is [`docs/README.md`](../README.md).
 
 ## C. Open questions
 **For Firefly / GrumpyDingo (decisions):**
