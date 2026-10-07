@@ -41,6 +41,7 @@ numbers:
     neck_share:   {value: 0.275, unit: fraction, source: "Law 2021 (cervical share of presacral)", confidence: B, check: "skeleton:neck_frac"}
     thorax_share: {value: 0.433, unit: fraction, source: "Law 2021", confidence: B, check: "skeleton:thorax_frac"}
     lumbar_share: {value: 0.292, unit: fraction, source: "Law 2021", confidence: B, check: "skeleton:lumbar_frac"}
+    disc_share:   {value: 0.10, unit: fraction, range: [0.08, 0.15], source: "ESTIMATE until Scout's disc request (A-004): Law's spine lengths are vertebral bodies only; intervertebral discs add roughly 8-15% in dogs (unsourced)", confidence: EST}
     rib_length:   {value: 237, unit: mm, source: "Law 2021 (mean rib, a lower bound for chest depth)", confidence: B}
 
   skull:
@@ -57,6 +58,10 @@ numbers:
     elbow_height_over_height: {value: 0.53, unit: ratio, source: "AwA-Pose keypoints (n=29)", confidence: B, check: "keypoints:sheet_ratios/elbow height : height"}
     tail_over_height:        {value: 0.61, unit: ratio, source: "AwA-Pose keypoints (n=26)", confidence: B, check: "keypoints:sheet_ratios/tail : height"}
     neck_over_head:          {value: 0.77, unit: ratio, source: "AwA-Pose keypoints (n=29)", confidence: B, check: "keypoints:sheet_ratios/neck : head"}
+    nose_forward_over_height: {value: 0.54, unit: ratio, range: [0.49, 0.54], source: "ref/research/wolf-photo-proportions (photos 01, 05; outer surface, fur included: nose tip forward of the withers top, over withers height)", confidence: C}
+    nose_height_over_height:  {value: 0.85, unit: ratio, range: [0.75, 0.86], source: "ref/research/wolf-photo-proportions (photos 01, 03, 05; outer surface)", confidence: C}
+    chest_floor_over_height:  {value: 0.47, unit: ratio, range: [0.42, 0.56], source: "ref/research/wolf-photo-proportions (7 standing wolves, median; outer surface: chest floor height above ground over withers height)", confidence: B}
+    body_length_over_height:  {value: 1.15, unit: ratio, range: [1.08, 1.48], source: "ref/research/wolf-photo-proportions (7 standing wolves, median; outer surface, chest front to buttock)", confidence: B}
     body_over_height:        {value: 1.29, unit: ratio, source: "AwA-Pose keypoints (n=29; skull-to-tail-base over withers height)", confidence: C, check: "keypoints:sheet_ratios/body : height", note: "wide spread (q1-q3 0.96-1.43)"}
 
   angles:                     # standing angles, 180 = straight
