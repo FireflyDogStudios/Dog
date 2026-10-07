@@ -1,6 +1,6 @@
 # Firefly (lead) status
-Updated: 2026-10-07
-Working on: team setup (DEN-TEAM.md, inbox); next, the wolf muscle body (`./den body3d wolf`) with Scout 14 and 15 numbers
-Last push: lead handoff and team proposal
+Updated: 2026-10-07 23:25
+Working on: team roll-call done (14 of 14); next, review and merge Scout 14 and 15 and Atlas A-006, then the wolf muscle body
+Last push: roster with session ids
 Blocked: no
-Needs from the team: Scout item 15 (topline); item 14 is pushed and waiting for Firefly's review
+Needs from the team: nothing right now

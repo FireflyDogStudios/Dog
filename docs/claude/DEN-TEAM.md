@@ -60,6 +60,26 @@ The session's model is the member's own judgement. Its sub-agents do the legwork
 
 Models are named by tier only (Haiku, Sonnet, Opus; Fable for Scout, as GrumpyDingo chose). Pick the current version of each tier when a session is created.
 
+## Who is on the team now (Oct 7, 2026: all 14 checked in through the inbox)
+| Nick | Session (sidebar title) | Session id | Branch | Model |
+|---|---|---|---|---|
+| Firefly | TDL - Firefly | session_01M4gWGGkNvKFFogmDge6rmm | claude/tender-cerf-o68l6u | Opus |
+| Scout | Research - Scout | session_01JhasS1BSEHipFggiRCbice | claude/new-session-l3ubx0 | Fable |
+| Atlas | Mapping Research - Atlas | session_01UWuYpPE3X82diV4sxofzQK | claude/vibrant-ride-ygz0gn | Opus |
+| Shutter | Photographer - Shutter | session_01RUkkhBduKH4dJya4uNaraX | claude/nifty-hypatia-yrgots | Opus |
+| Forge | Builder - Forge | session_01QagMk1rju8WRfFGbE11Nut | claude/team-forge | Sonnet |
+| Spark | Engine - Spark | session_01EVwTaWgivURyh39taxSBDj | claude/team-spark | Opus |
+| Palette | Style - Palette | session_01PV3UtHY2hfaa5KT8SneWrA | claude/team-palette | Opus |
+| Reel | Story - Reel | session_01F3A34gKdsAmB5sYkNrZ8Sm | claude/team-reel | Opus |
+| Echo | Sound - Echo | session_01Y43GxKB6svFQrmKreFRYTA | claude/team-echo | Sonnet |
+| Loom | Systems - Loom | session_01Tp4WZFWnJZqKhtfv7NSUaa | claude/team-loom | Opus |
+| Scale | Balance - Scale | session_01M7mkpnGqE3fmiQZ5pGq5uS | claude/team-scale | Sonnet |
+| Trail | Levels - Trail | session_01Pq2sVGNsi8hMqfCyvgPy5w | claude/team-trail | Sonnet |
+| Lever | Tools - Lever | session_01ExPFiqQT7c1Zuf3VJnvtDF | claude/team-lever | Sonnet |
+| Fetch | Lookups - Fetch | session_01UZfS4Syx7i9SZCDxWWZ1V1 | claude/team-fetch | Haiku |
+
+Atlas and Shutter were set up before the roster and run on Opus; the roster's advice is Sonnet for both, so switch them when convenient. Relay (team tools) is proposed, not created. The ten new members were created by Firefly with `create_session`: environment `env_01BLVVELePRskCWCuN9F8bX4`, source branch `claude/tender-cerf-o68l6u`, each its own outcome branch. On the first run, Forge also pushed to Firefly's branch; the welcomes now say "only to your branch".
+
 ## How work moves
 1. **Requests:** the lead writes a request file and names it in `APPROVALS.md` when it needs GrumpyDingo's yes.
    - File names: `docs/claude/DEN-<ROLE>-REQUEST-<topic>-<date>.md`.
