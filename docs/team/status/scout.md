@@ -1,6 +1,6 @@
 # Scout status
-Updated: 2026-10-07 23:15 UTC
-Working on: request 16, wolf rib-cage breadth (agent running); wolf body round-3 review delivered
-Last push: Scout: wolf round-3 review note (neck mass, forechest, serratus smoothing, back-line spline recipe)
+Updated: 2026-10-07 23:20 UTC
+Working on: requests 16 (ribcage width) and 17 (withers spines, croup-vs-withers) in parallel; round-3 review note delivered
+Last push: Scout: wolf body round-3 review note; status
 Blocked: no
 Needs Firefly: no
