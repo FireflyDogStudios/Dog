@@ -140,6 +140,7 @@ Notes back to Firefly use the note format in `docs/team/README.md`.
 - **News to everyone:** pick "Everyone on the team" on the Den Team Inbox page, with Type `news`. The page sends the same message to every active member's session, one at a time, Cc Firefly, and records it in its `sent` collection.
 
 ## The Den Team Inbox (GrumpyDingo's view)
+- **Delivery (decided Oct 7):** GrumpyDingo's personal plan has no organization settings, so the page can't send into sessions: claude.ai answers `send_message` with `blocked_by_policy`. Mail from the page waits in the Outbox, and Firefly delivers it (`relay_outbox.py`, Lever) at every check. Reading live session state still works.
 - **URL:** https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK (private; source `apps/team-inbox/index.html`).
 - **What it shows:**
   - the notes that need GrumpyDingo;
