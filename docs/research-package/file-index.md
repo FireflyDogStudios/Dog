@@ -45,14 +45,14 @@ Game code (`apps/`, `sim/`, `engine/`, `archive/`, `art/`) is left out on purpos
 | `DEN-SCOUT-REQUEST-MUSCLE-BODY-2026-10-07.md` | 3 KB |
 | `DEN-SIM-HARNESS.md` | 10 KB |
 | `DEN-SPECIES-WOLF.md` | 4 KB |
-| `DEN-TEAM.md` | 22 KB |
+| `DEN-TEAM.md` | 23 KB |
 
 ## `docs/log/` (3)
 
 | File | Size |
 |---|---|
 | `APPROVALS.md` | 9 KB |
-| `LOG.md` | 30 KB |
+| `LOG.md` | 31 KB |
 | `README.md` | 1 KB |
 
 ## `docs/research-package/` (10)
@@ -68,7 +68,7 @@ Game code (`apps/`, `sim/`, `engine/`, `archive/`, `art/`) is left out on purpos
 | `07-roadmap.md` | 4 KB |
 | `08-appendices.md` | 6 KB |
 | `README.md` | 10 KB |
-| `file-index.md` | 40 KB |
+| `file-index.md` | 41 KB |
 
 ## `ref/awa-pose/` (3)
 

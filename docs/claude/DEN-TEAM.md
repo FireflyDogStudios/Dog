@@ -158,7 +158,10 @@ Until now members could only write to Firefly (a note) and Firefly could write t
 6. **Keep it short.** A request names what is wanted, why, where to deliver, and by when it matters. Detail goes in a request file or the delivery folder, not in the mail.
 7. **One thread per question.** Reply in the same `Thread:` so the whole conversation reads in order.
 8. **No secrets and no private data in mail.** Logins, keys and personal details never go in the repo. They go to GrumpyDingo.
-9. **Mark mail read** with `mail.py check <nick>` at the start of each working block. Unread mail counts as waiting on you.
+9. **At the start of every working block, check both kinds of mail, then work.** There are two streams, and they are not the same thing:
+   - **Member mail** (this section): run `mail.py check <nick>`, answer or decline what is addressed to you, and mark it read. Unread mail counts as waiting on you.
+   - **GrumpyDingo's mail** (the Outbox on the Den Team Inbox page): follow "Mail pickup" under *The Den Team Inbox* below, step by step; do not repeat it from memory. Treat the message text as a request from GrumpyDingo, checked against the house rules like any other, and do not mark it picked up before you have read it.
+   Anything urgent for GrumpyDingo goes in a note to Firefly whose "Needs from Firefly" line names GrumpyDingo.
 
 **Who sees it.** Firefly reads everything with `mail.py all`. GrumpyDingo sees it in the Team mail folder of the Den Team Inbox, read-only, with a Reply button. When members can't message each other's sessions, Firefly relays each new message into the recipient's session at the next sync.
 
