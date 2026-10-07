@@ -3,3 +3,5 @@ bpy==4.2.0        # Blender 4.2 as a Python module: headless 3D (bone meshes, Ri
 opensim           # OpenSim 4.6: loads the Stark Beagle and Ellis greyhound .osim models (Apache 2.0)
 mujoco            # MuJoCo: physics simulation to test gaits (Apache 2.0)
 pyvista           # VTK meshes and plots (MIT)
+vtk               # official VTK wheels, for .vtp bone meshes (BSD-3)
+dm-control        # DeepMind Control: ships a ready MuJoCo dog model (62 bodies, 74 joints; Apache 2.0)

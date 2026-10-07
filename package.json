@@ -10,6 +10,7 @@
     "check": "node apps/den-ledger/build.mjs && node tools/make-sim-copy.mjs && node sim/t40.js"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
     "@countertype/clipper2-ts": "^1.5.4",
     "@resvg/resvg-js": "^2.6.2",
     "ajv": "^8.20.0",
@@ -25,15 +26,19 @@
     "fit-curve": "^0.2.0",
     "gifenc": "^1.0.3",
     "js-yaml": "^5.4.3",
+    "odiff-bin": "^4.5.0",
     "paper": "^0.12.18",
     "paper-jsdom": "^0.12.18",
     "pixelmatch": "^5.3.0",
     "playwright": "1.56.1",
     "pngjs": "^7.0.0",
     "polygon-clipping": "^0.15.7",
+    "sharp": "^0.35.5",
     "simple-statistics": "^7.12.1",
     "simplify-js": "^1.2.4",
     "svgo": "^4.1.0",
-    "svgpath": "^2.6.0"
+    "svgpath": "^2.6.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
   }
 }

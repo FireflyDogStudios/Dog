@@ -361,10 +361,15 @@ def cmd_doctor(a):
     for p, why in [('bpy', 'Blender 4.2 headless: bone meshes, Rigify metarigs, Cycles CPU renders'), ('opensim', 'OpenSim 4.6: the Beagle and greyhound musculoskeletal models'),
                    ('mujoco', 'MuJoCo physics: gait simulation'), ('pyvista', 'VTK meshes'), ('trimesh', 'mesh loading and side-view projection'), ('ikpy', 'IK chains'),
                    ('skia-pathops', 'Skia path booleans (Chrome and Android use the same engine)'), ('polars', 'fast tables (12k-dog keypoint sets)'), ('statsmodels', 'regressions on species data'),
-                   ('pdfplumber', 'tables out of PDF supplements'), ('pycocotools', 'COCO keypoints and masks'), ('mypy', 'Python type checks'), ('pyoxipng', 'lossless PNG shrinking')]:
+                   ('pdfplumber', 'tables out of PDF supplements'), ('pycocotools', 'COCO keypoints and masks'), ('mypy', 'Python type checks'), ('pyoxipng', 'lossless PNG shrinking'), ('vtk', 'VTK meshes'), ('dm-control', 'MuJoCo dog model'), ('pyclipr', 'Clipper2 offsets in Python'),
+                   ('morphops', 'Procrustes shape averaging'), ('pyefd', 'elliptic Fourier outlines'), ('ssimulacra2', 'perceptual image score'), ('lmfit', 'named-parameter curve fits'), ('pyright', 'Python type checks')]:
         try: say(f'  ok   {p} {m.version(p)}')
         except Exception: say(f'  not yet {p}   ({why})')
     for t in ('inkscape', 'gifsicle', 'ffmpeg', 'convert', 'ruff', 'eslint'):
+        say(f'  {"ok  " if shutil.which(t) else "not yet"} {t}')
+    for t in ('odiff-bin', 'sharp', 'vitest', '@biomejs/biome', 'typescript'):
+        f = ROOT / 'node_modules' / t / 'package.json'; say(f'  {"ok  " if f.exists() else "not yet"} {t} (npm)')
+    for t in ():
         say(f'  {"ok  " if shutil.which(t) else "not yet"} {t}')
     say('Kit: V1 at tools/lens (git tag kit-v1, commit 70c9ee0); V2 at tools/den')
     say('Optional backends (extra options, they replace nothing; each is added only when wanted):')

@@ -28,3 +28,11 @@ hypothesis
 mypy
 skia-pathops
 pyoxipng
+# Oct 7, from the tool research (ref/research/tools/REPORT.md)
+pyclipr
+morphops
+pyefd
+pyright
+ssimulacra2
+lmfit
+syrupy
