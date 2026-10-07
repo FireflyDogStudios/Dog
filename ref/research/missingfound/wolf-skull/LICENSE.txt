@@ -1,0 +1,29 @@
+Licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+Full legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+
+Dataverse terms of use (identical for both datasets, read 2026-10-07):
+"These data and documents are licensed under a Creative Commons Attribution 4.0
+International license. You may copy, distribute and transmit the data as long as you
+acknowledge the source through proper data citation."
+
+Attribution (use these citations wherever the data, meshes or outlines are used):
+
+1. Mammal Research Institute, Polish Academy of Sciences (2020). Canis lupus - 170753,
+   Zoological collection of the Mammal Research Institute, PAS. Open Forest Data.
+   doi:10.48370/OFD/LVT9AC  (https://doi.org/10.48370/OFD/LVT9AC)
+   Sketchfab mirror: https://sketchfab.com/3d-models/canis-lupus-gray-wolf-wilk-szary-6e525a6837c54e299ae5e86fcdc7f05b
+
+2. Mammal Research Institute, Polish Academy of Sciences (2022). Canis lupus - 170555,
+   Zoological collection of the Mammal Research Institute, PAS. Open Forest Data.
+   doi:10.48370/OFD/LNRMXW  (https://doi.org/10.48370/OFD/LNRMXW)
+
+Changes made (CC BY requires indicating changes): the original STL scans were
+reoriented into an anatomical frame, the mandible of 170753 was hinged 2 degrees and the
+mandible of 170555 was repositioned into occlusion (fitted), the meshes were decimated
+(quadric edge collapse) to 140,000 (skull) and 90,000 (mandible) faces and saved as GLB,
+and measurements, landmarks and outlines were derived from them. These derived files
+are not endorsed by the Mammal Research Institute. Details: NOTE.md.
+
+Derived files in this folder (data.json, *.glb) by Firefly (Claude) for Project Dog,
+2026-10-07, under the same CC BY 4.0 terms.
