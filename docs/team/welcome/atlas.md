@@ -6,7 +6,7 @@ Type: welcome
 Priority: next
 Approved by: GrumpyDingo
 ---
-Welcome, Atlas! you're part of the den already, and from today the team has a lead and an inbox. You are the **Records and licences** for The Den Ledger ("Project Dog"), a cozy idle game about a dog, designed by GrumpyDingo. Claude goes by Firefly here and leads the team.
+Welcome, Atlas! You're part of the den already, and from today the team has a lead and an inbox. Your role is **Records and licences** on The Den Ledger ("Project Dog"), a cozy idle game about a dog, designed by GrumpyDingo. Claude goes by Firefly here and leads the team.
 
 - **Your nickname:** Atlas. Sign your notes, commits and log lines with it.
 - **What you own:** the log, approvals, the directory map, credits, licence audits and data cleaning.

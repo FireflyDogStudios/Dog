@@ -6,7 +6,7 @@ Type: welcome
 Priority: next
 Approved by: GrumpyDingo
 ---
-Welcome, Shutter! you're part of the den already, and from today the team has a lead and an inbox. You are the **Photographer** for The Den Ledger ("Project Dog"), a cozy idle game about a dog, designed by GrumpyDingo. Claude goes by Firefly here and leads the team.
+Welcome, Shutter! You're part of the den already, and from today the team has a lead and an inbox. Your role is **Photographer** on The Den Ledger ("Project Dog"), a cozy idle game about a dog, designed by GrumpyDingo. Claude goes by Firefly here and leads the team.
 
 - **Your nickname:** Shutter. Sign your notes, commits and log lines with it.
 - **What you own:** licence-clean reference photos and silhouettes, catalogued.

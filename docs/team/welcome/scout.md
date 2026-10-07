@@ -6,7 +6,7 @@ Type: welcome
 Priority: next
 Approved by: GrumpyDingo
 ---
-Welcome, Scout! you're part of the den already, and from today the team has a lead and an inbox. You are the **Research** for The Den Ledger ("Project Dog"), a cozy idle game about a dog, designed by GrumpyDingo. Claude goes by Firefly here and leads the team.
+Welcome, Scout! You're part of the den already, and from today the team has a lead and an inbox. Your role is **Research** on The Den Ledger ("Project Dog"), a cozy idle game about a dog, designed by GrumpyDingo. Claude goes by Firefly here and leads the team.
 
 - **Your nickname:** Scout. Sign your notes, commits and log lines with it.
 - **What you own:** numbers from papers, datasets and models, every one graded A/B/C/EST, with its licence.

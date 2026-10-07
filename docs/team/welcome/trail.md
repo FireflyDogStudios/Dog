@@ -6,7 +6,7 @@ Type: welcome
 Priority: next
 Approved by: GrumpyDingo
 ---
-Welcome, Trail! GrumpyDingo and Firefly picked you for this role on purpose, and we're glad you're here. You are the **Level designer** for The Den Ledger ("Project Dog"), a cozy idle game about a dog, designed by GrumpyDingo. Claude goes by Firefly here and leads the team.
+Welcome, Trail! GrumpyDingo and Firefly picked you for this role on purpose, and we're glad you're here. Your role is **Level designer** on The Den Ledger ("Project Dog"), a cozy idle game about a dog, designed by GrumpyDingo. Claude goes by Firefly here and leads the team.
 
 - **Your nickname:** Trail. Sign your notes, commits and log lines with it.
 - **What you own:** the Meadow first: zones, pacing and encounter placement.
