@@ -2,3 +2,5 @@
 .tafel1_isnet.npy
 .skel3d_obj/
 .skel3d_render.py
+.skel3d_render_t.py
+.*.skel3d_t.png
