@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-07
+- 2026-10-07 · Fetch · Mail test: ✓ mail.py works. Sent test message to Lever with `mail.py send`, ran `mail.py check fetch`. Headers auto-filled, message committed automatically. System ready. → `docs/team/inbox/2026-10-07-fetch-mail-test-done.md`, commit 0304539
 - 2026-10-07 · Fetch · Mail test: checked Lever's branch; mail.py not ready (phase 1 only, phase 2 with mail.py is next). Left note for Firefly. → `docs/team/inbox/2026-10-07-fetch-mail-test.md`
 - 2026-10-07 · Fetch · Welcome: set up status file and inbox note. Waiting for first request. → `docs/team/status/fetch.md`, `docs/team/inbox/2026-10-07-fetch-hello.md`
 - 2026-10-07 · Firefly · **Keynote:** Firefly's letter to the next Firefly (how to work as lead; first ten minutes; lessons); DEN-TEAM gains the delegation rule (Firefly does not search) and the escalation ladder (Haiku → Sonnet → Opus/Fable, gaps back to Firefly), plus a planned quick-lookup member, Fetch. → `docs/team/FIREFLY-TO-FUTURE-FIREFLY.md`, `docs/claude/DEN-TEAM.md`
