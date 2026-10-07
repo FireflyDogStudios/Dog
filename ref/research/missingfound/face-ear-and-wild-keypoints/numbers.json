@@ -1,0 +1,142 @@
+{
+  "item": "missingfound/face-ear-and-wild-keypoints",
+  "fetched": "2026-10-07",
+  "note": "Single cited facts. Gap A = ear motion, gap B = jaw/mouth during vocal and facial displays. Facts from non-commercial or no-derivatives papers are cited as facts only (nothing copied in bulk). Confidence: A = direct measurement with adequate n; B = direct but small n, ordinal scale, or indirect; C = proxy species, definition-level, or qualitative. Already-known numbers from ref/research/fetched/09-face-and-ear (max gape 44 deg dogs / 65 deg dingo model, chewing gap 2.51 cm at 2.59 Hz, yawn 2.04 s, panting up to 374/min, head tilt 16 deg) are NOT repeated here.",
+  "ear": [
+    {
+      "quantity": "pinna_orienting_amplitude_to_target",
+      "value": 10, "unit": "deg", "range": "up to ~20 deg in the whole data set",
+      "n": "5 cats (search coils on the pinna), hundreds of trials",
+      "context": "Cat (proxy for a mobile-eared carnivore). Visual or sound targets 18-23 deg off centre gave pinna movements of ~10 deg toward the source; the pinna does not turn as far as the target. Amplitudes in the study range up to ~20 deg.",
+      "citation": "Populin LC, Yin TCT 1998. Pinna movements of the cat during sound localization. J Neurosci 18(11):4233-4243. doi 10.1523/JNEUROSCI.18-11-04233.1998",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6792787/",
+      "licence": "CC BY-NC-SA 4.0 (fact only, nothing copied)",
+      "confidence": "C (proxy species; magnetic-coil 2-D angle is a first approximation per the authors)"
+    },
+    {
+      "quantity": "pinna_short_latency_flick",
+      "value": 25, "unit": "ms (latency after sound onset)",
+      "n": "5 cats, 249 trials for latency analysis",
+      "context": "Cat. A sound evokes a fast short-latency pinna twitch ~25 ms after onset, largest in the ear nearer the sound (asymmetric: the near ear moves more), followed by a slower long-latency movement that goes with the eye/head turn. Pinna returns to its start position shortly after the sound stops. Useful as 'ear twitches first, head follows' timing.",
+      "citation": "Populin & Yin 1998 (as above)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6792787/",
+      "licence": "CC BY-NC-SA 4.0 (fact only)",
+      "confidence": "C (proxy species)"
+    },
+    {
+      "quantity": "ear_position_backward_under_fear_effect_size",
+      "value": 0.68, "unit": "Cohen's d (ordinal ear-base score 1 = most back, 5 = most forward)",
+      "n": "36 dogs (owner videos, fireworks vs. control evening)",
+      "context": "Ear position scored at the BASE of the ear (not the pinna, so it works across ear types). Fireworks gave more backward ears (Wilcoxon Z = 4.05, p = 0.0005); the strongest of all measured fear signs. Panting d = 0.45, locomotion d = 0.54. No angle in degrees.",
+      "citation": "Gähwiler S, Bremhorst A, Tóth K, Riemer S 2020. Fear expressions of dogs during New Year fireworks: a video analysis. Sci Rep 10:16035",
+      "url": "https://europepmc.org/article/PMC/PMC7525486",
+      "licence": "CC BY 4.0",
+      "confidence": "B (ordinal scale, not an angle)"
+    },
+    {
+      "quantity": "ear_base_landmark_shift_under_fear",
+      "value": "ear bases move medially (toward the midline) = ears drawn back",
+      "unit": "qualitative direction from geometric morphometrics (Procrustes PCs)",
+      "n": "11 dogs with >= 10 landmark sets per condition (from 42)",
+      "context": "Automated facial landmarks on the fireworks videos. Ear-base landmarks separated fireworks from control more than any other region; mouth landmarks showed a small extra opening (panting in a few dogs). Pinna landmarks were dropped because ear shapes vary too much. Landmark data only on request (not open).",
+      "citation": "Martvel G, Riemer S 2025. Automated analysis of emotional expressions in dogs based on geometric morphometrics. Sci Rep 15. doi 10.1038/s41598-025-15741-y",
+      "url": "https://europepmc.org/article/PMC/PMC12405473",
+      "licence": "CC BY 4.0",
+      "confidence": "C (direction only)"
+    },
+    {
+      "quantity": "ear_actions_by_valence",
+      "value": "EAD102 ears adductor (ear bases come together, ears up) more in positive anticipation; EAD103 ears flattener (ears move caudally) more in frustration",
+      "unit": "event occurrence (binomial models; EAD102 estimate -1.79, EAD103 +1.84 log-odds, negative vs positive)",
+      "n": "29 Labrador Retrievers, positive and negative reward conditions",
+      "context": "DogFACS ear action descriptors: EAD101 ears forward (rostral), EAD102 adductor, EAD103 flattener (caudal), EAD104 rotator (lateral/external), EAD105 downward (ventral). Events, no angles or durations. Also: silver foxes show erect ears anticipating reward and flat, backward-rotated ears anticipating an aversive event (cited by the paper); coyote, fox and wolf flatten ears when frightened.",
+      "citation": "Bremhorst A, Sutter NA, Würbel H, Mills DS, Riemer S 2019. Differences in facial expressions during positive anticipation and frustration in dogs awaiting a reward. Sci Rep 9:19312",
+      "url": "https://europepmc.org/article/PMC/PMC6917793",
+      "licence": "CC BY 4.0",
+      "confidence": "B (events, valence direction)"
+    },
+    {
+      "quantity": "eye_blink_vs_closure_threshold",
+      "value": 0.5, "unit": "s",
+      "n": "definition",
+      "context": "DogFACS: blink (AU145) = lids touch for < 0.5 s; eye closure (AU143) = >= 0.5 s. Gähwiler 2020 coded blink as eyes >= 80% closed for no more than 1 s. Useful upper bound for an idle blink.",
+      "citation": "Bremhorst et al. 2019 Table 4 (DogFACS definitions); Gähwiler et al. 2020 Table 1",
+      "url": "https://europepmc.org/article/PMC/PMC6917793",
+      "licence": "CC BY 4.0",
+      "confidence": "C (definition)"
+    }
+  ],
+  "jaw": [
+    {
+      "quantity": "vocal_rhythm_all_call_types",
+      "value": 2.0, "sd": 1.1, "unit": "vocalisations per second (Hz)",
+      "n": "143 vocal sequences, 30 dogs (barks 54, growls 18, whines 21, snarls 17, howls 33)",
+      "context": "Peak rate from the amplitude envelope of each sequence. No significant difference between barks, growls, howls, snarls and whines, and no effect of body weight. Use as the mouth open-close cycle rate for a barking bout (~0.5 s per bark cycle).",
+      "citation": "Déaux EC, Piette T, Gaunet F, Legou T, Arnal L, Giraud AL 2024. Dog-human vocal interactions match dogs' sensory-motor tuning. PLoS Biol 22(10):e3002789",
+      "url": "https://europepmc.org/article/PMC/PMC11444399",
+      "licence": "CC BY 4.0",
+      "confidence": "A (timing; no jaw angle)"
+    },
+    {
+      "quantity": "wolf_howl_duration",
+      "value": 5.21, "sd": 2.49, "unit": "s",
+      "n": "238 howls and howl-barks (Indian wolf, Canis lupus pallipes)",
+      "context": "Same study: f0 mean 422 +/- 126 Hz; social squeak 3.47 +/- 1.85 s (n = 28); whine 1.2 +/- 0.7 s (n = 2); whimper 0.4 s (n = 2). Howls were recorded both spontaneous and elicited.",
+      "citation": "Sadhukhan S, Hennelly L, Habib B 2019. Characterising the harmonic vocal repertoire of the Indian wolf (Canis lupus pallipes). PLoS ONE 14(10):e0216186",
+      "url": "https://europepmc.org/article/PMC/PMC6822943",
+      "licence": "CC BY 4.0",
+      "confidence": "A (duration)"
+    },
+    {
+      "quantity": "wolf_howl_tongue_and_jaw",
+      "value": "tongue flat on mouth floor at howl onset; tip then retracts and arches up/forward toward the palate and is held for the rest of the howl",
+      "unit": "qualitative (31 tongue movements on 50 fps video)",
+      "n": "31 howls with visible tongue; 9 analysed for vowel quality; Hudson Bay wolves, Osnabrück Zoo",
+      "context": "Howl f0 367.7 +/- 52.6 Hz (n = 9). The authors state that no published work describes how far canines lower the jaw, in general or while howling; their model assumed a 5 cm jaw-lowering notch as a conservative guess. Confirms that a howl jaw angle is not in the literature.",
+      "citation": "Ekström AG, Amici F, Delaunay M, Bohny H, Sward K, Friedrichs D, Edlund J, Oña L 2024. In a manner of speaking: dynamic tongue gestures affect vowel-like quality in howling wolves. Research Square preprint, doi 10.21203/rs.3.rs-5354163/v1",
+      "url": "https://www.researchsquare.com/article/rs-5354163/v1",
+      "licence": "CC BY 4.0",
+      "confidence": "C (qualitative, preprint)"
+    },
+    {
+      "quantity": "play_face_ROM_muscle_set",
+      "value": "wild wolf ROM = AU101 + AU109 + AU112 + AU116 + AU25 + AU27; minimal dog ROM (Beagle) = AU116 + AU25 + AU27",
+      "unit": "DogFACS action units present",
+      "n": "30 dog breeds plus wild wolves (video, DogFACS-certified coder)",
+      "context": "AU101 inner brow raiser, AU109 nose wrinkler, AU112 lip corner puller (lip corners pulled back), AU116 lower lip depressor, AU25 lips part, AU27 mouth stretch (jaw actively lowered, lower teeth, tongue and oral cavity visible). So a wolf-like play face = mouth stretched open + lip corners back + lower lip down + brow raised. No angles.",
+      "citation": "Maglieri V 2025. The evolution of dogs' 'smile': breed-specific variations in the Relaxed Open Mouth signal. Research Square preprint, doi 10.21203/rs.3.rs-6219576/v1",
+      "url": "https://www.researchsquare.com/article/rs-6219576/v1",
+      "licence": "CC BY 4.0",
+      "confidence": "B (composition, preprint)"
+    },
+    {
+      "quantity": "play_face_ROM_grades_and_mimicry_latency",
+      "value": "ROM ranges from slightly open (only the upper parts of the front lower teeth show) to wide open (lower and upper jaws fully shown); a partner copies ROM or play bow within 1 s",
+      "unit": "definition; latency < 1 s",
+      "n": "49 dogs in free play; 77% of dogs mimicked congruently",
+      "context": "Two opening levels give a natural 'small/large' play-face pair; the 1 s mimicry window is a timing cue for two dogs playing.",
+      "citation": "Palagi E, Nicotra V, Cordoni G 2015. Rapid mimicry and emotional contagion in domestic dogs. R Soc Open Sci 2:150505",
+      "url": "https://europepmc.org/article/PMC/PMC4807458",
+      "licence": "CC BY 4.0",
+      "confidence": "B (definition and timing)"
+    },
+    {
+      "quantity": "mouth_action_definitions",
+      "value": "AU25 lips part (any separation); AU26 jaw drop (relaxed, teeth apart); AU27 mouth stretch (active, lower teeth, tongue and oral cavity visible); AU12 lip corner puller (corners move caudally); AU110 upper lip raiser; AU109+110 nose wrinkler and upper lip raiser (snarl); panting AD126 = AU26 + tongue show AD19 + fast shallow breaths; yawn = mouth wide open >= 1 s",
+      "unit": "definitions",
+      "n": "-",
+      "context": "Gives the stage list for jaw poses: closed -> lips part -> relaxed drop (pant, ROM small) -> stretch (yawn, ROM wide, howl). Snarl = AU109+110 (lip lifted off canines, nose wrinkled). In frustration, AU25 and AU26 were more common than in positive anticipation.",
+      "citation": "Bremhorst et al. 2019 Table 4 (DogFACS); Gähwiler et al. 2020 Table 1 (yawn >= 1 s)",
+      "url": "https://europepmc.org/article/PMC/PMC6917793",
+      "licence": "CC BY 4.0",
+      "confidence": "C (definitions)"
+    }
+  ],
+  "not_found": [
+    "Any measured ear angle (pinna rotation or elevation in degrees) in dogs, wolves, foxes or other canids.",
+    "Durations of single ear movements (flick, flatten, prick) in canids; only the cat 25 ms flick latency.",
+    "Jaw opening angle or gape during barking, howling, yawning, panting, play face or snarling in any canid (Ekström 2024 says this is undescribed).",
+    "Lip-corner retraction distance or angle in snarl or play face.",
+    "Growl and bark single-call durations from an open source (Policht 2021 shows them in figures only)."
+  ]
+}
