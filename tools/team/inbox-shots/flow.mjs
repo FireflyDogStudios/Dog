@@ -1,0 +1,22 @@
+// Functional check of compose -> outbox -> sent against the mock store (nothing is written anywhere real).
+import { chromium } from 'playwright';
+import { init } from './mock.mjs';
+const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const p = await (await b.newContext({viewport:{width:1280,height:800}})).newPage();
+const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(init.replace("callTool:async()=>{}","callTool:async(s,t,a)=>{(window.calls=window.calls||[]).push(a.session_id); if(a.session_id==='s2'&&!window.okAll) throw {code:'server_unavailable'};}"));
+await p.goto('file://'+process.argv[2]); await p.waitForTimeout(400);
+const ok=(c,m)=>console.log(c?'PASS':'FAIL',m);
+await p.click('.compose-btn'); await p.fill('#c-to-in','for'); await p.keyboard.press('Enter');
+await p.click('[data-act="cmp-all"]');
+ok((await p.textContent('#c-to-chips')).includes('Forge')&&(await p.textContent('#c-cc-chips')).includes('Firefly'),'everyone fills To and Cc');
+await p.fill('#c-re','Test'); await p.fill('#c-body','hello');
+await p.waitForTimeout(1200); ok((await p.textContent('#c-saved')).includes('saved'),'autosave to drafts');
+await p.click('[data-act="cmp-send"]'); ok(await p.isVisible('#c-confirm'),'confirm shown');
+await p.click('[data-act="cmp-go"]'); await p.waitForTimeout(500);
+ok((await p.textContent('#list')).includes('Test'),'failed send sits in outbox');
+ok((await p.textContent('#nav')).match(/Outbox\s*2/)!==null,'outbox count 2');
+await p.evaluate(()=>{window.okAll=true}); await p.click('.row:has-text("Test")'); await p.click('[data-act="retry"]'); await p.waitForTimeout(500);
+await p.click('[data-f="sent"]'); ok((await p.textContent('#list')).includes('Test'),'retry delivers, message lands in Sent');
+await p.click('[data-f="drafts"]'); ok((await p.textContent('#list')).includes('Next round')&&!(await p.textContent('#list')).includes('Test'),'draft removed after send');
+console.log('errors:',errs.length?errs:'none'); await b.close();
