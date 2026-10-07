@@ -32,6 +32,15 @@ Kept by Firefly, started Oct 6, 2026. Two kinds: **research questions** (facts t
 | nose height | 0.75 | 0.88 |
 Joint landmarks read through fur (especially the stifle) were too uncertain to align on: front and hind legs gave scales 34% apart. Use outline points, and more than one photo.
 
+## Found Oct 7 (rebuild with the corrections: disc 10% EST, axis-wise trunk scaling, head placed from photos)
+| | real wolves (median of 7) | 3D skeleton |
+|---|---|---|
+| chest floor height | 0.47 | 0.50 |
+| body length | 1.15 | 0.93 |
+| nose forward of withers | 0.54 | 0.54 (only with the neck almost upright) |
+| nose height | 0.85 | 0.87 |
+The thoracic spines stand 0.17 of withers height above the scapula top (sourced 0.035): the ribcage is too tall for the scapula, or the scapula sits too low on it. That extra height also shrinks the body-length ratio. Next: fix where the scapula sits on the ribcage, then re-check the neck.
+
 ## Decisions for GrumpyDingo (one at a time, when they come up)
 - ~~Apply the fact-check's 13 suggested values to the wolf~~ done Oct 6 (GrumpyDingo said yes); the rebuilt skeleton hits every angle target.
 - The Carolina Dog: the player's own species needs its own species file (dingo and pariah-dog numbers). Build it right after the wolf?
