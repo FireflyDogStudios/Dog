@@ -87,3 +87,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Lever · Inbox Connection check, not-delivered states, relayed display; blocked_by_policy findings. → `apps/team-inbox/`
 - 2026-10-07 · Lever · tools/team/relay_outbox.py (plan, finish) and mail.py post, with tests; README and STORE.md updated. → `tools/team/`
 - 2026-10-07 · Lever · Connection page copy: point to Permissions, not Connectors. → `apps/team-inbox/index.html`
+- 2026-10-07 · Lever · Policy-blocked sends read as queued for Firefly; Connection view mentions the org toggle. → `apps/team-inbox/index.html`

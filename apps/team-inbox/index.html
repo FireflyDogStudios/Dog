@@ -283,7 +283,7 @@ function items() {
   state.drafts.forEach((d, i) => out.push({ kind: 'draft', coll: 'drafts', id: d._id, nick: ME, to: d.to || [], cc: d.cc || [], subject: d.re || '(no subject)', body: d.body || '', raw: d.at, ts: Date.parse(d.at) || 0, ord: -i,
     unread: false, thread: threadKey(d.re, d.thread) }));
   state.outbox.forEach((o, i) => out.push({ kind: 'outbox', coll: 'outbox', id: o._id, nick: ME, to: o.to || [], cc: o.cc || [], subject: o.re || '(no subject)', body: o.body || '', raw: o.at, ts: Date.parse(o.at) || 0, ord: -i,
-    unread: false, thread: threadKey(o.re, o.thread), status: o.status || 'queued', results: o.results || [] }));
+    unread: false, thread: threadKey(o.re, o.thread), status: o.status || 'queued', results: o.results || [], policy: (o.results || []).some((r) => codeOf(r.code) === 'blocked_by_policy') }));
   return out;
 }
 const mutable = (m) => m.kind === 'note' || m.kind === 'sent' || m.kind === 'mail';
@@ -340,7 +340,7 @@ const prevText = (m) => (m.body || m.status || (m.kind === 'sent' ? 'Sent to ' +
 function rowHTML(g) {
   const m = g.top, mine = m.kind !== 'note' && m.kind !== 'mail'; const who = mine ? 'To ' + (m.to.join(', ') || '…') : m.kind === 'mail' ? `${m.nick} → ${m.to.join(', ') || '…'}` : m.nick;
   const tag = view.folder === 'search' ? `<span class="cnt">${m.trashed ? 'Trash' : m.archived ? 'Archive' : { note: 'Inbox', mail: 'Team mail', sent: 'Sent', draft: 'Draft', outbox: 'Outbox' }[m.kind]}</span>` : '';
-  const flag = tag + (g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? `<span class="flag ${m.status === 'sending' ? '' : 'bad'}">${m.status === 'sending' ? 'Sending' : 'Not delivered'}</span>` : '');
+  const flag = tag + (g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? (m.status === 'sending' ? '<span class="flag">Sending</span>' : m.policy ? '<span class="flag">Queued: Firefly delivers</span>' : '<span class="flag bad">Not delivered</span>') : '');
   return `<div class="row ${g.unread ? 'unread' : ''} ${view.cur === g.key ? 'cur' : ''}" data-act="open" data-key="${esc(g.key)}" role="button" tabindex="0">
     <input type="checkbox" data-act="check" data-key="${esc(g.key)}" ${view.checked.has(g.key) ? 'checked' : ''} aria-label="Select">
     ${avatar(mine ? ME : m.nick)}
@@ -368,7 +368,7 @@ function msgHTML(m, open) {
     <div class="mh-sub">${hasTo ? 'to ' + esc(m.to.join(', ') || '…') + (m.cc.length ? ' · cc ' + esc(m.cc.join(', ')) : '') : 'to Firefly, GrumpyDingo'}</div></div><span class="mh-date">${shortDate(m.ts, m.raw)}</span>`;
   const body = `<div class="mb">${m.needs ? `<span class="needs">Needs: ${esc(m.needs)}</span>` : ''}
     ${m.body ? `<p class="body">${esc(m.body)}</p>` : m.kind === 'sent' ? '<p class="body mh-sub">The text of this message was not saved by an older version of the inbox.</p>' : ''}
-    ${m.kind === 'outbox' ? `<div class="path">${m.status === 'sending' ? 'Sending now…' : 'Not delivered. It is waiting in the Outbox; Retry tries again, and Firefly can relay it.'}</div>${m.results.length ? `<ul class="results">${m.results.map((r) => `<li class="${r.ok ? 'good' : 'bad'}">${esc(r.nick)}: ${r.ok ? 'delivered' : esc(failWhy(r.code))}</li>`).join('')}</ul>` : ''}` : ''}
+    ${m.kind === 'outbox' ? `<div class="path">${m.status === 'sending' ? 'Sending now…' : m.policy ? 'Queued. Sending from this page is blocked by a policy, so Firefly delivers it from the Outbox. It moves to Sent as relayed.' : 'Not delivered. It is waiting in the Outbox; Retry tries again, and Firefly can relay it.'}</div>${m.results.length ? `<ul class="results">${m.results.map((r) => `<li class="${r.ok ? 'good' : 'bad'}">${esc(r.nick)}: ${r.ok ? 'delivered' : esc(failWhy(r.code))}</li>`).join('')}</ul>` : ''}` : ''}
     ${m.status && m.kind === 'sent' ? `<div class="path">${esc(m.status)}${m.results.filter((r) => !r.ok).length ? ' · not sent to ' + esc(m.results.filter((r) => !r.ok).map((r) => r.nick).join(', ')) : ''}</div>` : ''}
     ${m.kind === 'mail' ? `<div class="path">${esc(m.type)}${m.branch ? ' · on ' + esc(m.branch) : ''} · ${esc(m.id)}</div>` : ''}
     ${m.path ? `<div class="path">${esc(m.branch ? m.branch + ' · ' : '')}${esc(m.path)}</div>` : ''}</div>`;
@@ -439,7 +439,7 @@ const FIX = {
   needs_reauth: ['The sign-in for Claude Code Remote has expired.', 'Reload the page while signed in to claude.ai. If it keeps happening, open the Permissions panel, or tell Firefly.', 'perm'],
   not_in_manifest: ['Claude Code Remote is switched off for this page.', 'Turn it back on in this page\'s Permissions menu.', 'perm'],
   approval_required: ['The page needs your approval to use Claude Code Remote and did not get it.', 'Allow it in the Permissions menu, then try again.', 'perm'],
-  blocked_by_policy: ['A policy on the account or organization blocks this tool for pages.', 'Nothing to fix on the page, and trying again will not help. Your messages wait in the Outbox and Firefly delivers them. Firefly is finding where the policy can be changed.', 'perm'],
+  blocked_by_policy: ['A policy on the account or organization blocks this tool for pages.', 'Nothing to fix on the page, and trying again will not help. Your messages wait in the Outbox and Firefly delivers them. Connector actions that need approval may not be available to pages at all. If your account has Organization settings, an owner can check "Enable artifact connectors" under Capabilities.', 'perm'],
   server_unavailable: ['Claude Code did not answer.', 'Try again in a minute. Nothing is lost: unsent mail stays in the Outbox.', ''],
   upstream_error: ['Claude Code returned an error.', 'Try again in a minute. Check the recipient\'s session before resending, in case it did arrive.', ''],
   tool_error: ['Claude Code ran the tool and it reported a failure.', 'Check that the recipient\'s session is running, then retry from the Outbox.', ''],
@@ -488,7 +488,7 @@ function renderConn() {
     connRows().map((r) => `<div class="crow ${r.lvl}"><span class="dt"></span><div><h3>${esc(r.title)}</h3><p class="what">${esc(r.what)}</p>${r.fix ? `<p class="fix">${esc(r.fix)}</p>` : ''}
       ${r.code ? `<p class="fix"><code>${esc(r.code)}</code></p>` : ''}
       ${r.kind === 'perm' ? '<div class="acts"><button type="button" data-act="perm">Open Permissions</button></div>' : ''}</div></div>`).join('') +
-    (connRows().find((r) => r.id === 'send' && r.lvl === 'bad') ? '<p class="sub">While sending is blocked, write as usual: each message goes to the Outbox, marked "Not delivered". Firefly delivers queued messages and they move to Sent as "relayed by Firefly".</p>' : '');
+    (connRows().find((r) => r.id === 'send' && r.lvl === 'bad') ? '<p class="sub">While sending is blocked, write as usual: each message goes to the Outbox, marked "Queued: Firefly delivers". Firefly delivers queued messages and they move to Sent as "Relayed by Firefly".</p>' : '');
 }
 
 /* ---- store helpers for drafts, outbox and sent (new collections; see STORE.md) ---- */
@@ -611,7 +611,7 @@ async function deliver(id) {
   if (results.every((r) => r.ok)) {
     await put('sent', id, { at: new Date().toISOString(), from: ME, to: o.to, cc: o.cc, re: o.re, type: o.type, body: o.body, thread: o.thread, text: o.text, results });
     await drop('outbox', id); toast('Delivered to ' + results.map((r) => r.nick).join(', ')); view.folder = 'sent'; view.cur = null;
-  } else { await put('outbox', id, { status: 'failed', results }); const bad = results.find((r) => !r.ok); toast('Not delivered: ' + failWhy(bad.code) + ' It is waiting in the Outbox.'); }
+  } else { await put('outbox', id, { status: 'failed', results }); const bad = results.find((r) => !r.ok); toast(codeOf(bad.code) === 'blocked_by_policy' ? 'Queued: sending from this page is blocked by a policy, so Firefly delivers it from the Outbox.' : 'Not delivered: ' + failWhy(bad.code) + ' It is waiting in the Outbox.'); }
   render();
 }
 

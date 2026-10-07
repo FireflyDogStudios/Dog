@@ -63,8 +63,8 @@ for (const [v, chip] of [['blocked','Sending blocked'],['noconn','Live sessions 
     await q.click('.compose-btn'); await q.click('[data-act="cmp-all"]'); await q.fill('#c-re','Blocked test'); await q.fill('#c-body','x'); await q.click('[data-act="cmp-send"]');
     ok((await q.textContent('#c-confirm-text')).includes('Sending is blocked'),'confirm warns that it will wait in the Outbox');
     await q.click('[data-act="cmp-go"]'); await q.waitForTimeout(500);
-    ok((await q.textContent('#list')).includes('Not delivered'),'blocked send stays in the Outbox as "Not delivered"');
-    ok((await q.textContent('#toast')).includes('Not delivered'),'toast says it was not delivered, with the reason');
+    ok((await q.textContent('#list')).includes('Queued: Firefly delivers')&&!(await q.textContent('#list')).includes('Not delivered'),'a policy-blocked send reads "Queued: Firefly delivers", not failed');
+    ok((await q.textContent('#toast')).includes('Queued'),'toast says it is queued for Firefly');
   }
   await q.context().close();
 }
