@@ -4,6 +4,16 @@ Add requests at the top. Firefly or GrumpyDingo marks each one **Approved**, **D
 
 ---
 
+## A-008 · Scout request 14 (restart): muscle body calibration, with the back muscles · from Firefly · 2026-10-07 · **Decided**
+- **Ask:** let Scout run `docs/claude/DEN-SCOUT-REQUEST-MUSCLE-BODY-2026-10-07.md`. It covers:
+  - muscle masses and specific tension;
+  - the back muscles;
+  - the belly-wall thickness;
+  - body widths;
+  - skin thickness;
+  - the six muscles missing from Stark's model.
+- **Decision:** **Approved** (GrumpyDingo, 2026-10-07). The first run of item 14 had stopped.
+
 ## A-007 · Scout 13 follow-ups: adopt the disc shares; the NC-ND cited facts; the CT fallback · from Scout · 2026-10-07 · **Decided (CT open)**
 - **Ask 1:** adopt the disc shares in `species/wolf.yaml`.
   - **Decision:** **Approved** (Firefly, 2026-10-07). The values are neck 0.15 (B), thorax 0.15 (EST) and lumbar 0.18 (B).
