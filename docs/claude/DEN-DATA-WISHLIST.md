@@ -1,5 +1,7 @@
 # Data still needed for the species creator (wishlist)
 
+**Oct 7: fetched.** The data-fetch session filled items 1–10 (plus ethograms as item 11) into `ref/research/fetched/`; read `docs/claude/DEN-DATA-FETCH-HANDOFF.md` and `ref/research/fetched/REPORT.md`. Still missing: dingo limb bones, dingo and Carolina Dog ear length, ear rotation and jaw angles while barking or yawning, keypoints for coyote, jackal, dhole, wild dog and hyena, measurements of the Ellenberger muscle plate (Tafel 2), and the JEB 2025 main text.
+
 Kept by Firefly, Oct 6, 2026. In priority order for the next steps (silhouette over the skeleton, then the gait engine, then the Carolina Dog). Almost all of it sits on hosts this session cannot reach (archive.org, simtk.org, Wikimedia Commons, nature.com, Dryad, Zenodo, Google Drive, PubMed Central, arXiv all refused on Oct 6). **A fresh session in an environment with all domains allowed can fetch the lot**: GrumpyDingo set "all domains" on Oct 6, but network settings only apply to sessions started after the change.
 
 | # | What | Why we need it | Where | Licence |
