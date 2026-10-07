@@ -24,7 +24,7 @@ Legend: ⭐ ready to build · 💬 needs a talk with GrumpyDingo first · 🧹 c
 ## 0. The genre shift (Oct 2–3) 💬 → the spine of everything below
 From goofy idle mechanics to sane MMORPG-style mechanics. Research other games (Skyrim, ESO, GW2, Diablo, PoE) for each system before building. Order, each unlocking the next:
 1. ✅ **Hero.** New dingo approved (Den Dingo Workbench): real Carolina Dog proportions, flat two-tone, green collar, same leg rig. **Not yet in the game.**
-2. **Creature roster** (mostly done on the Workbench; 9 approved, 3 slots open: shielded, summoner, boss). **Not yet in the game.** Next: the dog-senses tell on the hero (ears, hackles, scent wisp), then port.
+2. **Creature roster** (superseded Oct 7 by `docs/DEN-BESTIARY.md`; the Meadow creatures are probably being deprecated) (mostly done on the Workbench; 9 approved, 3 slots open: shielded, summoner, boss). **Not yet in the game.** Next: the dog-senses tell on the hero (ears, hackles, scent wisp), then port.
 3. ✅ **Status + skill engine** (v0.45–0.48: creatures, dingo, every multiplier, skills; DEN-GAME-STATUS-ENGINE.md). Left: step 5 tells, step 6 weapons supply skills.
 4. **Weapons get behaviour.** Ranged weapons rise and fire, melee swings arcs, staffs channel, tug ropes yank. Each type = an attack script + a Proton preset. Weapons stop just orbiting and lashing.
 5. **Pets → one companion.** One out at a time, its abilities on the bar. Acquired by taming or rescuing in the world, not baskets. Gems come from creatures and cave ore, cut at the Smithy; the clicky Mine retires.

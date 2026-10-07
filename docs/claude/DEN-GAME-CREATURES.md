@@ -1,5 +1,7 @@
 # Den Game — Creatures and the Hero (design + bible)
 
+> **Superseded (GrumpyDingo, Oct 7, 2026):** the current list of animals and species is `docs/DEN-BESTIARY.md`. This bible is kept for the record. GrumpyDingo said the Meadow creatures below (Fencepost, Puffball and the rest) are probably going to be deprecated as well.
+
 Started Oct 2, 2026 by Firefly with GrumpyDingo on the **Den Dingo Workbench** (https://claude.ai/artifact/2N5JULUbfKNkKB3szMUo8Y). The earlier style sheet (Den Dingo Style Studio, https://claude.ai/artifact/MVxnkDzLu3inYcetEXc1xi) is superseded by this.
 
 ## The frame (GrumpyDingo, Oct 2)
