@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-07
+- 2026-10-07 · Shutter · Report for Firefly: what's catalogued, best side views, gaps, compliance checks, and four decisions for GrumpyDingo (CC BY-SA, Carolina Dog photos, NPS top views, rawpixel). → `ref/research/photos/REPORT-2026-10-07.md`
 - 2026-10-07 · Shutter · Firefly's muscle/top/front request: 73 licence-checked photos in 12 species folders (muscle-ref 54, front 13, top 6). Best: hairless xolo show stacks (CC BY 4.0), wet wolf (NPS, PD), Cirneco/Kelpie stacks (CC BY 2.0). No true top-down view of a standing wolf or medium dog found. → `ref/research/photos/MUSCLE-TOP-FRONT-NOTE.md`
 - 2026-10-07 · Shutter · Siberian Husky photos: 24 licence-checked images (standing 9, head 7, walking 3, lying 2, trotting 1, sitting 1, other 1); ranks 1–4 are true side-on show stacks (CC BY). No clean side-on walking or trotting yet; best gaiting shots are CC BY-SA (permission list in NOTE). One show-print scan removed for unclear authorship. → `ref/research/photos/siberian-husky/`
 - 2026-10-07 · Shutter · Side-view silhouettes (PD/CC0/CC BY, licences checked on PhyloPic API and source pages): grey wolf 22, dingo 6, husky 5, malamute 3, Carolina Dog 4 generic stand-ins, New Guinea singing dog none. No published silhouette of a real husky or malamute exists under an open licence; best are a PD line drawing and a trace of a CC BY 3.0 show photo. → `ref/research/photos/silhouettes/`
