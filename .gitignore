@@ -9,3 +9,4 @@ sim/*.png
 tools/lens/.cache/
 __pycache__/
 tools/den/.cache/
+tools/team/inbox-shots/node_modules
