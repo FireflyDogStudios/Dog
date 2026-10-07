@@ -48,7 +48,7 @@ def build(sid):
     # Stark's forces are set for the 13.81 kg Beagle (Scout 14, checked in OpenSim), so mass^(2/3) gives x1.74 for 31.8 kg; sigma 0.3 MPa confirmed (Scout 14, A)
     bones = {}
     for b, t in sk['bodies'].items():
-        sc = trimesh.load(S3.MESH / f'meshes/{b}.glb'); g = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc
+        sc = trimesh.load(S3.mesh_for(sk, b)); g = sc.to_geometry() if hasattr(sc, 'to_geometry') else sc
         g = g.copy(); g.vertices = (np.asarray(g.vertices) * np.asarray(t['mesh_scale'])) @ np.array(t['R']).T + np.array(t['p_mm']); bones[b] = g
     # ground in the 3D frame: joints_side_mm are heights above it
     allz = np.vstack([np.asarray(bones[b].vertices) for b in bones if 'paw' in b])[:, 2].min()
