@@ -9,6 +9,8 @@ Fetched 2026-10-06 by a research sub-agent for item 04 of `docs/claude/DEN-DATA-
   - The joint names are shoulder, elbow, carpus, hip, stifle and tarsus (tarsus means the hock).
 - `duty_phase.csv`: duty factors, touchdown phases relative to left hind (LH = 0, fraction of LH stride), stride frequency, speed and stride length. Some rows are computed by us and some are published; the `note` column says which.
 - `joint_extremes.csv`: published standing angles and trot extremes, converted to included angles. Also holds the cushioning-phase range of motion (ROM) values from Miao 2026, and (since Oct 7) Goldner 2018 sound-trot touchdown, lift-off, stance/swing min, max and ROM for six joints.
+  - Since Oct 7 it also holds 18 `jeb2025` rows (Charles et al. 2025, Source 6): trot joint-coordinate extremes back-transformed from a regression table. These are **not included angles**: `included_deg` is blank and the model-coordinate magnitude sits in `original_flexion_deg`. Only the derived `rom_derived_at_Fr1` rows (a range in degrees) are directly comparable with other sources.
+- `duty_phase.csv` also holds (since Oct 7) 10 `jeb2025` rows: speed-scaling exponents (cycle time, stride length, duty factor against velocity and Froude number), in the `mean` column.
 - `LICENSE.txt`: licence and attribution for each source.
 
 Processing scripts lived in `/tmp/item04/scripts/` and are not in the repo. Raw downloads were deleted after processing.
@@ -144,13 +146,47 @@ Added 2026-10-07 by a follow-up sub-agent.
 
 - **Left/right asymmetry:** the left forelimb sits about 9–10° more flexed than the right in shoulder and elbow. That is in the published sound data; we did not alter it.
 
+## Source 6: Charles et al. 2025, supplement only (`jeb2025`)
+Added 2026-10-07 by a follow-up sub-agent.
+- **Title:** "The biomechanics of working dog locomotion I: Steady-state trotting." Journal of Experimental Biology 228(17): jeb250523 (issue date 2025-09-01). doi:10.1242/jeb.250523
+- **Authors:** James P. Charles, Eithne J. Comerford, Victoria F. Ratcliffe, Roger W. P. Kissane, Isabelle Gooding, Suzanne Cottriall, Thomas W. Maddox, Karl T. Bates.
+- **Licence:** CC BY 4.0 (Crossref `license`: http://creativecommons.org/licenses/by/4.0, version of record, from 2025-09-15; checked through https://api.crossref.org/works/10.1242/jeb.250523 on 2026-10-07). Each supplement page is stamped "Journal of Experimental Biology: doi:10.1242/jeb.250523: Supplementary information"; the supplement carries no separate licence statement, so we take the article's.
+- **How obtained:** the publisher host blocks this environment (HTTP 403), so GrumpyDingo downloaded the supplementary PDF in a browser on 2026-10-07 and placed it at `/tmp/jeb/supp.pdf` (6 pages, 1.6 MB; PDF metadata author "Charles, James", created 2025-07-11). It was read with `pdftotext -layout`, the pages were rendered with `pdftoppm` and Fig. S2 was extracted with `pdfimages` and looked at. The PDF is **not** stored in the repo. **The main article was not obtained** (still 403), so the methods, the Froude definition, the speed range, the joint-coordinate sign conventions and all the mean curves/figures in the main text are unknown to us.
+- **What the supplement contains (all of it):**
+  - Fig. S1: the "zero" poses of the three OpenSim musculoskeletal models (Labrador, Shepherd, Spaniel), an oblique 3D render. Limbs stand roughly straight and vertical; too small and oblique to measure zero-pose joint angles reliably.
+  - Fig. S2: box plots of size-normalised proportions (by body mass^0.33) per breed. Not stored as rows; digitized medians (est. error ±0.01) for reference: hindlimb/forelimb length 1.16 Labrador, 1.14 Shepherd, 1.19 Spaniel; glenoacetabular length / average limb length 1.22, 1.22, 1.25; body width / glenoacetabular length 0.33, 0.33, 0.36. Panel h: log forelimb vs log hindlimb length, slope 1.07, R² 0.88 (near isometry). How limb length is measured is defined only in the main text.
+  - Table S1: the 27 dogs. 10 Labradors (27.9 ± 4.2 kg, age 3.7 ± 2.4 y), 7 Shepherds (GSD, GSD × Malinois, Belgian; 33.7 ± 10.3 kg), 10 Spaniels (Springer and Cocker; 14.4 ± 3.4 kg); 11 working dogs; FCI body-condition classes (12 overweight). Not stored as a file (subject list only).
+  - Table S2: the reflective marker set (3D motion capture): head (frontal bones, occipital crest), torso (C7, iliac crests, ischia), scapula (dorsal scapula, acromion), humerus (mid-shaft, lateral and medial epicondyles), forearm (radial styloid), forefoot (distal 5th metacarpal), foretoes (digit III), femur (greater trochanter, mid-shaft, lateral and medial epicondyles), leg (lateral malleolus), hindfoot (distal 5th metatarsal), hindtoes (digit III). So: 3D markers driving breed-specific OpenSim models (joint angles from inverse kinematics, moments from inverse dynamics with vertical GRF).
+  - Table S3: slopes (with 95% CI and p) of log10 spatiotemporal parameters on log10 trotting velocity or log10 Froude number from linear mixed models, one model per body-size covariate (body mass, glenoacetabular, forelimb, hindlimb length; raw and normalised). Slopes barely change with the covariate; we stored the body-mass column.
+  - Table S4: linear regressions of log10 minimum and maximum joint angles and joint moments on log10 Froude number during trotting (intercept, slope, SEs, adjusted R², p).
+- **Not in the supplement:** no joint angle vs % stride curves (tables or figures), **no walk data at all** (the paper is trot only), no touchdown/lift-off angles, no mean duty factors, footfall phases, stride lengths or speeds as values, no per-dog data. So nothing was added to `curves.csv`.
+- **What we stored:**
+  - `duty_phase.csv` (10 rows): `exponent_<quantity>_vs_velocity` and `exponent_<quantity>_vs_froude` for cycle time (`both`), stride length (fore, hind) and duty factor (fore, hind). The `mean` column holds the published slope; the 95% CI is in `note`. Read as power laws within the trot: cycle time ∝ v^-0.39, stride length ∝ v^0.59 (the two add to about 1, as v = length / time requires), duty factor ∝ v^-0.28 (fore) and v^-0.24 (hind). The forces (vGRF) rows of Table S3 were not stored.
+  - `joint_extremes.csv` (18 rows): for each joint, `max_<label>_coord_at_Fr1`, `min_<label>_coord_at_Fr1` (label = flexion or extension, as the table names it) and `rom_derived_at_Fr1`.
+    - The table regressed log10 of the angle, so 10^intercept is the predicted angle at Froude = 1 (log10 Fr = 0). That value goes in `original_flexion_deg`. Slopes are small and mostly not significant (only maximum stifle extension, p = 0.046), so the extremes hardly move with speed in the trot; Fr = 1 is likely inside the studied range for trotting dogs of this size, but the range itself is in the main text.
+    - Because a log was taken, these must be **magnitudes** of the OpenSim joint coordinates (degrees away from the zero pose of Fig. S1, sign lost). We could not convert them to included angles: the zero-pose included angle of each joint is not stated in the supplement. `included_deg` is left blank for these rows. **Convention flagged as undetermined.**
+    - `rom_derived_at_Fr1` is our own inference, EST confidence. For the four "flexion" joints, ROM = max − min. For the carpus ("extension"), max 27.5 is read as hyperextension and min 95.5 as flexion (both magnitudes), so ROM = 27.5 + 95.5 = 123; the both-flexed reading would give 68°, far below every other source. For the stifle ("extension"), both values are read as flexed (negative extension), so ROM = 100.0 − 37.2 = 63; a sum (137°) is impossible.
+    - If the zero pose is taken as a straight joint (180), the carpus would span about 85–208 and the tarsus 82–155 included, which matches Humphries and Goldner well; the shoulder, elbow and hip zero poses are clearly not straight, so we did not apply this.
+- **Comparison of trot ROM (degrees):**
+
+  | Joint | jeb2025 (27 dogs, OpenSim, at Fr=1; EST) | Humphries 2020 LRD (S4 extremes) | Goldner 2018 Beagle L (stance+swing) |
+  |---|---|---|---|
+  | Shoulder | 60 | 40 | 19 |
+  | Elbow | 65 | 69 | 65 |
+  | Carpus | 123 | 138 | 129 |
+  | Hip | 61 | 34 (S1–GT–LFC) | 22 (own axis) |
+  | Stifle | 63 | 64 | 52 |
+  | Tarsus | 73 | 69 | 47 |
+
+  Elbow, carpus, stifle and tarsus agree; shoulder and hip ROM are larger, as expected when a 3D model with a pelvis/thorax segment and a scapula-to-humerus coordinate is compared with 2D marker triplets. The shoulder minimum (10^0.55 = 3.5°, SE of intercept 0.17 in log units, i.e. a factor of about 1.5) is very uncertain.
+
 ---
 
 ## Checked but not stored
 | Source | Why not stored |
 |---|---|
 | Pit Bull 2021, "Kinematics of healthy American Pit Bull Terrier dogs", Vet Med (Praha), PMC11927105 | CC BY-NC. Not stored. |
-| Charles et al. 2025, "The biomechanics of working dog locomotion I: Steady-state trotting", J Exp Biol 228, doi:10.1242/jeb.250523 | Crossref licence: CC BY 4.0 (from 2025-09-15). journals.biologists.com returned HTTP 403 three times, and doi.org twice (Oct 6). Retried Oct 7: (1) the Crossref-listed PDF link journals.biologists.com/jeb/article-pdf/doi/10.1242/jeb.250523/3665346/jeb250523.pdf gave 403; (2) Europe PMC has no full text (MED 40843505, "Subscription required", fullTextXML 404). No bioRxiv preprint is linked to it (bioRxiv publisher API for 10.1242, 2025–2026, has no dog-locomotion entry; Crossref has no posted-content match). No data deposit on Zenodo, Dryad or figshare. Not fetched. |
+| Charles et al. 2025, "The biomechanics of working dog locomotion I: Steady-state trotting", J Exp Biol 228, doi:10.1242/jeb.250523, **main article** | CC BY 4.0, but journals.biologists.com (article and PDF link) and doi.org returned HTTP 403 on Oct 6 and Oct 7; Europe PMC has no full text (MED 40843505); no preprint or data deposit. The **supplement** was obtained by GrumpyDingo in a browser and is used (Source 6); the main text, with its mean curves and spatiotemporal values, is still not obtained. |
 | Charles et al. 2025, "The biomechanics of working dog locomotion II: Loaded trotting", doi:10.1242/jeb.250524 | Licence not given; host blocked (403). |
 | Agostinho et al. 2011, "Kinematic analysis of Labrador Retrievers and Rottweilers trotting on a treadmill", Vet Comp Orthop Traumatol | Not open access; no supplement. |
 | Hottinger et al. 1996 (AJVR) | Not open access; no PMC copy. |
@@ -159,5 +195,5 @@ Added 2026-10-07 by a follow-up sub-agent.
 | Goldner et al. 2015, "Kinematic adaptations to tripedal locomotion in dogs", Vet J 204: 192–200, doi:10.1016/j.tvjl.2015.03.003 | Defines the angles used by Goldner 2018 (its Fig. 1). Elsevier, not open access. Not fetched; the convention was verified from the 2018 tables instead (see Source 5). |
 | Humphries 2020 OSF kinetic files | CC BY, but 17–290 MB per file, so not downloaded. |
 | pmc.ncbi.nlm.nih.gov article pages | Served a reCAPTCHA page. We used the Europe PMC REST full text instead. |
-| journals.biologists.com, www.mdpi.com | HTTP 403 from this environment. |
+| journals.biologists.com, www.mdpi.com | HTTP 403 from this environment (the JEB supplement was fetched by hand in a browser instead). |
 | Harness pilot (PLOS ONE 2022, PMC8906618), pivot-point study (PMC10360120), cavaletti study (PMC11665453), treadmill habituation (PMC5192580) | Checked. Each was about pace or amble, leg-function data only, data "on request", or p-values only. Nothing extracted. |

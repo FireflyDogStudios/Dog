@@ -15,7 +15,7 @@ Written Oct 7, 2026 by the data-fetch session (GrumpyDingo's request), for Firef
 | 01 | `01-skin-offsets` | fetched | Bone and skin-outline landmark pairs, offsets in withers-height fractions (17 landmarks) | Public domain (Ellenberger-Baum *Anatomie des Hundes*, pre-1931) |
 | 02 | `02-outline-landmarks` | fetched | StanfordExtra v12: 12,538 dogs, 120 breeds, 20 keypoints + body outline polygon each; `convert_stanfordextra.py` | MIT |
 | 03 | `03-dog-model` | fetched | Stark 2021 dog model: joints, segment lengths, 158 muscle lines, per-bone side-view outlines, Beagle forelimb walking data; Ellis 2018 greyhound hindlimb model | MIT (Stark files), CC BY 4.0 (paper, greyhound) |
-| 04 | `04-gait-curves` | fetched (walk 3D from JEB being added) | Joint angle vs % stride (walk, trot), touchdown/lift-off/ranges, duty factors, footfall phases | CC BY 4.0 (CC0 data for Goldner) |
+| 04 | `04-gait-curves` | fetched (walk curves 2D only, plus the Stark Beagle forelimb walk in 03) | Joint angle vs % stride (walk, trot), touchdown/lift-off/ranges, duty factors, footfall phases | CC BY 4.0 (CC0 data for Goldner) |
 | 05 | `05-muybridge` | fetched | Muybridge plates 704-710 (images kept, under 2 MB each) with per-frame paw contacts and duty factors | Public domain |
 | 06 | `06-limb-indices` | fetched | Samuels et al. 2013, full file: 150 carnivoran taxa; canid and hyena rows with 13 computed indices | CC0 |
 | 07 | `07-dingo` | partly | 37 cited numbers: dingo height, skull, weight; Carolina Dog standard; no measured limb bones | facts only (sources mostly not open) |
@@ -39,7 +39,7 @@ Matched to your plan (silhouette over the skeleton, then the gait engine, then t
    - `02-outline-landmarks/data.json` has real outlines for dingo (108 dogs), dhole (102), African hunting dog (84), basenji (157), kelpie (87).
 2. **Gait engine:**
    - `04-gait-curves/curves.csv`: angle vs % stride. Trot: Humphries 2020 (3D, 10 Labradors). Walk: Catavitello 2015 (2D) and the Beagle forelimb walking data in `03-dog-model/stark_fore_motion_mean.csv` (3D, shoulder 92-126, elbow 97-138).
-   - Duty factors: walk about 0.58-0.64, trot about 0.42-0.46. Walk footfall phases (LH = 0): LF 0.135, RH 0.49, RF 0.63. Trot: the diagonal fore lands about 4-6 % of the stride before its hind.
+   - Duty factors: walk about 0.58-0.64, trot about 0.42-0.46. Within the trot, duty factor scales as speed^-0.28 (fore) / ^-0.24 (hind), stride length as speed^0.59, cycle time as speed^-0.39 (Charles 2025, 27 working dogs): ready-made rules for speeding the gait up. Walk footfall phases (LH = 0): LF 0.135, RH 0.49, RF 0.63. Trot: the diagonal fore lands about 4-6 % of the stride before its hind.
    - Muybridge gallop duty factors 0.15-0.28 (a bit below the 0.25-0.35 estimate in `gait/REPORT.md`); Maggie's gallop stride 0.25 s, 2.85 m.
 3. **Carolina Dog file:**
    - Dingo shoulder height 542 mm (n = 117), condylobasal length 176.9 mm (n = 63), weight about 15 kg. Carolina Dog standard 457-610 mm, 15.9-22.7 kg.
@@ -88,13 +88,13 @@ Owned by GrumpyDingo's account. The **raw downloads live here, not in the repo**
 | `scale_beagle.zip` | 2 KB | Beagle → Shepherd scale factors | **no licence**: facts only | factors recorded as facts in 03 |
 | `stanfordextra_v12.zip` | 8 MB | `StanfordExtra_v12.json` + split files (from the authors' form) | MIT | 02 |
 | `doi_10_5061_dryad_77tm4__v20130107.zip` | 52 KB | Samuels 2013 data + README | CC0 | 06 |
-| `jeb250523supp.pdf` | 1.6 MB | supplement of "Working dog locomotion I", JEB 2025 (main text not obtained) | CC BY 4.0 | 04 (in progress at time of writing) |
+| `jeb250523supp.pdf` | 1.6 MB | supplement of "Working dog locomotion I", JEB 2025 (main text not obtained) | CC BY 4.0 | 04: speed-scaling exponents, trot joint ranges, body proportions; no curves, no walk (27 working dogs, trot only) |
 | folders `svg-character-animator-references`, `opencat`, `svg-design-skill` | | older references from Oct 4 | not examined in this session | |
 
 **Not usable:** Animal Kingdom (Ng et al. 2022). GrumpyDingo got its terms via the form: non-commercial research only, no sharing in part, no derived datasets. Nothing downloaded; the private links are deliberately not recorded anywhere. Its paper's public notes (23-keypoint scheme with 3 tail and 4 mouth points, 140-action behaviour list) are in `08-wild-keypoints/NOTE.md`.
 
 ## 7. Still open, and worth exploring
-- **JEB 2025 main text** (doi 10.1242/jeb.250523, CC BY): only the supplement is in hand. If its figures matter, GrumpyDingo can download the article PDF in a browser.
+- **JEB 2025 main text** (Charles et al. 2025, "The biomechanics of working dog locomotion I: Steady-state trotting", doi 10.1242/jeb.250523, CC BY): only the supplement is in hand. The main text would give the Froude definition, the speed range and the zero-pose angles needed to turn its joint extremes into included angles (now flagged as undetermined). Trot only, so it will not fill the walk gap.
 - **Stark forelimb extras not yet extracted:** joint moments (`inverse_dynamics*.sto`) and muscle activations and forces (`StaticOptimization`). Useful if you ever want "effort" to drive secondary motion (for example, which muscles bulge in stance).
 - **Ellenberger Tafel 2 (muscles)** was found but not measured: a public-domain side view of the superficial muscles, the best source for where bulges show under the skin. URL in `01-skin-offsets/NOTE.md`.
 - **Free-ranging village dog time budget** (the closest thing to a Carolina Dog's day): only paywalled papers found (Banerjee & Bhadra 2021).

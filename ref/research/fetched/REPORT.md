@@ -9,7 +9,7 @@ Fetched on Oct 6, 2026 by a data-gathering session (branch `claude/new-session-l
 | 01 | Skin-over-bone offsets | fetched | one artist's lean short-coated dog (confidence B); plates not stored, URLs in NOTE |
 | 02 | Outline landmarks (StanfordExtra) | fetched | full file obtained by GrumpyDingo via the form; 12,538 dogs, no wolf/coyote/Carolina Dog |
 | 03 | Dog model (OpenSim) | fetched | Stark files obtained by GrumpyDingo via SimTK; model joint limits are not anatomical (use the walking data) |
-| 04 | Gait curves | partly fetched | walk curves only from 2D video; JEB 2025 (CC BY) still blocked by the publisher |
+| 04 | Gait curves | partly fetched | walk curves only from 2D video (plus the Stark Beagle forelimb walk, item 03); JEB 2025 supplement added (trot only) |
 | 05 | Muybridge plates | fetched | left/right paw assignment is a best guess; frame interval known for 2 sequences only |
 | 06 | Limb indices (Samuels 2013) | fetched | full CC0 file obtained by GrumpyDingo; two index columns look swapped (flagged) |
 | 07 | Dingo and Carolina Dog | partly fetched | no open limb-bone lengths or ear lengths; cited single facts only |
@@ -22,7 +22,7 @@ Fetched on Oct 6, 2026 by a data-gathering session (branch `claude/new-session-l
 
 Done by GrumpyDingo on Oct 6 (files handed over via Google Drive, raw zips kept in Drive, not in the repo): the StanfordExtra form (item 02), the SimTK login for the Stark model (item 03) and the Dryad download (item 06). `Full dog model (curved)` and `scale_beagle` carry no licence: only cited facts from them are recorded.
 
-Still open: optionally, **JEB 2025 "Working dog locomotion I"** (doi 10.1242/jeb.250523, CC BY 4.0): the publisher blocks this workspace, so a browser download of the PDF and supplements into the Drive folder would add 3D walk curves (item 04). Nothing else needs a human. **Animal Kingdom** (item 08) was checked on Oct 7: its terms allow non-commercial research only and forbid sharing any part, so it is not usable for the game (details in `08-wild-keypoints/NOTE.md`).
+Still open: optionally, the **JEB 2025 main article** (Charles et al., doi 10.1242/jeb.250523, CC BY 4.0); its supplement is in item 04, but the main text is needed to convert its joint extremes to included angles. Nothing else needs a human. **Animal Kingdom** (item 08) was checked on Oct 7: its terms allow non-commercial research only and forbid sharing any part, so it is not usable for the game (details in `08-wild-keypoints/NOTE.md`).
 
 ## Item summaries
 
@@ -168,8 +168,9 @@ Folder: `03-dog-model/`
 - **Full curves:** angle-vs-%-stride curves for all six joints at walk and trot, from Catavitello 2015 (6 retrievers, 2D video). Trot curves for all six joints from Humphries 2020 raw 3D markers (10 Labradors).
 - **Partial curves:** Fischer 2018 gives 8-point stifle curves (fluoroscopy) and hock curves (markers) for 4 breeds at walk and trot.
 - **Event angles (added Oct 7):** Goldner 2018 (8 Beagles, sound trot, 1.4 m/s treadmill; CC BY, data CC0) gives touchdown, lift-off, stance and swing min/max/ROM for all six joints, both sides: 96 rows in `joint_extremes.csv` (`source_id` goldner2018). Already included angles (180 = straight), checked against the segment angles; the hip uses a pelvic axis defined in a paper that is not open (Goldner 2015).
-- **Units:** all angles are included angles, 180 = straight.
-- **Missing:** no open walk curves from 3D marker data; the hip is non-standard in one source.
+- **JEB 2025 supplement (added Oct 7, `jeb2025`):** Charles et al., "The biomechanics of working dog locomotion I: Steady-state trotting" (J Exp Biol 228: jeb250523, CC BY 4.0). Only the supplement was obtained (GrumpyDingo downloaded it by hand; the main article is still blocked). It has **no curves and no walk data**: 27 dogs (10 Labradors, 7 Shepherds, 10 Spaniels), 3D markers into breed-specific OpenSim models, trot only. We stored 10 speed-scaling exponents in `duty_phase.csv` and 18 trot joint-extreme rows in `joint_extremes.csv` (model-coordinate magnitudes back-transformed from a log-log regression at Froude 1; **not included angles**, convention undetermined; only the derived ROM is comparable). Nothing added to `curves.csv`.
+- **Units:** all angles are included angles, 180 = straight (except the `jeb2025` coordinate rows, flagged).
+- **Missing:** still no open walk curves from 3D marker data (the JEB supplement did not change this: walk curves come only from Catavitello's 2D video, plus Fischer's 8-point stifle and hock walk points); the hip is non-standard in one source.
 
 | Trot (included °, min–max of mean curve) | Humphries 2020, Labrador, 3D | Catavitello 2015, retrievers, 2D |
 |---|---|---|
@@ -196,8 +197,25 @@ Folder: `03-dog-model/`
 | Touchdown phase LF / RH / RF (LH = 0) | 0.135 / 0.49 / 0.63 (Catavitello) | 0.44–0.45 / 0.49–0.51 / 0.94–0.96 |
 | Stride frequency | 1.46 Hz | 2.0 Hz |
 
+| Trot speed scaling (Charles 2025, 27 dogs; log-log slopes vs velocity) | Exponent (95% CI) |
+|---|---|
+| Cycle time | −0.39 (−0.44 to −0.33) |
+| Stride length fore / hind | 0.59 / 0.59 |
+| Duty factor fore / hind | −0.28 (−0.41 to −0.15) / −0.24 (−0.36 to −0.12) |
+
+So within the trot, going faster mostly lengthens the stride (v^0.59) and shortens the cycle a little less (v^−0.39); duty factor drops slowly. Joint extremes hardly change with speed (only maximum stifle extension has a significant slope).
+
+| Trot ROM, degrees | Charles 2025 (OpenSim, EST) | Humphries 2020 LRD | Goldner 2018 Beagle L |
+|---|---|---|---|
+| Shoulder | 60 | 40 | 19 |
+| Elbow | 65 | 69 | 65 |
+| Carpus | 123 | 138 | 129 |
+| Hip | 61 | 34 | 22 |
+| Stifle | 63 | 64 | 52 |
+| Tarsus | 73 | 69 | 47 |
+
 **Blocked or not stored:**
-- JEB 2025 "Working dog locomotion I": CC BY, but the host returned 403 again on Oct 7 (PDF link), Europe PMC has no full text, and no preprint or data deposit exists.
+- JEB 2025 "Working dog locomotion I": the **main article** is still blocked (host 403 on Oct 6 and 7, no Europe PMC full text, no preprint or data deposit); its supplement is in hand and used. Its mean joint curves (if any) and spatiotemporal means are in the main text only.
 - Goldner 2015 (Vet J), which defines Goldner 2018's angles: not open access.
 - Pit Bull 2021 and Beagle young/old 2017: CC BY-NC.
 - Agostinho 2011, Hottinger 1996 and Fischer & Lilje's book: not open access.

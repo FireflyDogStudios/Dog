@@ -23,3 +23,9 @@ Attribution:
   short-term pelvic limb lameness in trotting dogs. BMC Vet Res 14: 183.
   doi:10.1186/s12917-018-1484-2. Article CC BY 4.0; data CC0 1.0 (as stated in the
   article). Additional files 1 and 2 (sound-trot joint angles extracted).
+- Charles JP, Comerford EJ, Ratcliffe VF, Kissane RWP, Gooding I, Cottriall S,
+  Maddox TW, Bates KT (2025) The biomechanics of working dog locomotion I:
+  Steady-state trotting. J Exp Biol 228(17): jeb250523. doi:10.1242/jeb.250523.
+  CC BY 4.0 (per Crossref). Supplementary information only (Tables S3 and S4:
+  regression slopes stored; joint-angle intercepts back-transformed and a ROM
+  derived by us; see NOTE.md).
