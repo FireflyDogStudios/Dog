@@ -31,3 +31,6 @@ Fetched 2026-10-06. Coordinates only, no images. Use for ratios and pose ranges,
 
 ## Not stored
 - **Animal Kingdom** (https://github.com/sutdcv/Animal-Kingdom, commit 23320fb38a9e4b81adc7dd3f4b19fa32ca69d683): no licence for the dataset anywhere in the repo (only the bundled SlowFast code has its own Apache LICENSE); the README sends downloads through a Google Form (https://forms.gle/NipvmReDKaD5zUEw6). Licence unclear and form-gated, so nothing stored. It remains the only found source with hyena, jackal, coyote, dingo, African wild dog and desert fox keypoints; ask the authors.
+
+## Animal Kingdom: terms checked, not usable (Oct 7, 2026)
+GrumpyDingo filled in the request form (https://forms.gle/NipvmReDKaD5zUEw6) and received the Terms of Use. The dataset (Ng et al. 2022, CVPR, Computer Vision and Learning Group, SUTD) is provided only for **non-commercial scientific research**; it must not be shared or redistributed **in part or full**; it must not be altered to produce a new dataset without written consent; the videos come from YouTube and the group holds no copyright to them. A game that may be sold cannot use it, and no derived keypoints may be stored here. Nothing was downloaded. The private download links are deliberately not recorded. The only route would be written permission from the authors, and the YouTube footage would still be a problem.

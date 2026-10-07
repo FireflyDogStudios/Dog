@@ -13,7 +13,7 @@ Fetched on Oct 6, 2026 by a data-gathering session (branch `claude/new-session-l
 | 05 | Muybridge plates | fetched | left/right paw assignment is a best guess; frame interval known for 2 sequences only |
 | 06 | Limb indices (Samuels 2013) | fetched | full CC0 file obtained by GrumpyDingo; two index columns look swapped (flagged) |
 | 07 | Dingo and Carolina Dog | partly fetched | no open limb-bone lengths or ear lengths; cited single facts only |
-| 08 | Wild canid keypoints | partly fetched | AP-10K / APT-36K have only dog, wolf, fox; Animal Kingdom has no licence |
+| 08 | Wild canid keypoints | partly fetched | AP-10K / APT-36K have only dog, wolf, fox; Animal Kingdom's terms forbid commercial use (not usable) |
 | 09 | Face and ear | partly fetched | no open ear-rotation or vocal/yawn gape-angle data |
 | 10 | Coat palettes | fetched (Carolina Dog partly) | Carolina Dog from 2 photos (Wikimedia rate limits, most photos CC BY-SA) |
 
@@ -21,8 +21,7 @@ Fetched on Oct 6, 2026 by a data-gathering session (branch `claude/new-session-l
 
 Done by GrumpyDingo on Oct 6 (files handed over via Google Drive, raw zips kept in Drive, not in the repo): the StanfordExtra form (item 02), the SimTK login for the Stark model (item 03) and the Dryad download (item 06). `Full dog model (curved)` and `scale_beagle` carry no licence: only cited facts from them are recorded.
 
-Still open:
-1. **Animal Kingdom** (item 08): no licence stated and downloads go through a Google form (forms.gle/NipvmReDKaD5zUEw6). Ask the authors for a licence; it is the only source found with hyena, jackal, coyote, dingo and African wild dog keypoints.
+Still open: nothing that needs a human. **Animal Kingdom** (item 08) was checked on Oct 7: its terms allow non-commercial research only and forbid sharing any part, so it is not usable for the game (details in `08-wild-keypoints/NOTE.md`).
 
 ## Item summaries
 
