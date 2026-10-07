@@ -4,7 +4,7 @@ Who to credit, and under what licence, for everything stored under `ref/`. **Gen
 
 Rules: stored items are public domain, CC0, CC BY, MIT, BSD or Apache only (`docs/claude/DEN-TEAM.md`, house rules). **CC BY and MIT items must be credited wherever the item, or something made from it, ships.** Part E lists facts taken from papers under other licences: cited, never copied.
 
-Counts: 197 photos and plates (0 catalogue rows skipped because their file is not in the repo), 3 3D scans, 15 datasets and models, 20 paper tables, 97 cited-fact sources.
+Counts: 197 photos and plates (0 catalogue rows skipped because their file is not in the repo), 3 3D scans, 15 datasets and models, 21 paper tables, 113 cited-fact sources.
 
 ## A. Photos and plates
 
@@ -353,22 +353,23 @@ Licence as recorded by Scout in each `data.csv`. Credit these where the numbers 
 | data_caudal_stark.csv | MIT | <https://simtk.org/projects/dogmodel> | 05-tail |
 | Duver, Precht, Fosgate, Forterre & Hettlich 2018, Front Vet Sci 5:248, Table 3 | CC BY 4.0 | 10.3389/fvets.2018.00248 | 13-disc-share |
 | De Decker, Gielen, Duchateau et al. 2012, BMC Vet Res 8:126 | CC BY 2.0 | 10.1186/1746-6148-8-126 | 13-disc-share |
-| measured by Scout on ref/research/scout/10-stark-meshes/meshes (Stark, Fischer, Hunt et al. 2021, model files MIT) | MIT (model files); measurements ours | 10.1038/s41598-021-90058-0 | 13-disc-share, 14-muscle-body, 15-topline |
+| measured by Scout on ref/research/scout/10-stark-meshes/meshes (Stark, Fischer, Hunt et al. 2021, model files MIT) | MIT (model files); measurements ours | 10.1038/s41598-021-90058-0 | 13-disc-share, 14-muscle-body, 15-topline, 16-ribcage-width, 17-withers-spines |
 | Bishop, Wright & Pierce 2021 PeerJ 9:e12574 Supplemental Data S2 (raw data compiled from Williams et al. 2008 and Ellis et al. 2018) | CC BY 4.0 | 10.7717/peerj.12574 | 14-muscle-body |
 | Ellis, Rankin & Hutchinson 2018 Front Bioeng Biotechnol 6:162, Table 2 | CC BY 4.0 | 10.3389/fbioe.2018.00162 | 14-muscle-body |
 | Brown et al. 2020 Front Bioeng Biotechnol 8:150, Table 2 | CC BY 4.0 | 10.3389/fbioe.2020.00150 | 14-muscle-body |
 | Kilbourne & Hoffman 2013 PLoS ONE 8:e78392, Table 1 | CC BY | 10.1371/journal.pone.0078392 | 14-muscle-body |
 | Garbin et al. 2022 Animals 12:2674 | CC BY 4.0 | 10.3390/ani12192674 | 14-muscle-body |
 | BMC Vet Res 2026, abdominal visceral vs subcutaneous fat distribution | CC BY 4.0 | 10.1186/s12917-026-05503-x | 14-muscle-body |
-| Kyrgyz Taigan morphometrics, Vet Med Sci 2025 | CC BY 4.0 | 10.1002/vms3.70409 | 14-muscle-body |
-| Soeratanapant et al. 2024 Vet World 17:2635-2643 | CC BY (Vet World open access) | 10.14202/vetworld.2024.2635-2643 | 14-muscle-body |
+| Soeratanapant et al. 2024 Vet World 17:2635-2643 | CC BY (Vet World open access) | 10.14202/vetworld.2024.2635-2643 | 14-muscle-body, 16-ribcage-width |
 | Front Vet Sci 2026, hindlimb muscle condition score | CC BY 4.0 | 10.3389/fvets.2026.1854592 | 14-muscle-body |
 | Vet Sci 2025 sled dog BCS validation, Table 2 | CC BY 4.0 | 10.3390/vetsci12080766 | 14-muscle-body |
 | Animals 2025, attenuation of lumbar epaxial musculature | CC BY 4.0 | 10.3390/ani15101468 | 14-muscle-body |
 | Animals 2025 lumbar ESP block (10.3390/ani15152157, cats) + canine ESP refs therein (Portela 2020 10.1016/j.vaa.2019.10.005) | CC BY 4.0 | 10.3390/ani15152157 | 14-muscle-body |
 | Payan-Carreira R, Martins L, Miranda S, Oliverio P, Silva SR 2016, Acta Vet Scand 58 | CC BY 4.0 | 10.1186/s13028-016-0239-y | 15-topline |
+| Bodh et al. 2016, Vet World 9:371-376, Table 5 | CC BY 4.0 (data CC0) | 10.14202/vetworld.2016.371-376 | 16-ribcage-width |
+| Tangpakornsak T et al. 2023, Vet Sci 10(2):168 | CC BY 4.0 | 10.3390/vetsci10020168 | 17-withers-spines |
 
-15 table rows had no DOI or link (Scout estimates, notes such as "this folder", repeats of a photo credited in part A) and are left out here; their sources are in part A or C, or in the folder's own data.csv.
+42 table rows had no DOI or link (Scout estimates, notes such as "this folder", repeats of a photo credited in part A) and are left out here; their sources are in part A or C, or in the folder's own data.csv.
 
 ## E. Facts only (cited, nothing copied)
 
@@ -454,9 +455,10 @@ Single numbers or findings from papers and sources under closed, non-commercial 
 | measured by Scout on ref/research/scout/10-stark-meshes/meshes (Stark, Fischer, Hunt et al. 2021, model files MIT) | MIT (model files); measurements ours | 10.1038/s41598-021-90058-0 | 13-disc-share |
 | Shahar & Milgram 2001 Am J Vet Res 62:928-933 | closed | 10.2460/ajvr.2001.62.928 | 14-muscle-body |
 | Shahar & Milgram 2005 J Morphol 263:107-117 | closed | 10.1002/jmor.10295 | 14-muscle-body |
-| Gunn 1978 (cited in Proc Nutr Soc 1985 S0029665185000489 and Gunn PhD thesis, era.ed.ac.uk/handle/1842/29789) | closed |  | 14-muscle-body |
+| Gunn 1978 (cited in Proc Nutr Soc 1985 S0029665185000489 and Gunn PhD thesis, era.ed.ac.uk/handle/1842/29789) | closed | 10.1079/PNS19850018 (citing review); thesis hdl: 1842/27478 | 14-muscle-body |
 | Pasi & Carrier 2003 J Evol Biol 16:324-332 | closed | 10.1046/j.1420-9101.2003.00512.x | 14-muscle-body |
 | Hudson et al. 2011 J Anat 218:363-374 (hindlimb); 218:375-385 (forelimb) | closed (free to read in PMC, no licence) | 10.1111/j.1469-7580.2010.01310.x | 14-muscle-body |
+| Kyrgyz Taigan morphometrics, Vet Med Sci 2025 | CC BY-NC-ND 4.0 | 10.1002/vms3.70409 | 14-muscle-body |
 | Vet Comp Orthop Traumatol 2022, paraspinal musculature with/without AAI | CC BY-NC-ND | 10.1055/s-0042-1748860 | 14-muscle-body |
 | veterinary dermatology references (e.g. J Hellenic Vet Med Soc review; Theerawatanasirikul 2012 10.4142/jvs.2012.13.2.163) | CC BY-NC (jvs) | 10.4142/jvs.2012.13.2.163 | 14-muscle-body |
 | Sumena et al. 2025 J Indian Vet Assoc 23(2):54-65 | unclear (facts only) | 10.55296/JIVA/23.2.2025.54-65 | 14-muscle-body |
@@ -473,3 +475,18 @@ Single numbers or findings from papers and sources under closed, non-commercial 
 | Evans & de Lahunta, Miller's Anatomy of the Dog (via UMN vet anatomy, WikiVet) | closed textbook: cited fact |  | 15-topline |
 | Muller & Kirk's Small Animal Dermatology (Miller Griffin Campbell), standard figure | closed textbook: cited fact |  | 15-topline |
 | Scout derivation | this file |  | 15-topline |
+| Haryana Veterinarian 61(SI):56-59 (2022), thoracic radiographic reference values in GSD, Table 1 group II | no licence statement (treat closed) |  | 16-ribcage-width |
+| Haryana Veterinarian 61(SI):56-59 (2022), Table 1 group II | closed |  | 16-ribcage-width |
+| Jepsen-Grant et al. 2013 Vet Radiol Ultrasound 54:3-8, as quoted in Soeratanapant 2024 (CC BY) | closed (cited via CC BY text) | 10.1111/vru.12004 | 16-ribcage-width |
+| Ari et al. 2025, Vet Med Sci 11:e70409 (PMC12077753) | PMC states CC BY-NC-ND 4.0 (scout-14 recorded CC BY: Atlas should recheck) | 10.1002/vms3.70409 | 16-ribcage-width |
+| Ari et al. 2025, Vet Med Sci 11:e70409 | see above | 10.1002/vms3.70409 | 16-ribcage-width |
+| ref/research/skeleton/REPORT.md §3 | already in repo |  | 16-ribcage-width |
+| derived from Bodh 2016 + Haryana 2022 + Soeratanapant 2024 + Stark mesh cross-check | derivation |  | 16-ribcage-width |
+| Bodh et al. 2016 | CC BY 4.0 | 10.14202/vetworld.2016.371-376 | 16-ribcage-width |
+| Sisson S 1914, The Anatomy of the Domestic Animals, p.187 (Skeleton of the Dog, vertebral column), archive.org anatomyofdomesti00siss | public domain |  | 17-withers-spines |
+| Sisson 1914 p.187 | public domain |  | 17-withers-spines |
+| Girgin A et al. 1988, Eurasian J Vet Sci (Selcuk) 4(1):169-182 | journal page open; treat as cited fact |  | 17-withers-spines |
+| Morphometric characterization of the Akbas Turkish shepherd dog 2020, Turkish J Agric Food Sci Tech 8(8) | journal open access; licence not verified: cited fact | 10.24925/turjaf.v8i8.1692-1698.3452 | 17-withers-spines |
+| Eurasian J Vet Sci comparison of Turkish shepherd dogs (id 856) | cited fact |  | 17-withers-spines |
+| this file (rows above) | derived |  | 17-withers-spines |
+| this file | derived |  | 17-withers-spines |
