@@ -23,6 +23,9 @@
 - Commons, CC BY-SA (Scout listed most of these): Tomc1977, Kurt Sagmeister, Calabash13, Onepace, Flaxseedoil1000 ("American Dingo aka Carolina Dog1"), Noloha ×2. Also `2013072515020909 MyDogs 622.jpg` and the four `Karolínský pes` files (BY-SA 4.0), and `Carolina_Dog.jpg` (GFDL / BY-SA 3.0).
 
 ## What would actually work
-- **Photos GrumpyDingo or friends take** of a Carolina Dog standing side-on: the best source by far.
+- ~~Photos GrumpyDingo or friends take of a Carolina Dog~~: **not available.** GrumpyDingo confirmed (Oct 7) that he does not know anyone with a Carolina Dog; the idea came from a misunderstanding.
 - **Asking SteveMcD** (Flickr) whether they have side-on shots of Tsuki. This is a permission request, so it is for GrumpyDingo to send, not the Photographer.
 - **Proxies:** landrace village/pariah dogs (Scout ranks 2–5) and the dingo set.
+
+## Update (Oct 7)
+GrumpyDingo answered: no Carolina Dog owners to ask. So the working references are the **dingo set** and the **village/pariah-dog proxies** (Scout 01), plus any Carolina Dog photo that later turns up under a clean licence. The only open lead is a Flickr message to SteveMcD (CC BY 2.0, photographer of 'Tsuki'); it is not urgent and GrumpyDingo has not asked for it.
