@@ -74,6 +74,23 @@ class MailTest(unittest.TestCase):
         sh('git', 'checkout', '-q', 'claude/team-a', cwd=self.a)
         self.assertNotEqual(mail(self.a, 'send', '--from', 'Alpha', '--to', 'Beta', '--re', 'x', '--body', '  ', ok=False).returncode, 0)
 
+    def test_post_makes_store_documents(self):
+        note = os.path.join(self.a, 'docs/team/inbox'); os.makedirs(note)
+        with open(os.path.join(note, '2026-10-07-alpha-demo.md'), 'w') as f:
+            f.write("# Demo done\nFrom: alpha · 2026-10-07\nNeeds from Firefly: a review\n- it works\n- second line\n- where: `docs/team/alpha/demo.md`\n")
+        mail(self.a, 'send', '--from', 'Alpha', '--to', 'Beta', '--re', 'Hi', '--body', 'x')
+        mid = json.loads(mail(self.a, 'all', '--json', '--no-fetch').stdout)[0]['id']
+        out = os.path.join(self.tmp.name, 'post')
+        r = mail(self.a, 'post', '--note', os.path.join(note, '2026-10-07-alpha-demo.md'), '--mail', mid, '--out', out, '--url', 'https://claude.ai/artifact/TEST')
+        self.assertIn('action=batch', r.stdout); self.assertIn('https://claude.ai/artifact/TEST', r.stdout)
+        n = json.load(open(os.path.join(out, 'notes.2026-10-07-alpha-demo.json')))
+        self.assertEqual((n['nick'], n['from'], n['headline'], n['needs'], n['state'], n['branch']), ('Alpha', 'alpha', 'Demo done', 'a review', 'new', 'claude/team-a'))
+        self.assertEqual(n['body'], '- it works\n- second line'); self.assertEqual(n['path'], 'docs/team/alpha/demo.md'); self.assertTrue(n['date'].startswith('2026-10-07T'))
+        m = json.load(open(os.path.join(out, f'mail.{mid}.json')))
+        self.assertEqual((m['from'], m['to']), ('Alpha', ['Beta']))
+        writes = json.loads(r.stdout.split('writes=\n')[1].split('\n')[0])
+        self.assertTrue(all(w['op'] == 'set' and 'if_version' not in w for w in writes))             # create only: the tool itself refuses to overwrite
+
 
 if __name__ == '__main__':
     unittest.main()

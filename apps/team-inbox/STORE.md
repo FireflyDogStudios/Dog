@@ -23,3 +23,7 @@ Inbox = notes not archived/trashed. Needs you = notes that need GrumpyDingo. Arc
 - `mail/<id>`: `id, thread, from, to[], cc[], re, type, date, body, branch, branches[]`. `<id>` is the mail file name without `.md`.
 - Added by the page for GrumpyDingo's own view: `seen` (bool), `starred` (bool). **Firefly's sync must merge into these docs (`update`, or `set` that keeps `seen` and `starred`), not replace them.**
 - The page shows them read-only (no archive or trash) in the Team mail folder, threaded by `thread`. Reply, Reply all and Forward go out as ordinary messages through the compose window, so they appear in Sent and in the same thread.
+
+## Outbox relay and posting (Oct 7)
+- A failed send keeps its `outbox/<id>` doc with `status: failed` and `results[{nick, ok, code}]` (`code` is the runtime's error code, for example `blocked_by_policy`, or `not_on_team`). `tools/team/relay_outbox.py` plans the relay and builds the batch that moves delivered messages to `sent/<id>` with `relayed_by` and result codes starting `relayed by <name>`; the page shows those as "Relayed by Firefly".
+- `tools/team/mail.py post` builds `notes/<id>` (id = the note file name without `.md`, fields as above, `state: new`) and `mail/<id>` documents for members to post themselves. Create only; never overwrite `state`, `seen` or `starred`.

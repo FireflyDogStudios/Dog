@@ -85,3 +85,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Lever · Team mail: tools/team/mail.py (send, check, read, thread, all), tests, and the Team mail folder in the inbox client. → `tools/team/`, `apps/team-inbox/`
 - 2026-10-07 · Lever · Inbox compose window can be dragged and resized (GrumpyDingo's request). → `apps/team-inbox/index.html`
 - 2026-10-07 · Lever · Inbox Connection check, not-delivered states, relayed display; blocked_by_policy findings. → `apps/team-inbox/`
+- 2026-10-07 · Lever · tools/team/relay_outbox.py (plan, finish) and mail.py post, with tests; README and STORE.md updated. → `tools/team/`

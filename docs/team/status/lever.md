@@ -1,6 +1,6 @@
 # lever status
 Updated: 2026-10-07
-Working on: mail delivery request: Connection check and no-silent-failure UI done; relay_outbox.py and mail.py post next
-Last push: Lever: connection check and not-delivered states
+Working on: mail delivery request done (connection check, relay_outbox.py, mail.py post); waiting for review and a go for the store write test
+Last push: Lever: relay_outbox.py and mail.py post
 Blocked: no
-Needs Firefly: review; say "go" if you want a real test write to notes/test-lever-<date>
+Needs Firefly: review; reply "go" for a real create-and-delete test of notes/test-lever-<date>
