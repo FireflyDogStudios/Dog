@@ -2,7 +2,7 @@
 
 Firefly, Oct 6 2026. Research only: nothing in the game or the tools changed. Method reused (read-only import) from `tools/den/species.py`. Scripts were run from the scratchpad; every number below is in `proportions.json`.
 
-> **Out of date (Oct 7, Atlas; approval A-002 item 6).** AP-10K and APT-36K were fetched on Oct 6 after all (`../fetched/08-wild-keypoints/`, 7,078 dog/wolf/fox instances), and the full MIT StanfordExtra v12 is in `../fetched/02-outline-landmarks/`. `stanfordextra_breeds_unitB.csv` has been regenerated from that MIT data (120 breeds, incl. dingo and dhole; `tools/atlas/regen_unitB.py`). The StanfordExtra numbers quoted below and the `se_unitB` block of `proportions.json` still come from the AGPL-labelled Ultralytics mirror and await the same regeneration.
+> **Out of date (Oct 7, Atlas; approval A-002 item 6).** AP-10K and APT-36K were fetched on Oct 6 after all (`../fetched/08-wild-keypoints/`, 7,078 dog/wolf/fox instances), and the full MIT StanfordExtra v12 is in `../fetched/02-outline-landmarks/`. `stanfordextra_breeds_unitB.csv` has been regenerated from that MIT data (120 breeds, incl. dingo and dhole; `tools/atlas/regen_unitB.py`). The StanfordExtra numbers quoted below and the `se_unitB` block of `proportions.json` were regenerated from the MIT data the same day (approval A-006).
 
 ## 1. Survey
 
@@ -64,18 +64,20 @@ Reachable from here: github.com, raw.githubusercontent.com, GitHub release asset
 | chihuahua | AwA-Pose | 31 | 0.56 (30) | 0.45 (31) | 0.45 (31) | 0.31 (31) | 0.42 (26) | 0.85 (31) |
 | fox | AwA-Pose | 43 | 0.49 (43) | 0.49 (41) | 0.31 (43) | 0.14 (43) | 0.74 (39) | 0.66 (43) |
 | raccoon | AwA-Pose | 20 | 0.58 (20) | 0.48 (20) | 0.43 (20) | 0.15 (20) | 0.71 (13) | 0.74 (20) |
-| all 112 domestic breeds | StanfordExtra | 1283 | 0.49 (1228) | 0.54 (1164) | 0.34 (1283) | 0.20 (1007) | 0.37 (1133) | 0.86 (1283) |
-| basenji | StanfordExtra | 27 | 0.43 (26) | 0.53 (27) | 0.34 (27) | 0.10 (26) | 0.14 (26) | 0.86 (27) |
-| Norwegian_elkhound | StanfordExtra | 23 | 0.50 (23) | 0.51 (21) | 0.39 (23) | 0.10 (22) | 0.25 (21) | 0.93 (23) |
-| Siberian_husky | StanfordExtra | 11 | 0.59 (11) | 0.49 (10) | 0.48 (11) | 0.13 (10) | 0.36 (9) | 0.97 (11) |
-| malamute | StanfordExtra | 12 | 0.48 (11) | 0.54 (11) | 0.40 (12) | 0.12 (11) | 0.45 (10) | 0.82 (12) |
+| all 120 domestic breeds | StanfordExtra | 1701 | 0.49 (1624) | 0.54 (1548) | 0.34 (1701) | 0.20 (1007) | 0.37 (1499) | 0.86 (1701) |
+| basenji | StanfordExtra | 30 | 0.43 (29) | 0.52 (30) | 0.33 (30) | 0.10 (26) | 0.13 (29) | 0.85 (30) |
+| Norwegian_elkhound | StanfordExtra | 28 | 0.50 (27) | 0.51 (25) | 0.39 (28) | 0.10 (22) | 0.26 (26) | 0.94 (28) |
+| Siberian_husky | StanfordExtra | 12 | 0.60 (12) | 0.51 (11) | 0.46 (12) | 0.13 (10) | 0.35 (10) | 0.93 (12) |
+| malamute | StanfordExtra | 15 | 0.51 (14) | 0.59 (14) | 0.38 (15) | 0.12 (11) | 0.44 (11) | 0.90 (15) |
 | Eskimo_dog | StanfordExtra | 9 | 0.54 (9) | 0.51 (8) | 0.48 (9) | 0.13 (8) | 0.43 (9) | 1.07 (9) |
 | Ibizan_hound | StanfordExtra | 24 | 0.53 (24) | 0.58 (24) | 0.26 (24) | 0.12 (22) | 0.46 (23) | 0.79 (24) |
-| Saluki | StanfordExtra | 39 | 0.50 (37) | 0.59 (34) | 0.30 (39) | 0.22 (26) | 0.55 (37) | 0.81 (39) |
-| whippet | StanfordExtra | 15 | 0.52 (15) | 0.62 (15) | 0.29 (15) | 0.11 (10) | 0.43 (13) | 0.79 (15) |
-| English_foxhound | StanfordExtra | 46 | 0.52 (45) | 0.63 (45) | 0.33 (46) | 0.21 (37) | 0.52 (45) | 0.91 (46) |
-| beagle | StanfordExtra | 14 | 0.55 (11) | 0.59 (12) | 0.41 (14) | 0.44 (10) | 0.45 (14) | 0.87 (14) |
-| Afghan_hound | StanfordExtra | 20 | 0.54 (19) | 0.58 (20) | 0.29 (20) | 0.39 (12) | 0.33 (18) | 0.85 (20) |
+| Saluki | StanfordExtra | 43 | 0.50 (40) | 0.60 (37) | 0.29 (43) | 0.22 (26) | 0.55 (41) | 0.83 (43) |
+| whippet | StanfordExtra | 21 | 0.51 (20) | 0.62 (21) | 0.32 (21) | 0.11 (10) | 0.43 (19) | 0.75 (21) |
+| English_foxhound | StanfordExtra | 52 | 0.52 (51) | 0.62 (51) | 0.33 (52) | 0.21 (37) | 0.51 (51) | 0.91 (52) |
+| beagle | StanfordExtra | 16 | 0.55 (13) | 0.59 (14) | 0.41 (16) | 0.44 (10) | 0.45 (15) | 0.91 (16) |
+| Afghan_hound | StanfordExtra | 23 | 0.54 (22) | 0.57 (23) | 0.29 (23) | 0.39 (12) | 0.33 (19) | 0.85 (23) |
+| dingo | StanfordExtra | 5 | 0.63 (5) | 0.44 (4) | 0.52 (5) | – | 0.45 (5) | 0.67 (5) |
+| dhole | StanfordExtra | 15 | 0.40 (14) | 0.48 (13) | 0.30 (15) | – | 0.49 (14) | 0.70 (15) |
 
 Notes: front leg = elbow-wrist-paw, hind leg = stifle-hock-paw (bent lengths, summed), chest depth = back_middle to belly_bottom (AwA only), neck = neck_base to withers (AwA only), head = ear base to nose, muzzle = eye to nose (AwA only), ear = base to tip, tail = base to tip straight (curled tails read short: basenji 0.14, elkhound 0.25). The full 112-breed table is `stanfordextra_breeds_unitB.csv`; most breeds have 5-50 profile photos.
 
@@ -99,30 +101,34 @@ Proxies, because no set marks the sheet's exact landmarks: body length = skull t
 | tail : topline-to-paw | 0.69 [0.54–0.78] (39) | 0.70 [0.53–0.89] (54) | 0.67 [0.57–0.80] (42) | 0.59 [0.41–0.72] (45) | 0.39 [0.30–0.57] (23) | 1.02 [0.85–1.17] (47) | 0.93 [0.60–1.04] (24) |
 | neck : head | 0.35 [0.22–0.46] (44) | 0.27 [0.19–0.38] (60) | 0.25 [0.20–0.40] (48) | 0.41 [0.29–0.49] (48) | 0.24 [0.15–0.41] (25) | 0.28 [0.20–0.38] (53) | 0.20 [0.16–0.25] (30) |
 
-StanfordExtra (all domestic, unit B), the ratios its points allow: body : topline-to-paw 1.17 [0.98–1.34] (1283); head : topline-to-paw 0.39 [0.33–0.48] (1283); elbow height : topline-to-paw 0.51 [0.44–0.57] (1244); tail : topline-to-paw 0.42 [0.27–0.59] (1133)
+StanfordExtra (all domestic, unit B), the ratios its points allow: body : topline-to-paw 1.17 [0.97–1.34] (1701); head : topline-to-paw 0.40 [0.34–0.49] (1701); elbow height : topline-to-paw 0.50 [0.44–0.57] (1652); tail : topline-to-paw 0.41 [0.27–0.59] (1499)
 
 ### Table D: section 5 angles, degrees, STANDING profile photos only. median [middle half] (n)
 
 | angle | wolf | german_shepherd | collie | dalmatian | chihuahua | fox | raccoon | StanfordExtra all domestic |
 |---|---|---|---|---|---|---|---|---|
-| front pastern (carpus) angle | 165 [154–172] (13) | 158 [140–161] (13) | 158 (3) | 138 (3) | 161 [124–172] (4) | 154 [138–167] (13) | 143 (3) | 156 [145–165] (475) |
-| hock angle | 156 [136–173] (13) | 145 [137–155] (13) | 178 (3) | 170 (3) | 173 [146–174] (4) | 152 [124–165] (13) | 159 (3) | 148 [136–160] (444) |
+| front pastern (carpus) angle | 165 [154–172] (13) | 158 [140–161] (13) | 158 (3) | 138 (3) | 161 [124–172] (4) | 154 [138–167] (13) | 143 (3) | 156 [146–166] (601) |
+| hock angle | 156 [136–173] (13) | 145 [137–155] (13) | 178 (3) | 170 (3) | 173 [146–174] (4) | 152 [124–165] (13) | 159 (3) | 148 [136–160] (567) |
 | neck vs back line | 13 [-1–28] (13) | 12 [-12–26] (13) | 25 (3) | 18 (3) | 42 [15–83] (4) | 2 [-8–27] (13) | -16 (3) | – |
 | head: muzzle vs skull axis | 170 [164–177] (13) | 170 [166–173] (13) | 166 (3) | 168 (3) | 160 [151–168] (4) | 167 [163–175] (13) | 170 (3) | – |
 | ear carriage vs skull | 27 [18–41] (13) | 24 [5–46] (13) | -3 (3) | -99 (3) | 9 [-49–41] (4) | 19 [0–46] (13) | 36 (3) | -98 [-118–-39] (380) |
-| tail carriage vs topline | -75 [-83–-69] (13) | -44 [-68–41] (13) | -40 (2) | -24 (3) | 120 (2) | -56 [-73–-30] (11) | -42 (2) | 7 [-58–88] (405) |
+| tail carriage vs topline | -75 [-83–-69] (13) | -44 [-68–41] (13) | -40 (2) | -24 (3) | 120 (2) | -56 [-73–-30] (11) | -42 (2) | 4 [-58–84] (517) |
 
 StanfordExtra breeds, standing (ear carriage / tail carriage / carpus / hock, medians):
 - basenji (n=8): 29 (7) / -10 (8) / 140 (8) / 152 (8)
-- Norwegian_elkhound (n=8): 48 (8) / 167 (7) / 161 (8) / 139 (8)
+- Norwegian_elkhound (n=10): 48 (8) / 161 (9) / 161 (10) / 139 (10)
 - Siberian_husky (n=5): 33 (4) / 100 (4) / 148 (5) / 143 (4)
 - malamute (n=4): 48 (4) / 33 (4) / 155 (4) / 162 (3)
-- Eskimo_dog (n=4): 55 (3) / 26 (4) / 149 (4) / 139 (4)
+- Eskimo_dog (n=4): 56 (3) / 26 (4) / 149 (4) / 139 (4)
 - Ibizan_hound (n=13): 80 (11) / -53 (12) / 148 (13) / 149 (13)
-- Saluki (n=19): -106 (14) / -68 (17) / 157 (19) / 146 (16)
-- whippet (n=11): -42 (8) / -44 (9) / 151 (11) / 132 (11)
-- English_foxhound (n=25): -117 (21) / 84 (24) / 158 (25) / 147 (24)
-- beagle (n=6): -107 (5) / 66 (6) / 148 (6) / 143 (6)
+- Saluki (n=20): -106 (14) / -68 (18) / 157 (20) / 147 (17)
+- whippet (n=12): -42 (8) / -46 (10) / 152 (12) / 131 (12)
+- English_foxhound (n=28): -117 (21) / 82 (27) / 158 (28) / 147 (27)
+- beagle (n=7): -107 (5) / 66 (6) / 157 (7) / 138 (7)
+- dingo (n=2): no ear tips / -16 (2) / 156 (2) / 162 (2) (too few standing profiles to lean on)
+- dhole (n=6): no ear tips / -41 (6) / 156 (6) / 155 (6)
+
+*StanfordExtra figures in this section regenerated Oct 7 by Atlas (approval A-006) from the MIT StanfordExtra v12 data in `../fetched/02-outline-landmarks/` with `tools/atlas/regen_unitB.py --proportions`; they were first computed from the AGPL-labelled Ultralytics mirror (8,476 dogs, 112 breeds). The method reproduces the stored AwA numbers exactly (`--validate`, `--validate-block`).*
 
 ### Table E: BADJA pose ranges across video frames (degrees; min / median / max, middle half, frames)
 

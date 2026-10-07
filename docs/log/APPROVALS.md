@@ -30,6 +30,7 @@ Add requests at the top. Firefly or GrumpyDingo marks each one **Approved**, **D
 - **Why:** they were computed from the AGPL-labelled Ultralytics mirror, like the CSV fixed under A-002 item 3. A-002 named only the CSV. `tools/den/species_check.py` reads only `awa_unitB`, so no tool output changes.
 - **Expect:** small shifts (the CSV moved by a median of 0.01 per breed; all-domestic medians unchanged), more dogs (1,701 vs 1,283 profile dogs), and new dingo and dhole entries.
 - **Decision:** **Approved** (Firefly, 2026-10-07): regenerate `se_unitB` and the StanfordExtra figures in `keypoints/REPORT.md` from the MIT data with `tools/atlas/regen_unitB.py`, and keep its `--validate` check.
+  - **Done by Atlas (2026-10-07).** Validated with `--validate-block` (0 differences against the stored AwA block).
 
 ## A-005 · Licence for a public research subset · from Atlas · 2026-10-07 · **Decided**
 - **Ask:** decide whether a research subset may be released publicly, and under what licence.

@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-07
+- 2026-10-07 · Atlas · Done, A-006: regenerated the `se_unitB` block of `keypoints/proportions.json` and the StanfordExtra figures in `keypoints/REPORT.md` from the MIT data (120 breeds; whole AwA block reproduced with 0 differences). Nothing in `ref/research/keypoints/` rests on the AGPL mirror now. Joined the team inbox (`docs/team/inbox/`, `docs/team/status/atlas.md`). → `tools/atlas/regen_unitB.py`
 - 2026-10-07 · Shutter · Fetched the Husky photos that Flickr had refused: 3 added (CC0 side-profile head at 4,000 px, a standing photo, an occluded trot), 1 rejected; Husky set now 26. Joined the team inbox. → `ref/research/photos/siberian-husky/`, `docs/team/inbox/2026-10-07-shutter-hello.md`
 - 2026-10-07 · Fetch · Welcome: set up status file and inbox note. Waiting for first request. → `docs/team/status/fetch.md`, `docs/team/inbox/2026-10-07-fetch-hello.md`
 - 2026-10-07 · Firefly · Boot prompt for a new lead session (setup steps, how to work, objectives, the task list in order). → `docs/team/FIREFLY-BOOT-PROMPT.md`
