@@ -98,6 +98,13 @@ def build(sid, head='awa'):
     # limb bones: stretched along their own axis (body Z) by their length ratio; thickness by the overall size ratio (mean of the limb ratios)
     cross = float(np.mean([f[k] for k in ('humerus', 'radius', 'femur', 'tibia')])); limb = lambda b: any(t in b for t in ('scapula', 'humerus', 'antebrachium', 'carpus', 'forepaw', 'femur', 'crus', 'calx', 'hindpaw'))
     vec = {b: ((cross, cross, k) if limb(b) else (cross, k, cross) if b in ('thorax', 'abdomen', 'cervix') else (k, k, k)) for b, k in body_f.items()}
+    # the rib cage's width: per-bone scaling keeps the Beagle's barrel chest (0.45 of withers height wide at wolf size); squash it sideways to the
+    # species' width (Scout 16: wolf ~0.26), using withers height from the last build (the side view does not depend on the width)
+    lat = 1.0; tw = SP.get('thorax_width_over_wh')
+    if tw:
+        th = mesh_pts('thorax', 20000) * scales0['thorax'] * cross; prev = BUILD / f'{sid}.skel3d.json'
+        wh = json.load(open(prev))['joints_side_mm']['scap_top'][1] if prev.exists() else 0.9 * sp['size']['shoulder_height']['value']
+        lat = tw['value'] * wh / np.ptp(th[:, 0]); vec['thorax'] = (cross * lat, f['thorax'], cross)
     # trunk and neck: length (body Y, along the spine) by the spine ratio, depth and width (X, Z) by the overall size ratio, so the ribcage keeps a real depth
     ss = osim.ScaleSet()
     for b, v in vec.items():
@@ -114,7 +121,7 @@ def build(sid, head='awa'):
     # Shepherd-sized original (identical values in both files; every other joint is the Shepherd's x0.8 trunk / x0.6 limbs). So: Shepherd value x 0.8
     # (to the Beagle's trunk) x the wolf/Beagle thorax factors (x across and z up by girth, y along the spine by thorax length)
     for sd in ('left', 'right'):
-        for ax, k in (('x', cross), ('y', f['thorax']), ('z', cross)):
+        for ax, k in (('x', cross * lat), ('y', f['thorax']), ('z', cross)):          # the blades follow the narrower ribs inward
             c = C(f'{sd}_r_m_superioris_trans{ax}'); c.setDefaultValue(c.getDefaultValue() * BEAGLE_TRUNK * k)
     # the head joint: Stark's Beagle puts it ~10 mm below and ahead of the atlas (out in space; ~18 mm once scaled to a wolf), so the skull floated.
     # Move it onto the atlas's cranial face: the neck mesh's midline, its front-most point, at the mean height of its front 8 mm (the articular foveae).
@@ -204,7 +211,7 @@ def build(sid, head='awa'):
             'nose forward / height': RAT['nose_forward_over_height']['value'], 'nose height / height': RAT['nose_height_over_height']['value']}
     fit['outline check (skeleton / real wolves)'] = {k: f'{outline[k]:.2f} / {want[k]:.2f}' for k in outline}
     return {'id': sid, 'scale_factors': {k: round(v, 3) for k, v in f.items()}, 'beagle_mm': {k: round(float(v), 1) for k, v in beagle.items()}, 'species_mm': wolf,
-            'bodies': T, 'joints_side_mm': {k: [round(float(v[0]), 1), round(float(v[1] - ground), 1)] for k, v in P.items()}, 'fit': fit, 'skull_fit': skull_fit, 'head_joint_moved_onto_atlas_mm': round(head_moved, 1), 'cost': float(sol.cost), 'cross_scale': round(cross, 3),
+            'bodies': T, 'joints_side_mm': {k: [round(float(v[0]), 1), round(float(v[1] - ground), 1)] for k, v in P.items()}, 'fit': fit, 'skull_fit': skull_fit, 'thorax_lateral_squash': round(lat, 3), 'head_joint_moved_onto_atlas_mm': round(head_moved, 1), 'cost': float(sol.cost), 'cross_scale': round(cross, 3),
             'body_factors': {b: list(v) for b, v in vec.items()}, 'coords': {cs.get(i).getName(): cs.get(i).getValue(s) for i in range(cs.getSize())}}   # for muscles3d: the same bones in the same stance
 
 BLENDER = r'''

@@ -45,6 +45,7 @@ numbers:
     disc_share_thorax: {value: 0.15, unit: fraction, range: [0.13, 0.17], source: "Scout 13 (ref/research/scout/13-disc-share/; A-004): share = disc / (bodies + discs); length with discs = centra-only length / (1 - share). No wild canid value exists; thoracic: no measurement in any dog; Stark mesh 0.13 (lower bound) and a transfer from the lumbar disc 0.17", confidence: EST}
     disc_share_lumbar: {value: 0.18, unit: fraction, range: [0.18, 0.23], source: "Scout 13 (ref/research/scout/13-disc-share/; A-004): share = disc / (bodies + discs); length with discs = centra-only length / (1 - share). No wild canid value exists; lumbar: Labrador/Golden CT disc 7.1 mm (Gavira 2025, cited fact) on Law wolf centra 0.18, on the dogs own centra 0.23", confidence: B}
     rib_length:   {value: 237, unit: mm, source: "Law 2021 (mean rib, a lower bound for chest depth)", confidence: B}
+    thorax_width_over_wh: {value: 0.26, unit: ratio, range: [0.24, 0.28], source: "Scout 16 (ref/research/scout/16-ribcage-width/): bony rib cage width at ribs 9-11 over withers height; from dog radiograph and CT chains (B), no wolf measured", confidence: EST}
 
   skull:
     condylobasal_length: {value: 253.5, unit: mm, source: "Law et al. 2025", confidence: B, check: "skeleton:CBL"}
