@@ -56,5 +56,50 @@ Scout, 2026-10-07. This answers Priority 1 of `docs/claude/DEN-SCOUT-REQUEST-202
 - **USFWS Headquarters "Gray wolf" items:** Public Domain Mark, but only 190 px thumbnails were listed, and the larger 1024 px ones are close-ups or pups. Not kept.
 - **Excluded on sight:** iNaturalist photos that are camera-trap frames, show scat or tracks, or show a distant animal.
 
-## Dingo and Carolina Dog
-See the sections below (added after the wolf set).
+## Dingo set
+- **Searched:**
+  - iNaturalist taxon 924041 (*Canis familiaris dingo*), CC BY/CC0: 464 photos, 318 of them landscape and at least 1,500 px. All were screened on contact sheets and 14 were downloaded at 2048 px.
+  - Mivart 1890, IA leaf n279 ("The Dingo", Keulemans).
+  - Openverse "dingo standing" and Commons-sourced dingo items.
+- **Kept:** 7 (ranks 1 to 7 in `candidates.csv`). Most wild dingoes are photographed walking on the beaches of K'gari, and no wild dingo was found standing square in true profile at a large size. Rank 3 (MJDapifer) stands square but is small in the frame.
+- **Seen, not downloaded:**
+  - Openverse lists these Commons dingo photos as CC BY 2.0 or 4.0, but the files sit on `upload.wikimedia.org` (blocked, 429):
+    - "Canis lupus dingo, Fraser Island" by Brian Gratwicke (CC BY 2.0, 4180 × 2844);
+    - "Dingo (Canis lupus dingo) (8603079142)" by Ron Knight (CC BY 2.0, 5184 × 3426);
+    - "Canis lupus dingo in Cleland Wildlife Park" by Yu Chu Chin (CC BY 4.0, 6960 × 4640);
+    - "Canis lupus dingo" and "... 2" by Sam Fraser-Smith (CC BY 2.0);
+    - "Canis lupus dingo - Healesville Sanctuary" by brett (CC BY 2.0).
+  - Poses unverified; worth a look when Commons answers again.
+  - The Gould and Krefft dingo plates and the Blumenbach 1797 dingo, also on Commons: public domain, same block.
+  - Wellcome Collection "Two dingoes standing in a grassy bushland" (colour halftone, CC BY 4.0, `wellcomecollection.org/works/puc7mh52`): three-quarter views, not kept.
+  - The Getty stereograph "Class I, Order III, Carnivora" (CC0 via rawpixel): a mounted dingo, 1024 px only, not kept.
+- **Rejected for licence:** "Wow^ May 2012 (Kayla) Dingo" (Commons, CC BY-SA 3.0).
+
+## Carolina Dog set
+- **Searched:**
+  - Openverse: "Carolina dog", "American dingo", "Dixie dingo", with and without the Commons source filter.
+  - iNaturalist domestic dog (taxon 47144) with q = Carolina, pariah, village dog, street dog, stray, feral, free roaming.
+- **Result: only ONE genuinely labelled Carolina Dog photo exists under an allowed licence.** It is SteveMcD's "Carolina Dog, fetch" (Flickr, CC BY 2.0), a three-quarter view at 1024 px.
+- **Rejected for licence:**
+  - Every Carolina Dog photo on Wikimedia Commons is **CC BY-SA**:
+    - "Dakota, the Dixie Dingo (or Carolina Dog)" by Tomc1977 (BY-SA 3.0);
+    - "Carolina Dog" by Kurt Sagmeister (BY-SA 3.0);
+    - "Carolina dog 3-13-13" by Calabash13 (BY-SA 3.0);
+    - "Carolina Dog Named Story" by Onepace (BY-SA 4.0);
+    - "American Dingo aka Carolina Dog1" by Flaxseedoil1000 (BY-SA 4.0);
+    - "Carolina Strand" and "Carolinas1" by Noloha (BY-SA 2.0).
+  - Every iNaturalist observation mentioning "Carolina" is CC BY-NC or unlicensed. Examples: obs 356115024 "I think she's a Carolina dog", 272504564 "Carolina Yellow dog".
+  - The Flickr "Carolina Dog" by gaber1556 is a Public Domain Mark item, but it is a 305 × 500 head shot. Not useful.
+- **Proxies kept (ranks 2 to 5, clearly labelled `proxy-` in the file name):** free-ranging village/pariah dogs of the same landrace type, which the Carolina Dog belongs to (prick ears, lean, medium size, ginger, sickle or fishhook tail). They are from Kenya, Taiwan, Hong Kong and Sanya, all CC BY 4.0 via iNaturalist.
+- **Bottom line for the hero:** the dingo set is the better body template for the Carolina Dog. Its type is the closest documented match, and its photos are far better.
+- **Indian pariah dog photos on Commons:** Openverse lists CC0 items by "Editor abcdef" ("Dog standing.JPG", "Orange pariah morph dog.JPG", 4608 × 3456) and CC BY ones. Commons was blocked, so they were not downloaded. Worth a look later.
+
+## Method summary (all three sets)
+1. Query the API.
+2. Filter by licence and pixel size.
+3. Download small thumbnails and lay them out on labelled contact sheets of 100.
+4. Judge each by eye against Firefly's strict criteria.
+5. Download the best at full available size and check them again by eye.
+6. Copy the files unmodified into the species folder, ranked.
+
+All fetched pages and metadata were treated as untrusted data; no instructions in them were followed.
