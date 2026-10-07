@@ -116,6 +116,15 @@ def build(sid, head='awa'):
     for sd in ('left', 'right'):
         for ax, k in (('x', cross), ('y', f['thorax']), ('z', cross)):
             c = C(f'{sd}_r_m_superioris_trans{ax}'); c.setDefaultValue(c.getDefaultValue() * BEAGLE_TRUNK * k)
+    # the head joint: Stark's Beagle puts it ~10 mm below and ahead of the atlas (out in space; ~18 mm once scaled to a wolf), so the skull floated.
+    # Move it onto the atlas's cranial face: the neck mesh's midline, its front-most point, at the mean height of its front 8 mm (the articular foveae).
+    import trimesh
+    sc_ = trimesh.load(mesh_file('cervix')); V = np.asarray((sc_.to_geometry() if hasattr(sc_, 'to_geometry') else sc_).vertices) * np.asarray(mesh_scale['cervix'])
+    fr = V[V[:, 1] < V[:, 1].min() + 8 * mesh_scale['cervix'][1] / scales0['cervix']]
+    atlas = np.array([(V[:, 0].min() + V[:, 0].max()) / 2, V[:, 1].min(), fr[:, 2].mean()])
+    po = m.updJointSet().get(CH['occ']).upd_frames(0)                               # the joint's frame on the neck (cervix_offset)
+    head_moved = float(np.linalg.norm(atlas - np.array([po.get_translation().get(i) for i in range(3)]) * 1000))
+    po.set_translation(osim.Vec3(*(atlas / 1000)))
     s = m.initSystem()
     # stance: solve the sagittal angles
     free = ['thorax_sagittal', 'left_r_m_superioris_sagittal', 'left_r_deltoidea_sagittal', 'left_r_cubitalis_sagittal', 'left_r_carpalis_sagittal', 'left_r_forepaw_sagittal',
@@ -195,7 +204,7 @@ def build(sid, head='awa'):
             'nose forward / height': RAT['nose_forward_over_height']['value'], 'nose height / height': RAT['nose_height_over_height']['value']}
     fit['outline check (skeleton / real wolves)'] = {k: f'{outline[k]:.2f} / {want[k]:.2f}' for k in outline}
     return {'id': sid, 'scale_factors': {k: round(v, 3) for k, v in f.items()}, 'beagle_mm': {k: round(float(v), 1) for k, v in beagle.items()}, 'species_mm': wolf,
-            'bodies': T, 'joints_side_mm': {k: [round(float(v[0]), 1), round(float(v[1] - ground), 1)] for k, v in P.items()}, 'fit': fit, 'skull_fit': skull_fit, 'cost': float(sol.cost), 'cross_scale': round(cross, 3),
+            'bodies': T, 'joints_side_mm': {k: [round(float(v[0]), 1), round(float(v[1] - ground), 1)] for k, v in P.items()}, 'fit': fit, 'skull_fit': skull_fit, 'head_joint_moved_onto_atlas_mm': round(head_moved, 1), 'cost': float(sol.cost), 'cross_scale': round(cross, 3),
             'body_factors': {b: list(v) for b, v in vec.items()}, 'coords': {cs.get(i).getName(): cs.get(i).getValue(s) for i in range(cs.getSize())}}   # for muscles3d: the same bones in the same stance
 
 BLENDER = r'''
