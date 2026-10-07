@@ -1,0 +1,35 @@
+# Body template: a real wolf photo, with landmarks read by Firefly from gridded crops (Oct 7; about +-10 px)
+image: ref/research/scout/01-body-templates/wolf/01_wolf_inat130681789_RobFoster_stand_R.jpg
+source: https://www.inaturalist.org/observations/79770024
+author: Rob Foster (iNaturalist rob21)
+licence: CC BY 4.0
+facing: right
+season: summer          # 21 May, moulting: Scout's summer fur offsets apply
+notes: wild grey wolf, near-true profile, square stance, mouth slightly open
+# photo pixels -> what each point is on the species. kind 'joint' maps to the skeleton joint; 'surface' maps to the skeleton point + skin + fur offset
+landmarks:
+  nose:        {px: [1545, 500], kind: surface, at: nose,      dir: forward, skin: 0.0297, fur: 0.007}
+  chin:        {px: [1450, 570], kind: surface, at: chin,      dir: down,    skin: 0.0117, fur: 0.007}
+  eye:         {px: [1412, 405], kind: eye}
+  ear_base:    {px: [1330, 300], kind: joint,   at: ear_base}
+  ear_tip:     {px: [1395, 190], kind: joint,   at: ear_tip}
+  occiput:     {px: [1280, 290], kind: surface, at: occiput,   dir: up,      skin: 0.008,  fur: 0.012}
+  withers:     {px: [1075, 282], kind: surface, at: withers,   dir: up,      skin: 0.0267, fur: 0.040}
+  mid_back:    {px: [717, 307],  kind: surface, at: mid_back,  dir: up,      skin: 0.02,   fur: 0.037}
+  croup:       {px: [264, 344],  kind: surface, at: croup,     dir: up,      skin: 0.012,  fur: 0.033}
+  ischium:     {px: [170, 633],  kind: surface, at: ischium,   dir: back,    skin: 0.0302, fur: 0.027}
+  brisket:     {px: [900, 665],  kind: surface, at: brisket,   dir: down,    skin: 0.0212, fur: 0.027}
+  shoulder_front: {px: [1178, 589], kind: surface, at: shoulder, dir: forward, skin: 0.0316, fur: 0.027}
+  tail_tip:    {px: [348, 950],  kind: joint,   at: tail_tip}
+  elbow:       {px: [935, 700],  kind: joint,   at: elbow}
+  carpus:      {px: [955, 990],  kind: joint,   at: carpus}
+  front_mcp:   {px: [975, 1095], kind: joint,   at: front_mcp}
+  front_toe:   {px: [1058, 1130], kind: joint,  at: front_toe}
+  stifle:      {px: [470, 760],  kind: joint,   at: stifle}
+  hock:        {px: [370, 1000], kind: joint,   at: hock}
+  hind_mtp:    {px: [487, 1117], kind: joint,   at: hind_mtp}
+  hind_toe:    {px: [559, 1161], kind: joint,   at: hind_toe}
+# the far legs (removed from the body; redrawn from the near legs)
+far_fore: [[1010, 700], [1035, 990], [1120, 1080]]
+far_hind: [[300, 780], [225, 1011], [275, 1150]]
+tail_line: [[187, 444], [230, 700], [348, 950]]

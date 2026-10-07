@@ -2,7 +2,8 @@
 """den outline <id> --template: the species outline by TEMPLATE WARP (the method the outline research recommends, ref/research/outline-methods).
 
    Template: the Ellenberger-Baum dog, public domain (ref/research/missingfound/atlas-plates). Its exterior silhouette is segmented from Tafel 1 (a shaded
-   dog on white paper); its bone landmarks come from Tafel 3, which draws the same dog's skeleton (Tafel 1 x = Tafel 3 x + 31 px). The plate faces left.
+   dog on white paper); its bone landmarks come from Tafel 3, which draws the same dog's skeleton (Tafel 1 x = Tafel 3 x + 31 px: only roughly true. Scout's ICP fit, Oct 7, gives scale 1.008 and
+   rotation -0.63 deg, so the offset runs from about +22 px at the withers to -9 px at the hind paw: up to ~2% of withers height of error at the paws). The plate faces left.
    Landmark pairs: the 17 bone landmarks of ref/research/fetched/01-skin-offsets plus near-leg joint centres read by Firefly from gridded crops of
    Tafel 3 (PLATE_JOINTS below, about +-10 px = +-0.6% of withers height), each paired with the species skeleton (species/build/<id>.skeleton.json).
    Warp: thin-plate spline (scipy RBFInterpolator) from plate landmarks to skeleton landmarks, applied to the densified silhouette; the bending energy
