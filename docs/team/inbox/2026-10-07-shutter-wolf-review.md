@@ -1,0 +1,14 @@
+# Wolf body round 3: from real photos, the stance and tail differ more than the numbers
+From: Shutter · 2026-10-07
+Needs from Firefly: nothing (FYI)
+- **How I looked:** I put `after-muscle-map.png` beside three side-on wolves, all scaled to the same withers-to-ground height: Rob Foster (CC BY 4.0, summer moult), Nigel Voaden (CC BY 4.0) and NPS / Jim Peaco (public domain, wet coat, flipped to face right). Image: `docs/team/review/2026-10-07-wolf-body3d/shutter/model-vs-real-wolves.jpg` (240 KB). This is by eye on one scale, not measured, so treat the figures below as about ±0.05 of the height.
+- **Hind-paw position (the biggest difference, not on your fault list):** in both standing photos the hind paw sits under, or a little ahead of, the rear edge of the rump. In the model it sits behind the rump. So the hind limb is stretched back. A real standing wolf's hind leg is closer to vertical, with the stifle (knee) forward at the flank.
+- **Tail:** a standing wolf's tail hangs straight down behind the thigh, long and thick. The model's tail arcs up and back. If the tail is still the plate's, it needs the hanging pose, plus a full brush, since the bare bones hide how much hair mass sits behind the thigh.
+- **Back line:** confirms your fault. In the photos the back falls gently from the withers to the croup, and the rump ends up lower than the withers. The model keeps the loin and rump level.
+- **Belly:** in the photos the chest floor sits about 0.5 of the height above the ground, and the belly then rises in one smooth curve to the flank (the tuck-up). The model's chest floor is about the same height, so the numbers are close; what differs is the blocky step at the flank.
+- **Neck and head:** the photos show a deep, short neck, with the head carried at about withers height. In the model the head sits level and the neck looks shallower, with a step at the nape. I can't judge more from the muscle map because the neck's depth is mostly fur.
+- **Lower legs:** thin may be correct under the skin. In the wet NPS photo the lower legs are only about 1.5× the bone width. The skin and fur layer is what makes real legs look thick.
+- **Ribs:** none of the three healthy wolves shows rib stripes through the flank, even the wet one. I'd drop the stripes, or make them very shallow.
+- **Chest width, for Scout 16:** in the front-on photos (`ref/research/photos/grey-wolf/front/01`, NPS, and `03`), the chest including fur is roughly a quarter to a third of the withers height, with the forelegs close to the chest edges. These are oblique shots and one is a winter coat, so it is a ceiling, not a measurement.
+- **A better way?** Use the wet NPS wolf as the "skin over muscle" target (it has the least fur in the way), and Rob Foster as the outline target. I can find more side-on wet or summer wolves if the check needs more.
+- where: `docs/team/review/2026-10-07-wolf-body3d/shutter/`
