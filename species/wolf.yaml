@@ -128,6 +128,8 @@ numbers:
     play_bow:      {value: 2.25, unit: s, source: "Byosiere 2016 (n=414)", confidence: A}
     head_tilt:     {value: 25, unit: deg, range: [15, 35], source: "no published angle; estimate", confidence: EST}
 
+meshes:                       # a species' own bone scans in place of Stark's Beagle bones (den skeleton3d fits them; see tools/den/skeleton3d.py fit_skull)
+  caput: {source: ref/research/missingfound/wolf-skull, specimen: 170753, licence: "CC BY 4.0, Mammal Research Institute PAS, doi:10.48370/OFD/LVT9AC", note: "adult male, Bialowieza; jaw closed; scaled to condylobasal_length"}
 traits:                       # what the numbers cannot say; for GrumpyDingo to judge
   - "Tail hangs low and straight, bushy (the keypoint tail carriage agrees: about 75 degrees below the topline)"
   - "Coat grey agouti with a cream underside and legs, a darker saddle, a pale face mask"
