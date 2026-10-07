@@ -23,13 +23,25 @@ PLATE_JOINTS = {'shoulder': (950, 1290), 'elbow': (1174, 1736), 'carpus': (1230,
                 'tail_tip': (3195 - 31, 2055)}
 PAIR = {'withers': 'withers', 'scapula_top': 'scapula_top', 'croup': 'croup', 'ischium': 'ischium'}   # Ellenberger landmark -> skeleton joint
 
-def silhouette():
-    a = np.asarray(Image.open(PLATES / 'tafel1_exterior_left-lateral.jpg').convert('L')).astype(float) / 255
-    m = filters.gaussian(a, 3) < 0.80; m = morphology.closing(m, morphology.disk(9)); m = ndi.binary_fill_holes(m)
-    lab = measure.label(m); big = lab == max(measure.regionprops(lab), key=lambda q: q.area).label
-    c = max(measure.find_contours(big.astype(float), 0.5), key=len)            # (row, col)
-    poly = Polygon(np.c_[c[:, 1] - 31, c[:, 0]]).buffer(0).simplify(1.5)     # into Tafel 3 pixels
-    return poly
+def silhouette_mask():
+    """the plate dog cut out with GrabCut (OpenCV): seeded by a brightness threshold, it follows the real edge through the engraving's hatching. Tafel 1 pixels."""
+    import cv2
+    cache = BUILD / '.tafel1_grabcut.npy'
+    if cache.exists(): return np.load(cache)
+    g = cv2.imread(str(PLATES / 'tafel1_exterior_left-lateral.jpg'), 0); img = cv2.cvtColor(g, cv2.COLOR_GRAY2BGR)
+    fg = (cv2.GaussianBlur(g, (0, 0), 3) < 205).astype(np.uint8); fg = cv2.morphologyEx(fg, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (19, 19)))
+    n, lab, st, _ = cv2.connectedComponentsWithStats(fg); big = (lab == 1 + np.argmax(st[1:, 4])).astype(np.uint8)
+    mask = np.full(g.shape, cv2.GC_BGD, np.uint8); mask[cv2.dilate(big, np.ones((61, 61), np.uint8)) > 0] = cv2.GC_PR_BGD; mask[big > 0] = cv2.GC_PR_FGD; mask[cv2.erode(big, np.ones((25, 25), np.uint8)) > 0] = cv2.GC_FGD
+    sm = 4; small = cv2.resize(img, None, fx=1 / sm, fy=1 / sm); ms = cv2.resize(mask, None, fx=1 / sm, fy=1 / sm, interpolation=cv2.INTER_NEAREST)
+    cv2.grabCut(small, ms, None, np.zeros((1, 65)), np.zeros((1, 65)), 6, cv2.GC_INIT_WITH_MASK)
+    out = cv2.resize(np.isin(ms, [cv2.GC_FGD, cv2.GC_PR_FGD]).astype(np.uint8), (g.shape[1], g.shape[0]), interpolation=cv2.INTER_LINEAR)
+    out = cv2.morphologyEx(out, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15))); out = cv2.morphologyEx(out, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25)))
+    n, lab, st, _ = cv2.connectedComponentsWithStats(out); out = ndi.binary_fill_holes(lab == 1 + np.argmax(st[1:, 4]))
+    BUILD.mkdir(exist_ok=True); np.save(cache, out); return out
+
+def mask_poly(m, shift=-31):
+    c = max(measure.find_contours(m.astype(float), 0.5), key=len)
+    return Polygon(np.c_[c[:, 1] + shift, c[:, 0]]).buffer(0).simplify(1.5)   # into Tafel 3 pixels
 
 def build(sid):
     sk = json.load(open(BUILD / f'{sid}.skeleton.json')); J0 = sk['joints_mm']; W = J0['withers']; H = W[1]
@@ -48,19 +60,63 @@ def build(sid):
     src.append(to_wh((195 - 31, 570))); dst.append(J['nose']); names.append('nose (placeholder)')
     src, dst = np.array(src), np.array(dst)
     f = RBFInterpolator(src, dst - src, kernel='thin_plate_spline', smoothing=0.0)
-    poly = silhouette(); P = np.array([to_wh(q) for q in shapely.segmentize(poly, 6).exterior.coords])
-    Q = P + f(P); out_poly = Polygon(Q).buffer(0)
+    whole = mask_poly(silhouette_mask())
+    pj = {k: np.array(v, float) for k, v in PLATE_JOINTS.items()}
+    from shapely.geometry import LineString, box
+    from shapely.ops import unary_union
+    # near legs: a corridor around each near leg's bones (the far legs stand clear of it below the elbow and stifle); body: everything above the cuts
+    def corridor(chain, r): return LineString([pj[c] for c in chain]).buffer(r, cap_style='round')
+    fore_c = corridor(['elbow', 'carpus', 'front_mcp', 'front_toe'], 85).union(Point(pj['front_mcp']).buffer(120))
+    hind_c = corridor(['stifle', 'hock', 'hind_mtp', 'hind_toe'], 95).union(Point(pj['hind_mtp']).buffer(120))
+    cut_f, cut_h = pj['elbow'][1] - 40, pj['stifle'][1] - 40                       # the legs overlap the body by 40 px so the layers join
+    xmin, ymin, xmax, ymax = whole.bounds
+    split_x = (pj['elbow'][0] + pj['hip'][0]) / 2
+    lower = unary_union([box(xmin - 10, cut_f, split_x, ymax + 10), box(split_x, cut_h, xmax + 10, ymax + 10)])
+    body = whole.difference(lower.difference(box(xmin, ymin, xmax, ymax).difference(box(0, 0, 1, 1))) ).buffer(0)
+    body = whole.difference(lower).buffer(0)
+    ground_y = skin['withers']['outline_px_plate'][1] + 1837
+    no_shadow = lambda g, a, b: g.difference(box(xmin - 10, ground_y - 22, a, ymax + 10)).difference(box(b, ground_y - 22, xmax + 10, ymax + 10))
+    foreleg = no_shadow(whole.intersection(fore_c).intersection(box(xmin, cut_f - 40, xmax, ymax)), pj['front_toe'][0] - 15, pj['front_mcp'][0] + 70)
+    hindleg = no_shadow(whole.intersection(hind_c).intersection(box(xmin, cut_h - 40, xmax, ymax)), pj['hind_toe'][0] - 15, pj['hind_mtp'][0] + 70)
+    big = lambda g: max(g.geoms, key=lambda q: q.area) if g.geom_type == 'MultiPolygon' else g
+    body, foreleg, hindleg = big(body), big(foreleg), big(hindleg)
+    # body: thin-plate spline on the landmarks; legs: each bone's own map, blended near the joints (linear blend skinning)
+    def tps_map(g): P = np.array([to_wh(q) for q in shapely.segmentize(g, 6).exterior.coords]); return Polygon(P + f(P)).buffer(0), P
+    def along(p1, p2, q1, q2):
+        u = (p2 - p1) / np.linalg.norm(p2 - p1); v = (q2 - q1) / np.linalg.norm(q2 - q1); k = np.linalg.norm(q2 - q1) / np.linalg.norm(p2 - p1)
+        nu, nv = np.array([-u[1], u[0]]), np.array([-v[1], v[0]])
+        return lambda P: q1 + np.outer((P - p1) @ u * k, v) + np.outer((P - p1) @ nu, nv)
+    def lbs_map(g, chain, top):
+        P = np.array([to_wh(q) for q in shapely.segmentize(g, 6).exterior.coords]); A = [to_wh(pj[c]) if c in pj else None for c in chain]
+        segs = [(A[i], A[i + 1], J[chain[i]], J[chain[i + 1]]) for i in range(len(chain) - 1)]
+        Ts = [along(*sg) for sg in segs]; D = []
+        for a_, b_, _, _ in segs:
+            t = np.clip(((P - a_) @ (b_ - a_)) / ((b_ - a_) @ (b_ - a_)), 0, 1); D.append(np.linalg.norm(P - (a_ + t[:, None] * (b_ - a_)), axis=1))
+        D = np.array(D); w = 1 / (D ** 4 + 1e-6); w /= w.sum(0)
+        Q = sum(w[i][:, None] * Ts[i](P) for i in range(len(Ts)))
+        top_body = f(P)[:, :] + P                           # near the top cut, blend into the body's warp so the layers meet
+        tb = np.clip((P[:, 1] - top) / 0.06, 0, 1)[:, None]; Q = tb * Q + (1 - tb) * top_body
+        return Polygon(Q).buffer(0), P
+    body_w, Pb = tps_map(body)
+    fore_w, Pf = lbs_map(foreleg, ['elbow', 'carpus', 'front_mcp', 'front_toe'], to_wh(pj['elbow'])[1] - 0.03)
+    hind_w, Ph = lbs_map(hindleg, ['stifle', 'hock', 'hind_mtp', 'hind_toe'], to_wh(pj['stifle'])[1] - 0.03)
+    sm = lambda g: big(g.buffer(0.006).buffer(-0.006))
+    layers = {'BODY': sm(body_w), 'FORELEG': sm(fore_w), 'HINDLEG': sm(hind_w)}
+    out_poly = layers['BODY'].union(layers['FORELEG']).union(layers['HINDLEG'])
+    P = np.vstack([Pb, Pf, Ph])
     # bending energy (the TPS's own measure of how far the template had to be bent), and the skin-landmark check
     checks = []
     dirs = {'up': (0, -1), 'down': (0, 1), 'forward': (1, 0), 'back': (-1, 0)}
     for n, l in skin.items():
         b = to_wh(l['bone_px_plate']); tgt = b + f(b[None])[0] + np.array(dirs[l['offset_direction']]) * l['offset_over_withers_height']
         if n in ('skull_top', 'occiput', 'nose', 'chin'): continue
-        d = out_poly.exterior.distance(Point(tgt)); checks.append({'landmark': n, 'miss_wh': round(float(d), 4), 'target_wh': tgt.round(4).tolist(), 'target_is': 'inside' if out_poly.contains(Point(tgt)) else 'outside'})
+        lay = layers['FORELEG'] if n.startswith('carpus') else layers['HINDLEG'] if n.startswith('hock') else layers['BODY']
+        d = lay.exterior.distance(Point(tgt)); out_poly_ = lay; checks.append({'landmark': n, 'miss_wh': round(float(d), 4), 'target_wh': tgt.round(4).tolist(), 'target_is': 'inside' if out_poly_.contains(Point(tgt)) else 'outside'})
     return {'id': sid, 'method': 'template warp (Ellenberger Tafel 1 silhouette, Tafel 3 landmarks, thin-plate spline)',
-            'outline_wh': [list(map(lambda q: [round(q[0], 4), round(q[1], 4)], out_poly.exterior.coords))],
+            'layers_wh': {k: [[round(q[0], 4), round(q[1], 4)] for q in v.exterior.coords] for k, v in layers.items()},
+            'plate_layers_wh': {'BODY': [to_wh(q).round(4).tolist() for q in body.exterior.coords], 'FORELEG': [to_wh(q).round(4).tolist() for q in foreleg.exterior.coords], 'HINDLEG': [to_wh(q).round(4).tolist() for q in hindleg.exterior.coords]},
             'pairs': [{'name': n, 'plate_wh': s.round(4).tolist(), 'species_wh': d.round(4).tolist()} for n, s, d in zip(names, src, dst)],
-            'skin_checks': checks, 'plate_silhouette_wh': P.round(4).tolist()}, J
+            'skin_checks': checks}, J
 
 def render(sid, out, J, S=800):
     ox, oy = 1.5, 0.45; T = lambda q: f'{(q[0] + ox) * S:.1f},{(q[1] + oy) * S:.1f}'
@@ -69,10 +125,11 @@ def render(sid, out, J, S=800):
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}"><rect width="100%" height="100%" fill="#efe6d2"/>']
     for k, dx in (('plate', 0), ('wolf', 2.1)):
         o.append(f'<line x1="{(dx) * S}" y1="{(1 + oy) * S}" x2="{(dx + 2.1) * S}" y2="{(1 + oy) * S}" stroke="#7a6a50" stroke-width="3"/>')
-    pl = out['plate_silhouette_wh']; o.append('<polygon points="' + ' '.join(T(q) for q in pl) + '" fill="#c9b08a" stroke="#3b2a1a" stroke-width="2"/>')
+    cols = {'HINDLEG': '#b08a5c', 'BODY': '#c9a272', 'FORELEG': '#bb9363'}
+    for k in ('HINDLEG', 'BODY', 'FORELEG'): o.append('<polygon points="' + ' '.join(T(q) for q in out['plate_layers_wh'][k]) + f'" fill="{cols[k]}" fill-opacity="0.85" stroke="#3b2a1a" stroke-width="2"/>')
     for p in out['pairs']: o.append(f'<circle cx="{(p["plate_wh"][0] + ox) * S:.1f}" cy="{(p["plate_wh"][1] + oy) * S:.1f}" r="6" fill="#d9822b" stroke="#2a1a10"/>')
     T2 = lambda q: f'{(q[0] + ox + 2.1) * S:.1f},{(q[1] + oy) * S:.1f}'
-    o.append('<polygon points="' + ' '.join(T2(q) for q in out['outline_wh'][0]) + '" fill="#c99b66" stroke="#3b2a1a" stroke-width="2.5"/>')
+    for k in ('HINDLEG', 'BODY', 'FORELEG'): o.append('<polygon points="' + ' '.join(T2(q) for q in out['layers_wh'][k]) + f'" fill="{cols[k]}" fill-opacity="0.85" stroke="#3b2a1a" stroke-width="2.5"/>')
     Jw = {k: np.array(v) for k, v in J.items()}
     for a, b in [('scapula_top', 'shoulder'), ('shoulder', 'elbow'), ('elbow', 'carpus'), ('carpus', 'front_mcp'), ('front_mcp', 'front_toe'), ('hip', 'stifle'), ('stifle', 'hock'), ('hock', 'hind_mtp'), ('hind_mtp', 'hind_toe'), ('ilium_crest', 'ischium'), ('neck_root', 'occiput'), ('occiput', 'stop'), ('stop', 'nose'), ('withers', 'croup')]:
         o.append(f'<line x1="{(Jw[a][0] + ox + 2.1) * S:.1f}" y1="{(Jw[a][1] + oy) * S:.1f}" x2="{(Jw[b][0] + ox + 2.1) * S:.1f}" y2="{(Jw[b][1] + oy) * S:.1f}" stroke="#4a3b2a" stroke-width="6" stroke-linecap="round"/>')

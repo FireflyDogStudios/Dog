@@ -36,3 +36,5 @@ pyright
 ssimulacra2
 lmfit
 syrupy
+# Oct 7: learned background removal (IS-Net / U2-Net models, Apache 2.0) for cutting dogs out of plates and photos
+rembg[cpu]
