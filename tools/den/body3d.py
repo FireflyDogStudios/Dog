@@ -141,6 +141,25 @@ def build(sid):
             k = (x - c2[0]) / max(J['occ'][0] - c2[0], 1); set_top(ci, (1 - k) * c2_top + k * occ_top)
         if xw < x <= J['occ'][0] and x >= sh_low[0]:                               # neck underline: point of the shoulder to the throat (EST)
             k2 = (x - sh_low[0]) / max(throat[0] - sh_low[0], 1); set_bottom(ci, (1 - k2) * sh_low[1] + k2 * throat[1])
+    # the belly line and tuck-up (Scout 15, Ellenberger Tafel 3, lean dog, B): skin heights from the brisket (0.552 of withers) rising to the groin
+    # (0.689), placed by their share of the occiput-to-tail-root length and hung from our brisket. Only belly is cut: anything below the line that
+    # reaches down toward the paws is a near leg and stays; the line never cuts into the ribs or sternum (bone + 3 mm skin)
+    vent = [(float(r[1]), float(r[2])) for r in __import__('csv').reader(l for l in open(TOPLINE) if not l.startswith('#')) if len(r) >= 3 and r[0].startswith('ventral')]
+    st = to_side(np.asarray(trimesh.sample.sample_surface(bones['thorax'], 40000, seed=4)[0])); sn = st[np.argmin(st[:, 1])]   # the sternum's lowest point
+    vf = np.array([(px - vent[0][0]) / (OT.PLATE_JOINTS['stifle'][0] - vent[0][0]) for px, _ in vent]); vh = np.array([h for _, h in vent])   # brisket 0 .. stifle 1
+    x_of = lambda fr: sn[0] + fr * (J['stifle'][0] - sn[0])
+    xb, xg = x_of(vf[0]), x_of(vf[-1]); brisket = sn[1] - 0.021 * yw                     # skin 0.021 of withers height below the sternum (Scout 15)
+    tb = np.vstack([to_side(np.asarray(trimesh.sample.sample_surface(bones[b], 40000, seed=3)[0])) for b in ('thorax', 'abdomen')])
+    low = np.full(Wg, np.inf); cj = ((tb[:, 0] - x0) / GRID).astype(int); okb = (cj >= 0) & (cj < Wg); np.minimum.at(low, cj[okb], tb[okb, 1])
+    line = np.full(Wg, -np.inf)
+    for ci, x in enumerate(gx):
+        if xg <= x <= xb: line[ci] = min(brisket + (np.interp((x - sn[0]) / (J['stifle'][0] - sn[0]), vf, vh) - vh[0]) * yw, low[ci] - 3.0)
+    under = body & (gy[:, None] < line[None, :])
+    lab, nl = ndimage.label(under); reach = ndimage.minimum(gy[:, None] * np.ones_like(body, float), lab, index=np.arange(1, nl + 1)) if nl else []
+    legs_below = min(J['elbow'][1], J['stifle'][1]) * 0.8                                  # a blob reaching below this is a leg
+    for i, lowest in enumerate(reach, start=1):
+        if lowest > legs_below: body[lab == i] = False
+    tuck = {'brisket (mm)': round(float(brisket)), 'groin rise (mm)': round(float((vh[-1] - vh[0]) * yw)), 'from x': round(float(xb)), 'to x': round(float(xg))}
     # 2. bones toward the viewer (+X is the near, left side), z-buffered from dense surface samples
     Z = np.full((Hg, Wg), -np.inf)
     for b, g in bones.items():
@@ -217,7 +236,7 @@ def build(sid):
         girths[nm] = (round(float(np.pi * (3 * (a + b) - np.sqrt((3 * a + b) * (a + 3 * b))) / WH), 2), round(2 * a / WH, 2), round(2 * b / WH, 2))
     rep_all = {'TPS bending (share of withers height, beyond an affine stretch)': round(bend, 3),
                'body outline covered by muscle, filler or bone': round(float((covered & body).sum() / body.sum()), 3),
-               'muscles from the plate': len(rep), 'C2 spine top (side mm)': [round(float(c2[0])), round(float(c2[1]))], 'tail root x (mm)': round(x_tail),
+               'muscles from the plate': len(rep), 'C2 spine top (side mm)': [round(float(c2[0])), round(float(c2[1]))], 'tail root x (mm)': round(x_tail), 'belly tuck-up (Scout 15 plate, lean dog)': tuck,
                'topline over the withers (wolf photo, fur: mid-back 0.97, croup 0.92, tail root 0.82; plate dog level)': topl,
                'girth, width, depth (WH; Scout 14 tape: neck 0.53, chest 1.07-1.20, waist 0.77; chest width 0.19-0.26)': girths, 'estimated (not in Stark)': [k for k, v in rep.items() if v['from'] != 'Hill volume']}
     return {'id': sid, 'report': rep_all, 'muscles': rep, 'grid': {'x0': x0, 'y1': y1, 'mm': GRID, 'shape': [Hg, Wg]},

@@ -2,13 +2,19 @@
  "id": "wolf",
  "report": {
   "TPS bending (share of withers height, beyond an affine stretch)": 0.092,
-  "body outline covered by muscle, filler or bone": 0.946,
+  "body outline covered by muscle, filler or bone": 0.945,
   "muscles from the plate": 25,
   "C2 spine top (side mm)": [
    539,
    824
   ],
   "tail root x (mm)": -256,
+  "belly tuck-up (Scout 15 plate, lean dog)": {
+   "brisket (mm)": 381,
+   "groin rise (mm)": 104,
+   "from x": 286,
+   "to x": -67
+  },
   "topline over the withers (wolf photo, fur: mid-back 0.97, croup 0.92, tail root 0.82; plate dog level)": {
    "withers": 0.997,
    "T8": 0.984,
@@ -28,9 +34,9 @@
     0.55
    ],
    "waist at the last rib": [
-    1.19,
+    1.15,
     0.29,
-    0.46
+    0.43
    ]
   },
   "estimated (not in Stark)": [
@@ -149,9 +155,9 @@
   },
   "pectoralis_profundus": {
    "volume_cm3": 271.5,
-   "shown_on_near_face": 0.2,
-   "area_cm2": 44.4,
-   "mean_thickness_mm": 12.5,
+   "shown_on_near_face": 0.18,
+   "area_cm2": 39.4,
+   "mean_thickness_mm": 12.4,
    "max_thickness_mm": 21.6,
    "from": "Hill volume"
   },
