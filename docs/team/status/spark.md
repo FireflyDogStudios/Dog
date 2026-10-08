@@ -1,7 +1,7 @@
 # Spark status
 Updated: 2026-10-08
-Working on: nothing new; dog-generator recommendation delivered (build our own)
-Last push: ref/research/spark/02-generator-trials/SUMMARY.md (final)
-Blocked: no
-Needs Firefly: yes, GrumpyDingo's go on "build our own" and the first three steps
-Setup: tools/spark/setup.sh; Infinigen venv at /home/user/infinigen/.venv (unused; not in git)
+Working on: 2D builder slice 1 delivered (docs/claude/DEN-SPARK-REQUEST-2d-builder-2026-10-08.md); stopped for GrumpyDingo's judgement
+Last push: engine/canine/ + ref/research/spark/03-2d-builder/
+Blocked: no (waiting by design)
+Needs Firefly: yes, GrumpyDingo's verdict on the wolf
+Setup: tools/spark/setup.sh; the builder uses only repo deps (js-yaml, sharp)

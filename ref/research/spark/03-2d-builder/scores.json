@@ -1,0 +1,34 @@
+{
+ "note": "WH units; y down so bias > 0 = model line LOWER than target",
+ "masses": 67,
+ "vs_photo_outline": {
+  "iou": 0.695,
+  "topline": {
+   "mean_abs": 0.054,
+   "max_abs": 0.096,
+   "bias": 0.046,
+   "n": 96
+  },
+  "belly": {
+   "mean_abs": 0.0216,
+   "max_abs": 0.052,
+   "bias": -0.0116,
+   "n": 51
+  }
+ },
+ "vs_curves_model": {
+  "iou": 0.699,
+  "topline": {
+   "mean_abs": 0.0326,
+   "max_abs": 0.068,
+   "bias": 0.0097,
+   "n": 96
+  },
+  "belly": {
+   "mean_abs": 0.0647,
+   "max_abs": 0.132,
+   "bias": 0.0518,
+   "n": 51
+  }
+ }
+}
