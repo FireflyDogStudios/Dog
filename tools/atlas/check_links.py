@@ -3,12 +3,12 @@ Run from the repo root: python3 tools/atlas/check_links.py [files...]
 Shorthand used in docs/research-package is expanded (fetched/ -> ref/research/fetched/, etc.)."""
 import os, re, sys, glob
 DOCS = sys.argv[1:] or ['docs/README.md', *sorted(f for f in glob.glob('docs/research-package/*.md') if not f.endswith('file-index.md')), *sorted(glob.glob('docs/log/*.md')),
-                        'docs/claude/DEN-SCOUT-REQUEST-DISCS-2026-10-07.md']
+                        'docs/claude/DEN-SCOUT-REQUEST-DISCS-2026-10-07.md', 'docs/claude/DEN-DRAFT-law-licence-question-2026-10-07.md', *sorted(glob.glob('docs/team/inbox/*atlas*.md')), 'docs/team/status/atlas.md']
 SHORT = {'fetched/': 'ref/research/fetched/', 'missingfound/': 'ref/research/missingfound/',
          'scout/': 'ref/research/scout/', 'keypoints/': 'ref/research/keypoints/'}
 # Named on purpose as not existing yet, or not in the repo (Drive, /tmp, branch names, field names).
 EXPECTED_MISSING = {'ref/research/scout/11-body-models/', 'ref/research/scout/13-disc-share/', 'ocr/', 'ocr/schema.json'}
-SKIP = re.compile(r'^(FireflyDogStudios/|claude/|/tmp/|den-ledger-everything|ref/dog/|cervical/)')
+SKIP = re.compile(r'^(species/build/meshes/|chrisjlaw/|data/data.csv|FireflyDogStudios/|claude/|/tmp/|den-ledger-everything|ref/dog/|cervical/)')
 # Only tokens with a slash are checked; bare file names are written in the context of their folder.
 PATHLIKE = re.compile(r'^\.{0,2}/?[\w.\-]+(/[\w.\-*{},]+)+/?$')
 def candidates(p, doc):

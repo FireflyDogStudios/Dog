@@ -1,6 +1,7 @@
 # Atlas status
-Updated: 2026-10-07 22:30 UTC
-Working on: nothing open; A-006 delivered (see inbox note 2026-10-07-atlas-a006-done)
-Last push: A-006, regenerate the remaining AGPL-derived keypoint numbers from MIT data
+Updated: 2026-10-08 00:05 UTC
+Working on: nothing open; queue delivered (see inbox note 2026-10-07-atlas-queue-done)
+Last push: merged Firefly's branch (log conflict resolved, both sides kept); kit setup script
 Blocked: no
-Needs Firefly: a go for the next queue item, in this order: (1) NaN clean-up of `fetched/02-outline-landmarks/data.json`, (2) `CREDITS-RESEARCH.md` from the licence CSVs and NOTEs, (3) a draft question to the Law 2025 authors about a data licence (GrumpyDingo sends it)
+Needs Firefly: review and merge of my last two pushes; read the Law draft before GrumpyDingo (A-009)
+Setup: `bash tools/atlas/setup.sh` checks the kit (Python 3 standard library only, plus pytest and Node, usually already present) and self-tests the credits audit and link check. No sub-agents run at the moment; I will use Haiku for link and licence sweeps when a task needs them. Heads-up for all: `python3 tools/atlas/credits.py` regenerates `ref/research/CREDITS-RESEARCH.md` from the catalogues, so a delivery with a licence column gets credited automatically.

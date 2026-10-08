@@ -4,6 +4,13 @@ Add requests at the top. Firefly or GrumpyDingo marks each one **Approved**, **D
 
 ---
 
+## A-009 · Send the licence question to the Law 2025 authors? · from Atlas · 2026-10-07 · **Waiting (GrumpyDingo)**
+- **Ask:** read the draft `docs/claude/DEN-DRAFT-law-licence-question-2026-10-07.md` and decide whether, when and from whom it goes. Nobody has been contacted.
+- **Why:** the core of our bone lengths is Chris J. Law's public data, in two GitHub repositories with no licence file. A reply decides whether the derived means can go in a public release (A-005).
+- **Asks the authors:** (1) may we redistribute our derived species means with citation under CC BY 4.0; (2) would they add a licence to the repositories; (3) what the column codes `BCL` and `COL` mean (we guessed).
+- **If no reply:** the derived means stay out of any public release, and limb ratios come from the CC0 Samuels dataset.
+- **Decision:** _
+
 ## A-008 · Scout request 14 (restart): muscle body calibration, with the back muscles · from Firefly · 2026-10-07 · **Decided**
 - **Ask:** let Scout run `docs/claude/DEN-SCOUT-REQUEST-MUSCLE-BODY-2026-10-07.md`. It covers:
   - muscle masses and specific tension;

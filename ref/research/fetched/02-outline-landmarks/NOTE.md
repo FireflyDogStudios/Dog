@@ -25,6 +25,7 @@
   - Front leg: top = elbow, middle = carpus, paw.
   - Rear leg: top = about the stifle, middle = hock, paw.
   - Joints with [0,0,0] are left out. The eyes, withers and throat are never labelled in v12.
+  - **Cleaned Oct 7 (Atlas, `tools/atlas/clean_stanfordextra.py`).** The file as first stored did not follow the line above: 696 dogs in 110 breeds carried 7,777 placeholder entries `[NaN, NaN, 0]` (15,554 `NaN` tokens), which is not valid JSON (JavaScript's `JSON.parse` fails) and made the occluded count look like 10,229. They are removed now; no other value changed (checked entry by entry), and the file parses as strict JSON. After the clean-up: 165,902 keypoints, 163,450 visible and 2,452 occluded; median 13 per dog, maximum 20. Likely cause: `convert_stanfordextra.py` keeps a joint when `v > 0 or x or y`, and a NaN coordinate counts as true in Python, so a joint stored as NaN with v = 0 passes the filter (I read the code; I did not rerun it on the original zip, which is not in the repo). A fix would be to also skip a joint whose x or y is NaN. The script is left as stored, for Firefly or Scout to change.
   - visible: 1 = visible, 0 = labelled but occluded.
 - `outline` is a list of polygons, largest first. Each is an external contour of the segmentation mask.
   - The mask is a COCO compressed RLE string, decoded in pure Python (a port of pycocotools `rleFrString`, column-major).
