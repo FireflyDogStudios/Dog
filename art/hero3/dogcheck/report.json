@@ -21,12 +21,12 @@
   {
    "check": "notches",
    "level": "PASS",
-   "msg": "no new cracks (14 known ones in the baseline)"
+   "msg": "no new cracks (13 known ones in the baseline)"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: tail 14%, foreF 32%, hipN 32%)"
+   "msg": "every part is rooted in what it hangs from (least: tail 14%, foreF 32%, foreN 32%)"
   },
   {
    "check": "visible",
@@ -71,37 +71,42 @@
   {
    "check": "feet",
    "level": "PASS",
-   "msg": "no paw below the ground (deepest 0.02)"
+   "msg": "no paw below the ground (deepest 0.01)"
+  },
+  {
+   "check": "gait",
+   "level": "PASS",
+   "msg": "footfalls (left hind = 0): left fore 0.17 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.67; paws down fore 0.61, hind 0.60 of the stride (measured 0.56-0.68)"
   },
   {
    "check": "feet",
    "level": "PASS",
-   "msg": "planted paws push back over their stance: htoeF 7.8, ftoeF 7.8, htoeN 7.8, ftoeN 7.8 units"
+   "msg": "planted paws move back at (ground units per stride): htoeF 12.6, ftoeF 12.6, htoeN 12.6, ftoeN 12.6 units"
   },
   {
    "check": "joints",
    "level": "WARN",
-   "msg": "shoulder: standing 112, walk 105–128; measured dog walk 121–153: bends to 105, beyond the measured 121"
+   "msg": "shoulder: standing 112, walk 104–126; measured dog walk 121–153: bends to 104, beyond the measured 121"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "elbow: standing 145, walk 117–153; measured dog walk 98–153"
+   "msg": "elbow: standing 145, walk 116–152; measured dog walk 98–153"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "carpus: standing 186, walk 96–201; measured dog walk 102–231"
+   "msg": "carpus: standing 186, walk 96–200; measured dog walk 102–231"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "stifle: standing 140, walk 113–148; measured dog walk 110–144"
+   "msg": "stifle: standing 140, walk 116–143; measured dog walk 110–144"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "tarsus: standing 145, walk 111–165; measured dog walk 119–160"
+   "msg": "tarsus: standing 145, walk 114–161; measured dog walk 119–160"
   },
   {
    "check": "contrast",

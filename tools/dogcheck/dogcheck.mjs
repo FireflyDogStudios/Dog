@@ -225,7 +225,7 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
 // ---------- feet: ground, slide, bob, stride match ----------
 { const toes = D.joints.filter(j => /toe/.test(j.id)), N = 96, legs = {};
   const topOf = j => { let c = j; while (c && !(c.track === 'hhip' || c.track === 'fsh')) c = D.joints.find(x => x.id === c.in); return c; };
-  for (const j of toes) { const top = topOf(j), tr = D.tracks[top.track]; legs[j.id] = { top, stance: D.gait ? [0, D.gait.duty] : [tr[0].at, tr[1].at], pts: [] }; } /* a rig may say its duty factor (baked walks have many keys) */
+  for (const j of toes) { const top = topOf(j), tr = D.tracks[top.track]; legs[j.id] = { top, stance: D.gait ? [0, top.track === 'hhip' && D.gait.hindDuty ? D.gait.hindDuty : D.gait.duty] : [tr[0].at, tr[1].at], pts: [] }; } /* a rig may say its duty factor (baked walks have many keys) */
   let sink = 0, sinkAt = '';
   for (let f = 0; f < N; f++) { const t = f / N * D.stride, M = pose(t), phase = (t / D.stride) % 1;
     for (const j of toes) { const L = legs[j.id], c = apply(M[j.id], [j.at[0] + .5, j.at[1] + 1.05]), ph = (phase + (L.top.ph || 0)) % 1; L.pts.push({ t, ph, x: c[0], y: c[1] });
@@ -236,11 +236,19 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
     if (S.length < 4) continue; S.forEach(q => q.u = (q.ph - a) * D.stride); const mt = S.reduce((s, q) => s + q.u, 0) / S.length, mx = S.reduce((s, q) => s + q.x, 0) / S.length;
     const k = S.reduce((s, q) => s + (q.u - mt) * (q.x - mx), 0) / S.reduce((s, q) => s + (q.u - mt) ** 2, 0);
     const slide = Math.max(...S.map(q => Math.abs(q.x - (mx + k * (q.u - mt))))), bob = Math.max(...S.map(q => q.y)) - Math.min(...S.map(q => q.y));
-    speeds[jid] = -k * span * D.stride; /* ground the paw pushes back over its stance */
+    speeds[jid] = -k * D.stride; /* how fast a planted paw moves back, ground units per stride: every paw must match the ground */
     if (slide > 0.25) add('feet', 'FAIL', `${jid} slides ${slide.toFixed(2)} units while planted (not a steady push)`);
     if (bob > 0.3) add('feet', 'WARN', `${jid} rises and dips ${bob.toFixed(2)} units while planted (a stiff leg swinging from the hip; needs knee/IK compensation)`); }
+  // footfall timing, read from the animation itself: when each paw lands and lifts (global stride phase), against measured dog walks
+  // (Catavitello 2015 LF 0.135, RH 0.491, RF 0.63; Maes 2008 LF 0.16; wolf recommendation LF 0.16 (0.12-0.20); duty fore 0.59 / hind 0.58, range 0.56-0.68)
+  { const td = {}, du = {}; for (const [jid, L] of Object.entries(legs)) { const P = L.pts, n = P.length, down = P.map(q => q.y >= GROUND - .03);
+      for (let i = 0; i < n; i++) if (down[i] && !down[(i - 1 + n) % n]) td[jid] = P[i].t / D.stride % 1; du[jid] = down.filter(Boolean).length / n; }
+    const rel = k => ((td[k] - td.htoeF) % 1 + 1) % 1, lf = rel('ftoeF'), rh = rel('htoeN'), rf = rel('ftoeN');
+    const okLF = lf >= .12 && lf <= .20, okRH = Math.abs(rh - .5) < .03, okRF = Math.abs(((rf - .5 - lf) % 1 + 1.5) % 1 - .5) < .03;
+    const fd = (du.ftoeF + du.ftoeN) / 2, hd = (du.htoeF + du.htoeN) / 2, okD = fd >= .56 && fd <= .68 && hd >= .56 && hd <= .68;
+    add('gait', okLF && okRH && okRF && okD ? 'PASS' : 'WARN', `footfalls (left hind = 0): left fore ${lf.toFixed(2)} (measured 0.13-0.16, wolf 0.12-0.20), right hind ${rh.toFixed(2)} (0.50), right fore ${rf.toFixed(2)}; paws down fore ${fd.toFixed(2)}, hind ${hd.toFixed(2)} of the stride (measured 0.56-0.68)`); }
   const v = Object.values(speeds), lo = Math.min(...v), hi = Math.max(...v);
-  add('feet', hi / lo > 1.12 ? 'WARN' : 'PASS', `planted paws push back over their stance: ${Object.entries(speeds).map(([k, s]) => `${k} ${s.toFixed(1)}`).join(', ')} units${hi / lo > 1.12 ? ': front and hind do not match, so a paw skates against the ground' : ''}`); }
+  add('feet', hi / lo > 1.12 ? 'WARN' : 'PASS', `planted paws move back at (ground units per stride): ${Object.entries(speeds).map(([k, s]) => `${k} ${s.toFixed(1)}`).join(', ')} units${hi / lo > 1.12 ? ': front and hind speeds differ, so one pair skates against the ground' : ''}`); }
 
 // ---------- joints: included angles (180 = straight), standing and over the walk, against measured dog walks ----------
 { const W = {}; try { for (const line of fs.readFileSync(path.join(ROOT, 'ref/research/fetched/04-gait-curves/curves.csv'), 'utf8').split('\n').slice(1)) { const c = line.split(','); if (c[0] === 'catavitello2015_retrievers' && c[1] === 'walk') (W[c[2]] ||= []).push(+c[4]); } } catch (e) {}
@@ -285,7 +293,7 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
 
 // ---------- walk preview: frames with ground marks scrolling at the planted-paw speed (if the paws stay put on the marks, nothing slides) ----------
 { const FR = 36, dir = path.join(OUT, '.frames'); fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir, { recursive: true });
-  const duty = D.gait ? D.gait.duty : .62, speed = 7.8 / duty; /* ground units per stride, from the baked stance */
+  const speed = D.gait && D.gait.speed ? D.gait.speed : 7.8 / (D.gait ? D.gait.duty : .62); /* ground units per stride, from the baked stance */
   for (let f = 0; f < FR; f++) { const t = f / FR * D.stride, M = pose(t), off = ((t / D.stride) * speed) % 4;
     let marks = ''; for (let x = -4; x < BW + 4; x += 4) marks += `<rect x="${(x - off).toFixed(3)}" y="${GROUND}" width="1.2" height=".35" fill="#4a5160"/>`;
     const svg = svgOf(M, { bg: '#1d2128', ppu: 10 }).replace('</svg>', `<rect x="0" y="${GROUND}" width="${BW}" height=".08" fill="#5c6474"/>${marks}</svg>`);
