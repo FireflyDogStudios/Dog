@@ -6,7 +6,8 @@ const eng = ['rig.js', 'rig_den.js', 'hero3.js'].map(f => `/* ---- engine/${f} -
 if (/<\/script/i.test(eng)) throw new Error('engine text contains </script>');
 const rep = path.join(ROOT, 'art/hero3/dogcheck/report.json'), report = fs.existsSync(rep) ? fs.readFileSync(rep, 'utf8') : 'null';
 const commit = execSync('git rev-parse --short HEAD', { cwd: ROOT }).toString().trim(), date = new Date().toISOString().slice(0, 10);
+const ref = {}; for (const line of fs.readFileSync(path.join(ROOT, 'ref/research/fetched/04-gait-curves/curves.csv'), 'utf8').split('\n').slice(1)) { const c = line.split(','); if (c[0] === 'catavitello2015_retrievers' && c[1] === 'walk') (ref[c[2]] ||= [])[+c[3]] = +(+c[4]).toFixed(1); }
 let html = fs.readFileSync(path.join(HERE, 'template.html'), 'utf8');
-html = html.replace('/*ENGINE*/', () => eng).replace('/*BUILD*/', () => JSON.stringify({ commit, date })).replace('/*REPORT*/', () => report);
+html = html.replace('/*ENGINE*/', () => eng).replace('/*BUILD*/', () => JSON.stringify({ commit, date })).replace('/*REPORT*/', () => report).replace('/*GAITREF*/', () => JSON.stringify(ref));
 fs.writeFileSync(path.join(HERE, 'index.html'), html);
 console.log('wrote apps/wolf-bench/index.html', (html.length / 1024).toFixed(0) + ' KB', commit);

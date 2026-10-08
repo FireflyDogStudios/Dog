@@ -97,7 +97,7 @@
   },
   "wolf-bench": {
     "url": "https://claude.ai/artifact/5MVTVAmLQmBxUaC5PL9QLC",
-    "title": "Wolf Review Bench",
+    "title": "Wolf Bench",
     "source": "apps/wolf-bench/template.html",
     "build": "./den dogcheck hero3 && node apps/wolf-bench/build.mjs",
     "publish": "apps/wolf-bench/index.html",
@@ -105,7 +105,7 @@
       "db",
       "user"
     ],
-    "store": "notes/<id> (GrumpyDingo's pinned notes: text, tag, joint + local x,y, phase, status open/fixed); checklist/hero3 (answers by question id)",
+    "store": "notes/<id> (GrumpyDingo's marks: type pin|arrow|pen, text, tag, sev must|should|nice, status open|fixed, rig, joint + local lx,ly (arrow lx2,ly2; pen pts), phase/standing, part; Firefly writes reply + fixedIn); checklist/hero3 (answers by question id)",
     "status": "live"
   }
 }
