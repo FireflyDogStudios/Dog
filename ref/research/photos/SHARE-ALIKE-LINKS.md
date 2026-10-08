@@ -27,6 +27,7 @@
 | Top view | Pinschernain.JPG | CC BY-SA 3.0 | true top-down, standing pinscher | [open](https://commons.wikimedia.org/wiki/File:Pinschernain.JPG) |
 | Top view | DogInKitchen*.JPG | CC BY-SA / GFDL | top-down standing dog | [search](https://commons.wikimedia.org/w/index.php?search=DogInKitchen&ns6=1) |
 | Silhouette | Dog_Silhouette_01.svg | marked PD, but copied from a CC BY-SA 2.5 image | pariah-type silhouette; licence chain unclear | [open](https://commons.wikimedia.org/wiki/File:Dog_Silhouette_01.svg) |
+| Grey wolf | Rufus46's Hellabrunn wolves (Wolf Tierpark Hellabrunn-2, -4, -7, -6) | CC BY-SA 3.0 | good side-on standing wolves at a zoo | [search](https://commons.wikimedia.org/w/index.php?search=Wolf+Tierpark+Hellabrunn+Rufus46&ns6=1) |
 
 ## Not worth a link
 - **A Flickr account that re-uploads Commons photos** (ancientartpodcast.org) labels BY-SA photos as CC BY 2.0. The original licence applies, so they are not clean.

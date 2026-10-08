@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-08
+- 2026-10-08 · Shutter · Back line redone on 7 standing wolf photos + 4 plates + 4 Husky stacks (a helper found 10 more standing wolves, licences re-checked): mid-back 0.98, croup 0.97, tail root 0.90 for wolves; medians moved by at most 0.02. → `ref/research/photos/backline/`, `ref/research/photos/grey-wolf/standing/`
 - 2026-10-08 · Scout · **Keynote:** 17 resolved: the rising back line is ~2/3 mesh geometry (short T1-T5 withers spines: scale T1 x1.08 ... T5 x1.01) and the wolf's croup slope (0.928 of withers, AwA n=67) is carriage, to be posed, not carved; scapula stays put. Found in passing: 15's lumbar station labels are one vertebra off. → `ref/research/scout/17-withers-spines/`
 - 2026-10-08 · Scout · **Keynote:** 16 resolved: wolf bony rib-cage width at the widest ribs = 0.26 WH (band 0.24-0.28, EST from B); the Stark mesh is correct and the per-bone scaling carried the Beagle's 0.42 WH fraction over; fix = lateral squash ~0.55-0.6. Taigan licence corrected to CC BY-NC-ND in 14. → `ref/research/scout/16-ribcage-width/`
 - 2026-10-08 · Scout · Wolf body round-3 review note: neck ~2x too deep (target 0.17 WH), missing prosternum, serratus/rib ridges need the skin shell, lower legs below carpus/hock are correctly bone+tendon, back line as a 3-anchor spline from 15. → `docs/team/inbox/2026-10-07-scout-wolf-review.md`
