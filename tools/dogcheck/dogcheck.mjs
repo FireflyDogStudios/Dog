@@ -261,6 +261,11 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
     if (L) o.shoulder = inc(apply(M[L.in], L.at), P(M, 'shN'), P(M, 'foreN')); return o; };
   const rest = angles(pose(0, false)), walk = {}; for (let f = 0; f < 48; f++) { const a = angles(pose(f / 48 * D.stride)); for (const k in a) (walk[k] ||= []).push(a[k]); }
   for (const k of ['shoulder', 'elbow', 'carpus', 'stifle', 'tarsus']) { if (!walk[k]) continue; const lo = Math.min(...walk[k]), hi = Math.max(...walk[k]), m = W[k];
+    if (k === 'carpus') { /* Catavitello's carpus runs to the toe tip (20-35 deg high), so the wrist is checked against metacarpal-based numbers instead:
+         GrumpyDingo's hand-tracked fox (ref/research/firefly/fox-walk-analysis/TRACKED-ANGLES.md) 64-214, the 5MC-marker dogs 88-217 (04-gait-curves/joint_extremes.csv) */
+      const off = []; if (lo > 95) off.push(`folds only to ${lo.toFixed(0)} in the swing (fox ~64, dogs 88)`); if (lo < 55) off.push(`folds to ${lo.toFixed(0)}, past the fox's 64`);
+      if (hi < 185) off.push(`never gives past straight under load (fox and dogs 195-220)`); if (hi > 228) off.push(`opens to ${hi.toFixed(0)}, past the measured ~220`);
+      add('joints', off.length ? 'WARN' : 'PASS', `carpus: standing ${rest[k].toFixed(0)}, walk ${lo.toFixed(0)}–${hi.toFixed(0)}; fox (hand-tracked) 64–214, dogs (5MC) 88–217${off.length ? ': ' + off.join('; ') : ''}`); continue; }
     if (!m) { add('joints', 'INFO', `${k}: standing ${rest[k].toFixed(0)}, walk ${lo.toFixed(0)}–${hi.toFixed(0)} (no measured walk curve)`); continue; }
     const mlo = Math.min(...m), mhi = Math.max(...m), tol = k === 'carpus' ? 25 : 10; /* Catavitello's carpus uses the toe tip: inflated, so a wider tolerance */
     const off = []; if (lo < mlo - tol) off.push(`bends to ${lo.toFixed(0)}, beyond the measured ${mlo.toFixed(0)}`); if (hi > mhi + tol) off.push(`opens to ${hi.toFixed(0)}, beyond the measured ${mhi.toFixed(0)}`);

@@ -21,7 +21,7 @@
   {
    "check": "notches",
    "level": "PASS",
-   "msg": "no new cracks (17 known ones in the baseline)"
+   "msg": "no new cracks (16 known ones in the baseline)"
   },
   {
    "check": "attach",
@@ -81,12 +81,12 @@
   {
    "check": "feet",
    "level": "PASS",
-   "msg": "no paw below the ground (deepest 0.01)"
+   "msg": "no paw below the ground (deepest 0.05)"
   },
   {
    "check": "gait",
    "level": "PASS",
-   "msg": "footfalls (left hind = 0): left fore 0.18 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.68; paws down fore 0.63, hind 0.61 of the stride (measured 0.56-0.68)"
+   "msg": "footfalls (left hind = 0): left fore 0.18 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.68; paws down fore 0.66, hind 0.61 of the stride (measured 0.56-0.68)"
   },
   {
    "check": "feet",
@@ -96,17 +96,17 @@
   {
    "check": "joints",
    "level": "WARN",
-   "msg": "shoulder: standing 112, walk 91–105; measured dog walk 121–153: bends to 91, beyond the measured 121; moves only 14° against the measured 32°"
+   "msg": "shoulder: standing 112, walk 92–125; measured dog walk 121–153: bends to 92, beyond the measured 121"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "elbow: standing 145, walk 106–152; measured dog walk 98–153"
+   "msg": "elbow: standing 145, walk 112–152; measured dog walk 98–153"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "carpus: standing 186, walk 97–214; measured dog walk 102–231"
+   "msg": "carpus: standing 186, walk 66–214; fox (hand-tracked) 64–214, dogs (5MC) 88–217"
   },
   {
    "check": "joints",
