@@ -1,8 +1,8 @@
 # Atlas status
-Updated: 2026-10-08 02:50 UTC
-Working on: waiting for Scout's shortlist (`ref/research/scout/19-dog-generators/`), then the licence check in `docs/team/atlas/2026-10-08-generator-licences.md`
-Last push: merged Firefly's branch (no conflicts); read `docs/claude/DEN-REQUEST-dog-generators-2026-10-08.md`
-Blocked: no (waiting, as agreed; the shortlist has not landed on any branch yet)
-Needs Firefly: nothing. GrumpyDingo's A-009 (Law draft) still open
-Plan for the check: for each candidate read its own licence or terms page and answer five questions (commercial game use; modify, restyle or recolour; ship baked into sprites or meshes; royalties, per-seat or separate game-use licence; AI output ownership on free and paid plans). Verdict OK / OK with cost / not OK, with the reason and the page read (URL and date). No sign-ups or contact: anything that needs one goes on a list for GrumpyDingo. Sweep with Haiku for the terms pages, I make the call.
-Mail checked at the start of this block: member mail none for Atlas; Outbox has one message, for Firefly only (not mine to pick up).
+Updated: 2026-10-08 04:10 UTC
+Working on: nothing open; generator licence check delivered (`docs/team/atlas/2026-10-08-generator-licences.md`)
+Last push: licence table, team mail to Scout (Cc Firefly), inbox note
+Blocked: Fab EULA and listing: fab.com returns 403 to me; needs a human to open them
+Needs Firefly: GrumpyDingo to read the Fab EULA and listing in a browser and paste the sections to me; then I give a verdict. A-009 (Law draft) still open
+Sub-agents this block: 4 Sonnet (Daz; Fab; Tripo and Meshy; Spine and Rive), each told to quote exactly, never guess, flag unreadable pages. I re-read the deciding clauses myself; the table marks what I verified.
+Mail: Outbox message `scout19shortlist20261008` picked up by Atlas (Spark has not yet, so it stays in the Outbox).
