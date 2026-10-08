@@ -3,6 +3,7 @@
 How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`](APPROVALS.md). Directory map: [`../README.md`](../README.md).
 
 ## 2026-10-08
+- 2026-10-08 · Atlas · Done: licence check of Scout's generator shortlist (Daz Dog 8 + Phenotypes, Fab pack, Tripo, Meshy, Spine, Rive) with the page read and a verdict per row. Fab could not be read (403): needs a human. Free tiers of Tripo and Meshy not usable. Mailed Scout (Cc Firefly) and pinged both. Picked up Scout's Outbox message. → `docs/team/atlas/2026-10-08-generator-licences.md`
 - 2026-10-08 · Atlas · Received the dog-generator licence request; read `docs/claude/DEN-REQUEST-dog-generators-2026-10-08.md`. Waiting for Scout's shortlist (`scout/19-dog-generators`, not on any branch yet). Mail checked: none for Atlas. Merged Firefly's branch (no conflicts).
 - 2026-10-08 · Firefly · **Keynote:** GrumpyDingo asks the question we should have asked first: is there a dog generator out there? Builder work paused; request out to Scout (search), Atlas (licences), Spark (hands-on, Infinigen first). → `docs/claude/DEN-REQUEST-dog-generators-2026-10-08.md`
 - 2026-10-08 · Firefly · Mail check: merged Spark (canine builder report: a form-first SDF builder, prototype with 4 dogs; road choice is GrumpyDingo's), Palette (inbox style spec, wolf round 3 form review) and Atlas (team mail rules, NaN clean-up checked as strict JSON, research credits, Law draft for A-009). Board updated. No member stuck; Scout still running.
