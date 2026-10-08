@@ -12,12 +12,12 @@
 | visible | PASS | eye, nose and every named marking show in all checked frames |
 | topline | PASS | above hip and shoulder height every leg stays inside the body, all walk frames |
 | markings | INFO | tailTop is partly drawn over by saddle 8%, body 3%, tailTip 17% (check the edge that makes) |
-| markings | INFO | earIn is partly drawn over by neck 61% (check the edge that makes) |
-| markings | INFO | saddleNeck is partly drawn over by saddle 38% (check the edge that makes) |
-| markings | INFO | throat is partly drawn over by bibTop 46%, bib 11% (check the edge that makes) |
-| markings | INFO | cheek is partly drawn over by nose 7% (check the edge that makes) |
-| markings | INFO | bibTop is partly drawn over by fur@shN 4% (check the edge that makes) |
+| markings | INFO | saddle is partly drawn over by saddleNeck 9% (check the edge that makes) |
+| markings | INFO | bibTop is partly drawn over by throat 31%, fur@shN 4% (check the edge that makes) |
+| markings | INFO | bib is partly drawn over by throat 100% (check the edge that makes) |
 | markings | INFO | belly is partly drawn over by fur@foreN 15% (check the edge that makes) |
+| markings | INFO | earIn is partly drawn over by neck 61% (check the edge that makes) |
+| markings | INFO | cheek is partly drawn over by nose 7% (check the edge that makes) |
 | markings | PASS | 10 markings stay inside their shapes, and no leg cuts into them while walking |
 | feet | PASS | no paw below the ground (deepest 0.07) |
 | gait | PASS | footfalls (left hind = 0): left fore 0.18 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.68; paws down fore 0.66, hind 0.61 of the stride (measured 0.56-0.68) |

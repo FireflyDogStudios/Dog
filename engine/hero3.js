@@ -206,9 +206,12 @@ function registerHero3(RIG){
       ...hind("F", 0, true), ...front("F", 1 - WALK.limbPhase, true), /* rig.js runs a leg with phase offset +x AHEAD by x, so a fore that lands 0.16 AFTER its hind gets 1 - 0.16 (hero2's +0.25 was a diagonal-sequence walk) */
       {id:"vault", at:BODY_PIVOT, track:"bodyWalk", in:"root"}, {id:"body", in:"vault"}, /* the body vaults over the planted legs (girdle drops); the vault is its own joint so the body keeps drawing over its tail and ear roots (rig.js draws an animated joint's parts under its children) */
       {id:"tail", at:[21.4, 14.0], track:"tailWalk", in:"body"},
-      {id:"head", at:HEAD_PIVOT, track:"headWalk", in:"body"}, {id:"skull", in:"head"}, /* skull is static so the ear roots stay under the head (rig.js draws an animated joint's parts under its children) */
-      {id:"earFar", at:[42.95, 10.1], in:"skull"}, {id:"earNear", at:[45.15, 9.7], in:"skull"},
-      ...hind("N", .5, false), ...front("N", .5 - WALK.limbPhase, false)],
+      ...hind("N", .5, false), ...front("N", .5 - WALK.limbPhase, false),
+      /* the head and neck draw after the near legs, so the jaw and throat sit in front of the top of the near upper arm (GrumpyDingo's tag: it
+         poked out in front of the face once the head dipped). They ride a twin of the body's vault so they move with the body exactly. */
+      {id:"vaultHead", at:BODY_PIVOT, track:"bodyWalk", in:"root"}, {id:"bodyHead", in:"vaultHead"},
+      {id:"head", at:HEAD_PIVOT, track:"headWalk", in:"bodyHead"}, {id:"skull", in:"head"}, /* skull is static so the ear roots stay under the head (rig.js draws an animated joint's parts under its children) */
+      {id:"earFar", at:[42.95, 10.1], in:"skull"}, {id:"earNear", at:[45.15, 9.7], in:"skull"}],
     parts:[
       ...legParts("F"),
       tail, tailTop, tailTip,
@@ -217,7 +220,7 @@ function registerHero3(RIG){
       {poly:neckFur, in:"skull", id:"neck"}, ...neckOf(saddle).length > 2 ? [{poly:neckOf(saddle), in:"skull", paint:"saddle", id:"saddleNeck"}] : [], {poly:neckOf(chest), in:"skull", paint:"pale", id:"throat", mayHide:true /* tucks behind the chest as the head drops */},
       {d:cheek, in:"skull", paint:"pale", id:"cheek"},
       ...torsoOf(body).map((P, k) => ({poly:P, in:"body", id:k ? "bodyChest" : "body"})),
-      ...torsoOf(saddle).map((P, k) => ({poly:P, in:"body", paint:"saddle", id:k ? "saddle2" : "saddle"})), ...torsoOf(chest).map((P, k) => ({poly:P, in:"body", paint:"pale", id:k ? "bib" : "bibTop"})),
+      ...torsoOf(saddle).map((P, k) => ({poly:P, in:"body", paint:"saddle", id:k ? "saddle2" : "saddle"})), ...torsoOf(chest).map((P, k) => ({poly:P, in:"body", paint:"pale", id:k ? "bib" : "bibTop", ...(k ? {mayHide:true /* fills the gap under the throat as the head dips; the neck covers it otherwise */} : {})})),
       {d:belly, in:"body", paint:"pale", id:"belly"},
             {d:muzzleTop, in:"skull", paint:"tan", id:"muzzleTop"},
       {ellipse:[45.65, 11.3, .72, .44], in:"skull", paint:"ink", id:"eye"}, {ellipse:[49.8, 14.45, .62, .68], in:"skull", paint:"ink", id:"nose"},

@@ -46,32 +46,32 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "earIn is partly drawn over by neck 61% (check the edge that makes)"
+   "msg": "saddle is partly drawn over by saddleNeck 9% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "saddleNeck is partly drawn over by saddle 38% (check the edge that makes)"
+   "msg": "bibTop is partly drawn over by throat 31%, fur@shN 4% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "throat is partly drawn over by bibTop 46%, bib 11% (check the edge that makes)"
-  },
-  {
-   "check": "markings",
-   "level": "INFO",
-   "msg": "cheek is partly drawn over by nose 7% (check the edge that makes)"
-  },
-  {
-   "check": "markings",
-   "level": "INFO",
-   "msg": "bibTop is partly drawn over by fur@shN 4% (check the edge that makes)"
+   "msg": "bib is partly drawn over by throat 100% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
    "msg": "belly is partly drawn over by fur@foreN 15% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "earIn is partly drawn over by neck 61% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "cheek is partly drawn over by nose 7% (check the edge that makes)"
   },
   {
    "check": "markings",
