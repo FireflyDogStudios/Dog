@@ -108,6 +108,7 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Loom · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-loom-hello.md`
 - 2026-10-07 · Lever · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-lever-hello.md`
 - 2026-10-07 · Echo · Joined the team; hello note and status file in place. → `docs/team/inbox/2026-10-07-echo-hello.md`
+- 2026-10-08 Scout: 18 spine-lean delivered (ref/research/scout/18-spine-lean/): plate lean table T1-L7, Stark mesh corrections (rotate T11-L2 tips cranially 20-30 deg), T1-vs-scapula = pose; numbering flag: first visible plate tip is T1 not T2 (17 row names drift one; factors stand).
 - 2026-10-07 · Lever · Den Team Inbox reskinned in the field kit look (desktop, half, phone, dark and light). → `apps/team-inbox/index.html`, `docs/team/lever/inbox-theme/`
 - 2026-10-07 · Lever · Team inbox rebuilt as a three-pane mail client, phase 1 of 3 (folders, list, reading). → `apps/team-inbox/`, `docs/team/lever/inbox-theme/`
 - 2026-10-07 · Lever · Team inbox phase 2 of 3: compose window, reply/forward, drafts, outbox with retry. → `apps/team-inbox/`
