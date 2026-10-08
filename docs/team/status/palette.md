@@ -1,7 +1,7 @@
 # Palette status
-Updated: 2026-10-07
-Working on: nothing open (inbox style spec and wolf round 3 review delivered)
-Last push: my kit in tools/palette/ (setup.sh, contrast.py WCAG checker)
+Updated: 2026-10-08
+Working on: nothing open; hero3 style read delivered (docs/team/inbox/2026-10-08-palette-hero3-style-read.md)
+Last push: hero3 style read (3 ranked changes: wolf head, neck ruff, lower-leg value)
 Setup: `bash tools/palette/setup.sh` (Pillow; contrast.py is stdlib only)
-Blocked: no (style tests wait for the wolf's skin and fur)
+Blocked: no
 Needs Firefly: no
