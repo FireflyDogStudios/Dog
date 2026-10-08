@@ -115,9 +115,10 @@
     "build": "node apps/gait-tracker/build.mjs",
     "publish": "apps/gait-tracker/index.html",
     "capabilities": [
-      "db"
+      "db",
+      "downloads"
     ],
-    "db": "clips/<clip id> = key points (source-video px), footfalls, own points; results/<clip id> = per-frame points and angles, per-stride curves",
+    "db": "clips/<clip id> = key points (source-video px), footfalls, own points; results/<clip id> = per-frame points and angles, per-stride curves; backups/<clip id>~<ms> = dated copies (auto every 10 min while working, manual from File)",
     "status": "live"
   }
 }

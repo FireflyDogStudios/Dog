@@ -130,6 +130,13 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
   <header class="panel topbar" aria-label="Tools">
     <h1>Gait Tracker</h1>
     <label class="file"><button class="primary" id="openBtn" tabindex="-1">Open video…</button><input type="file" id="file" accept="video/*" aria-label="Open a video from this computer"></label>
+    <details class="pop" id="fileMenu"><summary>File</summary><div style="min-width:300px">
+      <div class="row"><button id="fSave" disabled title="Ctrl+S">Save now</button><button id="fBackup" disabled title="Keep a dated copy you can go back to">Save a backup copy</button></div>
+      <div class="row"><button id="fExport" disabled title="A .json file with every point, footfall and track, to keep or move to another computer">Export points (.json)</button><button id="fCsv" disabled title="One row per frame: every joint's x, y and every angle">Export table (.csv)</button></div>
+      <div class="row"><label class="file"><button tabindex="-1" id="fImportBtn" disabled>Import points (.json)…</button><input type="file" id="fImport" accept=".json,application/json" aria-label="Import points from a .json file" disabled></label></div>
+      <div><span class="lab">Backups of this clip</span><div id="backups" class="small" style="display:grid;gap:3px;margin-top:4px;max-height:200px;overflow:auto">Open a clip to see its backups.</div></div>
+      <p class="small" style="margin:0" id="fileNote">Points save by themselves a moment after each change, and a backup copy is kept every 10 minutes while you work.</p>
+    </div></details>
     <span class="small" id="clipInfo">no clip</span>
     <details class="pop"><summary>Clip</summary><div>
       <div class="row"><span class="lab">Frames/s</span><input type="number" id="fps" min="1" max="240" step="any" value="30" aria-label="Frames per second"></div>
@@ -384,7 +391,7 @@ async function extract(){if(!fileMeta) return; const fps=+$("fps").value||30, t0
   st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=fw/fileMeta.vw; st.cur=0;
   st.clip={id:clipId(fileMeta,t0,fps),name:fileMeta.name,vw:fileMeta.vw,vh:fileMeta.vh,dur:fileMeta.dur,fps,t0,n:st.n};
   st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null; integ.clear();
-  ["fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","evDown","evUp","evAuto"].forEach(id=>$(id).disabled=false); $("empty").hidden=true;
+  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","evDown","evUp","evAuto"].forEach(id=>$(id).disabled=false); $("empty").hidden=true;
   hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); renderJoints(); rebuildAll(); refreshLists(); draw();}
 const clipId=(m,t0,fps)=>(m.name.replace(/[^A-Za-z0-9_.-]/g,"_").slice(0,60)+"_"+m.vw+"x"+m.vh+"_"+Math.round(m.dur*100)+"_"+Math.round(t0*100)+"_"+Math.round(fps*100));
 
@@ -822,8 +829,12 @@ TABS.forEach(x=>$("tab"+x).onclick=()=>selectTab(x));
 let saveT=null; function markDirty(){seriesCache=null; st.dirty=true; saveSoon();}
 function saveSoon(){clearTimeout(saveT); saveT=setTimeout(save,1500);}
 const r1=v=>Math.round(v*10)/10;
-async function save(){if(!st.clip||!st.dirty&&!st.resultsDirty) return; const s=1/st.sx, keys={}; for(const [j,K] of Object.entries(st.keys)){const o={}; for(const [f,v] of Object.entries(K)) o[f]=v.occ?"hidden":v.orig?[r1(v.x*s),r1(v.y*s),r1(v.orig.x*s),r1(v.orig.y*s)]:[r1(v.x*s),r1(v.y*s)]; if(Object.keys(o).length) keys[j]=o;}
-  const doc={name:st.clip.name,w:st.clip.vw,h:st.clip.vh,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:st.facing,keys,events:st.events,extra:st.extra,build:BUILD.commit,updated:Date.now()};
+function buildDoc(){const s=1/st.sx, keys={}; for(const [j,K] of Object.entries(st.keys)){const o={}; for(const [f,v] of Object.entries(K)) o[f]=v.occ?"hidden":v.orig?[r1(v.x*s),r1(v.y*s),r1(v.orig.x*s),r1(v.orig.y*s)]:[r1(v.x*s),r1(v.y*s)]; if(Object.keys(o).length) keys[j]=o;}
+  return {name:st.clip.name,w:st.clip.vw,h:st.clip.vh,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:st.facing,keys,events:st.events,extra:st.extra,build:BUILD.commit,updated:Date.now()};}
+function applyDoc(doc){const s=st.sx; st.keys={}; for(const [j,K] of Object.entries(doc.keys||{})){st.keys[j]={}; for(const [f,v] of Object.entries(K)){if(+f>=st.n) continue; st.keys[j][f]=v==="hidden"?{occ:true}:v.length>3?{x:v[0]*s,y:v[1]*s,orig:{x:v[2]*s,y:v[3]*s}}:{x:v[0]*s,y:v[1]*s};}}
+  st.events=doc.events||{}; st.extra=Object.assign({joints:[],bones:[],angles:[],tracks:[]},doc.extra||{}); trackSet=null; st.facing=doc.facing||"auto"; $("facing").value=st.facing;}
+const countPts=doc=>Object.values(doc.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0);
+async function save(){if(!st.clip||!st.dirty&&!st.resultsDirty) return; const s=1/st.sx; const doc=buildDoc();
   const A={}, P={}; for(const a of angles()){const S=series(a); if(S.some(v=>v!=null)) A[a.id]={name:a.name,kind:a.k||null,perFrame:S.map(v=>v==null?null:r1(v)),strides:strides(a).map(c=>c.map(v=>v==null?null:r1(v)))};}
   for(const j of joints()){const R=pointsFor(j.id); if(!R) continue; const pts=[]; let any=false; for(let f=0;f<st.n;f++){if(isNaN(R.x[f])||R.src[f]===4) pts.push(null); else {pts.push([r1(R.x[f]*s),r1(R.y[f]*s),R.src[f]]); any=true;}} if(any) P[j.id]=pts;}
   const res={name:st.clip.name,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:facing(),smoothed:st.show.smooth,angles:A,points:P,note:"points: [x, y, source] in source-video pixels; source 1 = placed by hand, 2 = filled by matching, 3 = drawn along the path",updated:Date.now()};
@@ -831,9 +842,35 @@ async function save(){if(!st.clip||!st.dirty&&!st.resultsDirty) return; const s=
   if(!st.db){$("store").textContent="Saved in this browser only (the shared store is not available in this view)."; return;}
   try{await st.db.doc("clips/"+st.clip.id).set(doc); await st.db.doc("results/"+st.clip.id).set(res); $("store").textContent=`Saved ${new Date().toLocaleTimeString()}: Firefly can read this clip's points and angles.`;}
   catch(e){st.dirty=true; $("store").textContent="Could not save to the shared store: "+(e.message||e.code||"refused")+". Your points are kept in this browser.";}}
-async function loadClip(){let doc=null; if(st.db){try{const s=await st.db.doc("clips/"+st.clip.id).get(); if(s.exists) doc=s.data();}catch(e){}} if(!doc){try{doc=JSON.parse(localStorage.getItem("gt:"+st.clip.id)||"null");}catch(e){}}
-  if(!doc) return; const s=st.sx; st.keys={}; for(const [j,K] of Object.entries(doc.keys||{})){st.keys[j]={}; for(const [f,v] of Object.entries(K)){if(+f>=st.n) continue; st.keys[j][f]=v==="hidden"?{occ:true}:v.length>3?{x:v[0]*s,y:v[1]*s,orig:{x:v[2]*s,y:v[3]*s}}:{x:v[0]*s,y:v[1]*s};}}
-  st.events=doc.events||{}; st.extra=Object.assign({joints:[],bones:[],angles:[],tracks:[]},doc.extra||{}); trackSet=null; st.facing=doc.facing||"auto"; $("facing").value=st.facing; $("store").textContent=`Loaded your saved points for this clip (${new Date(doc.updated).toLocaleString()}).`;}
+async function loadClip(){let doc=null, local=null; if(st.db){try{const s=await st.db.doc("clips/"+st.clip.id).get(); if(s.exists) doc=s.data();}catch(e){}} try{local=JSON.parse(localStorage.getItem("gt:"+st.clip.id)||"null");}catch(e){}
+  if(local&&(!doc||(local.updated||0)>(doc.updated||0))) doc=local; /* the newer of the shared copy and this browser's copy */
+  listBackups(); if(!doc) return; applyDoc(doc); $("store").textContent=`Loaded your ${countPts(doc)} saved points for this clip (${new Date(doc.updated).toLocaleString()}).`;}
+/* ---------- file: backups (db backups/<clip id>~<time>), export, import ---------- */
+let lastBackup=Date.now(), dl=null;
+async function backup(auto){if(!st.clip) return; const doc=buildDoc(); if(!countPts(doc)){if(!auto) toast("Nothing to back up yet"); return;} doc.clip=st.clip.id; doc.auto=!!auto; doc.backedUp=Date.now();
+  const id=`${st.clip.id}~${doc.backedUp}`; try{localStorage.setItem("gt:bk:"+id,JSON.stringify(doc));}catch(e){}
+  if(st.db){try{await st.db.doc("backups/"+id).set(doc); if(!auto) toast(`Backup saved: ${countPts(doc)} points`); lastBackup=Date.now(); listBackups();}catch(e){toast("Could not save the backup to the shared store: "+(e.message||e.code)+" (kept in this browser)");}}
+  else {lastBackup=Date.now(); if(!auto) toast(`Backup kept in this browser: ${countPts(doc)} points`); listBackups();}}
+async function listBackups(){const box=$("backups"); if(!st.clip){box.textContent="Open a clip to see its backups."; return;} let L=[];
+  if(st.db){try{const q=await st.db.collection("backups").where("clip","==",st.clip.id).get(); L=q.docs.map(d=>({...d.data(),id:d.id}));}catch(e){}}
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i); if(k.startsWith("gt:bk:"+st.clip.id+"~")&&!L.some(x=>x.id===k.slice(6))){const d=JSON.parse(localStorage.getItem(k)); L.push({...d,id:k.slice(6),localOnly:true});}}}catch(e){}
+  L.sort((a,b)=>(b.backedUp||0)-(a.backedUp||0)); box.textContent=""; if(!L.length){box.textContent="No backups yet."; return;}
+  L.slice(0,40).forEach(b=>{const r=document.createElement("div"); r.className="row"; const t=document.createElement("span"); t.textContent=`${new Date(b.backedUp).toLocaleString()} · ${countPts(b)} points${b.auto?" · auto":""}${b.localOnly?" · this browser":""}`;
+    const go=document.createElement("button"); go.className="lnk"; go.textContent="Restore"; go.onclick=()=>{snap("restore backup"); applyDoc(b); markDirty(); rebuildAll(); refreshLists(); draw(); toast(`Restored the backup from ${new Date(b.backedUp).toLocaleTimeString()} (Ctrl+Z goes back)`); $("fileMenu").open=false;}; r.append(t,go); box.append(r);});}
+setInterval(()=>{if(st.clip&&Date.now()-lastBackup>10*60*1000&&hist.u.length) backup(true);},60*1000);
+async function offerFile(name,data){if(!dl&&window.claude&&window.claude.use){try{dl=await window.claude.use("downloads");}catch(e){}}
+  if(dl){try{await dl.save({filename:name,data}); toast("Saved "+name); return;}catch(e){if(e&&e.code==="declined") return; toast("Could not save the file here ("+(e.code||e.message)+"): copied it instead");}}
+  try{await navigator.clipboard.writeText(typeof data==="string"?data:""); toast(`${name}: copied to the clipboard (file saving is not available in this view)`);}catch(e){toast("File saving and the clipboard are both blocked in this view");}}
+$("fSave").onclick=()=>{st.dirty=true; save().then(()=>toast("Saved"));};
+$("fBackup").onclick=()=>backup(false);
+$("fExport").onclick=()=>{const doc=buildDoc(); offerFile(`${st.clip.name.replace(/\.[^.]+$/,"")}-points-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify({format:"den-gait-tracker/1",clipId:st.clip.id,...doc},null,1));};
+$("fCsv").onclick=()=>{const s=1/st.sx, J=joints(), A=angles().filter(a=>series(a).some(v=>v!=null)), head=["frame","seconds",...J.flatMap(j=>[j.id+"_x",j.id+"_y",j.id+"_src"]),...A.map(a=>a.id+"_deg")]; const rows=[head.join(",")];
+  const P=Object.fromEntries(J.map(j=>[j.id,pointsFor(j.id)])), S=Object.fromEntries(A.map(a=>[a.id,series(a)]));
+  for(let f=0;f<st.n;f++){const r=[f+1,(st.clip.t0+f/st.clip.fps).toFixed(3)]; for(const j of J){const R=P[j.id]; if(R&&!isNaN(R.x[f])&&R.src[f]!==4) r.push(r1(R.x[f]*s),r1(R.y[f]*s),["","mine","filled","path"][R.src[f]]||""); else r.push("","",R&&R.src[f]===4?"hidden":"");} for(const a of A){const v=S[a.id][f]; r.push(v==null?"":r1(v));} rows.push(r.join(","));}
+  offerFile(`${st.clip.name.replace(/\.[^.]+$/,"")}-points-${new Date().toISOString().slice(0,10)}.csv`,rows.join("\n"));};
+$("fImport").onchange=async e=>{const f=e.target.files&&e.target.files[0]; e.target.value=""; if(!f||!st.clip) return; let doc; try{doc=JSON.parse(await f.text());}catch(err){toast("That file is not a points file (.json from Export points)"); return;}
+  if(!doc||!doc.keys){toast("That file has no points in it"); return;} snap("import"); await backup(true); applyDoc(doc); markDirty(); rebuildAll(); refreshLists(); draw(); $("fileMenu").open=false;
+  toast(`Imported ${countPts(doc)} points from ${f.name}${doc.name&&doc.name!==st.clip.name?` (made on ${doc.name})`:""}. Ctrl+Z undoes it.`);};
 function renderSaved(list){const box=$("savedList"); box.textContent=""; if(!list.length) return; const h=document.createElement("div"); h.textContent="Saved clips (open the same video file to carry on):"; box.append(h);
   list.forEach(d=>{const n=Object.values(d.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0), r=document.createElement("div"); r.textContent=`· ${d.name} · ${d.frames} frames · ${n} points · ${new Date(d.updated).toLocaleDateString()}`; box.append(r);});}
 
