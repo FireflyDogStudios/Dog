@@ -1,12 +1,12 @@
 {
  "rig": "hero3",
  "fails": 1,
- "warns": 5,
+ "warns": 4,
  "results": [
   {
    "check": "fit",
-   "level": "WARN",
-   "msg": "outside the 7-wolf range: nose_fwd_over_h 0.572 (0.49–0.54); nose_h_over_h 0.877 (0.75–0.86)"
+   "level": "PASS",
+   "msg": "all 7 back-line points and 4 proportions in range (back error 0.01)"
   },
   {
    "check": "pieces",
@@ -36,17 +36,17 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "earIn is partly drawn over by body 43% (check the edge that makes)"
+   "msg": "earIn is partly drawn over by body 62% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "bib is partly drawn over by cheek 4%, fur@shN 18%, fur@foreN 13% (check the edge that makes)"
+   "msg": "bib is partly drawn over by fur@shN 24%, fur@foreN 15% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "cheek is partly drawn over by ink@body 5% (check the edge that makes)"
+   "msg": "cheek is partly drawn over by ink@body 7% (check the edge that makes)"
   },
   {
    "check": "markings",

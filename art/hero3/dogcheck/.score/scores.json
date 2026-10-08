@@ -89,7 +89,7 @@
  "backline_mean_abs_err": 0.01,
  "proportions": {
   "body_len_over_h": {
-   "model": 1.151,
+   "model": 1.131,
    "median": 1.15,
    "range": [
     1.08,
@@ -107,22 +107,22 @@
    "in_range": true
   },
   "nose_fwd_over_h": {
-   "model": 0.572,
+   "model": 0.538,
    "median": 0.54,
    "range": [
     0.49,
     0.54
    ],
-   "in_range": false
+   "in_range": true
   },
   "nose_h_over_h": {
-   "model": 0.877,
+   "model": 0.855,
    "median": 0.85,
    "range": [
     0.75,
     0.86
    ],
-   "in_range": false
+   "in_range": true
   }
  },
  "method": "outline = body path + near legs at rest; withers = highest body point in the 6 units behind the drawn withers; tail root = first 45 deg fall; chest front = foremost body point 0.30-0.55 H below the withers; buttock = rearmost outline point 0.10-0.55 H below; chest floor = lowest body point from 0.3 H behind to 0.1 H ahead of the withers; nose = the middle of the foremost edge of the head (within 0.1 units of the tip)"
