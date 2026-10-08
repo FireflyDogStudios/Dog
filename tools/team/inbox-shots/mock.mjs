@@ -16,7 +16,7 @@ export const mail=[{id:'2026-10-07-palette-to-lever-style-hook',thread:'2026-10-
  {id:'2026-10-07-lever-to-palette-re-style-hook',thread:'2026-10-07-palette-to-lever-style-hook',from:'Lever',to:['Palette'],cc:[],re:'Re: A style hook for the mail folder',type:'answer',date:'2026-10-07T22:00:00Z',body:'Done: colour comes from a hash of the nick for now. Roster colours later.',branch:'claude/team-lever',seen:true},
  {id:'2026-10-07-forge-to-scout-skull-numbers',thread:'2026-10-07-forge-to-scout-skull-numbers',from:'Forge',to:['Scout'],cc:[],re:'Skull numbers for the helm',type:'request',date:'2026-10-07T20:30:00Z',body:'Which skull length do you want me to use for the wolf?',branch:'claude/team-forge',seen:true}];
 export const initFor=(v)=>{
- const o=v==='blocked'?outbox.map(x=>({...x,results:[{nick:'Palette',ok:false,code:'blocked_by_policy'}]})):outbox;
+ const o=v==='blocked'?outbox.map(x=>({...x,picked_up:['Firefly'],results:[{nick:'Palette',ok:false,code:'blocked_by_policy'}]})):outbox;
  const sn=v==='blocked'?[{id:'s9',at:'2026-10-07T23:16:00Z',to:['Lever'],cc:[],re:'Re: Lever is here',type:'request',body:'Please make the box movable.',results:[{nick:'Lever',ok:true,code:'delivered by Firefly (the page\'s send was blocked_by_policy)'}]},...sent]:sent;
  return `
 const D=${JSON.stringify({notes,members,sent:sn,drafts,outbox:o,mail})}; const VAR=${JSON.stringify(v)};

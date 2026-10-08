@@ -53,27 +53,28 @@ const b2=await box(); ok(b2.w>b1.w+100&&b2.h>b1.h+50,'dragging the grip resizes 
 await p.mouse.move(0,0); await p.keyboard.press('Escape'); await p.keyboard.press('Escape'); await p.keyboard.press('c'); const b3=await box(); ok(Math.abs(b3.x-b2.x)<2&&Math.abs(b3.w-b2.w)<2,'position and size are remembered');
 await p.dblclick('#c-head h2'); const b4=await box(); ok(b4.w<b2.w&&b4.y>b2.y,'double-click on the header resets it');
 await p.keyboard.press('Escape'); await p.keyboard.press('Escape');
-// courier row
-for (const [v, want] of [['default','Last ran 12 min ago, delivered 2'],['courier-err','1 error'],['nocourier','Has not reported yet']]) {
-  const q = await (await b.newContext({viewport:{width:1280,height:800}})).newPage(); q.on('pageerror',e=>errs.push(e.message));
-  await q.addInitScript(initFor(v)); await q.goto('file://'+process.argv[2]); await q.waitForTimeout(400); await q.click('[data-f="conn"]');
-  ok((await q.textContent('#conn')).includes(want),'courier row ('+v+'): '+want); await q.context().close();
-}
+// pickup status in the Outbox pane, and no courier line
+{ const q = await (await b.newContext({viewport:{width:1280,height:800}})).newPage(); q.on('pageerror',e=>errs.push(e.message));
+  await q.addInitScript(initFor('blocked')); await q.goto('file://'+process.argv[2]); await q.waitForTimeout(400);
+  await q.click('[data-f="outbox"]'); await q.click('.row:has-text("Moss tone")');
+  const t = await q.textContent('#read'); ok(t.includes('Picked up by: Firefly')&&t.includes('Still waiting: Palette'),'outbox pane shows who picked it up and who is still waiting');
+  ok((await q.textContent('#list')).includes('1 of 2'),'outbox row shows the pickup count');
+  await q.click('[data-f="conn"]'); ok(!(await q.textContent('#conn')).includes('Courier'),'no courier line in the Connection view'); await q.context().close(); }
 // connection check and blocked sends
-for (const [v, chip] of [['blocked','Firefly delivers'],['noconn','Live sessions off'],['default','Connected']]) {
+for (const [v, chip] of [['blocked','Mail by pickup'],['noconn','Live sessions off'],['default','Connected']]) {
   const q = await (await b.newContext({viewport:{width:1280,height:800}})).newPage(); q.on('pageerror',e=>errs.push(e.message));
   await q.addInitScript(initFor(v)); await q.goto('file://'+process.argv[2]); await q.waitForTimeout(500);
   ok((await q.textContent('#conn-chip')).toLowerCase().includes(chip.toLowerCase()), 'status chip says "'+chip+'" ('+v+')');
   if (v==='blocked') {
     await q.click('[data-f="conn"]'); ok((await q.textContent('#conn')).includes('blocked_by_policy')&&(await q.textContent('#conn')).includes('Open Permissions')&&!(await q.textContent('#conn')).includes('Connectors'),'connection view names the code, offers Permissions and does not send you to Connectors');
     await q.click('.compose-btn'); await q.click('[data-act="cmp-all"]'); await q.fill('#c-re','Blocked test'); await q.fill('#c-body','x'); await q.click('[data-act="cmp-send"]');
-    ok((await q.textContent('#c-confirm-text')).includes('Sending is blocked'),'confirm warns that it will wait in the Outbox');
+    ok((await q.textContent('#c-confirm-text')).includes('Sending from this page is off'),'confirm warns that it will wait for pickup');
     await q.click('[data-act="cmp-go"]'); await q.waitForTimeout(500);
     ok(!(await q.evaluate(()=>window.__bc)),'once blocked_by_policy has been seen, send_message is not called again');
-    ok((await q.textContent('#list')).includes('Queued: Firefly delivers')&&!(await q.textContent('#list')).includes('Not delivered'),'a policy-blocked send reads "Queued: Firefly delivers", not failed');
-    ok((await q.textContent('#toast')).includes('Queued'),'toast says it is queued for Firefly');
+    ok((await q.textContent('#list')).includes('Waiting for pickup')&&!(await q.textContent('#list')).includes('Not delivered'),'a policy-blocked send reads "Waiting for pickup", not failed');
+    ok((await q.textContent('#toast')).includes('Waiting for pickup'),'toast says it is waiting for pickup');
     await q.click('.row:has-text("Blocked test")'); await q.click('[data-act="retry"]'); await q.waitForTimeout(400); ok((await q.evaluate(()=>window.__bc))===1,'Retry still tries once, by hand');
-    ok(!(await q.innerHTML('#conn-chip')).includes('Sending blocked')&&(await q.textContent('#conn-chip')).includes('Firefly delivers'),'chip is calm: "Firefly delivers"');
+    ok(!(await q.innerHTML('#conn-chip')).includes('Sending blocked')&&(await q.textContent('#conn-chip')).includes('Mail by pickup'),'chip is calm: "Mail by pickup"');
     await q.click('[data-f="conn"]'); ok(!(await q.innerHTML('#conn')).includes('crow bad'),'no red rows when only sending is policy-blocked');
   }
   await q.context().close();

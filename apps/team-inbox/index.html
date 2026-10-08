@@ -248,7 +248,7 @@ a.btn:hover { border-color: var(--gold); color: var(--gold); }
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const state = { notes: [], members: [], sent: [], mail: [], drafts: [], outbox: [], sessions: null, sync: null, courier: null };
+const state = { notes: [], members: [], sent: [], mail: [], drafts: [], outbox: [], sessions: null, sync: null };
 const view = { folder: 'inbox', cur: null, checked: new Set(), pane: 'list', fresh: new Set(), q: '', prev: 'inbox' };
 let db = null;
 const ME = 'GrumpyDingo';
@@ -276,14 +276,14 @@ function items() {
     unread: n.state === 'new', archived: n.state === 'done', trashed: !!n.trashed, starred: !!n.starred, thread: threadKey(n.headline, n.thread) }));
   state.sent.forEach((s, i) => { const ok = (s.results || []).filter((r) => r.ok).length, all = (s.results || []).length;
     out.push({ kind: 'sent', coll: 'sent', id: s._id, nick: s.from || ME, to: s.to || [], cc: s.cc || [], subject: s.re || '(no subject)', body: s.body || '',
-      status: all ? ((s.results || []).some((r) => RELAYED.test(r.code || '')) ? 'Delivered by Firefly' : `Delivered to ${ok} of ${all}`) : '', raw: s.at, ts: Date.parse(s.at) || 0, ord: -i, unread: false, archived: !!s.archived, trashed: !!s.trashed, starred: !!s.starred,
+      status: all ? ((s.results || []).some((r) => RELAYED.test(r.code || '')) ? ((s.results || []).every((r) => /picked up by/i.test(r.code || '')) ? 'Picked up by ' + (s.results || []).map((r) => r.nick).join(', ') : 'Delivered by Firefly') : `Delivered to ${ok} of ${all}`) : '', raw: s.at, ts: Date.parse(s.at) || 0, ord: -i, unread: false, archived: !!s.archived, trashed: !!s.trashed, starred: !!s.starred,
       thread: threadKey(s.re, s.thread), type: s.type, results: s.results || [] }); });
   state.mail.forEach((x, i) => out.push({ kind: 'mail', coll: 'mail', id: x._id, nick: x.from || '?', to: x.to || [], cc: x.cc || [], subject: x.re || '(no subject)', body: x.body || '', type: x.type || '', branch: x.branch || '',
     raw: x.date, ts: Date.parse(x.date) || 0, ord: -i, unread: !x.seen, starred: !!x.starred, trashed: false, archived: false, thread: threadKey(x.re, x.thread) }));
   state.drafts.forEach((d, i) => out.push({ kind: 'draft', coll: 'drafts', id: d._id, nick: ME, to: d.to || [], cc: d.cc || [], subject: d.re || '(no subject)', body: d.body || '', raw: d.at, ts: Date.parse(d.at) || 0, ord: -i,
     unread: false, thread: threadKey(d.re, d.thread) }));
   state.outbox.forEach((o, i) => out.push({ kind: 'outbox', coll: 'outbox', id: o._id, nick: ME, to: o.to || [], cc: o.cc || [], subject: o.re || '(no subject)', body: o.body || '', raw: o.at, ts: Date.parse(o.at) || 0, ord: -i,
-    unread: false, thread: threadKey(o.re, o.thread), status: o.status || 'queued', results: o.results || [], policy: (o.results || []).some((r) => codeOf(r.code) === 'blocked_by_policy') }));
+    unread: false, thread: threadKey(o.re, o.thread), status: o.status || 'queued', results: o.results || [], pickedUp: o.picked_up || [], policy: (o.results || []).some((r) => codeOf(r.code) === 'blocked_by_policy') }));
   return out;
 }
 const mutable = (m) => m.kind === 'note' || m.kind === 'sent' || m.kind === 'mail';
@@ -337,10 +337,11 @@ const applyTo = (ms, how) => {
 
 /* rendering */
 const prevText = (m) => (m.body || m.status || (m.kind === 'sent' ? 'Sent to ' + m.to.join(', ') : '')).replace(/\s+/g, ' ').slice(0, 140);
+const pickCount = (m) => { const all = [...new Set([...m.to, ...m.cc])]; return `${all.filter((n) => m.pickedUp.some((x) => String(x).toLowerCase() === n.toLowerCase())).length} of ${all.length}`; };
 function rowHTML(g) {
   const m = g.top, mine = m.kind !== 'note' && m.kind !== 'mail'; const who = mine ? 'To ' + (m.to.join(', ') || '…') : m.kind === 'mail' ? `${m.nick} → ${m.to.join(', ') || '…'}` : m.nick;
   const tag = view.folder === 'search' ? `<span class="cnt">${m.trashed ? 'Trash' : m.archived ? 'Archive' : { note: 'Inbox', mail: 'Team mail', sent: 'Sent', draft: 'Draft', outbox: 'Outbox' }[m.kind]}</span>` : '';
-  const flag = tag + (g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? (m.status === 'sending' ? '<span class="flag">Sending</span>' : m.policy ? '<span class="flag">Queued: Firefly delivers</span>' : '<span class="flag bad">Not delivered</span>') : '');
+  const flag = tag + (g.ms.some((x) => x.needsYou) ? '<span class="flag">Needs you</span>' : m.kind === 'outbox' ? (m.status === 'sending' ? '<span class="flag">Sending</span>' : `<span class="flag">Waiting for pickup ${pickCount(m)}</span>`) : '');
   return `<div class="row ${g.unread ? 'unread' : ''} ${view.cur === g.key ? 'cur' : ''}" data-act="open" data-key="${esc(g.key)}" role="button" tabindex="0">
     <input type="checkbox" data-act="check" data-key="${esc(g.key)}" ${view.checked.has(g.key) ? 'checked' : ''} aria-label="Select">
     ${avatar(mine ? ME : m.nick)}
@@ -362,13 +363,19 @@ function renderList(all, gs) {
   $('list').innerHTML = `<div class="lh">${bulk}</div>` +
     (gs.length ? gs.map(rowHTML).join('') : `<div class="empty">${esc(EMPTY[view.folder] || '')}</div>`);
 }
+function pickupText(m) {
+  const all = [...new Set([...m.to, ...m.cc])], has = (n) => m.pickedUp.some((x) => String(x).toLowerCase() === n.toLowerCase());
+  const got = all.filter(has), wait = all.filter((n) => !has(n));
+  const bad = m.results.find((r) => !r.ok && codeOf(r.code) && codeOf(r.code) !== 'blocked_by_policy');
+  return `Waiting for pickup. Each member collects GrumpyDingo's mail when they start work. Picked up by: ${got.length ? got.join(', ') : 'nobody yet'}. Still waiting: ${wait.length ? wait.join(', ') : 'nobody'}.` + (bad ? ' Last try from this page: ' + failWhy(bad.code) : '') + ' Retry tries once from here.';
+}
 function msgHTML(m, open) {
   const mine = m.kind !== 'note' && m.kind !== 'mail', hasTo = m.kind !== 'note';
   const head = `${avatar(mine ? ME : m.nick)}<div><div class="mh-who">${esc(mine ? ME : m.nick)}${!mine && memberOf(m.nick) ? ` <span class="mh-sub">· ${esc(memberOf(m.nick).role)}</span>` : ''}</div>
     <div class="mh-sub">${hasTo ? 'to ' + esc(m.to.join(', ') || '…') + (m.cc.length ? ' · cc ' + esc(m.cc.join(', ')) : '') : 'to Firefly, GrumpyDingo'}</div></div><span class="mh-date">${shortDate(m.ts, m.raw)}</span>`;
   const body = `<div class="mb">${m.needs ? `<span class="needs">Needs: ${esc(m.needs)}</span>` : ''}
     ${m.body ? `<p class="body">${esc(m.body)}</p>` : m.kind === 'sent' ? '<p class="body mh-sub">The text of this message was not saved by an older version of the inbox.</p>' : ''}
-    ${m.kind === 'outbox' ? `<div class="path">${m.status === 'sending' ? 'Sending now…' : m.policy ? 'Queued: Firefly delivers it. Sending from this page is off for this account, so it waits here; the hourly courier (or Firefly) delivers it and it moves to Sent as delivered. Retry tries once from here.' : 'Not delivered. It is waiting in the Outbox; Retry tries again, and Firefly can relay it.'}</div>${m.results.length ? `<ul class="results">${m.results.map((r) => `<li class="${r.ok ? 'good' : 'bad'}">${esc(r.nick)}: ${r.ok ? 'delivered' : esc(failWhy(r.code))}</li>`).join('')}</ul>` : ''}` : ''}
+    ${m.kind === 'outbox' ? `<div class="path">${m.status === 'sending' ? 'Sending now…' : pickupText(m)}</div>${m.results.filter((r) => codeOf(r.code) !== 'blocked_by_policy').length ? `<ul class="results">${m.results.filter((r) => codeOf(r.code) !== 'blocked_by_policy').map((r) => `<li class="${r.ok ? 'good' : 'bad'}">${esc(r.nick)}: ${r.ok ? 'delivered' : esc(failWhy(r.code))}</li>`).join('')}</ul>` : ''}` : ''}
     ${m.status && m.kind === 'sent' ? `<div class="path">${esc(m.status)}${m.results.filter((r) => !r.ok).length ? ' · not sent to ' + esc(m.results.filter((r) => !r.ok).map((r) => r.nick).join(', ')) : ''}</div>` : ''}
     ${m.kind === 'mail' ? `<div class="path">${esc(m.type)}${m.branch ? ' · on ' + esc(m.branch) : ''} · ${esc(m.id)}</div>` : ''}
     ${m.path ? `<div class="path">${esc(m.branch ? m.branch + ' · ' : '')}${esc(m.path)}</div>` : ''}</div>`;
@@ -439,7 +446,7 @@ const FIX = {
   needs_reauth: ['The sign-in for Claude Code Remote has expired.', 'Reload the page while signed in to claude.ai. If it keeps happening, open the Permissions panel, or tell Firefly.', 'perm'],
   not_in_manifest: ['Claude Code Remote is switched off for this page.', 'Turn it back on in this page\'s Permissions menu.', 'perm'],
   approval_required: ['The page needs your approval to use Claude Code Remote and did not get it.', 'Allow it in the Permissions menu, then try again.', 'perm'],
-  blocked_by_policy: ['Sending from the page is off for this account, which is normal here. Messages you write wait in the Outbox and Firefly delivers them.', '', ''],
+  blocked_by_policy: ['Sending from the page is off for this account, which is normal here. Messages you write wait in the Outbox, and each member picks theirs up when they start work.', '', ''],
   server_unavailable: ['Claude Code did not answer.', 'Try again in a minute. Nothing is lost: unsent mail stays in the Outbox.', ''],
   upstream_error: ['Claude Code returned an error.', 'Try again in a minute. Check the recipient\'s session before resending, in case it did arrive.', ''],
   tool_error: ['Claude Code ran the tool and it reported a failure.', 'Check that the recipient\'s session is running, then retry from the Outbox.', ''],
@@ -447,7 +454,7 @@ const FIX = {
   capability_disabled: ['This view cannot use connectors.', 'Open the page in claude.ai while signed in.', ''],
   not_on_team: ['That person is not on the team roster yet.', 'Remove them, or ask Firefly to add them.', ''],
 };
-const RELAYED = /relayed|delivered by/i;
+const RELAYED = /relayed|delivered by|picked up by/i;
 const codeOf = (c) => { const k = String(c || ''); return POLICY.concat(['server_unavailable', 'upstream_error', 'tool_error', 'not_on_team']).find((x) => k.includes(x)) || (k && !RELAYED.test(k) ? 'upstream_error' : ''); };
 const ago2 = (t) => ago(new Date(t).toISOString());
 function sendHistory() {
@@ -455,7 +462,7 @@ function sendHistory() {
   let best = null;
   const take = (at, ok, code) => { const t = Date.parse(at) || 0; if (!best || t > best.at) best = { at: t, ok, code }; };
   state.outbox.forEach((o) => (o.results || []).filter((r) => !r.ok).forEach((r) => take(o.at, false, codeOf(r.code))));
-  state.sent.forEach((x) => (x.results || []).forEach((r) => take(x.at, !!r.ok && !RELAYED.test(r.code || ''), codeOf(r.code))));
+  state.sent.forEach((x) => (x.results || []).forEach((r) => { if (r.ok && RELAYED.test(r.code || '') && !codeOf(r.code)) return; take(x.at, !!r.ok && !RELAYED.test(r.code || ''), codeOf(r.code)); }));
   return best || { ok: null, code: '', at: 0 };
 }
 function connRows() {
@@ -472,13 +479,6 @@ function connRows() {
   rows.push(sd.ok === true ? { id: 'send', title: 'Sending to sessions', lvl: 'ok', what: 'Working. The last message was delivered ' + ago2(sd.at) + '.', fix: '' }
     : sd.ok === false ? { id: 'send', title: 'Sending to sessions', lvl: c === 'blocked_by_policy' ? 'warn' : 'bad', code: c, what: (FIX[c] || FIX.upstream_error)[0] + (c === 'blocked_by_policy' ? '' : ' Last try ' + ago2(sd.at) + '.'), fix: (FIX[c] || FIX.upstream_error)[1], kind: (FIX[c] || FIX.upstream_error)[2] }
     : { id: 'send', title: 'Sending to sessions', lvl: 'warn', what: 'Not tried yet in this browser.', fix: 'The first message you send will show here whether sending works. Anything that cannot be sent waits in the Outbox.' });
-  const K = state.courier, kt = K && Date.parse(K.last_run), nxt = (40 - new Date().getUTCMinutes() + 60) % 60 || 60;
-  const nOf = (v) => Array.isArray(v) ? v.length : typeof v === 'number' ? v : v ? 1 : 0, errs = K ? nOf(K.errors) : 0;
-  const errTxt = K && errs ? (Array.isArray(K.errors) ? K.errors.map((e) => typeof e === 'string' ? e : JSON.stringify(e)).join('; ') : String(K.errors)) : '';
-  rows.push({ id: 'courier', title: 'Den Courier (delivers your queued messages)', lvl: !kt ? 'warn' : errs ? 'warn' : Date.now() - kt > 100 * 60e3 ? 'warn' : 'ok',
-    what: !kt ? 'Has not reported yet. Messages in the Outbox wait for its next run (hourly, at 40 past).'
-      : `Last ran ${ago2(kt)}, delivered ${nOf(K.delivered)}${errs ? `, ${errs} error${errs > 1 ? 's' : ''}` : ''}. Next run in about ${nxt} min.`,
-    fix: !kt ? '' : errs ? 'Those messages stay in the Outbox and the next run tries again. ' + errTxt.slice(0, 200) : Date.now() - kt > 100 * 60e3 ? 'It looks like a run was missed. Queued messages wait; Firefly can deliver them by hand.' : '' });
   const P = conn.perms;
   rows.push({ id: 'perm', title: 'This page\'s permissions', lvl: !P ? 'warn' : Object.values(P).includes('denied') ? 'bad' : 'ok',
     what: P ? Object.entries(P).map(([k, v]) => `${k}: ${v}`).join(' · ') : 'Not readable in this view.', fix: P && Object.values(P).includes('denied') ? 'Something is switched off. Open the Permissions menu and turn it back on.' : '', kind: 'perm' });
@@ -487,7 +487,7 @@ function connRows() {
 function connSummary() {
   const rows = connRows(), bad = rows.find((r) => r.lvl === 'bad' && r.id !== 'perm') || rows.find((r) => r.lvl === 'bad');
   if (bad) return { lvl: 'bad', text: bad.id === 'send' ? (bad.code === 'blocked_by_policy' ? 'Sending blocked' : 'Sending problem') : bad.id === 'live' ? 'Live sessions off' : bad.id === 'store' ? 'No store' : 'Check permissions' };
-  if (rows.some((r) => r.id === 'send' && r.code === 'blocked_by_policy')) return { lvl: 'warn', text: 'Firefly delivers' };
+  if (rows.some((r) => r.id === 'send' && r.code === 'blocked_by_policy')) return { lvl: 'warn', text: 'Mail by pickup' };
   return rows.some((r) => r.lvl === 'warn' && r.id !== 'sync') ? { lvl: 'warn', text: 'Connected' } : { lvl: 'ok', text: 'All connected' };
 }
 function renderConn() {
@@ -609,7 +609,7 @@ async function deliver(id, force) {
   if (!force && known.ok === false && codeOf(known.code) === 'blocked_by_policy') {           // seen already: do not call send_message again. The Outbox is the path; Retry can still try once by hand.
     const prior = (o.results || []).filter((r) => r.ok);
     await put('outbox', id, { status: 'queued', results: prior.concat(targets.filter((n) => !done.has(n)).map((nick) => ({ nick, ok: false, code: 'blocked_by_policy' }))) });
-    sending.delete(id); render(); return toast('Queued: Firefly delivers it.');
+    sending.delete(id); render(); return toast('Waiting for pickup: each member collects it when they next start work.');
   }
   await put('outbox', id, { status: 'sending' }); render();
   if (!window.mcpRef) { await put('outbox', id, { status: 'queued', results: o.results || [] }); sending.delete(id); render(); return toast('Not delivered: this view has no connector access. It is waiting in the Outbox.'); }
@@ -625,7 +625,7 @@ async function deliver(id, force) {
   if (results.every((r) => r.ok)) {
     await put('sent', id, { at: new Date().toISOString(), from: ME, to: o.to, cc: o.cc, re: o.re, type: o.type, body: o.body, thread: o.thread, text: o.text, results });
     await drop('outbox', id); toast('Delivered to ' + results.map((r) => r.nick).join(', ')); view.folder = 'sent'; view.cur = null;
-  } else { await put('outbox', id, { status: 'failed', results }); const bad = results.find((r) => !r.ok); toast(codeOf(bad.code) === 'blocked_by_policy' ? 'Queued: Firefly delivers it.' : 'Not delivered: ' + failWhy(bad.code) + ' It is waiting in the Outbox.'); }
+  } else { await put('outbox', id, { status: 'failed', results }); const bad = results.find((r) => !r.ok); toast(codeOf(bad.code) === 'blocked_by_policy' ? 'Waiting for pickup: each member collects it when they next start work.' : 'Not delivered: ' + failWhy(bad.code) + ' It is waiting in the Outbox.'); }
   render();
 }
 
@@ -652,7 +652,7 @@ document.addEventListener('click', (e) => {
     if (!f.to.length && !f.cc.length) return void ($('c-msg').textContent = 'Pick at least one recipient first.');
     if (bad.length) return void ($('c-msg').textContent = 'Not on the team yet, remove them first: ' + bad.join(', '));
     if (!f.re.trim() || !f.body.trim()) return void ($('c-msg').textContent = 'Add a subject and a message first.');
-    const n = new Set([...f.to, ...f.cc]).size; $('c-confirm-text').textContent = `Send this to ${n} session${n > 1 ? 's' : ''}: ${[...new Set([...f.to, ...f.cc])].join(', ')}? Each one starts working on it.` + (sendHistory().ok === false && POLICY.includes(codeOf(sendHistory().code)) ? ' Sending is blocked for this page right now, so it will wait in the Outbox until it is delivered.' : ''); $('c-confirm').hidden = false; return;
+    const n = new Set([...f.to, ...f.cc]).size; $('c-confirm-text').textContent = `Send this to ${n} session${n > 1 ? 's' : ''}: ${[...new Set([...f.to, ...f.cc])].join(', ')}? Each one starts working on it.` + (sendHistory().ok === false && POLICY.includes(codeOf(sendHistory().code)) ? ' Sending from this page is off, so it will wait in the Outbox until each of them picks it up when they start work.' : ''); $('c-confirm').hidden = false; return;
   }
   if (a === 'cmp-cancel') { $('c-confirm').hidden = true; return; }
   if (a === 'cmp-go') {
@@ -729,7 +729,6 @@ document.addEventListener('keydown', (e) => {
   if (!db) { $('sync').textContent = 'The board needs you signed in to claude.ai to load.'; return; }
   const feed = (name, order, dir, key) => { try { db.collection(name).orderBy(order, dir).onSnapshot((snap) => { state[key] = snap.docs.map((d) => ({ _id: d.id, ...d.data() })); render(); }, () => {}); } catch {} };
   feed('notes', 'date', 'desc', 'notes'); feed('members', 'order', 'asc', 'members'); feed('sent', 'at', 'desc', 'sent'); feed('mail', 'date', 'desc', 'mail'); feed('drafts', 'at', 'desc', 'drafts'); feed('outbox', 'at', 'desc', 'outbox');
-  db.doc('meta/courier').onSnapshot((d) => { state.courier = d.exists ? d.data() : null; render(); }, () => {});
   db.doc('meta/sync').onSnapshot((d) => { state.sync = d.exists ? d.data() : null; render(); }, () => {});
 })();
 
