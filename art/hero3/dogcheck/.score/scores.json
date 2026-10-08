@@ -89,7 +89,7 @@
  "backline_mean_abs_err": 0.009,
  "proportions": {
   "body_len_over_h": {
-   "model": 1.143,
+   "model": 1.137,
    "median": 1.15,
    "range": [
     1.08,

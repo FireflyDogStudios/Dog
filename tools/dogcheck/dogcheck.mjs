@@ -70,7 +70,7 @@ function shapeSVG(p, fill, M, opacity = true) {
 // fill(p, i) → colour or null to skip; view = [x0, y0, x1, y1] in drawing units
 function svgOf(M, { fill = colourOf, view = [0, -2, BW, BH], ppu = PX, bg = null, crisp = false, only = null, opacity = true } = {}) {
   const [x0, y0, x1, y1] = view, el = [];
-  for (const [p, i] of ORDER) { if (p.hidden) continue; if (only && !only.has(i)) continue; const c = fill(p, i); if (c) el.push(shapeSVG(p, c, M[p.in || 'root'], opacity)); }
+  for (const [p, i] of ORDER) { if (p.hidden && !(only && only.has(i) && p.ref)) continue; if (only && !only.has(i)) continue; /* a hidden reference shape (p.ref) is drawn only when asked for */ const c = fill(p, i); if (c) el.push(shapeSVG(p, c, M[p.in || 'root'], opacity)); }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${Math.round((x1 - x0) * ppu)}" height="${Math.round((y1 - y0) * ppu)}" viewBox="${x0} ${y0} ${x1 - x0} ${y1 - y0}"${crisp ? ' shape-rendering="crispEdges"' : ''}>${bg ? `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" fill="${bg}"/>` : ''}${el.join('')}</svg>`;
 }
 const raster = async svg => { const { data, info } = await sharp(Buffer.from(svg)).ensureAlpha().raw().toBuffer({ resolveWithObject: true }); return { data, w: info.width, h: info.height }; };
@@ -172,7 +172,7 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
   if (bad.length) bad.forEach(b => add('attach', 'FAIL', b)); else add('attach', 'PASS', `every part is rooted in what it hangs from (least: ${ATT.sort((x, y) => parseFloat(x.split(' ')[1]) - parseFloat(y.split(' ')[1])).slice(0, 3).join(', ')})`); }
 
 // ---------- visible: small features (eye, nose, markings) must show in every frame; a draw-order change can bury them ----------
-{ const feat = ORDER.filter(([p]) => !p.mayHide && (p.paint === 'ink' || p.id && !/^(body|bodyChest|neck|tail)$/.test(p.id))).map(e => e[1]); /* a part marked mayHide is allowed to tuck out of sight */
+{ const feat = ORDER.filter(([p]) => !p.mayHide && !p.ref && (p.paint === 'ink' || p.id && !/^(body|bodyChest|neck|neckLow|tail)$/.test(p.id))).map(e => e[1]); /* a part marked mayHide is allowed to tuck out of sight */
   const idCol = i => '#' + (i + 1).toString(16).padStart(6, '0'), lost = new Map();
   for (const [t, M] of [['standing', pose(0, false)], ...[0, .25, .5, .75].map(t => [`walk ${t * 100}%`, pose(t * D.stride)])]) {
     const ID = await raster(svgOf(M, { fill: (p, i) => idCol(i), crisp: true, opacity: false })), seen = new Map();
@@ -182,7 +182,7 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
   if (lost.size) for (const [L, m] of lost) add('visible', 'FAIL', `${L} is hidden: ${m}`); else add('visible', 'PASS', `eye, nose and every named marking show in all checked frames`); }
 
 // ---------- topline: above hip / shoulder height a leg stays inside the body (a thigh or upper arm swinging out over the croup or withers) ----------
-{ const body = new Set(ORDER.filter(([p]) => /^(body|bodyChest|neck)$/.test(p.id || '')).map(e => e[1])), Jx = Object.fromEntries(D.joints.map(j => [j.id, j]));
+{ const body = new Set(ORDER.filter(([p]) => /^(body|bodyChest|neck|neckLow)$/.test(p.id || '')).map(e => e[1])), Jx = Object.fromEntries(D.joints.map(j => [j.id, j]));
   const tops = D.joints.filter(j => j.track === 'hhip' || j.track === 'fsh'), under = top => { const ids = new Set([top.id]); let grew = true; while (grew) { grew = false; for (const j of D.joints) if (!ids.has(j.id) && ids.has(j.in)) { ids.add(j.id); grew = true; } } return ids; };
   let worst = { d: 0 };
   for (let f = 0; f < 12; f++) { const t = f / 12 * D.stride, M = pose(t), B = await raster(svgOf(M, { fill: () => '#000', only: body }));
@@ -201,7 +201,8 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
   const topAt = q => ID.data[q * 4 + 3] > 127 ? ((ID.data[q * 4] << 16 | ID.data[q * 4 + 1] << 8 | ID.data[q * 4 + 2]) - 1) : -1;
   let issues = 0;
   for (const [p, i] of marks) { const jid = p.in || 'root';
-    const base = new Set(ORDER.filter(([q, k]) => (q.in || 'root') === jid && BASEPAINT.has(q.paint || 'fur') && ORDER.findIndex(e => e[1] === k) < ORDER.findIndex(e => e[1] === i)).map(e => e[1]));
+    const base = p.markOn ? new Set(ORDER.filter(([q]) => q.id === p.markOn).map(e => e[1])) /* a marking that sits across pieces (the throat over the chest) is checked against a named shape, e.g. a hidden copy of the whole outline */
+      : new Set(ORDER.filter(([q, k]) => (q.in || 'root') === jid && BASEPAINT.has(q.paint || 'fur') && ORDER.findIndex(e => e[1] === k) < ORDER.findIndex(e => e[1] === i)).map(e => e[1]));
     const mk = await raster(svgOf(M, { fill: () => '#000', crisp: true, only: new Set([i]) })), bs = await raster(svgOf(M, { fill: () => '#000', crisp: true, only: base }));
     let n = 0, out = 0; const cover = {};
     for (let q = 0; q < mk.w * mk.h; q++) { if (mk.data[q * 4 + 3] < 128) continue; n++; if (bs.data[q * 4 + 3] < 128) out++; const t = topAt(q); if (t !== i && t >= 0) { const L = label(D.parts[t]); cover[L] = (cover[L] || 0) + 1; } }

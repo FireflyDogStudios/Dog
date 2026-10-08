@@ -21,7 +21,7 @@
   {
    "check": "notches",
    "level": "PASS",
-   "msg": "no new cracks (16 known ones in the baseline)"
+   "msg": "no new cracks (17 known ones in the baseline)"
   },
   {
    "check": "attach",
@@ -46,12 +46,7 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "bibTop is partly drawn over by throat 31%, fur@shN 4% (check the edge that makes)"
-  },
-  {
-   "check": "markings",
-   "level": "INFO",
-   "msg": "bib is partly drawn over by throat 100% (check the edge that makes)"
+   "msg": "bibTop is partly drawn over by throat 27%, fur@shN 5% (check the edge that makes)"
   },
   {
    "check": "markings",

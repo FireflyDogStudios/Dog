@@ -112,13 +112,16 @@ function registerHero3(RIG){
   const above = (P, y) => clip(P, [0, y], [1, y], -1), below = (P, y) => clip(P, [0, y], [1, y], 1);
   /* head region: ahead of the cut and above the throat floor; the torso: behind the cut, plus everything below the floor */
   const headOf = d => P2(above(ahead(flat(d), CUT.a, CUT.b), CUT.floor));
-  const torsoOf = d => [P2(behind(flat(d), CUT.a, CUT.b)), P2(clip(ahead(flat(d), [CUT.a[0] - .2, CUT.a[1]], [CUT.b[0] - .2, CUT.b[1]]), [43.6, CUT.chest], [47.2, CUT.chest + 1.6], 1))] /* overlaps the cut a hair so no seam shows; the top slopes down to the chest front, so its corner never pokes out */.filter(P => P.length > 2);
+  /* the chest's front just under the jaw is pushed back onto a sloping line, so it never sticks out past the throat as the head dips; it is done
+     to the outline before the split, so every piece shares the same edge (and the throat covers it when standing) */
+  const chamfer = P => P.map(q => { if (q[1] <= 18.5 || q[1] >= 22.8) return q; const xl = 44.2 + (q[1] - 19.0) * (3.4 / 3.6); return q[0] > xl ? [xl, q[1]] : q; });
+  const torsoOf = d => { const F = chamfer(flat(d)); return [P2(behind(F, CUT.a, CUT.b)), P2(clip(ahead(F, [CUT.a[0] - .2, CUT.a[1]], [CUT.b[0] - .2, CUT.b[1]]), [43.6, CUT.chest], [47.2, CUT.chest + 1.6], 1))] /* overlaps the cut a hair so no seam shows; the top slopes down to the chest front, so its corner never pokes out */.filter(P => P.length > 2); };
   /* the hidden overlap behind the cut is trimmed under a line that drops back from the cut's top, so tipping the head nose-down (which lifts
      everything behind the pivot) never pushes it above the back */
   const lap = [[CUT.a[0] + (CUT.b[0] - CUT.a[0]) * (11.0 - CUT.a[1]) / (CUT.b[1] - CUT.a[1]), 11.0]]; lap.push([lap[0][0] - 3.5, 13.6]);
   const underLap = P => clip(P, lap[1], lap[0], 1);
   const neckOf = d => P2(underLap(above(ahead(flat(d), shiftB, shiftB2), CUT.floor + 1)));
-  const neckFur = neckOf(body); /* the fur piece reaches back under the shoulders and down under the chest */
+  const neckFur = P2(above(neckOf(body), 18.3)), neckLow = P2(clip(below(neckOf(body), 18.2), [43.5, 18.2], [41.9, 24.6], 1)); /* the fur piece reaches back under the shoulders, but stops at the pale chest's back edge: when the head dips, the body's own pale chest shows where the neck slides back, so no grey strip or hairline opens in the bib (GrumpyDingo's seam tags) */
   const HEAD_PIVOT = [37.7, 11.0]; /* on the back line at the base of the neck, so the crest bends down from the withers with no step */
   /* ---- the walk, baked from IK (Oct 8): each paw's path is chosen, then the joint angles that put it there are solved ----
      Stance (62% of the stride; measured walk duty 0.58-0.64, ref/research/fetched/04-gait-curves): the paw stays flat on the ground and
@@ -217,7 +220,7 @@ function registerHero3(RIG){
       tail, tailTop, tailTip,
       {d:earFar, in:"earFar"},
       {d:earNear, in:"earNear", paint:"tan"}, {d:earIn, in:"earNear", paint:"pale", id:"earIn"}, /* (ear and tail joints draw under all body parts in rig.js) */
-      {poly:neckFur, in:"skull", id:"neck"}, ...neckOf(saddle).length > 2 ? [{poly:neckOf(saddle), in:"skull", paint:"saddle", id:"saddleNeck"}] : [], {poly:neckOf(chest), in:"skull", paint:"pale", id:"throat", mayHide:true /* tucks behind the chest as the head drops */},
+      {poly:P2(flat(body)), in:"body", id:"outlineRef", hidden:true, ref:true} /* never drawn: the unsplit body outline, for dogcheck */, {poly:neckFur, in:"skull", id:"neck"}, {poly:neckLow, in:"skull", id:"neckLow"} /* below the jaw: stops at the pale chest's back edge */, ...neckOf(saddle).length > 2 ? [{poly:neckOf(saddle), in:"skull", paint:"saddle", id:"saddleNeck"}] : [], {poly:neckOf(chest), in:"skull", paint:"pale", id:"throat", markOn:"outlineRef" /* it lies over the body's own pale chest, not only the neck fur: checked against the whole body outline */, mayHide:true /* tucks behind the chest as the head drops */},
       {d:cheek, in:"skull", paint:"pale", id:"cheek"},
       ...torsoOf(body).map((P, k) => ({poly:P, in:"body", id:k ? "bodyChest" : "body"})),
       ...torsoOf(saddle).map((P, k) => ({poly:P, in:"bodyHead", paint:"saddle", id:k ? "saddle2" : "saddle"})) /* the saddle draws over the near legs (bodyHead moves exactly with the body), so the thigh's top never shows over its edge as the hip swings (GrumpyDingo's tag, ~49%) */, ...torsoOf(chest).map((P, k) => ({poly:P, in:"body", paint:"pale", id:k ? "bib" : "bibTop", ...(k ? {mayHide:true /* fills the gap under the throat as the head dips; the neck covers it otherwise */} : {})})),
