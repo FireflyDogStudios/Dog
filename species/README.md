@@ -13,5 +13,6 @@ One YAML file per animal, holding every number the species creator needs, each w
 | File | Status |
 |---|---|
 | `wolf.yaml` | draft: the prototype; all 22 cross-checked numbers agree with the research. Skeleton: `./den skeleton wolf` -> `build/wolf.skeleton.png` |
+| `husky.yaml` | draft (Forge, Oct 8): photo ratios from 5 standing stacks, bones are the wolf's scaled (EST), skull lengths and tail/body lengths are named gaps; `./den species check` passes shape and units only (no Husky research row) |
 
 `build/` holds generated files (`./den skeleton <id>` writes `<id>.skeleton.json`, `.svg`, `.png`). The skeleton builder lets bones and measured angles drive the pose, so the withers height, topline and stance length come out as results and are compared with the field numbers in its fit report. Anatomy the research does not give is a named assumption (`ASSUME` in `tools/den/skeleton.py`), listed in the JSON.
