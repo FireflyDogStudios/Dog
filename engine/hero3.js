@@ -50,22 +50,22 @@ function registerHero3(RIG){
      → brisket at the elbow → belly → modest tuck-up → rump. The head is carried at back level, nose forward 0.54 WH. */
   const body = "M23.2 11.5 C27 11.4 33 11.5 37.2 11.0 C39.6 10.6 41.6 9.6 43.0 9.0 C44.0 8.4 45.6 8.2 46.7 8.9 L47.5 9.7 C48.6 10.6 49.8 12.0 50.8 13.3 C51.3 13.7 51.3 14.5 50.7 14.8 C49.6 15.2 48.4 15.5 47.2 15.6 C46.4 15.7 45.7 15.8 45.2 16.0 C45.9 17.2 46.2 18.8 45.6 20.2 C44.8 22.0 42.8 23.6 40.2 24.0 C39.0 24.1 37.8 24.0 36.6 23.8 C33 23.5 28.4 22.4 25.2 20.6 C23.5 19.6 21.4 18.6 19.6 17.6 C17.6 16.4 17.4 14.0 19.6 12.8 C20.8 12.1 22.2 11.6 23.2 11.5 Z";
   /* dark saddle along the back, from behind the ears to the croup, inset under the topline (wolf agouti) */
-  const saddle = "M22.4 11.6 C27 11.4 33 11.5 37.2 11.0 C39.6 10.6 41.4 9.7 42.6 9.2 C42.6 10.8 41.6 12.4 39.6 13.4 C37.6 14.2 35.8 13.6 34.0 14.3 C32.0 15.0 30.0 14.6 28.0 15.0 C26.0 15.4 24.0 15.2 22.8 14.4 C21.8 13.8 21.6 12.2 22.4 11.6 Z";
+  const saddle = "M18.10 14.56 C18.27 13.89 18.76 13.26 19.60 12.80 C20.8 12.1 22.2 11.6 23.2 11.5 C27 11.4 33 11.5 37.2 11.0 C39.6 10.6 41.4 9.7 42.6 9.2 C42.6 10.8 41.6 12.4 39.6 13.4 C37.6 14.2 35.8 13.6 34.0 14.3 C32.0 15.0 30.0 14.6 28.0 15.0 C26.0 15.2 24.4 14.4 23.0 13.9 C21.4 13.5 19.4 13.6 18.10 14.56 Z"; /* rear edge stays above the near thigh, which draws over the body */ /* runs over the croup into the tail's dark top */
   /* pale: the throat and forechest ruff, the cheek and lower jaw, the belly line */
   const chest = "M47.0 15.6 C46.3 15.8 45.7 15.9 45.3 16.1 C46.0 17.3 46.3 18.8 45.7 20.2 C44.9 22.0 42.9 23.6 40.3 24.0 L40.3 22.6 C42.4 22.2 43.9 20.8 44.4 19.4 C44.8 18.2 44.7 17.0 44.4 16.0 C45.2 15.3 46.1 15.3 47.0 15.6 Z";
   const cheek = "M47.6 13.0 C48.8 13.4 50.0 13.8 50.9 14.2 C51.0 14.5 50.9 14.7 50.7 14.8 C49.6 15.2 48.4 15.5 47.2 15.6 C46.4 15.7 45.7 15.8 45.2 16.0 C45.2 15.0 46.0 13.6 47.6 13.0 Z";
   const belly = "M38.4 24.0 C35 23.8 30 23.0 25.2 20.6 C26.6 20.9 28.6 21.8 31.0 22.3 C33.6 22.8 36.2 23.1 38.4 24.0 Z";
   const muzzleTop = "M47.5 9.7 C48.6 10.6 49.8 12.0 50.8 13.3 C50.0 13.0 49.0 12.4 48.2 11.8 C47.6 11.2 47.3 10.4 47.5 9.7 Z";
   /* ears: big wolf triangles (0.16 WH ≈ 3.9 tall), wide at the base, set at the back of the skull, upright and a touch back */
-  const earFar = "M42.4 9.5 C42.3 7.6 42.3 6.0 42.6 4.8 C42.7 4.5 43.0 4.5 43.2 4.7 C44.0 5.8 44.6 7.2 44.9 8.7 Z";
-  const earNear = "M43.4 9.2 C43.4 7.2 43.6 5.6 44.1 4.4 C44.2 4.1 44.6 4.1 44.8 4.3 C45.7 5.5 46.3 7.0 46.6 8.6 Z";
-  const earIn = "M44.2 8.6 C44.3 7.2 44.5 6.0 44.8 5.2 C45.4 6.1 45.8 7.2 46.0 8.4 Z";
+  const earFar = "M42.2 11.4 L42.4 9.5 C42.3 7.6 42.3 6.0 42.6 4.8 C42.7 4.5 43.0 4.5 43.2 4.7 C44.0 5.8 44.6 7.2 44.9 8.7 L45.0 11.0 Z";
+  const earNear = "M43.2 11.4 L43.4 9.2 C43.4 7.2 43.6 5.6 44.1 4.4 C44.2 4.1 44.6 4.1 44.8 4.3 C45.8 5.5 46.6 7.2 47.1 9.4 L46.8 11.2 Z"; /* base buried in the skull (the body draws over the ear joints); the front edge runs into the forehead */
+  const earIn = "M44.2 10.0 L44.2 8.6 C44.3 7.2 44.5 6.0 44.8 5.2 C45.4 6.1 45.8 7.2 46.0 8.4 L46.0 10.0 Z";
   /* tail: a full brush hanging from inside the croup to about hock height, behind the thigh with daylight below it */
-  const TAILC = [[21.4, 13.6], [18.8, 14.2], [16.4, 16.0], [14.8, 19.0], [14.0, 22.4], [13.9, 25.6], [14.4, 28.0]];
+  const TAILC = [[21.4, 14.0], [18.8, 14.6], [16.4, 16.3], [14.8, 19.2], [14.0, 22.4], [13.9, 25.6], [14.4, 28.0]];
   const tailW = u => u < .15 ? 2.4 + u / .15 * 1.4 : u < .7 ? 3.8 + Math.sin((u - .15) / .55 * Math.PI) * .6 : 3.8 - (u - .7) / .3 * 2.2;
   const tail = ribbon(TAILC, tailW, {in:"tail"});
-  const tailTop = ribbon(TAILC, u => tailW(u) * .92, {in:"tail", paint:"saddle"}, 1);
-  const tailTip = ribbon(TAILC.slice(5), u => tailW(.8 + u * .2) - .05, {in:"tail", paint:"furDark"}); /* the dark tip */
+  const tailTop = ribbon(TAILC, tailW, {in:"tail", paint:"saddle"}, 1);
+  const tailTip = ribbon(TAILC.slice(4), u => tailW(.68 + u * .32) * Math.min(1, .15 + u * 2.2), {in:"tail", paint:"furDark"}); /* the dark tip grows out of the tail as a soft wedge, no hard band */
 
   RIG.define("hero3", {
     stride:1, tracks:H2.tracks,
@@ -73,18 +73,18 @@ function registerHero3(RIG){
     joints:[
       ...hind("F", 0, true), ...front("F", .25, true),
       {id:"body", bob:.45, in:"root"},
-      {id:"tail", at:[21.4, 13.6], track:"wag", period:2.2, in:"body"},
+      {id:"tail", at:[21.4, 14.0], track:"wag", period:2.2, in:"body"},
       {id:"earFar", at:[43.6, 9.2], in:"body"}, {id:"earNear", at:[45.0, 8.9], in:"body"},
       ...hind("N", .5, false), ...front("N", .75, false)],
     parts:[
       ...legParts("F"),
       tail, tailTop, tailTip,
       {d:earFar, in:"earFar"},
+      {d:earNear, in:"earNear", paint:"tan"}, {d:earIn, in:"earNear", paint:"pale"}, /* (ear and tail joints draw under all body parts in rig.js) */
       {d:body, in:"body", id:"body"},
       {d:saddle, in:"body", paint:"saddle"},
       {d:chest, in:"body", paint:"pale"}, {d:cheek, in:"body", paint:"pale"}, {d:belly, in:"body", paint:"pale"},
-      {d:earNear, in:"earNear", paint:"tan"}, {d:earIn, in:"earNear", paint:"pale"},
-      {d:muzzleTop, in:"body", paint:"tan"},
+            {d:muzzleTop, in:"body", paint:"tan"},
       {ellipse:[46.3, 10.9, .75, .45], in:"body", paint:"ink"}, {circle:[50.75, 13.95, .75], in:"body", paint:"ink"},
       ...legParts("N")],
     states:{
