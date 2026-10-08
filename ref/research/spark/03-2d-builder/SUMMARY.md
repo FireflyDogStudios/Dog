@@ -27,7 +27,7 @@ Units are withers heights; y points down, so a positive bias means the model's l
 
 | Target | IoU | Topline error (mean / max / bias) | Belly error (mean / max / bias) |
 |---|---|---|---|
-| **Measured wolf outline** (`wolf.photo.json`: Rob Foster's CC BY photo, warped onto our skeleton) | **0.695** | 0.054 / see `scores.json` / +0.046 | **0.022** / see `scores.json` / −0.012 |
+| **Measured wolf outline** (`wolf.photo.json`: Rob Foster's CC BY photo, warped onto our skeleton) | **0.695** | 0.054 / 0.096 / +0.046 | **0.022** / 0.052 / −0.012 |
 | Our earlier curve model (`wolf.curves.json`), for reference | 0.699 | 0.033 / – / +0.010 | 0.065 / – / +0.052 |
 
 - **Starting point** (before 3 tuning passes, each fixing a fault I could see): photo IoU 0.647, topline 0.070, belly 0.034.
