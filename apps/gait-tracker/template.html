@@ -170,7 +170,7 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       <div class="empty" id="empty"><div>
         <b>Open a walking clip to start</b>
         <span>The video stays in this browser. Only the joint points, footfalls and angles you make are saved, so Firefly can read them.</span>
-        <span>Then click the joints on the animal: the next joint is picked for you, and after the last one it moves to the next frame. Faint rings show where each joint was on your last frame. Ctrl+Z undoes anything; right-click a point for more. Press <kbd>F</kbd> any time to fill the frames between your points, and <kbd>?</kbd> for every key.</span>
+        <span>Then pick a joint and click it on the animal: it moves to the next frame and keeps the same joint, so you can follow one joint through the clip (or switch to next joint per click). Faint rings show where each joint was on your last frame. Ctrl+Z undoes anything; right-click a point for more. Press <kbd>F</kbd> any time to fill the frames between your points, and <kbd>?</kbd> for every key.</span>
         <div class="saved" id="savedList"></div>
       </div></div>
     </div>
@@ -195,8 +195,8 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
     <div class="pane" id="paneJ" role="tabpanel">
       <div class="landmark" id="lm"></div>
       <div class="row">
-        <button id="autoNext" aria-pressed="true" title="After you place a point, pick the next joint that has none on this frame">Next joint after each click</button>
-        <label class="row"><span class="small">then</span><select id="nextFrame" aria-label="After the last joint on a frame"><option value="0">stay on this frame</option><option value="1" selected>go to the next frame</option><option value="2">skip 2 frames</option><option value="3">skip 3 frames</option><option value="5">skip 5 frames</option></select></label>
+        <label class="row"><span class="small">after each click</span><select id="flow" aria-label="After each click"><option value="same" selected>same joint, next frame</option><option value="joints">next joint, then next frame</option><option value="stay">stay here</option></select></label>
+        <label class="row"><span class="small">step</span><select id="nextFrame" aria-label="How many frames to move on"><option value="1" selected>1 frame</option><option value="2">2 frames</option><option value="3">3 frames</option><option value="5">5 frames</option></select></label>
         <button id="hideHere" title="The selected joint cannot be seen on this frame (H)">Hidden here</button>
         <button id="delKey" title="Remove the selected joint's point on this frame (Delete)">Remove point</button>
         <button id="copyPrev" title="Copy every point from the frame before as key points (C)">Copy last frame</button>
@@ -234,8 +234,9 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       <p class="hint">Pick a track above the video (or press 1–5) to work on one leg, or the head and back, at a time: clicking, the next joint, the next frame, Fill, Auto adjust, copy, paste and Clear all stay inside it, and the other joints are dimmed (or hidden, or shown). <b>+ New track</b> makes your own, from any joints or a new point such as the nose. Right-click one of your tracks twice to delete it; its points stay.</p>
       <h3>Keys</h3>
       <div class="keys">
-        <kbd>click</kbd><span>place the selected joint (the next joint is picked; after the last one, on to the next frame)</span>
-        <kbd>drag a point</kbd><span>move it; Esc while dragging cancels</span>
+        <kbd>click</kbd><span>place the joint you picked; it stays picked and moves to the next frame (change this under "after each click")</span>
+        <kbd>drag</kbd><span>drag the picked joint's point; Esc while dragging cancels</span>
+        <kbd>Shift+click</kbd><span>grab another joint's point (and pick that joint)</span>
         <kbd>right-click</kbd><span>menu: remove, hidden here, put back where I clicked, keep filled points, copy to the next frame, clear the joint everywhere</span>
         <kbd>right or middle drag</kbd><span>pan</span>
         <kbd>Ctrl+Z</kbd><span>undo; <kbd>Ctrl+Shift+Z</kbd> or <kbd>Ctrl+Y</kbd> redo</span>
@@ -315,7 +316,7 @@ function redo(){const e=hist.r.pop(); if(!e) {toast("Nothing to redo"); return;}
 function undoButtons(){$("undo").disabled=!hist.u.length; $("redo").disabled=!hist.r.length; $("undo").title=hist.u.length?`Undo ${hist.u[hist.u.length-1].label} (Ctrl+Z)`:"Undo (Ctrl+Z)";}
 let toastT=null; function toast(msg){const b=$("banner"); b.textContent=msg; b.classList.add("toast"); clearTimeout(toastT); toastT=setTimeout(()=>{b.classList.remove("toast"); toastT=null; banner();},1600);}
 function banner(){if(toastT) return; const b=$("banner"); if(!st.n){b.textContent=""; return;} const j=jById(st.sel), k=keyAt(st.sel,st.cur), L=st.track==="all"?joints().filter(x=>x.grp===(j&&j.grp)):workJoints(), i=L.indexOf(j);
-  b.textContent=""; const t=document.createElement("span"); t.textContent=k?(k.occ?"Hidden here: ":"Placed: "):"Click to place "; const nm=document.createElement("b"); nm.textContent=j?j.name:""; const r=document.createElement("span"); const tk=tracks().find(t=>t.id===st.track); r.textContent=` · ${i+1} of ${L.length}${st.track!=="all"&&tk?` in ${tk.name}`:""} · Tab next · 1–5 tracks`; b.append(t,nm,r);}
+  b.textContent=""; const t=document.createElement("span"); t.textContent=k?(k.occ?"Hidden here: ":"Placed: "):"Click to place "; const nm=document.createElement("b"); nm.textContent=j?j.name:""; const r=document.createElement("span"); const tk=tracks().find(t=>t.id===st.track); r.textContent=` · ${i+1} of ${L.length}${st.track!=="all"&&tk?` in ${tk.name}`:""} · Tab or the list picks another joint · Shift+click grabs another point`; b.append(t,nm,r);}
 
 /* ---------- video → frames ---------- */
 const vid=document.createElement("video"); vid.muted=true; vid.playsInline=true; vid.preload="auto";
@@ -490,10 +491,12 @@ function goTo(f){st.cur=Math.max(0,Math.min(st.n-1,f)); renderJointsStatus(); re
 let drag=null;
 cv.addEventListener("contextmenu",e=>e.preventDefault());
 cv.addEventListener("wheel",e=>{if(!st.n) return; e.preventDefault(); if(e.shiftKey){goTo(st.cur+(e.deltaY>0?1:-1)); return;} const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top, k=e.deltaY<0?1.15:1/1.15, [ix,iy]=toImg(X,Y); st.view.z*=k; st.view.ox=X-ix*st.view.z; st.view.oy=Y-iy*st.view.z; draw();},{passive:false});
+function nearestOf(id,X,Y){const p=ptOf(id,st.cur); if(!p) return null; const [x,y]=toScr(p.x,p.y), d=Math.hypot(x-X,y-Y); return d<10?{id,d}:null;}
 function nearest(X,Y){let best=null; for(const j of joints()){if(hiddenJoints.has(j.id)||(st.others!=="show"&&!inTrack(j.id))) continue; const p=ptOf(j.id,st.cur); if(!p) continue; const [x,y]=toScr(p.x,p.y), d=Math.hypot(x-X,y-Y); if(d<10&&(!best||d<best.d)) best={id:j.id,d};} return best;}
 cv.addEventListener("pointerdown",e=>{if(!st.n) return; closeMenu(); cv.focus({preventScroll:true}); cv.setPointerCapture(e.pointerId); const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top; stopPlay();
   if(e.button===1||e.button===2){drag={pan:true,sx:X,sy:Y,ox:st.view.ox,oy:st.view.oy,right:e.button===2,cx:e.clientX,cy:e.clientY}; return;}
-  const hit=nearest(X,Y); if(hit){st.sel=hit.id; drag={id:hit.id,before:stateNow(),sx:X,sy:Y,label:"move "+jById(hit.id).name.toLowerCase()}; renderJoints(); draw(); return;}
+  /* a click always works on the joint you picked: it places it, or grabs its point to drag. Shift+click grabs another joint's point (and picks that joint). */
+  const hit=e.shiftKey?nearest(X,Y):nearestOf(st.sel,X,Y); if(hit){st.sel=hit.id; drag={id:hit.id,before:stateNow(),sx:X,sy:Y,label:"move "+jById(hit.id).name.toLowerCase()}; renderJoints(); draw(); return;}
   const [ix,iy]=toImg(X,Y); if(ix<0||iy<0||ix>st.fw||iy>st.fh) return; snap("place "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,{x:ix,y:iy}); drag={id:st.sel,placed:true}; renderJointsStatus(); draw();});
 cv.addEventListener("pointermove",e=>{const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top; st.hover=[X,Y];
   if(drag&&drag.pan){if(Math.hypot(X-drag.sx,Y-drag.sy)>4){drag.moved=true; cv.classList.add("pan");} if(drag.moved){st.view.ox=drag.ox+X-drag.sx; st.view.oy=drag.oy+Y-drag.sy;}}
@@ -501,12 +504,13 @@ cv.addEventListener("pointermove",e=>{const b=cv.getBoundingClientRect(), X=e.cl
     const [ix,iy]=toImg(X,Y); setKey(drag.id,st.cur,{x:Math.max(0,Math.min(st.fw,ix)),y:Math.max(0,Math.min(st.fh,iy))}); drag.moved=true;} draw();});
 cv.addEventListener("pointerup",e=>{const d=drag; drag=null; cv.classList.remove("pan"); if(!d) return;
   if(d.pan&&d.right&&!d.moved){openMenu(d.cx,d.cy); return;}
-  if(d.id&&d.placed&&st.autoNext) afterPlace(); renderJoints(); draw();});
+  if(d.id&&d.placed) afterPlace(); renderJoints(); draw();});
 cv.addEventListener("pointerleave",()=>{st.hover=null; draw();});
 /* after a click: the next joint with no point here; after the last one, on to the next frame */
-function afterPlace(){const L=workJoints(), i=L.findIndex(j=>j.id===st.sel);
-  for(let k=1;k<=L.length;k++){const j=L[(i+k)%L.length]; if(!keyAt(j.id,st.cur)){st.sel=j.id; return;}}
-  const step=+$("nextFrame").value; if(step&&st.cur+step<st.n){goTo(st.cur+step); st.sel=L[0].id; toast(`Frame done: on to frame ${st.cur+1}`);} }
+function afterPlace(){const flow=$("flow").value, step=+$("nextFrame").value; if(flow==="stay") return;
+  if(flow==="same"){if(st.cur+step<st.n) goTo(st.cur+step); else toast(`Last frame: ${jById(st.sel).name.toLowerCase()} done to the end`); return;} /* the joint you picked stays picked */
+  const L=workJoints(), i=L.findIndex(j=>j.id===st.sel); for(let k=1;k<=L.length;k++){const j=L[(i+k)%L.length]; if(!keyAt(j.id,st.cur)){st.sel=j.id; return;}}
+  if(st.cur+step<st.n){goTo(st.cur+step); st.sel=L[0].id; toast(`Frame done: on to frame ${st.cur+1}`);} }
 const selectNext=afterPlace;
 function cancelDrag(){if(drag&&drag.id&&drag.moved&&drag.before){restore(drag.before); hist.u.pop(); undoButtons();} drag=null;}
 /* the right-click menu */
@@ -522,7 +526,7 @@ function openMenu(clientX,clientY){const m=$("cmenu"), box=$("stageBox").getBoun
     add("Remove this joint on every frame","",()=>{snap("clear "+j.name.toLowerCase()); st.keys[hit.id]={}; refresh(hit.id); markDirty(); refreshLists(); draw(); toast(`Removed every ${j.name.toLowerCase()} point (Ctrl+Z brings them back)`);});
     add(hiddenJoints.has(hit.id)?"Show this joint":"Hide this joint from view","",()=>{hiddenJoints.has(hit.id)?hiddenJoints.delete(hit.id):hiddenJoints.add(hit.id); renderJoints(); draw();}); sep();}
   else {const h=document.createElement("div"); h.className="mh"; h.textContent=`Frame ${st.cur+1}`; m.append(h); const [ix,iy]=toImg(X,Y);
-    add(`Place ${jById(st.sel).name.toLowerCase()} here`,"click",()=>{snap("place "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,{x:ix,y:iy}); if(st.autoNext) afterPlace(); refreshLists(); draw();});}
+    add(`Place ${jById(st.sel).name.toLowerCase()} here`,"click",()=>{snap("place "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,{x:ix,y:iy}); afterPlace(); refreshLists(); draw();});}
   add("Keep every filled point on this frame as mine","",()=>{snap("keep filled points"); let n=0; for(const j of joints()){const p=ptOf(j.id,st.cur); if(p&&p.src!==1&&!keyAt(j.id,st.cur)){setKey(j.id,st.cur,{x:p.x,y:p.y}); n++;}} refreshLists(); draw(); toast(n?`Kept ${n} filled points as yours`:"No filled points on this frame");});
   add("Auto adjust this frame's points","",()=>autoAdjust(st.cur)); add("Revert adjustments on this frame","",()=>revertAdj(null,st.cur));
   add("Paste points","Ctrl+V",paste); add("Copy this frame's points","Ctrl+C",copyFrame); add("Copy the last frame here","C",()=>$("copyPrev").click()); add("Clear this frame","Shift+Del",clearFrame); sep();
@@ -557,7 +561,7 @@ $("play").onclick=()=>st.playing?stopPlay():startPlay(); $("back").onclick=()=>g
 /* ---------- toggles and controls ---------- */
 const press=(el,on)=>el.setAttribute("aria-pressed",on?"true":"false");
 [["oBones","bones"],["oAngles","angles"],["oLabels","labels"],["oOnion","onion"],["oLoupe","loupe"],["oSmooth","smooth"],["oGhost","ghost"]].forEach(([id,k])=>$(id).onclick=()=>{st.show[k]=!st.show[k]; press($(id),st.show[k]); renderAngTable(); drawGraphs(); draw();});
-$("autoNext").onclick=()=>{st.autoNext=!st.autoNext; press($("autoNext"),st.autoNext);};
+$("flow").onchange=e=>{try{localStorage.setItem("gt:flow",e.target.value);}catch(_){} toast(e.target.value==="same"?"Each click places the picked joint, then moves to the next frame":e.target.value==="joints"?"Each click moves to the next joint; after the last, the next frame":"Clicks stay on this frame and joint");};
 $("con").oninput=e=>{st.con=+e.target.value; draw();}; $("bri").oninput=e=>{st.bri=+e.target.value; draw();};
 $("facing").onchange=e=>{st.facing=e.target.value; markDirty(); renderAngTable(); drawGraphs(); draw();};
 $("hideHere").onclick=()=>{if(!st.n) return; snap("hidden here"); const k=keyAt(st.sel,st.cur); setKey(st.sel,st.cur,k&&k.occ?null:{occ:true}); renderJointsStatus(); draw();};
@@ -695,6 +699,7 @@ function renderSaved(list){const box=$("savedList"); box.textContent=""; if(!lis
   list.forEach(d=>{const n=Object.values(d.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0), r=document.createElement("div"); r.textContent=`· ${d.name} · ${d.frames} frames · ${n} points · ${new Date(d.updated).toLocaleDateString()}`; box.append(r);});}
 
 /* ---------- boot ---------- */
+try{const fl=localStorage.getItem("gt:flow"); if(fl) $("flow").value=fl;}catch(_){}
 try{const m=localStorage.getItem("gt:mode"); if(m==="assist"||m==="manual"){st.mode=m; $("mode").value=m; if(m==="assist") st.filledOn=true;}}catch(_){}
 $("meta").textContent=`build ${BUILD.commit} · ${BUILD.date}`;
 window.addEventListener("resize",()=>{if(st.n) fit(); draw();});

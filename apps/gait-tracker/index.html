@@ -170,7 +170,7 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       <div class="empty" id="empty"><div>
         <b>Open a walking clip to start</b>
         <span>The video stays in this browser. Only the joint points, footfalls and angles you make are saved, so Firefly can read them.</span>
-        <span>Then click the joints on the animal: the next joint is picked for you, and after the last one it moves to the next frame. Faint rings show where each joint was on your last frame. Ctrl+Z undoes anything; right-click a point for more. Press <kbd>F</kbd> any time to fill the frames between your points, and <kbd>?</kbd> for every key.</span>
+        <span>Then pick a joint and click it on the animal: it moves to the next frame and keeps the same joint, so you can follow one joint through the clip (or switch to next joint per click). Faint rings show where each joint was on your last frame. Ctrl+Z undoes anything; right-click a point for more. Press <kbd>F</kbd> any time to fill the frames between your points, and <kbd>?</kbd> for every key.</span>
         <div class="saved" id="savedList"></div>
       </div></div>
     </div>
@@ -195,8 +195,8 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
     <div class="pane" id="paneJ" role="tabpanel">
       <div class="landmark" id="lm"></div>
       <div class="row">
-        <button id="autoNext" aria-pressed="true" title="After you place a point, pick the next joint that has none on this frame">Next joint after each click</button>
-        <label class="row"><span class="small">then</span><select id="nextFrame" aria-label="After the last joint on a frame"><option value="0">stay on this frame</option><option value="1" selected>go to the next frame</option><option value="2">skip 2 frames</option><option value="3">skip 3 frames</option><option value="5">skip 5 frames</option></select></label>
+        <label class="row"><span class="small">after each click</span><select id="flow" aria-label="After each click"><option value="same" selected>same joint, next frame</option><option value="joints">next joint, then next frame</option><option value="stay">stay here</option></select></label>
+        <label class="row"><span class="small">step</span><select id="nextFrame" aria-label="How many frames to move on"><option value="1" selected>1 frame</option><option value="2">2 frames</option><option value="3">3 frames</option><option value="5">5 frames</option></select></label>
         <button id="hideHere" title="The selected joint cannot be seen on this frame (H)">Hidden here</button>
         <button id="delKey" title="Remove the selected joint's point on this frame (Delete)">Remove point</button>
         <button id="copyPrev" title="Copy every point from the frame before as key points (C)">Copy last frame</button>
@@ -234,8 +234,9 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       <p class="hint">Pick a track above the video (or press 1–5) to work on one leg, or the head and back, at a time: clicking, the next joint, the next frame, Fill, Auto adjust, copy, paste and Clear all stay inside it, and the other joints are dimmed (or hidden, or shown). <b>+ New track</b> makes your own, from any joints or a new point such as the nose. Right-click one of your tracks twice to delete it; its points stay.</p>
       <h3>Keys</h3>
       <div class="keys">
-        <kbd>click</kbd><span>place the selected joint (the next joint is picked; after the last one, on to the next frame)</span>
-        <kbd>drag a point</kbd><span>move it; Esc while dragging cancels</span>
+        <kbd>click</kbd><span>place the joint you picked; it stays picked and moves to the next frame (change this under "after each click")</span>
+        <kbd>drag</kbd><span>drag the picked joint's point; Esc while dragging cancels</span>
+        <kbd>Shift+click</kbd><span>grab another joint's point (and pick that joint)</span>
         <kbd>right-click</kbd><span>menu: remove, hidden here, put back where I clicked, keep filled points, copy to the next frame, clear the joint everywhere</span>
         <kbd>right or middle drag</kbd><span>pan</span>
         <kbd>Ctrl+Z</kbd><span>undo; <kbd>Ctrl+Shift+Z</kbd> or <kbd>Ctrl+Y</kbd> redo</span>
@@ -262,7 +263,7 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
 </div>
 
 <script>
-const BUILD = {"commit":"55b834c","date":"2026-10-08"};
+const BUILD = {"commit":"ae6df91","date":"2026-10-08"};
 const GAIT_REF = {"carpus":[208.4,210.1,211.9,213.4,214.8,216.1,217.1,218.1,218.8,219.4,219.9,220.3,220.8,221.3,221.8,222.4,223,223.6,224.3,224.8,225.4,225.9,226.3,226.7,227,227.3,227.5,227.7,227.8,227.9,228.1,228.3,228.5,228.7,229,229.3,229.7,230,230.3,230.4,230.6,230.6,230.6,230.5,230.3,230.2,230.1,230,229.8,229.6,229.2,228.4,227.1,225.1,222.2,218.3,213,206.6,198.9,190.3,180.9,171,161.1,151.4,142.1,133.5,126.1,119.3,113.9,109.4,106,103.7,102.3,101.9,102.3,103.8,106,109.1,113.1,117.6,122.9,128.8,135.2,141.9,148.7,155.4,161.9,168.1,173.9,179,183.8,187.8,191.5,194.7,197.5,200.2,202.4,204.7,206.9,208.9,211],"elbow":[147.6,147.6,147.5,146.9,146,145,143.8,142.6,141.6,140.6,139.9,139.3,139,138.8,138.7,138.8,138.9,139,139.2,139.3,139.5,139.7,139.8,140,140.2,140.3,140.5,140.7,140.9,141.2,141.5,141.8,142.3,142.8,143.3,143.9,144.6,145.3,145.9,146.5,147.1,147.6,148,148.4,148.8,149.3,149.8,150.3,150.9,151.5,152.2,152.8,153.2,153.5,153.5,153.1,152.3,151,149.3,147.1,144.4,141.4,138.3,134.9,131.6,128.3,125.2,122.1,119.3,116.7,114.1,111.7,109.4,107.2,105,103,101.2,99.8,98.7,98,97.9,98.3,99.3,100.8,102.7,105.1,107.8,110.9,114.1,117.7,121.4,125.2,129,132.9,136.5,140,143,145.7,147.9,149.3,150.6],"hip":[57,57.5,58.1,58.6,59.3,59.9,60.5,61.2,61.8,62.5,63.1,63.7,64.3,64.9,65.4,66,66.6,67.2,67.8,68.5,69.2,69.9,70.6,71.4,72.2,72.9,73.8,74.5,75.4,76.2,77,77.8,78.7,79.5,80.3,81.1,82,82.8,83.7,84.5,85.3,86.2,87,87.8,88.6,89.3,90,90.7,91.2,91.7,92.1,92.5,92.6,92.7,92.7,92.4,92.1,91.5,90.8,89.9,88.8,87.7,86.4,85,83.6,82.1,80.6,79,77.5,76,74.4,72.9,71.4,70,68.5,67.2,65.8,64.5,63.2,62,60.9,59.8,58.7,57.8,57,56.3,55.7,55.3,55,54.9,54.8,54.9,55,55.2,55.5,55.7,56.1,56.4,56.9,57.4,57.9],"shoulder":[148.8,147.7,146.7,145.6,144.5,143.4,142.5,141.6,140.9,140.2,139.7,139.1,138.6,138.2,137.7,137.2,136.7,136.2,135.6,135.1,134.6,134.1,133.6,133.2,132.8,132.5,132.2,131.9,131.6,131.4,131.2,131,130.8,130.8,130.7,130.6,130.6,130.5,130.4,130.2,129.9,129.6,129.2,128.7,128.3,127.8,127.5,127.2,126.9,126.8,126.7,126.6,126.6,126.5,126.3,126,125.6,125.1,124.6,123.9,123.3,122.7,122.1,121.6,121.2,120.9,120.8,120.8,121,121.2,121.6,122.1,122.5,123.1,123.5,124.1,124.6,125.2,125.9,126.6,127.7,128.9,130.2,131.9,133.6,135.5,137.4,139.4,141.3,143.3,145.1,146.9,148.5,149.9,151,151.9,152.4,152.6,152.5,152,151.4],"stifle":[143.3,142.6,141.9,141.3,140.7,140.3,140.2,140.1,140.2,140.3,140.5,140.7,140.9,141.1,141.2,141.3,141.4,141.4,141.4,141.4,141.5,141.5,141.5,141.5,141.4,141.3,141.2,140.9,140.7,140.3,140,139.6,139.2,138.9,138.7,138.5,138.4,138.3,138.3,138.4,138.5,138.6,138.8,138.9,139.1,139.2,139.3,139.5,139.5,139.6,139.6,139.4,139.2,138.9,138.4,137.7,136.9,135.8,134.6,133.2,131.5,129.8,127.9,126,124,122,120.1,118.2,116.5,114.9,113.5,112.2,111.2,110.5,109.9,109.7,109.7,110,110.5,111.4,112.5,114,115.8,117.9,120.3,122.8,125.6,128.4,131.3,134,136.6,138.8,140.7,142.3,143.2,144,144.2,144.2,143.9,143.3,142.8],"tarsus":[145,143.7,142.3,141,139.7,138.4,137.5,136.7,136.2,135.9,135.9,136.1,136.4,136.8,137.3,137.9,138.4,139,139.6,140.1,140.6,141,141.4,141.8,142.1,142.4,142.7,142.9,143.1,143.3,143.4,143.6,143.8,144,144.2,144.4,144.8,145.1,145.5,146,146.5,147,147.6,148.3,149,149.8,150.6,151.5,152.5,153.5,154.5,155.6,156.6,157.6,158.4,159.1,159.7,160,160,159.8,159.1,158.1,156.7,154.8,152.7,150.1,147.4,144.4,141.4,138.3,135.4,132.6,130.1,127.8,125.7,123.9,122.4,121.1,120.3,119.6,119.4,119.5,120,120.9,122.2,123.9,126,128.3,130.8,133.4,136,138.5,140.8,142.7,144.2,145.4,145.9,146,145.8,144.9,144.1]}; /* Catavitello 2015, retrievers walking: mean angle per 1% of each limb's stride, 0 = touchdown */
 const WOLF = {"stifle":[105.3,104.9,104.6,104.3,104.1,104,103.8,103.4,103,103.4,104.2,104.8,105.3,105.8,106.3,106.9,107.5,108.2,108.9,109.6,110.4,111.2,112,112.9,113.7,114.6,115.5,116.3,117.2,118.1,119,119.9,120.8,121.7,122.6,123.5,124.4,125.4,126.3,127.3,128.4,129.4,130.6,131.8,133,134.4,135.8,137.3,139,140.9,142.8,145.1,147.5,147.8,147.9,148,148,148,148,148,148,148,148,148,148,148,148,148,148,147.5,145.6,143.3,139.1,134.9,130.8,126.6,122.7,118.8,115.6,112.4,109.9,107.4,105.6,103.9,102.8,101.9,101.3,101,101,101.3,101.7,102.2,102.8,103.5,104.2,104.7,105.2,105.5,105.7,105.5,105.3],"tarsus":[149.6,148.5,147.5,146.5,145.5,144.6,143.6,142.5,141.5,140.8,140.3,139.7,139.1,138.5,137.9,137.3,136.8,136.3,135.8,135.3,134.9,134.4,134,133.7,133.3,132.9,132.6,132.2,131.9,131.6,131.2,130.9,130.6,130.2,129.9,129.6,129.3,129,128.8,128.5,128.3,128.1,127.9,127.8,127.6,127.6,127.6,127.7,127.8,128.1,128.3,128.8,129.4,131.5,133.9,136.7,139.6,142.3,145.1,145.7,145.3,144.3,142.9,141.3,139.6,137.9,136.1,134.4,132.8,131.1,129,126.8,124.3,122,120.5,119,118.8,118.5,119,119.6,120.7,121.9,123.6,125.3,127.4,129.6,132,134.4,136.9,139.4,141.8,144.1,146.1,147.6,148.9,149.8,150.5,150.7,150.8,150.2,149.6],"shoulder":[98.2,97.7,97.2,96.8,96.3,96,95.6,95.3,95,94.7,94.4,94.2,94,93.8,93.6,93.4,93.3,93.1,93,92.9,92.8,92.7,92.6,92.5,92.4,92.4,92.3,92.3,92.3,92.2,92.2,92.2,92.3,92.3,92.4,92.5,92.6,92.7,92.9,93,93.2,93.4,93.5,93.9,94.4,95,95.5,96,96.6,97.2,97.9,98.7,99.5,100.5,101.5,102.2,102.9,103.4,103.7,104.1,104.6,104.8,105,104.4,103,102.2,101.9,101.8,102,102.2,102.4,102.6,102.7,102.7,102.6,102.5,102.3,102.1,101.8,101.5,101,100.4,99.6,98.8,97.8,96.8,95.7,94.5,93.4,92.3,91.5,91,90.9,92.2,93.6,95.2,96.7,97.7,98.5,98.3,98.2],"elbow":[127.2,126.4,125.6,125,124.4,123.9,123.4,123.1,122.8,122.6,122.5,122.4,122.4,122.5,122.6,122.7,122.9,123.2,123.5,123.8,124.1,124.5,124.9,125.3,125.7,126.2,126.6,127.1,127.6,128,128.5,129,129.5,130,130.5,131,131.5,132,132.6,133.1,133.8,134.4,135.1,135.8,136.6,137.4,138.3,139.3,140.4,141.6,142.8,144.3,145.8,147.6,149.4,150.5,151.4,151.6,151.7,151.8,151.9,151.6,151,148.1,142.9,138.3,134.5,131.1,128.8,126.6,125,123.5,122.2,121,119.8,118.5,117.4,116.3,115.1,113.9,112.7,111.4,110.1,108.9,107.8,106.9,106.4,106.1,106.4,107.3,108.9,111.5,114.2,117.3,120.1,122.1,123.9,125.2,126.4,126.8,127.2],"carpus":[166.2,166.6,166.9,167.3,167.7,168.2,168.7,169.3,169.8,170.5,171.1,171.8,172.5,173.3,174,174.8,175.6,176.4,177.3,178.1,179,179.9,180.7,181.6,182.5,183.4,184.3,185.2,186.1,187,187.9,188.8,189.7,190.7,191.6,192.5,193.4,194.3,195.3,196.2,197.2,198.1,199.1,200.1,201.1,202.2,203.3,204.4,205.5,206.7,207.9,209.2,210.5,212,213.4,213.7,213.6,212.6,211.3,209.9,208.5,206.1,203.2,196.2,185.3,174.8,165,155.7,147.4,139.5,132.7,126.1,120.6,115.2,111,106.7,103.6,100.6,98.8,97.1,96.7,96.7,98,99.8,102.8,106.4,111.3,116.9,123.6,131.2,139.6,149,156.5,160.3,163.3,163.6,163.9,164.4,164.9,165.6,166.2]}; /* hero3's near legs, same angle convention, 0 = touchdown */
 
@@ -315,7 +316,7 @@ function redo(){const e=hist.r.pop(); if(!e) {toast("Nothing to redo"); return;}
 function undoButtons(){$("undo").disabled=!hist.u.length; $("redo").disabled=!hist.r.length; $("undo").title=hist.u.length?`Undo ${hist.u[hist.u.length-1].label} (Ctrl+Z)`:"Undo (Ctrl+Z)";}
 let toastT=null; function toast(msg){const b=$("banner"); b.textContent=msg; b.classList.add("toast"); clearTimeout(toastT); toastT=setTimeout(()=>{b.classList.remove("toast"); toastT=null; banner();},1600);}
 function banner(){if(toastT) return; const b=$("banner"); if(!st.n){b.textContent=""; return;} const j=jById(st.sel), k=keyAt(st.sel,st.cur), L=st.track==="all"?joints().filter(x=>x.grp===(j&&j.grp)):workJoints(), i=L.indexOf(j);
-  b.textContent=""; const t=document.createElement("span"); t.textContent=k?(k.occ?"Hidden here: ":"Placed: "):"Click to place "; const nm=document.createElement("b"); nm.textContent=j?j.name:""; const r=document.createElement("span"); const tk=tracks().find(t=>t.id===st.track); r.textContent=` · ${i+1} of ${L.length}${st.track!=="all"&&tk?` in ${tk.name}`:""} · Tab next · 1–5 tracks`; b.append(t,nm,r);}
+  b.textContent=""; const t=document.createElement("span"); t.textContent=k?(k.occ?"Hidden here: ":"Placed: "):"Click to place "; const nm=document.createElement("b"); nm.textContent=j?j.name:""; const r=document.createElement("span"); const tk=tracks().find(t=>t.id===st.track); r.textContent=` · ${i+1} of ${L.length}${st.track!=="all"&&tk?` in ${tk.name}`:""} · Tab or the list picks another joint · Shift+click grabs another point`; b.append(t,nm,r);}
 
 /* ---------- video → frames ---------- */
 const vid=document.createElement("video"); vid.muted=true; vid.playsInline=true; vid.preload="auto";
@@ -490,10 +491,12 @@ function goTo(f){st.cur=Math.max(0,Math.min(st.n-1,f)); renderJointsStatus(); re
 let drag=null;
 cv.addEventListener("contextmenu",e=>e.preventDefault());
 cv.addEventListener("wheel",e=>{if(!st.n) return; e.preventDefault(); if(e.shiftKey){goTo(st.cur+(e.deltaY>0?1:-1)); return;} const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top, k=e.deltaY<0?1.15:1/1.15, [ix,iy]=toImg(X,Y); st.view.z*=k; st.view.ox=X-ix*st.view.z; st.view.oy=Y-iy*st.view.z; draw();},{passive:false});
+function nearestOf(id,X,Y){const p=ptOf(id,st.cur); if(!p) return null; const [x,y]=toScr(p.x,p.y), d=Math.hypot(x-X,y-Y); return d<10?{id,d}:null;}
 function nearest(X,Y){let best=null; for(const j of joints()){if(hiddenJoints.has(j.id)||(st.others!=="show"&&!inTrack(j.id))) continue; const p=ptOf(j.id,st.cur); if(!p) continue; const [x,y]=toScr(p.x,p.y), d=Math.hypot(x-X,y-Y); if(d<10&&(!best||d<best.d)) best={id:j.id,d};} return best;}
 cv.addEventListener("pointerdown",e=>{if(!st.n) return; closeMenu(); cv.focus({preventScroll:true}); cv.setPointerCapture(e.pointerId); const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top; stopPlay();
   if(e.button===1||e.button===2){drag={pan:true,sx:X,sy:Y,ox:st.view.ox,oy:st.view.oy,right:e.button===2,cx:e.clientX,cy:e.clientY}; return;}
-  const hit=nearest(X,Y); if(hit){st.sel=hit.id; drag={id:hit.id,before:stateNow(),sx:X,sy:Y,label:"move "+jById(hit.id).name.toLowerCase()}; renderJoints(); draw(); return;}
+  /* a click always works on the joint you picked: it places it, or grabs its point to drag. Shift+click grabs another joint's point (and picks that joint). */
+  const hit=e.shiftKey?nearest(X,Y):nearestOf(st.sel,X,Y); if(hit){st.sel=hit.id; drag={id:hit.id,before:stateNow(),sx:X,sy:Y,label:"move "+jById(hit.id).name.toLowerCase()}; renderJoints(); draw(); return;}
   const [ix,iy]=toImg(X,Y); if(ix<0||iy<0||ix>st.fw||iy>st.fh) return; snap("place "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,{x:ix,y:iy}); drag={id:st.sel,placed:true}; renderJointsStatus(); draw();});
 cv.addEventListener("pointermove",e=>{const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top; st.hover=[X,Y];
   if(drag&&drag.pan){if(Math.hypot(X-drag.sx,Y-drag.sy)>4){drag.moved=true; cv.classList.add("pan");} if(drag.moved){st.view.ox=drag.ox+X-drag.sx; st.view.oy=drag.oy+Y-drag.sy;}}
@@ -501,12 +504,13 @@ cv.addEventListener("pointermove",e=>{const b=cv.getBoundingClientRect(), X=e.cl
     const [ix,iy]=toImg(X,Y); setKey(drag.id,st.cur,{x:Math.max(0,Math.min(st.fw,ix)),y:Math.max(0,Math.min(st.fh,iy))}); drag.moved=true;} draw();});
 cv.addEventListener("pointerup",e=>{const d=drag; drag=null; cv.classList.remove("pan"); if(!d) return;
   if(d.pan&&d.right&&!d.moved){openMenu(d.cx,d.cy); return;}
-  if(d.id&&d.placed&&st.autoNext) afterPlace(); renderJoints(); draw();});
+  if(d.id&&d.placed) afterPlace(); renderJoints(); draw();});
 cv.addEventListener("pointerleave",()=>{st.hover=null; draw();});
 /* after a click: the next joint with no point here; after the last one, on to the next frame */
-function afterPlace(){const L=workJoints(), i=L.findIndex(j=>j.id===st.sel);
-  for(let k=1;k<=L.length;k++){const j=L[(i+k)%L.length]; if(!keyAt(j.id,st.cur)){st.sel=j.id; return;}}
-  const step=+$("nextFrame").value; if(step&&st.cur+step<st.n){goTo(st.cur+step); st.sel=L[0].id; toast(`Frame done: on to frame ${st.cur+1}`);} }
+function afterPlace(){const flow=$("flow").value, step=+$("nextFrame").value; if(flow==="stay") return;
+  if(flow==="same"){if(st.cur+step<st.n) goTo(st.cur+step); else toast(`Last frame: ${jById(st.sel).name.toLowerCase()} done to the end`); return;} /* the joint you picked stays picked */
+  const L=workJoints(), i=L.findIndex(j=>j.id===st.sel); for(let k=1;k<=L.length;k++){const j=L[(i+k)%L.length]; if(!keyAt(j.id,st.cur)){st.sel=j.id; return;}}
+  if(st.cur+step<st.n){goTo(st.cur+step); st.sel=L[0].id; toast(`Frame done: on to frame ${st.cur+1}`);} }
 const selectNext=afterPlace;
 function cancelDrag(){if(drag&&drag.id&&drag.moved&&drag.before){restore(drag.before); hist.u.pop(); undoButtons();} drag=null;}
 /* the right-click menu */
@@ -522,7 +526,7 @@ function openMenu(clientX,clientY){const m=$("cmenu"), box=$("stageBox").getBoun
     add("Remove this joint on every frame","",()=>{snap("clear "+j.name.toLowerCase()); st.keys[hit.id]={}; refresh(hit.id); markDirty(); refreshLists(); draw(); toast(`Removed every ${j.name.toLowerCase()} point (Ctrl+Z brings them back)`);});
     add(hiddenJoints.has(hit.id)?"Show this joint":"Hide this joint from view","",()=>{hiddenJoints.has(hit.id)?hiddenJoints.delete(hit.id):hiddenJoints.add(hit.id); renderJoints(); draw();}); sep();}
   else {const h=document.createElement("div"); h.className="mh"; h.textContent=`Frame ${st.cur+1}`; m.append(h); const [ix,iy]=toImg(X,Y);
-    add(`Place ${jById(st.sel).name.toLowerCase()} here`,"click",()=>{snap("place "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,{x:ix,y:iy}); if(st.autoNext) afterPlace(); refreshLists(); draw();});}
+    add(`Place ${jById(st.sel).name.toLowerCase()} here`,"click",()=>{snap("place "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,{x:ix,y:iy}); afterPlace(); refreshLists(); draw();});}
   add("Keep every filled point on this frame as mine","",()=>{snap("keep filled points"); let n=0; for(const j of joints()){const p=ptOf(j.id,st.cur); if(p&&p.src!==1&&!keyAt(j.id,st.cur)){setKey(j.id,st.cur,{x:p.x,y:p.y}); n++;}} refreshLists(); draw(); toast(n?`Kept ${n} filled points as yours`:"No filled points on this frame");});
   add("Auto adjust this frame's points","",()=>autoAdjust(st.cur)); add("Revert adjustments on this frame","",()=>revertAdj(null,st.cur));
   add("Paste points","Ctrl+V",paste); add("Copy this frame's points","Ctrl+C",copyFrame); add("Copy the last frame here","C",()=>$("copyPrev").click()); add("Clear this frame","Shift+Del",clearFrame); sep();
@@ -557,7 +561,7 @@ $("play").onclick=()=>st.playing?stopPlay():startPlay(); $("back").onclick=()=>g
 /* ---------- toggles and controls ---------- */
 const press=(el,on)=>el.setAttribute("aria-pressed",on?"true":"false");
 [["oBones","bones"],["oAngles","angles"],["oLabels","labels"],["oOnion","onion"],["oLoupe","loupe"],["oSmooth","smooth"],["oGhost","ghost"]].forEach(([id,k])=>$(id).onclick=()=>{st.show[k]=!st.show[k]; press($(id),st.show[k]); renderAngTable(); drawGraphs(); draw();});
-$("autoNext").onclick=()=>{st.autoNext=!st.autoNext; press($("autoNext"),st.autoNext);};
+$("flow").onchange=e=>{try{localStorage.setItem("gt:flow",e.target.value);}catch(_){} toast(e.target.value==="same"?"Each click places the picked joint, then moves to the next frame":e.target.value==="joints"?"Each click moves to the next joint; after the last, the next frame":"Clicks stay on this frame and joint");};
 $("con").oninput=e=>{st.con=+e.target.value; draw();}; $("bri").oninput=e=>{st.bri=+e.target.value; draw();};
 $("facing").onchange=e=>{st.facing=e.target.value; markDirty(); renderAngTable(); drawGraphs(); draw();};
 $("hideHere").onclick=()=>{if(!st.n) return; snap("hidden here"); const k=keyAt(st.sel,st.cur); setKey(st.sel,st.cur,k&&k.occ?null:{occ:true}); renderJointsStatus(); draw();};
@@ -695,6 +699,7 @@ function renderSaved(list){const box=$("savedList"); box.textContent=""; if(!lis
   list.forEach(d=>{const n=Object.values(d.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0), r=document.createElement("div"); r.textContent=`· ${d.name} · ${d.frames} frames · ${n} points · ${new Date(d.updated).toLocaleDateString()}`; box.append(r);});}
 
 /* ---------- boot ---------- */
+try{const fl=localStorage.getItem("gt:flow"); if(fl) $("flow").value=fl;}catch(_){}
 try{const m=localStorage.getItem("gt:mode"); if(m==="assist"||m==="manual"){st.mode=m; $("mode").value=m; if(m==="assist") st.filledOn=true;}}catch(_){}
 $("meta").textContent=`build ${BUILD.commit} · ${BUILD.date}`;
 window.addEventListener("resize",()=>{if(st.n) fit(); draw();});

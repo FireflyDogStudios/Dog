@@ -2,7 +2,7 @@
 // usage: node tools/bench/tests/gait_tracker_qol.cjs <dir holding vid/fox_test.webm>
 const {chromium}=require('/home/user/Dog/node_modules/playwright');
 (async()=>{const b=await chromium.launch(); const pg=await b.newPage({viewport:{width:1440,height:950}}); const errs=[]; pg.on('pageerror',e=>errs.push(String(e))); pg.on('console',m=>{if(m.type()==='error'&&!/CERT|fonts/.test(m.text())) errs.push(m.text());});
- await pg.goto('file:///home/user/Dog/apps/gait-tracker/index.html'); await pg.setInputFiles('#file',process.argv[2]+'/vid/fox_test.webm'); await pg.waitForFunction(()=>st.n>0,null,{timeout:60000});
+ await pg.goto('file:///home/user/Dog/apps/gait-tracker/index.html'); await pg.setInputFiles('#file',process.argv[2]+'/vid/fox_test.webm'); await pg.waitForFunction(()=>st.n>0,null,{timeout:60000}); await pg.selectOption('#flow','joints');
  const scr=async(x,y)=>pg.evaluate(([x,y])=>{const b=cv.getBoundingClientRect(); const p=toScr(x,y); return [b.left+p[0],b.top+p[1]];},[x,y]);
  const ev=f=>pg.evaluate(f); const log=(...a)=>console.log(...a);
  log('mode',await ev(()=>st.mode));
