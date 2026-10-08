@@ -171,6 +171,16 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
     if (worstF < need) bad.push(`${j.id} on ${host}: only ${(worstF * 100).toFixed(1)}% rooted (${at}; needs ${need * 100}%)`); else ATT.push(`${j.id} ${(worstF * 100).toFixed(0)}%`); }
   if (bad.length) bad.forEach(b => add('attach', 'FAIL', b)); else add('attach', 'PASS', `every part is rooted in what it hangs from (least: ${ATT.sort((x, y) => parseFloat(x.split(' ')[1]) - parseFloat(y.split(' ')[1])).slice(0, 3).join(', ')})`); }
 
+// ---------- visible: small features (eye, nose, markings) must show in every frame; a draw-order change can bury them ----------
+{ const feat = ORDER.filter(([p]) => p.paint === 'ink' || p.id && !/^(body|tail)$/.test(p.id)).map(e => e[1]);
+  const idCol = i => '#' + (i + 1).toString(16).padStart(6, '0'), lost = new Map();
+  for (const [t, M] of [['standing', pose(0, false)], ...[0, .25, .5, .75].map(t => [`walk ${t * 100}%`, pose(t * D.stride)])]) {
+    const ID = await raster(svgOf(M, { fill: (p, i) => idCol(i), crisp: true, opacity: false })), seen = new Map();
+    for (let q = 0; q < ID.w * ID.h; q++) if (ID.data[q * 4 + 3] > 127) { const k = (ID.data[q * 4] << 16 | ID.data[q * 4 + 1] << 8 | ID.data[q * 4 + 2]) - 1; seen.set(k, (seen.get(k) || 0) + 1); }
+    for (const i of feat) { const own = await raster(svgOf(M, { fill: () => '#000', crisp: true, only: new Set([i]) })); let n = 0; for (let q = 0; q < own.w * own.h; q++) if (own.data[q * 4 + 3] > 127) n++;
+      const vis = (seen.get(i) || 0) / Math.max(1, n), L = label(D.parts[i]); if (vis < (D.parts[i].paint === 'ink' ? .9 : .15) && !lost.has(L)) lost.set(L, `${(vis * 100).toFixed(0)}% visible (${t})`); } }
+  if (lost.size) for (const [L, m] of lost) add('visible', 'FAIL', `${L} is hidden: ${m}`); else add('visible', 'PASS', `eye, nose and every named marking show in all checked frames`); }
+
 // ---------- markings: inside their shape; what covers them ----------
 { const M = pose(0, false), BASEPAINT = new Set(['fur', 'leg', 'pale2', 'tan']);
   const marks = ORDER.filter(([p]) => !BASEPAINT.has(p.paint || 'fur') && p.paint !== 'ink' && !/[FN]$/.test(p.in || ''));
@@ -209,6 +219,23 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
     if (bob > 0.3) add('feet', 'WARN', `${jid} rises and dips ${bob.toFixed(2)} units while planted (a stiff leg swinging from the hip; needs knee/IK compensation)`); }
   const v = Object.values(speeds), lo = Math.min(...v), hi = Math.max(...v);
   add('feet', hi / lo > 1.12 ? 'WARN' : 'PASS', `planted paws push back over their stance: ${Object.entries(speeds).map(([k, s]) => `${k} ${s.toFixed(1)}`).join(', ')} units${hi / lo > 1.12 ? ': front and hind do not match, so a paw skates against the ground' : ''}`); }
+
+// ---------- joints: included angles (180 = straight), standing and over the walk, against measured dog walks ----------
+{ const W = {}; try { for (const line of fs.readFileSync(path.join(ROOT, 'ref/research/fetched/04-gait-curves/curves.csv'), 'utf8').split('\n').slice(1)) { const c = line.split(','); if (c[0] === 'catavitello2015_retrievers' && c[1] === 'walk') (W[c[2]] ||= []).push(+c[4]); } } catch (e) {}
+  const J = Object.fromEntries(D.joints.map(j => [j.id, j])), P = (M, id) => apply(M[id], J[id].at);
+  const inc = (a, b, c) => { const v1 = [a[0] - b[0], a[1] - b[1]], v2 = [c[0] - b[0], c[1] - b[1]]; return Math.acos(Math.max(-1, Math.min(1, (v1[0] * v2[0] + v1[1] * v2[1]) / Math.hypot(...v1) / Math.hypot(...v2)))) * 180 / Math.PI; };
+  const carpus = (e, w, p) => { const a1 = Math.atan2(w[1] - e[1], w[0] - e[0]), a2 = Math.atan2(p[1] - w[1], p[0] - w[0]); let t = (a2 - a1) * 180 / Math.PI; while (t > 180) t -= 360; while (t < -180) t += 360; return 180 - t; }; /* >180 = over-extended (normal in stance) */
+  const L = D.landmarks && D.landmarks.scapTop;
+  const angles = M => { const o = { stifle: inc(P(M, 'hipN'), P(M, 'shankN'), P(M, 'metaN')), tarsus: inc(P(M, 'shankN'), P(M, 'metaN'), P(M, 'htoeN')),
+      elbow: inc(P(M, 'shN'), P(M, 'foreN'), P(M, 'pastN')), carpus: carpus(P(M, 'foreN'), P(M, 'pastN'), P(M, 'ftoeN')) };
+    if (L) o.shoulder = inc(apply(M[L.in], L.at), P(M, 'shN'), P(M, 'foreN')); return o; };
+  const rest = angles(pose(0, false)), walk = {}; for (let f = 0; f < 48; f++) { const a = angles(pose(f / 48 * D.stride)); for (const k in a) (walk[k] ||= []).push(a[k]); }
+  for (const k of ['shoulder', 'elbow', 'carpus', 'stifle', 'tarsus']) { if (!walk[k]) continue; const lo = Math.min(...walk[k]), hi = Math.max(...walk[k]), m = W[k];
+    if (!m) { add('joints', 'INFO', `${k}: standing ${rest[k].toFixed(0)}, walk ${lo.toFixed(0)}–${hi.toFixed(0)} (no measured walk curve)`); continue; }
+    const mlo = Math.min(...m), mhi = Math.max(...m), tol = k === 'carpus' ? 25 : 10; /* Catavitello's carpus uses the toe tip: inflated, so a wider tolerance */
+    const off = []; if (lo < mlo - tol) off.push(`bends to ${lo.toFixed(0)}, beyond the measured ${mlo.toFixed(0)}`); if (hi > mhi + tol) off.push(`opens to ${hi.toFixed(0)}, beyond the measured ${mhi.toFixed(0)}`);
+    if (hi - lo < (mhi - mlo) * .5) off.push(`moves only ${(hi - lo).toFixed(0)}° against the measured ${(mhi - mlo).toFixed(0)}°`);
+    add('joints', off.length ? 'WARN' : 'PASS', `${k}: standing ${rest[k].toFixed(0)}, walk ${lo.toFixed(0)}–${hi.toFixed(0)}; measured dog walk ${mlo.toFixed(0)}–${mhi.toFixed(0)}${off.length ? ': ' + off.join('; ') : ''}`); } }
 
 // ---------- contrast at game size ----------
 { const lum = c => { const n = parseInt(c.slice(1), 16), ch = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }); return .2126 * ch[0] + .7152 * ch[1] + .0722 * ch[2]; };

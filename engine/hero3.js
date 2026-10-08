@@ -114,11 +114,11 @@ function registerHero3(RIG){
     bakeLeg([Fj.sh, Fj.elbow, Fj.past, Fj.paw], ["fsh", "ffore", "fpast", "ftoe"], -1, WALK.lift.front, WALK.fold.front, H2.tracks.ftoe));
 
   RIG.define("hero3", {
-    stride:1, gait:{duty:WALK.duty}, tracks:Object.assign({}, H2.tracks, walkTracks),
+    stride:1, gait:{duty:WALK.duty}, landmarks:{scapTop:{at:[38.8, 11.8], in:"body", note:"top of the shoulder blade (EST), for measuring the shoulder angle"}}, tracks:Object.assign({}, H2.tracks, walkTracks),
     palette:{fur:"#918a7f", saddle:"#625a51", tan:"#a8947a", leg:"#9f8f79", pale:"#ece6da", pale2:"#c8baa4", furDark:"#3f3933", ink:"#1e1a16", far:.74},
     joints:[
       ...hind("F", 0, true), ...front("F", .25, true),
-      {id:"body", at:BODY_PIVOT, track:"bodyWalk", in:"root"}, /* the body vaults over the planted legs (girdle drops), no fixed bob */
+      {id:"vault", at:BODY_PIVOT, track:"bodyWalk", in:"root"}, {id:"body", in:"vault"}, /* the body vaults over the planted legs (girdle drops); the vault is its own joint so the body keeps drawing over its tail and ear roots (rig.js draws an animated joint's parts under its children) */
       {id:"tail", at:[21.4, 14.0], track:"wag", period:2.2, in:"body"},
       {id:"earFar", at:[42.95, 10.1], in:"body"}, {id:"earNear", at:[45.15, 9.7], in:"body"},
       ...hind("N", .5, false), ...front("N", .75, false)],
