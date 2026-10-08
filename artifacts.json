@@ -107,5 +107,17 @@
     ],
     "store": "notes/<id> (GrumpyDingo's marks: type pin|arrow|pen, text, tag, sev must|should|nice, status open|fixed, rig, joint + local lx,ly (arrow lx2,ly2; pen pts), phase/standing, part; Firefly writes reply + fixedIn); checklist/hero3 (answers by question id)",
     "status": "live"
+  },
+  "gait-tracker": {
+    "url": "https://claude.ai/artifact/EjofNnxftBQYFPth6GgHT2",
+    "title": "Gait Tracker",
+    "source": "apps/gait-tracker/template.html",
+    "build": "node apps/gait-tracker/build.mjs",
+    "publish": "apps/gait-tracker/index.html",
+    "capabilities": [
+      "db"
+    ],
+    "db": "clips/<clip id> = key points (source-video px), footfalls, own points; results/<clip id> = per-frame points and angles, per-stride curves",
+    "status": "live"
   }
 }

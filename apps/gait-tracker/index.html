@@ -1,0 +1,561 @@
+<title>Gait Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: the Wolf Bench's light table. The video stage takes the width with a timeline (footfall diagram) under it; a side panel holds joints, angles, frames to check and help. Amber accent = wolf eye, as on the bench. */
+:root{
+  --bg:#eceef0; --panel:#ffffff; --ink:#1d2228; --muted:#5d6672; --line:#d5d9de; --accent:#b8771a; --accent-ink:#ffffff;
+  --ok:#2f7d4f; --warn:#a8670d; --bad:#b33a2e; --chip:#f1f3f5; --stage:#1d2128; --past:#d9483b;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif; --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15181c;--panel:#1d2126;--ink:#e6e8eb;--muted:#9aa3ad;--line:#2f353c;--accent:#e2a548;--accent-ink:#1b1408;--ok:#5cbf86;--warn:#e2a548;--bad:#ef7a6c;--chip:#262b31;--stage:#101317;--past:#ef7a6c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15181c;--panel:#1d2126;--ink:#e6e8eb;--muted:#9aa3ad;--line:#2f353c;--accent:#e2a548;--accent-ink:#1b1408;--ok:#5cbf86;--warn:#e2a548;--bad:#ef7a6c;--chip:#262b31;--stage:#101317;--past:#ef7a6c;color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding-inline:16px;padding-block:12px;box-sizing:border-box}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+h1{font:600 20px/1.1 var(--f-display);letter-spacing:.01em;margin:0;text-wrap:balance}
+h3{font:600 12px var(--f-display);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:12px 0 4px}
+.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:10px}
+.meta{color:var(--muted);font:12px var(--f-mono)}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:12px;align-items:start}
+@media (max-width:960px){.wrap{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;min-width:0}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px}
+.bar + .bar{border-top:1px solid var(--line)}
+.grp{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.grp + .grp{padding-left:8px;border-left:1px solid var(--line)}
+.lab{font:600 11px var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+button,select,input{font:inherit;color:inherit}
+button{background:var(--chip);border:1px solid var(--line);border-radius:4px;padding:4px 9px;cursor:pointer;line-height:1.3}
+button:hover{border-color:var(--muted)}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,select:focus-visible,input:focus-visible,canvas:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button[aria-pressed="true"],button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+select,input[type=number],input[type=text]{background:var(--chip);border:1px solid var(--line);border-radius:4px;padding:3px 6px}
+input[type=number]{width:5.5em}
+input[type=range]{width:90px}
+.file{position:relative;overflow:hidden}
+.file input{position:absolute;inset:0;opacity:0;cursor:pointer}
+#stageBox{position:relative;height:min(60vh,620px);min-height:300px;background:var(--stage);overflow:hidden;touch-action:none}
+#stage{width:100%;height:100%;display:block;cursor:crosshair}
+#stage.pan{cursor:grab}
+.hud{position:absolute;left:8px;bottom:8px;font:12px var(--f-mono);color:#cfd5dc;background:rgba(0,0,0,.5);padding:3px 7px;border-radius:4px;pointer-events:none}
+.hud.r{left:auto;right:8px;top:8px;bottom:auto;color:#ffd27a}
+#loupe{position:absolute;left:8px;top:8px;width:150px;height:150px;border-radius:50%;border:2px solid rgba(255,255,255,.75);box-shadow:0 2px 12px rgba(0,0,0,.5);pointer-events:none;background:#000}
+.empty{position:absolute;inset:0;display:grid;place-items:center;padding:16px;color:#cfd5dc;text-align:center}
+.empty div{max-width:560px;display:grid;gap:10px}
+.empty b{font:600 18px var(--f-display);color:#fff}
+.empty .saved{font:12px var(--f-mono);color:#aeb6bf;text-align:left}
+#timeline{display:block;width:100%;height:118px;cursor:pointer;background:var(--panel)}
+.prog{height:3px;background:var(--accent);width:0;transition:width .1s}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;border:0;border-radius:0;background:transparent;padding:9px 4px;font:600 13px var(--f-display);color:var(--muted);border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.pane{padding:10px 12px;max-height:calc(60vh + 170px);overflow:auto}
+.hint{color:var(--muted);font-size:13px;margin:0 0 8px}
+.small{font:12px var(--f-mono);color:var(--muted)}
+.store{font:12px var(--f-mono);color:var(--muted);margin:6px 0 0}
+.jrow{display:grid;grid-template-columns:14px minmax(0,1fr) auto;gap:8px;align-items:center;padding:4px 6px;border-radius:4px;cursor:pointer}
+.jrow:hover{background:var(--chip)}
+.jrow.sel{background:var(--chip);outline:1.5px solid var(--accent)}
+.dot{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(0,0,0,.35)}
+.dot.far{border-style:dashed}
+.st{font:11px var(--f-mono);color:var(--muted);white-space:nowrap}
+.st.key{color:var(--ok)}.st.trk{color:var(--ink)}.st.low{color:var(--warn)}.st.occ{color:var(--muted)}
+.gh{display:flex;justify-content:space-between;align-items:center}
+.gh button{padding:1px 7px;font-size:12px}
+.landmark{font-size:13px;border-left:3px solid var(--accent);padding:4px 8px;background:var(--chip);border-radius:0 4px 4px 0;margin:8px 0}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+table{border-collapse:collapse;width:100%;font-size:13px}
+td,th{padding:3px 4px;border-bottom:1px solid var(--line);text-align:left;font-variant-numeric:tabular-nums}
+th{font:600 11px var(--f-display);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td.n{font-family:var(--f-mono);text-align:right}
+.past{color:var(--past);font-weight:600}
+.flag{display:grid;grid-template-columns:4.5em minmax(0,1fr);gap:6px;padding:3px 0;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px}
+.flag:hover{background:var(--chip)}
+.graph{width:100%;height:190px;display:block;margin-top:6px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:4px}
+kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:0 5px}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:13px;align-items:baseline}
+.lnk{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:12px}
+@media (prefers-reduced-motion: reduce){.prog{transition:none}}
+</style>
+
+<div class="top">
+  <h1>Gait Tracker</h1>
+  <span class="meta" id="meta"></span>
+</div>
+<div class="wrap">
+  <section class="card" aria-label="Video and joints">
+    <div class="bar">
+      <div class="grp">
+        <span class="lab">Clip</span>
+        <label class="file"><button class="primary" id="openBtn" tabindex="-1">Open video…</button><input type="file" id="file" accept="video/*" aria-label="Open a video from this computer"></label>
+        <span class="small" id="clipInfo">no clip</span>
+      </div>
+      <div class="grp">
+        <span class="lab">Frames/s</span><input type="number" id="fps" min="1" max="240" step="any" value="30" aria-label="Frames per second">
+        <span class="lab">From</span><input type="number" id="t0" min="0" step=".1" value="0" aria-label="Start, seconds">
+        <span class="lab">To</span><input type="number" id="t1" min="0" step=".1" value="20" aria-label="End, seconds">
+        <button id="extract" disabled>Load frames</button>
+      </div>
+    </div>
+    <div class="bar">
+      <div class="grp">
+        <span class="lab">Track</span>
+        <button id="fill" disabled title="Fill the frames between your key points (F)">Fill between keys</button>
+        <button id="autoFill" aria-pressed="true" title="Refill a joint as soon as you move one of its points">Auto</button>
+        <button id="nextFlag" disabled title="Jump to the next frame to check (N)">Next to check</button>
+      </div>
+      <div class="grp">
+        <span class="lab">Show</span>
+        <button id="oBones" aria-pressed="true">Lines</button>
+        <button id="oAngles" aria-pressed="true">Angles</button>
+        <button id="oLabels" aria-pressed="false">Names</button>
+        <button id="oOnion" aria-pressed="false" title="Show the frames before and after, faintly (O)">Onion skin</button>
+        <button id="oLoupe" aria-pressed="true" title="Magnifier at the corner (L)">Loupe</button>
+        <button id="oSmooth" aria-pressed="true" title="Smooth tracked points before measuring angles (your own points are never changed)">Smooth</button>
+      </div>
+      <div class="grp">
+        <span class="lab">Image</span>
+        <label class="row"><span class="small">contrast</span><input type="range" id="con" min="50" max="300" value="100" aria-label="Contrast"></label>
+        <label class="row"><span class="small">bright</span><input type="range" id="bri" min="50" max="250" value="100" aria-label="Brightness"></label>
+        <select id="facing" aria-label="Which way the animal walks"><option value="auto">facing: auto</option><option value="1">walks right</option><option value="-1">walks left</option></select>
+      </div>
+    </div>
+    <div class="prog" id="prog"></div>
+    <div id="stageBox">
+      <canvas id="stage" tabindex="0" aria-label="Video frame with joint points; click to place the selected joint"></canvas>
+      <canvas id="loupe" width="150" height="150" aria-hidden="true" hidden></canvas>
+      <div class="hud" id="hud"></div>
+      <div class="hud r" id="hudR" hidden></div>
+      <div class="empty" id="empty"><div>
+        <b>Open a walking clip to start</b>
+        <span>The video stays in this browser. Only the joint points, footfalls and angles you make are saved, so Firefly can read them.</span>
+        <span>Then: pick a joint on the right, click it on the animal, and the next joint is picked for you. Put points on a few key frames (contact and passing poses first), press <kbd>F</kbd> to fill the frames between, and check the frames it flags.</span>
+        <div class="saved" id="savedList"></div>
+      </div></div>
+    </div>
+    <canvas id="timeline" aria-label="Timeline: frames, key points of the selected joint, frames to check and the footfall diagram; click to jump"></canvas>
+    <div class="bar">
+      <button id="play" aria-label="Play (Space)" disabled>▶</button>
+      <button id="back" aria-label="One frame back (←)" disabled>◀︎</button>
+      <button id="fwd" aria-label="One frame forward (→)" disabled>▶︎</button>
+      <span class="small" id="frameNo">frame –</span>
+      <span class="grp"><span class="lab">Footfall</span><button id="evDown" disabled title="The selected leg's paw touches down on this frame (D)">Paw down</button><button id="evUp" disabled title="The selected leg's paw lifts off on this frame (U)">Paw up</button><button id="evAuto" disabled title="Suggest footfalls from the tracked paw heights">Find footfalls</button></span>
+      <span class="grp"><span class="lab">Speed</span><select id="speed" aria-label="Playback speed"><option value=".25">0.25×</option><option value=".5">0.5×</option><option value="1" selected>1×</option></select></span>
+    </div>
+  </section>
+
+  <aside class="card" aria-label="Panels">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tabJ" aria-selected="true" aria-controls="paneJ">Joints</button>
+      <button role="tab" id="tabA" aria-selected="false" aria-controls="paneA">Angles</button>
+      <button role="tab" id="tabC" aria-selected="false" aria-controls="paneC">Check <span class="small" id="cCount"></span></button>
+      <button role="tab" id="tabH" aria-selected="false" aria-controls="paneH">Help</button>
+    </div>
+    <div class="pane" id="paneJ" role="tabpanel">
+      <div class="landmark" id="lm"></div>
+      <div class="row">
+        <button id="autoNext" aria-pressed="true" title="After you place a point, pick the next joint that has none on this frame">Next joint after each click</button>
+        <button id="hideHere" title="The selected joint cannot be seen on this frame (H)">Hidden here</button>
+        <button id="delKey" title="Remove the selected joint's point on this frame (Delete)">Remove point</button>
+        <button id="copyPrev" title="Copy every point from the frame before as key points (C)">Copy last frame</button>
+      </div>
+      <div id="joints"></div>
+      <h3>Your own points and lines</h3>
+      <div class="row"><input type="text" id="cName" placeholder="New point name" aria-label="New point name"><button id="cAdd">Add point</button></div>
+      <div class="row" style="margin-top:6px"><select id="lA" aria-label="Line from"></select><select id="lB" aria-label="Line to"></select><button id="lAdd">Add line</button></div>
+      <div class="row" style="margin-top:6px"><select id="aA" aria-label="Angle arm"></select><select id="aB" aria-label="Angle vertex"></select><select id="aC" aria-label="Angle arm"></select><button id="aAdd">Add angle</button></div>
+      <p class="store" id="store">Not connected to the shared store yet.</p>
+    </div>
+    <div class="pane" id="paneA" role="tabpanel" hidden>
+      <p class="hint">180° is straight. Below 180 the joint bends its normal way; <span class="past">above 180 it has gone past straight</span> (the wrong way for every joint except a loaded wrist, which gives a little).</p>
+      <table><thead><tr><th>Joint</th><th>now</th><th>clip range</th></tr></thead><tbody id="angTab"></tbody></table>
+      <h3>Over the clip</h3>
+      <select id="gSel" aria-label="Which angle to graph"></select>
+      <canvas class="graph" id="gTime" aria-label="The chosen angle frame by frame"></canvas>
+      <h3>Per stride (from the paw's touchdown)</h3>
+      <div class="legend"><span><i style="background:var(--accent)"></i>this clip</span><span><i style="background:var(--muted)"></i>measured dogs walking</span><span><i style="background:#3f8fd8"></i>our wolf</span></div>
+      <canvas class="graph" id="gStride" aria-label="The chosen angle over each stride, against measured dogs and our wolf"></canvas>
+      <p class="small" id="strideNote"></p>
+    </div>
+    <div class="pane" id="paneC" role="tabpanel" hidden>
+      <p class="hint">Frames where a filled point looks unsure: a weak match, a jump, or a bone that changed length. Click one, drag the point to the right spot (it becomes a key point) and the joint refills around it.</p>
+      <div id="flags"></div>
+    </div>
+    <div class="pane" id="paneH" role="tabpanel" hidden>
+      <h3>How it fills the frames between your points</h3>
+      <p class="hint">Each filled point is found by matching the look of the spot at your nearest key points (never the frame before, so it cannot creep onto loose fur), searched around the path between your keys, then the smoothest path through the best few matches is kept, with each bone held near its length. Points it is unsure of are drawn hollow and listed under Check. Ideas from Tracker (Open Source Physics), Kinovea, DLTdv, SLEAP and Anipose; the code is our own.</p>
+      <h3>Where to click (bony points, not fur)</h3>
+      <div class="keys" id="lmList"></div>
+      <h3>Keys</h3>
+      <div class="keys">
+        <kbd>click</kbd><span>place the selected joint; drag any point to move it</span>
+        <kbd>← →</kbd><span>frame back or forward (Shift: 10)</span>
+        <kbd>Alt + arrows</kbd><span>nudge the selected point a quarter pixel</span>
+        <kbd>Tab</kbd><span>next joint (Shift: previous)</span>
+        <kbd>[ ]</kbd><span>previous or next key point of the selected joint</span>
+        <kbd>Space</kbd><span>play or pause</span>
+        <kbd>F</kbd><span>fill between keys</span>
+        <kbd>N</kbd><span>next frame to check</span>
+        <kbd>H</kbd><span>selected joint hidden on this frame</span>
+        <kbd>Delete</kbd><span>remove the selected joint's point here</span>
+        <kbd>C</kbd><span>copy the last frame's points as keys</span>
+        <kbd>D U</kbd><span>paw down or up for the selected leg</span>
+        <kbd>O L</kbd><span>onion skin, loupe</span>
+        <kbd>wheel, + − 0</kbd><span>zoom, fit</span>
+        <kbd>drag with the right or middle button</kbd><span>pan</span>
+      </div>
+      <h3>How exact is hand placing?</h3>
+      <p class="hint">Studies of people clicking joints on video report about 2–3 pixels between tries and 2–3° on a joint angle, more near the knee where skin slides over bone. Placing the same frames twice and comparing is a good test of your own spread.</p>
+    </div>
+  </aside>
+</div>
+
+<script>
+const BUILD = {"commit":"5026ea7","date":"2026-10-08"};
+const GAIT_REF = {"carpus":[208.4,210.1,211.9,213.4,214.8,216.1,217.1,218.1,218.8,219.4,219.9,220.3,220.8,221.3,221.8,222.4,223,223.6,224.3,224.8,225.4,225.9,226.3,226.7,227,227.3,227.5,227.7,227.8,227.9,228.1,228.3,228.5,228.7,229,229.3,229.7,230,230.3,230.4,230.6,230.6,230.6,230.5,230.3,230.2,230.1,230,229.8,229.6,229.2,228.4,227.1,225.1,222.2,218.3,213,206.6,198.9,190.3,180.9,171,161.1,151.4,142.1,133.5,126.1,119.3,113.9,109.4,106,103.7,102.3,101.9,102.3,103.8,106,109.1,113.1,117.6,122.9,128.8,135.2,141.9,148.7,155.4,161.9,168.1,173.9,179,183.8,187.8,191.5,194.7,197.5,200.2,202.4,204.7,206.9,208.9,211],"elbow":[147.6,147.6,147.5,146.9,146,145,143.8,142.6,141.6,140.6,139.9,139.3,139,138.8,138.7,138.8,138.9,139,139.2,139.3,139.5,139.7,139.8,140,140.2,140.3,140.5,140.7,140.9,141.2,141.5,141.8,142.3,142.8,143.3,143.9,144.6,145.3,145.9,146.5,147.1,147.6,148,148.4,148.8,149.3,149.8,150.3,150.9,151.5,152.2,152.8,153.2,153.5,153.5,153.1,152.3,151,149.3,147.1,144.4,141.4,138.3,134.9,131.6,128.3,125.2,122.1,119.3,116.7,114.1,111.7,109.4,107.2,105,103,101.2,99.8,98.7,98,97.9,98.3,99.3,100.8,102.7,105.1,107.8,110.9,114.1,117.7,121.4,125.2,129,132.9,136.5,140,143,145.7,147.9,149.3,150.6],"hip":[57,57.5,58.1,58.6,59.3,59.9,60.5,61.2,61.8,62.5,63.1,63.7,64.3,64.9,65.4,66,66.6,67.2,67.8,68.5,69.2,69.9,70.6,71.4,72.2,72.9,73.8,74.5,75.4,76.2,77,77.8,78.7,79.5,80.3,81.1,82,82.8,83.7,84.5,85.3,86.2,87,87.8,88.6,89.3,90,90.7,91.2,91.7,92.1,92.5,92.6,92.7,92.7,92.4,92.1,91.5,90.8,89.9,88.8,87.7,86.4,85,83.6,82.1,80.6,79,77.5,76,74.4,72.9,71.4,70,68.5,67.2,65.8,64.5,63.2,62,60.9,59.8,58.7,57.8,57,56.3,55.7,55.3,55,54.9,54.8,54.9,55,55.2,55.5,55.7,56.1,56.4,56.9,57.4,57.9],"shoulder":[148.8,147.7,146.7,145.6,144.5,143.4,142.5,141.6,140.9,140.2,139.7,139.1,138.6,138.2,137.7,137.2,136.7,136.2,135.6,135.1,134.6,134.1,133.6,133.2,132.8,132.5,132.2,131.9,131.6,131.4,131.2,131,130.8,130.8,130.7,130.6,130.6,130.5,130.4,130.2,129.9,129.6,129.2,128.7,128.3,127.8,127.5,127.2,126.9,126.8,126.7,126.6,126.6,126.5,126.3,126,125.6,125.1,124.6,123.9,123.3,122.7,122.1,121.6,121.2,120.9,120.8,120.8,121,121.2,121.6,122.1,122.5,123.1,123.5,124.1,124.6,125.2,125.9,126.6,127.7,128.9,130.2,131.9,133.6,135.5,137.4,139.4,141.3,143.3,145.1,146.9,148.5,149.9,151,151.9,152.4,152.6,152.5,152,151.4],"stifle":[143.3,142.6,141.9,141.3,140.7,140.3,140.2,140.1,140.2,140.3,140.5,140.7,140.9,141.1,141.2,141.3,141.4,141.4,141.4,141.4,141.5,141.5,141.5,141.5,141.4,141.3,141.2,140.9,140.7,140.3,140,139.6,139.2,138.9,138.7,138.5,138.4,138.3,138.3,138.4,138.5,138.6,138.8,138.9,139.1,139.2,139.3,139.5,139.5,139.6,139.6,139.4,139.2,138.9,138.4,137.7,136.9,135.8,134.6,133.2,131.5,129.8,127.9,126,124,122,120.1,118.2,116.5,114.9,113.5,112.2,111.2,110.5,109.9,109.7,109.7,110,110.5,111.4,112.5,114,115.8,117.9,120.3,122.8,125.6,128.4,131.3,134,136.6,138.8,140.7,142.3,143.2,144,144.2,144.2,143.9,143.3,142.8],"tarsus":[145,143.7,142.3,141,139.7,138.4,137.5,136.7,136.2,135.9,135.9,136.1,136.4,136.8,137.3,137.9,138.4,139,139.6,140.1,140.6,141,141.4,141.8,142.1,142.4,142.7,142.9,143.1,143.3,143.4,143.6,143.8,144,144.2,144.4,144.8,145.1,145.5,146,146.5,147,147.6,148.3,149,149.8,150.6,151.5,152.5,153.5,154.5,155.6,156.6,157.6,158.4,159.1,159.7,160,160,159.8,159.1,158.1,156.7,154.8,152.7,150.1,147.4,144.4,141.4,138.3,135.4,132.6,130.1,127.8,125.7,123.9,122.4,121.1,120.3,119.6,119.4,119.5,120,120.9,122.2,123.9,126,128.3,130.8,133.4,136,138.5,140.8,142.7,144.2,145.4,145.9,146,145.8,144.9,144.1]}; /* Catavitello 2015, retrievers walking: mean angle per 1% of each limb's stride, 0 = touchdown */
+const WOLF = {"stifle":[105.3,104.9,104.6,104.3,104.1,104,103.8,103.4,103,103.4,104.2,104.8,105.3,105.8,106.3,106.9,107.5,108.2,108.9,109.6,110.4,111.2,112,112.9,113.7,114.6,115.5,116.3,117.2,118.1,119,119.9,120.8,121.7,122.6,123.5,124.4,125.4,126.3,127.3,128.4,129.4,130.6,131.8,133,134.4,135.8,137.3,139,140.9,142.8,145.1,147.5,147.8,147.9,148,148,148,148,148,148,148,148,148,148,148,148,148,148,147.5,145.6,143.3,139.1,134.9,130.8,126.6,122.7,118.8,115.6,112.4,109.9,107.4,105.6,103.9,102.8,101.9,101.3,101,101,101.3,101.7,102.2,102.8,103.5,104.2,104.7,105.2,105.5,105.7,105.5,105.3],"tarsus":[149.6,148.5,147.5,146.5,145.5,144.6,143.6,142.5,141.5,140.8,140.3,139.7,139.1,138.5,137.9,137.3,136.8,136.3,135.8,135.3,134.9,134.4,134,133.7,133.3,132.9,132.6,132.2,131.9,131.6,131.2,130.9,130.6,130.2,129.9,129.6,129.3,129,128.8,128.5,128.3,128.1,127.9,127.8,127.6,127.6,127.6,127.7,127.8,128.1,128.3,128.8,129.4,131.5,133.9,136.7,139.6,142.3,145.1,145.7,145.3,144.3,142.9,141.3,139.6,137.9,136.1,134.4,132.8,131.1,129,126.8,124.3,122,120.5,119,118.8,118.5,119,119.6,120.7,121.9,123.6,125.3,127.4,129.6,132,134.4,136.9,139.4,141.8,144.1,146.1,147.6,148.9,149.8,150.5,150.7,150.8,150.2,149.6],"shoulder":[98.2,97.7,97.2,96.8,96.3,96,95.6,95.3,95,94.7,94.4,94.2,94,93.8,93.6,93.4,93.3,93.1,93,92.9,92.8,92.7,92.6,92.5,92.4,92.4,92.3,92.3,92.3,92.2,92.2,92.2,92.3,92.3,92.4,92.5,92.6,92.7,92.9,93,93.2,93.4,93.5,93.9,94.4,95,95.5,96,96.6,97.2,97.9,98.7,99.5,100.5,101.5,102.2,102.9,103.4,103.7,104.1,104.6,104.8,105,104.4,103,102.2,101.9,101.8,102,102.2,102.4,102.6,102.7,102.7,102.6,102.5,102.3,102.1,101.8,101.5,101,100.4,99.6,98.8,97.8,96.8,95.7,94.5,93.4,92.3,91.5,91,90.9,92.2,93.6,95.2,96.7,97.7,98.5,98.3,98.2],"elbow":[127.2,126.4,125.6,125,124.4,123.9,123.4,123.1,122.8,122.6,122.5,122.4,122.4,122.5,122.6,122.7,122.9,123.2,123.5,123.8,124.1,124.5,124.9,125.3,125.7,126.2,126.6,127.1,127.6,128,128.5,129,129.5,130,130.5,131,131.5,132,132.6,133.1,133.8,134.4,135.1,135.8,136.6,137.4,138.3,139.3,140.4,141.6,142.8,144.3,145.8,147.6,149.4,150.5,151.4,151.6,151.7,151.8,151.9,151.6,151,148.1,142.9,138.3,134.5,131.1,128.8,126.6,125,123.5,122.2,121,119.8,118.5,117.4,116.3,115.1,113.9,112.7,111.4,110.1,108.9,107.8,106.9,106.4,106.1,106.4,107.3,108.9,111.5,114.2,117.3,120.1,122.1,123.9,125.2,126.4,126.8,127.2],"carpus":[166.2,166.6,166.9,167.3,167.7,168.2,168.7,169.3,169.8,170.5,171.1,171.8,172.5,173.3,174,174.8,175.6,176.4,177.3,178.1,179,179.9,180.7,181.6,182.5,183.4,184.3,185.2,186.1,187,187.9,188.8,189.7,190.7,191.6,192.5,193.4,194.3,195.3,196.2,197.2,198.1,199.1,200.1,201.1,202.2,203.3,204.4,205.5,206.7,207.9,209.2,210.5,212,213.4,213.7,213.6,212.6,211.3,209.9,208.5,206.1,203.2,196.2,185.3,174.8,165,155.7,147.4,139.5,132.7,126.1,120.6,115.2,111,106.7,103.6,100.6,98.8,97.1,96.7,96.7,98,99.8,102.8,106.4,111.3,116.9,123.6,131.2,139.6,149,156.5,160.3,163.3,163.6,163.9,164.4,164.9,165.6,166.2]}; /* hero3's near legs, same angle convention, 0 = touchdown */
+
+/* ---------- the canine side-view skeleton (DeCamp 2D marker set) ---------- */
+const LEGS={nF:"Near front leg",nH:"Near hind leg",fF:"Far front leg",fH:"Far hind leg"};
+const COL={nF:["#ff5a5f","#ff8a3d","#ffd23f","#fff27a"],nH:["#c06cff","#7b8cff","#3ec5ff","#4ff0d0"],fF:["#b5484b","#b8682f","#b59a2f","#b5ad57"],fH:["#8a4fb5","#5864b5","#2c8cb5","#38aa94"]};
+const BASE=[
+ {id:"nose",name:"Nose",grp:"body",col:"#ffffff",lm:"Tip of the nose."},
+ {id:"ear",name:"Ear base",grp:"body",col:"#d8d8d8",lm:"Where the front of the ear meets the skull."},
+ {id:"wither",name:"Withers",grp:"body",col:"#f0b8c8",lm:"Top of the shoulder blades, the highest point of the back over the front legs. Stands in for the top of the near and far shoulder blade."},
+ {id:"tail",name:"Tail base",grp:"body",col:"#b8e0b0",lm:"Where the tail leaves the rump."},
+ ...["n","f"].flatMap(s=>{const S=s==="n"?"Near":"Far", F=s+"F", H=s+"H"; return [
+  {id:s+"Sh",name:`${S} shoulder`,grp:F,col:COL[F][0],far:s==="f",lm:"Point of the shoulder: the front of the upper arm bone where it meets the blade (greater tubercle)."},
+  {id:s+"El",name:`${S} elbow`,grp:F,col:COL[F][1],far:s==="f",lm:"Outside of the elbow (lateral epicondyle), just below the chest line. Click bone, not the fur that hangs behind it."},
+  {id:s+"Ca",name:`${S} wrist`,grp:F,col:COL[F][2],far:s==="f",lm:"Wrist (carpus): the bony bump on the outside, a little above the dew claw (ulnar styloid)."},
+  {id:s+"Fp",name:`${S} front paw`,grp:F,col:COL[F][3],far:s==="f",lm:"Ball of the front foot, where the toes meet the foot (head of the 5th metacarpal)."},
+  {id:s+"Il",name:`${S} pelvis top`,grp:H,col:COL[H][0],far:s==="f",lm:"Top front corner of the pelvis (iliac crest), the bony point at the top of the hip."},
+  {id:s+"Hi",name:`${S} hip`,grp:H,col:COL[H][1],far:s==="f",lm:"Hip joint: the bony knob at the top of the thigh (greater trochanter)."},
+  {id:s+"Kn",name:`${S} knee`,grp:H,col:COL[H][2],far:s==="f",lm:"Knee (stifle): outside of the joint at the bottom of the thigh (lateral femoral condyle). Skin slides most here."},
+  {id:s+"Ho",name:`${S} hock`,grp:H,col:COL[H][3],far:s==="f",lm:"Hock: the outside ankle bone (lateral malleolus), not the point of the heel behind it."},
+  {id:s+"Hp",name:`${S} hind paw`,grp:H,col:COL[H][3],far:s==="f",lm:"Ball of the hind foot (head of the 5th metatarsal)."}];})];
+const BASE_BONES=[["nose","ear"],["ear","wither"],["wither","tail"],...["n","f"].flatMap(s=>[["wither",s+"Sh"],[s+"Sh",s+"El"],[s+"El",s+"Ca"],[s+"Ca",s+"Fp"],[s+"Il",s+"Hi"],[s+"Hi",s+"Kn"],[s+"Kn",s+"Ho"],[s+"Ho",s+"Hp"]])];
+const KIND={shoulder:1,elbow:-1,carpus:1,hip:-1,stifle:1,tarsus:-1}; /* which way each joint bends normally, for an animal walking right in image coordinates */
+const BASE_ANG=["n","f"].flatMap(s=>{const S=s==="n"?"Near":"Far"; return [
+  {id:s+"shoulder",k:"shoulder",name:`${S} shoulder`,pts:["wither",s+"Sh",s+"El"],paw:s+"Fp"},{id:s+"elbow",k:"elbow",name:`${S} elbow`,pts:[s+"Sh",s+"El",s+"Ca"],paw:s+"Fp"},
+  {id:s+"carpus",k:"carpus",name:`${S} wrist`,pts:[s+"El",s+"Ca",s+"Fp"],paw:s+"Fp"},{id:s+"hip",k:"hip",name:`${S} hip`,pts:[s+"Il",s+"Hi",s+"Kn"],paw:s+"Hp"},
+  {id:s+"stifle",k:"stifle",name:`${S} knee`,pts:[s+"Hi",s+"Kn",s+"Ho"],paw:s+"Hp"},{id:s+"tarsus",k:"tarsus",name:`${S} hock`,pts:[s+"Kn",s+"Ho",s+"Hp"],paw:s+"Hp"}];});
+const PARENT=Object.fromEntries(BASE_BONES.map(([a,b])=>[b,a])); PARENT.wither=null; PARENT.nIl=null; PARENT.fIl=null; PARENT.nose=null;
+const PAWS=["nFp","nHp","fFp","fHp"];
+
+/* ---------- state ---------- */
+const $=id=>document.getElementById(id);
+const st={clip:null,frames:[],n:0,fw:0,fh:0,sx:1,cur:0,sel:"nSh",keys:{},res:{},events:{},extra:{joints:[],bones:[],angles:[]},facing:"auto",
+  view:{z:1,ox:0,oy:0},show:{bones:true,angles:true,labels:false,onion:false,loupe:true,smooth:true},autoNext:true,autoFill:true,playing:false,speed:1,con:100,bri:100,db:null,dirty:false,hover:null};
+const joints=()=>BASE.concat(st.extra.joints), jById=id=>joints().find(j=>j.id===id), bones=()=>BASE_BONES.concat(st.extra.bones), angles=()=>BASE_ANG.concat(st.extra.angles);
+const keyAt=(j,f)=>st.keys[j]&&st.keys[j][f];
+function setKey(j,f,v){(st.keys[j] ||= {}); if(v==null) delete st.keys[j][f]; else st.keys[j][f]=v; markDirty(); if(st.autoFill) queueFill(j);}
+
+/* ---------- video → frames ---------- */
+const vid=document.createElement("video"); vid.muted=true; vid.playsInline=true; vid.preload="auto";
+let fileMeta=null;
+$("file").onchange=async e=>{const f=e.target.files&&e.target.files[0]; if(!f) return; stopPlay(); if(vid.src) URL.revokeObjectURL(vid.src);
+  vid.src=URL.createObjectURL(f); $("clipInfo").textContent="reading…";
+  try{await new Promise((ok,no)=>{vid.onloadedmetadata=ok; vid.onerror=()=>no(new Error("This browser cannot play that video file. Try an .mp4 (H.264) or .webm."));});}catch(err){$("clipInfo").textContent=err.message; return;}
+  fileMeta={name:f.name,size:f.size,vw:vid.videoWidth,vh:vid.videoHeight,dur:vid.duration};
+  $("clipInfo").textContent=`${f.name} · ${fileMeta.vw}×${fileMeta.vh} · ${fileMeta.dur.toFixed(2)} s`;
+  let fps=await detectFps(); if(fps){const C=[10,12,15,20,23.976,24,25,29.97,30,48,50,59.94,60,90,120,240], c=C.find(v=>Math.abs(v-fps)/v<.02); if(c) fps=c;} $("fps").value=fps?+fps.toFixed(3):30; $("t0").value=0; $("t1").value=+Math.min(fileMeta.dur,20).toFixed(2); $("extract").disabled=false;
+  $("clipInfo").textContent+=fps?` · ${+fps.toFixed(2)} frames/s detected`:" · frame rate not detected, check it";
+  await extract();};
+async function detectFps(){if(!("requestVideoFrameCallback" in HTMLVideoElement.prototype)) return null; const T=[];
+  return new Promise(res=>{let done=false; const fin=()=>{if(done) return; done=true; vid.pause(); const d=T.slice(1).map((t,i)=>t-T[i]).filter(x=>x>1e-4).sort((a,b)=>a-b); res(d.length>3?1/d[Math.floor(d.length/2)]:null);};
+    const cb=(now,m)=>{T.push(m.mediaTime); if(T.length>=14) fin(); else vid.requestVideoFrameCallback(cb);}; vid.requestVideoFrameCallback(cb); vid.currentTime=0; vid.play().catch(fin); setTimeout(fin,2500);});}
+const seek=t=>new Promise(ok=>{const on=()=>{vid.removeEventListener("seeked",on); if("requestVideoFrameCallback" in vid) {let fired=false; vid.requestVideoFrameCallback(()=>{fired=true; ok();}); setTimeout(()=>{if(!fired) ok();},120);} else ok();}; vid.addEventListener("seeked",on); vid.currentTime=t;});
+$("extract").onclick=()=>extract();
+async function extract(){if(!fileMeta) return; const fps=+$("fps").value||30, t0=Math.max(0,+$("t0").value||0), t1=Math.min(fileMeta.dur,Math.max(t0+.1,+$("t1").value||fileMeta.dur));
+  let n=Math.floor((t1-t0)*fps+1e-6); const MAXF=600; if(n>MAXF){n=MAXF; $("t1").value=+(t0+n/fps).toFixed(2);}
+  const fw=Math.min(fileMeta.vw,960), fh=Math.round(fileMeta.vh*fw/fileMeta.vw), cv=document.createElement("canvas"); cv.width=fw; cv.height=fh; const cx=cv.getContext("2d",{willReadFrequently:true});
+  st.frames=[]; st.n=0; bmpCache.clear(); $("extract").disabled=true;
+  for(let i=0;i<n;i++){const t=t0+(i+.5)/fps; if(t>fileMeta.dur-1e-3) break; await seek(t); cx.drawImage(vid,0,0,fw,fh);
+    const im=cx.getImageData(0,0,fw,fh).data, g=new Uint8Array(fw*fh); for(let p=0,q=0;q<g.length;p+=4,q++) g[q]=(im[p]*77+im[p+1]*150+im[p+2]*29)>>8;
+    const blob=await new Promise(ok=>cv.toBlob(ok,"image/jpeg",.92)); st.frames.push({blob,g}); $("prog").style.width=((i+1)/n*100)+"%";}
+  $("prog").style.width="0"; $("extract").disabled=false;
+  st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=fw/fileMeta.vw; st.cur=0;
+  st.clip={id:clipId(fileMeta,t0,fps),name:fileMeta.name,vw:fileMeta.vw,vh:fileMeta.vh,dur:fileMeta.dur,fps,t0,n:st.n};
+  st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[]}; integ.clear();
+  ["fill","nextFlag","play","back","fwd","evDown","evUp","evAuto"].forEach(id=>$(id).disabled=false); $("empty").hidden=true;
+  fit(); await loadClip(); renderJoints(); refreshLists(); fillAll(); draw();}
+const clipId=(m,t0,fps)=>(m.name.replace(/[^A-Za-z0-9_.-]/g,"_").slice(0,60)+"_"+m.vw+"x"+m.vh+"_"+Math.round(m.dur*100)+"_"+Math.round(t0*100)+"_"+Math.round(fps*100));
+
+/* decoded frames for display: a small cache of bitmaps */
+const bmpCache=new Map();
+function bitmap(i){if(i<0||i>=st.n) return null; if(bmpCache.has(i)){const b=bmpCache.get(i); bmpCache.delete(i); bmpCache.set(i,b); return b instanceof Promise?null:b;}
+  const p=createImageBitmap(st.frames[i].blob).then(b=>{bmpCache.set(i,b); while(bmpCache.size>40){const k=bmpCache.keys().next().value; const o=bmpCache.get(k); if(o&&o.close) o.close(); bmpCache.delete(k);} draw(); return b;}); bmpCache.set(i,p); return null;}
+
+/* ---------- matching: zero-mean NCC on the grey frames, with integral images for the window statistics ---------- */
+const integ=new Map();
+function sums(i){if(integ.has(i)) return integ.get(i); const g=st.frames[i].g, w=st.fw, h=st.fh, W=w+1, S=new Float64Array(W*(h+1)), Q=new Float64Array(W*(h+1));
+  for(let y=0;y<h;y++){let rs=0,rq=0; for(let x=0;x<w;x++){const v=g[y*w+x]; rs+=v; rq+=v*v; S[(y+1)*W+x+1]=S[y*W+x+1]+rs; Q[(y+1)*W+x+1]=Q[y*W+x+1]+rq;}}
+  const o={S,Q}; integ.set(i,o); if(integ.size>80) integ.delete(integ.keys().next().value); return o;}
+const R_T=7; /* template radius: a 15 px patch */
+function template(i,x,y){const g=st.frames[i].g, w=st.fw, h=st.fh, n=2*R_T+1, T=new Float32Array(n*n); let m=0;
+  for(let dy=-R_T,k=0;dy<=R_T;dy++) for(let dx=-R_T;dx<=R_T;dx++,k++){const X=Math.min(w-1,Math.max(0,Math.round(x)+dx)), Y=Math.min(h-1,Math.max(0,Math.round(y)+dy)); T[k]=g[Y*w+X]; m+=T[k];}
+  m/=T.length; let s=0; for(let k=0;k<T.length;k++){T[k]-=m; s+=T[k]*T[k];} return {T,norm:Math.sqrt(s)||1};}
+function nccAt(i,tp,cx,cy){const g=st.frames[i].g, w=st.fw, h=st.fh; if(cx<R_T||cy<R_T||cx>=w-R_T||cy>=h-R_T) return -1; const {S,Q}=sums(i), W=w+1, n=2*R_T+1, N=n*n;
+  const x0=cx-R_T, y0=cy-R_T, x1=cx+R_T+1, y1=cy+R_T+1, sum=S[y1*W+x1]-S[y0*W+x1]-S[y1*W+x0]+S[y0*W+x0], sq=Q[y1*W+x1]-Q[y0*W+x1]-Q[y1*W+x0]+Q[y0*W+x0], vr=sq-sum*sum/N;
+  if(vr<1e-6) return 0; let c=0; for(let dy=0,k=0;dy<n;dy++){const row=(y0+dy)*w+x0; for(let dx=0;dx<n;dx++,k++) c+=tp.T[k]*g[row+dx];} return c/(tp.norm*Math.sqrt(vr));}
+/* the best few matches in a window: coarse every 2 px, then refined, with a sub-pixel parabola */
+function candidates(i,tps,cx,cy,R,K=5){const out=[]; const sc=(x,y)=>{let b=-1; for(const t of tps) b=Math.max(b,nccAt(i,t,x,y)); return b;};
+  const c0=Math.round(cx), c1=Math.round(cy), grid=[];
+  for(let y=c1-R;y<=c1+R;y+=2) for(let x=c0-R;x<=c0+R;x+=2) grid.push([sc(x,y),x,y]);
+  grid.sort((a,b)=>b[0]-a[0]);
+  for(const [s0,x,y] of grid){if(out.length>=K) break; if(out.some(o=>Math.hypot(o.x-x,o.y-y)<5)) continue;
+    let bx=x,by=y,bs=s0; for(let dy=-1;dy<=1;dy++) for(let dx=-1;dx<=1;dx++){const s=sc(x+dx,y+dy); if(s>bs){bs=s;bx=x+dx;by=y+dy;}}
+    const sl=sc(bx-1,by), sr=sc(bx+1,by), su=sc(bx,by-1), sd=sc(bx,by+1), px=(sl-sr)/(2*(sl-2*bs+sr)||1e9), py=(su-sd)/(2*(su-2*bs+sd)||1e9);
+    out.push({x:bx+Math.max(-.5,Math.min(.5,px||0)),y:by+Math.max(-.5,Math.min(.5,py||0)),s:bs});}
+  return out;}
+
+/* ---------- filling one joint ---------- */
+function visKeys(j){const K=st.keys[j]||{}; return Object.keys(K).map(Number).filter(f=>!K[f].occ).sort((a,b)=>a-b);}
+function boneLen(j){const p=PARENT[j]; if(!p) return null; const A=st.keys[j]||{}, B=st.keys[p]||{}, L=[]; for(const f in A){if(B[f]&&!A[f].occ&&!B[f].occ) L.push(Math.hypot(A[f].x-B[f].x,A[f].y-B[f].y));} if(!L.length) return null; L.sort((a,b)=>a-b); return L[Math.floor(L.length/2)];}
+const catmull=(P,f)=>{/* P: sorted [{f,x,y}] */ let i=0; while(i<P.length-2&&P[i+1].f<f) i++; const a=P[Math.max(0,i-1)], b=P[i], c=P[Math.min(P.length-1,i+1)], d=P[Math.min(P.length-1,i+2)];
+  if(c.f===b.f) return [b.x,b.y]; const t=(f-b.f)/(c.f-b.f), t2=t*t, t3=t2*t, h=(p0,p1,p2,p3)=>.5*((2*p1)+(-p0+p2)*t+(2*p0-5*p1+4*p2-p3)*t2+(-p0+3*p1-3*p2+p3)*t3); return [h(a.x,b.x,c.x,d.x),h(a.y,b.y,c.y,d.y)];};
+function fillJoint(j){const n=st.n, R={x:new Float32Array(n).fill(NaN),y:new Float32Array(n).fill(NaN),s:new Float32Array(n),src:new Uint8Array(n),why:new Array(n)}; st.res[j]=R;
+  const K=st.keys[j]||{}, vk=visKeys(j); for(const f in K){const k=K[f]; if(k.occ){R.src[f]=4;} else {R.x[f]=k.x; R.y[f]=k.y; R.s[f]=1; R.src[f]=1;}}
+  if(!vk.length) return; const P=vk.map(f=>({f,x:K[f].x,y:K[f].y})), tps={}; vk.forEach(f=>tps[f]=template(f,K[f].x,K[f].y));
+  const L=boneLen(j), par=PARENT[j], pr=par&&st.res[par];
+  const penal=(f,c)=>{if(!L||!pr||isNaN(pr.x[f])) return 0; const e=(Math.hypot(c.x-pr.x[f],c.y-pr.y[f])-L)/L; return 6*e*e;};
+  /* between two keys: candidates around the path, chosen by a Viterbi pass (smooth, strong matches, bone near its length) */
+  for(let q=0;q+1<vk.length;q++){const A=vk[q], B=vk[q+1]; if(B-A<2) continue; const span=[], travel=Math.hypot(K[B].x-K[A].x,K[B].y-K[A].y);
+    for(let f=A+1;f<B;f++){if(R.src[f]===4){span.push(null); continue;} const c=catmull(P,f), Rw=Math.round(Math.max(8,Math.min(36,.35*travel+6+2*Math.min(f-A,B-f)))), near=(f-A<=B-f)?[tps[A],tps[B]]:[tps[B],tps[A]];
+      const C=candidates(f,near,c[0],c[1],Rw); C.push({x:c[0],y:c[1],s:.45,interp:true}); C.forEach(o=>o.cost=-(o.s)+penal(f,o)+1.2*Math.pow(Math.hypot(o.x-c[0],o.y-c[1])/Rw,2)); span.push({f,c,C,Rw});}
+    viterbi(span,[K[A].x,K[A].y],[K[B].x,K[B].y],R);}
+  /* before the first key and after the last: follow while the match stays good */
+  const ext=(from,dir)=>{let px=K[from].x, py=K[from].y, vx=0, vy=0; for(let f=from+dir,steps=0;f>=0&&f<n&&steps<40;f+=dir,steps++){if(R.src[f]===4) break;
+      const C=candidates(f,[tps[from]],px+vx,py+vy,14,3); if(!C.length) break; C.forEach(o=>o.cost=-o.s+penal(f,o)+.02*Math.hypot(o.x-px-vx,o.y-py-vy)); C.sort((a,b)=>a.cost-b.cost); const b=C[0]; if(b.s<.55) break;
+      vx=(b.x-px)*.7; vy=(b.y-py)*.7; px=b.x; py=b.y; R.x[f]=px; R.y[f]=py; R.s[f]=b.s; R.src[f]=2; if(b.s<.7) R.why[f]="weak match outside your keys";}};
+  ext(vk[0],-1); ext(vk[vk.length-1],1);}
+function viterbi(span,a,b,R){const T=span.filter(Boolean); if(!T.length) return; const alpha=.4, STEP=6; /* a frame-to-frame change 6 px off the expected motion costs as much as a 0.4 drop in match */
+  let prev=[{x:a[0],y:a[1],tot:0,back:null,cp:null}], pc=null;
+  for(const t of T){const exp=pc?[t.c[0]-pc[0],t.c[1]-pc[1]]:[0,0], cur=t.C.map(o=>{let best=null; for(const p of prev){const d=Math.hypot(o.x-p.x-exp[0],o.y-p.y-exp[1])/STEP; const tot=p.tot+o.cost+alpha*d*d; if(!best||tot<best.tot) best={...o,tot,back:p};} return best;}); prev=cur; pc=t.c;}
+  let best=null; for(const p of prev){const tot=p.tot+alpha*Math.pow(Math.hypot(b[0]-p.x,b[1]-p.y)/STEP,2); if(!best||tot<best.t) best={p,t:tot};}
+  let node=best.p; for(let k=T.length-1;k>=0;k--){const t=T[k], f=t.f; R.x[f]=node.x; R.y[f]=node.y; R.s[f]=node.interp?.45:node.s; R.src[f]=node.interp?3:2;
+    const jump=k>0&&node.back?Math.hypot(node.x-node.back.x,node.y-node.back.y):0;
+    R.why[f]=node.interp?"no good match: drawn along the path between your keys":node.s<.7?`weak match (${node.s.toFixed(2)})`:jump>Math.max(14,t.Rw*1.2)?"jumps from the frame before":null; node=node.back;}}
+const ORDER=["wither","tail","ear","nose","nSh","nEl","nCa","nFp","nIl","nHi","nKn","nHo","nHp","fSh","fEl","fCa","fFp","fIl","fHi","fKn","fHo","fHp"];
+let fillTimer=null, fillSet=new Set();
+function queueFill(j){fillSet.add(j); clearTimeout(fillTimer); fillTimer=setTimeout(()=>{const S=[...fillSet]; fillSet.clear(); const all=new Set(S); /* children of a moved joint use its bone */
+    for(const [a,b] of BASE_BONES) if(all.has(a)) all.add(b); for(const j of orderOf([...all])) fillJoint(j); afterFill();},250);}
+const orderOf=L=>L.slice().sort((a,b)=>{const ia=ORDER.indexOf(a), ib=ORDER.indexOf(b); return (ia<0?99:ia)-(ib<0?99:ib);});
+async function fillAll(){const L=orderOf(joints().map(j=>j.id)); for(let k=0;k<L.length;k++){fillJoint(L[k]); $("prog").style.width=((k+1)/L.length*100)+"%"; if(k%3===2) await new Promise(r=>setTimeout(r,0));} $("prog").style.width="0"; afterFill();}
+$("fill").onclick=()=>fillAll();
+function afterFill(){st.resultsDirty=true; bonesFlag(); refreshLists(); draw(); saveSoon();}
+function bonesFlag(){for(const j of joints().map(x=>x.id)){const R=st.res[j], p=PARENT[j]; if(!R||!p||!st.res[p]) continue; const L=boneLen(j); if(!L) continue; const P=st.res[p];
+  for(let f=0;f<st.n;f++){if(R.src[f]!==2&&R.src[f]!==3) continue; if(isNaN(P.x[f])) continue; const e=Math.abs(Math.hypot(R.x[f]-P.x[f],R.y[f]-P.y[f])-L)/L; if(e>.15&&!R.why[f]) R.why[f]=`bone to ${jById(p).name.toLowerCase()} is ${Math.round(e*100)}% off its length`;}}}
+
+/* ---------- smoothed points for measuring (key points kept exactly) ---------- */
+function pointsFor(j){const R=st.res[j]; if(!R) return null; if(!st.show.smooth) return R; const n=st.n, x=Float32Array.from(R.x), y=Float32Array.from(R.y);
+  const med=(A,f)=>{const v=[A[f-1],A[f],A[f+1]].filter(t=>!isNaN(t)); v.sort((a,b)=>a-b); return v.length?v[Math.floor(v.length/2)]:A[f];};
+  const mx=Float32Array.from(x), my=Float32Array.from(y); for(let f=1;f<n-1;f++){if(R.src[f]!==2&&R.src[f]!==3) continue; mx[f]=med(x,f); my[f]=med(y,f);}
+  const SG=[-3,12,17,12,-3], sx=Float32Array.from(mx), sy=Float32Array.from(my); /* Savitzky-Golay, 5 points, quadratic */
+  for(let f=2;f<n-2;f++){if(R.src[f]!==2&&R.src[f]!==3) continue; let ax=0,ay=0,ok=true; for(let k=-2;k<=2;k++){if(isNaN(mx[f+k])){ok=false;break;} ax+=SG[k+2]*mx[f+k]; ay+=SG[k+2]*my[f+k];} if(ok){sx[f]=ax/35; sy[f]=ay/35;}}
+  return {x:sx,y:sy,src:R.src,s:R.s};}
+function facing(){if(st.facing!=="auto") return +st.facing; const a=st.keys.nose||{}, b=st.keys.tail||{}; for(const f in a) if(b[f]) return Math.sign(a[f].x-b[f].x)||1;
+  const w=st.keys.wither||{}; for(const f in a) if(w[f]) return Math.sign(a[f].x-w[f].x)||1; return 1;}
+function angleOf(A,f,cache){const P=A.pts.map(id=>{const R=cache[id]||(cache[id]=pointsFor(id)); return R&&!isNaN(R.x[f])&&R.src[f]!==4?[R.x[f],R.y[f]]:null;}); if(P.some(p=>!p)) return null;
+  const [a,b,c]=P, v1=[a[0]-b[0],a[1]-b[1]], v2=[c[0]-b[0],c[1]-b[1]], l=Math.hypot(...v1)*Math.hypot(...v2); if(l<1e-6) return null;
+  const inc=Math.acos(Math.max(-1,Math.min(1,(v1[0]*v2[0]+v1[1]*v2[1])/l)))*180/Math.PI; if(!A.k||!KIND[A.k]) return inc;
+  const cr=(c[0]-a[0])*(b[1]-a[1])-(c[1]-a[1])*(b[0]-a[0]); return 180-KIND[A.k]*facing()*Math.sign(-cr)*(180-inc);}
+function angleSeries(A){const cache={}, out=new Array(st.n); for(let f=0;f<st.n;f++) out[f]=angleOf(A,f,cache); return out;}
+
+/* ---------- drawing ---------- */
+const cv=$("stage"), cx=cv.getContext("2d"), lp=$("loupe"), lx=lp.getContext("2d");
+function fit(){const b=cv.getBoundingClientRect(); if(!st.fw) return; const z=Math.min(b.width/st.fw,b.height/st.fh)*.96; st.view={z,ox:(b.width-st.fw*z)/2,oy:(b.height-st.fh*z)/2};}
+const toScr=(x,y)=>[st.view.ox+x*st.view.z,st.view.oy+y*st.view.z], toImg=(X,Y)=>[(X-st.view.ox)/st.view.z,(Y-st.view.oy)/st.view.z];
+function drawFrame(ctx,i,alpha){const b=bitmap(i); if(!b) return false; ctx.save(); ctx.globalAlpha=alpha; ctx.filter=`contrast(${st.con}%) brightness(${st.bri}%)`; ctx.drawImage(b,st.view.ox,st.view.oy,st.fw*st.view.z,st.fh*st.view.z); ctx.restore(); return true;}
+let drawQueued=false; function draw(){if(drawQueued) return; drawQueued=true; requestAnimationFrame(()=>{drawQueued=false; drawNow();});}
+function drawNow(){const b=cv.getBoundingClientRect(), dpr=window.devicePixelRatio||1; if(cv.width!==Math.round(b.width*dpr)||cv.height!==Math.round(b.height*dpr)){cv.width=Math.round(b.width*dpr); cv.height=Math.round(b.height*dpr);}
+  cx.setTransform(dpr,0,0,dpr,0,0); cx.fillStyle=getComputedStyle(document.body).getPropertyValue("--stage")||"#1d2128"; cx.fillRect(0,0,b.width,b.height);
+  if(st.n){const f=st.cur; drawFrame(cx,f,1); if(st.show.onion){drawFrame(cx,f-1,.32); drawFrame(cx,f+1,.32);} overlay(cx,f);}
+  drawTimeline(); hud(); if(st.show.loupe&&st.hover&&st.n) loupe(); else lp.hidden=true;}
+function ptOf(j,f,cache){const R=cache?(cache[j]||(cache[j]=pointsFor(j))):st.res[j]; if(!R||isNaN(R.x[f])||R.src[f]===4) return null; return {x:R.x[f],y:R.y[f],src:R.src[f],s:R.s[f]};}
+function overlay(ctx,f){const cache={}, J=joints(), z=st.view.z;
+  if(st.show.bones) for(const [a,b] of bones()){const p=ptOf(a,f,cache), q=ptOf(b,f,cache); if(!p||!q) continue; const ja=jById(b)||{}, far=!!ja.far; const [X1,Y1]=toScr(p.x,p.y), [X2,Y2]=toScr(q.x,q.y);
+    ctx.save(); ctx.strokeStyle="rgba(0,0,0,.55)"; ctx.lineWidth=4; ctx.setLineDash(far?[6,4]:[]); ctx.beginPath(); ctx.moveTo(X1,Y1); ctx.lineTo(X2,Y2); ctx.stroke(); ctx.strokeStyle=ja.col||"#fff"; ctx.lineWidth=2; ctx.stroke(); ctx.restore();}
+  if(st.show.angles) for(const A of angles()){const v=angleOf(A,f,cache); if(v==null) continue; const p=ptOf(A.pts[1],f,cache); if(!p) continue; const [X,Y]=toScr(p.x,p.y), past=A.k&&v>180.5;
+    const s=`${Math.round(v)}°`; ctx.font="600 12px IBM Plex Mono, monospace"; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.8)"; ctx.fillStyle=past?"#ff6b5e":"#ffffff"; const dx=(jById(A.pts[1])||{}).far?-40:9; ctx.strokeText(s,X+dx,Y-7); ctx.fillText(s,X+dx,Y-7);}
+  for(const j of J){const p=ptOf(j.id,f,cache); const k=keyAt(j.id,f); if(k&&k.occ){const R=st.res[j.id]; continue;} if(!p) continue; const [X,Y]=toScr(p.x,p.y), selJ=j.id===st.sel, r=selJ?6.5:4.8;
+    ctx.save(); ctx.beginPath(); ctx.arc(X,Y,r,0,7); if(p.src===1){ctx.fillStyle=j.col; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="#fff"; ctx.stroke();}
+    else {const R=st.res[j.id], why=R&&R.why[f]; ctx.lineWidth=2.4; ctx.strokeStyle=j.col; if(p.src===3||why){ctx.fillStyle="rgba(0,0,0,.45)"; ctx.fill(); ctx.stroke(); if(why){ctx.beginPath(); ctx.arc(X,Y,r+3,0,7); ctx.strokeStyle="#ffb02e"; ctx.lineWidth=1.6; ctx.stroke();}} else {ctx.fillStyle=j.col; ctx.globalAlpha=.85; ctx.fill(); ctx.globalAlpha=1; ctx.strokeStyle="rgba(0,0,0,.7)"; ctx.lineWidth=1.2; ctx.stroke();}}
+    if(selJ){ctx.beginPath(); ctx.arc(X,Y,r+5,0,7); ctx.strokeStyle="#ffffff"; ctx.lineWidth=1.2; ctx.setLineDash([3,3]); ctx.stroke();}
+    if(st.show.labels||selJ){ctx.font="500 11px IBM Plex Sans, sans-serif"; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.8)"; ctx.fillStyle="#fff"; ctx.setLineDash([]); ctx.strokeText(j.name,X+9,Y+14); ctx.fillText(j.name,X+9,Y+14);} ctx.restore();}}
+function loupe(){lp.hidden=false; const [ix,iy]=toImg(st.hover[0],st.hover[1]), k=6, s=150, r=s/(2*k); lx.save(); lx.fillStyle="#000"; lx.fillRect(0,0,s,s); lx.imageSmoothingEnabled=false;
+  const b=bitmap(st.cur); if(b){lx.filter=`contrast(${st.con}%) brightness(${st.bri}%)`; lx.drawImage(b,ix-r,iy-r,2*r,2*r,0,0,s,s); lx.filter="none";}
+  const L=(x,y)=>[(x-ix+r)*k,(y-iy+r)*k]; for(const j of joints()){const p=ptOf(j.id,st.cur); if(!p) continue; const [X,Y]=L(p.x,p.y); if(X<-10||Y<-10||X>s+10||Y>s+10) continue; lx.beginPath(); lx.arc(X,Y,j.id===st.sel?5:3.5,0,7); lx.strokeStyle=j.col; lx.lineWidth=2; lx.stroke();}
+  lx.strokeStyle="rgba(255,255,255,.9)"; lx.lineWidth=1; lx.beginPath(); lx.moveTo(s/2,s/2-14); lx.lineTo(s/2,s/2-4); lx.moveTo(s/2,s/2+4); lx.lineTo(s/2,s/2+14); lx.moveTo(s/2-14,s/2); lx.lineTo(s/2-4,s/2); lx.moveTo(s/2+4,s/2); lx.lineTo(s/2+14,s/2); lx.stroke(); lx.restore();
+  /* keep the loupe out of the way of the pointer */ lp.style.left=st.hover[0]<180&&st.hover[1]<180?"auto":"8px"; lp.style.right=st.hover[0]<180&&st.hover[1]<180?"8px":"auto";}
+function hud(){if(!st.n){$("hud").textContent=""; $("frameNo").textContent="frame –"; return;} const j=jById(st.sel), R=st.res[st.sel], k=keyAt(st.sel,st.cur);
+  const s=k?(k.occ?"hidden here":"your point"):R&&!isNaN(R.x[st.cur])?(R.src[st.cur]===3?"drawn along the path":`filled · match ${R.s[st.cur].toFixed(2)}`):"no point";
+  $("hud").textContent=`frame ${st.cur+1}/${st.n} · ${(st.clip.t0+st.cur/st.clip.fps).toFixed(2)} s · ${j?j.name:""}: ${s} · zoom ${Math.round(st.view.z*100)}%`;
+  $("frameNo").textContent=`frame ${st.cur+1} of ${st.n}`; const why=R&&R.why[st.cur]; $("hudR").hidden=!why; if(why) $("hudR").textContent="check: "+why;}
+
+/* ---------- timeline: frames, keys of the selected joint, frames to check, footfall diagram ---------- */
+const tl=$("timeline"), tx=tl.getContext("2d");
+function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+function drawTimeline(){const b=tl.getBoundingClientRect(), dpr=window.devicePixelRatio||1; if(tl.width!==Math.round(b.width*dpr)||tl.height!==Math.round(b.height*dpr)){tl.width=Math.round(b.width*dpr); tl.height=Math.round(b.height*dpr);}
+  tx.setTransform(dpr,0,0,dpr,0,0); const W=b.width, H=b.height, ink=cssv("--ink"), mu=cssv("--muted"), ln=cssv("--line"); tx.fillStyle=cssv("--panel"); tx.fillRect(0,0,W,H); if(!st.n) return;
+  const X=f=>10+(W-20)*(st.n>1?f/(st.n-1):0); tx.font="10px IBM Plex Mono, monospace"; tx.fillStyle=mu;
+  tx.strokeStyle=ln; tx.beginPath(); tx.moveTo(10,22); tx.lineTo(W-10,22); tx.stroke(); const step=Math.max(1,Math.ceil(st.n/24/5)*5);
+  for(let f=0;f<st.n;f+=step){tx.fillRect(X(f),18,1,8); tx.fillText(String(f+1),X(f)+2,14);}
+  const R=st.res[st.sel], j=jById(st.sel); if(R){for(let f=0;f<st.n;f++){if(isNaN(R.x[f])) continue; tx.fillStyle=R.why[f]?cssv("--warn"):R.src[f]===3?mu:(j?j.col:ink); tx.globalAlpha=R.src[f]===1?1:.55; tx.fillRect(X(f)-1.5,30,3,8);} tx.globalAlpha=1;
+    for(let f=0;f<st.n;f++) if(R.src[f]===1){tx.fillStyle=ink; tx.beginPath(); tx.moveTo(X(f),28); tx.lineTo(X(f)+4,34); tx.lineTo(X(f),40); tx.lineTo(X(f)-4,34); tx.fill();}}
+  tx.fillStyle=mu; tx.fillText(j?j.name:"",12,52);
+  PAWS.forEach((p,k)=>{const y=60+k*13, ev=st.events[p];
+    if(ev){const D=(ev.down||[]).slice().sort((a,b)=>a-b), U=(ev.up||[]).slice().sort((a,b)=>a-b); tx.fillStyle=(jById(p)||{}).col||ink; /* paw on the ground: from each touchdown to the next lift-off */
+      for(const d of D){const u=U.find(v=>v>d); tx.fillRect(X(d),y,Math.max(2,X(u!=null?u:st.n-1)-X(d)),9);} for(const u of U){if(!D.some(d=>d<u)) tx.fillRect(X(0),y,Math.max(2,X(u)-X(0)),9);}}
+    const lab=jById(p).name.replace(" paw",""), w=tx.measureText(lab).width; tx.fillStyle=cssv("--panel"); tx.globalAlpha=.85; tx.fillRect(10,y-1,w+6,11); tx.globalAlpha=1; tx.fillStyle=mu; tx.fillText(lab,12,y+8);});
+  tx.fillStyle=cssv("--accent"); tx.fillRect(X(st.cur)-1,0,2,H);}
+let tlDrag=false; const tlGo=e=>{const b=tl.getBoundingClientRect(); const f=Math.round((e.clientX-b.left-10)/(b.width-20)*(st.n-1)); goTo(f);};
+tl.addEventListener("pointerdown",e=>{if(!st.n) return; tlDrag=true; tl.setPointerCapture(e.pointerId); tlGo(e);}); tl.addEventListener("pointermove",e=>{if(tlDrag) tlGo(e);}); tl.addEventListener("pointerup",()=>tlDrag=false);
+function goTo(f){st.cur=Math.max(0,Math.min(st.n-1,f)); renderJointsStatus(); renderAngTable(); drawGraphs(); draw(); for(let d=-2;d<=2;d++) bitmap(st.cur+d);}
+
+/* ---------- stage interaction ---------- */
+let drag=null;
+cv.addEventListener("contextmenu",e=>e.preventDefault());
+cv.addEventListener("wheel",e=>{if(!st.n) return; e.preventDefault(); const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top, k=e.deltaY<0?1.15:1/1.15, [ix,iy]=toImg(X,Y); st.view.z*=k; st.view.ox=X-ix*st.view.z; st.view.oy=Y-iy*st.view.z; draw();},{passive:false});
+function nearest(X,Y){let best=null; for(const j of joints()){const p=ptOf(j.id,st.cur); if(!p) continue; const [x,y]=toScr(p.x,p.y), d=Math.hypot(x-X,y-Y); if(d<10&&(!best||d<best.d)) best={id:j.id,d};} return best;}
+cv.addEventListener("pointerdown",e=>{if(!st.n) return; cv.focus({preventScroll:true}); cv.setPointerCapture(e.pointerId); const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top; stopPlay();
+  if(e.button===1||e.button===2){drag={pan:true,sx:X,sy:Y,ox:st.view.ox,oy:st.view.oy}; cv.classList.add("pan"); return;}
+  const hit=nearest(X,Y); if(hit){st.sel=hit.id; drag={id:hit.id}; renderJoints(); return;}
+  const [ix,iy]=toImg(X,Y); if(ix<0||iy<0||ix>st.fw||iy>st.fh) return; setKey(st.sel,st.cur,{x:ix,y:iy}); drag={id:st.sel,placed:true}; renderJointsStatus(); draw();});
+cv.addEventListener("pointermove",e=>{const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top; st.hover=[X,Y];
+  if(drag&&drag.pan){st.view.ox=drag.ox+X-drag.sx; st.view.oy=drag.oy+Y-drag.sy;} else if(drag&&drag.id){const [ix,iy]=toImg(X,Y); setKey(drag.id,st.cur,{x:Math.max(0,Math.min(st.fw,ix)),y:Math.max(0,Math.min(st.fh,iy))}); drag.moved=true;} draw();});
+cv.addEventListener("pointerup",()=>{if(drag&&drag.id&&drag.placed&&st.autoNext) selectNext(); drag=null; cv.classList.remove("pan"); renderJoints(); draw();});
+cv.addEventListener("pointerleave",()=>{st.hover=null; draw();});
+function selectNext(){const L=joints(), i=L.findIndex(j=>j.id===st.sel); for(let k=1;k<=L.length;k++){const j=L[(i+k)%L.length]; if(!keyAt(j.id,st.cur)&&!hiddenGroups.has(j.grp)){st.sel=j.id; return;}}}
+
+/* ---------- playback ---------- */
+let playT=null;
+function stopPlay(){st.playing=false; clearTimeout(playT); $("play").textContent="▶"; $("play").setAttribute("aria-label","Play (Space)");}
+function startPlay(){st.playing=true; $("play").textContent="❚❚"; $("play").setAttribute("aria-label","Pause (Space)"); const tick=()=>{if(!st.playing) return; goTo((st.cur+1)%st.n); playT=setTimeout(tick,1000/(st.clip.fps*st.speed));}; tick();}
+$("play").onclick=()=>st.playing?stopPlay():startPlay(); $("back").onclick=()=>goTo(st.cur-1); $("fwd").onclick=()=>goTo(st.cur+1); $("speed").onchange=e=>st.speed=+e.target.value;
+
+/* ---------- toggles and controls ---------- */
+const press=(el,on)=>el.setAttribute("aria-pressed",on?"true":"false");
+[["oBones","bones"],["oAngles","angles"],["oLabels","labels"],["oOnion","onion"],["oLoupe","loupe"],["oSmooth","smooth"]].forEach(([id,k])=>$(id).onclick=()=>{st.show[k]=!st.show[k]; press($(id),st.show[k]); renderAngTable(); drawGraphs(); draw();});
+$("autoNext").onclick=()=>{st.autoNext=!st.autoNext; press($("autoNext"),st.autoNext);}; $("autoFill").onclick=()=>{st.autoFill=!st.autoFill; press($("autoFill"),st.autoFill);};
+$("con").oninput=e=>{st.con=+e.target.value; draw();}; $("bri").oninput=e=>{st.bri=+e.target.value; draw();};
+$("facing").onchange=e=>{st.facing=e.target.value; markDirty(); renderAngTable(); drawGraphs(); draw();};
+$("hideHere").onclick=()=>{if(!st.n) return; const k=keyAt(st.sel,st.cur); setKey(st.sel,st.cur,k&&k.occ?null:{occ:true}); renderJointsStatus(); draw();};
+$("delKey").onclick=()=>{if(!st.n) return; setKey(st.sel,st.cur,null); renderJointsStatus(); draw();};
+$("copyPrev").onclick=()=>{if(!st.n||st.cur<1) return; for(const j of joints()){const p=ptOf(j.id,st.cur-1); if(p&&!keyAt(j.id,st.cur)) setKey(j.id,st.cur,{x:p.x,y:p.y});} renderJoints(); draw();};
+function legPaw(j){const g=(jById(j)||{}).grp; return g==="nF"?"nFp":g==="nH"?"nHp":g==="fF"?"fFp":g==="fH"?"fHp":null;}
+function toggleEvent(kind){const p=legPaw(st.sel); if(!p){$("store").textContent="Pick a joint on a leg first: footfalls belong to that leg's paw."; return;} const ev=st.events[p] ||= {down:[],up:[]}, A=ev[kind], i=A.indexOf(st.cur);
+  if(i>=0) A.splice(i,1); else {A.push(st.cur); const other=ev[kind==="down"?"up":"down"], j=other.indexOf(st.cur); if(j>=0) other.splice(j,1);} markDirty(); refreshLists(); draw();}
+$("evDown").onclick=()=>toggleEvent("down"); $("evUp").onclick=()=>toggleEvent("up");
+$("evAuto").onclick=()=>{let made=0; for(const p of PAWS){const R=pointsFor(p); if(!R) continue; const ys=[]; for(let f=0;f<st.n;f++) if(!isNaN(R.y[f])) ys.push(R.y[f]); if(ys.length<6) continue; ys.sort((a,b)=>a-b);
+    const ground=ys[Math.floor(ys.length*.9)], tol=Math.max(2,st.fh*.012), down=[], up=[]; let prev=null;
+    for(let f=0;f<st.n;f++){if(isNaN(R.y[f])){prev=null; continue;} const on=R.y[f]>=ground-tol; if(prev!=null&&on!==prev) (on?down:up).push(f); prev=on;}
+    st.events[p]={down,up}; made+=down.length+up.length;}
+  $("store").textContent=made?`Suggested ${made} footfalls from the paw heights: check them on the timeline and fix any with D and U.`:"Not enough tracked paw points to find footfalls yet."; markDirty(); refreshLists(); draw();};
+
+/* ---------- joint list ---------- */
+const hiddenGroups=new Set();
+const GNAME={body:"Head and back",nF:LEGS.nF,nH:LEGS.nH,fF:LEGS.fF,fH:LEGS.fH,custom:"Your own points"};
+function statusOf(j,f){const k=keyAt(j,f), R=st.res[j]; if(k) return k.occ?["hidden","occ"]:["your point","key"]; if(R&&!isNaN(R.x[f])) return R.why[f]?["check","low"]:R.src[f]===3?["along path","low"]:[`filled ${R.s[f].toFixed(2)}`,"trk"]; return ["–",""];}
+function renderJoints(){const box=$("joints"); box.textContent=""; const J=joints(), groups={}; J.forEach(j=>(groups[j.grp||"custom"] ||= []).push(j));
+  for(const [g,L] of Object.entries(groups)){const h=document.createElement("h3"); h.className="gh"; const t=document.createElement("span"); t.textContent=GNAME[g]||g; const b=document.createElement("button"); b.textContent=hiddenGroups.has(g)?"show":"hide"; b.title="Skip this group when picking the next joint";
+    b.onclick=()=>{hiddenGroups.has(g)?hiddenGroups.delete(g):hiddenGroups.add(g); renderJoints();}; h.append(t,b); box.append(h); if(hiddenGroups.has(g)) continue;
+    for(const j of L){const r=document.createElement("div"); r.className="jrow"+(j.id===st.sel?" sel":""); r.dataset.j=j.id; r.setAttribute("role","button"); r.tabIndex=0;
+      const d=document.createElement("span"); d.className="dot"+(j.far?" far":""); d.style.background=j.col; const nm=document.createElement("span"); nm.textContent=j.name;
+      const s=document.createElement("span"); s.className="st"; const n=Object.keys(st.keys[j.id]||{}).length, [lab,cl]=statusOf(j.id,st.cur); s.textContent=`${lab} · ${n} key${n===1?"":"s"}`; s.classList.add(cl||"x");
+      r.append(d,nm,s); r.onclick=()=>{st.sel=j.id; renderJoints(); draw();}; r.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault(); r.click();}}; box.append(r);}}
+  const j=jById(st.sel); $("lm").textContent=j?`${j.name}: ${j.lm||"your own point"}`:""; }
+const renderJointsStatus=()=>renderJoints();
+function refreshLists(){renderJoints(); renderFlags(); renderAngTable(); fillSelects(); drawGraphs();}
+function fillSelects(){const J=joints(); for(const id of ["lA","lB","aA","aB","aC"]){const s=$(id), v=s.value; s.textContent=""; J.forEach(j=>{const o=document.createElement("option"); o.value=j.id; o.textContent=j.name; s.append(o);}); if(v) s.value=v;}
+  const g=$("gSel"), gv=g.value; g.textContent=""; angles().forEach(A=>{const o=document.createElement("option"); o.value=A.id; o.textContent=A.name; g.append(o);}); g.value=gv||"ncarpus";}
+$("cAdd").onclick=()=>{const name=$("cName").value.trim(); if(!name) return; const id="c"+Date.now().toString(36); st.extra.joints.push({id,name,grp:"custom",col:"#7fffd4",lm:"your own point"}); $("cName").value=""; st.sel=id; markDirty(); refreshLists();};
+$("lAdd").onclick=()=>{const a=$("lA").value, b=$("lB").value; if(a&&b&&a!==b){st.extra.bones.push([a,b]); markDirty(); draw();}};
+$("aAdd").onclick=()=>{const a=$("aA").value, b=$("aB").value, c=$("aC").value; if(new Set([a,b,c]).size<3) return; st.extra.angles.push({id:"a"+Date.now().toString(36),name:`${jById(b).name} angle`,pts:[a,b,c]}); markDirty(); refreshLists(); draw();};
+
+/* ---------- check list ---------- */
+let flagList=[];
+function renderFlags(){flagList=[]; for(const j of joints()){const R=st.res[j.id]; if(!R) continue; for(let f=0;f<st.n;f++) if(R.why[f]&&R.src[f]!==1) flagList.push({f,j:j.id,why:R.why[f]});}
+  flagList.sort((a,b)=>a.f-b.f); $("cCount").textContent=flagList.length?`(${flagList.length})`:""; const box=$("flags"); box.textContent="";
+  if(!flagList.length){const p=document.createElement("p"); p.className="hint"; p.textContent=st.n?"Nothing to check: every filled point matches well.":"Open a clip first."; box.append(p); return;}
+  flagList.slice(0,400).forEach(o=>{const r=document.createElement("div"); r.className="flag"; r.tabIndex=0; const a=document.createElement("span"); a.className="small"; a.textContent=`frame ${o.f+1}`; const b=document.createElement("span"); b.textContent=`${jById(o.j).name}: ${o.why}`; r.append(a,b);
+    r.onclick=()=>{st.sel=o.j; goTo(o.f); renderJoints();}; r.onkeydown=e=>{if(e.key==="Enter") r.click();}; box.append(r);});}
+function nextFlag(){if(!flagList.length) return; const o=flagList.find(x=>x.f>st.cur)||flagList[0]; st.sel=o.j; goTo(o.f); renderJoints();}
+$("nextFlag").onclick=nextFlag;
+
+/* ---------- angles: table and graphs ---------- */
+let seriesCache=null; const series=A=>{if(!seriesCache) seriesCache={}; return seriesCache[A.id]||(seriesCache[A.id]=angleSeries(A));};
+const _rl=refreshLists;
+function renderAngTable(){seriesCache=null; const tb=$("angTab"); tb.textContent=""; for(const A of angles()){const S=series(A), v=S[st.cur], vals=S.filter(x=>x!=null); if(!vals.length&&v==null) continue;
+    const tr=document.createElement("tr"), a=document.createElement("td"), b=document.createElement("td"), c=document.createElement("td"); a.textContent=A.name; b.className="n"; c.className="n";
+    b.textContent=v==null?"–":`${v.toFixed(0)}°`; if(v!=null&&A.k&&v>180.5) b.classList.add("past");
+    if(vals.length){const lo=Math.min(...vals), hi=Math.max(...vals); c.textContent=`${lo.toFixed(0)}–${hi.toFixed(0)}°`; if(A.k&&hi>180.5){const s=document.createElement("span"); s.className="past"; s.textContent=` (${(hi-180).toFixed(0)}° past)`; c.append(s);}}
+    tr.append(a,b,c); tr.style.cursor="pointer"; tr.onclick=()=>{$("gSel").value=A.id; drawGraphs();}; tb.append(tr);}}
+$("gSel").onchange=()=>drawGraphs();
+function strides(A){const paw=A.paw, ev=st.events[paw]; if(!ev||!ev.down||ev.down.length<2) return []; const D=ev.down.slice().sort((a,b)=>a-b), S=series(A), out=[];
+  for(let k=0;k+1<D.length;k++){const a=D[k], b=D[k+1], c=[]; let ok=0; for(let u=0;u<=100;u++){const f=a+(b-a)*u/100, f0=Math.floor(f), t=f-f0, v0=S[f0], v1=S[Math.min(st.n-1,f0+1)]; const v=v0!=null&&v1!=null?v0+(v1-v0)*t:v0!=null?v0:v1; c.push(v); if(v!=null) ok++;} if(ok>60) out.push(c);} return out;}
+function graphBase(c){const b=c.getBoundingClientRect(), dpr=window.devicePixelRatio||1; c.width=Math.round(b.width*dpr); c.height=Math.round(b.height*dpr); const g=c.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); g.fillStyle=cssv("--panel"); g.fillRect(0,0,b.width,b.height); return [g,b.width,b.height];}
+function axes(g,W,H,lo,hi,xmax,xlab){const L=34,T=8,Rr=8,B=22, X=v=>L+(W-L-Rr)*v/xmax, Y=v=>T+(H-T-B)*(hi-v)/(hi-lo); g.font="10px IBM Plex Mono, monospace"; g.strokeStyle=cssv("--line"); g.fillStyle=cssv("--muted"); g.lineWidth=1;
+  for(let v=Math.ceil(lo/20)*20;v<=hi;v+=20){g.beginPath(); g.moveTo(L,Y(v)); g.lineTo(W-Rr,Y(v)); g.stroke(); g.fillText(v+"°",2,Y(v)+3);}
+  if(lo<180&&hi>180){g.fillStyle=cssv("--past"); g.globalAlpha=.1; g.fillRect(L,T,W-L-Rr,Y(180)-T); g.globalAlpha=1; g.strokeStyle=cssv("--past"); g.setLineDash([4,3]); g.beginPath(); g.moveTo(L,Y(180)); g.lineTo(W-Rr,Y(180)); g.stroke(); g.setLineDash([]); g.fillStyle=cssv("--past"); g.fillText("past straight",L+4,Y(180)-4);}
+  g.fillStyle=cssv("--muted"); g.fillText(xlab,W-Rr-g.measureText(xlab).width,H-6); return [X,Y];}
+const line=(g,P,X,Y,col,w,dash)=>{g.strokeStyle=col; g.lineWidth=w; g.setLineDash(dash||[]); g.beginPath(); let on=false; P.forEach((v,i)=>{if(v==null){on=false; return;} on?g.lineTo(X(i),Y(v)):g.moveTo(X(i),Y(v)); on=true;}); g.stroke(); g.setLineDash([]);};
+function drawGraphs(){const A=angles().find(a=>a.id===$("gSel").value); const [g,W,H]=graphBase($("gTime")); const [g2,W2,H2]=graphBase($("gStride")); if(!A||!st.n){$("strideNote").textContent=""; return;}
+  const S=series(A), vals=S.filter(v=>v!=null), ref=A.k&&GAIT_REF[A.k], wolf=A.k&&WOLF[A.k], all=vals.concat(ref||[],wolf||[]), lo=all.length?Math.floor((Math.min(...all)-5)/10)*10:90, hi=all.length?Math.ceil((Math.max(...all)+5)/10)*10:200;
+  const [X,Y]=axes(g,W,H,lo,hi,Math.max(1,st.n-1),"frame"); line(g,S,X,Y,cssv("--accent"),2); g.fillStyle=cssv("--accent"); g.fillRect(X(st.cur)-.5,0,1.5,H);
+  const SS=strides(A), [X2,Y2]=axes(g2,W2,H2,lo,hi,100,"% of stride from touchdown");
+  if(ref) line(g2,ref,X2,Y2,cssv("--muted"),5); if(wolf) line(g2,wolf,X2,Y2,"#3f8fd8",2,[5,3]);
+  SS.forEach(c=>{g2.globalAlpha=.35; line(g2,c,X2,Y2,cssv("--accent"),1.2); g2.globalAlpha=1;});
+  if(SS.length){const m=[]; for(let u=0;u<=100;u++){const v=SS.map(c=>c[u]).filter(x=>x!=null); m.push(v.length?v.reduce((a,b)=>a+b,0)/v.length:null);} line(g2,m,X2,Y2,cssv("--accent"),2.5);}
+  $("strideNote").textContent=SS.length?`${SS.length} stride${SS.length===1?"":"s"} cut at the ${jById(A.paw).name.toLowerCase()}'s touchdowns.`:`Mark at least two touchdowns of the ${jById(A.paw)?jById(A.paw).name.toLowerCase():"paw"} (Paw down, or Find footfalls) to see this joint per stride.`;}
+
+/* ---------- keyboard ---------- */
+document.addEventListener("keydown",e=>{const tg=e.target.tagName; if(tg==="INPUT"||tg==="SELECT"||tg==="TEXTAREA") return; if(!st.n) return; const k=e.key;
+  if(k===" "){e.preventDefault(); st.playing?stopPlay():startPlay(); return;}
+  if(e.altKey&&k.startsWith("Arrow")){e.preventDefault(); const p=ptOf(st.sel,st.cur); if(!p) return; const d=.25, dx=k==="ArrowLeft"?-d:k==="ArrowRight"?d:0, dy=k==="ArrowUp"?-d:k==="ArrowDown"?d:0; setKey(st.sel,st.cur,{x:p.x+dx,y:p.y+dy}); renderJointsStatus(); draw(); return;}
+  if(k==="ArrowLeft"||k==="ArrowRight"){e.preventDefault(); stopPlay(); goTo(st.cur+(k==="ArrowLeft"?-1:1)*(e.shiftKey?10:1)); return;}
+  if(k==="Tab"&&(e.target===cv||e.target===document.body)){e.preventDefault(); const L=joints().filter(j=>!hiddenGroups.has(j.grp)), i=L.findIndex(j=>j.id===st.sel); st.sel=L[(i+(e.shiftKey?-1:1)+L.length)%L.length].id; renderJoints(); draw(); return;}
+  const K=k.toLowerCase();
+  if(k==="["||k==="]"){const F=Object.keys(st.keys[st.sel]||{}).map(Number).sort((a,b)=>a-b); const t=k==="]"?F.find(f=>f>st.cur):F.reverse().find(f=>f<st.cur); if(t!=null) goTo(t);}
+  else if(K==="f") fillAll(); else if(K==="n") nextFlag(); else if(K==="h") $("hideHere").click(); else if(k==="Delete"||k==="Backspace"){e.preventDefault(); $("delKey").click();}
+  else if(K==="c") $("copyPrev").click(); else if(K==="d") toggleEvent("down"); else if(K==="u") toggleEvent("up"); else if(K==="o") $("oOnion").click(); else if(K==="l") $("oLoupe").click();
+  else if(k==="+"||k==="="){st.view.z*=1.25; draw();} else if(k==="-"){st.view.z/=1.25; draw();} else if(k==="0"){fit(); draw();}});
+
+/* ---------- tabs ---------- */
+const TABS=["J","A","C","H"]; function selectTab(t){TABS.forEach(x=>{$("tab"+x).setAttribute("aria-selected",x===t?"true":"false"); $("pane"+x).hidden=x!==t;}); if(t==="A") drawGraphs();}
+TABS.forEach(x=>$("tab"+x).onclick=()=>selectTab(x));
+(()=>{const box=$("lmList"); BASE.forEach(j=>{const a=document.createElement("b"); a.textContent=j.name; a.style.fontWeight="600"; const b=document.createElement("span"); b.textContent=j.lm; box.append(a,b);});})();
+
+/* ---------- saving: key points in clips/<id>, measured results in results/<id> (source-video pixels) ---------- */
+let saveT=null; function markDirty(){seriesCache=null; st.dirty=true; saveSoon();}
+function saveSoon(){clearTimeout(saveT); saveT=setTimeout(save,1500);}
+const r1=v=>Math.round(v*10)/10;
+async function save(){if(!st.clip||!st.dirty&&!st.resultsDirty) return; const s=1/st.sx, keys={}; for(const [j,K] of Object.entries(st.keys)){const o={}; for(const [f,v] of Object.entries(K)) o[f]=v.occ?"hidden":[r1(v.x*s),r1(v.y*s)]; if(Object.keys(o).length) keys[j]=o;}
+  const doc={name:st.clip.name,w:st.clip.vw,h:st.clip.vh,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:st.facing,keys,events:st.events,extra:st.extra,build:BUILD.commit,updated:Date.now()};
+  const A={}, P={}; for(const a of angles()){const S=series(a); if(S.some(v=>v!=null)) A[a.id]={name:a.name,kind:a.k||null,perFrame:S.map(v=>v==null?null:r1(v)),strides:strides(a).map(c=>c.map(v=>v==null?null:r1(v)))};}
+  for(const j of joints()){const R=pointsFor(j.id); if(!R) continue; const pts=[]; let any=false; for(let f=0;f<st.n;f++){if(isNaN(R.x[f])||R.src[f]===4) pts.push(null); else {pts.push([r1(R.x[f]*s),r1(R.y[f]*s),R.src[f]]); any=true;}} if(any) P[j.id]=pts;}
+  const res={name:st.clip.name,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:facing(),smoothed:st.show.smooth,angles:A,points:P,note:"points: [x, y, source] in source-video pixels; source 1 = placed by hand, 2 = filled by matching, 3 = drawn along the path",updated:Date.now()};
+  st.dirty=false; st.resultsDirty=false; try{localStorage.setItem("gt:"+st.clip.id,JSON.stringify(doc));}catch(e){}
+  if(!st.db){$("store").textContent="Saved in this browser only (the shared store is not available in this view)."; return;}
+  try{await st.db.doc("clips/"+st.clip.id).set(doc); await st.db.doc("results/"+st.clip.id).set(res); $("store").textContent=`Saved ${new Date().toLocaleTimeString()}: Firefly can read this clip's points and angles.`;}
+  catch(e){st.dirty=true; $("store").textContent="Could not save to the shared store: "+(e.message||e.code||"refused")+". Your points are kept in this browser.";}}
+async function loadClip(){let doc=null; if(st.db){try{const s=await st.db.doc("clips/"+st.clip.id).get(); if(s.exists) doc=s.data();}catch(e){}} if(!doc){try{doc=JSON.parse(localStorage.getItem("gt:"+st.clip.id)||"null");}catch(e){}}
+  if(!doc) return; const s=st.sx; st.keys={}; for(const [j,K] of Object.entries(doc.keys||{})){st.keys[j]={}; for(const [f,v] of Object.entries(K)){if(+f>=st.n) continue; st.keys[j][f]=v==="hidden"?{occ:true}:{x:v[0]*s,y:v[1]*s};}}
+  st.events=doc.events||{}; st.extra=Object.assign({joints:[],bones:[],angles:[]},doc.extra||{}); st.facing=doc.facing||"auto"; $("facing").value=st.facing; $("store").textContent=`Loaded your saved points for this clip (${new Date(doc.updated).toLocaleString()}).`;}
+function renderSaved(list){const box=$("savedList"); box.textContent=""; if(!list.length) return; const h=document.createElement("div"); h.textContent="Saved clips (open the same video file to carry on):"; box.append(h);
+  list.forEach(d=>{const n=Object.values(d.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0), r=document.createElement("div"); r.textContent=`· ${d.name} · ${d.frames} frames · ${n} points · ${new Date(d.updated).toLocaleDateString()}`; box.append(r);});}
+
+/* ---------- boot ---------- */
+$("meta").textContent=`build ${BUILD.commit} · ${BUILD.date}`;
+window.addEventListener("resize",()=>{if(st.n) fit(); draw();});
+renderJoints(); refreshLists(); draw();
+(async()=>{const db=window.claude&&window.claude.use?await window.claude.use("db"):null; if(!db){$("store").textContent="Points save in this browser only (the shared store is not available in this view)."; return;}
+  st.db=db; $("store").textContent="Connected: your points save to the shared store as you work.";
+  db.collection("clips").onSnapshot(s=>renderSaved(s.docs.map(d=>d.data()).sort((a,b)=>(b.updated||0)-(a.updated||0))),()=>{});})();
+</script>
