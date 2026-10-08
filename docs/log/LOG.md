@@ -134,3 +134,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-08 · Spark · 2D builder slice 1: wolf from species files, SVG outline, IoU 0.695 vs measured outline; renders on 3 backgrounds, 120 px, overlay. → `ref/research/spark/03-2d-builder/`, `engine/canine/`
 - 2026-10-08 · Firefly · Request to Forge: measure the Husky into species/husky.yaml plus photo proportions (docs/claude/DEN-FORGE-REQUEST-husky-measurements-2026-10-08.md).
 - 2026-10-08 · Forge · Husky measured: 5 standing stacks and species/husky.yaml (bones are the wolf's scaled, EST; gaps named). → `species/husky.yaml`, `ref/research/forge/husky-photo-proportions/`
+- 2026-10-08 · Firefly · Merged Spark 03 (2D builder slice 1: standing wolf, IoU 0.695 vs the measured outline, reads at 120 px) and Forge's Husky measurements (species/husky.yaml, 5 stacks; bones are scaled wolf placeholders). Wolf renders shown to GrumpyDingo for ranking.
