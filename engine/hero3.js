@@ -71,12 +71,54 @@ function registerHero3(RIG){
   const tailTop = ribbon(TAILC, tailW, {in:"tail", paint:"saddle", id:"tailTop"}, 1);
   const tailTip = ribbon(TAILC.slice(4), u => tailW(.68 + u * .32) * Math.min(1, .15 + u * 2.2), {in:"tail", paint:"furDark", id:"tailTip"}); /* the dark tip grows out of the tail as a soft wedge, no hard band */
 
+
+  /* ---- the walk, baked from IK (Oct 8): each paw's path is chosen, then the joint angles that put it there are solved ----
+     Stance (62% of the stride; measured walk duty 0.58-0.64, ref/research/fetched/04-gait-curves): the paw stays flat on the ground and
+     moves straight back at a constant speed (the ground speed), so it never slides, dips or rises. Swing: it lifts in a smooth arc and
+     comes forward, the hock or wrist folding as it goes. Lateral-sequence phases as hero2 (LH 0, LF .25, RH .5, RF .75).
+     Hind: thigh + gaskin are a two-bone IK to the hock; the cannon keeps its standing angle in stance. Front: upper arm + forearm to the wrist.
+     The solved angles become ordinary rig tracks (keys every 1/48 of the stride), so rig.js plays them unchanged. */
+  const WALK = {duty:.62, stride:7.8, lift:{hind:1.5, front:1.8}, fold:{hind:38, front:72}, keys:48};
+  const A = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI, Ln = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
+  const pol = (o, deg, l) => [o[0] + Math.cos(deg * Math.PI / 180) * l, o[1] + Math.sin(deg * Math.PI / 180) * l];
+  const easeIO = x => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+  /* two-bone IK: root, lengths, target; side = +1 bends the middle joint to +x (stifle forward), -1 to -x (elbow back) */
+  const twoBone = (r, l1, l2, t, side) => { const d = Math.min(Ln(r, t), (l1 + l2) * .999), a0 = A(r, t), c = (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d), off = Math.acos(Math.max(-1, Math.min(1, c))) * 180 / Math.PI;
+    const m1 = pol(r, a0 + off, l1), m2 = pol(r, a0 - off, l1); return (side > 0 ? (m1[0] > m2[0] ? m1 : m2) : (m1[0] < m2[0] ? m1 : m2)); };
+  /* paw path over one stride, phase 0 = touch-down at the front of the stance */
+  const pawAt = (ph, rest, lift) => { const half = WALK.stride / 2;
+    if (ph < WALK.duty) { const u = ph / WALK.duty; return {p:[rest[0] + half - u * WALK.stride, rest[1]], u, stance:true}; }
+    const u = (ph - WALK.duty) / (1 - WALK.duty); return {p:[rest[0] - half + easeIO(u) * WALK.stride, rest[1] - lift * Math.sin(Math.PI * u)], u, stance:false}; };
+  const dropFor = (J, ph) => { const P = pawAt(ph % 1, J[3], 0); if (!P.stance) return 0; const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), reach = (l1 + l2) * .995;
+    const low = pol(P.p, A(J[2], J[3]) + 180, l3), dx = low[0] - J[0][0]; if (Ln(J[0], low) <= reach) return 0; return Math.max(0, (low[1] - J[0][1]) - Math.sqrt(Math.max(0, reach * reach - dx * dx))); };
+  const girdle = (J, ph) => Math.max(dropFor(J, ph), dropFor(J, ph + .5)); /* the pair shares one girdle: whichever paw is planted sets it */
+  const bakeLeg = (J, names, side, lift, fold, toeTr) => { /* J = [top, mid, low, paw] rest joints; names = [top, mid, low, toe] track names */
+    const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), r1 = A(J[0], J[1]), r2 = A(J[1], J[2]), r3 = A(J[2], J[3]);
+    const T = names.map(() => []);
+    for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, P = pawAt(ph % 1, J[3], lift), g = girdle(J, ph), J0 = [J[0][0], J[0][1] + g];
+      const foldDeg = P.stance ? 0 : fold * Math.sin(Math.PI * Math.min(1, P.u * 1.25)); /* the distal bone folds back early in the swing, straightens to land */
+      let a3 = r3 + side * -foldDeg; /* hind (side +1): cannon swings back; front (side -1): pastern swings back too, folding the wrist */
+      /* out of reach (the paw far back or far forward in the stance): lean the distal bone about the paw, the least that brings it in */
+      for (let o = 0, reach = (l1 + l2) * .995; Ln(J0, pol(P.p, a3 + 180, l3)) > reach && o <= 45; o += .25) { const tryA = [a3 + o, a3 - o].find(x => Ln(J0, pol(P.p, x + 180, l3)) <= reach); if (tryA != null) { a3 = tryA; break; } }
+      const low = pol(P.p, a3 + 180, l3), mid = twoBone(J0, l1, l2, low, side);
+      const a1 = A(J0, mid), a2 = A(mid, low), rot1 = a1 - r1, rot2 = (a2 - r2) - rot1, rot3 = (a3 - r3) - (a2 - r2);
+      const toe = P.stance ? -(a3 - r3) : -(a3 - r3) * .55 + (toeTr ? RIG.sample(toeTr, ph).v * .5 : 0); /* paw flat on the ground in stance; hangs and peels in the swing */
+      [rot1, rot2, rot3, toe].forEach((v, i) => T[i].push(Object.assign({at:+ph.toFixed(4), v:+v.toFixed(3)}, i === 0 ? {y:+g.toFixed(3)} : {}))); }
+    return Object.fromEntries(names.map((n, i) => [n, T[i]])); };
+  const BODY_PIVOT = [31, 18], bodyTrack = [];
+  for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, dH = girdle([H.hip, H.stifle, H.hock, H.paw], ph), dF = girdle([Fj.sh, Fj.elbow, Fj.past, Fj.paw], ph + .25);
+    const span = Fj.sh[0] - H.hip[0], yAt = x => dH + (dF - dH) * (x - H.hip[0]) / span;
+    bodyTrack.push({at:+ph.toFixed(4), v:+(Math.atan2(dF - dH, span) * 180 / Math.PI).toFixed(3), y:+yAt(BODY_PIVOT[0]).toFixed(3)}); }
+  const walkTracks = Object.assign({bodyWalk:bodyTrack},
+    bakeLeg([H.hip, H.stifle, H.hock, H.paw], ["hhip", "hshank", "hmeta", "htoe"], 1, WALK.lift.hind, WALK.fold.hind, H2.tracks.htoe),
+    bakeLeg([Fj.sh, Fj.elbow, Fj.past, Fj.paw], ["fsh", "ffore", "fpast", "ftoe"], -1, WALK.lift.front, WALK.fold.front, H2.tracks.ftoe));
+
   RIG.define("hero3", {
-    stride:1, tracks:H2.tracks,
+    stride:1, gait:{duty:WALK.duty}, tracks:Object.assign({}, H2.tracks, walkTracks),
     palette:{fur:"#918a7f", saddle:"#625a51", tan:"#a8947a", leg:"#9f8f79", pale:"#ece6da", pale2:"#c8baa4", furDark:"#3f3933", ink:"#1e1a16", far:.74},
     joints:[
       ...hind("F", 0, true), ...front("F", .25, true),
-      {id:"body", bob:.45, in:"root"},
+      {id:"body", at:BODY_PIVOT, track:"bodyWalk", in:"root"}, /* the body vaults over the planted legs (girdle drops), no fixed bob */
       {id:"tail", at:[21.4, 14.0], track:"wag", period:2.2, in:"body"},
       {id:"earFar", at:[42.95, 10.1], in:"body"}, {id:"earNear", at:[45.15, 9.7], in:"body"},
       ...hind("N", .5, false), ...front("N", .75, false)],

@@ -1,7 +1,7 @@
 {
  "rig": "hero3",
- "fails": 1,
- "warns": 4,
+ "fails": 0,
+ "warns": 0,
  "results": [
   {
    "check": "fit",
@@ -21,22 +21,17 @@
   {
    "check": "notches",
    "level": "PASS",
-   "msg": "no new cracks (14 known ones in the baseline)"
+   "msg": "no new cracks (22 known ones in the baseline)"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: tail 15%, hipN 22%, hipF 28%)"
+   "msg": "every part is rooted in what it hangs from (least: tail 15%, hipN 23%, hipF 29%)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "tailTop is partly drawn over by saddle 8%, body 4%, tailTip 18% (check the edge that makes)"
-  },
-  {
-   "check": "markings",
-   "level": "INFO",
-   "msg": "earIn is partly drawn over by body 62% (check the edge that makes)"
+   "msg": "saddle is partly drawn over by tailTop 4% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -55,43 +50,33 @@
   },
   {
    "check": "markings",
+   "level": "INFO",
+   "msg": "tailTop is partly drawn over by tailTip 18% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
    "level": "PASS",
    "msg": "7 markings stay inside their shapes"
   },
   {
    "check": "feet",
-   "level": "FAIL",
-   "msg": "a paw sinks 0.33 below the ground (ftoeN at 88% of its stride, mid-swing: the paw scrapes through the ground)"
-  },
-  {
-   "check": "feet",
-   "level": "WARN",
-   "msg": "htoeF rises and dips 0.44 units while planted (a stiff leg swinging from the hip; needs knee/IK compensation)"
-  },
-  {
-   "check": "feet",
-   "level": "WARN",
-   "msg": "ftoeF rises and dips 0.55 units while planted (a stiff leg swinging from the hip; needs knee/IK compensation)"
-  },
-  {
-   "check": "feet",
-   "level": "WARN",
-   "msg": "htoeN rises and dips 0.44 units while planted (a stiff leg swinging from the hip; needs knee/IK compensation)"
-  },
-  {
-   "check": "feet",
-   "level": "WARN",
-   "msg": "ftoeN rises and dips 0.55 units while planted (a stiff leg swinging from the hip; needs knee/IK compensation)"
+   "level": "PASS",
+   "msg": "no paw below the ground (deepest 0.06)"
   },
   {
    "check": "feet",
    "level": "PASS",
-   "msg": "planted paws push back over their stance: htoeF 8.3, ftoeF 7.9, htoeN 8.3, ftoeN 7.9 units"
+   "msg": "planted paws push back over their stance: htoeF 7.8, ftoeF 7.8, htoeN 7.8, ftoeN 7.8 units"
   },
   {
    "check": "contrast",
    "level": "PASS",
    "msg": "against the meadow sand: fur 2.00, leg 1.84, saddle 3.96, pale 1.38, pale2 1.11"
+  },
+  {
+   "check": "preview",
+   "level": "INFO",
+   "msg": "walk.gif: 36 frames, one stride, ground marks scroll at the planted-paw speed"
   }
  ]
 }

@@ -193,7 +193,7 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
 // ---------- feet: ground, slide, bob, stride match ----------
 { const toes = D.joints.filter(j => /toe/.test(j.id)), N = 96, legs = {};
   const topOf = j => { let c = j; while (c && !(c.track === 'hhip' || c.track === 'fsh')) c = D.joints.find(x => x.id === c.in); return c; };
-  for (const j of toes) { const top = topOf(j), tr = D.tracks[top.track]; legs[j.id] = { top, stance: [tr[0].at, tr[1].at], pts: [] }; }
+  for (const j of toes) { const top = topOf(j), tr = D.tracks[top.track]; legs[j.id] = { top, stance: D.gait ? [0, D.gait.duty] : [tr[0].at, tr[1].at], pts: [] }; } /* a rig may say its duty factor (baked walks have many keys) */
   let sink = 0, sinkAt = '';
   for (let f = 0; f < N; f++) { const t = f / N * D.stride, M = pose(t), phase = (t / D.stride) % 1;
     for (const j of toes) { const L = legs[j.id], c = apply(M[j.id], [j.at[0] + .5, j.at[1] + 1.05]), ph = (phase + (L.top.ph || 0)) % 1; L.pts.push({ t, ph, x: c[0], y: c[1] });
@@ -233,6 +233,16 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
   const big = await sharp(game).resize({ width: Math.round(62 * gh) * 3, kernel: 'nearest' }).png().toBuffer();
   await row([{ buf: game, w: Math.round(62 * gh), h: Math.round(40 * gh) }, { buf: big, w: Math.round(62 * gh) * 3, h: Math.round(40 * gh) * 3 }], 'game size (about 120 px tall) on the sand, and the same pixels x3');
   await sharp({ create: { width: W, height: y, channels: 4, background: '#2a2d33' } }).composite(tiles).png().toFile(path.join(OUT, 'sheet.png')); }
+
+// ---------- walk preview: frames with ground marks scrolling at the planted-paw speed (if the paws stay put on the marks, nothing slides) ----------
+{ const FR = 36, dir = path.join(OUT, '.frames'); fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir, { recursive: true });
+  const duty = D.gait ? D.gait.duty : .62, speed = 7.8 / duty; /* ground units per stride, from the baked stance */
+  for (let f = 0; f < FR; f++) { const t = f / FR * D.stride, M = pose(t), off = ((t / D.stride) * speed) % 4;
+    let marks = ''; for (let x = -4; x < BW + 4; x += 4) marks += `<rect x="${(x - off).toFixed(3)}" y="${GROUND}" width="1.2" height=".35" fill="#4a5160"/>`;
+    const svg = svgOf(M, { bg: '#1d2128', ppu: 10 }).replace('</svg>', `<rect x="0" y="${GROUND}" width="${BW}" height=".08" fill="#5c6474"/>${marks}</svg>`);
+    await sharp(Buffer.from(svg)).png().toFile(path.join(dir, String(f).padStart(3, '0') + '.png')); }
+  const py = spawnSync('python3', ['-c', `import glob,sys\nfrom PIL import Image\nfs=sorted(glob.glob(sys.argv[1]+'/*.png'))\nim=[Image.open(f).convert('P', palette=Image.ADAPTIVE, colors=64) for f in fs]\nim[0].save(sys.argv[2], save_all=True, append_images=im[1:], duration=int(1000*${D.stride}/len(im)), loop=0, disposal=2)`, dir, path.join(OUT, 'walk.gif')], { encoding: 'utf8' });
+  if (py.status) add('preview', 'WARN', 'walk.gif not written: ' + py.stderr.split('\n').slice(-2).join(' ')); else add('preview', 'INFO', `walk.gif: ${FR} frames, one stride, ground marks scroll at the planted-paw speed`); }
 
 // ---------- report ----------
 const nF = R.filter(r => r.level === 'FAIL').length, nW = R.filter(r => r.level === 'WARN').length;
