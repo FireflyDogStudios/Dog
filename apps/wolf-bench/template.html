@@ -1,0 +1,422 @@
+<title>Wolf Review Bench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a field-guide light table. The stage (the wolf, true vectors) takes the width; a side panel holds notes, the dog-read checklist and the automatic checks. Amber accent = wolf eye. */
+:root{
+  --bg:#eceef0; --panel:#ffffff; --ink:#1d2228; --muted:#5d6672; --line:#d5d9de; --accent:#b8771a; --accent-ink:#ffffff;
+  --ok:#2f7d4f; --warn:#a8670d; --bad:#b33a2e; --chip:#f1f3f5; --stage:#1d2128; --pin:#ff5a36;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif; --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15181c;--panel:#1d2126;--ink:#e6e8eb;--muted:#9aa3ad;--line:#2f353c;--accent:#e2a548;--accent-ink:#1b1408;--ok:#5cbf86;--warn:#e2a548;--bad:#ef7a6c;--chip:#262b31;--stage:#101317;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15181c;--panel:#1d2126;--ink:#e6e8eb;--muted:#9aa3ad;--line:#2f353c;--accent:#e2a548;--accent-ink:#1b1408;--ok:#5cbf86;--warn:#e2a548;--bad:#ef7a6c;--chip:#262b31;--stage:#101317;color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding-inline:16px;padding-block:12px;box-sizing:border-box}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+h1{font:600 20px/1.1 var(--f-display);letter-spacing:.01em;margin:0;text-wrap:balance}
+.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:10px}
+.top .meta{color:var(--muted);font:12px var(--f-mono)}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:12px;align-items:start}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px}
+.bar + .bar{border-top:1px solid var(--line)}
+.grp{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.grp + .grp{padding-left:8px;border-left:1px solid var(--line)}
+.lab{font:600 11px var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+button,select,input[type=range]{font:inherit;color:inherit}
+button{background:var(--chip);border:1px solid var(--line);border-radius:4px;padding:4px 9px;cursor:pointer;line-height:1.3}
+button:hover{border-color:var(--muted)}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+select{background:var(--chip);border:1px solid var(--line);border-radius:4px;padding:3px 6px}
+.sw{width:22px;height:22px;padding:0;border-radius:50%}
+#stageBox{position:relative;height:min(62vh,640px);min-height:320px;background:var(--stage);overflow:hidden;touch-action:none;border-radius:0 0 6px 6px}
+#stage{width:100%;height:100%;display:block;cursor:grab}
+#stage.pin{cursor:crosshair}
+#stage.drag{cursor:grabbing}
+.hud{position:absolute;left:8px;bottom:8px;font:12px var(--f-mono);color:#cfd5dc;background:rgba(0,0,0,.45);padding:3px 7px;border-radius:4px;pointer-events:none}
+.inset{position:absolute;right:8px;bottom:8px;background:#d9c493;border-radius:4px;border:1px solid rgba(0,0,0,.25);pointer-events:none}
+.inset span{position:absolute;left:5px;top:2px;font:600 10px var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:#5b4d2b}
+#scrub{flex:1 1 160px;min-width:120px}
+.num{font:12px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--muted);min-width:4ch;text-align:right}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;border:0;border-radius:0;background:transparent;padding:9px 6px;font:600 13px var(--f-display);letter-spacing:.02em;color:var(--muted);border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.pane{padding:10px 12px;max-height:calc(62vh + 86px);overflow:auto}
+.hint{color:var(--muted);font-size:13px;margin:0 0 8px}
+.store{font:12px var(--f-mono);color:var(--muted);margin:0 0 8px}
+.form{display:grid;gap:6px;padding:8px;border:1px solid var(--accent);border-radius:6px;margin-bottom:10px}
+.form textarea{width:100%;min-height:64px;resize:vertical;border:1px solid var(--line);border-radius:4px;padding:6px;font:inherit;background:var(--bg);color:var(--ink)}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.note{border-top:1px solid var(--line);padding:8px 0;display:grid;gap:4px}
+.note:first-of-type{border-top:0}
+.note .txt{white-space:pre-wrap;overflow-wrap:anywhere}
+.note.fixed .txt{color:var(--muted);text-decoration:line-through}
+.tag{font:600 11px var(--f-display);letter-spacing:.05em;text-transform:uppercase;background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:1px 6px}
+.small{font:12px var(--f-mono);color:var(--muted)}
+.lnk{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:12px}
+.q{padding:8px 0;border-top:1px solid var(--line);display:grid;gap:5px}
+.q h3{font:600 12px var(--f-display);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:10px 0 0}
+.qs h3:first-child{margin-top:0}
+.ans{display:flex;gap:4px;flex-wrap:wrap}
+.ans button{padding:2px 8px;font-size:12px}
+.ans button[data-v="yes"][aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff}
+.ans button[data-v="close"][aria-pressed="true"]{background:var(--warn);border-color:var(--warn);color:#fff}
+.ans button[data-v="no"][aria-pressed="true"]{background:var(--bad);border-color:var(--bad);color:#fff}
+.auto{font:11px var(--f-mono);border-radius:3px;padding:1px 5px;border:1px solid var(--line)}
+.auto.PASS{color:var(--ok);border-color:var(--ok)}.auto.WARN{color:var(--warn);border-color:var(--warn)}.auto.FAIL{color:var(--bad);border-color:var(--bad)}
+.qn{width:100%;border:1px solid var(--line);border-radius:4px;padding:4px 6px;background:var(--bg);color:var(--ink);font:13px var(--f-body)}
+.chk{display:grid;grid-template-columns:auto auto 1fr;gap:4px 8px;align-items:baseline;font-size:13px}
+.chk .k{font:12px var(--f-mono);color:var(--muted)}
+.score{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.score span{font:12px var(--f-mono)}
+@media (prefers-reduced-motion: reduce){.hud{transition:none}}
+</style>
+
+<div class="top">
+  <h1>Wolf Review Bench</h1>
+  <span class="meta" id="meta"></span>
+</div>
+
+<div class="wrap">
+  <section class="card" aria-label="The wolf">
+    <div class="bar">
+      <div class="grp" role="group" aria-label="Tool">
+        <span class="lab">Tool</span>
+        <button id="tMove" aria-pressed="true" title="Drag to pan, wheel to zoom">Move</button>
+        <button id="tPin" aria-pressed="false" title="Click to pin a note; drag to circle an area">Pin a note</button>
+      </div>
+      <div class="grp" role="group" aria-label="Zoom">
+        <span class="lab">Zoom</span>
+        <button id="zOut" aria-label="Zoom out">−</button><span class="num" id="zPct">100%</span><button id="zIn" aria-label="Zoom in">+</button>
+        <button id="zFit">Fit</button>
+        <select id="zGo" aria-label="Jump to a body part"><option value="">Jump to…</option><option value="head">Head and ears</option><option value="neck">Neck and chest</option><option value="front">Front leg</option><option value="hind">Hind leg</option><option value="paws">Paws</option><option value="tail">Tail</option><option value="back">Back line</option></select>
+      </div>
+      <div class="grp" role="group" aria-label="Rig">
+        <span class="lab">Dog</span>
+        <select id="rig" aria-label="Which rig"><option value="hero3">hero3 · wolf</option><option value="hero2">hero2 · before</option></select>
+      </div>
+    </div>
+    <div class="bar">
+      <div class="grp" role="group" aria-label="Show">
+        <span class="lab">Show</span>
+        <button id="oSkel" aria-pressed="false">Skeleton</button>
+        <button id="oAng" aria-pressed="false">Joint angles</button>
+        <button id="oOnion" aria-pressed="false">Ghost frames</button>
+        <button id="oSil" aria-pressed="false">Silhouette</button>
+        <button id="oGround" aria-pressed="true">Ground marks</button>
+        <button id="oPins" aria-pressed="true">Pins</button>
+        <button id="oGame" aria-pressed="true">Game size</button>
+      </div>
+      <div class="grp" role="group" aria-label="Background">
+        <span class="lab">Ground</span>
+        <button class="sw" data-bg="#1d2128" style="background:#1d2128" aria-label="Dark slate" aria-pressed="true"></button>
+        <button class="sw" data-bg="#ff00ff" style="background:#ff00ff" aria-label="Pink" aria-pressed="false"></button>
+        <button class="sw" data-bg="#000000" style="background:#000000" aria-label="Black" aria-pressed="false"></button>
+        <button class="sw" data-bg="#0000ff" style="background:#0000ff" aria-label="Blue" aria-pressed="false"></button>
+        <button class="sw" data-bg="#d9c493" style="background:#d9c493" aria-label="Meadow sand" aria-pressed="false"></button>
+        <button class="sw" data-bg="#f4f4f2" style="background:#f4f4f2" aria-label="White" aria-pressed="false"></button>
+      </div>
+    </div>
+    <div id="stageBox">
+      <svg id="stage" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The wolf, side view"></svg>
+      <div class="hud" id="hud"></div>
+      <div class="inset" id="inset"><span>game size</span><svg id="mini" width="210" height="130" viewBox="4 0 56 36" aria-hidden="true"></svg></div>
+    </div>
+    <div class="bar">
+      <div class="grp" role="group" aria-label="Pose">
+        <button id="pStand" aria-pressed="false">Standing</button>
+        <button id="pWalk" aria-pressed="true">Walking</button>
+      </div>
+      <div class="grp" role="group" aria-label="Playback">
+        <button id="play" aria-label="Pause">❚❚</button>
+        <button id="back" aria-label="One frame back">◀︎</button>
+        <button id="fwd" aria-label="One frame forward">▶︎</button>
+      </div>
+      <input id="scrub" type="range" min="0" max="999" value="0" aria-label="Point in the stride">
+      <span class="num" id="pct">0%</span>
+      <div class="grp" role="group" aria-label="Speed">
+        <span class="lab">Speed</span>
+        <select id="speed" aria-label="Speed"><option value="0.1">0.1×</option><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option></select>
+      </div>
+    </div>
+  </section>
+
+  <aside class="card" aria-label="Review">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tabN" aria-selected="true" aria-controls="paneN">Notes <span id="nCount" class="small"></span></button>
+      <button role="tab" id="tabQ" aria-selected="false" aria-controls="paneQ">Reads as a dog?</button>
+      <button role="tab" id="tabC" aria-selected="false" aria-controls="paneC">Checks</button>
+    </div>
+    <div class="pane" id="paneN" role="tabpanel">
+      <p class="hint">Choose <b>Pin a note</b>, then click the wolf (or drag to circle an area). Pins stick to the body part, so a note on a paw follows the paw through the walk. Firefly reads these notes directly.</p>
+      <p class="store" id="store">Connecting to the shared notes…</p>
+      <div class="form" id="form" hidden>
+        <div class="row"><span class="lab">New note</span><span class="small" id="formWhere"></span></div>
+        <label class="row"><span class="lab">About</span>
+          <select id="fTag"><option>Head</option><option>Ears</option><option>Eyes</option><option>Nose and mouth</option><option>Neck and chest</option><option>Back and body</option><option>Front leg</option><option>Hind leg</option><option>Paws</option><option>Tail</option><option>Colour</option><option>Motion</option><option>Other</option></select>
+        </label>
+        <textarea id="fText" aria-label="What is wrong or what to change" placeholder="What looks wrong here, or what should change?"></textarea>
+        <div class="row"><button id="fSave" aria-pressed="true">Save note</button><button id="fCancel">Cancel</button></div>
+      </div>
+      <div id="notes"></div>
+    </div>
+    <div class="pane" id="paneQ" role="tabpanel" hidden>
+      <p class="hint">GrumpyDingo's questions for "does it read as a dog?", from what animators, wildlife artists and game studios check. Answer each one by eye; where dogcheck can measure it, its result shows beside the question.</p>
+      <div class="score" id="qScore"></div>
+      <div class="qs" id="qs"></div>
+    </div>
+    <div class="pane" id="paneC" role="tabpanel" hidden>
+      <p class="hint">dogcheck's automatic checks on this build (<code>./den dogcheck hero3</code>).</p>
+      <div class="chk" id="chk"></div>
+    </div>
+  </aside>
+</div>
+
+<script>
+/*ENGINE*/
+</script>
+<script>
+const BUILD = /*BUILD*/;
+const REPORT = /*REPORT*/;
+registerDenRigs(RIG); registerHero3(RIG);
+
+/* ---------- posing: rig.js tick() as matrices (same maths as tools/dogcheck) ---------- */
+const mul=(A,B)=>[A[0]*B[0]+A[2]*B[1],A[1]*B[0]+A[3]*B[1],A[0]*B[2]+A[2]*B[3],A[1]*B[2]+A[3]*B[3],A[0]*B[4]+A[2]*B[5]+A[4],A[1]*B[4]+A[3]*B[5]+A[5]];
+const apply=(M,p)=>[M[0]*p[0]+M[2]*p[1]+M[4],M[1]*p[0]+M[3]*p[1]+M[5]];
+const inv=M=>{const d=M[0]*M[3]-M[1]*M[2];return[M[3]/d,-M[1]/d,-M[2]/d,M[0]/d,(M[2]*M[5]-M[3]*M[4])/d,(M[1]*M[4]-M[0]*M[5])/d];};
+let D, ORDER, FAR;
+function useRig(id){
+  D = RIG.DEFS[id];
+  const kids={}; FAR={root:false};
+  D.joints.forEach(j=>{(kids[j.in||"root"] ||= []).push(j.id); FAR[j.id]=!!j.far||FAR[j.in||"root"];});
+  const anim=new Set(D.joints.filter(j=>j.track||D.tracks[j.id]).map(j=>j.id));
+  ORDER=[]; (function walk(jid){const P=D.parts.map((p,i)=>[p,i]).filter(([p])=>(p.in||"root")===jid), K=kids[jid]||[];
+    if(anim.has(jid)){P.forEach(e=>ORDER.push(e));K.forEach(walk);}else{K.forEach(walk);P.forEach(e=>ORDER.push(e));}})("root");
+}
+function pose(t, walking){
+  const phase=walking?(t/D.stride)%1:0, M={root:[1,0,0,1,0,0]}, s={};
+  for(const j of D.joints){const tr=D.tracks[j.track||j.id]; let rot=0,x=0,y=0;
+    if(tr&&(walking||j.always)){const ph=j.period?((t/j.period)%1):(phase+(j.ph||0))%1; RIG.sample(tr,ph,s); rot=s.v; x=s.x; y=s.y;}
+    if(j.bob&&walking) y-=Math.pow(Math.sin(phase*Math.PI*2),2)*j.bob;
+    const o=j.at||[0,0], r=rot*Math.PI/180, c=Math.cos(r), n=Math.sin(r);
+    M[j.id]=mul(M[j.in||"root"],[c,n,-n,c,o[0]+x-(c*o[0]-n*o[1]),o[1]+y-(n*o[0]+c*o[1])]);}
+  return M;
+}
+const dimHex=(c,k)=>{const n=parseInt(c.slice(1),16),f=s=>Math.round(((n>>s)&255)*k).toString(16).padStart(2,"0");return"#"+f(16)+f(8)+f(0);};
+function colourOf(p){const pal=D.palette; let c=pal[p.paint||"fur"]??pal.fur; if(FAR[p.in||"root"]||p.far) c=dimHex(c,pal.far??.78); return c;}
+function shape(p,fill,M,extra=""){const tf=`transform="matrix(${M.map(v=>+v.toFixed(4)).join(" ")})"`, a=p.alpha!=null?` fill-opacity="${p.alpha}"`:"";
+  if(p.d&&p.stroke) return `<path d="${p.d}" fill="none" stroke="${fill}" stroke-width="${p.sw}" stroke-linecap="round" stroke-linejoin="round" ${tf}${extra}/>`;
+  if(p.d) return `<path d="${p.d}" fill="${fill}"${a} ${tf}${extra}/>`;
+  if(p.poly) return `<polygon points="${p.poly.map(q=>q.join(",")).join(" ")}" fill="${fill}"${a} ${tf}${extra}/>`;
+  if(p.circle) return `<circle cx="${p.circle[0]}" cy="${p.circle[1]}" r="${p.circle[2]}" fill="${fill}"${a} ${tf}${extra}/>`;
+  if(p.ellipse) return `<ellipse cx="${p.ellipse[0]}" cy="${p.ellipse[1]}" rx="${p.ellipse[2]}" ry="${p.ellipse[3]}" fill="${fill}"${a} ${tf}${extra}/>`;
+  if(p.line) return `<line x1="${p.line[0][0]}" y1="${p.line[0][1]}" x2="${p.line[1][0]}" y2="${p.line[1][1]}" stroke="${fill}" stroke-width="${p.sw}" stroke-linecap="round" ${tf}${extra}/>`;
+  return "";}
+function dogSVG(M,{sil=false,ghost=0,hit=false}={}){let s="";
+  for(const [p,i] of ORDER){if(p.hidden) continue; const f=sil?"#0b0d10":colourOf(p);
+    s+=shape(p,f,M[p.in||"root"],hit?` data-j="${p.in||"root"}" data-i="${i}"`:"");}
+  return ghost?`<g opacity="${ghost}">${s}</g>`:s;}
+const JP=(M,id)=>{const j=D.joints.find(x=>x.id===id); return j?apply(M[id],j.at):null;};
+const inc=(a,b,c)=>{const v1=[a[0]-b[0],a[1]-b[1]],v2=[c[0]-b[0],c[1]-b[1]];return Math.acos(Math.max(-1,Math.min(1,(v1[0]*v2[0]+v1[1]*v2[1])/Math.hypot(...v1)/Math.hypot(...v2))))*180/Math.PI;};
+function carpus(e,w,p){const a1=Math.atan2(w[1]-e[1],w[0]-e[0]),a2=Math.atan2(p[1]-w[1],p[0]-w[0]);let t=(a2-a1)*180/Math.PI;while(t>180)t-=360;while(t<-180)t+=360;return 180-t;}
+function skeletonSVG(M,showAng,z){const chains=[["hipF","shankF","metaF","htoeF"],["shF","foreF","pastF","ftoeF"],["hipN","shankN","metaN","htoeN"],["shN","foreN","pastN","ftoeN"]];
+  const w=1.6/z, r=3.2/z; let s="";
+  chains.forEach((c,ci)=>{const pts=c.map(id=>JP(M,id)); if(pts.some(p=>!p)) return; const col=ci<2?"#7fd1ff":"#ffe14d", op=ci<2?.55:1;
+    s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${col}" stroke-opacity="${op}" stroke-width="${w}"/>`;
+    pts.forEach(p=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="${col}" fill-opacity="${op}"/>`);
+    if(showAng&&ci>=2){const [a,b,c2,d]=pts, hind=ci===2;
+      const L=[[b,hind?"knee":"elbow",inc(a,b,c2)],[c2,hind?"hock":"wrist",hind?inc(b,c2,d):carpus(b,c2,d)]];
+      L.forEach(([p,n,v])=>s+=`<text x="${p[0]+5/z}" y="${p[1]-4/z}" font-size="${11/z}" font-family="IBM Plex Mono,monospace" fill="#fff" stroke="#000" stroke-width="${2.5/z}" paint-order="stroke">${n} ${v.toFixed(0)}°</text>`);}});
+  return s;}
+
+/* ---------- state ---------- */
+const $=id=>document.getElementById(id);
+const svg=$("stage"), mini=$("mini");
+const st={rig:"hero3",walking:true,playing:true,t:0,speed:1,tool:"move",bg:"#1d2128",skel:false,ang:false,onion:false,sil:false,ground:true,pins:true,game:true,
+  view:{cx:31,cy:19,w:58}, draft:null, notes:[], db:null};
+useRig(st.rig);
+const GROUND=35.55;
+
+function viewBox(){const b=svg.getBoundingClientRect(), ar=b.height/Math.max(1,b.width), w=st.view.w, h=w*ar; return [st.view.cx-w/2, st.view.cy-h/2, w, h];}
+function zoomPct(){return Math.round(58/st.view.w*100);}
+function pinSVG(M,z){if(!st.pins) return ""; let s="";
+  const list=st.notes.filter(n=>n.rig===st.rig&&n.status!=="fixed").concat(st.draft?[st.draft]:[]);
+  list.forEach((n,k)=>{const jm=M[n.joint]||M.root, p=apply(jm,[n.lx,n.ly]), col=n===st.draft?"#ffffff":"#ff5a36";
+    if(n.r>0.15) s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${n.r}" fill="none" stroke="${col}" stroke-width="${2/z}" stroke-dasharray="${5/z} ${3/z}"/>`;
+    s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${5/z}" fill="${col}" stroke="#000" stroke-width="${1.2/z}"/>`;
+    const lab=n===st.draft?"new":String(st.notes.indexOf(n)+1);
+    s+=`<text x="${p[0]+7/z}" y="${p[1]+4/z}" font-size="${12/z}" font-family="IBM Plex Mono,monospace" font-weight="500" fill="#fff" stroke="#000" stroke-width="${3/z}" paint-order="stroke">${lab}</text>`;});
+  return s;}
+function render(){
+  const vb=viewBox(), b=svg.getBoundingClientRect(), z=b.width/vb[2]; svg.setAttribute("viewBox",vb.join(" "));
+  const M=pose(st.t,st.walking); let s=`<rect x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}" fill="${st.bg}"/>`;
+  if(st.ground){const lc=st.bg==="#f4f4f2"||st.bg==="#d9c493"?"#6b5f45":"#5c6474"; s+=`<rect x="${vb[0]}" y="${GROUND}" width="${vb[2]}" height="${.6/z+.04}" fill="${lc}"/>`;
+    const duty=D.gait?D.gait.duty:.62, off=st.walking?((st.t/D.stride)*(7.8/duty))%4:0;
+    for(let x=Math.floor(vb[0]/4)*4-4;x<vb[0]+vb[2]+4;x+=4) s+=`<rect x="${(x-off).toFixed(3)}" y="${GROUND}" width="1.2" height=".35" fill="${lc}" opacity=".8"/>`;}
+  if(st.onion&&st.walking){[-.12,.12].forEach(d=>{s+=dogSVG(pose(st.t+d*D.stride,true),{sil:true,ghost:.22});});}
+  s+=`<g id="dog">${dogSVG(M,{sil:st.sil,hit:true})}</g>`;
+  if(st.skel||st.ang) s+=skeletonSVG(M,st.ang,z);
+  s+=pinSVG(M,z);
+  svg.innerHTML=s;
+  if(st.game){mini.innerHTML=`<rect x="0" y="-2" width="62" height="40" fill="#d9c493"/>`+dogSVG(M);}
+  const ph=st.walking?((st.t/D.stride)%1):0; $("pct").textContent=st.walking?Math.round(ph*100)+"%":"—"; if(!scrubbing) $("scrub").value=Math.round(ph*999);
+  $("zPct").textContent=zoomPct()+"%";
+  $("hud").textContent=`${st.rig} · ${st.walking?`walk ${Math.round(ph*100)}% of the stride`:"standing"} · zoom ${zoomPct()}%`;
+}
+let last=performance.now(), scrubbing=false;
+function loop(now){const dt=Math.min(.1,(now-last)/1000); last=now; if(st.playing&&st.walking) st.t+=dt*st.speed; render(); requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+
+/* ---------- controls ---------- */
+const press=(el,on)=>el.setAttribute("aria-pressed",on?"true":"false");
+function setTool(t){st.tool=t; press($("tMove"),t==="move"); press($("tPin"),t==="pin"); svg.classList.toggle("pin",t==="pin");}
+$("tMove").onclick=()=>setTool("move"); $("tPin").onclick=()=>setTool("pin");
+function setPlaying(p){st.playing=p; $("play").textContent=p?"❚❚":"▶"; $("play").setAttribute("aria-label",p?"Pause":"Play");}
+$("play").onclick=()=>{if(!st.walking) setWalking(true); setPlaying(!st.playing);};
+const step=d=>{setWalking(true); setPlaying(false); st.t=Math.max(0,st.t+d*D.stride/48);};
+$("back").onclick=()=>step(-1); $("fwd").onclick=()=>step(1);
+$("scrub").addEventListener("input",e=>{scrubbing=true; setWalking(true); setPlaying(false); st.t=(+e.target.value/999)*D.stride;});
+$("scrub").addEventListener("change",()=>{scrubbing=false;});
+$("speed").onchange=e=>{st.speed=+e.target.value;};
+function setWalking(w){st.walking=w; press($("pWalk"),w); press($("pStand"),!w);}
+$("pWalk").onclick=()=>{setWalking(true); setPlaying(true);}; $("pStand").onclick=()=>{setWalking(false); setPlaying(false);};
+[["oSkel","skel"],["oAng","ang"],["oOnion","onion"],["oSil","sil"],["oGround","ground"],["oPins","pins"],["oGame","game"]].forEach(([id,k])=>{$(id).onclick=()=>{st[k]=!st[k]; press($(id),st[k]); if(k==="game") $("inset").hidden=!st.game;};});
+document.querySelectorAll(".sw").forEach(b=>b.onclick=()=>{st.bg=b.dataset.bg; document.querySelectorAll(".sw").forEach(x=>press(x,x===b));});
+$("rig").onchange=e=>{st.rig=e.target.value; useRig(st.rig); renderNotes();};
+const zoomBy=(k,cx,cy)=>{const v=st.view, nw=Math.max(.8,Math.min(120,v.w/k)); if(cx!=null){v.cx=cx+(v.cx-cx)*(nw/v.w); v.cy=cy+(v.cy-cy)*(nw/v.w);} v.w=nw;};
+$("zIn").onclick=()=>zoomBy(1.5); $("zOut").onclick=()=>zoomBy(1/1.5); $("zFit").onclick=()=>{st.view={cx:31,cy:19,w:58};};
+const AREAS={head:[46,10,14],neck:[43,18,14],front:[40,27,16],hind:[20,25,18],paws:[30,33.5,34],tail:[16,21,16],back:[30,13,30]};
+$("zGo").onchange=e=>{const a=AREAS[e.target.value]; if(a) st.view={cx:a[0],cy:a[1],w:a[2]}; e.target.value="";};
+const toDraw=(ev)=>{const pt=svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY; const p=pt.matrixTransform(svg.getScreenCTM().inverse()); return [p.x,p.y];};
+svg.addEventListener("wheel",ev=>{ev.preventDefault(); const [x,y]=toDraw(ev); zoomBy(ev.deltaY<0?1.15:1/1.15,x,y);},{passive:false});
+let drag=null;
+svg.addEventListener("pointerdown",ev=>{svg.setPointerCapture(ev.pointerId); const p=toDraw(ev);
+  if(st.tool==="move"){drag={mode:"pan",sx:ev.clientX,sy:ev.clientY,cx:st.view.cx,cy:st.view.cy}; svg.classList.add("drag");}
+  else{const el=document.elementFromPoint(ev.clientX,ev.clientY), joint=el&&el.dataset&&el.dataset.j?el.dataset.j:"root";
+    const M=pose(st.t,st.walking), L=apply(inv(M[joint]||M.root),p);
+    drag={mode:"pin",start:p}; st.draft={joint,lx:L[0],ly:L[1],r:0,rig:st.rig,phase:st.walking?((st.t/D.stride)%1):null,standing:!st.walking,part:el&&el.dataset?el.dataset.i:null}; setPlaying(false);}});
+svg.addEventListener("pointermove",ev=>{if(!drag) return;
+  if(drag.mode==="pan"){const b=svg.getBoundingClientRect(), k=st.view.w/b.width; st.view.cx=drag.cx-(ev.clientX-drag.sx)*k; st.view.cy=drag.cy-(ev.clientY-drag.sy)*k;}
+  else if(st.draft){const p=toDraw(ev); st.draft.r=Math.hypot(p[0]-drag.start[0],p[1]-drag.start[1]);}});
+const endDrag=()=>{if(!drag) return; svg.classList.remove("drag"); if(drag.mode==="pin"&&st.draft) openForm(); drag=null;};
+svg.addEventListener("pointerup",endDrag); svg.addEventListener("pointercancel",endDrag);
+
+/* ---------- notes (shared store: db collection "notes") ---------- */
+function partName(i){if(i==null) return "the body"; const p=D.parts[+i]; return p?(p.id||`${p.paint||"fur"} on ${p.in||"root"}`):"the body";}
+function tagFor(d){const j=d.joint||"", x=apply(pose(st.t,st.walking)[j]||[1,0,0,1,0,0],[d.lx,d.ly])[0];
+  if(/^(hip|shank|meta)/.test(j)) return "Hind leg"; if(/^(sh|fore|past)/.test(j)) return "Front leg"; if(/toe/.test(j)) return "Paws"; if(/tail/.test(j)) return "Tail"; if(/ear/.test(j)) return "Ears";
+  return x>43.5?"Head":x>38?"Neck and chest":"Back and body";}
+function openForm(){selectTab("N"); $("form").hidden=false; const d=st.draft; $("fTag").value=tagFor(d);
+  $("formWhere").textContent=`${partName(d.part)}${d.joint&&d.joint!=="root"?` (${d.joint})`:""} · ${d.standing?"standing":`walk ${Math.round(d.phase*100)}%`}${d.r>.15?` · circle r ${d.r.toFixed(1)}`:""}`;
+  $("fText").value=""; $("fText").focus();}
+$("fCancel").onclick=()=>{st.draft=null; $("form").hidden=true;};
+$("fSave").onclick=async()=>{const text=$("fText").value.trim(); if(!text){$("fText").focus(); return;}
+  const d=st.draft; if(!d) return; const doc={text,tag:$("fTag").value,status:"open",rig:d.rig,joint:d.joint,lx:+d.lx.toFixed(3),ly:+d.ly.toFixed(3),r:+d.r.toFixed(2),
+    phase:d.phase==null?null:+d.phase.toFixed(3),standing:d.standing,part:partName(d.part),build:BUILD.commit,created:Date.now()};
+  st.draft=null; $("form").hidden=true;
+  if(st.db){try{await st.db.collection("notes").add(doc);}catch(e){$("store").textContent="Could not save that note: "+(e.message||e.code||"the store refused it")+". Your text: "+text;}}
+  else{st.notes.push({...doc,id:"local"+Date.now()}); saveLocal(); renderNotes();}};
+function saveLocal(){try{localStorage.setItem("wolfNotes",JSON.stringify(st.notes));}catch(e){}}
+function renderNotes(){const box=$("notes"); box.textContent="";
+  const list=st.notes.slice().sort((a,b)=>(a.created||0)-(b.created||0));
+  $("nCount").textContent=list.length?`(${list.filter(n=>n.status!=="fixed").length} open)`:"";
+  if(!list.length){const p=document.createElement("p"); p.className="hint"; p.textContent="No notes yet. Pin the first thing that looks off: a paw, a joint, an edge."; box.append(p); return;}
+  st.notes=list;
+  list.forEach((n,k)=>{const el=document.createElement("div"); el.className="note"+(n.status==="fixed"?" fixed":"");
+    const head=document.createElement("div"); head.className="row";
+    const num=document.createElement("b"); num.textContent=String(k+1); const tag=document.createElement("span"); tag.className="tag"; tag.textContent=n.tag||"Note";
+    const where=document.createElement("span"); where.className="small"; where.textContent=`${n.rig} · ${n.standing?"standing":`walk ${Math.round((n.phase||0)*100)}%`}`;
+    head.append(num,tag,where);
+    const txt=document.createElement("div"); txt.className="txt"; txt.textContent=n.text;
+    const acts=document.createElement("div"); acts.className="row";
+    const go=document.createElement("button"); go.className="lnk"; go.textContent="Show me"; go.onclick=()=>showNote(n);
+    const fx=document.createElement("button"); fx.className="lnk"; fx.textContent=n.status==="fixed"?"Reopen":"Mark fixed"; fx.onclick=()=>setStatus(n,n.status==="fixed"?"open":"fixed");
+    const del=document.createElement("button"); del.className="lnk"; del.textContent="Delete"; del.onclick=()=>{if(del.dataset.armed){removeNote(n);} else {del.dataset.armed="1"; del.textContent="Delete for good?";}};
+    acts.append(go,fx,del); el.append(head,txt,acts); box.append(el);});}
+function showNote(n){if(n.rig!==st.rig){st.rig=n.rig; $("rig").value=n.rig; useRig(n.rig);} if(n.standing){setWalking(false);} else {setWalking(true); st.t=(n.phase||0)*D.stride;} setPlaying(false);
+  const M=pose(st.t,st.walking), p=apply(M[n.joint]||M.root,[n.lx,n.ly]); st.view={cx:p[0],cy:p[1],w:Math.max(8,(n.r||2)*6)};}
+async function setStatus(n,s){if(st.db&&!String(n.id).startsWith("local")){try{await st.db.doc("notes/"+n.id).update({status:s});}catch(e){$("store").textContent="Could not update that note: "+(e.message||e.code);}} else {n.status=s; saveLocal(); renderNotes();}}
+async function removeNote(n){if(st.db&&!String(n.id).startsWith("local")){try{await st.db.doc("notes/"+n.id).delete();}catch(e){$("store").textContent="Could not delete that note: "+(e.message||e.code);}} else {st.notes=st.notes.filter(x=>x!==n); saveLocal(); renderNotes();}}
+
+/* ---------- the "reads as a dog?" checklist (GrumpyDingo's research, Oct 8) ---------- */
+const QS=[
+ ["Silhouette first (flat style: these carry almost all the recognition)",[
+  ["sil-thumb","In black silhouette, small, does it read as a canine at once?",["pieces"]],
+  ["sil-muzzle","Muzzle length: not so short it reads husky-dog, not so thin and pointed it reads fox?",["fit"]],
+  ["sil-ears","Ears: triangular, upright, on top of the skull, not oversized (fox) or round (hyena)?",[]],
+  ["sil-hock","Hock bend: the hind leg zig-zags (knee forward, hock back) in the outline?",["joints"]],
+  ["sil-tail","Tail carriage: set as the end of the spine, hanging as a full brush (wolf), not dainty or stubby?",[]]]],
+ ["Head (where most canine drawings succeed or fail)",[
+  ["head-stop","Is there a stop (the forehead drop between the eyes), not a flat ramp from nose to skull?",[]],
+  ["head-planes","Are the top of the muzzle and the top of the skull close to parallel (a cat's slope sharply)?",[]],
+  ["head-masses","Cranium (round) and muzzle (wedge) read as two masses, about one to one for a wolf?",[]],
+  ["head-eye","Eye on the cranium's middle line, set slightly to the side, almond to round, amber (never blue, no big whites)?",["visible"]],
+  ["head-nose","Nose reads as a nose: a simple anchor shape, not over-rendered?",[]]]],
+ ["Legs (digitigrade, the right joint bends)",[
+  ["leg-toes","Does it stand on its toes, with the heel (hock) held well off the ground?",["feet"]],
+  ["leg-stifle","Is the real knee (stifle) high and close to the body, bending forward?",["joints"]],
+  ["leg-hock","Does the hock bend backward and sit just behind the point of the buttock?",["joints"]],
+  ["leg-wrist","Is the front 'knee' a wrist: elbow at the brisket, wrist bending backward?",["joints"]],
+  ["leg-paws","Do the paws look like paws: compact, blunt, no hooked claws (cat)?",[]],
+  ["leg-mass","Do legs taper from muscled tops (thigh, upper arm) to slim lower legs, not tubes?",["attach"]]]],
+ ["Body",[
+  ["body-chest","Deep, narrow chest with a modest tuck-up, not a box or a sausage?",["fit"]],
+  ["body-shoulder","Does the shoulder look like it floats (the blade slides), not a toy's fixed pin?",[]],
+  ["body-withers","Is there a wolf's shoulder hump (withers) and a level back?",["fit"]],
+  ["body-fur","Does the fur read as mass (ruff, brush tail) rather than texture?",[]]]],
+ ["Motion (half of reading as a dog)",[
+  ["mo-plant","Do planted paws stay put on the ground while the body passes over them?",["feet"]],
+  ["mo-poses","Walk: do the contact, passing, down and up poses read, like two offset bipeds?",[]],
+  ["mo-spine","Does the spine flex and the body ride over the legs, not a rigid box on legs?",[]],
+  ["mo-follow","Head settles a little late, tail trails (follow-through)?",[]],
+  ["mo-idle","Standing still, does it look alive (breathing, blinking, ear flicks)?",[]]]],
+ ["Not-a-dog tells (any yes here is a problem)",[
+  ["no-cat","Anything cat-like: round short skull, hooked claws, hyper-flexible spine?",[]],
+  ["no-fox","Anything fox-like: thin pointed muzzle, oversized ears, slim legs, dainty tail?",[]],
+  ["no-bear","Anything bear-like: flat feet, stub tail, heavy forearms?",[]],
+  ["no-hyena","Anything hyena-like: sloped back, short hind legs, round ears?",[]]]]];
+let answers={};
+function autoFor(keys){if(!keys.length||!REPORT) return null; const rs=REPORT.results.filter(r=>keys.includes(r.check)&&r.level!=="INFO"); if(!rs.length) return null;
+  const lvl=rs.some(r=>r.level==="FAIL")?"FAIL":rs.some(r=>r.level==="WARN")?"WARN":"PASS"; return {lvl,msg:rs.map(r=>`${r.check}: ${r.msg}`).join("\n")};}
+function renderQs(){const box=$("qs"); box.textContent=""; let y=0,c=0,n=0,tot=0;
+  QS.forEach(([title,items])=>{const h=document.createElement("h3"); h.textContent=title; box.append(h);
+    items.forEach(([id,q,keys])=>{tot++; const a=answers[id]||{}; if(a.v==="yes")y++; if(a.v==="close")c++; if(a.v==="no")n++;
+      const el=document.createElement("div"); el.className="q";
+      const t=document.createElement("div"); t.textContent=q; el.append(t);
+      const row=document.createElement("div"); row.className="ans";
+      [["yes","Yes"],["close","Close"],["no","No"]].forEach(([v,l])=>{const b=document.createElement("button"); b.dataset.v=v; b.textContent=l; b.setAttribute("aria-pressed",a.v===v?"true":"false");
+        b.onclick=()=>setAnswer(id,{...a,v:a.v===v?null:v}); row.append(b);});
+      const au=autoFor(keys); if(au){const s=document.createElement("span"); s.className="auto "+au.lvl; s.textContent="dogcheck "+au.lvl.toLowerCase(); s.title=au.msg; row.append(s);}
+      el.append(row);
+      const inp=document.createElement("input"); inp.className="qn"; inp.id="qn-"+id; inp.placeholder="Note (optional)"; inp.value=a.note||"";
+      inp.onchange=()=>setAnswer(id,{...answers[id],note:inp.value}); el.append(inp); box.append(el);});});
+  $("qScore").innerHTML=""; [["yes",y,"var(--ok)"],["close",c,"var(--warn)"],["no",n,"var(--bad)"],["open",tot-y-c-n,"var(--muted)"]].forEach(([l,v,col])=>{const s=document.createElement("span"); s.style.color=col; s.textContent=`${v} ${l}`; $("qScore").append(s);});}
+let qTimer=null;
+function setAnswer(id,a){answers={...answers,[id]:a}; renderQs(); clearTimeout(qTimer); qTimer=setTimeout(saveAnswers,400);}
+async function saveAnswers(){const body={rig:"hero3",build:BUILD.commit,updated:Date.now(),answers};
+  if(st.db){try{await st.db.doc("checklist/hero3").set(body);}catch(e){$("store").textContent="Could not save the checklist: "+(e.message||e.code);}}
+  else{try{localStorage.setItem("wolfChecklist",JSON.stringify(answers));}catch(e){}}}
+
+/* ---------- automatic checks tab ---------- */
+function renderChecks(){const box=$("chk"); box.textContent=""; if(!REPORT){box.textContent="No report bundled."; return;}
+  REPORT.results.filter(r=>r.level!=="INFO").forEach(r=>{const a=document.createElement("span"); a.className="auto "+r.level; a.textContent=r.level;
+    const k=document.createElement("span"); k.className="k"; k.textContent=r.check; const m=document.createElement("span"); m.textContent=r.msg; box.append(a,k,m);});}
+
+/* ---------- tabs ---------- */
+function selectTab(k){["N","Q","C"].forEach(x=>{$("tab"+x).setAttribute("aria-selected",x===k?"true":"false"); $("pane"+x).hidden=x!==k;});}
+$("tabN").onclick=()=>selectTab("N"); $("tabQ").onclick=()=>selectTab("Q"); $("tabC").onclick=()=>selectTab("C");
+
+/* ---------- boot ---------- */
+$("meta").textContent=`build ${BUILD.commit} · ${BUILD.date} · dogcheck ${REPORT?`${REPORT.fails} fail, ${REPORT.warns} warn`:"n/a"}`;
+renderQs(); renderChecks(); renderNotes();
+(async()=>{const db=window.claude&&window.claude.use?await window.claude.use("db"):null;
+  if(!db){try{st.notes=JSON.parse(localStorage.getItem("wolfNotes")||"[]"); answers=JSON.parse(localStorage.getItem("wolfChecklist")||"{}");}catch(e){}
+    $("store").textContent="Notes are kept in this browser only (the shared store is not available in this view)."; renderNotes(); renderQs(); return;}
+  st.db=db; $("store").textContent="Notes save to the shared store; Firefly reads them directly.";
+  db.collection("notes").onSnapshot(s=>{st.notes=s.docs.map(d=>({...d.data(),id:d.id})); renderNotes();},e=>{$("store").textContent="Could not load the notes: "+(e.message||e.code);});
+  try{const c=await db.doc("checklist/hero3").get(); if(c.exists){answers=(c.data().answers)||{}; renderQs();}}catch(e){}})();
+</script>

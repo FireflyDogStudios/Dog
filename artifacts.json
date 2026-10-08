@@ -94,5 +94,18 @@
     ],
     "store": "notes/<id>, members/<nick>, meta/sync (Firefly fills them after tools/team/inbox.py)",
     "status": "live"
+  },
+  "wolf-bench": {
+    "url": "https://claude.ai/artifact/5MVTVAmLQmBxUaC5PL9QLC",
+    "title": "Wolf Review Bench",
+    "source": "apps/wolf-bench/template.html",
+    "build": "./den dogcheck hero3 && node apps/wolf-bench/build.mjs",
+    "publish": "apps/wolf-bench/index.html",
+    "capabilities": [
+      "db",
+      "user"
+    ],
+    "store": "notes/<id> (GrumpyDingo's pinned notes: text, tag, joint + local x,y, phase, status open/fixed); checklist/hero3 (answers by question id)",
+    "status": "live"
   }
 }
