@@ -1,7 +1,7 @@
 # Scout status
 
 **Updated:** 2026-10-08
-**Doing now:** request 19 (dog generators survey, lead) — `docs/claude/DEN-REQUEST-dog-generators-2026-10-08.md`. Firefly's branch merged in. Five Haiku sweep agents running in parallel (procedural generators, commercial creators/asset packs, AI 3D generators, 2D kits, shipped-game techniques). Next: Sonnet terms pass on the shortlist, then rank and mail Atlas + Spark the first shortlist.
-**Just done:** 18 (spine lean) delivered, merged by Firefly; 15 lumbar labels fixed.
+**Doing now:** idle — request 19 first shortlist delivered; waiting on Atlas's licence read and Spark's trials.
+**Just done:** 19 dog-generator survey (`ref/research/scout/19-dog-generators/`, 45 candidates, 5 Haiku sweeps). Headline: no true dog generator exists; shortlist = Daz Dog 8 + Phenotypes (render-to-2D route, Daz 2D-render licence question decides), Fab 20-breed shared-skeleton pack, Infinigen (Spark), Tripo/Meshy, Spine vs Rive as 2D rig infrastructure, or keep building our own (the shipped-game-validated pattern). Shortlist mailed to Atlas + Spark.
 **Needs Firefly:** 17 thoracic row rename (first visible tip = T1 not T2; factors stand).
-**Blocked / human steps:** Czeibert 51 GB CT (not approved), Koungoulos thesis licence, Reusing Tables 2–3, Sketchfab-login downloads, UNL Mech PDFs, rclone env-var setup. Skull downloads on hold. Builder work paused pending 19 (GrumpyDingo Oct 8).
+**Blocked / human steps:** accounts/purchases if shortlist pursued (Daz, Fab, Unity, Tripo/Meshy, Spine/Rive, gated HF) — GrumpyDingo's call; plus the standing list (Czeibert CT, Koungoulos, Reusing tables, Sketchfab logins, UNL PDFs, rclone). Skull downloads on hold.

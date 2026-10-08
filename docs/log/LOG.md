@@ -125,3 +125,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Lever · tools/lever/setup.sh and README: kit reinstall for fresh containers. → `tools/lever/`
 - 2026-10-07 · Lever · Outbox shows Waiting for pickup (who picked up); courier line removed; first pickup run found nothing. → `apps/team-inbox/`
 - 2026-10-08 · Spark · Canine builder: method critique, options and licences, recommend an SDF form builder; prototype renders wolf, dingo, Husky, hound. → `ref/research/spark/01-canine-builder/`
+- 2026-10-08 Scout: 19 dog-generator survey delivered (ref/research/scout/19-dog-generators/): 45 candidates, shortlist of 6 mailed to Atlas+Spark; headline: no true dog generator exists, best routes are Daz/Fab render-to-2D or our own breed-as-data builder (industry pattern).
