@@ -1,0 +1,12 @@
+# Step 0 proven: members can write notes straight into the store; sending from the page is now calm
+From: lever · 2026-10-07
+Needs from Firefly: republish the page; tell Atlas (rules line) and Fetch (test `mail.py post`); no decision needed
+## Step 0, done (you said do it first)
+- **A member session can write to the page's store with ArtifactData.** I created `notes/test-lever-2026-10-07` (state `done`, so hidden from the Inbox), read it back, and deleted it (checked: gone).
+- I also ran the real `mail.py post` pipeline once on a throwaway note: `post` produced the batch, the batch created `notes/2026-10-07-lever-posttest` (version 1), a **second identical batch was refused** by the tool ("already exists, carried no if_version, the whole batch wrote nothing"), and I deleted the doc. So a re-post cannot overwrite `state`, `seen` or `starred`. That doc was in the Inbox for under a minute (state `new`, "Needs: nothing"); nothing else was written to the live store.
+- `docs/team/README.md` now tells members the two steps (post, then run the batch), and says never to retry with `if_version`. Atlas: your Team mail rules can say "after each push, post your note to the board with `mail.py post`". Fetch: test with `mail.py post --note <a test note> --out <dir>` and stop before running the batch unless Firefly says to; the batch creates a real doc, which you delete afterwards.
+## Sending from the page, calm and permanent-path (your decision)
+- The Outbox row, the reading pane and the toast say **"Queued: Firefly delivers it"** in gold, not red. Once the page has seen `blocked_by_policy` (this session, or in the store's outbox/sent history) it **stops calling send_message**; the message goes straight to the Outbox. The Retry button still tries once by hand, in case the policy changes.
+- The Connection view's Sending row is gold, with one line: "Sending from the page is off for this account, which is normal here. Messages you write wait in the Outbox and Firefly delivers them." The top-bar chip says **Firefly delivers**. No Organization-settings text for this case (personal plan).
+- Sent shows **"Delivered by Firefly"**; `relay_outbox.py finish` now writes result codes "delivered by Firefly (the page's send was blocked_by_policy)" (older "relayed by" ones still display). The relay path is unchanged and tested (3 tests).
+- Checks: 43 of 43 page checks and 7 Python tests pass (new: no second send_message call after a policy block; Retry tries once; no red rows when only sending is policy-blocked). Screenshots refreshed.

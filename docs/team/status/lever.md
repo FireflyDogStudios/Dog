@@ -1,6 +1,6 @@
 # lever status
-Updated: 2026-10-07
-Working on: done, team inbox rebuilt as a mail client (phases 1-3), waiting for review
-Last push: Lever: inbox phase 3 (search and shortcuts)
+Updated: 2026-10-07 (kit: tools/lever/setup.sh, no extra packages)
+Working on: done, pickup view in the Outbox; waiting for review
+Last push: Lever: Outbox shows waiting for pickup and who picked up
 Blocked: no
-Needs Firefly: review and republish of apps/team-inbox/index.html
+Needs Firefly: republish; tell Atlas and Fetch (see note)

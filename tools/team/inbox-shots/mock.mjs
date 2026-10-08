@@ -12,7 +12,17 @@ export const sent=[{id:'s1',at:'2026-10-07T20:10:00Z',to:['Forge'],cc:['Firefly'
  {id:'s0',at:'2026-10-06T09:00:00Z',to:['Lever'],cc:[],re:'Welcome',type:'welcome',results:[{nick:'Lever',ok:true}]}];
 export const drafts=[{id:'d1',at:'2026-10-07T21:00:00Z',to:['Scout'],cc:[],re:'Next round',body:'Ideas for the next fetch'}];
 export const outbox=[{id:'o1',at:'2026-10-07T21:30:00Z',to:['Palette'],cc:['Firefly'],re:'Moss tone: option 2',body:'Go with option 2.',status:'failed'}];
-export const init=`
-const D=${JSON.stringify({notes,members,sent,drafts,outbox})};
+export const mail=[{id:'2026-10-07-palette-to-lever-style-hook',thread:'2026-10-07-palette-to-lever-style-hook',from:'Palette',to:['Lever'],cc:['Firefly'],re:'A style hook for the mail folder',type:'request',date:'2026-10-07T21:10:00Z',body:'Could the folder rows take a member colour from the roster?\nNot urgent.',branch:'claude/team-palette'},
+ {id:'2026-10-07-lever-to-palette-re-style-hook',thread:'2026-10-07-palette-to-lever-style-hook',from:'Lever',to:['Palette'],cc:[],re:'Re: A style hook for the mail folder',type:'answer',date:'2026-10-07T22:00:00Z',body:'Done: colour comes from a hash of the nick for now. Roster colours later.',branch:'claude/team-lever',seen:true},
+ {id:'2026-10-07-forge-to-scout-skull-numbers',thread:'2026-10-07-forge-to-scout-skull-numbers',from:'Forge',to:['Scout'],cc:[],re:'Skull numbers for the helm',type:'request',date:'2026-10-07T20:30:00Z',body:'Which skull length do you want me to use for the wolf?',branch:'claude/team-forge',seen:true}];
+export const initFor=(v)=>{
+ const o=v==='blocked'?outbox.map(x=>({...x,picked_up:['Firefly'],results:[{nick:'Palette',ok:false,code:'blocked_by_policy'}]})):outbox;
+ const sn=v==='blocked'?[{id:'s9',at:'2026-10-07T23:16:00Z',to:['Lever'],cc:[],re:'Re: Lever is here',type:'request',body:'Please make the box movable.',results:[{nick:'Lever',ok:true,code:'delivered by Firefly (the page\'s send was blocked_by_policy)'}]},...sent]:sent;
+ return `
+const D=${JSON.stringify({notes,members,sent:sn,drafts,outbox:o,mail})}; const VAR=${JSON.stringify(v)};
 const mk=(a)=>a.map(x=>({id:x.id,data:()=>x}));
-window.claude={use:async(k)=>k==='db'?{collection:(c)=>({orderBy:()=>({onSnapshot:(f)=>f({docs:mk(D[c]||[])})}),add:async()=>{}}),doc:()=>({onSnapshot:(f)=>f({exists:true,data:()=>({checked_at:new Date().toISOString()})}),update:async()=>{}})}:{watchTool:()=>{},callTool:async()=>{}}};`;
+window.claude={use:async(k)=>k==='db'?{collection:(c)=>({orderBy:()=>({onSnapshot:(f)=>f({docs:mk(D[c]||[])})}),add:async()=>{}}),doc:(path)=>({onSnapshot:(f)=>f(path==='meta/courier'?(VAR==='nocourier'?{exists:false,data:()=>null}:{exists:true,data:()=>({last_run:new Date(Date.now()-12*60000).toISOString(),delivered:2,errors:VAR==='courier-err'?['to Shutter: tool_error']:[]})}):{exists:true,data:()=>({checked_at:new Date(Date.now()-20*60000).toISOString()})}),update:async()=>{},set:async()=>{},delete:async()=>{}})}
+ :k==='permissions'?{state:async()=>({db:'granted',mcp:VAR==='noconn'?'denied':'granted'}),manage:async()=>{}}
+ :{watchTool:(s,t,i,h)=>{setTimeout(()=>h(VAR==='noconn'?{type:'error',error:{code:'server_not_connected'}}:{type:'data',result:{payload:{ccr:{data:[]}},cache:{storedAt:Date.now()}}}),50)},callTool:async(...a)=>{ if(VAR==='blocked'){ window.__bc=(window.__bc||0)+1; throw {code:'blocked_by_policy'}; } return (window.__call||(async()=>{}))(...a); }}};`;
+};
+export const init=initFor('default');

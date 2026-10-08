@@ -21,9 +21,14 @@ Commands (Python standard library plus git; run from anywhere inside the repo):
     mail.py read  NICK (ID ... | --all)    mark read: appends to docs/team/mail/read/<nick>.txt on your branch, commits and pushes
     mail.py thread ID [--no-fetch]         a whole conversation in order, across branches
     mail.py all   [--since DATE] [--json] [--no-fetch]   everything (for Firefly's sync and GrumpyDingo's view)
+    mail.py post  [--note FILE ...] [--mail ID ...] [--out DIR] [--url URL]   make the store documents for the inbox page (see below)
 Session ids come from the roster table in docs/claude/DEN-TEAM.md, never from this file. `send` prints one PING line per recipient:
-the text to pass to send_message, if your session has it. Nobody has to: Firefly's sync relays new mail either way."""
-import argparse, json, os, re, subprocess, sys
+the text to pass to send_message, if your session has it. Nobody has to: Firefly's sync relays new mail either way.
+
+`post` puts your notes and mail on the inbox page live, without waiting for Firefly's sync. A Python script cannot reach the page's database, so
+`post` writes the document files and prints the ArtifactData batch to run (load the tool with ToolSearch first). It only creates: a `set` on an
+existing document is refused by the tool without if_version, so a re-post can never overwrite what GrumpyDingo set (read, done, starred)."""
+import argparse, json, os, re, subprocess, sys, tempfile
 from datetime import datetime, timezone
 
 MAIL_DIR = 'docs/team/mail'
@@ -104,8 +109,8 @@ def load_all(fetch=True):
     return sorted(msgs, key=lambda m: (m['date'], m['id']))
 
 
-def roster():
-    p = os.path.join(root(), 'docs/claude/DEN-TEAM.md')
+def roster(path=None):
+    p = path or os.path.join(root(), 'docs/claude/DEN-TEAM.md')
     out = {}
     if os.path.exists(p):
         for ln in open(p, encoding='utf-8'):
@@ -227,6 +232,56 @@ def cmd_all(a):
         print()
 
 
+def note_doc(path, branch):
+    """A note file (docs/team/inbox/<date>-<role>-<slug>.md) -> the store's notes/<id> document, in the shape Firefly's sync writes."""
+    lines = open(path, encoding='utf-8').read().replace('\r\n', '\n').split('\n')
+    head = next((ln[2:].strip() for ln in lines if ln.startswith('# ')), '')
+    frm = next((ln.partition(':')[2].strip() for ln in lines if ln.startswith('From:')), '')
+    role, _, date = (x.strip() for x in frm.partition('·'))
+    needs = next((ln.partition(':')[2].strip() for ln in lines if ln.lower().startswith('needs from firefly:')), '')
+    where = next((ln.partition(':')[2].strip().strip('`') for ln in lines if re.match(r'^-\s*where:', ln, re.I)), '')
+    body = '\n'.join(ln.rstrip() for ln in lines if ln.startswith('- ') and not re.match(r'^-\s*where:', ln, re.I))
+    stem = os.path.splitext(os.path.basename(path))[0]
+    nick = next((r['nick'] for r in roster().values() if r['nick'].lower() == role.lower()), role.title())
+    now = datetime.now(timezone.utc).strftime('%H:%M')
+    return stem, {'nick': nick, 'from': role.lower(), 'headline': head, 'needs': needs, 'body': body, 'branch': branch, 'path': where or os.path.relpath(path, root()),
+                  'date': f'{date}T{now}' if re.match(r'^\d{4}-\d\d-\d\d$', date) else date, 'state': 'new'}
+
+
+def cmd_post(a):
+    me = a.branch or git('rev-parse', '--abbrev-ref', 'HEAD').strip()
+    url = a.url
+    if not url:
+        try:
+            url = json.load(open(os.path.join(root(), 'artifacts.json'), encoding='utf-8'))['team-inbox']['url']
+        except Exception:
+            sys.exit('no inbox url: pass --url, or run from a checkout that has artifacts.json')
+    if not a.note and not a.mail:
+        sys.exit('give --note FILE and/or --mail ID')
+    os.makedirs(a.out, exist_ok=True)
+    writes = []
+
+    def add(coll, did, data):
+        f = os.path.abspath(os.path.join(a.out, f'{coll}.{did}.json'))
+        json.dump(data, open(f, 'w', encoding='utf-8'), indent=1)
+        writes.append({'op': 'set', 'collection': coll, 'doc_id': did, 'file_path': f})
+
+    for n in a.note:
+        did, data = note_doc(n, me)
+        add('notes', did, data)
+    if a.mail:
+        by_id = {m['id']: m for m in load_all(fetch=False)}
+        for i in a.mail:
+            if i not in by_id:
+                sys.exit('no such mail: ' + i)
+            m = by_id[i]
+            add('mail', i, {k: m[k] for k in ('id', 'thread', 'from', 'to', 'cc', 're', 'type', 'date', 'body', 'branch', 'branches')})
+    print(f'made {len(writes)} document file{"s" if len(writes) != 1 else ""} in {a.out}. Now, with the ArtifactData tool:')
+    print(f'  action=batch  url={url}  writes=')
+    print('  ' + json.dumps(writes))
+    print('If it says a document already exists, that note or mail is already on the page: leave it. Do not retry with if_version.')
+
+
 def main(argv):
     p = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     sub = p.add_subparsers(dest='cmd', required=True)
@@ -237,6 +292,8 @@ def main(argv):
     r = sub.add_parser('read'); r.add_argument('nick'); r.add_argument('ids', nargs='*'); r.add_argument('--all', action='store_true'); r.add_argument('--no-push', action='store_true'); r.set_defaults(f=cmd_read)
     t = sub.add_parser('thread'); t.add_argument('id'); t.add_argument('--no-fetch', action='store_true'); t.set_defaults(f=cmd_thread)
     al = sub.add_parser('all'); al.add_argument('--since'); al.add_argument('--json', action='store_true'); al.add_argument('--no-fetch', action='store_true'); al.set_defaults(f=cmd_all)
+    po = sub.add_parser('post'); po.add_argument('--note', action='append', default=[]); po.add_argument('--mail', action='append', default=[]); po.add_argument('--out', default=os.path.join(tempfile.gettempdir(), 'den-post'))
+    po.add_argument('--url'); po.add_argument('--branch'); po.set_defaults(f=cmd_post)
     a = p.parse_args(argv)
     a.f(a)
     return 0
