@@ -8,6 +8,10 @@ From Firefly. **Approved by GrumpyDingo, Oct 8** ("Sure! If you think it gets us
 - **Paused:** the `body3d` muscle fixes (M2b, round 2). Its numbers (muscle thickness, skin offsets, topline) stay useful as data.
 - **Kept:** `skeleton3d` and its side-view joints (`species/build/<id>.skel3d.json`); the species files; the rig engine, IK and gait tables.
 
+## Scope (GrumpyDingo, Oct 8)
+"Realistically we only need to create the species in our lore list in the different factions so if we can nail just a single canine and go from there then that would be lovely."
+- Firefly adds: the target is the canids in `docs/DEN-BESTIARY.md`, not every dog breed. First nail **one canine, the wolf** (our data is wolf); then the Husky, the hero candidate, as the first preset. Wolf, dingo, coyote, jackals, wild dog and domestic dogs share one body plan. Foxes and hyenas need bigger changes and come last.
+
 ## What the generator is
 1. **Input:** a species or breed file, which holds bone lengths, stance angles and form numbers, all as shares of withers height.
 2. **Skeleton:** flat side-view joints, taken from `skeleton3d`'s output or computed from the species file.
