@@ -1,6 +1,7 @@
 # forge status
-Updated: 2026-10-07
-Working on: nothing; wolf body3d review note sent (docs/team/inbox/2026-10-07-forge-wolf-review.md). Waiting for the Husky request.
-Last push: wolf review note
+Updated: 2026-10-08
+Working on: nothing; Husky measurements delivered (docs/team/inbox/2026-10-08-forge-husky-measurements.md). Waiting for the next request.
+Last push: Husky species file and photo proportions
 Blocked: no
-Needs Firefly: no
+Needs Firefly: a review; Scout for the gaps listed in the note
+Setup: no installs or scripts this round (no tools/forge/setup.sh needed yet)
