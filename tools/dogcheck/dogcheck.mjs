@@ -181,6 +181,17 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
       const vis = (seen.get(i) || 0) / Math.max(1, n), L = label(D.parts[i]); if (vis < (D.parts[i].paint === 'ink' ? .9 : .15) && !lost.has(L)) lost.set(L, `${(vis * 100).toFixed(0)}% visible (${t})`); } }
   if (lost.size) for (const [L, m] of lost) add('visible', 'FAIL', `${L} is hidden: ${m}`); else add('visible', 'PASS', `eye, nose and every named marking show in all checked frames`); }
 
+// ---------- topline: above hip / shoulder height a leg stays inside the body (a thigh or upper arm swinging out over the croup or withers) ----------
+{ const body = new Set(ORDER.filter(([p]) => p.id === 'body').map(e => e[1])), Jx = Object.fromEntries(D.joints.map(j => [j.id, j]));
+  const tops = D.joints.filter(j => j.track === 'hhip' || j.track === 'fsh'), under = top => { const ids = new Set([top.id]); let grew = true; while (grew) { grew = false; for (const j of D.joints) if (!ids.has(j.id) && ids.has(j.in)) { ids.add(j.id); grew = true; } } return ids; };
+  let worst = { d: 0 };
+  for (let f = 0; f < 12; f++) { const t = f / 12 * D.stride, M = pose(t), B = await raster(svgOf(M, { fill: () => '#000', only: body }));
+    for (const top of tops) { const ids = under(top), parts = new Set(ORDER.filter(([p]) => ids.has(p.in)).map(e => e[1])), Lg = await raster(svgOf(M, { fill: () => '#000', only: parts }));
+      const pivotY = (apply(M[top.id], top.at)[1] - VIEW[1]) * PX, w = B.w;
+      for (let y = 0; y < Math.min(B.h, pivotY); y++) for (let x = 0; x < w; x++) { const q = (y * w + x) * 4 + 3; if (Lg.data[q] > 127 && B.data[q] < 128) { let dd = 99; for (let r = 1; r < 40 && dd === 99; r++) for (const [dx, dy] of [[r, 0], [-r, 0], [0, r], [0, -r]]) { const X = x + dx, Y = y + dy; if (X >= 0 && Y >= 0 && X < w && Y < B.h && B.data[(Y * w + X) * 4 + 3] > 127) { dd = r; break; } }
+        const d = dd / PX; if (d > worst.d) worst = { d, at: toU(x, y), f, leg: top.id }; } } } }
+  if (worst.d > .1) add('topline', 'FAIL', `${worst.leg} pokes ${worst.d.toFixed(2)} out of the body above its pivot at (${worst.at[0].toFixed(1)}, ${worst.at[1].toFixed(1)}) (walk frame ${worst.f}/12)`); else add('topline', 'PASS', 'above hip and shoulder height every leg stays inside the body, all walk frames'); }
+
 // ---------- markings: inside their shape; what covers them ----------
 { const M = pose(0, false), BASEPAINT = new Set(['fur', 'leg', 'pale2', 'tan']);
   const marks = ORDER.filter(([p]) => !BASEPAINT.has(p.paint || 'fur') && p.paint !== 'ink' && !/[FN]$/.test(p.in || ''));
@@ -198,7 +209,18 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
     if (base.size && fo > 0.01) { issues++; add('markings', 'FAIL', `${name} pokes ${(fo * 100).toFixed(1)}% outside the shape it marks`); }
     const cov = Object.entries(cover).filter(([, c]) => c / n > 0.03).map(([L, c]) => `${L} ${(c / n * 100).toFixed(0)}%`);
     if (cov.length) add('markings', 'INFO', `${name} is partly drawn over by ${cov.join(', ')} (check the edge that makes)`); }
-  if (!issues) add('markings', 'PASS', `${marks.length} markings stay inside their shapes`); }
+  // walking: a leg that draws over the body must not cut into a body marking more than it does standing (the thigh eating into the saddle)
+  const legParts = new Set(ORDER.filter(([p]) => /[FN]$/.test(p.in || '')).map(e => e[1]));
+  const topOfJ = jid => { let c = D.joints.find(j => j.id === jid); while (c && !(c.track === 'hhip' || c.track === 'fsh')) c = D.joints.find(j => j.id === c.in); return c; };
+  const partTop = Object.fromEntries([...legParts].map(k => [k, topOfJ(D.parts[k].in)])); /* only a leg's top, above its own pivot, can 'cut' (below it the leg is simply in front) */
+  for (const [p, i] of marks.filter(([p]) => (p.in || 'root') === 'body')) { let rest = null, worst = { c: 0 };
+    for (const t of [null, ...Array.from({ length: 12 }, (_, f) => f / 12)]) { const M = t == null ? pose(0, false) : pose(t * D.stride);
+      const ID = await raster(svgOf(M, { fill: (q, k) => idCol(k), crisp: true, opacity: false })), mk = await raster(svgOf(M, { fill: () => '#000', crisp: true, only: new Set([i]) }));
+      let n = 0, cut = 0; const pv = {}; for (const k of legParts) { const tj = partTop[k]; if (tj && pv[tj.id] == null) pv[tj.id] = (apply(M[tj.id], tj.at)[1] - VIEW[1]) * PX; }
+      for (let q = 0; q < mk.w * mk.h; q++) { if (mk.data[q * 4 + 3] < 128) continue; n++; const k = ID.data[q * 4 + 3] > 127 ? ((ID.data[q * 4] << 16 | ID.data[q * 4 + 1] << 8 | ID.data[q * 4 + 2]) - 1) : -1; if (legParts.has(k) && partTop[k] && Math.floor(q / mk.w) < pv[partTop[k].id]) cut++; }
+      const c = cut / Math.max(1, n); if (t == null) rest = c; else if (c - rest > worst.c) worst = { c: c - rest, t }; }
+    if (worst.c > .02) { issues++; add('markings', 'FAIL', `a leg cuts into ${label(p)} while walking: ${(worst.c * 100).toFixed(1)}% more of it covered than standing (walk ${Math.round(worst.t * 100)}%)`); } }
+  if (!issues) add('markings', 'PASS', `${marks.length} markings stay inside their shapes, and no leg cuts into them while walking`); }
 
 // ---------- feet: ground, slide, bob, stride match ----------
 { const toes = D.joints.filter(j => /toe/.test(j.id)), N = 96, legs = {};

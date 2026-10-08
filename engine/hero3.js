@@ -30,8 +30,22 @@ function registerHero3(RIG){
     return Object.assign({poly:[...L, ...cap, ...R.reverse()].map(q => [f2(q[0]), f2(q[1])])}, extra || {}); };
 
   /* joints: hero2's hind leg as is; the front leg's elbow drops to the deeper brisket (y 24) */
-  const H = {hip:[20.6, 17.8], stifle:[24.4, 26.2], hock:[19.4, 29.8], paw:[20.3, 34.5]};
-  const Fj = {sh:[42.4, 16.4], elbow:[40.0, 23.4], past:[40.3, 30.6], paw:[40.8, 34.5]};
+  /* ---- legs from the measured wolf: bone lengths (Law et al. 2025 means, species/wolf.yaml) scaled to WH 24.5 = 750 mm, posed at measured
+     standing angles (included, 180 = straight): stifle 140 and tarsus 145 (Catavitello 2015 dog walk at touchdown 143 / 145; Humphries 2020
+     standing Labrador 145 / 150), elbow 145 (Catavitello touchdown 148), carpus 186 (slight over-extension in stance), pastern sloping 12 deg
+     (breed standards 15-20). The joints are computed from these numbers, from the ground up; hero2's legs were drawn crouched (a shin 6.2
+     long against the wolf's 8.4, the hip 3 units low), which is what made the knee and hock read 101 / 115. ---- */
+  const MM = 24.5 / 750, BONE = {femur:247.5 * MM, tibia:258 * MM, cannon:(112 + 36) * MM /* mt3 + tarsal block (EST) */, humerus:232 * MM, radius:236.5 * MM, pastern:(102.8 + 20) * MM /* mc3 + carpal (EST) */};
+  const STAND = {stifle:140, tarsus:145, elbow:145, carpus:186, pastern:12, hipX:20.6, shoulder:[42.4, 16.4], ground:34.5};
+  const sd = d => Math.sin(d * Math.PI / 180), cd = d => Math.cos(d * Math.PI / 180);
+  const H = (() => { const t = 180 - STAND.tarsus, f = STAND.tarsus - STAND.stifle; /* tibia leans t forward of vertical; the femur f behind it */
+    const px = STAND.hipX - BONE.tibia * sd(t) + BONE.femur * sd(f), paw = [px, STAND.ground], hock = [px, STAND.ground - BONE.cannon];
+    const stifle = [hock[0] + BONE.tibia * sd(t), hock[1] - BONE.tibia * cd(t)], hip = [stifle[0] - BONE.femur * sd(f), stifle[1] - BONE.femur * cd(f)];
+    return {hip:hip.map(f2), stifle:stifle.map(f2), hock:hock.map(f2), paw:paw.map(f2)}; })();
+  const Fj = (() => { const pl = STAND.pastern, fl = STAND.pastern - (STAND.carpus - 180), hu = fl + STAND.elbow; /* angles from straight down, + toward the front */
+    const dx = -BONE.pastern * sd(pl) - BONE.radius * sd(fl) + BONE.humerus * sd(hu), dy = -BONE.pastern * cd(pl) - BONE.radius * cd(fl) + BONE.humerus * cd(hu); /* paw → shoulder */
+    const paw = [STAND.shoulder[0] - dx, STAND.ground], sh = [STAND.shoulder[0], STAND.ground + dy], past = [paw[0] - BONE.pastern * sd(pl), paw[1] - BONE.pastern * cd(pl)], elbow = [past[0] - BONE.radius * sd(fl), past[1] - BONE.radius * cd(fl)];
+    return {sh:sh.map(f2), elbow:elbow.map(f2), past:past.map(f2), paw:paw.map(f2)}; })();
   const sh = (o, dx) => Object.fromEntries(Object.entries(o).map(([n, q]) => [n, [f2(q[0] + dx), q[1]]]));
   const FAR_DX = {hind:1.3, front:-1.3}; /* far hind leg a little forward, far front leg a little back */
   const HL = k => k === "F" ? sh(H, FAR_DX.hind) : H, FL = k => k === "F" ? sh(Fj, FAR_DX.front) : Fj;
@@ -41,7 +55,9 @@ function registerHero3(RIG){
   const front = (k, ph, far) => [
     {id:"sh" + k, at:FL(k).sh, track:"fsh", ph, far, in:"root"}, {id:"fore" + k, at:FL(k).elbow, track:"ffore", ph, in:"sh" + k},
     {id:"past" + k, at:FL(k).past, track:"fpast", ph, in:"fore" + k}, {id:"ftoe" + k, at:FL(k).paw, track:"ftoe", ph, in:"past" + k}];
-  const THIGH = H2.parts.find(p => p.poly && p.in === "hipF").poly; /* hero2's thigh: the lower half of the rump, flush with the buttock */
+  /* the thigh: the lower half of the rump, from inside the croup to a round knee cap at the stifle; the rear edge continues the buttock line */
+  const THIGH = (() => { const [sx, sy] = H.stifle, cap = []; for (let k = 0; k <= 8; k++){ const a = Math.PI * (.95 - k / 8 * 1.05); cap.push([f2(sx + Math.cos(a) * 2.1), f2(sy + Math.sin(a) * 2.1)]); }
+    return [[22.4, 15.7], [20.4, 15.7], [18.8, 16.0], [17.6, 16.9], [17.4, 18.4], [17.8, 20.2], [18.6, 21.6], ...cap, [23.9, 20.6], [24.6, 18.6], [24.8, 16.8], [24.4, 16.0], [23.6, 15.7]]; })(); /* the top sits below the saddle inside the rump, so the swing never lifts it into the saddle or past the croup */
   /* legs: thicker than hero2 (a wolf is heavier-boned), still tapering; the pale starts below the elbow and the hock */
   const legParts = k => [
     {poly:k === "F" ? THIGH.map(q => [f2(q[0] + FAR_DX.hind), q[1]]) : THIGH, in:"hip" + k}, limb(HL(k).stifle, HL(k).hock, 4.0, 2.6, {in:"shank" + k}), limb(HL(k).hock, HL(k).paw, 2.5, 2.2, {in:"meta" + k, paint:"leg"}),
@@ -65,7 +81,7 @@ function registerHero3(RIG){
   const earNear = "M43.15 11.90 L43.35 9.90 C43.45 8.30 43.85 6.70 44.45 5.90 C44.75 5.50 45.35 5.50 45.65 5.90 C46.35 7.00 46.75 8.30 46.95 9.70 L46.65 11.70 Z"; /* base buried in the skull (the body draws over the ear joints); the front edge runs into the forehead */
   const earIn = "M44.05 10.90 L44.15 9.50 C44.35 8.10 44.75 7.00 45.05 6.60 C45.55 7.30 45.85 8.30 46.05 9.50 L46.05 10.90 Z";
   /* tail: a full brush hanging from inside the croup to about hock height, behind the thigh with daylight below it */
-  const TAILC = [[21.4, 14.0], [18.8, 14.6], [16.4, 16.3], [14.8, 19.2], [14.0, 22.4], [13.9, 25.6], [14.4, 28.0]];
+  const TAILC = [[21.4, 14.0], [18.6, 14.6], [15.9, 16.3], [13.9, 19.0], [12.7, 22.2], [12.3, 25.3], [12.6, 27.6]]; /* hangs behind the hock (which sits just behind the buttock) */
   const tailW = u => u < .15 ? 2.4 + u / .15 * 1.4 : u < .7 ? 3.8 + Math.sin((u - .15) / .55 * Math.PI) * .6 : 3.8 - (u - .7) / .3 * 2.2;
   const tail = ribbon(TAILC, tailW, {in:"tail", id:"tail"});
   const tailTop = ribbon(TAILC, tailW, {in:"tail", paint:"saddle", id:"tailTop"}, 1);
@@ -78,40 +94,41 @@ function registerHero3(RIG){
      comes forward, the hock or wrist folding as it goes. Lateral-sequence phases as hero2 (LH 0, LF .25, RH .5, RF .75).
      Hind: thigh + gaskin are a two-bone IK to the hock; the cannon keeps its standing angle in stance. Front: upper arm + forearm to the wrist.
      The solved angles become ordinary rig tracks (keys every 1/48 of the stride), so rig.js plays them unchanged. */
-  const WALK = {duty:.62, stride:7.8, lift:{hind:1.5, front:1.8}, fold:{hind:38, front:72}, keys:48};
+  const WALK = {duty:.62, stride:7.8, lift:{hind:1.5, front:1.8}, fold:{hind:24, front:72}, centre:{hind:2.4, front:.8} /* stance centre ahead of the standing paw */, maxOpen:{hind:148, front:152} /* the knee / elbow never opens past these in a walk (measured dog walk maxima 144 / 153) */, keys:48};
   const A = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI, Ln = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
   const pol = (o, deg, l) => [o[0] + Math.cos(deg * Math.PI / 180) * l, o[1] + Math.sin(deg * Math.PI / 180) * l];
   const easeIO = x => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
   /* two-bone IK: root, lengths, target; side = +1 bends the middle joint to +x (stifle forward), -1 to -x (elbow back) */
-  const twoBone = (r, l1, l2, t, side) => { const d = Math.min(Ln(r, t), (l1 + l2) * .999), a0 = A(r, t), c = (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d), off = Math.acos(Math.max(-1, Math.min(1, c))) * 180 / Math.PI;
+  const twoBone = (r, l1, l2, t, side, maxR) => { const d = Math.min(Ln(r, t), maxR || (l1 + l2) * .999), a0 = A(r, t), c = (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d), off = Math.acos(Math.max(-1, Math.min(1, c))) * 180 / Math.PI;
     const m1 = pol(r, a0 + off, l1), m2 = pol(r, a0 - off, l1); return (side > 0 ? (m1[0] > m2[0] ? m1 : m2) : (m1[0] < m2[0] ? m1 : m2)); };
   /* paw path over one stride, phase 0 = touch-down at the front of the stance */
-  const pawAt = (ph, rest, lift) => { const half = WALK.stride / 2;
+  const pawAt = (ph, rest0, lift, c = 0) => { const half = WALK.stride / 2, rest = [rest0[0] + c, rest0[1]];
     if (ph < WALK.duty) { const u = ph / WALK.duty; return {p:[rest[0] + half - u * WALK.stride, rest[1]], u, stance:true}; }
     const u = (ph - WALK.duty) / (1 - WALK.duty); return {p:[rest[0] - half + easeIO(u) * WALK.stride, rest[1] - lift * Math.sin(Math.PI * u)], u, stance:false}; };
-  const dropFor = (J, ph) => { const P = pawAt(ph % 1, J[3], 0); if (!P.stance) return 0; const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), reach = (l1 + l2) * .995;
+  const reachOf = (l1, l2, maxDeg) => Math.sqrt(l1 * l1 + l2 * l2 - 2 * l1 * l2 * Math.cos(maxDeg * Math.PI / 180)); /* hip-to-hock (shoulder-to-wrist) length with the middle joint at maxDeg */
+  const dropFor = (J, ph, c, maxDeg) => { const P = pawAt(ph % 1, J[3], 0, c); if (!P.stance) return 0; const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), reach = reachOf(l1, l2, maxDeg);
     const low = pol(P.p, A(J[2], J[3]) + 180, l3), dx = low[0] - J[0][0]; if (Ln(J[0], low) <= reach) return 0; return Math.max(0, (low[1] - J[0][1]) - Math.sqrt(Math.max(0, reach * reach - dx * dx))); };
-  const girdle = (J, ph) => Math.max(dropFor(J, ph), dropFor(J, ph + .5)); /* the pair shares one girdle: whichever paw is planted sets it */
-  const bakeLeg = (J, names, side, lift, fold, toeTr) => { /* J = [top, mid, low, paw] rest joints; names = [top, mid, low, toe] track names */
+  const girdle = (J, ph, c, m) => Math.max(dropFor(J, ph, c, m), dropFor(J, ph + .5, c, m)); /* the pair shares one girdle: whichever paw is planted sets it */
+  const bakeLeg = (J, names, side, lift, fold, toeTr, c, maxDeg) => { /* J = [top, mid, low, paw] rest joints; names = [top, mid, low, toe] track names */
     const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), r1 = A(J[0], J[1]), r2 = A(J[1], J[2]), r3 = A(J[2], J[3]);
     const T = names.map(() => []);
-    for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, P = pawAt(ph % 1, J[3], lift), g = girdle(J, ph), J0 = [J[0][0], J[0][1] + g];
+    for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, P = pawAt(ph % 1, J[3], lift, c), g = girdle(J, ph, c, maxDeg), J0 = [J[0][0], J[0][1] + g];
       const foldDeg = P.stance ? 0 : fold * Math.sin(Math.PI * Math.min(1, P.u * 1.25)); /* the distal bone folds back early in the swing, straightens to land */
       let a3 = r3 + side * -foldDeg; /* hind (side +1): cannon swings back; front (side -1): pastern swings back too, folding the wrist */
       /* out of reach (the paw far back or far forward in the stance): lean the distal bone about the paw, the least that brings it in */
-      for (let o = 0, reach = (l1 + l2) * .995; Ln(J0, pol(P.p, a3 + 180, l3)) > reach && o <= 45; o += .25) { const tryA = [a3 + o, a3 - o].find(x => Ln(J0, pol(P.p, x + 180, l3)) <= reach); if (tryA != null) { a3 = tryA; break; } }
-      const low = pol(P.p, a3 + 180, l3), mid = twoBone(J0, l1, l2, low, side);
+      for (let o = 0, reach = reachOf(l1, l2, maxDeg); Ln(J0, pol(P.p, a3 + 180, l3)) > reach && o <= 45; o += .25) { const tryA = [a3 + o, a3 - o].find(x => Ln(J0, pol(P.p, x + 180, l3)) <= reach); if (tryA != null) { a3 = tryA; break; } }
+      const low = pol(P.p, a3 + 180, l3), mid = twoBone(J0, l1, l2, low, side, reachOf(l1, l2, maxDeg)); /* never past the walk maximum, swing included */
       const a1 = A(J0, mid), a2 = A(mid, low), rot1 = a1 - r1, rot2 = (a2 - r2) - rot1, rot3 = (a3 - r3) - (a2 - r2);
       const toe = P.stance ? -(a3 - r3) : -(a3 - r3) * .55 + (toeTr ? RIG.sample(toeTr, ph).v * .5 : 0); /* paw flat on the ground in stance; hangs and peels in the swing */
       [rot1, rot2, rot3, toe].forEach((v, i) => T[i].push(Object.assign({at:+ph.toFixed(4), v:+v.toFixed(3)}, i === 0 ? {y:+g.toFixed(3)} : {}))); }
     return Object.fromEntries(names.map((n, i) => [n, T[i]])); };
   const BODY_PIVOT = [31, 18], bodyTrack = [];
-  for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, dH = girdle([H.hip, H.stifle, H.hock, H.paw], ph), dF = girdle([Fj.sh, Fj.elbow, Fj.past, Fj.paw], ph + .25);
+  for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, dH = girdle([H.hip, H.stifle, H.hock, H.paw], ph, WALK.centre.hind, WALK.maxOpen.hind), dF = girdle([Fj.sh, Fj.elbow, Fj.past, Fj.paw], ph + .25, WALK.centre.front, WALK.maxOpen.front);
     const span = Fj.sh[0] - H.hip[0], yAt = x => dH + (dF - dH) * (x - H.hip[0]) / span;
     bodyTrack.push({at:+ph.toFixed(4), v:+(Math.atan2(dF - dH, span) * 180 / Math.PI).toFixed(3), y:+yAt(BODY_PIVOT[0]).toFixed(3)}); }
   const walkTracks = Object.assign({bodyWalk:bodyTrack},
-    bakeLeg([H.hip, H.stifle, H.hock, H.paw], ["hhip", "hshank", "hmeta", "htoe"], 1, WALK.lift.hind, WALK.fold.hind, H2.tracks.htoe),
-    bakeLeg([Fj.sh, Fj.elbow, Fj.past, Fj.paw], ["fsh", "ffore", "fpast", "ftoe"], -1, WALK.lift.front, WALK.fold.front, H2.tracks.ftoe));
+    bakeLeg([H.hip, H.stifle, H.hock, H.paw], ["hhip", "hshank", "hmeta", "htoe"], 1, WALK.lift.hind, WALK.fold.hind, H2.tracks.htoe, WALK.centre.hind, WALK.maxOpen.hind),
+    bakeLeg([Fj.sh, Fj.elbow, Fj.past, Fj.paw], ["fsh", "ffore", "fpast", "ftoe"], -1, WALK.lift.front, WALK.fold.front, H2.tracks.ftoe, WALK.centre.front, WALK.maxOpen.front));
 
   RIG.define("hero3", {
     stride:1, gait:{duty:WALK.duty}, landmarks:{scapTop:{at:[38.8, 11.8], in:"body", note:"top of the shoulder blade (EST), for measuring the shoulder angle"}}, tracks:Object.assign({}, H2.tracks, walkTracks),

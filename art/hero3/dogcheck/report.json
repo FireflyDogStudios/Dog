@@ -1,7 +1,7 @@
 {
  "rig": "hero3",
  "fails": 0,
- "warns": 3,
+ "warns": 1,
  "results": [
   {
    "check": "fit",
@@ -21,12 +21,12 @@
   {
    "check": "notches",
    "level": "PASS",
-   "msg": "no new cracks (22 known ones in the baseline)"
+   "msg": "no new cracks (14 known ones in the baseline)"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: tail 15%, hipN 23%, hipF 29%)"
+   "msg": "every part is rooted in what it hangs from (least: tail 14%, foreF 32%, hipN 32%)"
   },
   {
    "check": "visible",
@@ -34,9 +34,14 @@
    "msg": "eye, nose and every named marking show in all checked frames"
   },
   {
+   "check": "topline",
+   "level": "PASS",
+   "msg": "above hip and shoulder height every leg stays inside the body, all walk frames"
+  },
+  {
    "check": "markings",
    "level": "INFO",
-   "msg": "tailTop is partly drawn over by saddle 8%, body 4%, tailTip 18% (check the edge that makes)"
+   "msg": "tailTop is partly drawn over by saddle 8%, body 4%, tailTip 17% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -46,7 +51,7 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "bib is partly drawn over by fur@shN 24%, fur@foreN 15% (check the edge that makes)"
+   "msg": "bib is partly drawn over by fur@shN 14% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -56,17 +61,17 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "belly is partly drawn over by fur@foreN 6% (check the edge that makes)"
+   "msg": "belly is partly drawn over by fur@foreN 15% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "PASS",
-   "msg": "7 markings stay inside their shapes"
+   "msg": "7 markings stay inside their shapes, and no leg cuts into them while walking"
   },
   {
    "check": "feet",
    "level": "PASS",
-   "msg": "no paw below the ground (deepest 0.06)"
+   "msg": "no paw below the ground (deepest 0.02)"
   },
   {
    "check": "feet",
@@ -75,28 +80,28 @@
   },
   {
    "check": "joints",
-   "level": "PASS",
-   "msg": "shoulder: standing 123, walk 115–140; measured dog walk 121–153"
-  },
-  {
-   "check": "joints",
    "level": "WARN",
-   "msg": "elbow: standing 159, walk 126–175; measured dog walk 98–153: opens to 175, beyond the measured 153"
+   "msg": "shoulder: standing 112, walk 105–128; measured dog walk 121–153: bends to 105, beyond the measured 121"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "carpus: standing 185, walk 103–204; measured dog walk 102–231"
+   "msg": "elbow: standing 145, walk 117–153; measured dog walk 98–153"
   },
   {
    "check": "joints",
-   "level": "WARN",
-   "msg": "stifle: standing 101, walk 91–125; measured dog walk 110–144: bends to 91, beyond the measured 110"
+   "level": "PASS",
+   "msg": "carpus: standing 186, walk 96–201; measured dog walk 102–231"
   },
   {
    "check": "joints",
-   "level": "WARN",
-   "msg": "tarsus: standing 115, walk 69–135; measured dog walk 119–160: bends to 69, beyond the measured 119"
+   "level": "PASS",
+   "msg": "stifle: standing 140, walk 113–148; measured dog walk 110–144"
+  },
+  {
+   "check": "joints",
+   "level": "PASS",
+   "msg": "tarsus: standing 145, walk 111–165; measured dog walk 119–160"
   },
   {
    "check": "contrast",

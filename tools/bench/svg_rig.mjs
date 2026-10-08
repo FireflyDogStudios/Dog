@@ -2,10 +2,10 @@
 // usage: node tools/bench/svg_rig.mjs <rigId> <out.svg> [x0 y0 x1 y1] [bg #hex] [px per unit]
 import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url';
 const ENG = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../engine');
-const load = (f, fn) => new Function('RIG', fs.readFileSync(path.join(ENG, f), 'utf8') + `\n;${fn}(RIG);`); /* plain scripts, not modules */
 const [id = 'hero3', out = 'rig.svg', x0 = 0, y0 = -2, x1 = 62, y1 = 38, bg = '#000000', ppu = 16] = process.argv.slice(2);
-const DEFS = {}; const RIG = {DEFS, define(i, d){ DEFS[i] = Object.assign({stride:1, parts:[], joints:[], tracks:{}, states:{}}, d, {id:i}); return DEFS[i]; }};
-load('rig_den.js', 'registerDenRigs')(RIG); load('hero3.js', 'registerHero3')(RIG);
+import vm from 'vm';
+const box = { console, Math }; vm.createContext(box); for (const f of ['rig.js', 'rig_den.js', 'hero3.js']) vm.runInContext(fs.readFileSync(path.join(ENG, f), 'utf8'), box, { filename: f });
+const RIG = vm.runInContext('RIG', box); vm.runInContext('registerDenRigs(RIG); registerHero3(RIG);', box); const DEFS = RIG.DEFS; /* the real engine (the walk baker samples tracks) */
 const D = DEFS[id]; if (!D) throw new Error('unknown rig ' + id);
 const dim = (c, k) => { const n = parseInt(c.slice(1), 16); const f = s => Math.round(((n >> s) & 255) * k).toString(16).padStart(2, '0'); return '#' + f(16) + f(8) + f(0); };
 const kids = {}, far = {root:false}; D.joints.forEach(j => { (kids[j.in || 'root'] ||= []).push(j.id); far[j.id] = !!j.far || far[j.in || 'root']; });
