@@ -85,6 +85,24 @@ select{background:var(--chip);border:1px solid var(--line);border-radius:4px;pad
 kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:0 5px}
 .keys{grid-template-columns:auto 0 1fr}
 .graph{margin:10px 0 0}
+.cmenu{position:absolute;z-index:5;min-width:230px;max-width:300px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 28px rgba(0,0,0,.4);padding:4px;display:grid}
+.cmenu .mh{font:600 13px var(--f-display);padding:5px 8px 3px;overflow-wrap:anywhere}
+.cmenu .ms{font:12px var(--f-mono);color:var(--muted);padding:0 8px 4px;overflow-wrap:anywhere}
+.cmenu button{text-align:left;border:0;background:none;padding:5px 8px;border-radius:4px;display:flex;justify-content:space-between;gap:14px}
+.cmenu button:hover,.cmenu button:focus-visible{background:var(--chip);outline:none}
+.cmenu button kbd{font-size:11px;color:var(--muted)}
+.cmenu hr{border:0;border-top:1px solid var(--line);margin:3px 0;width:100%}
+.hidstrip{position:absolute;left:8px;top:8px;display:flex;gap:8px;align-items:center;font:12px var(--f-mono);color:#cfd5dc;background:rgba(0,0,0,.55);padding:3px 4px 3px 8px;border-radius:4px}
+.hidstrip button{padding:1px 7px;font-size:12px;background:#2a3038;color:#e6e8eb;border-color:#3a414b}
+.reasons{display:flex;flex-wrap:wrap;gap:4px}
+.reasons button{padding:2px 8px;font-size:12px}
+.prow{display:grid;grid-template-columns:auto 14px minmax(0,1fr) auto;gap:6px;align-items:center;padding:3px 0;border-top:1px solid var(--line)}
+.prow.sel{background:var(--chip)}
+.prow .nm{background:none;border:0;padding:0;text-align:left;overflow-wrap:anywhere}
+.prow.off .nm{color:var(--muted);text-decoration:line-through}
+.prow .swc{width:14px;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.3)}
+.ptr{grid-column:2 / -1;font-size:12px;display:grid;gap:3px;padding:0 0 4px}
+.pgrp{font:600 12px var(--f-display);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:10px 0 2px;display:flex;justify-content:space-between;align-items:center}
 .graph figcaption{font:600 12px var(--f-display);letter-spacing:.04em;color:var(--muted);margin-bottom:2px}
 </style>
 
@@ -125,6 +143,7 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
                 <button id="oSil" aria-pressed="false">Silhouette</button>
         <button id="oGround" aria-pressed="true">Ground marks</button>
         <button id="oPins" aria-pressed="true">Marks</button>
+        <button id="oTrouble" aria-pressed="true" title="Outline the parts tagged as troubled">Trouble outlines</button>
         <button id="oHover" aria-pressed="true">Part names</button>
         <button id="oGame" aria-pressed="true">Game size</button>
         <button id="oPaths" aria-pressed="false">Paw paths</button>
@@ -153,6 +172,8 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       <svg id="stage" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The creature, side view"></svg>
       <div class="hud" id="hud"></div>
       <div class="hud hud2" id="hover" hidden></div>
+      <div class="hidstrip" id="hidStrip" hidden><span id="hidTxt"></span><button id="hidAll">Show all</button></div>
+      <div class="cmenu" id="cmenu" role="menu" aria-label="Part menu" hidden></div>
       <div class="inset" id="inset"><span>game size</span><svg id="mini" width="210" height="130" viewBox="4 0 56 36" aria-hidden="true"></svg></div>
     </div>
     <div class="bar">
@@ -190,9 +211,10 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
   <aside class="card" aria-label="Review">
     <div class="tabs" role="tablist">
       <button role="tab" id="tabN" aria-selected="true" aria-controls="paneN">Notes <span id="nCount" class="small"></span></button>
-      <button role="tab" id="tabQ" aria-selected="false" aria-controls="paneQ">Reads as a dog?</button>
+      <button role="tab" id="tabQ" aria-selected="false" aria-controls="paneQ" title="Reads as a dog? checklist">Checklist</button>
       <button role="tab" id="tabC" aria-selected="false" aria-controls="paneC">Checks</button>
       <button role="tab" id="tabT" aria-selected="false" aria-controls="paneT">Tests</button>
+      <button role="tab" id="tabP" aria-selected="false" aria-controls="paneP">Parts <span id="pCount" class="small"></span></button>
       <button role="tab" id="tabK" aria-selected="false" aria-controls="paneK">Keys</button>
     </div>
     <div class="pane" id="paneN" role="tabpanel">
@@ -232,6 +254,24 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       <div class="chk" id="tRes"></div>
       <div id="tGraphs"></div>
     </div>
+    <div class="pane" id="paneP" role="tabpanel" hidden>
+      <p class="hint">Every named part of the creature. Untick a part to hide it (only in your view), or <b>Tag</b> it as troubled with a reason; tags are shared, outlined on the creature, and Firefly replies on them. Right-click any part on the stage for the same options.</p>
+      <div class="form" id="tForm" hidden>
+        <div class="row"><span class="lab">Troubled part</span><span class="small" id="tWhere"></span></div>
+        <div class="reasons" id="tReasons" role="group" aria-label="What is wrong"></div>
+        <div class="row">
+          <label class="row"><span class="small">How bad</span><select id="tSev"><option value="must">Must fix</option><option value="should" selected>Should fix</option><option value="nice">Nice to have</option></select></label>
+          <label class="row"><span class="small">When</span><select id="tWhenSel"><option value="always">always</option><option value="walk">while walking</option><option value="frame">at this frame</option><option value="stand">standing</option></select></label>
+        </div>
+        <textarea id="tText" aria-label="What is wrong with it" placeholder="Say more (optional when a reason is picked)"></textarea>
+        <div class="row"><button id="tSave" aria-pressed="true">Save tag</button><button id="tCancel">Cancel</button><span class="small">Ctrl+Enter saves</span></div>
+      </div>
+      <div class="row filt">
+        <select id="pFilter" aria-label="Which parts"><option value="all">All parts</option><option value="trouble">Troubled</option><option value="hidden">Hidden</option></select>
+        <button id="pShowAll">Show all</button><button id="pOnlyTr" title="Hide every part that is not tagged">Only troubled</button><button id="pHideTr" title="Hide the tagged parts to see what is under them">Hide troubled</button>
+      </div>
+      <div id="parts"></div>
+    </div>
     <div class="pane" id="paneK" role="tabpanel" hidden>
       <div class="chk keys">
         <kbd>Space</kbd><span></span><span>play or pause the walk</span>
@@ -243,7 +283,12 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
         <kbd>G</kbd><span></span><span>ghost frames on or off; <kbd>[</kbd> <kbd>]</kbd> step through them one at a time</span>
         <kbd>H</kbd><span></span><span>hide or show the creature (ghosts only)</span>
         <kbd>P</kbd><span></span><span>paw paths on or off</span>
-        <kbd>Esc</kbd><span></span><span>drop the mark you are drawing</span>
+        <kbd>Right-click</kbd><span></span><span>part menu: hide, show only, tag as troubled, pin a note, zoom (long-press on touch)</span>
+        <kbd>X</kbd><span></span><span>hide the part under the pointer</span>
+        <kbd>T</kbd><span></span><span>tag the part under the pointer as troubled</span>
+        <kbd>Z</kbd><span></span><span>zoom to the part under the pointer</span>
+        <kbd>U</kbd><span></span><span>show every hidden part again</span>
+        <kbd>Esc</kbd><span></span><span>drop the mark you are drawing, close the menu</span>
       </div>
     </div>
   </aside>
@@ -932,7 +977,7 @@ if (typeof module !== "undefined") module.exports = {registerHero3};
 
 </script>
 <script>
-const BUILD = {"commit":"012dff1","date":"2026-10-08"};
+const BUILD = {"commit":"081722b","date":"2026-10-08"};
 const REPORT = {
  "rig": "hero3",
  "fails": 0,
@@ -1080,7 +1125,12 @@ function rigData(id){if(CACHE[id]) return CACHE[id]; const D=RIG.DEFS[id], kids=
   const anim=new Set(D.joints.filter(j=>j.track||D.tracks[j.id]).map(j=>j.id)), ORDER=[];
   (function walk(jid){const P=D.parts.map((p,i)=>[p,i]).filter(([p])=>(p.in||"root")===jid), K=kids[jid]||[];
     if(anim.has(jid)){P.forEach(e=>ORDER.push(e));K.forEach(walk);}else{K.forEach(walk);P.forEach(e=>ORDER.push(e));}})("root");
-  return CACHE[id]={id,D,ORDER,FAR};}
+  const cnt={}, KEYS=D.parts.map(p=>{if(p.id) return p.id; const b=(p.in||"root")+"."+(p.paint||"fur"); cnt[b]=(cnt[b]||0)+1; return cnt[b]>1?b+"."+cnt[b]:b;});
+  return CACHE[id]={id,D,ORDER,FAR,KEYS,GROUP:D.parts.map(groupOf)};}
+/* body-part groups, for "hide the whole leg" */
+const GROUPS={head:"head and ears",body:"body",tail:"tail",frontN:"near front leg",hindN:"near hind leg",frontF:"far front leg",hindF:"far hind leg"};
+function groupOf(p){const j=p.in||"root"; let m; if((m=/^(hip|shank|meta|htoe)([NF])$/.exec(j))) return "hind"+m[2]; if((m=/^(sh|fore|past|ftoe|scap)([NF])$/.exec(j))) return "front"+m[2];
+  if(/^(skull|head|ear)/.test(j)) return "head"; if(/^tail/.test(j)) return "tail"; return "body";}
 function pose(R,t,walking){const D=R.D, phase=walking?(t/D.stride)%1:0, M={root:[1,0,0,1,0,0]}, s={};
   for(const j of D.joints){const tr=D.tracks[j.track||j.id]; let rot=0,x=0,y=0;
     if(tr&&(walking||j.always)){const ph=j.period?((t/j.period)%1):(phase+(j.ph||0))%1; RIG.sample(tr,ph,s); rot=s.v; x=s.x; y=s.y;}
@@ -1098,8 +1148,8 @@ function shape(p,fill,M,extra=""){const tf=`transform="matrix(${M.map(v=>+v.toFi
   if(p.ellipse) return `<ellipse cx="${p.ellipse[0]}" cy="${p.ellipse[1]}" rx="${p.ellipse[2]}" ry="${p.ellipse[3]}" fill="${fill}"${a} ${tf}${extra}/>`;
   if(p.line) return `<line x1="${p.line[0][0]}" y1="${p.line[0][1]}" x2="${p.line[1][0]}" y2="${p.line[1][1]}" stroke="${fill==="none"?"currentColor":fill}" stroke-width="${p.sw}" stroke-linecap="round" ${tf}${extra}/>`;
   return "";}
-function dogSVG(R,M,{sil=false,ghost=0,hit=false,outline=null}={}){let s="";
-  for(const [p,i] of R.ORDER){if(p.hidden) continue;
+function dogSVG(R,M,{sil=false,ghost=0,hit=false,outline=null,skip=null}={}){let s="";
+  for(const [p,i] of R.ORDER){if(p.hidden||(skip&&skip.has(i))) continue;
     if(outline) s+=shape(p,"none",M[p.in||"root"],` stroke="${outline.col}" stroke-width="${outline.w}" stroke-linejoin="round"`);
     else s+=shape(p,sil?"#0b0d10":colourOf(R,p),M[p.in||"root"],hit?` data-j="${p.in||"root"}" data-i="${i}"`:"");}
   return ghost?`<g opacity="${ghost}">${s}</g>`:s;}
@@ -1120,7 +1170,8 @@ function skeletonSVG(R,M,showAng,z){const chains=[["hipF","shankF","metaF","htoe
 const $=id=>document.getElementById(id);
 const svg=$("stage"), mini=$("mini");
 const st={rig:"hero3",cmp:"",walking:true,playing:true,t:0,speed:1,tool:"move",bg:"#1d2128",skel:false,ang:false,onion:false,sil:false,ground:true,pins:true,hoverOn:true,game:true,
-  view:{cx:31,cy:19,w:58}, draft:null, notes:[], db:null, hover:null, measure:null, ref:null, filter:"open", focus:null, ghost:{on:false,n:2,step:.125,pick:"all",col:false}, hideDog:false, paths:false};
+  view:{cx:31,cy:19,w:58}, draft:null, notes:[], db:null, hover:null, measure:null, ref:null, filter:"open", focus:null, ghost:{on:false,n:2,step:.125,pick:"all",col:false}, hideDog:false, paths:false,
+  hid:{}, trouble:[], troubleOn:true, sel:null, tDraft:null, pFilter:"all"};
 let R=rigData(st.rig);
 const GROUND=35.55, phaseNow=()=>st.walking?((st.t/R.D.stride)%1):null;
 RIGS.forEach(([id,l])=>{const o=document.createElement("option"); o.value=id; o.textContent=l; $("rig").append(o); const o2=o.cloneNode(true); $("cmp").append(o2);});
@@ -1149,7 +1200,7 @@ function marksSVG(M,z){if(!st.pins) return ""; let s="";
 function ghostList(){const g=st.ghost, out=[]; for(let k=g.n;k>=1;k--) out.push({d:-k*g.step,label:`${Math.round(-k*g.step*100)}%`}); for(let k=1;k<=g.n;k++) out.push({d:k*g.step,label:`+${Math.round(k*g.step*100)}%`}); return out;}
 function ghostsSVG(){const L=ghostList(), g=st.ghost; let s=""; const base=st.walking?st.t:0;
   L.forEach((q,i)=>{if(g.pick!=="all"&&+g.pick!==i) return; const M=pose(R,base+q.d*R.D.stride,true), k=Math.abs(q.d)/(g.n*g.step), op=g.pick!=="all"?.85:Math.max(.18,.5-.3*k);
-    if(g.col) s+=dogSVG(R,M,{ghost:op}); else {const col=q.d<0?"#4aa3ff":"#ff9d3a"; let t=""; for(const [p] of R.ORDER){if(!p.hidden) t+=shape(p,col,M[p.in||"root"]);} s+=`<g opacity="${op}">${t}</g>`;}});
+    if(g.col) s+=dogSVG(R,M,{ghost:op,skip:hiddenIdx()}); else {const col=q.d<0?"#4aa3ff":"#ff9d3a"; let t=""; const sk=hiddenIdx(); for(const [p,i] of R.ORDER){if(!p.hidden&&!sk.has(i)) t+=shape(p,col,M[p.in||"root"]);} s+=`<g opacity="${op}">${t}</g>`;}});
   return s;}
 function syncGhostPick(){const sel=$("gPick"), L=ghostList(), cur=st.ghost.pick; sel.textContent=""; const a=document.createElement("option"); a.value="all"; a.textContent="all"; sel.append(a);
   L.forEach((q,i)=>{const o=document.createElement("option"); o.value=String(i); o.textContent=`only ${q.label}`; sel.append(o);}); if(cur!=="all"&&+cur>=L.length) st.ghost.pick="all"; sel.value=st.ghost.pick;}
@@ -1169,11 +1220,13 @@ function render(){
     for(let x=Math.floor(vb[0]/4)*4-4;x<vb[0]+vb[2]+4;x+=4) s+=`<rect x="${(x-off).toFixed(3)}" y="${GROUND}" width="1.2" height=".35" fill="${lc}" opacity=".8"/>`;}
   if(st.ghost.on) s+=ghostsSVG();
   if(st.paths) s+=pathsSVG(z);
-  if(!st.hideDog) s+=`<g id="dog">${dogSVG(R,M,{sil:st.sil,hit:true})}</g>`;
+  if(!st.hideDog) s+=`<g id="dog">${dogSVG(R,M,{sil:st.sil,hit:true,skip:hiddenIdx()})}</g>`;
   if(st.cmp&&st.cmp!==st.rig){const C=rigData(st.cmp); s+=dogSVG(C,pose(C,st.t,st.walking),{outline:{col:"#3ff0ff",w:1.4/z}});}
   if(st.ref&&st.ref.top) s+=refEl;
   if(st.skel||st.ang) s+=skeletonSVG(R,M,st.ang,z);
   if(st.hover!=null&&st.hoverOn&&!drag){const p=R.D.parts[st.hover]; if(p) s+=shape(p,"none",M[p.in||"root"],` stroke="#3ff0ff" stroke-width="${2/z}" stroke-dasharray="${4/z} ${2.5/z}"`);}
+  if(!st.hideDog) s+=troubleSVG(M,z);
+  if(st.sel!=null&&R.D.parts[st.sel]&&!hiddenIdx().has(st.sel)){const p=R.D.parts[st.sel]; s+=shape(p,"none",M[p.in||"root"],` stroke="#3ff0ff" stroke-width="${2.6/z}"`);}
   s+=marksSVG(M,z);
   if(st.measure){const [a,c]=st.measure, L=Math.hypot(c[0]-a[0],c[1]-a[1]), wh=WH[st.rig]||24.5;
     s+=`<line x1="${a[0]}" y1="${a[1]}" x2="${c[0]}" y2="${c[1]}" stroke="#3ff0ff" stroke-width="${1.6/z}"/><circle cx="${a[0]}" cy="${a[1]}" r="${3/z}" fill="#3ff0ff"/><circle cx="${c[0]}" cy="${c[1]}" r="${3/z}" fill="#3ff0ff"/>`;
@@ -1202,11 +1255,11 @@ $("scrub").addEventListener("change",()=>{scrubbing=false;});
 $("speed").onchange=e=>{st.speed=+e.target.value;};
 function setWalking(w){st.walking=w; press($("pWalk"),w); press($("pStand"),!w);}
 $("pWalk").onclick=()=>{setWalking(true); setPlaying(true);}; $("pStand").onclick=()=>{setWalking(false); setPlaying(false);};
-const toggles=[["oSkel","skel"],["oAng","ang"],["oSil","sil"],["oGround","ground"],["oPins","pins"],["oHover","hoverOn"],["oGame","game"],["oPaths","paths"],["hideDog","hideDog"]];
+const toggles=[["oSkel","skel"],["oAng","ang"],["oSil","sil"],["oGround","ground"],["oPins","pins"],["oHover","hoverOn"],["oGame","game"],["oPaths","paths"],["hideDog","hideDog"],["oTrouble","troubleOn"]];
 const toggle=(id,k)=>{st[k]=!st[k]; press($(id),st[k]); if(k==="game") $("inset").hidden=!st.game;};
 toggles.forEach(([id,k])=>$(id).onclick=()=>toggle(id,k));
 document.querySelectorAll(".sw").forEach(b=>b.onclick=()=>{st.bg=b.dataset.bg; document.querySelectorAll(".sw").forEach(x=>press(x,x===b));});
-$("rig").onchange=e=>{st.rig=e.target.value; R=rigData(st.rig); renderNotes();};
+$("rig").onchange=e=>{st.rig=e.target.value; R=rigData(st.rig); st.sel=null; renderNotes(); renderParts();};
 const gToggle=()=>{st.ghost.on=!st.ghost.on; press($("gOn"),st.ghost.on);};
 $("gOn").onclick=gToggle;
 $("gN").onchange=e=>{st.ghost.n=+e.target.value; syncGhostPick();}; $("gStep").onchange=e=>{st.ghost.step=+e.target.value; syncGhostPick();};
@@ -1223,7 +1276,7 @@ $("zGo").onchange=e=>{const a=AREAS[e.target.value]; if(a) st.view={cx:a[0],cy:a
 const toDraw=ev=>{const pt=svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY; const p=pt.matrixTransform(svg.getScreenCTM().inverse()); return [p.x,p.y];};
 const partAt=ev=>{const el=document.elementFromPoint(ev.clientX,ev.clientY); return el&&el.dataset&&el.dataset.i!=null?{j:el.dataset.j,i:+el.dataset.i}:null;};
 svg.addEventListener("wheel",ev=>{ev.preventDefault(); const [x,y]=toDraw(ev); zoomBy(ev.deltaY<0?1.15:1/1.15,x,y);},{passive:false});
-svg.addEventListener("pointerdown",ev=>{svg.setPointerCapture(ev.pointerId); const p=toDraw(ev), hit=partAt(ev);
+svg.addEventListener("pointerdown",ev=>{if(ev.button===2) return; closeMenu(); svg.setPointerCapture(ev.pointerId); const p=toDraw(ev), hit=partAt(ev);
   if(st.tool==="move"){drag={mode:"pan",sx:ev.clientX,sy:ev.clientY,cx:st.view.cx,cy:st.view.cy}; svg.classList.add("drag"); return;}
   if(st.tool==="measure"){drag={mode:"measure"}; st.measure=[p,p]; return;}
   setPlaying(false); const joint=hit?hit.j:"root", M=pose(R,st.t,st.walking), Mi=inv(M[joint]||M.root), L=apply(Mi,p);
@@ -1233,7 +1286,7 @@ svg.addEventListener("pointerdown",ev=>{svg.setPointerCapture(ev.pointerId); con
   if(st.tool==="pen") st.draft={...base,type:"pen",lx:L[0],ly:L[1],pts:[L]};
   drag={mode:"mark",start:p,Mi};});
 svg.addEventListener("pointermove",ev=>{
-  if(!drag){const h=partAt(ev); st.hover=h?h.i:null; const hv=$("hover"); if(h&&st.hoverOn){hv.hidden=false; hv.textContent=partName(h.i);} else hv.hidden=true; return;}
+  if(!drag){const h=partAt(ev); st.hover=h?h.i:null; const hv=$("hover"); if(h&&st.hoverOn){const tr=troubleOf(R.KEYS[h.i]); hv.hidden=false; hv.textContent=partName(h.i)+(tr?` · troubled: ${troubleLine(tr)}`:"");} else hv.hidden=true; return;}
   const p=toDraw(ev);
   if(drag.mode==="pan"){const b=svg.getBoundingClientRect(), k=st.view.w/b.width; st.view.cx=drag.cx-(ev.clientX-drag.sx)*k; st.view.cy=drag.cy-(ev.clientY-drag.sy)*k;}
   else if(drag.mode==="measure"){st.measure[1]=p;}
@@ -1245,6 +1298,7 @@ const endDrag=()=>{if(!drag) return; svg.classList.remove("drag"); const m=drag.
   if(m==="mark"&&st.draft){const d=st.draft; if(d.type==="arrow"&&Math.hypot(d.lx2-d.lx,d.ly2-d.ly)<.3){d.type="pin"; d.r=0;} if(d.type==="pen"&&d.pts.length<3){d.type="pin"; d.r=0;} openForm();}};
 svg.addEventListener("pointerup",endDrag); svg.addEventListener("pointercancel",endDrag);
 svg.addEventListener("pointerleave",()=>{if(!drag){st.hover=null; $("hover").hidden=true;}});
+svg.addEventListener("contextmenu",openMenu);
 
 /* reference photo: stays in this browser */
 const refIn=()=>{if(!st.ref) return; const s=+$("refS").value/100; st.ref.h=38*s; st.ref.w=st.ref.h*st.ref.ar; st.ref.x=31-st.ref.w/2+ +$("refX").value; st.ref.y=-1+(38-st.ref.h)/2+ +$("refY").value; st.ref.op=+$("refOp").value/100;};
@@ -1256,22 +1310,26 @@ $("refTop").onclick=()=>{if(!st.ref) return; st.ref.top=!st.ref.top; press($("re
 $("refClear").onclick=()=>{st.ref=null; $("refFile").value="";};
 
 /* keyboard */
-document.addEventListener("keydown",e=>{const tg=e.target.tagName; if(tg==="TEXTAREA"||tg==="INPUT"||tg==="SELECT"){if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)&&e.target.id==="fText"){e.preventDefault(); $("fSave").click();} return;}
+document.addEventListener("keydown",e=>{const tg=e.target.tagName; if(tg==="TEXTAREA"||tg==="INPUT"||tg==="SELECT"){if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)&&e.target.id==="fText"){e.preventDefault(); $("fSave").click();} if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)&&e.target.id==="tText"){e.preventDefault(); $("tSave").click();} return;}
   const k=e.key;
+  if(!$("cmenu").hidden){if(k==="Escape"){e.preventDefault(); closeMenu(true); return;} if(k==="ArrowDown"||k==="ArrowUp"){e.preventDefault(); menuStep(k==="ArrowDown"?1:-1); return;}}
+  if(e.ctrlKey||e.metaKey||e.altKey) return;
+  const hv=st.hover;
+  if((k==="x"||k==="X")&&hv!=null){hideKeys([R.KEYS[hv]]); return;} if((k==="t"||k==="T")&&hv!=null){openTrouble(hv); return;} if((k==="z"||k==="Z")&&hv!=null){zoomToPart(hv); return;} if(k==="u"||k==="U"){showAll(); return;}
   if(k===" "){e.preventDefault(); $("play").click();}
   else if(k==="ArrowLeft"||k==="ArrowRight"){e.preventDefault(); step((k==="ArrowLeft"?-1:1)*(e.shiftKey?5:1));}
   else if("12345".includes(k)&&k.length===1) setTool(["move","pin","arrow","pen","measure"][+k-1]);
   else if(k==="+"||k==="=") zoomBy(1.25); else if(k==="-"||k==="_") zoomBy(1/1.25); else if(k==="0") st.view={cx:31,cy:19,w:58};
   else if(k==="s"||k==="S"){if(st.walking){setWalking(false); setPlaying(false);} else {setWalking(true); setPlaying(true);}}
   else if(k==="k"||k==="K") toggle("oSkel","skel"); else if(k==="g"||k==="G") gToggle(); else if(k==="["||k==="]") gStepPick(k==="]"?1:-1); else if(k==="h"||k==="H") toggle("hideDog","hideDog"); else if(k==="p"||k==="P") toggle("oPaths","paths");
-  else if(k==="Escape"){st.draft=null; st.measure=null; $("form").hidden=true;}});
+  else if(k==="Escape"){st.draft=null; st.measure=null; $("form").hidden=true; st.sel=null; renderParts();}});
 
 /* ---------- notes (shared store: db collection "notes") ---------- */
 function partName(i){if(i==null) return "the body"; const p=R.D.parts[+i]; if(!p) return "the body"; const j=p.in||"root";
   const nice={hipN:"near thigh",shankN:"near gaskin (shin)",metaN:"near hind cannon",htoeN:"near hind paw",hipF:"far thigh",shankF:"far gaskin",metaF:"far hind cannon",htoeF:"far hind paw",
     shN:"near upper arm",foreN:"near forearm",pastN:"near front pastern",ftoeN:"near front paw",shF:"far upper arm",foreF:"far forearm",pastF:"far front pastern",ftoeF:"far front paw",
-    tail:"tail",earNear:"near ear",earFar:"far ear",body:"body",vault:"body"}[j]||j;
-  return p.id&&p.id!=="body"?`${p.id} (${nice})`:nice;}
+    tail:"tail",earNear:"near ear",earFar:"far ear",body:"body",vault:"body",skull:"head",head:"head",scapN:"near shoulder blade",scapF:"far shoulder blade"}[j]||j;
+  return p.id&&p.id!=="body"?`${p.id} (${nice})`:nice+(p.paint&&p.paint!=="fur"&&!p.id?` · ${p.paint}`:"");}
 function tagFor(d){const j=d.joint||"", x=apply(pose(R,st.t,st.walking)[j]||[1,0,0,1,0,0],[d.lx,d.ly])[0];
   if(/^(hip|shank|meta)/.test(j)) return "Hind leg"; if(/^(sh|fore|past)/.test(j)) return "Front leg"; if(/toe/.test(j)) return "Paws"; if(/tail/.test(j)) return "Tail"; if(/ear/.test(j)) return "Ears";
   return x>43.5?"Head":x>38?"Neck and chest":"Back and body";}
@@ -1316,6 +1374,123 @@ function showNote(n){if(n.rig!==st.rig){st.rig=n.rig; $("rig").value=n.rig; R=ri
   st.view={cx:(p[0]+q[0])/2,cy:(p[1]+q[1])/2,w:Math.max(8,(n.r||0)*6,Math.hypot(q[0]-p[0],q[1]-p[1])*2.5)};}
 async function setStatus(n,s){if(st.db&&!String(n.id).startsWith("local")){try{await st.db.doc("notes/"+n.id).update({status:s});}catch(e){$("store").textContent="Could not update that note: "+(e.message||e.code);}} else {n.status=s; saveLocal(); renderNotes();}}
 async function removeNote(n){if(st.db&&!String(n.id).startsWith("local")){try{await st.db.doc("notes/"+n.id).delete();}catch(e){$("store").textContent="Could not delete that note: "+(e.message||e.code);}} else {st.notes=st.notes.filter(x=>x!==n); saveLocal(); renderNotes();}}
+
+/* ---------- parts: hide (this viewer only), show only, tag as troubled (shared store: db collection "parts") ---------- */
+let hidV=0, hidCache=null;
+const hiddenSet=()=>st.hid[st.rig]||(st.hid[st.rig]=new Set());
+function hiddenIdx(){if(hidCache&&hidCache.rig===st.rig&&hidCache.v===hidV) return hidCache.set; const H=hiddenSet(), set=new Set(); R.KEYS.forEach((k,i)=>{if(H.has(k)) set.add(i);}); hidCache={rig:st.rig,v:hidV,set}; return set;}
+function loadHidden(){try{const o=JSON.parse(localStorage.getItem("wolfHidden")||"{}"); for(const [r,a] of Object.entries(o)) st.hid[r]=new Set(a);}catch(e){} hidChanged(false);}
+function hidChanged(save=true){hidV++; if(save){try{localStorage.setItem("wolfHidden",JSON.stringify(Object.fromEntries(Object.entries(st.hid).map(([r,s])=>[r,[...s]]))));}catch(e){}}
+  const n=hiddenSet().size; $("hidStrip").hidden=!n; $("hidTxt").textContent=`${n} part${n===1?"":"s"} hidden`; renderParts();}
+function hideKeys(keys){const H=hiddenSet(); keys.forEach(k=>H.add(k)); if(st.sel!=null&&H.has(R.KEYS[st.sel])) st.sel=null; st.hover=null; $("hover").hidden=true; hidChanged();}
+function solo(keys){const H=hiddenSet(), keep=new Set(keys); H.clear(); R.KEYS.forEach(k=>{if(!keep.has(k)) H.add(k);}); hidChanged();}
+function showAll(){hiddenSet().clear(); hidChanged();}
+const keysOfGroup=g=>R.KEYS.filter((k,i)=>R.GROUP[i]===g);
+$("hidAll").onclick=showAll; $("pShowAll").onclick=showAll;
+const troubleOf=(key,rig=st.rig)=>st.trouble.find(t=>t.rig===rig&&t.key===key&&t.status!=="fixed")||null;
+const WHEN={always:"always",walk:"while walking",frame:"at one frame",stand:"standing"};
+const troubleLine=t=>[(t.reasons||[]).join(", "),t.text].filter(Boolean).join(": ")||"no reason given";
+function troubleSVG(M,z){if(!st.troubleOn) return ""; let s=""; const sk=hiddenIdx(), ph=phaseNow();
+  st.trouble.forEach(t=>{if(t.rig!==st.rig||t.status==="fixed") return; const i=R.KEYS.indexOf(t.key); if(i<0||sk.has(i)) return; const p=R.D.parts[i];
+    let op=1; if(t.when==="frame"&&t.phase!=null){const d=ph==null?1:Math.abs(ph-t.phase); op=Math.min(d,1-d)<.035?1:.45;} if(t.when==="walk"&&!st.walking) op=.45; if(t.when==="stand"&&st.walking) op=.45;
+    s+=shape(p,"none",M[p.in||"root"],` stroke="${SEVCOL[t.sev]||SEVCOL.should}" stroke-opacity="${op}" stroke-width="${2.2/z}" stroke-dasharray="${6/z} ${3/z}" stroke-linejoin="round"`);});
+  return s;}
+/* bounding box of a part as drawn now, for zooming to it */
+function partBox(i){const p=R.D.parts[i], M=pose(R,st.t,st.walking)[p.in||"root"]; let P=[];
+  if(p.poly) P=p.poly; else if(p.circle) P=[[p.circle[0]-p.circle[2],p.circle[1]-p.circle[2]],[p.circle[0]+p.circle[2],p.circle[1]+p.circle[2]]];
+  else if(p.ellipse) P=[[p.ellipse[0]-p.ellipse[2],p.ellipse[1]-p.ellipse[3]],[p.ellipse[0]+p.ellipse[2],p.ellipse[1]+p.ellipse[3]]];
+  else if(p.line) P=p.line; else if(p.d){const n=(p.d.match(/-?\d*\.?\d+(?:e-?\d+)?/g)||[]).map(Number); for(let k=0;k+1<n.length;k+=2) P.push([n[k],n[k+1]]);}
+  if(!P.length) return null; const Q=P.map(q=>apply(M,q)), xs=Q.map(q=>q[0]), ys=Q.map(q=>q[1]); return [Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];}
+function zoomToPart(i){const b=partBox(i); if(!b) return; const vb=viewBox(), ar=vb[3]/vb[2]; st.sel=i; st.view={cx:(b[0]+b[2])/2,cy:(b[1]+b[3])/2,w:Math.max(5,(b[2]-b[0])*2.2,(b[3]-b[1])*2.2/ar)}; renderParts();}
+/* the right-click menu */
+let menuFor=null, menuFocus=null;
+function closeMenu(refocus){const cm=$("cmenu"); if(cm.hidden) return; cm.hidden=true; cm.textContent=""; menuFor=null; if(refocus&&menuFocus) try{menuFocus.focus();}catch(e){}}
+function menuStep(d){const B=[...$("cmenu").querySelectorAll("button")]; if(!B.length) return; let k=B.indexOf(document.activeElement); k=(k+d+B.length)%B.length; B[k].focus();}
+function openMenu(ev){ev.preventDefault(); closeMenu(); menuFocus=document.activeElement; const hit=partAt(ev), cm=$("cmenu"), add=[]; menuFor=hit;
+  const item=(label,key,fn)=>add.push({label,key,fn}), sep=()=>add.push(null);
+  if(hit){const i=hit.i, key=R.KEYS[i], g=R.GROUP[i], tr=troubleOf(key);
+    const h=document.createElement("div"); h.className="mh"; h.textContent=partName(i); cm.append(h);
+    const sub=document.createElement("div"); sub.className="ms"; sub.textContent=tr?`troubled · ${SEVLAB[tr.sev]||""} · ${troubleLine(tr)}`:`in the ${GROUPS[g]} · key ${key}`; if(tr) sub.style.color=SEVCOL[tr.sev]||""; cm.append(sub);
+    item("Hide this part","X",()=>hideKeys([key])); item("Show only this part","",()=>solo([key]));
+    item(`Hide the ${GROUPS[g]}`,"",()=>hideKeys(keysOfGroup(g))); item(`Show only the ${GROUPS[g]}`,"",()=>solo(keysOfGroup(g)));
+    sep(); item(tr?"Edit the trouble tag…":"Tag as troubled…","T",()=>openTrouble(i)); if(tr) item("Mark the trouble fixed","",()=>setTroubleStatus(tr,"fixed"));
+    item("Pin a note here","",()=>pinAt(ev,hit));
+    sep(); item("Zoom to this part","Z",()=>zoomToPart(i)); item("Find in the parts list","",()=>{st.sel=i; selectTab("P"); renderParts(); const r=document.querySelector(`.prow[data-i="${i}"]`); if(r) r.scrollIntoView({block:"center"});});
+    item("Copy the part name","",()=>{try{navigator.clipboard.writeText(`${partName(i)} [${key}]`);}catch(e){}});}
+  else {const h=document.createElement("div"); h.className="mh"; h.textContent="Stage"; cm.append(h);}
+  sep(); const n=hiddenSet().size; if(n) item(`Show all hidden parts (${n})`,"U",showAll);
+  item(st.playing&&st.walking?"Pause":"Play","Space",()=>$("play").click()); item(st.walking?"Stand still":"Walk","S",()=>st.walking?$("pStand").click():$("pWalk").click());
+  item(st.skel?"Skeleton off":"Skeleton on","K",()=>toggle("oSkel","skel")); item(st.troubleOn?"Trouble outlines off":"Trouble outlines on","",()=>toggle("oTrouble","troubleOn"));
+  item("Fit to view","0",()=>{st.view={cx:31,cy:19,w:58};});
+  add.forEach((a,k)=>{if(!a){if(k&&add[k-1]&&k<add.length-1) cm.append(document.createElement("hr")); return;}
+    const b=document.createElement("button"); b.setAttribute("role","menuitem"); const l=document.createElement("span"); l.textContent=a.label; b.append(l);
+    if(a.key){const kb=document.createElement("kbd"); kb.textContent=a.key; b.append(kb);} b.onclick=()=>{closeMenu(); a.fn();}; cm.append(b);});
+  cm.hidden=false; const box=$("stageBox").getBoundingClientRect(), w=cm.offsetWidth, hh=cm.offsetHeight;
+  cm.style.left=Math.max(4,Math.min(ev.clientX-box.left,box.width-w-4))+"px"; cm.style.top=Math.max(4,Math.min(ev.clientY-box.top,box.height-hh-4))+"px";
+  const f=cm.querySelector("button"); if(f) f.focus({preventScroll:true});}
+document.addEventListener("pointerdown",e=>{if(!$("cmenu").hidden&&!$("cmenu").contains(e.target)) closeMenu();},true);
+window.addEventListener("blur",()=>closeMenu());
+/* touch: long-press opens the menu */
+let lp=null;
+svg.addEventListener("pointerdown",ev=>{if(ev.pointerType!=="touch") return; const x=ev.clientX, y=ev.clientY; clearTimeout(lp&&lp.t);
+  lp={x,y,t:setTimeout(()=>{lp=null; drag=null; st.draft=null; svg.classList.remove("drag"); openMenu({preventDefault(){},clientX:x,clientY:y});},550)};});
+svg.addEventListener("pointermove",ev=>{if(lp&&Math.hypot(ev.clientX-lp.x,ev.clientY-lp.y)>8){clearTimeout(lp.t); lp=null;}});
+["pointerup","pointercancel"].forEach(t=>svg.addEventListener(t,()=>{if(lp){clearTimeout(lp.t); lp=null;}}));
+function pinAt(ev,hit){setPlaying(false); setTool("pin"); const p=toDraw(ev), joint=hit?hit.j:"root", M=pose(R,st.t,st.walking), L=apply(inv(M[joint]||M.root),p);
+  st.draft={rig:st.rig,joint,phase:phaseNow(),standing:!st.walking,part:hit?hit.i:null,type:"pin",lx:L[0],ly:L[1],r:0}; openForm();}
+/* the trouble tag form */
+const REASONS=["Gap or crack","Pokes out","Bad edge or seam","Wrong shape","Wrong size","Wrong place","Wrong colour","In front or behind wrong","Comes loose while walking","Moves wrong","Too stiff","Missing something","Other"];
+function openTrouble(i){selectTab("P"); setPlaying(false); const key=R.KEYS[i], tr=troubleOf(key); st.sel=i;
+  st.tDraft={rig:st.rig,key,i,phase:phaseNow(),standing:!st.walking,id:tr?tr.id:null,reasons:new Set(tr?tr.reasons||[]:[])};
+  $("tForm").hidden=false; $("tWhere").textContent=`${partName(i)} · now ${st.walking?`walk ${Math.round(phaseNow()*100)}%`:"standing"}`;
+  $("tSev").value=tr?tr.sev||"should":"should"; $("tWhenSel").value=tr?tr.when||"always":"always"; $("tText").value=tr?tr.text||"":"";
+  const box=$("tReasons"); box.textContent=""; REASONS.forEach(r=>{const b=document.createElement("button"); b.textContent=r; press(b,st.tDraft.reasons.has(r));
+    b.onclick=()=>{const S=st.tDraft.reasons; S.has(r)?S.delete(r):S.add(r); press(b,S.has(r));}; box.append(b);});
+  renderParts(); const f=box.querySelector("button"); if(f) f.focus();}
+$("tCancel").onclick=()=>{st.tDraft=null; $("tForm").hidden=true;};
+const keyDoc=(rig,key)=>`${rig}~${key}`.replace(/[^A-Za-z0-9_.~-]/g,"_");
+$("tSave").onclick=async()=>{const d=st.tDraft; if(!d) return; const text=$("tText").value.trim(), reasons=[...d.reasons];
+  if(!text&&!reasons.length){$("tText").focus(); $("tText").placeholder="Pick a reason or say what is wrong"; return;}
+  const old=d.id?st.trouble.find(t=>t.id===d.id):null, when=$("tWhenSel").value;
+  const doc={rig:d.rig,key:d.key,name:partName(d.i),group:GROUPS[R.GROUP[d.i]]||"",reasons,text,sev:$("tSev").value,when,phase:when==="frame"&&d.phase!=null?r3(d.phase):null,
+    status:"open",build:BUILD.commit,created:old&&old.created||Date.now(),updated:Date.now()}; if(old&&old.reply) doc.reply=old.reply; if(old&&old.fixedIn) doc.fixedIn=old.fixedIn;
+  st.tDraft=null; $("tForm").hidden=true; const id=d.id||keyDoc(d.rig,d.key);
+  if(st.db){try{await st.db.doc("parts/"+id).set(doc);}catch(e){$("store").textContent="Could not save that tag: "+(e.message||e.code||"the store refused it");}}
+  else {st.trouble=st.trouble.filter(t=>t.id!==id); st.trouble.push({...doc,id}); saveTroubleLocal(); renderParts();}};
+function saveTroubleLocal(){try{localStorage.setItem("wolfTrouble",JSON.stringify(st.trouble));}catch(e){}}
+async function setTroubleStatus(t,s){if(st.db){try{await st.db.doc("parts/"+t.id).update({status:s,updated:Date.now()});}catch(e){$("store").textContent="Could not update that tag: "+(e.message||e.code);}} else {t.status=s; saveTroubleLocal(); renderParts();}}
+async function removeTrouble(t){if(st.db){try{await st.db.doc("parts/"+t.id).delete();}catch(e){$("store").textContent="Could not delete that tag: "+(e.message||e.code);}} else {st.trouble=st.trouble.filter(x=>x!==t); saveTroubleLocal(); renderParts();}}
+$("pFilter").onchange=e=>{st.pFilter=e.target.value; renderParts();};
+$("pOnlyTr").onclick=()=>{const K=st.trouble.filter(t=>t.rig===st.rig&&t.status!=="fixed").map(t=>t.key); if(K.length) solo(K);};
+$("pHideTr").onclick=()=>{const K=st.trouble.filter(t=>t.rig===st.rig&&t.status!=="fixed").map(t=>t.key); if(K.length) hideKeys(K);};
+/* the parts list */
+function renderParts(){const box=$("parts"); if(!box) return; box.textContent=""; const H=hiddenSet(), mine=st.trouble.filter(t=>t.rig===st.rig);
+  const open=mine.filter(t=>t.status!=="fixed").length; $("pCount").textContent=open?`(${open} troubled)`:"";
+  const byG={}; R.D.parts.forEach((p,i)=>{if(p.hidden) return; (byG[R.GROUP[i]] ||= []).push(i);});
+  let shown=0;
+  for(const g of Object.keys(GROUPS)){const L=(byG[g]||[]).filter(i=>{const k=R.KEYS[i]; return st.pFilter==="all"||(st.pFilter==="hidden"?H.has(k):mine.some(t=>t.key===k));}); if(!L.length) continue; shown+=L.length;
+    const gh=document.createElement("div"); gh.className="pgrp"; const gt=document.createElement("span"); gt.textContent=GROUPS[g]; gh.append(gt);
+    const ga=document.createElement("span"); const gall=keysOfGroup(g), anyOn=gall.some(k=>!H.has(k));
+    const gb=document.createElement("button"); gb.className="lnk"; gb.textContent=anyOn?"hide all":"show all"; gb.onclick=()=>{if(anyOn) hideKeys(gall); else {gall.forEach(k=>H.delete(k)); hidChanged();}};
+    const go=document.createElement("button"); go.className="lnk"; go.textContent="only these"; go.style.marginLeft="8px"; go.onclick=()=>solo(gall); ga.append(gb,go); gh.append(ga); box.append(gh);
+    for(const i of L){const p=R.D.parts[i], k=R.KEYS[i], off=H.has(k), t=mine.find(x=>x.key===k&&x.status!=="fixed")||mine.find(x=>x.key===k);
+      const row=document.createElement("div"); row.className="prow"+(off?" off":"")+(st.sel===i?" sel":""); row.dataset.i=i;
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!off; cb.setAttribute("aria-label",`Show ${partName(i)}`); cb.onchange=()=>{if(cb.checked){H.delete(k); hidChanged();} else hideKeys([k]);};
+      const sw=document.createElement("span"); sw.className="swc"; sw.style.background=colourOf(R,p);
+      const nm=document.createElement("button"); nm.className="nm"; nm.textContent=partName(i); nm.title="Outline it on the stage; double-click to zoom to it"; nm.onclick=()=>{st.sel=st.sel===i?null:i; renderParts();}; nm.ondblclick=()=>zoomToPart(i);
+      const tg=document.createElement("button"); tg.className="lnk"; tg.textContent=t&&t.status!=="fixed"?"Edit tag":"Tag"; tg.onclick=()=>openTrouble(i);
+      row.append(cb,sw,nm,tg); box.append(row);
+      if(t){const d=document.createElement("div"); d.className="ptr";
+        const hd=document.createElement("div"); hd.className="row"; const sv=document.createElement("span"); sv.className="sev"; sv.style.borderColor=SEVCOL[t.sev]||SEVCOL.should; sv.textContent=t.status==="fixed"?"Fixed":SEVLAB[t.sev]||"Should fix";
+        const wh=document.createElement("span"); wh.className="small"; wh.textContent=`${WHEN[t.when]||"always"}${t.when==="frame"&&t.phase!=null?` (walk ${Math.round(t.phase*100)}%)`:""}`; hd.append(sv,wh);
+        const tx=document.createElement("div"); tx.textContent=troubleLine(t); if(t.status==="fixed") tx.style.textDecoration="line-through"; d.append(hd,tx);
+        if(t.reply){const rp=document.createElement("div"); rp.className="reply"; rp.textContent=`Firefly: ${t.reply}${t.fixedIn?` (build ${t.fixedIn})`:""}`; d.append(rp);}
+        const ac=document.createElement("div"); ac.className="row";
+        if(t.when==="frame"&&t.phase!=null){const sh=document.createElement("button"); sh.className="lnk"; sh.textContent="Show the frame"; sh.onclick=()=>{setWalking(true); setPlaying(false); st.t=t.phase*R.D.stride; zoomToPart(i);}; ac.append(sh);}
+        const fx=document.createElement("button"); fx.className="lnk"; fx.textContent=t.status==="fixed"?"Reopen":"Mark fixed"; fx.onclick=()=>setTroubleStatus(t,t.status==="fixed"?"open":"fixed");
+        const dl=document.createElement("button"); dl.className="lnk"; dl.textContent="Delete"; dl.onclick=()=>{if(dl.dataset.armed) removeTrouble(t); else {dl.dataset.armed="1"; dl.textContent="Delete for good?";}};
+        ac.append(fx,dl); d.append(ac); box.append(d);}}}
+  if(!shown){const p=document.createElement("p"); p.className="hint"; p.textContent=st.pFilter==="hidden"?"Nothing is hidden.":st.pFilter==="trouble"?"No part is tagged yet. Right-click a part on the stage and pick Tag as troubled.":"No parts."; box.append(p);}}
 
 /* ---------- the "reads as a dog?" checklist (GrumpyDingo's research, Oct 8) ---------- */
 const QS=[
@@ -1422,16 +1597,18 @@ function runTests(){const D=R.D, out=[], add=(lvl,k,m)=>out.push([lvl,k,m]); con
 $("runT").onclick=runTests;
 
 /* ---------- tabs ---------- */
-function selectTab(k){["N","Q","C","T","K"].forEach(x=>{$("tab"+x).setAttribute("aria-selected",x===k?"true":"false"); $("pane"+x).hidden=x!==k;});}
-["N","Q","C","T","K"].forEach(x=>$("tab"+x).onclick=()=>selectTab(x));
+function selectTab(k){["N","Q","C","T","P","K"].forEach(x=>{$("tab"+x).setAttribute("aria-selected",x===k?"true":"false"); $("pane"+x).hidden=x!==k;});}
+["N","Q","C","T","P","K"].forEach(x=>$("tab"+x).onclick=()=>selectTab(x));
 
 /* ---------- boot ---------- */
 $("meta").textContent=`build ${BUILD.commit} · ${BUILD.date} · dogcheck ${REPORT?`${REPORT.fails} fail, ${REPORT.warns} warn`:"n/a"}`;
-renderQs(); renderChecks(); renderNotes();
+renderQs(); renderChecks(); renderNotes(); loadHidden(); renderParts();
 (async()=>{const db=window.claude&&window.claude.use?await window.claude.use("db"):null;
   if(!db){try{st.notes=JSON.parse(localStorage.getItem("wolfNotes")||"[]"); answers=JSON.parse(localStorage.getItem("wolfChecklist")||"{}");}catch(e){}
-    $("store").textContent="Notes are kept in this browser only (the shared store is not available in this view)."; renderNotes(); renderQs(); return;}
+    try{st.trouble=JSON.parse(localStorage.getItem("wolfTrouble")||"[]");}catch(e){}
+    $("store").textContent="Notes are kept in this browser only (the shared store is not available in this view)."; renderNotes(); renderQs(); renderParts(); return;}
   st.db=db; $("store").textContent="Notes save to the shared store; Firefly reads them and replies here.";
   db.collection("notes").onSnapshot(s=>{st.notes=s.docs.map(d=>({...d.data(),id:d.id})); renderNotes();},e=>{$("store").textContent="Could not load the notes: "+(e.message||e.code);});
+  db.collection("parts").onSnapshot(s=>{st.trouble=s.docs.map(d=>({...d.data(),id:d.id})); renderParts();},e=>{$("store").textContent="Could not load the part tags: "+(e.message||e.code);});
   try{const c=await db.doc("checklist/hero3").get(); if(c.exists){answers=(c.data().answers)||{}; renderQs();}}catch(e){}})();
 </script>
