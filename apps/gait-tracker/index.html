@@ -84,6 +84,9 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
 .banner{position:absolute;left:50%;top:8px;transform:translateX(-50%);font:12px var(--f-body);color:#fff;background:rgba(0,0,0,.6);padding:4px 10px;border-radius:4px;pointer-events:none;max-width:calc(100% - 340px);text-align:center}
 .banner b{color:#ffd27a;font-weight:600}
 .banner.toast{background:var(--accent);color:var(--accent-ink)}
+.trackbar .grp button{padding:3px 9px}
+.trackbar .grp button .small{margin-left:4px}
+#tJoints label{display:inline-flex;gap:4px;align-items:center;font-size:12px;padding:2px 6px;border:1px solid var(--line);border-radius:4px;background:var(--chip)}
 .cmenu{position:absolute;z-index:5;min-width:220px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 28px rgba(0,0,0,.4);padding:4px;display:grid}
 .cmenu .mh{font:600 13px var(--f-display);padding:5px 8px 3px}
 .cmenu button{text-align:left;border:0;background:none;padding:5px 8px;border-radius:4px;display:flex;justify-content:space-between;gap:14px}
@@ -143,6 +146,17 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
         <label class="row"><span class="small">contrast</span><input type="range" id="con" min="50" max="300" value="100" aria-label="Contrast"></label>
         <label class="row"><span class="small">bright</span><input type="range" id="bri" min="50" max="250" value="100" aria-label="Brightness"></label>
         <select id="facing" aria-label="Which way the animal walks"><option value="auto">facing: auto</option><option value="1">walks right</option><option value="-1">walks left</option></select>
+      </div>
+    </div>
+    <div class="bar trackbar" role="toolbar" aria-label="Tracks">
+      <span class="lab">Track</span><div class="grp" id="trackBar"></div>
+      <button id="newTrack" title="Make your own track: pick which joints it holds, or start a new point">+ New track</button>
+      <label class="row"><span class="small">other joints</span><select id="others" aria-label="Joints outside this track"><option value="dim" selected>dimmed</option><option value="hide">hidden</option><option value="show">shown</option></select></label>
+    </div>
+    <div class="bar" id="trackForm" hidden>
+      <div class="grp" style="flex-direction:column;align-items:stretch;gap:6px;width:100%">
+        <div class="row"><span class="lab">New track</span><input type="text" id="tName" placeholder="Name, e.g. Nose track" aria-label="Track name"><span class="small">holds:</span><input type="text" id="tPoint" placeholder="a new point (optional)" aria-label="A new point for this track"><button id="tMake" class="primary">Make track</button><button id="tCancel">Cancel</button></div>
+        <div class="row" id="tJoints"></div>
       </div>
     </div>
     <div class="prog" id="prog"></div>
@@ -216,6 +230,8 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       <div class="keys" id="lmList"></div>
       <h3>Modes</h3>
       <p class="hint"><b>Manual</b> (the default): only the points you place exist. Press <b>Fill gaps now</b> when you want the frames between filled from your points, and turn <b>Filled points</b> off again to hide them. <b>Assisted</b>: the frames between fill as you go. <b>Auto adjust my points</b> nudges your clicks up to 3 px to match the same spot on your nearby frames; a dotted tick shows where you clicked, and <b>Revert adjustments</b> (or right-click a point) puts them back.</p>
+      <h3>Tracks</h3>
+      <p class="hint">Pick a track above the video (or press 1–5) to work on one leg, or the head and back, at a time: clicking, the next joint, the next frame, Fill, Auto adjust, copy, paste and Clear all stay inside it, and the other joints are dimmed (or hidden, or shown). <b>+ New track</b> makes your own, from any joints or a new point such as the nose. Right-click one of your tracks twice to delete it; its points stay.</p>
       <h3>Keys</h3>
       <div class="keys">
         <kbd>click</kbd><span>place the selected joint (the next joint is picked; after the last one, on to the next frame)</span>
@@ -226,7 +242,7 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
         <kbd>Delete</kbd><span>remove the selected joint's point here; <kbd>Shift+Delete</kbd> clears the whole frame</span>
         <kbd>Ctrl+C Ctrl+V</kbd><span>copy this frame's points, paste them onto another frame</span>
         <kbd>C</kbd><span>copy the last frame's points here</span>
-        <kbd>1 2 3 4 5</kbd><span>near front leg, near hind leg, far front, far hind, head and back</span>
+        <kbd>1 2 3 4 5</kbd><span>track the near front leg, near hind, far front, far hind, head and back; <kbd>`</kbd> all joints; <kbd>6–9</kbd> your own tracks</span>
         <kbd>Tab</kbd><span>next joint (Shift: previous)</span>
         <kbd>← → or , .</kbd><span>frame back or forward (Shift: 10); <kbd>Home</kbd> <kbd>End</kbd> first and last; Shift+wheel steps frames</span>
         <kbd>Alt + arrows</kbd><span>nudge the selected point a quarter pixel (Shift: one pixel)</span>
@@ -246,7 +262,7 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
 </div>
 
 <script>
-const BUILD = {"commit":"648fa4a","date":"2026-10-08"};
+const BUILD = {"commit":"55b834c","date":"2026-10-08"};
 const GAIT_REF = {"carpus":[208.4,210.1,211.9,213.4,214.8,216.1,217.1,218.1,218.8,219.4,219.9,220.3,220.8,221.3,221.8,222.4,223,223.6,224.3,224.8,225.4,225.9,226.3,226.7,227,227.3,227.5,227.7,227.8,227.9,228.1,228.3,228.5,228.7,229,229.3,229.7,230,230.3,230.4,230.6,230.6,230.6,230.5,230.3,230.2,230.1,230,229.8,229.6,229.2,228.4,227.1,225.1,222.2,218.3,213,206.6,198.9,190.3,180.9,171,161.1,151.4,142.1,133.5,126.1,119.3,113.9,109.4,106,103.7,102.3,101.9,102.3,103.8,106,109.1,113.1,117.6,122.9,128.8,135.2,141.9,148.7,155.4,161.9,168.1,173.9,179,183.8,187.8,191.5,194.7,197.5,200.2,202.4,204.7,206.9,208.9,211],"elbow":[147.6,147.6,147.5,146.9,146,145,143.8,142.6,141.6,140.6,139.9,139.3,139,138.8,138.7,138.8,138.9,139,139.2,139.3,139.5,139.7,139.8,140,140.2,140.3,140.5,140.7,140.9,141.2,141.5,141.8,142.3,142.8,143.3,143.9,144.6,145.3,145.9,146.5,147.1,147.6,148,148.4,148.8,149.3,149.8,150.3,150.9,151.5,152.2,152.8,153.2,153.5,153.5,153.1,152.3,151,149.3,147.1,144.4,141.4,138.3,134.9,131.6,128.3,125.2,122.1,119.3,116.7,114.1,111.7,109.4,107.2,105,103,101.2,99.8,98.7,98,97.9,98.3,99.3,100.8,102.7,105.1,107.8,110.9,114.1,117.7,121.4,125.2,129,132.9,136.5,140,143,145.7,147.9,149.3,150.6],"hip":[57,57.5,58.1,58.6,59.3,59.9,60.5,61.2,61.8,62.5,63.1,63.7,64.3,64.9,65.4,66,66.6,67.2,67.8,68.5,69.2,69.9,70.6,71.4,72.2,72.9,73.8,74.5,75.4,76.2,77,77.8,78.7,79.5,80.3,81.1,82,82.8,83.7,84.5,85.3,86.2,87,87.8,88.6,89.3,90,90.7,91.2,91.7,92.1,92.5,92.6,92.7,92.7,92.4,92.1,91.5,90.8,89.9,88.8,87.7,86.4,85,83.6,82.1,80.6,79,77.5,76,74.4,72.9,71.4,70,68.5,67.2,65.8,64.5,63.2,62,60.9,59.8,58.7,57.8,57,56.3,55.7,55.3,55,54.9,54.8,54.9,55,55.2,55.5,55.7,56.1,56.4,56.9,57.4,57.9],"shoulder":[148.8,147.7,146.7,145.6,144.5,143.4,142.5,141.6,140.9,140.2,139.7,139.1,138.6,138.2,137.7,137.2,136.7,136.2,135.6,135.1,134.6,134.1,133.6,133.2,132.8,132.5,132.2,131.9,131.6,131.4,131.2,131,130.8,130.8,130.7,130.6,130.6,130.5,130.4,130.2,129.9,129.6,129.2,128.7,128.3,127.8,127.5,127.2,126.9,126.8,126.7,126.6,126.6,126.5,126.3,126,125.6,125.1,124.6,123.9,123.3,122.7,122.1,121.6,121.2,120.9,120.8,120.8,121,121.2,121.6,122.1,122.5,123.1,123.5,124.1,124.6,125.2,125.9,126.6,127.7,128.9,130.2,131.9,133.6,135.5,137.4,139.4,141.3,143.3,145.1,146.9,148.5,149.9,151,151.9,152.4,152.6,152.5,152,151.4],"stifle":[143.3,142.6,141.9,141.3,140.7,140.3,140.2,140.1,140.2,140.3,140.5,140.7,140.9,141.1,141.2,141.3,141.4,141.4,141.4,141.4,141.5,141.5,141.5,141.5,141.4,141.3,141.2,140.9,140.7,140.3,140,139.6,139.2,138.9,138.7,138.5,138.4,138.3,138.3,138.4,138.5,138.6,138.8,138.9,139.1,139.2,139.3,139.5,139.5,139.6,139.6,139.4,139.2,138.9,138.4,137.7,136.9,135.8,134.6,133.2,131.5,129.8,127.9,126,124,122,120.1,118.2,116.5,114.9,113.5,112.2,111.2,110.5,109.9,109.7,109.7,110,110.5,111.4,112.5,114,115.8,117.9,120.3,122.8,125.6,128.4,131.3,134,136.6,138.8,140.7,142.3,143.2,144,144.2,144.2,143.9,143.3,142.8],"tarsus":[145,143.7,142.3,141,139.7,138.4,137.5,136.7,136.2,135.9,135.9,136.1,136.4,136.8,137.3,137.9,138.4,139,139.6,140.1,140.6,141,141.4,141.8,142.1,142.4,142.7,142.9,143.1,143.3,143.4,143.6,143.8,144,144.2,144.4,144.8,145.1,145.5,146,146.5,147,147.6,148.3,149,149.8,150.6,151.5,152.5,153.5,154.5,155.6,156.6,157.6,158.4,159.1,159.7,160,160,159.8,159.1,158.1,156.7,154.8,152.7,150.1,147.4,144.4,141.4,138.3,135.4,132.6,130.1,127.8,125.7,123.9,122.4,121.1,120.3,119.6,119.4,119.5,120,120.9,122.2,123.9,126,128.3,130.8,133.4,136,138.5,140.8,142.7,144.2,145.4,145.9,146,145.8,144.9,144.1]}; /* Catavitello 2015, retrievers walking: mean angle per 1% of each limb's stride, 0 = touchdown */
 const WOLF = {"stifle":[105.3,104.9,104.6,104.3,104.1,104,103.8,103.4,103,103.4,104.2,104.8,105.3,105.8,106.3,106.9,107.5,108.2,108.9,109.6,110.4,111.2,112,112.9,113.7,114.6,115.5,116.3,117.2,118.1,119,119.9,120.8,121.7,122.6,123.5,124.4,125.4,126.3,127.3,128.4,129.4,130.6,131.8,133,134.4,135.8,137.3,139,140.9,142.8,145.1,147.5,147.8,147.9,148,148,148,148,148,148,148,148,148,148,148,148,148,148,147.5,145.6,143.3,139.1,134.9,130.8,126.6,122.7,118.8,115.6,112.4,109.9,107.4,105.6,103.9,102.8,101.9,101.3,101,101,101.3,101.7,102.2,102.8,103.5,104.2,104.7,105.2,105.5,105.7,105.5,105.3],"tarsus":[149.6,148.5,147.5,146.5,145.5,144.6,143.6,142.5,141.5,140.8,140.3,139.7,139.1,138.5,137.9,137.3,136.8,136.3,135.8,135.3,134.9,134.4,134,133.7,133.3,132.9,132.6,132.2,131.9,131.6,131.2,130.9,130.6,130.2,129.9,129.6,129.3,129,128.8,128.5,128.3,128.1,127.9,127.8,127.6,127.6,127.6,127.7,127.8,128.1,128.3,128.8,129.4,131.5,133.9,136.7,139.6,142.3,145.1,145.7,145.3,144.3,142.9,141.3,139.6,137.9,136.1,134.4,132.8,131.1,129,126.8,124.3,122,120.5,119,118.8,118.5,119,119.6,120.7,121.9,123.6,125.3,127.4,129.6,132,134.4,136.9,139.4,141.8,144.1,146.1,147.6,148.9,149.8,150.5,150.7,150.8,150.2,149.6],"shoulder":[98.2,97.7,97.2,96.8,96.3,96,95.6,95.3,95,94.7,94.4,94.2,94,93.8,93.6,93.4,93.3,93.1,93,92.9,92.8,92.7,92.6,92.5,92.4,92.4,92.3,92.3,92.3,92.2,92.2,92.2,92.3,92.3,92.4,92.5,92.6,92.7,92.9,93,93.2,93.4,93.5,93.9,94.4,95,95.5,96,96.6,97.2,97.9,98.7,99.5,100.5,101.5,102.2,102.9,103.4,103.7,104.1,104.6,104.8,105,104.4,103,102.2,101.9,101.8,102,102.2,102.4,102.6,102.7,102.7,102.6,102.5,102.3,102.1,101.8,101.5,101,100.4,99.6,98.8,97.8,96.8,95.7,94.5,93.4,92.3,91.5,91,90.9,92.2,93.6,95.2,96.7,97.7,98.5,98.3,98.2],"elbow":[127.2,126.4,125.6,125,124.4,123.9,123.4,123.1,122.8,122.6,122.5,122.4,122.4,122.5,122.6,122.7,122.9,123.2,123.5,123.8,124.1,124.5,124.9,125.3,125.7,126.2,126.6,127.1,127.6,128,128.5,129,129.5,130,130.5,131,131.5,132,132.6,133.1,133.8,134.4,135.1,135.8,136.6,137.4,138.3,139.3,140.4,141.6,142.8,144.3,145.8,147.6,149.4,150.5,151.4,151.6,151.7,151.8,151.9,151.6,151,148.1,142.9,138.3,134.5,131.1,128.8,126.6,125,123.5,122.2,121,119.8,118.5,117.4,116.3,115.1,113.9,112.7,111.4,110.1,108.9,107.8,106.9,106.4,106.1,106.4,107.3,108.9,111.5,114.2,117.3,120.1,122.1,123.9,125.2,126.4,126.8,127.2],"carpus":[166.2,166.6,166.9,167.3,167.7,168.2,168.7,169.3,169.8,170.5,171.1,171.8,172.5,173.3,174,174.8,175.6,176.4,177.3,178.1,179,179.9,180.7,181.6,182.5,183.4,184.3,185.2,186.1,187,187.9,188.8,189.7,190.7,191.6,192.5,193.4,194.3,195.3,196.2,197.2,198.1,199.1,200.1,201.1,202.2,203.3,204.4,205.5,206.7,207.9,209.2,210.5,212,213.4,213.7,213.6,212.6,211.3,209.9,208.5,206.1,203.2,196.2,185.3,174.8,165,155.7,147.4,139.5,132.7,126.1,120.6,115.2,111,106.7,103.6,100.6,98.8,97.1,96.7,96.7,98,99.8,102.8,106.4,111.3,116.9,123.6,131.2,139.6,149,156.5,160.3,163.3,163.6,163.9,164.4,164.9,165.6,166.2]}; /* hero3's near legs, same angle convention, 0 = touchdown */
 
@@ -280,7 +296,7 @@ const PAWS=["nFp","nHp","fFp","fHp"];
 /* ---------- state ---------- */
 const $=id=>document.getElementById(id);
 const st={clip:null,frames:[],n:0,fw:0,fh:0,sx:1,cur:0,sel:"nSh",keys:{},res:{},events:{},extra:{joints:[],bones:[],angles:[]},facing:"auto",
-  view:{z:1,ox:0,oy:0},show:{bones:true,angles:true,labels:false,onion:false,loupe:true,smooth:true,ghost:true},autoNext:true,mode:"manual",filledOn:false,clipboard:null,playing:false,speed:1,con:100,bri:100,db:null,dirty:false,hover:null};
+  view:{z:1,ox:0,oy:0},show:{bones:true,angles:true,labels:false,onion:false,loupe:true,smooth:true,ghost:true},autoNext:true,mode:"manual",track:"all",others:"dim",filledOn:false,clipboard:null,playing:false,speed:1,con:100,bri:100,db:null,dirty:false,hover:null};
 const joints=()=>BASE.concat(st.extra.joints), jById=id=>joints().find(j=>j.id===id), bones=()=>BASE_BONES.concat(st.extra.bones), angles=()=>BASE_ANG.concat(st.extra.angles);
 const keyAt=(j,f)=>st.keys[j]&&st.keys[j][f];
 function setKey(j,f,v){(st.keys[j] ||= {}); if(v==null) delete st.keys[j][f]; else st.keys[j][f]=v; markDirty(); refresh(j);}
@@ -293,13 +309,13 @@ function rebuildAll(){if(filling()) fillAll(); else {for(const j of joints()) ke
 const hist={u:[],r:[]};
 const stateNow=()=>JSON.stringify({keys:st.keys,events:st.events,extra:st.extra});
 function snap(label,merge){const h=hist.u[hist.u.length-1]; if(merge&&h&&h.label===label&&Date.now()-h.t<1200){h.t=Date.now(); return;} hist.u.push({label,s:stateNow(),t:Date.now()}); if(hist.u.length>300) hist.u.shift(); hist.r=[]; undoButtons();}
-function restore(sv){const o=JSON.parse(sv); st.keys=o.keys; st.events=o.events; st.extra=o.extra; markDirty(); rebuildAll(); refreshLists(); draw();}
+function restore(sv){const o=JSON.parse(sv); st.keys=o.keys; st.events=o.events; st.extra=o.extra; if(!tracks().some(t=>t.id===st.track)) st.track="all"; trackSet=null; renderTracks(); markDirty(); rebuildAll(); refreshLists(); draw();}
 function undo(){const e=hist.u.pop(); if(!e) {toast("Nothing to undo"); return;} hist.r.push({label:e.label,s:stateNow(),t:0}); restore(e.s); undoButtons(); toast("Undid: "+e.label);}
 function redo(){const e=hist.r.pop(); if(!e) {toast("Nothing to redo"); return;} hist.u.push({label:e.label,s:stateNow(),t:0}); restore(e.s); undoButtons(); toast("Redid: "+e.label);}
 function undoButtons(){$("undo").disabled=!hist.u.length; $("redo").disabled=!hist.r.length; $("undo").title=hist.u.length?`Undo ${hist.u[hist.u.length-1].label} (Ctrl+Z)`:"Undo (Ctrl+Z)";}
 let toastT=null; function toast(msg){const b=$("banner"); b.textContent=msg; b.classList.add("toast"); clearTimeout(toastT); toastT=setTimeout(()=>{b.classList.remove("toast"); toastT=null; banner();},1600);}
-function banner(){if(toastT) return; const b=$("banner"); if(!st.n){b.textContent=""; return;} const j=jById(st.sel), k=keyAt(st.sel,st.cur), L=joints().filter(x=>x.grp===(j&&j.grp)), i=L.indexOf(j);
-  b.textContent=""; const t=document.createElement("span"); t.textContent=k?(k.occ?"Hidden here: ":"Placed: "):"Click to place "; const nm=document.createElement("b"); nm.textContent=j?j.name:""; const r=document.createElement("span"); r.textContent=` · ${i+1} of ${L.length} · Tab next · 1–5 pick a leg`; b.append(t,nm,r);}
+function banner(){if(toastT) return; const b=$("banner"); if(!st.n){b.textContent=""; return;} const j=jById(st.sel), k=keyAt(st.sel,st.cur), L=st.track==="all"?joints().filter(x=>x.grp===(j&&j.grp)):workJoints(), i=L.indexOf(j);
+  b.textContent=""; const t=document.createElement("span"); t.textContent=k?(k.occ?"Hidden here: ":"Placed: "):"Click to place "; const nm=document.createElement("b"); nm.textContent=j?j.name:""; const r=document.createElement("span"); const tk=tracks().find(t=>t.id===st.track); r.textContent=` · ${i+1} of ${L.length}${st.track!=="all"&&tk?` in ${tk.name}`:""} · Tab next · 1–5 tracks`; b.append(t,nm,r);}
 
 /* ---------- video → frames ---------- */
 const vid=document.createElement("video"); vid.muted=true; vid.playsInline=true; vid.preload="auto";
@@ -327,7 +343,7 @@ async function extract(){if(!fileMeta) return; const fps=+$("fps").value||30, t0
   $("prog").style.width="0"; $("extract").disabled=false;
   st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=fw/fileMeta.vw; st.cur=0;
   st.clip={id:clipId(fileMeta,t0,fps),name:fileMeta.name,vw:fileMeta.vw,vh:fileMeta.vh,dur:fileMeta.dur,fps,t0,n:st.n};
-  st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[]}; integ.clear();
+  st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null; integ.clear();
   ["fill","showFilled","adjust","revertAdj","nextFlag","play","back","fwd","evDown","evUp","evAuto"].forEach(id=>$(id).disabled=false); $("empty").hidden=true;
   hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); renderJoints(); rebuildAll(); refreshLists(); draw();}
 const clipId=(m,t0,fps)=>(m.name.replace(/[^A-Za-z0-9_.-]/g,"_").slice(0,60)+"_"+m.vw+"x"+m.vh+"_"+Math.round(m.dur*100)+"_"+Math.round(t0*100)+"_"+Math.round(fps*100));
@@ -392,7 +408,7 @@ let fillTimer=null, fillSet=new Set();
 function queueFill(j){fillSet.add(j); clearTimeout(fillTimer); fillTimer=setTimeout(()=>{const S=[...fillSet]; fillSet.clear(); const all=new Set(S); /* children of a moved joint use its bone */
     for(const [a,b] of BASE_BONES) if(all.has(a)) all.add(b); for(const j of orderOf([...all])) fillJoint(j); afterFill();},250);}
 const orderOf=L=>L.slice().sort((a,b)=>{const ia=ORDER.indexOf(a), ib=ORDER.indexOf(b); return (ia<0?99:ia)-(ib<0?99:ib);});
-async function fillAll(){const L=orderOf(joints().map(j=>j.id)); for(let k=0;k<L.length;k++){fillJoint(L[k]); $("prog").style.width=((k+1)/L.length*100)+"%"; if(k%3===2) await new Promise(r=>setTimeout(r,0));} $("prog").style.width="0"; afterFill();}
+async function fillAll(){const L=orderOf(joints().map(j=>j.id).filter(inTrack)); for(let k=0;k<L.length;k++){fillJoint(L[k]); $("prog").style.width=((k+1)/L.length*100)+"%"; if(k%3===2) await new Promise(r=>setTimeout(r,0));} $("prog").style.width="0"; afterFill();}
 $("fill").onclick=()=>{st.filledOn=true; press($("showFilled"),true); fillAll(); toast(st.mode==="manual"?"Filled the gaps from your points (your points are unchanged)":"Refilled every joint");};
 $("showFilled").onclick=()=>{st.filledOn=!st.filledOn; press($("showFilled"),st.filledOn); rebuildAll();};
 $("mode").onchange=e=>{st.mode=e.target.value; try{localStorage.setItem("gt:mode",st.mode);}catch(_){} if(st.mode==="assist"){st.filledOn=true; press($("showFilled"),true);} rebuildAll(); toast(st.mode==="manual"?"Manual: only your points count until you press Fill gaps now":"Assisted: the frames between your points fill as you go");};
@@ -427,15 +443,15 @@ function drawNow(){const b=cv.getBoundingClientRect(), dpr=window.devicePixelRat
   if(st.n){const f=st.cur; drawFrame(cx,f,1); if(st.show.onion){drawFrame(cx,f-1,.32); drawFrame(cx,f+1,.32);} overlay(cx,f);}
   drawTimeline(); hud(); banner(); if(st.show.loupe&&st.hover&&st.n) loupe(); else lp.hidden=true;}
 function ptOf(j,f,cache){const R=cache?(cache[j]||(cache[j]=pointsFor(j))):st.res[j]; if(!R||isNaN(R.x[f])||R.src[f]===4) return null; return {x:R.x[f],y:R.y[f],src:R.src[f],s:R.s[f]};}
-function overlay(ctx,f){const cache={}, J=joints(), z=st.view.z;
+function overlay(ctx,f){const cache={}, J=joints().filter(j=>st.others!=="hide"||inTrack(j.id)), z=st.view.z, dim=id=>st.others==="dim"&&!inTrack(id);
   if(st.show.bones) for(const [a,b] of bones()){const p=ptOf(a,f,cache), q=ptOf(b,f,cache); if(!p||!q) continue; const ja=jById(b)||{}, far=!!ja.far; const [X1,Y1]=toScr(p.x,p.y), [X2,Y2]=toScr(q.x,q.y);
-    ctx.save(); ctx.strokeStyle="rgba(0,0,0,.55)"; ctx.lineWidth=4; ctx.setLineDash(far?[6,4]:[]); ctx.beginPath(); ctx.moveTo(X1,Y1); ctx.lineTo(X2,Y2); ctx.stroke(); ctx.strokeStyle=ja.col||"#fff"; ctx.lineWidth=2; ctx.stroke(); ctx.restore();}
+    if(st.others==="hide"&&!(inTrack(a)&&inTrack(b))) continue; ctx.save(); if(dim(a)&&dim(b)) ctx.globalAlpha=.25; ctx.strokeStyle="rgba(0,0,0,.55)"; ctx.lineWidth=4; ctx.setLineDash(far?[6,4]:[]); ctx.beginPath(); ctx.moveTo(X1,Y1); ctx.lineTo(X2,Y2); ctx.stroke(); ctx.strokeStyle=ja.col||"#fff"; ctx.lineWidth=2; ctx.stroke(); ctx.restore();}
   if(st.show.angles) for(const A of angles()){const v=angleOf(A,f,cache); if(v==null) continue; const p=ptOf(A.pts[1],f,cache); if(!p) continue; const [X,Y]=toScr(p.x,p.y), past=A.k&&v>180.5;
     const s=`${Math.round(v)}°`; ctx.font="600 12px IBM Plex Mono, monospace"; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.8)"; ctx.fillStyle=past?"#ff6b5e":"#ffffff"; const dx=(jById(A.pts[1])||{}).far?-40:9; ctx.strokeText(s,X+dx,Y-7); ctx.fillText(s,X+dx,Y-7);}
-  if(st.show.ghost) for(const j of J){if(hiddenJoints.has(j.id)||ptOf(j.id,f,cache)||keyAt(j.id,f)) continue; let g=null; for(let d=1;d<=6&&!g;d++){for(const ff of [f-d,f+d]){const k=keyAt(j.id,ff); if(k&&!k.occ){g=k; break;}}} if(!g) continue;
+  if(st.show.ghost) for(const j of J){if(hiddenJoints.has(j.id)||!inTrack(j.id)||ptOf(j.id,f,cache)||keyAt(j.id,f)) continue; let g=null; for(let d=1;d<=6&&!g;d++){for(const ff of [f-d,f+d]){const k=keyAt(j.id,ff); if(k&&!k.occ){g=k; break;}}} if(!g) continue;
     const [X,Y]=toScr(g.x,g.y); ctx.save(); ctx.globalAlpha=j.id===st.sel?.9:.45; ctx.setLineDash([3,3]); ctx.strokeStyle=j.col; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(X,Y,j.id===st.sel?7:5,0,7); ctx.stroke(); ctx.restore();}
   for(const j of J){if(hiddenJoints.has(j.id)) continue; const p=ptOf(j.id,f,cache); const k=keyAt(j.id,f); if(k&&k.occ) continue; if(!p) continue; const [X,Y]=toScr(p.x,p.y), selJ=j.id===st.sel, r=selJ?6.5:4.8;
-    ctx.save(); ctx.beginPath(); ctx.arc(X,Y,r,0,7); if(p.src===1){ctx.fillStyle=j.col; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="#fff"; ctx.stroke();}
+    ctx.save(); if(dim(j.id)) ctx.globalAlpha=.3; ctx.beginPath(); ctx.arc(X,Y,r,0,7); if(p.src===1){ctx.fillStyle=j.col; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="#fff"; ctx.stroke();}
     else {const R=st.res[j.id], why=R&&R.why[f]; ctx.lineWidth=2.4; ctx.strokeStyle=j.col; if(p.src===3||why){ctx.fillStyle="rgba(0,0,0,.45)"; ctx.fill(); ctx.stroke(); if(why){ctx.beginPath(); ctx.arc(X,Y,r+3,0,7); ctx.strokeStyle="#ffb02e"; ctx.lineWidth=1.6; ctx.stroke();}} else {ctx.fillStyle=j.col; ctx.globalAlpha=.85; ctx.fill(); ctx.globalAlpha=1; ctx.strokeStyle="rgba(0,0,0,.7)"; ctx.lineWidth=1.2; ctx.stroke();}}
     if(k&&k.orig){const [ox,oy]=toScr(k.orig.x,k.orig.y); ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(X,Y); ctx.strokeStyle="#fff"; ctx.lineWidth=1; ctx.setLineDash([2,2]); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle="#fff"; ctx.fillRect(ox-1.5,oy-1.5,3,3);}
     if(selJ){ctx.beginPath(); ctx.arc(X,Y,r+5,0,7); ctx.strokeStyle="#ffffff"; ctx.lineWidth=1.2; ctx.setLineDash([3,3]); ctx.stroke();}
@@ -474,7 +490,7 @@ function goTo(f){st.cur=Math.max(0,Math.min(st.n-1,f)); renderJointsStatus(); re
 let drag=null;
 cv.addEventListener("contextmenu",e=>e.preventDefault());
 cv.addEventListener("wheel",e=>{if(!st.n) return; e.preventDefault(); if(e.shiftKey){goTo(st.cur+(e.deltaY>0?1:-1)); return;} const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top, k=e.deltaY<0?1.15:1/1.15, [ix,iy]=toImg(X,Y); st.view.z*=k; st.view.ox=X-ix*st.view.z; st.view.oy=Y-iy*st.view.z; draw();},{passive:false});
-function nearest(X,Y){let best=null; for(const j of joints()){if(hiddenJoints.has(j.id)) continue; const p=ptOf(j.id,st.cur); if(!p) continue; const [x,y]=toScr(p.x,p.y), d=Math.hypot(x-X,y-Y); if(d<10&&(!best||d<best.d)) best={id:j.id,d};} return best;}
+function nearest(X,Y){let best=null; for(const j of joints()){if(hiddenJoints.has(j.id)||(st.others!=="show"&&!inTrack(j.id))) continue; const p=ptOf(j.id,st.cur); if(!p) continue; const [x,y]=toScr(p.x,p.y), d=Math.hypot(x-X,y-Y); if(d<10&&(!best||d<best.d)) best={id:j.id,d};} return best;}
 cv.addEventListener("pointerdown",e=>{if(!st.n) return; closeMenu(); cv.focus({preventScroll:true}); cv.setPointerCapture(e.pointerId); const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top; stopPlay();
   if(e.button===1||e.button===2){drag={pan:true,sx:X,sy:Y,ox:st.view.ox,oy:st.view.oy,right:e.button===2,cx:e.clientX,cy:e.clientY}; return;}
   const hit=nearest(X,Y); if(hit){st.sel=hit.id; drag={id:hit.id,before:stateNow(),sx:X,sy:Y,label:"move "+jById(hit.id).name.toLowerCase()}; renderJoints(); draw(); return;}
@@ -488,7 +504,7 @@ cv.addEventListener("pointerup",e=>{const d=drag; drag=null; cv.classList.remove
   if(d.id&&d.placed&&st.autoNext) afterPlace(); renderJoints(); draw();});
 cv.addEventListener("pointerleave",()=>{st.hover=null; draw();});
 /* after a click: the next joint with no point here; after the last one, on to the next frame */
-function afterPlace(){const L=joints().filter(j=>!hiddenGroups.has(j.grp)&&!hiddenJoints.has(j.id)), i=L.findIndex(j=>j.id===st.sel);
+function afterPlace(){const L=workJoints(), i=L.findIndex(j=>j.id===st.sel);
   for(let k=1;k<=L.length;k++){const j=L[(i+k)%L.length]; if(!keyAt(j.id,st.cur)){st.sel=j.id; return;}}
   const step=+$("nextFrame").value; if(step&&st.cur+step<st.n){goTo(st.cur+step); st.sel=L[0].id; toast(`Frame done: on to frame ${st.cur+1}`);} }
 const selectNext=afterPlace;
@@ -515,11 +531,11 @@ function openMenu(clientX,clientY){const m=$("cmenu"), box=$("stageBox").getBoun
     if(a.key){const k=document.createElement("kbd"); k.textContent=a.key; b.append(k);} b.onclick=()=>{closeMenu(); a.fn();}; m.append(b);});
   m.hidden=false; const w=m.offsetWidth, hh=m.offsetHeight; m.style.left=Math.max(4,Math.min(clientX-box.left,box.width-w-4))+"px"; m.style.top=Math.max(4,Math.min(clientY-box.top,box.height-hh-4))+"px"; const f=m.querySelector("button"); if(f) f.focus({preventScroll:true}); renderJoints(); draw();}
 document.addEventListener("pointerdown",e=>{const m=$("cmenu"); if(!m.hidden&&!m.contains(e.target)&&e.target!==cv) closeMenu();},true);
-function copyFrame(){const o={}; for(const j of joints()){const p=ptOf(j.id,st.cur); if(p) o[j.id]={x:p.x,y:p.y};} st.clipboard=o; toast(`Copied ${Object.keys(o).length} points from frame ${st.cur+1}`);}
+function copyFrame(){const o={}; for(const j of workJoints()){const p=ptOf(j.id,st.cur); if(p) o[j.id]={x:p.x,y:p.y};} st.clipboard=o; toast(`Copied ${Object.keys(o).length} points from frame ${st.cur+1}`);}
 function paste(){const o=st.clipboard; if(!o||!Object.keys(o).length){toast("Nothing copied yet: Ctrl+C on a frame first"); return;} snap("paste"); for(const [j,p] of Object.entries(o)) setKey(j,st.cur,{x:p.x,y:p.y}); refreshLists(); draw(); toast(`Pasted ${Object.keys(o).length} points onto frame ${st.cur+1}`);}
 /* auto adjust: each of your points may move up to 3 px to where it best matches the same joint on your nearby frames; the click is kept in .orig */
 function autoAdjust(onlyFrame){snap(onlyFrame==null?"auto adjust":"auto adjust frame"); let moved=0, total=0;
-  for(const j of joints()){const K=st.keys[j.id]||{}, F=Object.keys(K).map(Number).filter(f=>!K[f].occ).sort((a,b)=>a-b);
+  for(const j of workJoints()){const K=st.keys[j.id]||{}, F=Object.keys(K).map(Number).filter(f=>!K[f].occ).sort((a,b)=>a-b);
     for(const f of F){if(onlyFrame!=null&&f!==onlyFrame) continue; const near=F.filter(g=>g!==f&&Math.abs(g-f)<=4); if(!near.length) continue; total++;
       const k=K[f], o=k.orig||{x:k.x,y:k.y}, tps=near.map(g=>template(g,(K[g].orig||K[g]).x,(K[g].orig||K[g]).y));
       const sc=(x,y)=>tps.reduce((a,t)=>a+nccAt(f,t,Math.round(x),Math.round(y)),0)/tps.length; const base=sc(o.x,o.y); let best={x:o.x,y:o.y,s:base};
@@ -530,7 +546,7 @@ function autoAdjust(onlyFrame){snap(onlyFrame==null?"auto adjust":"auto adjust f
 function revertAdj(j,f){snap(j?"revert point":"revert adjustments"); let n=0; for(const J of joints()){if(j&&J.id!==j) continue; const K=st.keys[J.id]||{}; for(const g of Object.keys(K)){if(f!=null&&+g!==f) continue; if(K[g].orig){K[g]={x:K[g].orig.x,y:K[g].orig.y}; n++;}} refresh(J.id);}
   markDirty(); refreshLists(); draw(); toast(n?`Put ${n} point${n===1?"":"s"} back where you clicked`:"No adjusted points to revert");}
 $("adjust").onclick=()=>autoAdjust(); $("revertAdj").onclick=()=>revertAdj();
-function clearFrame(){const J=joints().filter(j=>keyAt(j.id,st.cur)); if(!J.length){toast("No points of yours on this frame"); return;} snap("clear frame"); for(const j of J) setKey(j.id,st.cur,null); refreshLists(); draw(); toast(`Cleared ${J.length} points (Ctrl+Z brings them back)`);}
+function clearFrame(){const J=workJoints().filter(j=>keyAt(j.id,st.cur)); if(!J.length){toast("No points of yours on this frame"); return;} snap("clear frame"); for(const j of J) setKey(j.id,st.cur,null); refreshLists(); draw(); toast(`Cleared ${J.length} points (Ctrl+Z brings them back)`);}
 
 /* ---------- playback ---------- */
 let playT=null;
@@ -546,7 +562,7 @@ $("con").oninput=e=>{st.con=+e.target.value; draw();}; $("bri").oninput=e=>{st.b
 $("facing").onchange=e=>{st.facing=e.target.value; markDirty(); renderAngTable(); drawGraphs(); draw();};
 $("hideHere").onclick=()=>{if(!st.n) return; snap("hidden here"); const k=keyAt(st.sel,st.cur); setKey(st.sel,st.cur,k&&k.occ?null:{occ:true}); renderJointsStatus(); draw();};
 $("delKey").onclick=()=>{if(!st.n) return; if(!keyAt(st.sel,st.cur)){toast("No point of yours to remove here"); return;} snap("remove "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,null); renderJointsStatus(); draw();};
-$("copyPrev").onclick=()=>{if(!st.n||st.cur<1) return; snap("copy last frame"); for(const j of joints()){const p=ptOf(j.id,st.cur-1); if(p&&!keyAt(j.id,st.cur)) setKey(j.id,st.cur,{x:p.x,y:p.y});} renderJoints(); draw();};
+$("copyPrev").onclick=()=>{if(!st.n||st.cur<1) return; snap("copy last frame"); for(const j of workJoints()){const p=ptOf(j.id,st.cur-1); if(p&&!keyAt(j.id,st.cur)) setKey(j.id,st.cur,{x:p.x,y:p.y});} renderJoints(); draw();};
 function legPaw(j){const g=(jById(j)||{}).grp; return g==="nF"?"nFp":g==="nH"?"nHp":g==="fF"?"fFp":g==="fH"?"fHp":null;}
 function toggleEvent(kind){const p=legPaw(st.sel); if(!p){toast("Pick a joint on a leg first: footfalls belong to that leg's paw"); return;} snap("paw "+kind); const ev=st.events[p] ||= {down:[],up:[]}, A=ev[kind], i=A.indexOf(st.cur);
   if(i>=0) A.splice(i,1); else {A.push(st.cur); const other=ev[kind==="down"?"up":"down"], j=other.indexOf(st.cur); if(j>=0) other.splice(j,1);} markDirty(); refreshLists(); draw();}
@@ -559,11 +575,30 @@ $("evAuto").onclick=()=>{snap("find footfalls"); let made=0; for(const p of PAWS
 
 /* ---------- joint list ---------- */
 const hiddenGroups=new Set(), hiddenJoints=new Set();
+/* tracks: work on one set of joints at a time; the built-in ones are the legs and the head and back, and you can make your own */
+const BUILTIN_TRACKS=[{id:"all",name:"All"},{id:"nF",name:"Near front",grp:"nF"},{id:"nH",name:"Near hind",grp:"nH"},{id:"fF",name:"Far front",grp:"fF"},{id:"fH",name:"Far hind",grp:"fH"},{id:"body",name:"Head & back",grp:"body"}];
+const tracks=()=>BUILTIN_TRACKS.concat(st.extra.tracks||[]);
+function trackIds(id){const t=tracks().find(x=>x.id===id); if(!t||t.id==="all") return joints().map(j=>j.id); if(t.grp) return joints().filter(j=>j.grp===t.grp).map(j=>j.id); return (t.joints||[]).filter(j=>jById(j));}
+let trackSet=null; const inTrack=j=>st.track==="all"||(trackSet||(trackSet=new Set(trackIds(st.track)))).has(j);
+const workJoints=()=>joints().filter(j=>inTrack(j.id)&&!hiddenJoints.has(j.id));
+function setTrack(id){st.track=id; trackSet=null; const L=workJoints(); if(L.length&&!inTrack(st.sel)) st.sel=(L.find(j=>!keyAt(j.id,st.cur))||L[0]).id; renderTracks(); renderJoints(); draw(); const t=tracks().find(x=>x.id===id); if(t) toast(id==="all"?"All joints":`Tracking: ${t.name}`);}
+function renderTracks(){const bar=$("trackBar"); bar.textContent=""; tracks().forEach((t,i)=>{const b=document.createElement("button"); b.setAttribute("aria-pressed",t.id===st.track?"true":"false");
+    const n=trackIds(t.id).reduce((a,j)=>a+Object.keys(st.keys[j]||{}).length,0); b.textContent=t.name; const c=document.createElement("span"); c.className="small"; c.textContent=n?String(n):""; b.append(c);
+    b.title=(i<6?`Key ${i===0?"`":i} · `:"")+`${trackIds(t.id).length} joints, ${n} points`+(t.custom?" · right-click to delete this track":""); b.onclick=()=>setTrack(t.id);
+    if(t.custom) b.oncontextmenu=e=>{e.preventDefault(); if(b.dataset.armed){snap("delete track"); st.extra.tracks=st.extra.tracks.filter(x=>x.id!==t.id); if(st.track===t.id) st.track="all"; trackSet=null; markDirty(); renderTracks(); renderJoints(); draw();} else {b.dataset.armed="1"; toast(`Right-click "${t.name}" again to delete the track (its points stay)`);}};
+    bar.append(b);});}
+$("others").onchange=e=>{st.others=e.target.value; draw();};
+$("newTrack").onclick=()=>{const f=$("trackForm"); f.hidden=!f.hidden; if(f.hidden) return; const box=$("tJoints"); box.textContent=""; joints().forEach(j=>{const l=document.createElement("label"), c=document.createElement("input"); c.type="checkbox"; c.value=j.id; c.checked=false; l.append(c,document.createTextNode(j.name)); box.append(l);}); $("tName").focus();};
+$("tCancel").onclick=()=>{$("trackForm").hidden=true;};
+$("tMake").onclick=()=>{const name=$("tName").value.trim()||"My track", pt=$("tPoint").value.trim(), ids=[...$("tJoints").querySelectorAll("input:checked")].map(c=>c.value); snap("new track");
+  if(pt){const id="c"+Date.now().toString(36); st.extra.joints.push({id,name:pt,grp:"custom",col:"#7fffd4",lm:"your own point"}); ids.push(id);}
+  if(!ids.length){toast("Tick at least one joint, or name a new point"); hist.u.pop(); undoButtons(); return;}
+  const t={id:"t"+Date.now().toString(36),name,joints:ids,custom:true}; (st.extra.tracks ||= []).push(t); $("trackForm").hidden=true; $("tName").value=""; $("tPoint").value=""; markDirty(); refreshLists(); st.sel=ids[0]; setTrack(t.id);};
 const GNAME={body:"Head and back",nF:LEGS.nF,nH:LEGS.nH,fF:LEGS.fF,fH:LEGS.fH,custom:"Your own points"};
 function statusOf(j,f){const k=keyAt(j,f), R=st.res[j]; if(k) return k.occ?["hidden","occ"]:k.orig?["yours, adjusted","key"]:["your point","key"]; if(R&&!isNaN(R.x[f])) return R.why[f]?["check","low"]:R.src[f]===3?["along path","low"]:[`filled ${R.s[f].toFixed(2)}`,"trk"]; return ["–",""];}
-function renderJoints(){const box=$("joints"); box.textContent=""; const J=joints(), groups={}; J.forEach(j=>(groups[j.grp||"custom"] ||= []).push(j));
-  for(const [g,L] of Object.entries(groups)){const h=document.createElement("h3"); h.className="gh"; const t=document.createElement("span"); t.textContent=GNAME[g]||g; const b=document.createElement("button"); b.textContent=hiddenGroups.has(g)?"show":"hide"; b.title="Skip this group when picking the next joint";
-    b.onclick=()=>{hiddenGroups.has(g)?hiddenGroups.delete(g):hiddenGroups.add(g); renderJoints();}; h.append(t,b); box.append(h); if(hiddenGroups.has(g)) continue;
+function renderJoints(){renderTracks(); const box=$("joints"); box.textContent=""; const J=joints().filter(j=>inTrack(j.id)), groups={}; J.forEach(j=>(groups[j.grp||"custom"] ||= []).push(j));
+  for(const [g,L] of Object.entries(groups)){const h=document.createElement("h3"); h.className="gh"; const t=document.createElement("span"); t.textContent=GNAME[g]||g; const b=document.createElement("button"); const tk=BUILTIN_TRACKS.find(x=>x.grp===g); b.textContent=st.track==="all"&&tk?"track only this":"show all"; b.title="Work on just this set of joints";
+    b.onclick=()=>setTrack(st.track==="all"&&tk?tk.id:"all"); if(!tk&&st.track==="all") b.hidden=true; h.append(t,b); box.append(h);
     for(const j of L){const r=document.createElement("div"); r.className="jrow"+(j.id===st.sel?" sel":""); r.dataset.j=j.id; r.setAttribute("role","button"); r.tabIndex=0;
       const d=document.createElement("span"); d.className="dot"+(j.far?" far":""); d.style.background=j.col; const nm=document.createElement("span"); nm.textContent=j.name;
       const s=document.createElement("span"); s.className="st"; const n=Object.keys(st.keys[j.id]||{}).length, [lab,cl]=statusOf(j.id,st.cur); s.textContent=`${lab} · ${n} key${n===1?"":"s"}`; s.classList.add(cl||"x");
@@ -626,8 +661,9 @@ document.addEventListener("keydown",e=>{const tg=e.target.tagName; if(tg==="INPU
   if(e.altKey&&k.startsWith("Arrow")){e.preventDefault(); const p=ptOf(st.sel,st.cur); if(!p) return; snap("nudge",true); const d=e.shiftKey?1:.25, dx=k==="ArrowLeft"?-d:k==="ArrowRight"?d:0, dy=k==="ArrowUp"?-d:k==="ArrowDown"?d:0; setKey(st.sel,st.cur,{x:p.x+dx,y:p.y+dy}); renderJointsStatus(); draw(); return;}
   if(k==="ArrowLeft"||k==="ArrowRight"||k===","||k==="."){e.preventDefault(); stopPlay(); goTo(st.cur+((k==="ArrowLeft"||k===",")?-1:1)*(e.shiftKey?10:1)); return;}
   if(k==="Home"){goTo(0); return;} if(k==="End"){goTo(st.n-1); return;}
-  if(k==="Tab"&&(e.target===cv||e.target===document.body||e.target.closest&&e.target.closest("#stageBox"))){e.preventDefault(); const L=joints().filter(j=>!hiddenGroups.has(j.grp)&&!hiddenJoints.has(j.id)), i=L.findIndex(j=>j.id===st.sel); st.sel=L[(i+(e.shiftKey?-1:1)+L.length)%L.length].id; renderJoints(); draw(); return;}
-  if(GROUPKEY[k]){const L=joints().filter(j=>j.grp===GROUPKEY[k]); const j=L.find(x=>!keyAt(x.id,st.cur))||L[0]; if(j){st.sel=j.id; if(hiddenGroups.has(j.grp)) hiddenGroups.delete(j.grp); renderJoints(); draw(); toast(GNAME[j.grp]);} return;}
+  if(k==="Tab"&&(e.target===cv||e.target===document.body||e.target.closest&&e.target.closest("#stageBox"))){e.preventDefault(); const L=workJoints(), i=L.findIndex(j=>j.id===st.sel); if(!L.length) return; st.sel=L[(i+(e.shiftKey?-1:1)+L.length)%L.length].id; renderJoints(); draw(); return;}
+  if(GROUPKEY[k]){setTrack(GROUPKEY[k]); return;} if(k==="`"){setTrack("all"); return;}
+  if(k>="6"&&k<="9"){const t=tracks()[+k]; if(t) setTrack(t.id); return;}
   if(k==="["||k==="]"){const F=Object.keys(st.keys[st.sel]||{}).map(Number).sort((a,b)=>a-b); const t=k==="]"?F.find(f=>f>st.cur):F.reverse().find(f=>f<st.cur); if(t!=null) goTo(t); else toast("No more points of this joint that way"); return;}
   if(k==="Delete"||k==="Backspace"){e.preventDefault(); e.shiftKey?clearFrame():$("delKey").click(); return;}
   if(K==="f") $("fill").click(); else if(K==="n") nextFlag(); else if(K==="h") $("hideHere").click(); else if(K==="g") $("oGhost").click();
@@ -654,7 +690,7 @@ async function save(){if(!st.clip||!st.dirty&&!st.resultsDirty) return; const s=
   catch(e){st.dirty=true; $("store").textContent="Could not save to the shared store: "+(e.message||e.code||"refused")+". Your points are kept in this browser.";}}
 async function loadClip(){let doc=null; if(st.db){try{const s=await st.db.doc("clips/"+st.clip.id).get(); if(s.exists) doc=s.data();}catch(e){}} if(!doc){try{doc=JSON.parse(localStorage.getItem("gt:"+st.clip.id)||"null");}catch(e){}}
   if(!doc) return; const s=st.sx; st.keys={}; for(const [j,K] of Object.entries(doc.keys||{})){st.keys[j]={}; for(const [f,v] of Object.entries(K)){if(+f>=st.n) continue; st.keys[j][f]=v==="hidden"?{occ:true}:v.length>3?{x:v[0]*s,y:v[1]*s,orig:{x:v[2]*s,y:v[3]*s}}:{x:v[0]*s,y:v[1]*s};}}
-  st.events=doc.events||{}; st.extra=Object.assign({joints:[],bones:[],angles:[]},doc.extra||{}); st.facing=doc.facing||"auto"; $("facing").value=st.facing; $("store").textContent=`Loaded your saved points for this clip (${new Date(doc.updated).toLocaleString()}).`;}
+  st.events=doc.events||{}; st.extra=Object.assign({joints:[],bones:[],angles:[],tracks:[]},doc.extra||{}); trackSet=null; st.facing=doc.facing||"auto"; $("facing").value=st.facing; $("store").textContent=`Loaded your saved points for this clip (${new Date(doc.updated).toLocaleString()}).`;}
 function renderSaved(list){const box=$("savedList"); box.textContent=""; if(!list.length) return; const h=document.createElement("div"); h.textContent="Saved clips (open the same video file to carry on):"; box.append(h);
   list.forEach(d=>{const n=Object.values(d.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0), r=document.createElement("div"); r.textContent=`· ${d.name} · ${d.frames} frames · ${n} points · ${new Date(d.updated).toLocaleDateString()}`; box.append(r);});}
 
