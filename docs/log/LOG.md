@@ -112,3 +112,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Lever · Connection view shows meta/courier (last run, delivered, errors); mail.py post confirmed. → `apps/team-inbox/`
 - 2026-10-07 · Lever · tools/lever/setup.sh and README: kit reinstall for fresh containers. → `tools/lever/`
 - 2026-10-07 · Lever · Outbox shows Waiting for pickup (who picked up); courier line removed; first pickup run found nothing. → `apps/team-inbox/`
+- 2026-10-08 · Spark · Canine builder: method critique, options and licences, recommend an SDF form builder; prototype renders wolf, dingo, Husky, hound. → `ref/research/spark/01-canine-builder/`
