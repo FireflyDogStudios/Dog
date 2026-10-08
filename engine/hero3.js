@@ -17,7 +17,8 @@ function registerHero3(RIG){
     for (let i = 0; i <= 8; i++){ const t = Math.PI + Math.PI * i / 8; pts.push([a[0] + (nx * Math.cos(t) + ux * Math.sin(t)) * r0, a[1] + (ny * Math.cos(t) + uy * Math.sin(t)) * r0]); }
     return Object.assign({poly:pts.map(q => [f2(q[0]), f2(q[1])])}, extra || {}); };
   /* a wolf paw: bigger and rounder than hero2's, standing on the ground line (p.y + 1) */
-  const paw = (p, extra) => { const [x, y] = p; return Object.assign({d:`M${f2(x - 1.3)} ${f2(y - .4)} C${f2(x - 1.9)} ${f2(y + .4)} ${f2(x - 1.4)} ${f2(y + 1.05)} ${f2(x - .3)} ${f2(y + 1.05)} L${f2(x + 2.3)} ${f2(y + 1.05)} C${f2(x + 3.3)} ${f2(y + 1.05)} ${f2(x + 3.4)} ${f2(y + .1)} ${f2(x + 2.5)} ${f2(y - .4)} C${f2(x + 1.8)} ${f2(y - .95)} ${f2(x + .7)} ${f2(y - 1.2)} ${f2(x - .3)} ${f2(y - .95)} C${f2(x - .8)} ${f2(y - .8)} ${f2(x - 1.1)} ${f2(y - .6)} ${f2(x - 1.3)} ${f2(y - .4)} Z`}, extra || {}); };
+  const paw = (p, extra) => { const [x, y] = p, k = .85, X = v => f2(x + v * k), Y = v => f2(v >= 1.05 ? y + 1.05 : y + 1.05 - (1.05 - v) * k * 1.08);
+    return Object.assign({d:`M${X(-1.3)} ${Y(-.4)} C${X(-1.9)} ${Y(.4)} ${X(-1.4)} ${Y(1.05)} ${X(-.3)} ${Y(1.05)} L${X(2.3)} ${Y(1.05)} C${X(3.3)} ${Y(1.05)} ${X(3.4)} ${Y(.1)} ${X(2.5)} ${Y(-.4)} C${X(1.8)} ${Y(-.95)} ${X(.7)} ${Y(-1.2)} ${X(-.3)} ${Y(-.95)} C${X(-.8)} ${Y(-.8)} ${X(-1.1)} ${Y(-.6)} ${X(-1.3)} ${Y(-.4)} Z`}, extra || {}); };
   /* a ribbon along a Catmull-Rom curve whose width follows wf(u), u = 0 at the root, 1 at the tip */
   const ribbon = (pts, wf, extra, half) => { const P = [pts[0], ...pts, pts[pts.length - 1]], c = [];
     for (let i = 1; i < P.length - 2; i++){ const [p0, p1, p2, p3] = [P[i - 1], P[i], P[i + 1], P[i + 2]]; for (let k = 0; k < 10; k++){ const t = k / 10, t2 = t * t, t3 = t2 * t; c.push([0, 1].map(j => .5 * ((2 * p1[j]) + (-p0[j] + p2[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t2 + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t3))); } } c.push(pts[pts.length - 1]);
@@ -31,20 +32,23 @@ function registerHero3(RIG){
   /* joints: hero2's hind leg as is; the front leg's elbow drops to the deeper brisket (y 24) */
   const H = {hip:[20.6, 17.8], stifle:[24.4, 26.2], hock:[19.4, 29.8], paw:[20.3, 34.5]};
   const Fj = {sh:[42.4, 16.4], elbow:[40.0, 23.4], past:[40.3, 30.6], paw:[40.8, 34.5]};
+  const sh = (o, dx) => Object.fromEntries(Object.entries(o).map(([n, q]) => [n, [f2(q[0] + dx), q[1]]]));
+  const FAR_DX = {hind:1.3, front:-1.3}; /* far hind leg a little forward, far front leg a little back */
+  const HL = k => k === "F" ? sh(H, FAR_DX.hind) : H, FL = k => k === "F" ? sh(Fj, FAR_DX.front) : Fj;
   const hind = (k, ph, far) => [
-    {id:"hip" + k, at:H.hip, track:"hhip", ph, far, in:"root"}, {id:"shank" + k, at:H.stifle, track:"hshank", ph, in:"hip" + k},
-    {id:"meta" + k, at:H.hock, track:"hmeta", ph, in:"shank" + k}, {id:"htoe" + k, at:H.paw, track:"htoe", ph, in:"meta" + k}];
+    {id:"hip" + k, at:HL(k).hip, track:"hhip", ph, far, in:"root"}, {id:"shank" + k, at:HL(k).stifle, track:"hshank", ph, in:"hip" + k},
+    {id:"meta" + k, at:HL(k).hock, track:"hmeta", ph, in:"shank" + k}, {id:"htoe" + k, at:HL(k).paw, track:"htoe", ph, in:"meta" + k}];
   const front = (k, ph, far) => [
-    {id:"sh" + k, at:Fj.sh, track:"fsh", ph, far, in:"root"}, {id:"fore" + k, at:Fj.elbow, track:"ffore", ph, in:"sh" + k},
-    {id:"past" + k, at:Fj.past, track:"fpast", ph, in:"fore" + k}, {id:"ftoe" + k, at:Fj.paw, track:"ftoe", ph, in:"past" + k}];
+    {id:"sh" + k, at:FL(k).sh, track:"fsh", ph, far, in:"root"}, {id:"fore" + k, at:FL(k).elbow, track:"ffore", ph, in:"sh" + k},
+    {id:"past" + k, at:FL(k).past, track:"fpast", ph, in:"fore" + k}, {id:"ftoe" + k, at:FL(k).paw, track:"ftoe", ph, in:"past" + k}];
   const THIGH = H2.parts.find(p => p.poly && p.in === "hipF").poly; /* hero2's thigh: the lower half of the rump, flush with the buttock */
   /* legs: thicker than hero2 (a wolf is heavier-boned), still tapering; the pale starts below the elbow and the hock */
   const legParts = k => [
-    {poly:THIGH, in:"hip" + k}, limb(H.stifle, H.hock, 4.0, 2.6, {in:"shank" + k}), limb(H.hock, H.paw, 2.5, 2.2, {in:"meta" + k, paint:"leg"}),
-    {circle:[H.hock[0], H.hock[1], 1.3], in:"meta" + k}, paw(H.paw, {in:"htoe" + k, paint:"pale2"}),
-    limb(Fj.sh, Fj.elbow, 5.8, 3.4, {in:"sh" + k}), limb(Fj.elbow, Fj.past, 3.0, 2.3, {in:"fore" + k, paint:"leg"}),
-    limb(Fj.elbow, [Fj.elbow[0], Fj.elbow[1] + .9], 3.4, 2.9, {in:"fore" + k}), limb(Fj.past, Fj.paw, 2.3, 2.0, {in:"past" + k, paint:"leg"}),
-    paw(Fj.paw, {in:"ftoe" + k, paint:"pale2"})];
+    {poly:k === "F" ? THIGH.map(q => [f2(q[0] + FAR_DX.hind), q[1]]) : THIGH, in:"hip" + k}, limb(HL(k).stifle, HL(k).hock, 4.0, 2.6, {in:"shank" + k}), limb(HL(k).hock, HL(k).paw, 2.5, 2.2, {in:"meta" + k, paint:"leg"}),
+    {circle:[HL(k).hock[0], HL(k).hock[1], 1.3], in:"meta" + k}, paw(HL(k).paw, {in:"htoe" + k, paint:"pale2"}),
+    limb(FL(k).sh, FL(k).elbow, 5.8, 3.4, {in:"sh" + k}), limb(FL(k).elbow, FL(k).past, 3.0, 2.3, {in:"fore" + k, paint:"leg"}),
+    limb(FL(k).elbow, [FL(k).elbow[0], FL(k).elbow[1] + .9], 3.4, 2.9, {in:"fore" + k}), limb(FL(k).past, FL(k).paw, 2.3, 2.0, {in:"past" + k, paint:"leg"}),
+    paw(FL(k).paw, {in:"ftoe" + k, paint:"pale2"})];
 
   /* body: croup → level back → withers → short thick crested neck → skull → stop → long muzzle → nose → jaw → ruffed throat → forechest
      → brisket at the elbow → belly → modest tuck-up → rump. The head is carried at back level, nose forward 0.54 WH. */
