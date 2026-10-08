@@ -19,10 +19,11 @@ function registerHero3(RIG){
   /* a wolf paw: bigger and rounder than hero2's, standing on the ground line (p.y + 1) */
   const paw = (p, extra) => { const [x, y] = p; return Object.assign({d:`M${f2(x - 1.3)} ${f2(y - .4)} C${f2(x - 1.9)} ${f2(y + .4)} ${f2(x - 1.4)} ${f2(y + 1.05)} ${f2(x - .3)} ${f2(y + 1.05)} L${f2(x + 2.3)} ${f2(y + 1.05)} C${f2(x + 3.3)} ${f2(y + 1.05)} ${f2(x + 3.4)} ${f2(y + .1)} ${f2(x + 2.5)} ${f2(y - .4)} C${f2(x + 1.8)} ${f2(y - .95)} ${f2(x + .7)} ${f2(y - 1.2)} ${f2(x - .3)} ${f2(y - .95)} C${f2(x - .8)} ${f2(y - .8)} ${f2(x - 1.1)} ${f2(y - .6)} ${f2(x - 1.3)} ${f2(y - .4)} Z`}, extra || {}); };
   /* a ribbon along a Catmull-Rom curve whose width follows wf(u), u = 0 at the root, 1 at the tip */
-  const ribbon = (pts, wf, extra) => { const P = [pts[0], ...pts, pts[pts.length - 1]], c = [];
+  const ribbon = (pts, wf, extra, half) => { const P = [pts[0], ...pts, pts[pts.length - 1]], c = [];
     for (let i = 1; i < P.length - 2; i++){ const [p0, p1, p2, p3] = [P[i - 1], P[i], P[i + 1], P[i + 2]]; for (let k = 0; k < 10; k++){ const t = k / 10, t2 = t * t, t3 = t2 * t; c.push([0, 1].map(j => .5 * ((2 * p1[j]) + (-p0[j] + p2[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t2 + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t3))); } } c.push(pts[pts.length - 1]);
     const L = [], R = []; for (let i = 0; i < c.length; i++){ const a = c[Math.max(0, i - 1)], b = c[Math.min(c.length - 1, i + 1)]; let dx = b[0] - a[0], dy = b[1] - a[1]; const m = Math.hypot(dx, dy) || 1; dx /= m; dy /= m; const w = wf(i / (c.length - 1)) / 2;
-      L.push([c[i][0] - dy * w, c[i][1] + dx * w]); R.push([c[i][0] + dy * w, c[i][1] - dx * w]); }
+      L.push([c[i][0] - dy * w * (half === -1 ? 0 : 1), c[i][1] + dx * w * (half === -1 ? 0 : 1)]); R.push([c[i][0] + dy * w * (half === 1 ? 0 : 1), c[i][1] - dx * w * (half === 1 ? 0 : 1)]); }
+    if (half) return Object.assign({poly:[...L, ...R.reverse()].map(q => [f2(q[0]), f2(q[1])])}, extra || {});
     const tip = c[c.length - 1], a = c[c.length - 2], ang = Math.atan2(tip[1] - a[1], tip[0] - a[0]), rt = wf(1) / 2, cap = [];
     for (let k = 1; k < 8; k++){ const t = ang + Math.PI / 2 - Math.PI * k / 8; cap.push([tip[0] + Math.cos(t) * rt, tip[1] + Math.sin(t) * rt]); }
     return Object.assign({poly:[...L, ...cap, ...R.reverse()].map(q => [f2(q[0]), f2(q[1])])}, extra || {}); };
@@ -39,21 +40,22 @@ function registerHero3(RIG){
   const THIGH = H2.parts.find(p => p.poly && p.in === "hipF").poly; /* hero2's thigh: the lower half of the rump, flush with the buttock */
   /* legs: thicker than hero2 (a wolf is heavier-boned), still tapering; the pale starts below the elbow and the hock */
   const legParts = k => [
-    {poly:THIGH, in:"hip" + k}, limb(H.stifle, H.hock, 4.0, 2.6, {in:"shank" + k}), limb(H.hock, H.paw, 2.5, 2.2, {in:"meta" + k, paint:"pale2"}),
+    {poly:THIGH, in:"hip" + k}, limb(H.stifle, H.hock, 4.0, 2.6, {in:"shank" + k}), limb(H.hock, H.paw, 2.5, 2.2, {in:"meta" + k, paint:"leg"}),
     {circle:[H.hock[0], H.hock[1], 1.3], in:"meta" + k}, paw(H.paw, {in:"htoe" + k, paint:"pale2"}),
-    limb(Fj.sh, Fj.elbow, 5.8, 3.4, {in:"sh" + k}), limb(Fj.elbow, Fj.past, 3.0, 2.3, {in:"fore" + k, paint:"pale2"}),
-    limb(Fj.elbow, [Fj.elbow[0], Fj.elbow[1] + .9], 3.4, 2.9, {in:"fore" + k}), limb(Fj.past, Fj.paw, 2.3, 2.0, {in:"past" + k, paint:"pale2"}),
+    limb(Fj.sh, Fj.elbow, 5.8, 3.4, {in:"sh" + k}), limb(Fj.elbow, Fj.past, 3.0, 2.3, {in:"fore" + k, paint:"leg"}),
+    limb(Fj.elbow, [Fj.elbow[0], Fj.elbow[1] + .9], 3.4, 2.9, {in:"fore" + k}), limb(Fj.past, Fj.paw, 2.3, 2.0, {in:"past" + k, paint:"leg"}),
     paw(Fj.paw, {in:"ftoe" + k, paint:"pale2"})];
 
   /* body: croup → level back → withers → short thick crested neck → skull → stop → long muzzle → nose → jaw → ruffed throat → forechest
      → brisket at the elbow → belly → modest tuck-up → rump. The head is carried at back level, nose forward 0.54 WH. */
   const body = "M23.2 11.5 C27 11.4 33 11.5 37.2 11.0 C39.6 10.6 41.6 9.6 43.0 9.0 C44.0 8.4 45.6 8.2 46.7 8.9 L47.5 9.7 C48.6 10.6 49.8 12.0 50.8 13.3 C51.3 13.7 51.3 14.5 50.7 14.8 C49.6 15.2 48.4 15.5 47.2 15.6 C46.4 15.7 45.7 15.8 45.2 16.0 C45.9 17.2 46.2 18.8 45.6 20.2 C44.8 22.0 42.8 23.6 40.2 24.0 C39.0 24.1 37.8 24.0 36.6 23.8 C33 23.5 28.4 22.4 25.2 20.6 C23.5 19.6 21.4 18.6 19.6 17.6 C17.6 16.4 17.4 14.0 19.6 12.8 C20.8 12.1 22.2 11.6 23.2 11.5 Z";
   /* dark saddle along the back, from behind the ears to the croup, inset under the topline (wolf agouti) */
-  const saddle = "M22.4 11.6 C27 11.4 33 11.5 37.2 11.0 C39.6 10.6 41.4 9.7 42.6 9.2 C42.4 10.8 41.4 12.2 39.6 13.2 C36.8 14.4 33.6 14.2 30.6 14.8 C27.6 15.4 25.0 15.0 22.8 14.4 C21.8 13.8 21.6 12.6 22.4 12.0 Z";
+  const saddle = "M22.4 11.6 C27 11.4 33 11.5 37.2 11.0 C39.6 10.6 41.4 9.7 42.6 9.2 C42.6 10.8 41.6 12.4 39.6 13.4 C37.6 14.2 35.8 13.6 34.0 14.3 C32.0 15.0 30.0 14.6 28.0 15.0 C26.0 15.4 24.0 15.2 22.8 14.4 C21.8 13.8 21.6 12.2 22.4 11.6 Z";
   /* pale: the throat and forechest ruff, the cheek and lower jaw, the belly line */
   const chest = "M47.0 15.6 C46.3 15.8 45.7 15.9 45.3 16.1 C46.0 17.3 46.3 18.8 45.7 20.2 C44.9 22.0 42.9 23.6 40.3 24.0 L40.3 22.6 C42.4 22.2 43.9 20.8 44.4 19.4 C44.8 18.2 44.7 17.0 44.4 16.0 C45.2 15.3 46.1 15.3 47.0 15.6 Z";
   const cheek = "M47.6 13.0 C48.8 13.4 50.0 13.8 50.9 14.2 C51.0 14.5 50.9 14.7 50.7 14.8 C49.6 15.2 48.4 15.5 47.2 15.6 C46.4 15.7 45.7 15.8 45.2 16.0 C45.2 15.0 46.0 13.6 47.6 13.0 Z";
   const belly = "M38.4 24.0 C35 23.8 30 23.0 25.2 20.6 C26.6 20.9 28.6 21.8 31.0 22.3 C33.6 22.8 36.2 23.1 38.4 24.0 Z";
+  const muzzleTop = "M47.5 9.7 C48.6 10.6 49.8 12.0 50.8 13.3 C50.0 13.0 49.0 12.4 48.2 11.8 C47.6 11.2 47.3 10.4 47.5 9.7 Z";
   /* ears: big wolf triangles (0.16 WH ≈ 3.9 tall), wide at the base, set at the back of the skull, upright and a touch back */
   const earFar = "M42.4 9.5 C42.3 7.6 42.3 6.0 42.6 4.8 C42.7 4.5 43.0 4.5 43.2 4.7 C44.0 5.8 44.6 7.2 44.9 8.7 Z";
   const earNear = "M43.4 9.2 C43.4 7.2 43.6 5.6 44.1 4.4 C44.2 4.1 44.6 4.1 44.8 4.3 C45.7 5.5 46.3 7.0 46.6 8.6 Z";
@@ -62,11 +64,12 @@ function registerHero3(RIG){
   const TAILC = [[21.4, 13.6], [18.8, 14.2], [16.4, 16.0], [14.8, 19.0], [14.0, 22.4], [13.9, 25.6], [14.4, 28.0]];
   const tailW = u => u < .15 ? 2.4 + u / .15 * 1.4 : u < .7 ? 3.8 + Math.sin((u - .15) / .55 * Math.PI) * .6 : 3.8 - (u - .7) / .3 * 2.2;
   const tail = ribbon(TAILC, tailW, {in:"tail"});
+  const tailTop = ribbon(TAILC, u => tailW(u) * .92, {in:"tail", paint:"saddle"}, 1);
   const tailTip = ribbon(TAILC.slice(5), u => tailW(.8 + u * .2) - .05, {in:"tail", paint:"furDark"}); /* the dark tip */
 
   RIG.define("hero3", {
     stride:1, tracks:H2.tracks,
-    palette:{fur:"#8f877b", pale:"#e9e2d4", pale2:"#d9cfbd", furDark:"#4f4942", ink:"#1e1a16", far:.74},
+    palette:{fur:"#918a7f", saddle:"#625a51", tan:"#a8947a", leg:"#9f8f79", pale:"#ece6da", pale2:"#c8baa4", furDark:"#3f3933", ink:"#1e1a16", far:.74},
     joints:[
       ...hind("F", 0, true), ...front("F", .25, true),
       {id:"body", bob:.45, in:"root"},
@@ -75,12 +78,13 @@ function registerHero3(RIG){
       ...hind("N", .5, false), ...front("N", .75, false)],
     parts:[
       ...legParts("F"),
-      tail, tailTip,
+      tail, tailTop, tailTip,
       {d:earFar, in:"earFar"},
       {d:body, in:"body", id:"body"},
-      {d:saddle, in:"body", paint:"furDark", alpha:.55},
+      {d:saddle, in:"body", paint:"saddle"},
       {d:chest, in:"body", paint:"pale"}, {d:cheek, in:"body", paint:"pale"}, {d:belly, in:"body", paint:"pale"},
-      {d:earNear, in:"earNear"}, {d:earIn, in:"earNear", paint:"pale"},
+      {d:earNear, in:"earNear", paint:"tan"}, {d:earIn, in:"earNear", paint:"pale"},
+      {d:muzzleTop, in:"body", paint:"tan"},
       {ellipse:[46.3, 10.9, .75, .45], in:"body", paint:"ink"}, {circle:[50.75, 13.95, .75], in:"body", paint:"ink"},
       ...legParts("N")],
     states:{
