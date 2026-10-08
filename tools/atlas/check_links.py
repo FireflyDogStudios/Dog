@@ -7,7 +7,7 @@ DOCS = sys.argv[1:] or ['docs/README.md', *sorted(f for f in glob.glob('docs/res
 SHORT = {'fetched/': 'ref/research/fetched/', 'missingfound/': 'ref/research/missingfound/',
          'scout/': 'ref/research/scout/', 'keypoints/': 'ref/research/keypoints/'}
 # Named on purpose as not existing yet, or not in the repo (Drive, /tmp, branch names, field names).
-EXPECTED_MISSING = {'ref/research/scout/11-body-models/', 'ref/research/scout/13-disc-share/', 'ocr/', 'ocr/schema.json'}
+EXPECTED_MISSING = {'ref/research/scout/19-dog-generators/', 'docs/team/atlas/2026-10-08-generator-licences.md', 'scout/19-dog-generators', 'ref/research/scout/13-disc-share/', 'ocr/', 'ocr/schema.json'}
 SKIP = re.compile(r'^(species/build/meshes/|chrisjlaw/|data/data.csv|FireflyDogStudios/|claude/|/tmp/|den-ledger-everything|ref/dog/|cervical/)')
 # Only tokens with a slash are checked; bare file names are written in the context of their folder.
 PATHLIKE = re.compile(r'^\.{0,2}/?[\w.\-]+(/[\w.\-*{},]+)+/?$')
