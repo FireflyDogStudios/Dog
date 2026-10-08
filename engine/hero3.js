@@ -220,7 +220,7 @@ function registerHero3(RIG){
       {poly:neckFur, in:"skull", id:"neck"}, ...neckOf(saddle).length > 2 ? [{poly:neckOf(saddle), in:"skull", paint:"saddle", id:"saddleNeck"}] : [], {poly:neckOf(chest), in:"skull", paint:"pale", id:"throat", mayHide:true /* tucks behind the chest as the head drops */},
       {d:cheek, in:"skull", paint:"pale", id:"cheek"},
       ...torsoOf(body).map((P, k) => ({poly:P, in:"body", id:k ? "bodyChest" : "body"})),
-      ...torsoOf(saddle).map((P, k) => ({poly:P, in:"body", paint:"saddle", id:k ? "saddle2" : "saddle"})), ...torsoOf(chest).map((P, k) => ({poly:P, in:"body", paint:"pale", id:k ? "bib" : "bibTop", ...(k ? {mayHide:true /* fills the gap under the throat as the head dips; the neck covers it otherwise */} : {})})),
+      ...torsoOf(saddle).map((P, k) => ({poly:P, in:"bodyHead", paint:"saddle", id:k ? "saddle2" : "saddle"})) /* the saddle draws over the near legs (bodyHead moves exactly with the body), so the thigh's top never shows over its edge as the hip swings (GrumpyDingo's tag, ~49%) */, ...torsoOf(chest).map((P, k) => ({poly:P, in:"body", paint:"pale", id:k ? "bib" : "bibTop", ...(k ? {mayHide:true /* fills the gap under the throat as the head dips; the neck covers it otherwise */} : {})})),
       {d:belly, in:"body", paint:"pale", id:"belly"},
             {d:muzzleTop, in:"skull", paint:"tan", id:"muzzleTop"},
       {ellipse:[45.65, 11.3, .72, .44], in:"skull", paint:"ink", id:"eye"}, {ellipse:[49.8, 14.45, .62, .68], in:"skull", paint:"ink", id:"nose"},

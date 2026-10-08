@@ -26,7 +26,7 @@
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: tail 15%, hipN 19%, skull 26%)"
+   "msg": "every part is rooted in what it hangs from (least: skull 6%, tail 15%, hipN 19%)"
   },
   {
    "check": "visible",
@@ -42,11 +42,6 @@
    "check": "markings",
    "level": "INFO",
    "msg": "tailTop is partly drawn over by saddle 8%, body 3%, tailTip 17% (check the edge that makes)"
-  },
-  {
-   "check": "markings",
-   "level": "INFO",
-   "msg": "saddle is partly drawn over by saddleNeck 9% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -67,6 +62,11 @@
    "check": "markings",
    "level": "INFO",
    "msg": "earIn is partly drawn over by neck 61% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "saddleNeck is partly drawn over by saddle 38% (check the edge that makes)"
   },
   {
    "check": "markings",

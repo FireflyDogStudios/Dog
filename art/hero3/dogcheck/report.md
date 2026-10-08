@@ -8,15 +8,15 @@
 | pieces | PASS | one connected silhouette in all 24 walk frames |
 | slivers | PASS | no colour band thinner than 0.2 units and no stray fragments at rest |
 | notches | PASS | no new cracks (16 known ones in the baseline) |
-| attach | PASS | every part is rooted in what it hangs from (least: tail 15%, hipN 19%, skull 26%) |
+| attach | PASS | every part is rooted in what it hangs from (least: skull 6%, tail 15%, hipN 19%) |
 | visible | PASS | eye, nose and every named marking show in all checked frames |
 | topline | PASS | above hip and shoulder height every leg stays inside the body, all walk frames |
 | markings | INFO | tailTop is partly drawn over by saddle 8%, body 3%, tailTip 17% (check the edge that makes) |
-| markings | INFO | saddle is partly drawn over by saddleNeck 9% (check the edge that makes) |
 | markings | INFO | bibTop is partly drawn over by throat 31%, fur@shN 4% (check the edge that makes) |
 | markings | INFO | bib is partly drawn over by throat 100% (check the edge that makes) |
 | markings | INFO | belly is partly drawn over by fur@foreN 15% (check the edge that makes) |
 | markings | INFO | earIn is partly drawn over by neck 61% (check the edge that makes) |
+| markings | INFO | saddleNeck is partly drawn over by saddle 38% (check the edge that makes) |
 | markings | INFO | cheek is partly drawn over by nose 7% (check the edge that makes) |
 | markings | PASS | 10 markings stay inside their shapes, and no leg cuts into them while walking |
 | feet | PASS | no paw below the ground (deepest 0.07) |
