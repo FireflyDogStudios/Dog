@@ -7,7 +7,7 @@ const {chromium}=require('/home/user/Dog/node_modules/playwright');
  console.log('flow',await pg.$eval('#flow',e=>e.value));
  // put an elbow point near where the wrist clicks will land, to prove clicks do not grab it
  await ev(()=>{for(let f=0;f<5;f++) st.keys.nEl={...(st.keys.nEl||{}),[f]:{x:222-12*f+4,y:178}}; rebuildAll();});
- await pg.click('#tabJ'); await pg.click('#joints .jrow[data-j="nCa"]'); await ev(()=>goTo(0));
+ await ev(()=>{st.sel='nCa'; renderJoints();}); await ev(()=>goTo(0));
  for(let f=0;f<5;f++){const [X,Y]=await scr(222-12*f,180); await pg.mouse.click(X,Y); await pg.waitForTimeout(40);}
  console.log('selected after 5 clicks',await ev(()=>st.sel),'frame',await ev(()=>st.cur+1));
  console.log('wrist frames',await ev(()=>Object.keys(st.keys.nCa||{}).join(',')),'| elbow untouched',await ev(()=>Object.values(st.keys.nEl).every((k,i)=>Math.abs(k.x-(226-12*i))<.01)));

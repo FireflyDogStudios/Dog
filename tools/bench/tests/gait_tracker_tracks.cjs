@@ -4,7 +4,7 @@ const {chromium}=require('/home/user/Dog/node_modules/playwright');
 (async()=>{const b=await chromium.launch(); const pg=await b.newPage({viewport:{width:1440,height:950}}); const errs=[]; pg.on('pageerror',e=>errs.push(String(e))); pg.on('console',m=>{if(m.type()==='error'&&!/CERT|fonts/.test(m.text())) errs.push(m.text());});
  await pg.goto('file:///home/user/Dog/apps/gait-tracker/index.html'); await pg.setInputFiles('#file',process.argv[2]+'/vid/fox_test.webm'); await pg.waitForFunction(()=>st.n>0,null,{timeout:60000}); await pg.selectOption('#flow','joints');
  const scr=async(x,y)=>pg.evaluate(([x,y])=>{const b=cv.getBoundingClientRect(); const p=toScr(x,y); return [b.left+p[0],b.top+p[1]];},[x,y]); const ev=f=>pg.evaluate(f); const log=(...a)=>console.log(...a);
- await pg.focus('#stage'); await pg.keyboard.press('1'); log('track',await ev(()=>st.track),'sel',await ev(()=>st.sel),'list rows',await pg.$$eval('#joints .jrow',r=>r.length));
+ await pg.focus('#stage'); await pg.keyboard.press('1'); log('track',await ev(()=>st.track),'sel',await ev(()=>st.sel),'rows',await pg.$$eval('#heads .hrow',r=>r.length));
  for(const [x,y] of [[200,128],[203,150],[222,180],[238,204]]){const [X,Y]=await scr(x,y); await pg.mouse.click(X,Y); await pg.waitForTimeout(50);}
  log('after near-front leg: frame',await ev(()=>st.cur+1),'sel',await ev(()=>st.sel));
  await pg.keyboard.press('Shift+Delete'); log('clear (track only) on frame 2 ok');
