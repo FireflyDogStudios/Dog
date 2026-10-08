@@ -46,6 +46,13 @@ numbers:
     disc_share_lumbar: {value: 0.18, unit: fraction, range: [0.18, 0.23], source: "Scout 13 (ref/research/scout/13-disc-share/; A-004): share = disc / (bodies + discs); length with discs = centra-only length / (1 - share). No wild canid value exists; lumbar: Labrador/Golden CT disc 7.1 mm (Gavira 2025, cited fact) on Law wolf centra 0.18, on the dogs own centra 0.23", confidence: B}
     rib_length:   {value: 237, unit: mm, source: "Law 2021 (mean rib, a lower bound for chest depth)", confidence: B}
     thorax_width_over_wh: {value: 0.26, unit: ratio, range: [0.24, 0.28], source: "Scout 16 (ref/research/scout/16-ribcage-width/): bony rib cage width at ribs 9-11 over withers height; from dog radiograph and CT chains (B), no wolf measured", confidence: EST}
+    spine_tip_scale_t1: {value: 1.08, unit: ratio, source: "Scout 17 (ref/research/scout/17-withers-spines/): tip height above ground, plate target over Stark mesh (Stark cranial thoracic spines are short)", confidence: EST}
+    spine_tip_scale_t2: {value: 1.06, unit: ratio, source: "Scout 17 (ref/research/scout/17-withers-spines/): tip height above ground, plate target over Stark mesh (Stark cranial thoracic spines are short)", confidence: EST}
+    spine_tip_scale_t3: {value: 1.04, unit: ratio, source: "Scout 17 (ref/research/scout/17-withers-spines/): tip height above ground, plate target over Stark mesh (Stark cranial thoracic spines are short)", confidence: EST}
+    spine_tip_scale_t4: {value: 1.02, unit: ratio, source: "Scout 17 (ref/research/scout/17-withers-spines/): tip height above ground, plate target over Stark mesh (Stark cranial thoracic spines are short)", confidence: EST}
+    spine_tip_scale_t5: {value: 1.01, unit: ratio, source: "Scout 17 (ref/research/scout/17-withers-spines/): tip height above ground, plate target over Stark mesh (Stark cranial thoracic spines are short)", confidence: EST}
+    loin_over_withers_tip:  {value: 0.963, unit: ratio, range: [0.960, 0.965], source: "Scout 17: wolf bone topline, L1-L5 tips over the withers (T2) tip; plate dog (B) corrected by the wolf skin slope (AwA n=67, C)", confidence: C}
+    crest_over_withers_tip: {value: 0.946, unit: ratio, source: "Scout 17: wolf iliac crest over the withers tip (as above); Shutter's back line agrees (croup 0.97, tail root 0.92 of withers, fur)", confidence: C}
 
   skull:
     condylobasal_length: {value: 253.5, unit: mm, source: "Law et al. 2025", confidence: B, check: "skeleton:CBL"}

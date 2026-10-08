@@ -138,6 +138,21 @@ def build(sid, head='awa'):
             'm_inferioris_sagittal', 'left_r_coxae_sagittal', 'left_r_genus_sagittal', 'left_r_talocruralis_sagittal', 'left_r_hindpaw_sagittal', 'cervix_sagittal', 'caput_sagittal']
     x0 = np.array([C(n).getValue(s) for n in free])
     scap_local = mesh_pts('left_scapula', 1500); pelv_local = mesh_pts('pelvis', 1500); cap_local = mesh_pts('caput', 1500); th_local = mesh_pts('thorax', 1500)
+    def verts(body):
+        import trimesh
+        sc_ = trimesh.load(mesh_file(body)); return np.asarray((sc_.to_geometry() if hasattr(sc_, 'to_geometry') else sc_).vertices)
+    th_all, ab_all, pe_all = verts('thorax'), verts('abdomen'), verts('pelvis')
+    TIPS = {}   # spine tips: fixed vertex indices (thorax T1..T13, abdomen L1..L7, cranial first) and the iliac crest top, picked at the start pose
+    def pick_tips(body, Vl):
+        from scipy.signal import find_peaks
+        G = to_ground(m, s, body, Vl, mesh_scale[body]); S = np.array([side(q) for q in G]); mid = np.abs(G[:, 0] - np.median(G[:, 0])) < 12
+        idx = np.where(mid)[0]; xs = np.arange(S[idx, 0].min(), S[idx, 0].max(), 3.0); best = []
+        for a in xs:
+            k = idx[(S[idx, 0] >= a) & (S[idx, 0] < a + 3)]; best.append(k[np.argmax(S[k, 1])] if len(k) else -1)
+        top = np.array([S[k, 1] if k >= 0 else 0.0 for k in best]); pk, _ = find_peaks(top, prominence=3, distance=5)
+        return [int(best[i]) for i in pk[::-1]]
+    TOP = {k: SP[f'spine_tip_scale_t{k}']['value'] for k in range(1, 6) if f'spine_tip_scale_t{k}' in SP}
+    LOIN, CREST = SP.get('loin_over_withers_tip'), SP.get('crest_over_withers_tip')
     INOSE = IBACK = None   # nose tip and back of the skull: fixed skull points picked at the start pose (picking per pose let the solver flip the head over)
     def ang(a, b, c): v1, v2 = a - b, c - b; return math.degrees(math.acos(np.clip(v1 @ v2 / np.linalg.norm(v1) / np.linalg.norm(v2), -1, 1)))
     def pose(x):
@@ -153,6 +168,11 @@ def build(sid, head='awa'):
         if INOSE is None: INOSE, IBACK = int(np.argmax(cg[:, 0])), int(np.argmin(cg[:, 0]))
         P['nose'] = cg[INOSE]; P['skull_back'] = cg[IBACK]
         tg = np.array([side(q) for q in to_ground(m, s, 'thorax', th_local, mesh_scale['thorax'])]); over = tg[(tg[:, 0] >= sg[:, 0].min()) & (tg[:, 0] <= sg[:, 0].max())]; P['topline'] = over[np.argmax(over[:, 1])]   # withers: the highest spine tip above the shoulder blades
+        if not TIPS:
+            TIPS['T'] = pick_tips('thorax', th_all); TIPS['L'] = pick_tips('abdomen', ab_all)
+            pe = np.array([side(q) for q in to_ground(m, s, 'pelvis', pe_all, mesh_scale['pelvis'])]); TIPS['crest'] = int(np.argmax(pe[:, 1]))
+        tT = np.array([side(q) for q in to_ground(m, s, 'thorax', th_all[TIPS['T']], mesh_scale['thorax'])]); tL = np.array([side(q) for q in to_ground(m, s, 'abdomen', ab_all[TIPS['L']], mesh_scale['abdomen'])])
+        P['crest'] = side(to_ground(m, s, 'pelvis', pe_all[[TIPS['crest']]], mesh_scale['pelvis'])[0]); TIPS['now'] = (tT, tL)
         P['ftoe'] = fp[np.argmax(fp[:, 0])]; P['htoe'] = hp[np.argmax(hp[:, 0])]; P['fpad'] = fp[np.argmin(fp[:, 1])]; P['hpad'] = hp[np.argmin(hp[:, 1])]
         return P
     GR_ = lambda P: min(P['fpad'][1], P['hpad'][1]); WH_ = lambda P: P['scap_top'][1] - GR_(P)
@@ -164,6 +184,12 @@ def build(sid, head='awa'):
             return [(math.degrees(math.atan2(P['occ'][1] - P['T1'][1], P['occ'][0] - P['T1'][0])) - 40) / 2]
         return [(((P['nose'][0] + 0.037 * WH_(P)) - P['scap_top'][0]) / HS_(P) - RAT['nose_forward_over_height']['value']) / 0.02,   # photos 01 and 05: nose position
                 ((P['nose'][1] - GR_(P)) / HS_(P) - RAT['nose_height_over_height']['value']) / 0.02]
+    def withers_tip(P):   # the withers after the T1-T5 spines are raised: the highest raised tip, height above ground
+        tT = TIPS['now'][0]; g = GR_(P); return max((tT[k - 1][1] - g) * f_ for k, f_ in TOP.items()) if TOP else (tT[:5, 1] - g).max()
+    def topline_res(P):
+        if not (LOIN and CREST): return []
+        W = withers_tip(P); g = GR_(P); tL = TIPS['now'][1]
+        return [((tL[2][1] - g) / W - LOIN['value']) / 0.01, ((P['crest'][1] - g) / W - CREST['value']) / 0.01]   # L3 tip; iliac crest top
     def res(x):
         P = pose(x); r = []
         scap_el = math.degrees(math.atan2(P['scap_top'][1] - P['shoulder'][1], -(P['scap_top'][0] - P['shoulder'][0])))
@@ -171,16 +197,36 @@ def build(sid, head='awa'):
               (ang(P['elbow'], P['carpus'], P['mcp']) - A['carpus_standing']['value']) / 3, (ang(P['hip'], P['stifle'], P['hock']) - A['stifle_standing']['value']) / 3,
               (ang(P['stifle'], P['hock'], P['mtp']) - A['hock_standing']['value']) / 1.5,
               (math.degrees(math.atan2(P['mtp'][0] - P['hock'][0], P['hock'][1] - P['mtp'][1])) - 5) / 3,          # hind pastern tilted ~5 deg, paw forward
-              (P['fpad'][1] - P['hpad'][1]) / 2, (P['T1'][1] - P['LS'][1] - 0.06 * (P['T1'][0] - P['LS'][0])) / 40,      # paws on one ground; trunk about level
+              (P['fpad'][1] - P['hpad'][1]) / 2,                                                                       # paws on one ground
               (math.degrees(math.atan2(P['ftoe'][1] - P['mcp'][1], P['ftoe'][0] - P['mcp'][0])) + 35) / 6,          # toes forward-down onto the pad (estimate)
               (math.degrees(math.atan2(P['htoe'][1] - P['mtp'][1], P['htoe'][0] - P['mtp'][0])) + 35) / 6,
               *head_res(P),   # head where real wolves hold it (photos)
+              *topline_res(P),   # the back falls from the withers: loin and iliac crest as shares of the (raised) withers tip (Scout 17)
               (math.degrees(math.atan2(P['ilium'][1] - P['ischium'][1], P['ilium'][0] - P['ischium'][0])) - 40) / 4,    # croup: crest-ischium axis 40 deg below horizontal (fact-check Q6)
               (math.degrees(math.atan2(P['stifle'][0] - P['hip'][0], P['hip'][1] - P['stifle'][1])) - 10) / 2.5,
               (P['mtp'][0] - (P['ischium'][0] - 30)) / 25,                                                             # hind paw about under the point of the buttock         # femur ~10 deg off vertical, stifle ahead (fact-check Q3)
               (math.degrees(math.atan2(P['skull_back'][1] - P['nose'][1], P['nose'][0] - P['skull_back'][0])) - 20) / 8]  # skull axis ~20 deg below horizontal (fact-check Q9)
         return r
     sol = least_squares(res, x0, x_scale=0.3, max_nfev=1500); P = pose(sol.x)
+    # raise the T1-T5 spinous processes in the stance found (Scout 17): each tip goes up by (factor - 1) x its height above ground; the stretch
+    # runs over the top 70 mm of each process (EST), full on the midline and fading out 10-20 mm to the side; T6 on are left alone
+    spine_raise = {}
+    if TOP:
+        import trimesh
+        Xb = m.getBodySet().get('thorax').getTransformInGround(s).R(); Rb = np.array([[Xb.get(i, j) for j in range(3)] for i in range(3)])
+        up = Rb.T @ np.array([0.0, 0.0, 1.0]); V = th_all * np.asarray(mesh_scale['thorax']); g = GR_(P); tT = TIPS['now'][0]
+        tips = V[TIPS['T']]; along = V[:, 1]; nearest = np.argmin(np.abs(along[:, None] - tips[None, :, 1]), axis=1)
+        dlat = np.abs(V[:, 0] - np.median(tips[:, 0])); w_lat = np.clip(1 - (dlat - 10) / 10, 0, 1)
+        raise_mm = np.array([(TOP.get(k + 1, 1.0) - 1) * (tT[k][1] - g) for k in range(len(tips))])
+        u = V @ up; u_tip = tips[nearest] @ up; w_h = np.clip((u - (u_tip - 70)) / 70, 0, 1)
+        V2 = V + (raise_mm[nearest] * w_h * w_lat)[:, None] * up[None, :]
+        sc_ = trimesh.load(mesh_file('thorax')); gm = sc_.to_geometry() if hasattr(sc_, 'to_geometry') else sc_
+        od = BUILD / 'meshes' / sid; od.mkdir(parents=True, exist_ok=True); fth = od / 'thorax.glb'
+        trimesh.Trimesh(V2 / np.asarray(mesh_scale['thorax']), gm.faces, process=False).export(fth); MESHFILE['thorax'] = fth
+        th_all = V2 / np.asarray(mesh_scale['thorax']); P = pose(sol.x)                                         # re-measure on the raised spines
+        spine_raise = {f'T{k}': round(float(raise_mm[k - 1]), 1) for k in TOP}
+        tT = np.array([side(q) for q in to_ground(m, s, 'thorax', th_all[TIPS['T']], mesh_scale['thorax'])]); sg_ = np.array([side(q) for q in to_ground(m, s, 'left_scapula', scap_local, mesh_scale['left_scapula'])]); ov = tT[(tT[:, 0] >= sg_[:, 0].min()) & (tT[:, 0] <= sg_[:, 0].max())]
+        P['topline'] = (ov if len(ov) else tT)[np.argmax((ov if len(ov) else tT)[:, 1])]   # withers: the highest raised tip above the shoulder blades, as before
     mirror = {n: n.replace('left_', 'right_') for n in free if n.startswith('left_')}
     for n, mn in mirror.items(): C(mn).setValue(s, float(C(n).getValue(s)), False)
     m.realizePosition(s)
@@ -201,6 +247,12 @@ def build(sid, head='awa'):
            'bony neck, T1 to occiput, above horizontal': round(math.degrees(math.atan2(P['occ'][1] - P['T1'][1], P['occ'][0] - P['T1'][0])), 1),
            'withers-to-skull line above horizontal (AwA wolves 26)': round(math.degrees(math.atan2(P['occ'][1] - P['scap_top'][1], P['occ'][0] - P['scap_top'][0])), 1),
            'withers spine tip above scapula top (share of WH; sourced 0.025)': round(float((P['topline'][1] - P['scap_top'][1]) / (P['scap_top'][1] - ground)), 3)}
+    if TIPS:
+        Wt = P['topline'][1] - ground; tT, tL = TIPS['now']
+        fit['spine tips / withers tip (Scout 17 wolf: T4 0.988, T8 0.963, L1-L5 0.960-0.965, crest 0.946)'] = {
+            **{f'T{k + 1}': round(float((tT[k][1] - ground) / Wt), 3) for k in range(len(tT))}, **{f'L{k + 1}': round(float((tL[k][1] - ground) / Wt), 3) for k in range(len(tL))},
+            'crest': round(float((P['crest'][1] - ground) / Wt), 3), 'tips found (T, L)': [len(tT), len(tL)]}
+        fit['spine tips raised (mm)'] = spine_raise
     # outline proportions (bone + skin + summer fur), the same way the wolf photos were measured
     WHb = P['scap_top'][1] - ground; Hs = HS_(P)
     th = to_ground(m, s, 'thorax', mesh_pts('thorax', 6000), mesh_scale['thorax']); chest_bone = th[:, 2].min() - ground
