@@ -1,7 +1,7 @@
 # Spark status
 Updated: 2026-10-08
-Working on: 2D builder slice 1, rescored against the 7-wolf back line and ratios; waiting for GrumpyDingo to pick the first fault
-Last push: slice 1 rescore (scores.json, overlay, SUMMARY)
-Blocked: no (waiting by design)
-Needs Firefly: yes, GrumpyDingo's verdict on the wolf
-Setup: tools/spark/setup.sh; the builder uses only repo deps (js-yaml, sharp)
+Working on: nothing; hero3 score delivered (ref/research/spark/04-hero3-score/). The 2D mass builder is paused
+Last push: hero3 score (engine/canine/score_hero3.mjs, SUMMARY, overlay)
+Blocked: no
+Needs Firefly: no
+Setup: tools/spark/setup.sh; scorers use repo deps only (js-yaml, sharp)
