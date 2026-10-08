@@ -265,7 +265,11 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
          GrumpyDingo's hand-tracked fox (ref/research/firefly/fox-walk-analysis/TRACKED-ANGLES.md) 64-214, the 5MC-marker dogs 88-217 (04-gait-curves/joint_extremes.csv) */
       const off = []; if (lo > 95) off.push(`folds only to ${lo.toFixed(0)} in the swing (fox ~64, dogs 88)`); if (lo < 55) off.push(`folds to ${lo.toFixed(0)}, past the fox's 64`);
       if (hi < 185) off.push(`never gives past straight under load (fox and dogs 195-220)`); if (hi > 228) off.push(`opens to ${hi.toFixed(0)}, past the measured ~220`);
-      add('joints', off.length ? 'WARN' : 'PASS', `carpus: standing ${rest[k].toFixed(0)}, walk ${lo.toFixed(0)}–${hi.toFixed(0)}; fox (hand-tracked) 64–214, dogs (5MC) 88–217${off.length ? ': ' + off.join('; ') : ''}`); continue; }
+      add('joints', off.length ? 'WARN' : 'PASS', `carpus: standing ${rest[k].toFixed(0)}, walk ${lo.toFixed(0)}–${hi.toFixed(0)}; fox (hand-tracked) 64–214, dogs (5MC) 88–217${off.length ? ': ' + off.join('; ') : ''}`);
+    /* while its paw is down the wrist must hold (the forearm and pastern move as one column; GrumpyDingo, Oct 8): the fox's stance wrist spans 187-198 (IQR) */
+    { const offF = (J.shN && J.shN.ph) || 0, duty = (D.gait && D.gait.duty) || .62, S = []; for (let f = 0; f < 96; f++) { const u = ((f / 96) + offF) % 1; if (u > .04 && u < duty - .04) S.push(angles(pose(f / 96 * D.stride)).carpus); }
+      if (S.length) { const a0 = Math.min(...S), a1 = Math.max(...S), crosses = a0 < 177 && a1 > 183;
+        add('joints', a1 - a0 > 20 || crosses ? 'FAIL' : 'PASS', `wrist while the paw is down: ${a0.toFixed(0)}–${a1.toFixed(0)}${crosses ? ': it bends one way then the other (looks broken)' : a1 - a0 > 20 ? `: sweeps ${(a1 - a0).toFixed(0)}° (the fox holds within ~11°)` : ' (holds, as the tracked fox does)'}`); } } continue; }
     if (!m) { add('joints', 'INFO', `${k}: standing ${rest[k].toFixed(0)}, walk ${lo.toFixed(0)}–${hi.toFixed(0)} (no measured walk curve)`); continue; }
     const mlo = Math.min(...m), mhi = Math.max(...m), tol = k === 'carpus' ? 25 : 10; /* Catavitello's carpus uses the toe tip: inflated, so a wider tolerance */
     const off = []; if (lo < mlo - tol) off.push(`bends to ${lo.toFixed(0)}, beyond the measured ${mlo.toFixed(0)}`); if (hi > mhi + tol) off.push(`opens to ${hi.toFixed(0)}, beyond the measured ${mhi.toFixed(0)}`);
