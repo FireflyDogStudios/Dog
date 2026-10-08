@@ -1,0 +1,12 @@
+import fs from 'node:fs'; import vm from 'node:vm';
+const box = { console, Math }; vm.createContext(box);
+for (const f of ['rig.js', 'rig_den.js', 'hero3.js']) vm.runInContext(fs.readFileSync('/home/user/Dog/engine/' + f, 'utf8'), box);
+const RIG = vm.runInContext('RIG', box); vm.runInContext('registerDenRigs(RIG); registerHero3(RIG);', box); const D = RIG.DEFS.hero3;
+const mul = (A, B) => [A[0]*B[0]+A[2]*B[1], A[1]*B[0]+A[3]*B[1], A[0]*B[2]+A[2]*B[3], A[1]*B[2]+A[3]*B[3], A[0]*B[4]+A[2]*B[5]+A[4], A[1]*B[4]+A[3]*B[5]+A[5]];
+const t = +process.argv[2], [x0, y0, x1, y1] = process.argv[3].split(',').map(Number), out = process.argv[4], paintOv = process.argv[5] ? JSON.parse(process.argv[5]) : {};
+const M = { root: [1,0,0,1,0,0] }, s = {}; for (const j of D.joints) { const tr = D.tracks[j.track || j.id]; let r = 0, x = 0, y = 0; if (tr) { const ph = j.period ? (t / j.period) % 1 : (t + (j.ph || 0)) % 1; RIG.sample(tr, ph, s); r = s.v; x = s.x; y = s.y; } const o = j.at || [0,0], a = r*Math.PI/180, c = Math.cos(a), n = Math.sin(a); M[j.id] = mul(M[j.in || 'root'], [c, n, -n, c, o[0]+x-(c*o[0]-n*o[1]), o[1]+y-(n*o[0]+c*o[1])]); }
+const kids = {}, far = { root: false }; D.joints.forEach(j => { (kids[j.in || 'root'] ||= []).push(j.id); far[j.id] = !!j.far || far[j.in || 'root']; }); const anim = new Set(D.joints.filter(j => j.track || D.tracks[j.id]).map(j => j.id)); const ORDER = [];
+(function w(jid) { const P = D.parts.map((p, i) => [p, i]).filter(([p]) => (p.in || 'root') === jid), K = kids[jid] || []; if (anim.has(jid)) { P.forEach(e => ORDER.push(e)); K.forEach(w); } else { K.forEach(w); P.forEach(e => ORDER.push(e)); } })('root');
+const pal = { ...D.palette, ...paintOv }; let el = '';
+for (const [p] of ORDER) { if (p.hidden) continue; const col = paintOv[p.id] || pal[p.paint || 'fur'], tf = `transform="matrix(${M[p.in || 'root'].join(' ')})"`; if (p.d) el += `<path d="${p.d}" fill="${col}" ${tf}/>`; else if (p.poly) el += `<polygon points="${p.poly.map(q => q.join(',')).join(' ')}" fill="${col}" ${tf}/>`; else if (p.ellipse) el += `<ellipse cx="${p.ellipse[0]}" cy="${p.ellipse[1]}" rx="${p.ellipse[2]}" ry="${p.ellipse[3]}" fill="${col}" ${tf}/>`; else if (p.circle) el += `<circle cx="${p.circle[0]}" cy="${p.circle[1]}" r="${p.circle[2]}" fill="${col}" ${tf}/>`; }
+fs.writeFileSync(out, `<svg xmlns="http://www.w3.org/2000/svg" width="${(x1-x0)*40}" height="${(y1-y0)*40}" viewBox="${x0} ${y0} ${x1-x0} ${y1-y0}"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" fill="#ff00ff"/>${el}</svg>`);

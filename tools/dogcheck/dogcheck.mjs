@@ -172,7 +172,7 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
   if (bad.length) bad.forEach(b => add('attach', 'FAIL', b)); else add('attach', 'PASS', `every part is rooted in what it hangs from (least: ${ATT.sort((x, y) => parseFloat(x.split(' ')[1]) - parseFloat(y.split(' ')[1])).slice(0, 3).join(', ')})`); }
 
 // ---------- visible: small features (eye, nose, markings) must show in every frame; a draw-order change can bury them ----------
-{ const feat = ORDER.filter(([p]) => p.paint === 'ink' || p.id && !/^(body|tail)$/.test(p.id)).map(e => e[1]);
+{ const feat = ORDER.filter(([p]) => !p.mayHide && (p.paint === 'ink' || p.id && !/^(body|bodyChest|neck|tail)$/.test(p.id))).map(e => e[1]); /* a part marked mayHide is allowed to tuck out of sight */
   const idCol = i => '#' + (i + 1).toString(16).padStart(6, '0'), lost = new Map();
   for (const [t, M] of [['standing', pose(0, false)], ...[0, .25, .5, .75].map(t => [`walk ${t * 100}%`, pose(t * D.stride)])]) {
     const ID = await raster(svgOf(M, { fill: (p, i) => idCol(i), crisp: true, opacity: false })), seen = new Map();
@@ -182,7 +182,7 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
   if (lost.size) for (const [L, m] of lost) add('visible', 'FAIL', `${L} is hidden: ${m}`); else add('visible', 'PASS', `eye, nose and every named marking show in all checked frames`); }
 
 // ---------- topline: above hip / shoulder height a leg stays inside the body (a thigh or upper arm swinging out over the croup or withers) ----------
-{ const body = new Set(ORDER.filter(([p]) => p.id === 'body').map(e => e[1])), Jx = Object.fromEntries(D.joints.map(j => [j.id, j]));
+{ const body = new Set(ORDER.filter(([p]) => /^(body|bodyChest|neck)$/.test(p.id || '')).map(e => e[1])), Jx = Object.fromEntries(D.joints.map(j => [j.id, j]));
   const tops = D.joints.filter(j => j.track === 'hhip' || j.track === 'fsh'), under = top => { const ids = new Set([top.id]); let grew = true; while (grew) { grew = false; for (const j of D.joints) if (!ids.has(j.id) && ids.has(j.in)) { ids.add(j.id); grew = true; } } return ids; };
   let worst = { d: 0 };
   for (let f = 0; f < 12; f++) { const t = f / 12 * D.stride, M = pose(t), B = await raster(svgOf(M, { fill: () => '#000', only: body }));

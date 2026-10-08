@@ -6,7 +6,7 @@
   11
  ],
  "WH_measured": 24.5,
- "tail_root_x": 18.95,
+ "tail_root_x": 18.9,
  "backline": [
   {
    "s": 0,
@@ -54,39 +54,39 @@
   },
   {
    "s": 0.78,
-   "model": 0.979,
+   "model": 0.978,
    "median": 0.97,
    "range": [
     0.94,
     0.98
    ],
    "in_range": true,
-   "err": 0.009
+   "err": 0.008
   },
   {
    "s": 0.9,
-   "model": 0.951,
+   "model": 0.95,
    "median": 0.93,
    "range": [
     0.92,
     0.96
    ],
    "in_range": true,
-   "err": 0.021
+   "err": 0.02
   },
   {
    "s": 1,
-   "model": 0.909,
+   "model": 0.907,
    "median": 0.9,
    "range": [
     0.88,
     0.94
    ],
    "in_range": true,
-   "err": 0.009
+   "err": 0.007
   }
  ],
- "backline_mean_abs_err": 0.01,
+ "backline_mean_abs_err": 0.009,
  "proportions": {
   "body_len_over_h": {
    "model": 1.143,

@@ -761,7 +761,7 @@ function registerHero3(RIG){
   const Fj = (() => { const pl = STAND.pastern, fl = STAND.pastern - (STAND.carpus - 180), hu = fl + STAND.elbow; /* angles from straight down, + toward the front */
     const dx = -BONE.pastern * sd(pl) - BONE.radius * sd(fl) + BONE.humerus * sd(hu), dy = -BONE.pastern * cd(pl) - BONE.radius * cd(fl) + BONE.humerus * cd(hu); /* paw → shoulder */
     const paw = [STAND.shoulder[0] - dx, STAND.ground], sh = [STAND.shoulder[0], STAND.ground + dy], past = [paw[0] - BONE.pastern * sd(pl), paw[1] - BONE.pastern * cd(pl)], elbow = [past[0] - BONE.radius * sd(fl), past[1] - BONE.radius * cd(fl)];
-    return {sh:sh.map(f2), elbow:elbow.map(f2), past:past.map(f2), paw:paw.map(f2)}; })();
+    return {sc:[38.8, 11.8] /* top of the shoulder blade (EST) */, sh:sh.map(f2), elbow:elbow.map(f2), past:past.map(f2), paw:paw.map(f2)}; })();
   const sh = (o, dx) => Object.fromEntries(Object.entries(o).map(([n, q]) => [n, [f2(q[0] + dx), q[1]]]));
   const FAR_DX = {hind:1.3, front:-1.3}; /* far hind leg a little forward, far front leg a little back */
   const HL = k => k === "F" ? sh(H, FAR_DX.hind) : H, FL = k => k === "F" ? sh(Fj, FAR_DX.front) : Fj;
@@ -769,16 +769,16 @@ function registerHero3(RIG){
     {id:"hip" + k, at:HL(k).hip, track:"hhip", ph, far, in:"root"}, {id:"shank" + k, at:HL(k).stifle, track:"hshank", ph, in:"hip" + k},
     {id:"meta" + k, at:HL(k).hock, track:"hmeta", ph, in:"shank" + k}, {id:"htoe" + k, at:HL(k).paw, track:"htoe", ph, in:"meta" + k}];
   const front = (k, ph, far) => [
-    {id:"sh" + k, at:FL(k).sh, track:"fsh", ph, far, in:"root"}, {id:"fore" + k, at:FL(k).elbow, track:"ffore", ph, in:"sh" + k},
+    {id:"scap" + k, at:FL(k).sc, track:"fscap", ph, far, in:"root"}, /* the shoulder blade rotates on the ribcage: most of a dog's front reach */ {id:"sh" + k, at:FL(k).sh, track:"fsh", ph, in:"scap" + k}, {id:"fore" + k, at:FL(k).elbow, track:"ffore", ph, in:"sh" + k},
     {id:"past" + k, at:FL(k).past, track:"fpast", ph, in:"fore" + k}, {id:"ftoe" + k, at:FL(k).paw, track:"ftoe", ph, in:"past" + k}];
   /* the thigh: the lower half of the rump, from inside the croup to a round knee cap at the stifle; the rear edge continues the buttock line */
   const THIGH = (() => { const [sx, sy] = H.stifle, cap = []; for (let k = 0; k <= 8; k++){ const a = Math.PI * (.95 - k / 8 * 1.05); cap.push([f2(sx + Math.cos(a) * 2.1), f2(sy + Math.sin(a) * 2.1)]); }
-    return [[22.4, 15.7], [20.4, 15.7], [18.8, 16.0], [17.6, 16.9], [17.4, 18.4], [17.8, 20.2], [18.6, 21.6], ...cap, [23.9, 20.6], [24.6, 18.6], [24.8, 16.8], [24.4, 16.0], [23.6, 15.7]]; })(); /* the top sits below the saddle inside the rump, so the swing never lifts it into the saddle or past the croup */
+    return [[22.4, 16.4], [20.4, 16.3], [18.8, 16.4], [17.6, 17.0], [17.4, 18.4], [17.8, 20.2], [18.6, 21.6], ...cap, [23.9, 20.6], [24.6, 18.6], [24.8, 17.0], [24.4, 16.6], [23.6, 16.4]]; })(); /* the top sits below the saddle inside the rump, so the swing never lifts it into the saddle or past the croup */
   /* legs: thicker than hero2 (a wolf is heavier-boned), still tapering; the pale starts below the elbow and the hock */
   const legParts = k => [
     {poly:k === "F" ? THIGH.map(q => [f2(q[0] + FAR_DX.hind), q[1]]) : THIGH, in:"hip" + k}, limb(HL(k).stifle, HL(k).hock, 4.0, 2.6, {in:"shank" + k}), limb(HL(k).hock, HL(k).paw, 2.5, 2.2, {in:"meta" + k, paint:"leg"}),
     {circle:[HL(k).hock[0], HL(k).hock[1], 1.3], in:"meta" + k}, paw(HL(k).paw, {in:"htoe" + k, paint:"pale2"}),
-    limb(FL(k).sh, FL(k).elbow, 5.8, 3.4, {in:"sh" + k}), limb(FL(k).elbow, FL(k).past, 3.0, 2.3, {in:"fore" + k, paint:"leg"}),
+    limb([FL(k).sh[0] + (FL(k).elbow[0] - FL(k).sh[0]) * .22, FL(k).sh[1] + (FL(k).elbow[1] - FL(k).sh[1]) * .22], FL(k).elbow, 5.2, 3.4, {in:"sh" + k}) /* the arm's top stays inside the chest as the blade carries it forward */, limb(FL(k).elbow, FL(k).past, 3.0, 2.3, {in:"fore" + k, paint:"leg"}),
     limb(FL(k).elbow, [FL(k).elbow[0], FL(k).elbow[1] + .9], 3.4, 2.9, {in:"fore" + k}), limb(FL(k).past, FL(k).paw, 2.3, 2.0, {in:"past" + k, paint:"leg"}),
     paw(FL(k).paw, {in:"ftoe" + k, paint:"pale2"})];
 
@@ -804,6 +804,38 @@ function registerHero3(RIG){
   const tailTip = ribbon(TAILC.slice(4), u => tailW(.68 + u * .32) * Math.min(1, .15 + u * 2.2), {in:"tail", paint:"furDark", id:"tailTip"}); /* the dark tip grows out of the tail as a soft wedge, no hard band */
 
 
+
+  /* ---- head joint (Oct 8): the neck and head are cut from the body so the head can drop while walking (fox clip: the nose rides 0.18-0.34
+     shoulder heights below the back; standing alert it comes up level with it). Paths are flattened and clipped by a cut from just in front of the
+     withers down to the throat; the neck piece reaches 2.5 units back under the shoulders (the body draws over it) so no gap opens as it pivots.
+     Markings that cross the cut are split exactly at it, so the standing drawing is unchanged. ---- */
+  const flat = d => { const t = d.match(/[MCLZ]|-?\d*\.?\d+/g), pts = []; let i = 0, cur = [0, 0], cmd = "";
+    while (i < t.length){ if (/[MCLZ]/.test(t[i])) cmd = t[i++];
+      if (cmd === "M" || cmd === "L"){ cur = [+t[i], +t[i + 1]]; i += 2; pts.push(cur); }
+      else if (cmd === "C"){ const c1 = [+t[i], +t[i + 1]], c2 = [+t[i + 2], +t[i + 3]], e = [+t[i + 4], +t[i + 5]]; i += 6;
+        for (let k = 1; k <= 14; k++){ const u = k / 14, v = 1 - u; pts.push([0, 1].map(j => v * v * v * cur[j] + 3 * v * v * u * c1[j] + 3 * v * u * u * c2[j] + u * u * u * e[j])); } cur = e; }
+      else if (cmd === "Z") { i++; } else i++; }
+    return pts; };
+  /* keep the side of the line a→b where cross((b-a),(p-a)) has sign `side` (Sutherland-Hodgman) */
+  const clip = (P, a, b, side) => { const f = q => side * ((b[0] - a[0]) * (q[1] - a[1]) - (b[1] - a[1]) * (q[0] - a[0])), out = [];
+    for (let k = 0; k < P.length; k++){ const p = P[k], q = P[(k + 1) % P.length], fp = f(p), fq = f(q);
+      if (fp >= 0) out.push(p); if ((fp >= 0) !== (fq >= 0)){ const u = fp / (fp - fq); out.push([p[0] + (q[0] - p[0]) * u, p[1] + (q[1] - p[1]) * u]); } }
+    return out; };
+  const P2 = P => P.map(q => [f2(q[0]), f2(q[1])]);
+  const CUT = {a:[36.0, 9.0], b:[45.6, 20.2], floor:20.2, chest:18.4 /* the chest front keeps its own fur up to here, so the throat can swing back over it */, back:2.5}; /* crosses the back line at x≈37.7, where it is still flat, so the crest's rise is all on the neck piece */ /* the neck's base: in front of the withers, down to where the throat meets the chest */
+  const shiftB = [CUT.a[0] - CUT.back, CUT.a[1]], shiftB2 = [CUT.b[0] - CUT.back, CUT.b[1]];
+  const ahead = (P, a, b) => clip(P, a, b, -1), behind = (P, a, b) => clip(P, a, b, 1);
+  const above = (P, y) => clip(P, [0, y], [1, y], -1), below = (P, y) => clip(P, [0, y], [1, y], 1);
+  /* head region: ahead of the cut and above the throat floor; the torso: behind the cut, plus everything below the floor */
+  const headOf = d => P2(above(ahead(flat(d), CUT.a, CUT.b), CUT.floor));
+  const torsoOf = d => [P2(behind(flat(d), CUT.a, CUT.b)), P2(clip(ahead(flat(d), [CUT.a[0] - .2, CUT.a[1]], [CUT.b[0] - .2, CUT.b[1]]), [43.6, CUT.chest], [47.2, CUT.chest + 1.6], 1))] /* overlaps the cut a hair so no seam shows; the top slopes down to the chest front, so its corner never pokes out */.filter(P => P.length > 2);
+  /* the hidden overlap behind the cut is trimmed under a line that drops back from the cut's top, so tipping the head nose-down (which lifts
+     everything behind the pivot) never pushes it above the back */
+  const lap = [[CUT.a[0] + (CUT.b[0] - CUT.a[0]) * (11.0 - CUT.a[1]) / (CUT.b[1] - CUT.a[1]), 11.0]]; lap.push([lap[0][0] - 3.5, 13.6]);
+  const underLap = P => clip(P, lap[1], lap[0], 1);
+  const neckOf = d => P2(underLap(above(ahead(flat(d), shiftB, shiftB2), CUT.floor + 1)));
+  const neckFur = neckOf(body); /* the fur piece reaches back under the shoulders and down under the chest */
+  const HEAD_PIVOT = [37.7, 11.0]; /* on the back line at the base of the neck, so the crest bends down from the withers with no step */
   /* ---- the walk, baked from IK (Oct 8): each paw's path is chosen, then the joint angles that put it there are solved ----
      Stance (62% of the stride; measured walk duty 0.58-0.64, ref/research/fetched/04-gait-curves): the paw stays flat on the ground and
      moves straight back at a constant speed (the ground speed), so it never slides, dips or rises. Swing: it lifts in a smooth arc and
@@ -814,9 +846,10 @@ function registerHero3(RIG){
      (measured dogs 0.135-0.16; wolf recommendation 0.16), duty fore 0.62 / hind 0.60 (measured 0.59 / 0.58, fore above hind), each girdle a
      pendulum that dips just after each of its touchdowns and rides highest over mid-stance (twice per stride), the hips bouncing more than the
      shoulders and both kept low for a wolf's smooth gait; the hind paw plants flatter and lifts lower than the front. */
-  const WALK = {speed:7.8 / .62 /* ground units per stride, the same for every paw (so nothing skates) */, limbPhase:.16, keys:48,
-    hind:{duty:.60, lift:1.1, fold:24, centre:2.4, maxOpen:148, bob:.45},  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
-    front:{duty:.62, lift:1.8, fold:72, centre:.8, maxOpen:152, bob:.30}}; /* elbow never past 152 (measured 153); bob: peak-to-peak dip in units (EST) */
+  const WALK = {speed:20 /* ground units per stride (1.1 shoulder heights; fox clip 1.4, measured dogs 1.2-1.5), the same for every paw (so nothing skates) */, limbPhase:.16, keys:48,
+    crouch:1.5 /* the back rides ~8% lower while walking (fox clip: 0.83-0.96 of standing) */, head:{pitch:8, bob:1.5, lag:.06} /* nose down ~13 deg while walking (the nose rides ~0.25 heights below the back), lowest while a front paw takes weight */,
+    hind:{duty:.60, lift:.9, fold:10, centre:-.5, maxOpen:148, bob:.45, lean:16}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
+    front:{duty:.62, lift:1.8, fold:72, centre:-2.3, maxOpen:152, bob:.30, scap:{top:[38.8, 11.8], swing:16}, lean:10}}; /* scap.swing: degrees the blade rotates each way, forward as the paw reaches, back as it pushes off (EST) */ /* centres: the front paw lands ~0.17 heights behind the nose (fox 0.06-0.29), the hind just ahead of the hip */ /* elbow never past 152 (measured 153); bob: peak-to-peak dip in units (EST) */
   const A = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI, Ln = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
   const pol = (o, deg, l) => [o[0] + Math.cos(deg * Math.PI / 180) * l, o[1] + Math.sin(deg * Math.PI / 180) * l];
   const easeIO = x => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
@@ -828,31 +861,40 @@ function registerHero3(RIG){
     if (ph < L.duty) { const u = ph / L.duty; return {p:[rest[0] + half - u * travel, rest[1]], u, stance:true}; }
     const u = (ph - L.duty) / (1 - L.duty); return {p:[rest[0] - half + easeIO(u) * travel, rest[1] - lift * Math.sin(Math.PI * u)], u, stance:false}; };
   const reachOf = (l1, l2, maxDeg) => Math.sqrt(l1 * l1 + l2 * l2 - 2 * l1 * l2 * Math.cos(maxDeg * Math.PI / 180)); /* hip-to-hock (shoulder-to-wrist) length with the middle joint at maxDeg */
-  const dropFor = (J, ph, L) => { const P = pawAt(ph % 1, J[3], L, 0); if (!P.stance) return 0; const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), reach = reachOf(l1, l2, L.maxOpen);
-    const low = pol(P.p, A(J[2], J[3]) + 180, l3), dx = low[0] - J[0][0]; if (Ln(J[0], low) <= reach) return 0; return Math.max(0, (low[1] - J[0][1]) - Math.sqrt(Math.max(0, reach * reach - dx * dx))); };
+  /* the leg's top (hip, or the shoulder joint carried round by the blade) at phase ph, before any girdle drop; and the blade angle */
+  const scapAngle = (J, ph, L) => { if (!L.scap) return 0; const P = pawAt(((ph % 1) + 1) % 1, J[3], L, 0), half = WALK.speed * L.duty / 2, c = J[3][0] + L.centre; return -L.scap.swing * Math.max(-1, Math.min(1, (P.p[0] - c) / half)); };
+  const rootAt = (J, ph, L) => { if (!L.scap) return J[0]; const a = scapAngle(J, ph, L) * Math.PI / 180, o = L.scap.top, dx = J[0][0] - o[0], dy = J[0][1] - o[1]; return [o[0] + dx * Math.cos(a) - dy * Math.sin(a), o[1] + dx * Math.sin(a) + dy * Math.cos(a)]; };
+  const dropFor = (J, ph, L) => { const P = pawAt(((ph % 1) + 1) % 1, J[3], L, 0); if (!P.stance) return 0; const R0 = rootAt(J, ph, L), l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), reach = reachOf(l1, l2, L.maxOpen);
+    const base = A(J[2], J[3]) + 180; let best = Infinity; /* the hock (or wrist) may open by up to L.lean degrees to reach, as at push-off */
+    for (let o = -(L.lean || 0); o <= (L.lean || 0); o += 1){ const low = pol(P.p, base + o, l3), dx = low[0] - R0[0]; best = Math.min(best, Ln(R0, low) <= reach ? 0 : Math.max(0, (low[1] - R0[1]) - Math.sqrt(Math.max(0, reach * reach - dx * dx)))); }
+    return best; };
   /* the pair shares one girdle: the pendulum dip (lowest 5% after each touchdown, highest over mid-stance), or deeper if a planted paw needs the reach */
-  const pend = (ph, L) => L.bob * (.5 + .5 * Math.cos(4 * Math.PI * (ph - .05)));
+  const pend = (ph, L) => WALK.crouch + L.bob * (.5 + .5 * Math.cos(4 * Math.PI * (ph - .05)));
   const girdle = (J, ph, L) => Math.max(pend(ph, L), dropFor(J, ph, L), dropFor(J, ph + .5, L));
   const bakeLeg = (J, names, side, L, toeTr) => { /* J = [top, mid, low, paw] rest joints; names = [top, mid, low, toe] track names */
     const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), r1 = A(J[0], J[1]), r2 = A(J[1], J[2]), r3 = A(J[2], J[3]);
     const T = names.map(() => []);
-    for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, P = pawAt(ph % 1, J[3], L, L.lift), g = girdle(J, ph, L), J0 = [J[0][0], J[0][1] + g];
+    for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, P = pawAt(ph % 1, J[3], L, L.lift), g = girdle(J, ph, L), sa = scapAngle(J, ph, L), R0 = rootAt(J, ph, L), J0 = [R0[0], R0[1] + g];
       const foldDeg = P.stance ? 0 : L.fold * Math.sin(Math.PI * Math.min(1, P.u * 1.25)); /* the distal bone folds back early in the swing, straightens to land */
       let a3 = r3 + side * -foldDeg; /* hind (side +1): cannon swings back; front (side -1): pastern swings back too, folding the wrist */
       /* out of reach (the paw far back or far forward in the stance): lean the distal bone about the paw, the least that brings it in */
-      for (let o = 0, reach = reachOf(l1, l2, L.maxOpen); Ln(J0, pol(P.p, a3 + 180, l3)) > reach && o <= 45; o += .25) { const tryA = [a3 + o, a3 - o].find(x => Ln(J0, pol(P.p, x + 180, l3)) <= reach); if (tryA != null) { a3 = tryA; break; } }
+      for (let o = 0, reach = reachOf(l1, l2, L.maxOpen); Ln(J0, pol(P.p, a3 + 180, l3)) > reach && o <= (L.lean || 0) + .5; o += .25) { const tryA = [a3 + o, a3 - o].find(x => Ln(J0, pol(P.p, x + 180, l3)) <= reach); if (tryA != null) { a3 = tryA; break; } }
       const low = pol(P.p, a3 + 180, l3), mid = twoBone(J0, l1, l2, low, side, reachOf(l1, l2, L.maxOpen)); /* never past the walk maximum, swing included */
-      const a1 = A(J0, mid), a2 = A(mid, low), rot1 = a1 - r1, rot2 = (a2 - r2) - rot1, rot3 = (a3 - r3) - (a2 - r2);
+      const a1 = A(J0, mid), a2 = A(mid, low), rot1 = a1 - r1 - sa, rot2 = (a2 - r2) - (a1 - r1), rot3 = (a3 - r3) - (a2 - r2); /* rot1 is relative to the blade */
       const toe = P.stance ? -(a3 - r3) : -(a3 - r3) * .55 + (toeTr ? RIG.sample(toeTr, ph).v * .5 : 0); /* paw flat on the ground in stance; hangs and peels in the swing */
-      [rot1, rot2, rot3, toe].forEach((v, i) => T[i].push(Object.assign({at:+ph.toFixed(4), v:+v.toFixed(3)}, i === 0 ? {y:+g.toFixed(3)} : {}))); }
-    return Object.fromEntries(names.map((n, i) => [n, T[i]])); };
+      [rot1, rot2, rot3, toe].forEach((v, i) => T[i].push(Object.assign({at:+ph.toFixed(4), v:+v.toFixed(3)}, i === 0 && !L.scap ? {y:+g.toFixed(3)} : {})));
+      if (L.scap) (T.scap ||= []).push({at:+ph.toFixed(4), v:+sa.toFixed(3), y:+g.toFixed(3)}); } /* the blade carries the girdle drop */
+    const out = Object.fromEntries(names.map((n, i) => [n, T[i]])); if (L.scap) out.fscap = T.scap; return out;
+  };
   const BODY_PIVOT = [31, 18], bodyTrack = [], tailTrack = [], HJ = [H.hip, H.stifle, H.hock, H.paw], FJ = [Fj.sh, Fj.elbow, Fj.past, Fj.paw];
   for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, dH = girdle(HJ, ph, WALK.hind), dF = girdle(FJ, ph + 1 - WALK.limbPhase, WALK.front);
     const span = Fj.sh[0] - H.hip[0], yAt = x => dH + (dF - dH) * (x - H.hip[0]) / span;
     bodyTrack.push({at:+ph.toFixed(4), v:+(Math.atan2(dF - dH, span) * 180 / Math.PI).toFixed(3), y:+yAt(BODY_PIVOT[0]).toFixed(3)});
     /* tail: the base follows the hips' dip 15% of a stride late (overlap), a few degrees, so it trails the body instead of wagging on its own clock */
     const lag = girdle(HJ, ph - .15 + 1, WALK.hind); tailTrack.push({at:+ph.toFixed(4), v:+(-(lag - WALK.hind.bob / 2) * 9).toFixed(3)}); }
-  const walkTracks = Object.assign({bodyWalk:bodyTrack, tailWalk:tailTrack},
+  const headTrack = []; for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, pf = ph + 1 - WALK.limbPhase - WALK.head.lag; /* the near front's stride phase, a little late */
+    headTrack.push({at:+ph.toFixed(4), v:+(WALK.head.pitch + WALK.head.bob * Math.cos(4 * Math.PI * (pf - .05))).toFixed(3)}); }
+  const walkTracks = Object.assign({bodyWalk:bodyTrack, tailWalk:tailTrack, headWalk:headTrack},
     bakeLeg(HJ, ["hhip", "hshank", "hmeta", "htoe"], 1, WALK.hind, H2.tracks.htoe),
     bakeLeg(FJ, ["fsh", "ffore", "fpast", "ftoe"], -1, WALK.front, H2.tracks.ftoe));
 
@@ -863,18 +905,21 @@ function registerHero3(RIG){
       ...hind("F", 0, true), ...front("F", 1 - WALK.limbPhase, true), /* rig.js runs a leg with phase offset +x AHEAD by x, so a fore that lands 0.16 AFTER its hind gets 1 - 0.16 (hero2's +0.25 was a diagonal-sequence walk) */
       {id:"vault", at:BODY_PIVOT, track:"bodyWalk", in:"root"}, {id:"body", in:"vault"}, /* the body vaults over the planted legs (girdle drops); the vault is its own joint so the body keeps drawing over its tail and ear roots (rig.js draws an animated joint's parts under its children) */
       {id:"tail", at:[21.4, 14.0], track:"tailWalk", in:"body"},
-      {id:"earFar", at:[42.95, 10.1], in:"body"}, {id:"earNear", at:[45.15, 9.7], in:"body"},
+      {id:"head", at:HEAD_PIVOT, track:"headWalk", in:"body"}, {id:"skull", in:"head"}, /* skull is static so the ear roots stay under the head (rig.js draws an animated joint's parts under its children) */
+      {id:"earFar", at:[42.95, 10.1], in:"skull"}, {id:"earNear", at:[45.15, 9.7], in:"skull"},
       ...hind("N", .5, false), ...front("N", .5 - WALK.limbPhase, false)],
     parts:[
       ...legParts("F"),
       tail, tailTop, tailTip,
       {d:earFar, in:"earFar"},
       {d:earNear, in:"earNear", paint:"tan"}, {d:earIn, in:"earNear", paint:"pale", id:"earIn"}, /* (ear and tail joints draw under all body parts in rig.js) */
-      {d:body, in:"body", id:"body"},
-      {d:saddle, in:"body", paint:"saddle", id:"saddle"},
-      {d:chest, in:"body", paint:"pale", id:"bib"}, {d:cheek, in:"body", paint:"pale", id:"cheek"}, {d:belly, in:"body", paint:"pale", id:"belly"},
-            {d:muzzleTop, in:"body", paint:"tan", id:"muzzleTop"},
-      {ellipse:[45.65, 11.3, .72, .44], in:"body", paint:"ink"}, {ellipse:[49.8, 14.45, .62, .68], in:"body", paint:"ink"},
+      {poly:neckFur, in:"skull", id:"neck"}, ...neckOf(saddle).length > 2 ? [{poly:neckOf(saddle), in:"skull", paint:"saddle", id:"saddleNeck"}] : [], {poly:neckOf(chest), in:"skull", paint:"pale", id:"throat", mayHide:true /* tucks behind the chest as the head drops */},
+      {d:cheek, in:"skull", paint:"pale", id:"cheek"},
+      ...torsoOf(body).map((P, k) => ({poly:P, in:"body", id:k ? "bodyChest" : "body"})),
+      ...torsoOf(saddle).map((P, k) => ({poly:P, in:"body", paint:"saddle", id:k ? "saddle2" : "saddle"})), ...torsoOf(chest).map((P, k) => ({poly:P, in:"body", paint:"pale", id:k ? "bib" : "bibTop"})),
+      {d:belly, in:"body", paint:"pale", id:"belly"},
+            {d:muzzleTop, in:"skull", paint:"tan", id:"muzzleTop"},
+      {ellipse:[45.65, 11.3, .72, .44], in:"skull", paint:"ink", id:"eye"}, {ellipse:[49.8, 14.45, .62, .68], in:"skull", paint:"ink", id:"nose"},
       ...legParts("N")],
     states:{
       "ears-back":[{joint:"earFar", rot:-40}, {joint:"earNear", rot:-40}],
@@ -887,7 +932,7 @@ if (typeof module !== "undefined") module.exports = {registerHero3};
 
 </script>
 <script>
-const BUILD = {"commit":"2bd489e","date":"2026-10-08"};
+const BUILD = {"commit":"012dff1","date":"2026-10-08"};
 const REPORT = {
  "rig": "hero3",
  "fails": 0,
@@ -896,7 +941,7 @@ const REPORT = {
   {
    "check": "fit",
    "level": "PASS",
-   "msg": "all 7 back-line points and 4 proportions in range (back error 0.01)"
+   "msg": "all 7 back-line points and 4 proportions in range (back error 0.009)"
   },
   {
    "check": "pieces",
@@ -911,12 +956,12 @@ const REPORT = {
   {
    "check": "notches",
    "level": "PASS",
-   "msg": "no new cracks (13 known ones in the baseline)"
+   "msg": "no new cracks (14 known ones in the baseline)"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: tail 14%, foreF 32%, foreN 32%)"
+   "msg": "every part is rooted in what it hangs from (least: tail 15%, hipN 19%, skull 26%)"
   },
   {
    "check": "visible",
@@ -931,22 +976,32 @@ const REPORT = {
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "tailTop is partly drawn over by saddle 8%, body 4%, tailTip 17% (check the edge that makes)"
+   "msg": "tailTop is partly drawn over by saddle 8%, body 3%, tailTip 17% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "earIn is partly drawn over by body 62% (check the edge that makes)"
+   "msg": "earIn is partly drawn over by neck 61% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "bib is partly drawn over by fur@shN 14% (check the edge that makes)"
+   "msg": "saddleNeck is partly drawn over by saddle 38% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "cheek is partly drawn over by ink@body 7% (check the edge that makes)"
+   "msg": "throat is partly drawn over by bibTop 46%, bib 11% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "cheek is partly drawn over by nose 7% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "bibTop is partly drawn over by fur@shN 4% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -956,7 +1011,7 @@ const REPORT = {
   {
    "check": "markings",
    "level": "PASS",
-   "msg": "7 markings stay inside their shapes, and no leg cuts into them while walking"
+   "msg": "10 markings stay inside their shapes, and no leg cuts into them while walking"
   },
   {
    "check": "feet",
@@ -966,37 +1021,37 @@ const REPORT = {
   {
    "check": "gait",
    "level": "PASS",
-   "msg": "footfalls (left hind = 0): left fore 0.17 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.67; paws down fore 0.61, hind 0.60 of the stride (measured 0.56-0.68)"
+   "msg": "footfalls (left hind = 0): left fore 0.17 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.67; paws down fore 0.60, hind 0.59 of the stride (measured 0.56-0.68)"
   },
   {
    "check": "feet",
    "level": "PASS",
-   "msg": "planted paws move back at (ground units per stride): htoeF 12.6, ftoeF 12.6, htoeN 12.6, ftoeN 12.6 units"
+   "msg": "planted paws move back at (ground units per stride): htoeF 20.0, ftoeF 20.0, htoeN 20.0, ftoeN 20.0 units"
   },
   {
    "check": "joints",
    "level": "WARN",
-   "msg": "shoulder: standing 112, walk 104–126; measured dog walk 121–153: bends to 104, beyond the measured 121"
+   "msg": "shoulder: standing 112, walk 88–105; measured dog walk 121–153: bends to 88, beyond the measured 121"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "elbow: standing 145, walk 116–152; measured dog walk 98–153"
+   "msg": "elbow: standing 145, walk 104–152; measured dog walk 98–153"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "carpus: standing 186, walk 96–200; measured dog walk 102–231"
+   "msg": "carpus: standing 186, walk 97–214; measured dog walk 102–231"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "stifle: standing 140, walk 116–143; measured dog walk 110–144"
+   "msg": "stifle: standing 140, walk 100–150; measured dog walk 110–144"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "tarsus: standing 145, walk 114–161; measured dog walk 119–160"
+   "msg": "tarsus: standing 145, walk 113–150; measured dog walk 119–160"
   },
   {
    "check": "contrast",
