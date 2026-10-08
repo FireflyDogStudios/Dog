@@ -132,7 +132,7 @@ function registerHero3(RIG){
      shoulders and both kept low for a wolf's smooth gait; the hind paw plants flatter and lifts lower than the front. */
   const WALK = {speed:20 /* ground units per stride (1.1 shoulder heights; fox clip 1.4, measured dogs 1.2-1.5), the same for every paw (so nothing skates) */, limbPhase:.16, keys:48,
     crouch:1.5 /* the back rides ~8% lower while walking (fox clip: 0.83-0.96 of standing) */, head:{pitch:8, bob:1.5, lag:.06} /* nose down ~13 deg while walking (the nose rides ~0.25 heights below the back), lowest while a front paw takes weight */,
-    hind:{duty:.60, lift:.9, fold:10, centre:-.5, maxOpen:148, bob:.45, lean:16}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
+    hind:{duty:.60, lift:.9, fold:4, centre:-.5, maxOpen:148, bob:.45, lean:16}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
     front:{duty:.62, lift:1.8, fold:72, centre:-2.3, maxOpen:152, bob:.30, scap:{top:[38.8, 11.8], swing:16}, lean:10}}; /* scap.swing: degrees the blade rotates each way, forward as the paw reaches, back as it pushes off (EST) */ /* centres: the front paw lands ~0.17 heights behind the nose (fox 0.06-0.29), the hind just ahead of the hip */ /* elbow never past 152 (measured 153); bob: peak-to-peak dip in units (EST) */
   const A = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI, Ln = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
   const pol = (o, deg, l) => [o[0] + Math.cos(deg * Math.PI / 180) * l, o[1] + Math.sin(deg * Math.PI / 180) * l];
@@ -143,7 +143,10 @@ function registerHero3(RIG){
   /* paw path over one stride, phase 0 = touch-down at the front of the stance */
   const pawAt = (ph, rest0, L, lift) => { const travel = WALK.speed * L.duty, half = travel / 2, rest = [rest0[0] + L.centre, rest0[1]]; /* a planted paw moves back at the ground speed for its stance */
     if (ph < L.duty) { const u = ph / L.duty; return {p:[rest[0] + half - u * travel, rest[1]], u, stance:true}; }
-    const u = (ph - L.duty) / (1 - L.duty); return {p:[rest[0] - half + easeIO(u) * travel, rest[1] - lift * Math.sin(Math.PI * u)], u, stance:false}; };
+    /* swing: x is a Hermite curve that leaves and lands at the stance speed (no dead stop at lift-off, no slam at touch-down; it overshoots
+       ~2% back as the toe peels and ~2% forward before it sets down), y a bump with zero slope at both ends (the paw eases off and onto the ground) */
+    const u = (ph - L.duty) / (1 - L.duty), m = -(1 - L.duty) / L.duty, h = m * u + (3 - 3 * m) * u * u + (2 * m - 2) * u * u * u;
+    return {p:[rest[0] - half + h * travel, rest[1] - lift * 16 * u * u * (1 - u) * (1 - u)], u, stance:false}; };
   const reachOf = (l1, l2, maxDeg) => Math.sqrt(l1 * l1 + l2 * l2 - 2 * l1 * l2 * Math.cos(maxDeg * Math.PI / 180)); /* hip-to-hock (shoulder-to-wrist) length with the middle joint at maxDeg */
   /* the leg's top (hip, or the shoulder joint carried round by the blade) at phase ph, before any girdle drop; and the blade angle */
   const scapAngle = (J, ph, L) => { if (!L.scap) return 0; const P = pawAt(((ph % 1) + 1) % 1, J[3], L, 0), half = WALK.speed * L.duty / 2, c = J[3][0] + L.centre; return -L.scap.swing * Math.max(-1, Math.min(1, (P.p[0] - c) / half)); };
@@ -154,7 +157,9 @@ function registerHero3(RIG){
     return best; };
   /* the pair shares one girdle: the pendulum dip (lowest 5% after each touchdown, highest over mid-stance), or deeper if a planted paw needs the reach */
   const pend = (ph, L) => WALK.crouch + L.bob * (.5 + .5 * Math.cos(4 * Math.PI * (ph - .05)));
-  const girdle = (J, ph, L) => Math.max(pend(ph, L), dropFor(J, ph, L), dropFor(J, ph + .5, L));
+  const girdle0 = (J, ph, L) => Math.max(pend(ph, L), dropFor(J, ph, L), dropFor(J, ph + .5, L));
+  /* smoothed over +-2 keys: the reach drop ends when the paw lifts, and unsmoothed the hips jumped up at that instant (the "kick", GrumpyDingo Oct 8) */
+  const girdle = (J, ph, L) => Math.max(girdle0(J, ph, L), [1, 4, 6, 4, 1].reduce((a, w, i) => a + w * girdle0(J, ph + (i - 2) / WALK.keys, L), 0) / 16); /* never less than a planted paw needs */
   const bakeLeg = (J, names, side, L, toeTr) => { /* J = [top, mid, low, paw] rest joints; names = [top, mid, low, toe] track names */
     const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), r1 = A(J[0], J[1]), r2 = A(J[1], J[2]), r3 = A(J[2], J[3]);
     const T = names.map(() => []);
@@ -162,8 +167,13 @@ function registerHero3(RIG){
       const foldDeg = P.stance ? 0 : L.fold * Math.sin(Math.PI * Math.min(1, P.u * 1.25)); /* the distal bone folds back early in the swing, straightens to land */
       let a3 = r3 + side * -foldDeg; /* hind (side +1): cannon swings back; front (side -1): pastern swings back too, folding the wrist */
       /* out of reach (the paw far back or far forward in the stance): lean the distal bone about the paw, the least that brings it in */
-      for (let o = 0, reach = reachOf(l1, l2, L.maxOpen); Ln(J0, pol(P.p, a3 + 180, l3)) > reach && o <= (L.lean || 0) + .5; o += .25) { const tryA = [a3 + o, a3 - o].find(x => Ln(J0, pol(P.p, x + 180, l3)) <= reach); if (tryA != null) { a3 = tryA; break; } }
-      const low = pol(P.p, a3 + 180, l3), mid = twoBone(J0, l1, l2, low, side, reachOf(l1, l2, L.maxOpen)); /* never past the walk maximum, swing included */
+      const reach = reachOf(l1, l2, L.maxOpen), leanFor = (J0, p, a) => { for (let o = 0; o <= (L.lean || 0) + .5; o += .25) { const t = [o, -o].find(x => Ln(J0, pol(p, a + x + 180, l3)) <= reach); if (t != null) return t; } return Ln(J0, pol(p, a + L.lean + 180, l3)) < Ln(J0, pol(p, a - L.lean + 180, l3)) ? L.lean : -L.lean; };
+      if (P.stance) a3 += leanFor(J0, P.p, a3);
+      else { /* the push-off lean carries into the swing and eases out over its first 40%, so the hock never snaps back as the paw lifts */
+        const e = L.duty - 1e-4, Pe = pawAt(e, J[3], L, L.lift), Re = rootAt(J, e, L), oe = leanFor([Re[0], Re[1] + girdle(J, e, L)], Pe.p, r3), w = Math.max(0, 1 - P.u / .4);
+        a3 += oe * w * w * (3 - 2 * w); }
+      let pp = P.p; { const lo = pol(pp, a3 + 180, l3), d = Ln(J0, lo); if (!P.stance && d > reach){ const k = (d - reach) / d; pp = [pp[0] + (J0[0] - lo[0]) * k, pp[1] + (J0[1] - lo[1]) * k]; } } /* a swinging paw out of reach is drawn in toward the hip */
+      const low = pol(pp, a3 + 180, l3), mid = twoBone(J0, l1, l2, low, side, reachOf(l1, l2, L.maxOpen)); /* never past the walk maximum, swing included */
       const a1 = A(J0, mid), a2 = A(mid, low), rot1 = a1 - r1 - sa, rot2 = (a2 - r2) - (a1 - r1), rot3 = (a3 - r3) - (a2 - r2); /* rot1 is relative to the blade */
       const toe = P.stance ? -(a3 - r3) : -(a3 - r3) * .55 + (toeTr ? RIG.sample(toeTr, ph).v * .5 : 0); /* paw flat on the ground in stance; hangs and peels in the swing */
       [rot1, rot2, rot3, toe].forEach((v, i) => T[i].push(Object.assign({at:+ph.toFixed(4), v:+v.toFixed(3)}, i === 0 && !L.scap ? {y:+g.toFixed(3)} : {})));
