@@ -894,7 +894,7 @@ function registerHero3(RIG){
   const WALK = {speed:20 /* ground units per stride (1.1 shoulder heights; fox clip 1.4, measured dogs 1.2-1.5), the same for every paw (so nothing skates) */, limbPhase:.16, keys:48,
     crouch:1.5 /* the back rides ~8% lower while walking (fox clip: 0.83-0.96 of standing) */, head:{pitch:8, bob:1.5, lag:.06} /* nose down ~13 deg while walking (the nose rides ~0.25 heights below the back), lowest while a front paw takes weight */,
     hind:{duty:.60, lift:.9, fold:4, centre:-.5, maxOpen:148, bob:.45, lean:16}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
-    front:{duty:.62, lift:1.8, fold:120, centre:-2.3, maxOpen:152, bob:.30, scap:{top:[38.8, 11.8], swing:16}, lean:10}}; /* scap.swing: degrees the blade rotates each way, forward as the paw reaches, back as it pushes off (EST) */ /* centres: the front paw lands ~0.17 heights behind the nose (fox 0.06-0.29), the hind just ahead of the hip */ /* elbow never past 152 (measured 153); bob: peak-to-peak dip in units (EST) */
+    front:{duty:.62, lift:1.8, fold:120, carpusHold:190 /* the wrist holds ~10 deg past straight while the paw is down: GrumpyDingo's tracked fox, stance median 193 (IQR 187-198) */, centre:-2.3, maxOpen:152, bob:.30, scap:{top:[38.8, 11.8], swing:16}, lean:10}}; /* scap.swing: degrees the blade rotates each way, forward as the paw reaches, back as it pushes off (EST) */ /* centres: the front paw lands ~0.17 heights behind the nose (fox 0.06-0.29), the hind just ahead of the hip */ /* elbow never past 152 (measured 153); bob: peak-to-peak dip in units (EST) */
   const A = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI, Ln = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
   const pol = (o, deg, l) => [o[0] + Math.cos(deg * Math.PI / 180) * l, o[1] + Math.sin(deg * Math.PI / 180) * l];
   const easeIO = x => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
@@ -929,10 +929,17 @@ function registerHero3(RIG){
       let a3 = r3 + side * -foldDeg; /* hind (side +1): cannon swings back; front (side -1): pastern swings back too, folding the wrist */
       /* out of reach (the paw far back or far forward in the stance): lean the distal bone about the paw, the least that brings it in */
       const reach = reachOf(l1, l2, L.maxOpen), leanFor = (J0, p, a) => { for (let o = 0; o <= (L.lean || 0) + .5; o += .25) { const t = [o, -o].find(x => Ln(J0, pol(p, a + x + 180, l3)) <= reach); if (t != null) return t; } return Ln(J0, pol(p, a + L.lean + 180, l3)) < Ln(J0, pol(p, a - L.lean + 180, l3)) ? L.lean : -L.lean; };
-      if (P.stance) a3 += leanFor(J0, P.p, a3);
+      /* front: in the stance the forearm and pastern move as one near-straight column (the paw turns at the toes), so the pastern angle is solved
+         to keep the wrist at L.carpusHold, instead of a fixed pastern slope the forearm swings over (which bent the wrist one way then the other) */
+      const carpusAt = (e, w, p) => { let t = (A(w, p) - A(e, w)); while (t > 180) t -= 360; while (t < -180) t += 360; return 180 - t; };
+      const holdA3 = (J0, p) => { let best = null; for (let o = -60; o <= 60; o += .5) { const a = r3 + o, lo = pol(p, a + 180, l3); if (Ln(J0, lo) > reach) continue;
+          const c = carpusAt(twoBone(J0, l1, l2, lo, side, reach), lo, p), cost = Math.abs(c - L.carpusHold) + .002 * o * o; if (!best || cost < best.cost) best = {a, cost}; } return best ? best.a : a3 + leanFor(J0, p, a3); };
+      if (P.stance) a3 = L.carpusHold ? holdA3(J0, P.p) : a3 + leanFor(J0, P.p, a3);
       else { /* the push-off lean carries into the swing and eases out over its first 40%, so the hock never snaps back as the paw lifts */
-        const e = L.duty - 1e-4, Pe = pawAt(e, J[3], L, L.lift), Re = rootAt(J, e, L), oe = leanFor([Re[0], Re[1] + girdle(J, e, L)], Pe.p, r3), w = Math.max(0, 1 - P.u / .4);
-        a3 += oe * w * w * (3 - 2 * w); }
+        const e = L.duty - 1e-4, Pe = pawAt(e, J[3], L, L.lift), Re = rootAt(J, e, L), Je = [Re[0], Re[1] + girdle(J, e, L)], oe = L.carpusHold ? holdA3(Je, Pe.p) - r3 : leanFor(Je, Pe.p, r3), w = Math.max(0, 1 - P.u / .4);
+        a3 += oe * w * w * (3 - 2 * w);
+        if (L.carpusHold) { const P0 = pawAt(0, J[3], L, L.lift), R1 = rootAt(J, 1, L), s0 = holdA3([R1[0], R1[1] + girdle(J, 1, L)], P0.p), q = Math.max(0, Math.min(1, (P.u - .65) / .35)), bq = q * q * (3 - 2 * q);
+          a3 = a3 * (1 - bq) + s0 * bq; } } /* the pastern eases into its touchdown angle over the last third of the swing, so the wrist lands without a snap */
       let pp = P.p; { const lo = pol(pp, a3 + 180, l3), d = Ln(J0, lo); if (!P.stance && d > reach){ const k = (d - reach) / d; pp = [pp[0] + (J0[0] - lo[0]) * k, pp[1] + (J0[1] - lo[1]) * k]; } } /* a swinging paw out of reach is drawn in toward the hip */
       const low = pol(pp, a3 + 180, l3), mid = twoBone(J0, l1, l2, low, side, reachOf(l1, l2, L.maxOpen)); /* never past the walk maximum, swing included */
       const a1 = A(J0, mid), a2 = A(mid, low), rot1 = a1 - r1 - sa, rot2 = (a2 - r2) - (a1 - r1), rot3 = (a3 - r3) - (a2 - r2); /* rot1 is relative to the blade */
@@ -987,7 +994,7 @@ if (typeof module !== "undefined") module.exports = {registerHero3};
 
 </script>
 <script>
-const BUILD = {"commit":"1276014","date":"2026-10-08"};
+const BUILD = {"commit":"7cf0df3","date":"2026-10-08"};
 const REPORT = {
  "rig": "hero3",
  "fails": 0,
@@ -1071,7 +1078,7 @@ const REPORT = {
   {
    "check": "feet",
    "level": "PASS",
-   "msg": "no paw below the ground (deepest 0.05)"
+   "msg": "no paw below the ground (deepest 0.07)"
   },
   {
    "check": "gait",
@@ -1086,17 +1093,22 @@ const REPORT = {
   {
    "check": "joints",
    "level": "WARN",
-   "msg": "shoulder: standing 112, walk 92–125; measured dog walk 121–153: bends to 92, beyond the measured 121"
+   "msg": "shoulder: standing 112, walk 90–125; measured dog walk 121–153: bends to 90, beyond the measured 121"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "elbow: standing 145, walk 112–152; measured dog walk 98–153"
+   "msg": "elbow: standing 145, walk 111–152; measured dog walk 98–153"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "carpus: standing 186, walk 66–214; fox (hand-tracked) 64–214, dogs (5MC) 88–217"
+   "msg": "carpus: standing 186, walk 66–190; fox (hand-tracked) 64–214, dogs (5MC) 88–217"
+  },
+  {
+   "check": "joints",
+   "level": "PASS",
+   "msg": "wrist while the paw is down: 190–190 (holds, as the tracked fox does)"
   },
   {
    "check": "joints",
