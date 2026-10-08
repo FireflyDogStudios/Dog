@@ -1,36 +1,28 @@
-# Generator trials, part 1: Infinigen (Spark, Oct 8 2026). INTERIM: read, not yet run
+# Is there a dog generator we can use? Recommendation (Spark, Oct 8 2026)
 
-Request: `docs/claude/DEN-REQUEST-dog-generators-2026-10-08.md`.
+Inputs: Scout 19 (45 candidates, `ref/research/scout/19-dog-generators/`), Atlas's licence table (`docs/team/atlas/2026-10-08-generator-licences.md`), my Infinigen source read (below), and my SDF prototype (`../01-canine-builder/`).
 
-## Status
-- **Installed:** Infinigen is cloned at `/home/user/infinigen` (commit 3f58bb8, Aug 27 2026, BSD-3), in a Python 3.11 venv with `bpy` 4.2 and the v1 creature dependencies.
-- **Blocked:** running it was refused by this session's auto-mode safety check ("code from external"). I did not work around that.
-- **What I need:** GrumpyDingo's OK to run Infinigen's code in this container. A permission rule allowing `/home/user/infinigen/.venv/bin/python` would do. The render script is ready: `tools/spark/infinigen/gen_carnivore.py` (side view, flat dark background, clay or native material, an option to force the wolf template). It needs no network, account or purchase.
-- **Not started:** Scout's shortlist hasn't arrived, so there are no trials of other generators yet.
+## Recommendation: build our own. Cost $0.
+No source produces what we ship: a flat side-view dog that we restyle, with our gaits and gear points. Every candidate is a 3D base that would still need our render-and-restyle stage, or a rig tool that still needs our art. Scout found the shipped games (Sims pets, Wobbledogs) all use one skeleton plus breed-as-data. That is what our species files, rig and builder already are. So the generator is ours to finish, not to buy.
 
-## What reading the source shows (`src/infinigen/assets/objects/creatures/carnivore.py`)
-- **It's a tiger generator with a wolf in its mix.** The only genome is `tiger_genome()`.
-  - The body is a random convex blend of five NURBS templates: cheetah, housecat, tiger, tiger_2 and **wolf** (`body_feline_wolf.npy`). Half the time the head is a blend that includes `head_carnivore_wolf.npy`.
-  - The **ears are always `CatEar`**, the **nose is always `CatNose`**, and the hair parameters are the tiger's.
-  - So it makes "felid-ish carnivores". A dog needs code changes: force the wolf templates and write a canine ear and nose.
-- **No breed controls.** The variation is random noise on lengths, radii and profiles (`var`, `temperature`). There is no "Husky" or "drop ear" setting.
-- **There is a rig.** `join_and_rig_parts` builds an armature with IK targets. But there is **one generic run cycle**: two foot pairs on a sine path, stride drawn at random. There is no walk, trot or gallop, and no sit or lie. Idle is just snapping the feet to the floor plus noise.
-- **Gear:** parts are addressed by (length, yaw, rad) on each part's skeleton curve. That would give stable attachment points if we drove it.
-- **Purpose:** it makes synthetic training images for computer vision. It is not a game-asset tool. It is heavy too: Blender 4.2 plus about 40 packages, and every creature is a full Blender build.
+## Why not the three nearest options
+- **Daz Dog 8 + Phenotypes** (~$46; one licence per person) is the best breed system on the market. 2D renders are covered by the standard terms. But:
+  - **Daz Studio is a desktop app.** Our cloud sessions can't run it, so GrumpyDingo would have to render every breed, pose and change on their own computer. That puts a person on every iteration loop.
+  - **Open questions:** Atlas found the text doesn't settle "redrawn as flat vector art", or selling cosmetic dogs in-game. The EULA also bans feeding Daz content to AI tools, which covers us.
+  - **Fair use for it:** an *optional* look-reference, a few side views GrumpyDingo renders once, never traced. It's not needed on the critical path.
+- **Spine Professional ($379 per person, plus an Enterprise tier above $500k revenue or funding).** Our rig engine already animates from joint data, with paw IK, gait tables and seeded springs (`ref/research/procedural/`, 8/8 checks). Spine would add a hand-keying editor and mesh deformation. We don't need either for procedural gaits, and it ties every developer to a seat. Revisit only if we decide to hand-animate.
+- **Tripo, Meshy and the Fab pack.**
+  - Tripo and Meshy are paid-only for usable outputs, with contradictory terms.
+  - Fab's EULA is unread (its pages block fetches).
+  - All three give 3D meshes we'd still have to restyle, so they're no better than our builder's output.
 
-## Against the six game needs (preliminary, from code)
-| Need | Infinigen carnivore |
-|---|---|
-| 1 Side-view dog, flat restyle | Possible via a Blender render, but the base is feline |
-| 2 Many breeds and species | No: one tiger genome. Canids need new parts and a genome |
-| 3 Walk, trot, gallop, idle, sit, lie | One generic run cycle. We'd drive it ourselves |
-| 4 Gear points | Yes in principle (surface coordinates per part) |
-| 5 Licence | **BSD-3: fine to ship** with the copyright notice |
-| 6 Original look | Yes: procedural, restyled by us |
+## Infinigen, and what its wolf shapes are worth
+- **What the source shows:** it is a tiger generator. Its body is a random blend of cheetah, housecat, tiger and wolf shapes, the ears and nose are always cat parts, it has no breed controls and one generic run cycle. It is BSD-3. I didn't run it; Firefly agreed the source read settles it.
+- **The wolf shapes:** `body_feline_wolf.npy` and `head_carnivore_wolf.npy` are a NURBS control net, BSD-3. They are an artist's wolf profile: cross-sections along the body, and the head and muzzle shape. To the builder they're worth a **second opinion on mass placement** (girth along the trunk, neck taper, head profile), checked next to Shutter's measured outlines.
+  - **Effort:** about an hour. Loading the `.npy` is plain data with `allow_pickle=False`, not their code.
+  - **Limit:** they aren't measured anatomy, so they rank below our graded numbers and below Shutter's outlines.
 
-## Preliminary verdict
-**Not a drop-in dog generator.** Its useful parts are ideas, plus one BSD asset:
-- a genome of parts attached at surface coordinates (the same idea as the SDF builder's modules);
-- the BSD `body_feline_wolf` and `head_carnivore_wolf` NURBS templates, which could serve as shape references for our masses.
-
-The recommendation (use, build or combine) waits on the render and on Scout's shortlist. Leaning: **combine**. That means our builder, with any clean generator or asset as a shape reference, and our numbers for the proportions.
+## First three steps
+1. **Builder reads the species files (Spark).** Move `tools/spark/canine-sdf/` to `engine/canine/`, read `species/*.yaml` directly, and give each mass a name that doubles as a gear mount point (collar = neck ring, socks = pastern and hock).
+2. **Score the silhouettes, then tune (Spark with Forge, Palette judges).** Score each preset against Shutter's measured outlines for wolf and Husky: intersection over union, plus topline and belly-line error. Tune the masses one change at a time, with GrumpyDingo judging every change. Use the Infinigen wolf net as a side check.
+3. **Pose and stride frames (Spark).** Drive the builder's joints from the existing IK and gait solver and render walk and trot stride frames in flat mode. That proves animation, then sprite or SVG output for the game.
