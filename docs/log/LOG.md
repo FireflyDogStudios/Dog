@@ -125,3 +125,4 @@ How to write here: [`README.md`](README.md). Decisions waiting: [`APPROVALS.md`]
 - 2026-10-07 · Lever · tools/lever/setup.sh and README: kit reinstall for fresh containers. → `tools/lever/`
 - 2026-10-07 · Lever · Outbox shows Waiting for pickup (who picked up); courier line removed; first pickup run found nothing. → `apps/team-inbox/`
 - 2026-10-08 · Spark · Canine builder: method critique, options and licences, recommend an SDF form builder; prototype renders wolf, dingo, Husky, hound. → `ref/research/spark/01-canine-builder/`
+- 2026-10-08 · Spark · Generator trials, interim: Infinigen installed and read (tiger genome, wolf template, no breeds, BSD-3); running it awaits permission. → `ref/research/spark/02-generator-trials/`

@@ -1,7 +1,7 @@
 # Spark status
 Updated: 2026-10-08
-Working on: canine builder request (docs/claude/DEN-SPARK-REQUEST-canine-builder-2026-10-08.md): delivered, waiting on the road decision
-Last push: canine builder report + SDF prototype (ref/research/spark/01-canine-builder/)
-Blocked: no
-Needs Firefly: yes, GrumpyDingo's pick of the road
-Setup: tools/spark/setup.sh (repo npm deps + Pillow); prototype runs on the repo's Playwright + Chromium, no new packages
+Working on: dog-generator trials (docs/claude/DEN-REQUEST-dog-generators-2026-10-08.md), Infinigen first
+Last push: interim Infinigen code read (ref/research/spark/02-generator-trials/)
+Blocked: yes, running Infinigen's cloned code needs GrumpyDingo's OK (session permission); Scout's shortlist not yet in
+Needs Firefly: yes, the OK above
+Setup: tools/spark/setup.sh; Infinigen venv at /home/user/infinigen/.venv (uv, Python 3.11, bpy 4.2; not in git)
