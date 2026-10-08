@@ -7,17 +7,20 @@
 | fit | PASS | all 7 back-line points and 4 proportions in range (back error 0.009) |
 | pieces | PASS | one connected silhouette in all 24 walk frames |
 | slivers | PASS | no colour band thinner than 0.2 units and no stray fragments at rest |
-| notches | PASS | no new cracks (17 known ones in the baseline) |
+| notches | PASS | no new cracks (16 known ones in the baseline) |
 | attach | PASS | every part is rooted in what it hangs from (least: skull 6%, tail 15%, hipN 19%) |
 | visible | PASS | eye, nose and every named marking show in all checked frames |
 | topline | PASS | above hip and shoulder height every leg stays inside the body, all walk frames |
 | markings | INFO | tailTop is partly drawn over by saddle 8%, body 3%, tailTip 17% (check the edge that makes) |
-| markings | INFO | bibTop is partly drawn over by throat 27%, fur@shN 5% (check the edge that makes) |
+| markings | INFO | bibTop is partly drawn over by fur@shN 41%, fur@foreN 11%, leg@foreN 4% (check the edge that makes) |
+| markings | INFO | bib is partly drawn over by chestFrontPale 100% (check the edge that makes) |
+| markings | INFO | chestFrontPale is partly drawn over by throat 5% (check the edge that makes) |
 | markings | INFO | belly is partly drawn over by fur@foreN 15% (check the edge that makes) |
 | markings | INFO | earIn is partly drawn over by neck 61% (check the edge that makes) |
 | markings | INFO | saddleNeck is partly drawn over by saddle 38% (check the edge that makes) |
+| markings | INFO | throat is partly drawn over by cheek 5% (check the edge that makes) |
 | markings | INFO | cheek is partly drawn over by nose 7% (check the edge that makes) |
-| markings | PASS | 10 markings stay inside their shapes, and no leg cuts into them while walking |
+| markings | PASS | 11 markings stay inside their shapes, and no leg cuts into them while walking |
 | feet | PASS | no paw below the ground (deepest 0.07) |
 | gait | PASS | footfalls (left hind = 0): left fore 0.18 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.68; paws down fore 0.66, hind 0.61 of the stride (measured 0.56-0.68) |
 | feet | PASS | planted paws move back at (ground units per stride): htoeF 20.0, ftoeF 20.0, htoeN 20.0, ftoeN 20.0 units |

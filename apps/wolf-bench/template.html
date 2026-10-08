@@ -327,10 +327,11 @@ function pose(R,t,walking){const D=R.D, phase=walking?(t/D.stride)%1:0, M={root:
     if(j.bob&&walking) y-=Math.pow(Math.sin(phase*Math.PI*2),2)*j.bob;
     const o=j.at||[0,0], r=rot*Math.PI/180, c=Math.cos(r), n=Math.sin(r);
     M[j.id]=mul(M[j.in||"root"],[c,n,-n,c,o[0]+x-(c*o[0]-n*o[1]),o[1]+y-(n*o[0]+c*o[1])]);}
+  for(const k in M) M[k].P=M; /* each matrix knows its whole pose, so a skinned part can reach the joint it bends toward */
   return M;}
 const dimHex=(c,k)=>{const n=parseInt(c.slice(1),16),f=s=>Math.round(((n>>s)&255)*k).toString(16).padStart(2,"0");return"#"+f(16)+f(8)+f(0);};
 function colourOf(R,p){const pal=R.D.palette; let c=pal[p.paint||"fur"]??pal.fur; if(R.FAR[p.in||"root"]||p.far) c=dimHex(c,pal.far??.78); return c;}
-function shape(p,fill,M,extra=""){const tf=`transform="matrix(${M.map(v=>+v.toFixed(4)).join(" ")})"`, a=p.alpha!=null&&fill!=="none"?` fill-opacity="${p.alpha}"`:"";
+function shape(p,fill,M,extra=""){if(p.skin&&M.P){p={...p,poly:RIG.skinPts(p,M,M.P[p.skin.to])}; M=[1,0,0,1,0,0];} const tf=`transform="matrix(${M.map(v=>+v.toFixed(4)).join(" ")})"`, a=p.alpha!=null&&fill!=="none"?` fill-opacity="${p.alpha}"`:"";
   if(p.d&&p.stroke) return `<path d="${p.d}" fill="none" stroke="${fill==="none"?"currentColor":fill}" stroke-width="${p.sw}" stroke-linecap="round" stroke-linejoin="round" ${tf}${extra}/>`;
   if(p.d) return `<path d="${p.d}" fill="${fill}"${a} ${tf}${extra}/>`;
   if(p.poly) return `<polygon points="${p.poly.map(q=>q.join(",")).join(" ")}" fill="${fill}"${a} ${tf}${extra}/>`;

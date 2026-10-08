@@ -21,7 +21,7 @@
   {
    "check": "notches",
    "level": "PASS",
-   "msg": "no new cracks (17 known ones in the baseline)"
+   "msg": "no new cracks (16 known ones in the baseline)"
   },
   {
    "check": "attach",
@@ -46,7 +46,17 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "bibTop is partly drawn over by throat 27%, fur@shN 5% (check the edge that makes)"
+   "msg": "bibTop is partly drawn over by fur@shN 41%, fur@foreN 11%, leg@foreN 4% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "bib is partly drawn over by chestFrontPale 100% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "chestFrontPale is partly drawn over by throat 5% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -66,12 +76,17 @@
   {
    "check": "markings",
    "level": "INFO",
+   "msg": "throat is partly drawn over by cheek 5% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
    "msg": "cheek is partly drawn over by nose 7% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "PASS",
-   "msg": "10 markings stay inside their shapes, and no leg cuts into them while walking"
+   "msg": "11 markings stay inside their shapes, and no leg cuts into them while walking"
   },
   {
    "check": "feet",

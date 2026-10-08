@@ -33,6 +33,10 @@ const css = n => "#" + n.toString(16).padStart(6, "0");
 /* ---------- geometry, built once per (rig, part, far) ----------
    part = {d:"path"} filled | {d, stroke:true, sw} stroked path (no fill) | {line:[a,b], sw} | {circle:[x,y,r]} | {ellipse:[x,y,rx,ry]} | {poly:[[x,y],...]}
    + paint:"name" (palette key, default fur), alpha, in:"joint", id, hidden, far */
+/* a skinned part (p.skin = {to, w}): each point of p.poly is blended between its host joint's frame (p.in, weight 0) and joint p.skin.to's frame
+   (weight 1) by its own weight, so the shape bends smoothly instead of turning as one piece (the chest front between the body and the head).
+   A and B are 2x3 matrices [a, b, c, d, e, f]; returns points in the frame those matrices map to. */
+function skinPts(p, A, B){ return p.poly.map((q, i) => { const w = p.skin.w[i], ax = A[0]*q[0]+A[2]*q[1]+A[4], ay = A[1]*q[0]+A[3]*q[1]+A[5], bx = B[0]*q[0]+B[2]*q[1]+B[4], by = B[1]*q[0]+B[3]*q[1]+B[5]; return [ax + (bx - ax) * w, ay + (by - ay) * w]; }); }
 function context(PIXI, D, i, far, pal){
   const key = (far ? "f" : "n") + i; const C = CTX[D.id] || (CTX[D.id] = {}); if (C[key]) return C[key];
   const p = D.parts[i], k = far ? (pal.far ?? .78) : 1, col = dim(pal[p.paint || "fur"] ?? pal.fur, k);
@@ -56,7 +60,10 @@ function build(PIXI, id, opts = {}){
   const J = {root}; const parts = {};
   /* joints in def order = draw order (far legs, body, near legs); parents must come before children */
   for (const j of D.joints){ const c = new PIXI.Container(); c.label = j.id; if (j.at) c.origin.set(j.at[0], j.at[1]); const parent = J[j.in || "root"]; c.__far = !!j.far || !!parent.__far; J[j.id] = c; parent.addChild(c); }
-  D.parts.forEach((p, i) => { const host = J[p.in || "root"]; const far = !!p.far || !!host.__far; const g = new PIXI.Graphics(context(PIXI, D, i, far, pal)); if (p.alpha != null) g.alpha = p.alpha; if (p.hidden) g.visible = false; g.label = p.id || ""; host.addChild(g); if (p.id) parts[p.id] = g; });
+  const skins = [];
+  D.parts.forEach((p, i) => { const host = J[p.in || "root"]; const far = !!p.far || !!host.__far;
+    if (p.skin){ const g = new PIXI.Graphics(); g.label = p.id || ""; host.addChild(g); if (p.id) parts[p.id] = g; skins.push({g, p, host, to:J[p.skin.to], col:dim(pal[p.paint || "fur"] ?? pal.fur, far ? (pal.far ?? .78) : 1)}); return; }
+    const g = new PIXI.Graphics(context(PIXI, D, i, far, pal)); if (p.alpha != null) g.alpha = p.alpha; if (p.hidden) g.visible = false; g.label = p.id || ""; host.addChild(g); if (p.id) parts[p.id] = g; });
   /* a joint's own parts draw UNDER its child joints (the upper arm under the forearm, the thigh under the shank), so a limb's rounded
      end never sits on top of the next segment as a knob. Only for animated limb joints (ones with a track): the body keeps drawing over
      the tail and ear roots it hides, and root keeps def order (far legs, body, near legs). */
@@ -72,6 +79,8 @@ function build(PIXI, id, opts = {}){
         C.rotation = rot * DEG; C.x = x; C.y = y; if (sc !== 1 || C.scale.x !== 1) C.scale.set(sc); }
       /* gear hosted at the root that follows a joint (parts.follow) takes that joint's transform every tick, so it moves with the body (bob) while drawing above the near legs */
       for (const f of followers) syncFollower(PIXI, f);
+      for (const k of skins){ const st = []; for (let n = k.to; n && n !== k.host; n = n.parent) st.push(n); const R = new PIXI.Matrix(); for (let i = st.length - 1; i >= 0; i--){ st[i].updateLocalTransform(); R.append(st[i].localTransform); }
+        const pts = skinPts(k.p, [1, 0, 0, 1, 0, 0], [R.a, R.b, R.c, R.d, R.tx, R.ty]); k.g.clear(); k.g.poly(pts.flat()).fill(k.col); }
       let al = D.alpha ?? 1; for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.alpha != null) al *= a.alpha; } } root.alpha = al;
       for (const p of D.parts){ if (p.id) parts[p.id].visible = !p.state && !p.hidden; }
       for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.part && parts[a.part]) parts[a.part].visible = a.show !== false; } } },
@@ -102,6 +111,6 @@ function attach(PIXI, root, jointId, parts, pal){ const J = root.rig && root.rig
 /* a gear piece can have several layers on different joints (the torso at the root, a sleeve on each leg). piece.layersFor(rigId) gives [{joint, parts}]; a plain piece is one layer. */
 function attachPiece(PIXI, root, piece, rigId){ const layers = piece.layersFor ? piece.layersFor(rigId) : [{joint:piece.joint, parts:piece.partsFor ? piece.partsFor(rigId) : piece.parts}];
   const hs = layers.filter(l => l.parts && root.rig.joints[l.joint]).map(l => attach(PIXI, root, l.joint, l.parts, piece.palette)); return {remove(){ hs.forEach(h => h.remove()); }, handles:hs}; }
-return {DEFS, define, build, warm, attach, attachPiece, sample, dim};
+return {DEFS, define, build, warm, attach, attachPiece, sample, dim, skinPts};
 })();
 if (typeof module !== "undefined") module.exports = RIG;

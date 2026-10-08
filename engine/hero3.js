@@ -112,16 +112,23 @@ function registerHero3(RIG){
   const above = (P, y) => clip(P, [0, y], [1, y], -1), below = (P, y) => clip(P, [0, y], [1, y], 1);
   /* head region: ahead of the cut and above the throat floor; the torso: behind the cut, plus everything below the floor */
   const headOf = d => P2(above(ahead(flat(d), CUT.a, CUT.b), CUT.floor));
-  /* the chest's front just under the jaw is pushed back onto a sloping line, so it never sticks out past the throat as the head dips; it is done
-     to the outline before the split, so every piece shares the same edge (and the throat covers it when standing) */
-  const chamfer = P => P.map(q => { if (q[1] <= 18.5 || q[1] >= 22.8) return q; const xl = 44.2 + (q[1] - 19.0) * (3.4 / 3.6); return q[0] > xl ? [xl, q[1]] : q; });
-  const torsoOf = d => { const F = chamfer(flat(d)); return [P2(behind(F, CUT.a, CUT.b)), P2(clip(ahead(F, [CUT.a[0] - .2, CUT.a[1]], [CUT.b[0] - .2, CUT.b[1]]), [43.6, CUT.chest], [47.2, CUT.chest + 1.6], 1))] /* overlaps the cut a hair so no seam shows; the top slopes down to the chest front, so its corner never pokes out */.filter(P => P.length > 2); };
+  /* the chest front bends (GrumpyDingo, Oct 8): a real neck curves along its length. Below the throat, the front of the chest is a skinned
+     piece: each of its points follows the head by a weight that runs from 1 under the throat (y = SK0) to 0 at the brisket (y = SK1), so when
+     the head dips the chest front curves back smoothly instead of a still chest jutting 1.3 units past the neck. The torso keeps everything
+     behind x = FRONT_X and below SK1; the skin draws over it and only ever moves back onto it. */
+  const FRONT_X = 40.8, SK0 = 18.4, SK1 = 24.0, NECK_Y = 18.6;
+  const leftOf = (P, x) => clip(P, [x, 0], [x, 30], 1), rightOf = (P, x) => clip(P, [x, 0], [x, 30], -1);
+  const torsoOf = d => { const F = flat(d), R = rightOf(F, FRONT_X); return [["A", P2(behind(leftOf(F, FRONT_X), CUT.a, CUT.b))] /* the body behind the front */,
+      ["B", P2(below(R, SK1 - .15))] /* the chest's lower front, below the skin */, ["C", P2(above(behind(R, CUT.a, CUT.b), SK0))] /* under the neck, above the skin */].filter(e => e[1].length > 2); };
+  const densify = (P, step) => P.flatMap((q, k) => { const n = P[(k + 1) % P.length], m = Math.max(1, Math.ceil(Math.hypot(n[0] - q[0], n[1] - q[1]) / step)); return [...Array(m)].map((_, u) => [q[0] + (n[0] - q[0]) * u / m, q[1] + (n[1] - q[1]) * u / m]); });
+  const skinW = q => { const u = Math.max(0, Math.min(1, (q[1] - SK0) / (SK1 - SK0))); return +(1 - u * u * (3 - 2 * u)).toFixed(3); };
+  const chestSkin = d => { const P = P2(densify(above(below(rightOf(flat(d), FRONT_X), SK0), SK1), .3)); return {poly:P, skin:{to:"headBody", w:P.map(skinW)}}; };
   /* the hidden overlap behind the cut is trimmed under a line that drops back from the cut's top, so tipping the head nose-down (which lifts
      everything behind the pivot) never pushes it above the back */
   const lap = [[CUT.a[0] + (CUT.b[0] - CUT.a[0]) * (11.0 - CUT.a[1]) / (CUT.b[1] - CUT.a[1]), 11.0]]; lap.push([lap[0][0] - 3.5, 13.6]);
   const underLap = P => clip(P, lap[1], lap[0], 1);
   const neckOf = d => P2(underLap(above(ahead(flat(d), shiftB, shiftB2), CUT.floor + 1)));
-  const neckFur = P2(above(neckOf(body), 18.3)), neckLow = P2(clip(below(neckOf(body), 18.2), [43.5, 18.2], [41.9, 24.6], 1)); /* the fur piece reaches back under the shoulders, but stops at the pale chest's back edge: when the head dips, the body's own pale chest shows where the neck slides back, so no grey strip or hairline opens in the bib (GrumpyDingo's seam tags) */
+  const neckFur = P2(above(neckOf(body), NECK_Y)); /* the neck fur stops at the top of the chest-front bands */
   const HEAD_PIVOT = [37.7, 11.0]; /* on the back line at the base of the neck, so the crest bends down from the withers with no step */
   /* ---- the walk, baked from IK (Oct 8): each paw's path is chosen, then the joint angles that put it there are solved ----
      Stance (62% of the stride; measured walk duty 0.58-0.64, ref/research/fetched/04-gait-curves): the paw stays flat on the ground and
@@ -209,6 +216,7 @@ function registerHero3(RIG){
       ...hind("F", 0, true), ...front("F", 1 - WALK.limbPhase, true), /* rig.js runs a leg with phase offset +x AHEAD by x, so a fore that lands 0.16 AFTER its hind gets 1 - 0.16 (hero2's +0.25 was a diagonal-sequence walk) */
       {id:"vault", at:BODY_PIVOT, track:"bodyWalk", in:"root"}, {id:"body", in:"vault"}, /* the body vaults over the planted legs (girdle drops); the vault is its own joint so the body keeps drawing over its tail and ear roots (rig.js draws an animated joint's parts under its children) */
       {id:"tail", at:[21.4, 14.0], track:"tailWalk", in:"body"},
+      {id:"headBody", at:HEAD_PIVOT, track:"headWalk", in:"body"}, /* no parts: carries the head's dip inside the body, for the skinned chest front (drawn under the near legs) */
       ...hind("N", .5, false), ...front("N", .5 - WALK.limbPhase, false),
       /* the head and neck draw after the near legs, so the jaw and throat sit in front of the top of the near upper arm (GrumpyDingo's tag: it
          poked out in front of the face once the head dipped). They ride a twin of the body's vault so they move with the body exactly. */
@@ -220,10 +228,12 @@ function registerHero3(RIG){
       tail, tailTop, tailTip,
       {d:earFar, in:"earFar"},
       {d:earNear, in:"earNear", paint:"tan"}, {d:earIn, in:"earNear", paint:"pale", id:"earIn"}, /* (ear and tail joints draw under all body parts in rig.js) */
-      {poly:P2(flat(body)), in:"body", id:"outlineRef", hidden:true, ref:true} /* never drawn: the unsplit body outline, for dogcheck */, {poly:neckFur, in:"skull", id:"neck"}, {poly:neckLow, in:"skull", id:"neckLow"} /* below the jaw: stops at the pale chest's back edge */, ...neckOf(saddle).length > 2 ? [{poly:neckOf(saddle), in:"skull", paint:"saddle", id:"saddleNeck"}] : [], {poly:neckOf(chest), in:"skull", paint:"pale", id:"throat", markOn:"outlineRef" /* it lies over the body's own pale chest, not only the neck fur: checked against the whole body outline */, mayHide:true /* tucks behind the chest as the head drops */},
+      {poly:P2(flat(body)), in:"body", id:"outlineRef", hidden:true, ref:true} /* never drawn: the unsplit body outline, for dogcheck */, {poly:neckFur, in:"skull", id:"neck"}, ...neckOf(saddle).length > 2 ? [{poly:neckOf(saddle), in:"skull", paint:"saddle", id:"saddleNeck"}] : [], {poly:P2(above(neckOf(chest), NECK_Y + .2)), in:"skull", paint:"pale", id:"throat", markOn:"outlineRef" /* it lies over the body's own pale chest, not only the neck fur: checked against the whole body outline */, mayHide:true /* tucks behind the chest as the head drops */},
       {d:cheek, in:"skull", paint:"pale", id:"cheek"},
-      ...torsoOf(body).map((P, k) => ({poly:P, in:"body", id:k ? "bodyChest" : "body"})),
-      ...torsoOf(saddle).map((P, k) => ({poly:P, in:"bodyHead", paint:"saddle", id:k ? "saddle2" : "saddle"})) /* the saddle draws over the near legs (bodyHead moves exactly with the body), so the thigh's top never shows over its edge as the hip swings (GrumpyDingo's tag, ~49%) */, ...torsoOf(chest).map((P, k) => ({poly:P, in:"body", paint:"pale", id:k ? "bib" : "bibTop", ...(k ? {mayHide:true /* fills the gap under the throat as the head dips; the neck covers it otherwise */} : {})})),
+      ...torsoOf(body).map(([t, P]) => ({poly:P, in:"body", id:{A:"body", B:"bodyChest", C:"bodyFront"}[t]})),
+      ...torsoOf(saddle).map(([t, P]) => ({poly:P, in:"bodyHead", paint:"saddle", id:{A:"saddle", B:"saddle2", C:"saddle3"}[t]})) /* the saddle draws over the near legs (bodyHead moves exactly with the body), so the thigh's top never shows over its edge as the hip swings (GrumpyDingo's tag, ~49%) */, ...torsoOf(chest).map(([t, P]) => ({poly:P, in:"body", paint:"pale", id:{A:"bibTop", B:"bib", C:"bibC"}[t], mayHide:true /* the pale under-layers: the skinned chest front and the near leg cover them in places */})),
+      /* the skinned chest front: fur, then its pale bib, bending between the body and the head */
+      {...chestSkin(body), in:"body", id:"chestFront"}, {...chestSkin(chest), in:"body", paint:"pale", id:"chestFrontPale", markOn:"outlineRef"},
       {d:belly, in:"body", paint:"pale", id:"belly"},
             {d:muzzleTop, in:"skull", paint:"tan", id:"muzzleTop"},
       {ellipse:[45.65, 11.3, .72, .44], in:"skull", paint:"ink", id:"eye"}, {ellipse:[49.8, 14.45, .62, .68], in:"skull", paint:"ink", id:"nose"},

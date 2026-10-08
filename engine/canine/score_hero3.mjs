@@ -15,7 +15,7 @@ fs.mkdirSync(out, { recursive: true });
 const GROUND = 35.5, WX = 37.2, PX = 40, [BW, BH] = D.box;
 const shape = (p, fill) => p.d ? `<path d="${p.d}" fill="${fill}"/>` : p.poly ? `<polygon points="${p.poly.map(q => q.join(',')).join(' ')}" fill="${fill}"/>`
   : p.circle ? `<circle cx="${p.circle[0]}" cy="${p.circle[1]}" r="${p.circle[2]}" fill="${fill}"/>` : p.ellipse ? `<ellipse cx="${p.ellipse[0]}" cy="${p.ellipse[1]}" rx="${p.ellipse[2]}" ry="${p.ellipse[3]}" fill="${fill}"/>` : '';
-const BODY = new Set(['body', 'bodyChest', 'neck', 'neckLow']); /* hero3 splits the body path into the torso and the neck-and-head piece (head joint); at rest they make the old outline */
+const BODY = new Set(['body', 'bodyChest', 'bodyFront', 'chestFront', 'neck']); /* hero3 splits the body path into the torso and the neck-and-head piece (head joint); at rest they make the old outline */
 const near = p => /N$/.test(p.in || '');                                  // legParts("N")
 const sets = {
   outline: D.parts.filter(p => BODY.has(p.id) || near(p)),             // what the request scores: body (with the neck and head piece) + near legs
