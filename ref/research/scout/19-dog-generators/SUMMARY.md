@@ -19,6 +19,13 @@ SMAL family (non-commercial, known), Hunyuan3D (excludes EU/UK sales), Luma Geni
 ## Needs GrumpyDingo (no sign-ups made, nothing bought)
 Accounts/purchases if pursued: Daz (base + Phenotypes + any aniBlocks), Fab, Unity Asset Store, Tripo/Meshy accounts, Spine or Rive licence, Stable Fast 3D's gated Hugging Face accept. All prices in `candidates.csv` are listing-page figures, unverified.
 
+## Atlas licence verdicts (2026-10-08, after the shortlist — full table with quotes: `docs/team/atlas/2026-10-08-generator-licences.md` on Atlas's branch)
+- **Daz Dog 8 + Phenotypes: OK with cost, 2D art only** — standard EULA covers commercial 2D renders incl. sprite stacks; Interactive License only for shipping 3D; one licence per person; AI image tools excluded. Phenotypes is $19.99 on top of the base.
+- **Fab pack: NOT determined** — fab.com and Epic help pages 403 every fetch; a human (GrumpyDingo) must read the listing and EULA.
+- **Tripo: free plan NOT OK** (§5.2.1 "Tripo retains all rights", contradicting §3.2); paid OK with cost. **Meshy: free plan not OK as it stands**; paid OK with cost.
+- **Spine: OK with cost** (Professional $379 sale for meshes+IK; one named person; $500k threshold counts financing; spine-pixi-v8 runtime carries the Spine Runtimes licence). **Rive: OK with cost** ($9/seat/mo removes splash; MIT runtimes; no official Pixi runtime).
+- My snippet prices held up where Atlas could see them.
+
 ## Open questions routed
 - **Atlas** (licence file `docs/team/atlas/2026-10-08-generator-licences.md`): Daz standard-EULA 2D-render question (decides rank 1), Fab EULA + price, Tripo free/paid ToS, Meshy confirmation, Spine runtime terms + $500k Enterprise threshold vs our plans, Rive seat terms, Animal Rigger Pro output licence.
 - **Spark**: Infinigen run (already assigned); then the best free-testable candidate — realistically only Infinigen and the open-weight shape models (TRELLIS/TripoSR, MIT) are testable without an account.
