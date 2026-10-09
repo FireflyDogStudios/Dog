@@ -1,0 +1,580 @@
+{
+  "build": "900943b",
+  "events": {},
+  "extra": {
+    "angles": [],
+    "bones": [],
+    "joints": [
+      {
+        "col": "#ffe08a",
+        "grp": "rH",
+        "id": "r_stop",
+        "lm": "Top line of the face: the dip where the forehead drops down to the muzzle, between the eyes.",
+        "name": "Stop (edge)"
+      },
+      {
+        "col": "#ffe08a",
+        "grp": "rH",
+        "id": "r_brow",
+        "lm": "Highest point of the head's top line in front of the ears.",
+        "name": "Forehead top (edge)"
+      },
+      {
+        "col": "#ffe08a",
+        "grp": "rH",
+        "id": "r_earBack",
+        "lm": "The near ear's base, its LEFT-hand corner (toward the tail), where it meets the head or neck fur.",
+        "name": "Near ear, left corner (edge)"
+      },
+      {
+        "col": "#ffe08a",
+        "grp": "rH",
+        "id": "r_earTip",
+        "lm": "Very tip of the near ear.",
+        "name": "Near ear, tip (edge)"
+      },
+      {
+        "col": "#ffe08a",
+        "grp": "rH",
+        "id": "r_eye",
+        "lm": "Centre of the near eye.",
+        "name": "Eye (centre)"
+      },
+      {
+        "col": "#ffe08a",
+        "grp": "rH",
+        "id": "r_mouth",
+        "lm": "Corner of the lips, at the back of the mouth line.",
+        "name": "Mouth corner"
+      },
+      {
+        "col": "#ffe08a",
+        "grp": "rH",
+        "id": "r_chin",
+        "lm": "Front-most point of the lower jaw on the outline, under the nose.",
+        "name": "Chin (edge)"
+      },
+      {
+        "col": "#ffe08a",
+        "grp": "rH",
+        "id": "r_jaw",
+        "lm": "Underside of the head: where the jaw line turns up into the throat.",
+        "name": "Jaw angle (edge)"
+      },
+      {
+        "col": "#ffb3ff",
+        "grp": "rB",
+        "id": "r_nape",
+        "lm": "Top line right behind the ears: where the head's outline becomes the neck's.",
+        "name": "Back of the neck (edge)"
+      },
+      {
+        "col": "#ffb3ff",
+        "grp": "rB",
+        "id": "r_scap",
+        "lm": "Top edge of the shoulder blade: a little below and in front of the withers point; on a shaggy wolf, at the top of the shoulder mass.",
+        "name": "Shoulder blade top (bone)"
+      },
+      {
+        "col": "#ffb3ff",
+        "grp": "rB",
+        "id": "r_back",
+        "lm": "Lowest point of the back line between the withers and the croup.",
+        "name": "Mid-back (edge)"
+      },
+      {
+        "col": "#ffb3ff",
+        "grp": "rB",
+        "id": "r_croup",
+        "lm": "Highest point of the rump's top line, over the hips, in front of the tail.",
+        "name": "Croup (edge)"
+      },
+      {
+        "col": "#ffb3ff",
+        "grp": "rB",
+        "id": "r_throat",
+        "lm": "Front line of the neck: where the throat meets the chest, under the jaw.",
+        "name": "Throat (edge)"
+      },
+      {
+        "col": "#ffb3ff",
+        "grp": "rB",
+        "id": "r_chest",
+        "lm": "Most forward point of the chest outline (in front of the breastbone).",
+        "name": "Point of the chest (edge)"
+      },
+      {
+        "col": "#ffb3ff",
+        "grp": "rB",
+        "id": "r_brisket",
+        "lm": "Lowest point of the chest outline, just behind the near elbow.",
+        "name": "Deepest chest (edge)"
+      },
+      {
+        "col": "#ffb3ff",
+        "grp": "rB",
+        "id": "r_tuck",
+        "lm": "Highest point of the belly line, just in front of the near thigh.",
+        "name": "Tuck-up (edge)"
+      },
+      {
+        "col": "#ffb3ff",
+        "grp": "rB",
+        "id": "r_buttock",
+        "lm": "Back-most point of the rump outline, under the tail.",
+        "name": "Point of the buttock (edge)"
+      },
+      {
+        "col": "#ff9d7a",
+        "grp": "rF",
+        "id": "r_elbowBack",
+        "lm": "Back point of the near elbow on the outline (the point of the elbow bone, olecranon).",
+        "name": "Elbow back (edge)"
+      },
+      {
+        "col": "#ff9d7a",
+        "grp": "rF",
+        "id": "r_wristFront",
+        "lm": "Front of the near wrist on the outline, level with the wrist joint.",
+        "name": "Wrist front (edge)"
+      },
+      {
+        "col": "#ff9d7a",
+        "grp": "rF",
+        "id": "r_wristBack",
+        "lm": "Back of the near wrist: the little pad bump behind it (accessory carpal pad).",
+        "name": "Wrist back (edge)"
+      },
+      {
+        "col": "#ff9d7a",
+        "grp": "rF",
+        "id": "r_fHeel",
+        "lm": "Where the back of the near front pastern meets the big pad, at the ground.",
+        "name": "Back of the front foot (edge)"
+      },
+      {
+        "col": "#ff9d7a",
+        "grp": "rF",
+        "id": "r_fToe",
+        "lm": "Front tip of the near front toes, at the ground.",
+        "name": "Front toe tip (edge)"
+      },
+      {
+        "col": "#9ad0ff",
+        "grp": "rK",
+        "id": "r_thighFront",
+        "lm": "Front line of the near thigh, level with the hip joint (where the thigh meets the flank).",
+        "name": "Thigh front (edge)"
+      },
+      {
+        "col": "#9ad0ff",
+        "grp": "rK",
+        "id": "r_kneeFront",
+        "lm": "Front of the near knee on the outline (the knee cap).",
+        "name": "Knee front (edge)"
+      },
+      {
+        "col": "#9ad0ff",
+        "grp": "rK",
+        "id": "r_hockPoint",
+        "lm": "The heel point at the back of the near hock (top of the calcaneus), behind the hock joint.",
+        "name": "Point of the hock (edge)"
+      },
+      {
+        "col": "#9ad0ff",
+        "grp": "rK",
+        "id": "r_hHeel",
+        "lm": "Where the back of the near hind foot meets the big pad, at the ground.",
+        "name": "Back of the hind foot (edge)"
+      },
+      {
+        "col": "#9ad0ff",
+        "grp": "rK",
+        "id": "r_hToe",
+        "lm": "Front tip of the near hind toes, at the ground.",
+        "name": "Hind toe tip (edge)"
+      },
+      {
+        "col": "#b8f0a0",
+        "grp": "rT",
+        "id": "r_tailTop",
+        "lm": "Where the top line of the tail leaves the rump (the built-in Tail base is the bone).",
+        "name": "Tail root top (edge)"
+      },
+      {
+        "col": "#b8f0a0",
+        "grp": "rT",
+        "id": "r_tailUnder",
+        "lm": "Where the underside of the tail leaves the buttock.",
+        "name": "Tail root underside (edge)"
+      },
+      {
+        "col": "#b8f0a0",
+        "grp": "rT",
+        "id": "r_tailWide",
+        "lm": "On the tail's underside: the point where the tail is widest.",
+        "name": "Tail widest (edge)"
+      },
+      {
+        "col": "#b8f0a0",
+        "grp": "rT",
+        "id": "r_tailTip",
+        "lm": "End of the tail, fur included.",
+        "name": "Tail tip (edge)"
+      }
+    ],
+    "tracks": [
+      {
+        "custom": true,
+        "id": "rH",
+        "joints": [
+          "r_stop",
+          "r_brow",
+          "r_earBack",
+          "r_earTip",
+          "r_eye",
+          "r_mouth",
+          "r_chin",
+          "r_jaw"
+        ],
+        "name": "Rig: head"
+      },
+      {
+        "custom": true,
+        "id": "rB",
+        "joints": [
+          "r_nape",
+          "r_scap",
+          "r_back",
+          "r_croup",
+          "r_throat",
+          "r_chest",
+          "r_brisket",
+          "r_tuck",
+          "r_buttock"
+        ],
+        "name": "Rig: neck, back and belly"
+      },
+      {
+        "custom": true,
+        "id": "rF",
+        "joints": [
+          "r_elbowBack",
+          "r_wristFront",
+          "r_wristBack",
+          "r_fHeel",
+          "r_fToe"
+        ],
+        "name": "Rig: near front leg"
+      },
+      {
+        "custom": true,
+        "id": "rK",
+        "joints": [
+          "r_thighFront",
+          "r_kneeFront",
+          "r_hockPoint",
+          "r_hHeel",
+          "r_hToe"
+        ],
+        "name": "Rig: near hind leg"
+      },
+      {
+        "custom": true,
+        "id": "rT",
+        "joints": [
+          "r_tailTop",
+          "r_tailUnder",
+          "r_tailWide",
+          "r_tailTip"
+        ],
+        "name": "Rig: tail"
+      }
+    ]
+  },
+  "facing": "auto",
+  "fps": 1,
+  "frames": 1,
+  "h": 640,
+  "images": [
+    {
+      "flip": false,
+      "h": 408,
+      "name": "01_wolf_inat130681789_RobFoster_stand_R-removebg-preview.png",
+      "ox": 36,
+      "oy": 24,
+      "s": 1.45098,
+      "w": 612
+    }
+  ],
+  "keys": {
+    "ear": {
+      "0": [
+        626.6,
+        158.8
+      ]
+    },
+    "nCa": {
+      "0": [
+        448,
+        455.1
+      ]
+    },
+    "nEl": {
+      "0": [
+        448.9,
+        331.9
+      ]
+    },
+    "nFp": {
+      "0": [
+        459.3,
+        510.1
+      ]
+    },
+    "nHi": {
+      "0": [
+        186.6,
+        228
+      ]
+    },
+    "nHo": {
+      "0": [
+        207.5,
+        444.1
+      ]
+    },
+    "nHp": {
+      "0": [
+        243,
+        521.6
+      ]
+    },
+    "nIl": {
+      "0": [
+        190.8,
+        199.1
+      ]
+    },
+    "nKn": {
+      "0": [
+        258.4,
+        329.1
+      ]
+    },
+    "nSh": {
+      "0": [
+        518.8,
+        245.7
+      ]
+    },
+    "nose": {
+      "0": [
+        707.4,
+        241.5
+      ]
+    },
+    "r_back": {
+      "0": [
+        371.3,
+        150.3
+      ]
+    },
+    "r_brisket": {
+      "0": [
+        430.1,
+        337.8
+      ]
+    },
+    "r_brow": {
+      "0": [
+        644.5,
+        154
+      ]
+    },
+    "r_buttock": {
+      "0": [
+        141.3,
+        209.8
+      ]
+    },
+    "r_chest": {
+      "0": [
+        512.6,
+        314.7
+      ]
+    },
+    "r_chin": {
+      "0": [
+        668.6,
+        275.6
+      ]
+    },
+    "r_croup": {
+      "0": [
+        228.2,
+        154.1
+      ]
+    },
+    "r_earBack": {
+      "0": [
+        592.6,
+        166.5
+      ]
+    },
+    "r_earTip": {
+      "0": [
+        619.5,
+        115.2
+      ]
+    },
+    "r_elbowBack": {
+      "0": [
+        432.8,
+        333.8
+      ]
+    },
+    "r_eye": {
+      "0": [
+        648.3,
+        197.5
+      ]
+    },
+    "r_fHeel": {
+      "0": [
+        442.3,
+        513.9
+      ]
+    },
+    "r_fToe": {
+      "0": [
+        494.4,
+        517.7
+      ]
+    },
+    "r_hHeel": {
+      "0": [
+        233.9,
+        524.1
+      ]
+    },
+    "r_hToe": {
+      "0": [
+        280.9,
+        525.7
+      ]
+    },
+    "r_hockPoint": {
+      "0": [
+        186.9,
+        448.2
+      ]
+    },
+    "r_jaw": {
+      "0": [
+        607,
+        243.3
+      ]
+    },
+    "r_kneeFront": {
+      "0": [
+        251.8,
+        342.4
+      ]
+    },
+    "r_mouth": {
+      "0": [
+        622,
+        230.1
+      ]
+    },
+    "r_nape": {
+      "0": [
+        573.8,
+        142.3
+      ]
+    },
+    "r_scap": {
+      "0": [
+        467.1,
+        160.7
+      ]
+    },
+    "r_stop": {
+      "0": [
+        663.3,
+        188.6
+      ]
+    },
+    "r_tailTip": {
+      "0": [
+        182.3,
+        440.3
+      ]
+    },
+    "r_tailTop": {
+      "0": [
+        155.2,
+        176.9
+      ]
+    },
+    "r_tailUnder": {
+      "0": [
+        138,
+        216.4
+      ]
+    },
+    "r_tailWide": {
+      "0": [
+        173.1,
+        328.7
+      ]
+    },
+    "r_thighFront": {
+      "0": [
+        258.7,
+        246.5
+      ]
+    },
+    "r_throat": {
+      "0": [
+        575.3,
+        280.8
+      ]
+    },
+    "r_tuck": {
+      "0": [
+        294.9,
+        313.9
+      ]
+    },
+    "r_wristBack": {
+      "0": [
+        433.7,
+        458
+      ]
+    },
+    "r_wristFront": {
+      "0": [
+        459.3,
+        451.3
+      ]
+    },
+    "tail": {
+      "0": [
+        167.5,
+        174
+      ]
+    },
+    "wither": {
+      "0": [
+        515.4,
+        145.6
+      ]
+    }
+  },
+  "name": "1 pictures",
+  "start": 0,
+  "updated": 1791530699219,
+  "w": 960
+}
