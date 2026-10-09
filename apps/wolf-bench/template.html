@@ -323,9 +323,9 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
 const BUILD = /*BUILD*/;
 const REPORT = /*REPORT*/;
 const GAIT_REF = /*GAITREF*/; /* Catavitello 2015 retrievers walk, mean included angle per 1% of each limb's stride (from ref/research/fetched/04-gait-curves/curves.csv) */
-registerDenRigs(RIG); registerHero3(RIG);
-const RIGS = [["hero3","hero3 · wolf"],["hero2","hero2 · the old dog"]]; /* more creatures join this list */
-const WH = {hero3:24.5, hero2:24.5}; /* withers height in drawing units, for measuring */
+registerDenRigs(RIG); registerHero3(RIG); registerHero5(RIG);
+const RIGS = [["hero3","hero3 · wolf"],["hero5","hero5 · wolf from photo 01 (new)"],["hero2","hero2 · the old dog"]]; /* more creatures join this list */
+const WH = {hero3:24.5, hero5:25, hero2:24.5}; /* withers height in drawing units, for measuring */
 
 /* ---------- posing: rig.js tick() as matrices (same maths as tools/dogcheck) ---------- */
 const mul=(A,B)=>[A[0]*B[0]+A[2]*B[1],A[1]*B[0]+A[3]*B[1],A[0]*B[2]+A[2]*B[3],A[1]*B[2]+A[3]*B[3],A[0]*B[4]+A[2]*B[5]+A[4],A[1]*B[4]+A[3]*B[5]+A[5]];
@@ -382,8 +382,10 @@ function skeletonSVG(R,M,showAng,z){const chains=[["hipF","shankF","metaF","htoe
 /* ---------- state ---------- */
 const $=id=>document.getElementById(id);
 const svg=$("stage"), mini=$("mini");
+const FIT={hero3:{cx:31,cy:19,w:58}, hero5:{cx:22,cy:19.5,w:64}, hero2:{cx:31,cy:19,w:58}}, MINI={hero3:"4 0 56 36", hero5:"-3 0 56 36", hero2:"4 0 56 36"}; /* each creature's own framing */
+const fitView=()=>({...(FIT[st.rig]||FIT.hero3)});
 const st={rig:"hero3",cmp:"",walking:true,playing:true,t:0,speed:1,stepDiv:48,loop:{on:false,a:.10,b:.25},tool:"move",bg:"#1d2128",skel:false,ang:false,onion:false,sil:false,ground:true,pins:true,hoverOn:true,game:true,
-  view:{cx:31,cy:19,w:58}, draft:null, notes:[], db:null, hover:null, measure:null, ref:null, filter:"open", focus:null, ghost:{on:false,n:2,step:.125,pick:"all",col:false}, hideDog:false, paths:false,
+  view:{cx:31,cy:19,w:58} /* set to the creature's own framing at start */, draft:null, notes:[], db:null, hover:null, measure:null, ref:null, filter:"open", focus:null, ghost:{on:false,n:2,step:.125,pick:"all",col:false}, hideDog:false, paths:false,
   hid:{}, trouble:[], troubleOn:true, sel:null, tDraft:null, pFilter:"all"};
 let R=rigData(st.rig);
 const GROUND=35.55, phaseNow=()=>st.walking?((st.t/R.D.stride)%1):null;
@@ -487,7 +489,7 @@ const toggles=[["oSkel","skel"],["oAng","ang"],["oSil","sil"],["oGround","ground
 const toggle=(id,k)=>{st[k]=!st[k]; press($(id),st[k]); if(k==="game") $("inset").hidden=!st.game;};
 toggles.forEach(([id,k])=>$(id).onclick=()=>toggle(id,k));
 document.querySelectorAll(".sw").forEach(b=>b.onclick=()=>{st.bg=b.dataset.bg; document.querySelectorAll(".sw").forEach(x=>press(x,x===b));});
-$("rig").onchange=e=>{st.rig=e.target.value; R=rigData(st.rig); st.sel=null; renderNotes(); renderParts();};
+$("rig").onchange=e=>{st.rig=e.target.value; R=rigData(st.rig); st.sel=null; st.view=fitView(); mini.setAttribute("viewBox",MINI[st.rig]||MINI.hero3); renderNotes(); renderParts();};
 const gToggle=()=>{st.ghost.on=!st.ghost.on; press($("gOn"),st.ghost.on);};
 $("gOn").onclick=gToggle;
 $("gN").onchange=e=>{st.ghost.n=+e.target.value; syncGhostPick();}; $("gStep").onchange=e=>{st.ghost.step=+e.target.value; syncGhostPick();};
@@ -498,9 +500,11 @@ $("gCol").onclick=()=>{st.ghost.col=!st.ghost.col; press($("gCol"),st.ghost.col)
 syncGhostPick();
 $("cmp").onchange=e=>{st.cmp=e.target.value;};
 const zoomBy=(k,cx,cy)=>{const v=st.view, nw=Math.max(.6,Math.min(120,v.w/k)); if(cx!=null){v.cx=cx+(v.cx-cx)*(nw/v.w); v.cy=cy+(v.cy-cy)*(nw/v.w);} v.w=nw;};
-$("zIn").onclick=()=>zoomBy(1.5); $("zOut").onclick=()=>zoomBy(1/1.5); $("zFit").onclick=()=>{st.view={cx:31,cy:19,w:58};};
-const AREAS={head:[46,10,14],neck:[43,18,14],front:[40,27,16],hind:[20,25,18],paws:[30,33.5,34],tail:[16,21,16],back:[30,13,30]};
-$("zGo").onchange=e=>{const a=AREAS[e.target.value]; if(a) st.view={cx:a[0],cy:a[1],w:a[2]}; e.target.value="";};
+$("zIn").onclick=()=>zoomBy(1.5); $("zOut").onclick=()=>zoomBy(1/1.5); $("zFit").onclick=()=>{st.view=fitView();};
+const AREAS_BY={hero3:{head:[46,10,14],neck:[43,18,14],front:[40,27,16],hind:[20,25,18],paws:[30,33.5,34],tail:[16,21,16],back:[30,13,30]},
+  hero5:{head:[39.5,12,14],neck:[34,18,14],front:[27.5,27,16],hind:[11.5,25,18],paws:[20,33.5,34],tail:[6,21,16],back:[22,13,30]}}; /* hero5 stands about 7 units further left than hero3 (its tail hangs from x 0.5) */
+const AREAS_OF=()=>AREAS_BY[st.rig]||AREAS_BY.hero3;
+$("zGo").onchange=e=>{const a=AREAS_OF()[e.target.value]; if(a) st.view={cx:a[0],cy:a[1],w:a[2]}; e.target.value="";};
 const toDraw=ev=>{const pt=svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY; const p=pt.matrixTransform(svg.getScreenCTM().inverse()); return [p.x,p.y];};
 const partAt=ev=>{const el=document.elementFromPoint(ev.clientX,ev.clientY); return el&&el.dataset&&el.dataset.i!=null?{j:el.dataset.j,i:+el.dataset.i}:null;};
 svg.addEventListener("wheel",ev=>{ev.preventDefault(); const [x,y]=toDraw(ev); zoomBy(ev.deltaY<0?1.15:1/1.15,x,y);},{passive:false});
@@ -547,7 +551,7 @@ document.addEventListener("keydown",e=>{const tg=e.target.tagName; if(tg==="TEXT
   if(k===" "){e.preventDefault(); $("play").click();}
   else if(k==="ArrowLeft"||k==="ArrowRight"){e.preventDefault(); step((k==="ArrowLeft"?-1:1)*(e.shiftKey?5:1));}
   else if("12345".includes(k)&&k.length===1) setTool(["move","pin","arrow","pen","measure"][+k-1]);
-  else if(k==="+"||k==="=") zoomBy(1.25); else if(k==="-"||k==="_") zoomBy(1/1.25); else if(k==="0") st.view={cx:31,cy:19,w:58};
+  else if(k==="+"||k==="=") zoomBy(1.25); else if(k==="-"||k==="_") zoomBy(1/1.25); else if(k==="0") st.view=fitView();
   else if(k==="s"||k==="S"){if(st.walking){setWalking(false); setPlaying(false);} else {setWalking(true); setPlaying(true);}}
   else if(k==="k"||k==="K") toggle("oSkel","skel"); else if(k==="g"||k==="G") gToggle(); else if(k==="["||k==="]") gStepPick(k==="]"?1:-1); else if(k==="h"||k==="H") toggle("hideDog","hideDog"); else if(k==="p"||k==="P") toggle("oPaths","paths");
   else if(k===","||k==="<") setSpeed(st.speed/1.25); else if(k==="."||k===">") setSpeed(st.speed*1.25);
@@ -611,7 +615,7 @@ $("nClearFixed").onclick=e=>{const L=st.notes.filter(n=>n.status==="fixed"); if(
 $("nClearAll").onclick=e=>{const L=st.notes.slice(), T=mineTags(); if(!L.length&&!T.length){$("store").textContent="Nothing to clear: no notes or part tags."; return;}
   armed(e.currentTarget,`Delete ${L.length} note${L.length===1?"":"s"} + ${T.length} tag${T.length===1?"":"s"}?`,async()=>{const a=await clearDocs("notes",L), b=await clearDocs("parts",T); $("store").textContent=`Cleared ${a} note${a===1?"":"s"} and ${b} part tag${b===1?"":"s"}.`;});};
 $("pClearTr").onclick=e=>{const T=mineTags(); if(!T.length){$("store").textContent="No part tags to clear."; return;} armed(e.currentTarget,`Delete ${T.length} tag${T.length===1?"":"s"}?`,async()=>{const b=await clearDocs("parts",T); $("store").textContent=`Cleared ${b} part tag${b===1?"":"s"}.`;});};
-function showNote(n){if(n.rig!==st.rig){st.rig=n.rig; $("rig").value=n.rig; R=rigData(n.rig);} if(n.standing){setWalking(false);} else {setWalking(true); st.t=(n.phase||0)*R.D.stride;} setPlaying(false); st.focus=n.id;
+function showNote(n){if(n.rig!==st.rig){st.rig=n.rig; $("rig").value=n.rig; R=rigData(n.rig); mini.setAttribute("viewBox",MINI[st.rig]||MINI.hero3);} if(n.standing){setWalking(false);} else {setWalking(true); st.t=(n.phase||0)*R.D.stride;} setPlaying(false); st.focus=n.id;
   const M=pose(R,st.t,st.walking), p=at(M,n.joint,[n.lx,n.ly]), q=n.type==="arrow"?at(M,n.joint,[n.lx2,n.ly2]):p;
   st.view={cx:(p[0]+q[0])/2,cy:(p[1]+q[1])/2,w:Math.max(8,(n.r||0)*6,Math.hypot(q[0]-p[0],q[1]-p[1])*2.5)};}
 async function setStatus(n,s){if(st.db&&!String(n.id).startsWith("local")){try{await st.db.doc("notes/"+n.id).update({status:s});}catch(e){$("store").textContent="Could not update that note: "+(e.message||e.code);}} else {n.status=s; saveLocal(); renderNotes();}}
@@ -663,7 +667,7 @@ function openMenu(ev){ev.preventDefault(); closeMenu(); menuFocus=document.activ
   sep(); const n=hiddenSet().size; if(n) item(`Show all hidden parts (${n})`,"U",showAll);
   item(st.playing&&st.walking?"Pause":"Play","Space",()=>$("play").click()); item(st.walking?"Stand still":"Walk","S",()=>st.walking?$("pStand").click():$("pWalk").click());
   item(st.skel?"Skeleton off":"Skeleton on","K",()=>toggle("oSkel","skel")); item(st.troubleOn?"Trouble outlines off":"Trouble outlines on","",()=>toggle("oTrouble","troubleOn"));
-  item("Fit to view","0",()=>{st.view={cx:31,cy:19,w:58};});
+  item("Fit to view","0",()=>{st.view=fitView();});
   add.forEach((a,k)=>{if(!a){if(k&&add[k-1]&&k<add.length-1) cm.append(document.createElement("hr")); return;}
     const b=document.createElement("button"); b.setAttribute("role","menuitem"); const l=document.createElement("span"); l.textContent=a.label; b.append(l);
     if(a.key){const kb=document.createElement("kbd"); kb.textContent=a.key; b.append(kb);} b.onclick=()=>{closeMenu(); a.fn();}; cm.append(b);});
