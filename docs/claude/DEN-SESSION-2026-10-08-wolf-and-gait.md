@@ -25,3 +25,11 @@ GrumpyDingo's 920 hand-placed points are in `ref/research/firefly/fox-walk-analy
 - The team review of the wolf.
 - The other species, in parallel.
 - Other places skinning could help: the hip/thigh join and the tail root.
+
+## Overnight, Oct 9 (Firefly, on GrumpyDingo's "use your best judgement, keep it off the Wolf Bench")
+- **hero5 walks** on the shared canine walk engine (`canineWalk`, engine/hero3.js); `engine/hero5.js` is generated: `python3 tools/den/hero5_build.py && python3 tools/den/hero5_engine.py`. Load order rig.js, rig_den.js, hero3.js, hero5.js. `./den dogcheck hero5` now works (0 fail; joint patterns 0.81-0.96).
+- Fixed his two notes: ball feet (hind paw now the front paw's shape) and the ball on the back of the leg (it was my rounded tail tip).
+- **Tail from photo 12** (his vector): hangs clear of the leg. If it should go back to photo 01's tail, delete or rename the photo-12 SVG and rebuild; the builder falls back.
+- **First coat** (tools/den/hero5_marks.py): every zone shape is a few numbers at the top of `zones()` (saddle thickness per body region, belly depth, where the leg tan starts), so tweaks are quick.
+- Probes: tools/bench/probe/sheet5.mjs (true vectors, any background, per-piece colours), pixi5.cjs (game renderer), and the dogcheck sheet.
+- Open for GrumpyDingo: does the coat read right; the tail swap; the straight 'sock line' where the legs turn tawny (could be a soft diagonal or two-step); hero5 onto the Wolf Bench when he says.
