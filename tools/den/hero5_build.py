@@ -30,9 +30,29 @@ def smooth_ring(coords, sigma, step=2.0):
 def smooth_poly(poly, sigma):
     poly = big(poly.buffer(0)); return Polygon(smooth_ring(list(poly.exterior.coords), sigma)).buffer(0).simplify(.6)
 
+VECTOR = ROOT / 'ref/research/firefly/wolf-silhouettes/hand/01_wolf_RobFoster_vector_GrumpyDingo.svg'  # GrumpyDingo's vector silhouette of photo 01 (VTracer)
+_OUTLINE = None
 def outline():
+    """the master silhouette: GrumpyDingo's vector silhouette when there is one (clean curves; it overlaps the photo's own cut-out 0.97), fitted onto
+       the photo by its bounding box; otherwise the photo's IS-Net mask, smoothed"""
+    global _OUTLINE
+    if _OUTLINE is not None: return _OUTLINE
+    if VECTOR.exists():
+        import subprocess, tempfile
+        with tempfile.TemporaryDirectory() as td:
+            png = pathlib.Path(td) / 'v.png'; subprocess.run(['inkscape', str(VECTOR), '-o', str(png), '-w', '4096'], check=True, capture_output=True); V = np.array(Image.open(png).convert('LA'))
+        V = (V[..., 1] > 127) & (V[..., 0] < 128); ys, xs = np.nonzero(V); M = np.load(MASK); my, mx = np.nonzero(M)
+        sx = (mx.max() - mx.min()) / (xs.max() - xs.min()); sy = (my.max() - my.min()) / (ys.max() - ys.min())
+        C = max(measure.find_contours(V.astype(float), .5), key=len)
+        a0, b0, a1, b1 = mx.min(), my.min(), xs.min(), ys.min()
+        _OUTLINE = smooth_poly(Polygon([(a0 + (c[1] - a1) * sx, b0 + (c[0] - b1) * sy) for c in C]), 2.0); return _OUTLINE
+    return outline_photo()
+_OPH = None
+def outline_photo():
+    global _OPH
+    if _OPH is not None: return _OPH
     M = np.load(MASK); M = gaussian_filter(M.astype(float), 2.0) > .5  # a light blur first, so single stray hairs never become spikes
-    C = max(measure.find_contours(M.astype(float), .5), key=len); return smooth_poly(Polygon([(c[1], c[0]) for c in C]), SMOOTH_PX)
+    C = max(measure.find_contours(M.astype(float), .5), key=len); _OPH = smooth_poly(Polygon([(c[1], c[0]) for c in C]), SMOOTH_PX); return _OPH
 
 def ang(a, b, c):
     v1, v2 = a - b, c - b; return math.degrees(math.acos(np.clip(v1 @ v2 / np.linalg.norm(v1) / np.linalg.norm(v2), -1, 1)))
@@ -127,6 +147,12 @@ def build(knee_dx):
     body = big(O.difference(fr.difference(gap)).difference(rr.difference(gap)))
     body = big(body.difference(box(P['r_kneeFront'][0] + 4, P['nEl'][1] + .9 * ppu, P['r_elbowBack'][0] - 4, g + 99)))  # never below the elbows' level
     hcut = LineString([P['r_nape'] + (P['r_nape'] - P['r_throat']) * .3, P['r_throat'] + (P['r_throat'] - P['r_nape']) * .3]); head = side(body, hcut, P['nose']); trunk = side(body, hcut, P['wither'])
+    # the ear: the vector silhouette melts it into a lump, so inside a box round the ear the photo's own (smoothed) outline is used instead
+    if VECTOR.exists():
+        eL, eT, eR = P['r_earBack'], P['r_earTip'], P['ear']; xs_ = [eL[0], eT[0], eR[0]]
+        ebox = box(max(min(xs_) - 2.2 * ppu, max(P['r_nape'][0], P['r_throat'][0]) + .3 * ppu), eT[1] - 3 * ppu, max(xs_) + 1.0 * ppu, max(eL[1], eR[1]) + .2 * ppu)
+        photo_ear = outline_photo().intersection(ebox)
+        head = big(head.difference(ebox).union(photo_ear.intersection(head.buffer(3 * ppu))).buffer(.5).buffer(-.5))
     # the tail: a band along its own line (root between its top and underside, through its widest point, to the tip), trimmed to the photo's
     # outline; in photo 01 it hangs over the far hind leg, so "everything behind the near leg" would take the far thigh too
     root = (P['r_tailTop'] + P['r_tailUnder']) / 2; w0 = np.linalg.norm(P['r_tailTop'] - P['r_tailUnder']); tip = P['r_tailTip']
@@ -137,6 +163,7 @@ def build(knee_dx):
     tail_ribbon = Polygon([c + nvec * wf(u) / 2 for c, u in zip(C, us)] + [c - nvec * wf(u) / 2 for c, u in zip(C, us)][::-1]).buffer(0)
     wide = Polygon([c + nvec * wf(u) * .75 for c, u in zip(C, us)] + [c - nvec * wf(u) * .75 for c, u in zip(C, us)][::-1]).buffer(0)
     tail = big(O.intersection(wide).union(tail_ribbon)); tail = big(tail.intersection(O.buffer(ppu * .15)))
+    tail = big(tail.union(O.intersection(tail.buffer(ppu * .35))))  # fill the photo's silhouette right round it, so no notch opens where the tip meets the leg
     tail_line = [P['r_tailUnder'], P['r_buttock'], P['r_hockPoint']]; tail_zone = tail
     # the thigh: the rump behind a line from the tuck up through the pelvis top, down to the knee (skinned to the body)
     tl = LineString([P['r_tuck'] + (P['r_tuck'] - P['nIl']) * .4, P['nIl'] + (P['nIl'] - P['r_tuck']) * 1.5])
