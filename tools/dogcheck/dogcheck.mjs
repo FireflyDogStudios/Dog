@@ -275,7 +275,24 @@ async function notches(M, r = 0.12) { const { data, w, h } = await raster(svgOf(
     const mlo = Math.min(...m), mhi = Math.max(...m), tol = k === 'carpus' ? 25 : 10; /* Catavitello's carpus uses the toe tip: inflated, so a wider tolerance */
     const off = []; if (lo < mlo - tol) off.push(`bends to ${lo.toFixed(0)}, beyond the measured ${mlo.toFixed(0)}`); if (hi > mhi + tol) off.push(`opens to ${hi.toFixed(0)}, beyond the measured ${mhi.toFixed(0)}`);
     if (hi - lo < (mhi - mlo) * .5) off.push(`moves only ${(hi - lo).toFixed(0)}° against the measured ${(mhi - mlo).toFixed(0)}°`);
-    add('joints', off.length ? 'WARN' : 'PASS', `${k}: standing ${rest[k].toFixed(0)}, walk ${lo.toFixed(0)}–${hi.toFixed(0)}; measured dog walk ${mlo.toFixed(0)}–${mhi.toFixed(0)}${off.length ? ': ' + off.join('; ') : ''}`); } }
+    add('joints', off.length ? 'WARN' : 'PASS', `${k}: standing ${rest[k].toFixed(0)}, walk ${lo.toFixed(0)}–${hi.toFixed(0)}; measured dog walk ${mlo.toFixed(0)}–${mhi.toFixed(0)}${off.length ? ': ' + off.join('; ') : ''}`); }
+  /* pattern (Oct 9, GrumpyDingo: "are our joints functioning like the actual joints?"): the shape of each near-side joint's curve over one stride,
+     from that paw's touchdown, against the walking dogs (Catavitello 2015, 5 retrievers) and GrumpyDingo's tracked fox (the fox agrees with the dogs:
+     shapes 0.6-0.97 once lined up, ref/research/firefly/fox-walk-analysis/JOINT-PATTERNS-2026-10-09.md). r is the shape match (1 = same pattern,
+     0 = unrelated, below 0 = opposite) with no time shift, since timing is the point; the dogs' carpus runs to the toe tip, so only its shape counts. */
+  { const offH = (J.hipN && J.hipN.ph) || 0, offF = (J.shN && J.shN.ph) || 0, cur = {};
+    for (let f = 0; f < 100; f++) { const u = f / 100, ah = angles(pose(((u - offH + 2) % 1) * D.stride)), af = angles(pose(((u - offF + 2) % 1) * D.stride));
+      for (const k of ['stifle', 'tarsus']) (cur[k] ||= []).push(ah[k]); for (const k of ['shoulder', 'elbow', 'carpus']) if (af[k] != null) (cur[k] ||= []).push(af[k]); }
+    let fox = null; try { fox = JSON.parse(fs.readFileSync(path.join(ROOT, 'ref/research/firefly/fox-walk-analysis/tracked/results/Fox.mp4_480x270_433_0_1500.json'), 'utf8')).angles; } catch (e) {}
+    const FOX = { carpus: ['ncarpus', 14, 35], elbow: ['nelbow', 14, 35], shoulder: ['nshoulder', 14, 35], tarsus: ['ntarsus', 29, 50] }; /* one near-side stride each, touchdown to touchdown, read off the paw tracks */
+    const corr = (a, b) => { const n = a.length, ma = a.reduce((x, y) => x + y) / n, mb = b.reduce((x, y) => x + y) / n; return a.reduce((t, v, i) => t + (v - ma) * (b[i] - mb), 0) / Math.sqrt(a.reduce((t, v) => t + (v - ma) ** 2, 0) * b.reduce((t, v) => t + (v - mb) ** 2, 0)); };
+    const at = (A, u) => { const x = u * (A.length - 1), i = Math.floor(x), t = x - i; return A[i] * (1 - t) + A[Math.min(A.length - 1, i + 1)] * t; };
+    for (const k of ['shoulder', 'elbow', 'carpus', 'stifle', 'tarsus']) { const m = W[k], c = cur[k]; if (!m || !c) continue;
+      const us = [...Array(51)].map((_, i) => i / 50), rDog = corr(us.map(u => at(m, u)), us.map(u => at(c, u)));
+      let rFox = null; if (fox && FOX[k] && fox[FOX[k][0]]) { const [id, f0, f1] = FOX[k], pts = []; for (let f = f0; f <= f1; f++) { const v = fox[id].perFrame[f]; if (v != null) pts.push([(f - f0) / (f1 - f0), v]); }
+        if (pts.length > 8) rFox = corr(pts.map(e => e[1]), pts.map(e => at(c, Math.min(.999, e[0])))); }
+      const lvl = rDog >= .7 ? 'PASS' : 'WARN', say = rDog >= .7 ? 'moves like the dogs' : rDog >= .4 ? 'partly like the dogs' : rDog >= 0 ? 'unlike the dogs' : 'the opposite of the dogs';
+      add('pattern', lvl, `${k}: shape match ${rDog.toFixed(2)} with walking dogs${rFox != null ? `, ${rFox.toFixed(2)} with the tracked fox` : ''} (${say}; target 0.7)`); } } }
 
 // ---------- contrast at game size ----------
 { const lum = c => { const n = parseInt(c.slice(1), 16), ch = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }); return .2126 * ch[0] + .7152 * ch[1] + .0722 * ch[2]; };

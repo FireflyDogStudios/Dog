@@ -2,7 +2,7 @@
 import fs from 'node:fs'; import vm from 'node:vm';
 const src = { rig: fs.readFileSync(new URL('../../../engine/rig.js', import.meta.url), 'utf8'), den: fs.readFileSync(new URL('../../../engine/rig_den.js', import.meta.url), 'utf8'), h3: fs.readFileSync(new URL('../../../engine/hero3.js', import.meta.url), 'utf8') };
 const HIND = src.h3.match(/hind:\{duty:[^}]*\}/)[0];
-export function load(hind) { const box = { console, Math }; vm.createContext(box); vm.runInContext(src.rig, box); vm.runInContext(src.den, box); vm.runInContext(src.h3.replace(HIND, hind || HIND), box); vm.runInContext('registerDenRigs(RIG); registerHero3(RIG);', box); return vm.runInContext('RIG.DEFS.hero3', box); }
+export function load(hind) { const box = { console, Math }; vm.createContext(box); vm.runInContext(src.rig, box); vm.runInContext(src.den, box); vm.runInContext(src.h3.replace(HIND, hind || HIND), box); vm.runInContext('registerDenRigs(RIG); registerHero3(RIG);', box); const D = vm.runInContext('RIG.DEFS.hero3', box); Object.defineProperty(D, '__RIG', { value: vm.runInContext('RIG', box) }); return D; }
 export function score(D) { const T = ['hhip', 'hshank', 'hmeta'].map(n => D.tracks[n].map(k => k.v)); const n = T[0].length - 1; let worst = 0, at = 0;
   for (const v of T) for (let i = 0; i < n; i++) { const a = v[(i - 1 + n) % n], b = v[i], c = v[(i + 1) % n], d2 = Math.abs(a - 2 * b + c); if (d2 > worst) { worst = d2; at = i / n; } }
   const sh = T[1], lo = Math.min(...sh), lock = sh.filter(v => v < lo + .05).length; return { worst: +worst.toFixed(1), at: +(at * 100).toFixed(0), lockKeys: lock }; }
