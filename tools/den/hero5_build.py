@@ -224,7 +224,7 @@ def build(knee_dx):
     # the head overlaps a strip of the neck behind its cut, so a nod never opens the seam
     strip = hcut.buffer(1.2 * ppu, cap_style=2); parts['head'] = big(parts['head'].union(trunk.intersection(strip)))
     parts = {k: smooth_poly(v, 2.5).buffer(.05 * ppu) for k, v in parts.items()}  # a last light pass, so the cut seams and traced rows leave no steps; the small grow overlaps neighbours (no hairline seams)
-    return {'joints': J, 'outline': UP(O), 'parts': {k: UP(v) for k, v in parts.items()}, 'report': rep, 'photoFarPaws': farpaw}
+    return {'joints': J, 'outline': UP(O), 'parts': {k: UP(v) for k, v in parts.items()}, 'report': rep, 'photoFarPaws': farpaw, 'frame': {'X0': float(X0), 'g': float(g), 'ppu': float(ppu)}}  # frame: rig units ↔ photo px
 
 if __name__ == '__main__':
     P = points(); dx = 0

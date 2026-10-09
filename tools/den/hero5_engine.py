@@ -24,7 +24,13 @@ fit = {'hind': ground_fit('nKn', 'nHo', 'nHp', ['thigh', 'shank', 'cannon', 'hpa
 J = {k: [r2(v[0]), r2(v[1])] for k, v in J.items()}
 parts = {k: [[r2(x), r2(y)] for x, y in v] for k, v in parts.items()}
 print('ground fit (units lifted):', {k: round(v, 3) for k, v in fit.items()})
-data = {'J': J, 'parts': parts}
+import sys; sys.path.insert(0, str(ROOT / 'tools/den')); import hero5_marks
+PAL, _, _ = hero5_marks.palette(J, parts, G['frame'])
+marks = [{'id': i, 'host': h, 'paint': p, 'poly': [[r2(x), r2(y)] for x, y in list(g.exterior.coords)[:-1]]} for i, h, p, g in hero5_marks.zones(J, parts)]
+print('marks', [(m['id'], m['host'], len(m['poly'])) for m in marks]); print('palette', PAL)
+from shapely.geometry import Polygon as _Poly
+_ref = _Poly(parts['trunk']).buffer(0).union(_Poly(parts['head']).buffer(0)).buffer(.01)
+data = {'J': J, 'parts': parts, 'marks': marks, 'outlineRef': [[r2(x), r2(y)] for x, y in list(_ref.exterior.coords)[:-1]]}
 js = '''/* hero5: the wolf cut from a real wolf (Oct 9, 2026). Photo 01 (Rob Foster, iNaturalist, CC BY 4.0), GrumpyDingo's vector silhouette of it and his
    44 rig points (ref/research/firefly/wolf-rig-points/); built by tools/den/hero5_build.py, written by tools/den/hero5_engine.py: do not edit by hand.
    Walks with the shared canine walk engine (canineWalk, engine/hero3.js): every leg joint follows the measured walking dogs. Units: withers height 25,
@@ -53,14 +59,17 @@ function registerHero5(RIG){
   const W0 = J.nIl[1] + (J.nKn[1] - J.nIl[1]) * .2, W1 = J.nKn[1] - (J.nKn[1] - J.nIl[1]) * .15;
   const densify = (P, step) => P.flatMap((q, k) => { const n = P[(k + 1) % P.length], m = Math.max(1, Math.ceil(Math.hypot(n[0] - q[0], n[1] - q[1]) / step)); return [...Array(m)].map((_, u) => [f2(q[0] + (n[0] - q[0]) * u / m), f2(q[1] + (n[1] - q[1]) * u / m)]); });
   const thighSkin = P0 => { const P = densify(P0, .3); return {poly:P, skin:{to:"body", w:P.map(q => { const u = Math.max(0, Math.min(1, (q[1] - W0) / (W1 - W0))); return +(1 - u * u * (3 - 2 * u)).toFixed(3); })}}; };
+  const legMk = (h, k, dx) => G.marks.filter(m => m.host === h).map(m => ({poly:shP(m.poly, dx), in:{shank:"shank", forearm:"fore"}[h] + k, paint:m.paint, id:m.id + k}));
   const legParts = k => { const dh = k === "F" ? FAR_DX.hind : 0, df = k === "F" ? FAR_DX.front : 0, P = G.parts;
     const hide = k === "F" ? {mayHide:true} : {}; /* the far legs tuck behind the body and the near legs */
-    return [{...thighSkin(shP(P.thigh, dh)), in:"hip" + k, id:"thigh" + k}, {poly:shP(P.shank, dh), in:"shank" + k, id:"shank" + k}, {poly:shP(P.cannon, dh), in:"meta" + k, id:"cannon" + k}, {poly:shP(P.hpaw, dh), in:"htoe" + k, id:"hpaw" + k},
-      {poly:shP(P.upperarm, df), in:"sh" + k, id:"upperarm" + k}, {poly:shP(P.forearm, df), in:"fore" + k, id:"forearm" + k}, {poly:shP(P.pastern, df), in:"past" + k, id:"pastern" + k}, {poly:shP(P.fpaw, df), in:"ftoe" + k, id:"fpaw" + k}].map(p => ({...p, ...hide})); };
+    return [{...thighSkin(shP(P.thigh, dh)), in:"hip" + k, id:"thigh" + k}, {poly:shP(P.shank, dh), in:"shank" + k, id:"shank" + k}, ...legMk("shank", k, dh), {poly:shP(P.cannon, dh), in:"meta" + k, id:"cannon" + k, paint:"leg"}, {poly:shP(P.hpaw, dh), in:"htoe" + k, id:"hpaw" + k, paint:"pale"},
+      {poly:shP(P.upperarm, df), in:"sh" + k, id:"upperarm" + k}, {poly:shP(P.forearm, df), in:"fore" + k, id:"forearm" + k}, ...legMk("forearm", k, df), {poly:shP(P.pastern, df), in:"past" + k, id:"pastern" + k, paint:"leg"}, {poly:shP(P.fpaw, df), in:"ftoe" + k, id:"fpaw" + k, paint:"pale"}].map(p => ({...p, ...hide})); };
+  /* the coat's markings (tools/den/hero5_marks.py): each rides the piece it was cut inside and draws just after it */
+  const HOST = {tail:"tail", trunk:"body", head:"skull"}, mk = h => G.marks.filter(m => m.host === h).map(m => ({poly:m.poly, in:HOST[h], paint:m.paint, id:m.id, ...(m.id === "belly" ? {mayHide:true} : {}), ...(m.host === "head" && /Neck$|^throat$/.test(m.id) ? {markOn:"outlineRef"} : {})})); /* the neck pieces lap over the trunk's: checked against the whole outline */
   RIG.define("hero5", {
     stride:1, gait:{duty:WALK.front.duty, hindDuty:WALK.hind.duty, limbPhase:WALK.limbPhase, speed:WALK.speed},
     landmarks:{scapTop:{at:Fj.sc, in:"body", note:"top of the shoulder blade (GrumpyDingo's point on photo 01)"}}, tracks,
-    palette:{fur:"#918a7f", saddle:"#625a51", tan:"#a8947a", leg:"#9f8f79", pale:"#ece6da", pale2:"#c8baa4", furDark:"#3f3933", ink:"#1e1a16", far:.74},
+    palette:''' + json.dumps({**PAL, 'far': .74}) + ''',  /* sampled from photo 01 by tools/den/hero5_marks.py */
     joints:[
       ...hind("F", 0, true), ...front("F", 1 - WALK.limbPhase, true),
       {id:"vault", at:BODY_PIVOT, track:"bodyWalk", in:"root"}, {id:"body", in:"vault"},
@@ -68,7 +77,7 @@ function registerHero5(RIG){
       ...hind("N", .5, false), ...front("N", .5 - WALK.limbPhase, false),
       {id:"vaultHead", at:BODY_PIVOT, track:"bodyWalk", in:"root"}, {id:"bodyHead", in:"vaultHead"},
       {id:"head", at:HEAD_PIVOT, track:"headWalk", in:"bodyHead"}, {id:"skull", in:"head"}],
-    parts:[...legParts("F"), {poly:G.parts.tail, in:"tail", id:"tail"}, {poly:G.parts.trunk, in:"body", id:"body"}, ...legParts("N"), {poly:G.parts.head, in:"skull", id:"head"}],
+    parts:[...legParts("F"), {poly:G.parts.tail, in:"tail", id:"tail"}, ...mk("tail"), {poly:G.parts.trunk, in:"body", id:"body"}, {poly:G.outlineRef, in:"body", id:"outlineRef", hidden:true, ref:true} /* never drawn: trunk and head as one, for dogcheck */, ...mk("trunk"), ...legParts("N"), {poly:G.parts.head, in:"skull", id:"head"}, ...mk("head")],
     states:{}
   });
 }

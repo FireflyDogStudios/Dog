@@ -31,7 +31,7 @@
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (6.6, 26.3), 0.28 sq units (walk 0%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (6.6, 26.3), 0.27 sq units (walk 0%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
@@ -56,12 +56,12 @@
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (24.2, 27.4), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (24.2, 27.5), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: foreF 16%, foreN 16%, skull 16%)"
+   "msg": "every part is rooted in what it hangs from (least: foreF 16%, foreN 16%, skull 17%)"
   },
   {
    "check": "visible",
@@ -75,8 +75,33 @@
   },
   {
    "check": "markings",
+   "level": "INFO",
+   "msg": "saddle is partly drawn over by saddleNeck 6%, thighN 3% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "belly is partly drawn over by throat 5%, upperarmN 15%, forearmN 9% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "tailTip is partly drawn over by thighN 7% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "saddleNeck is partly drawn over by earRim 12% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "throat is partly drawn over by cheek 56% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
    "level": "PASS",
-   "msg": "0 markings stay inside their shapes, and no leg cuts into them while walking"
+   "msg": "7 markings stay inside their shapes, and no leg cuts into them while walking"
   },
   {
    "check": "feet",
@@ -151,7 +176,7 @@
   {
    "check": "contrast",
    "level": "PASS",
-   "msg": "against the meadow sand: fur 2.00, leg 1.84, saddle 3.96, pale 1.38, pale2 1.11"
+   "msg": "against the meadow sand: fur 2.05, leg 1.77, saddle 4.62, pale 1.22, pale2 1.40"
   },
   {
    "check": "preview",
