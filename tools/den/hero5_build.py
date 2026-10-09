@@ -108,7 +108,10 @@ def build(knee_dx):
     fr = Polygon([(O.bounds[2] + 50, bk[1] + 2)] + [tuple(q) for q in belly] + [(tk[0], g + 99), (O.bounds[2] + 50, g + 99)])
     kl = P['nKn'][1] - (P['nKn'][1] - P['r_tuck'][1]) * .0
     rr = Polygon([(O.bounds[0] - 50, kl), (P['r_tuck'][0], P['r_tuck'][1] + (kl - P['r_tuck'][1]) * .5), (P['r_tuck'][0], g + 99), (O.bounds[0] - 50, g + 99)])
-    body = big(O.difference(fr).difference(rr))
+    # between the near legs the photo's own underside shows (no far leg there in photo 01): keep the outline itself from the knee front to the elbow back
+    gap = box(P['r_kneeFront'][0] + 4, P['r_tuck'][1] - 5, P['r_elbowBack'][0] - 4, P['nEl'][1] + 2 * ppu)
+    body = big(O.difference(fr.difference(gap)).difference(rr.difference(gap)))
+    body = big(body.difference(box(P['r_kneeFront'][0] + 4, P['nEl'][1] + .9 * ppu, P['r_elbowBack'][0] - 4, g + 99)))  # never below the elbows' level
     hcut = LineString([P['r_nape'] + (P['r_nape'] - P['r_throat']) * .3, P['r_throat'] + (P['r_throat'] - P['r_nape']) * .3]); head = side(body, hcut, P['nose']); trunk = side(body, hcut, P['wither'])
     # the thigh: the rump behind a line from the tuck up through the pelvis top, down to the knee (skinned to the body)
     tl = LineString([P['r_tuck'] + (P['r_tuck'] - P['nIl']) * .4, P['nIl'] + (P['nIl'] - P['r_tuck']) * 1.5])
@@ -122,12 +125,18 @@ def build(knee_dx):
     wf = lambda u: (w0 + (ww - w0) * (u / uw) if u < uw else ww * (1 - (u - uw) / (1 - uw)) ** .7 + 6 * (1 - (u - uw) / (1 - uw)))
     us = np.linspace(0, 1, 15); C = [root + axis * u for u in us]
     tail = Polygon([c + nvec * wf(u) / 2 for c, u in zip(C, us)] + [c - nvec * wf(u) / 2 for c, u in zip(C, us)][::-1]).buffer(0)
+    M = np.load(MASK); farpaw = {}
+    for leg, ref, xr in (('hind', 'nHp', (O.bounds[0], P['r_tuck'][0])), ('front', 'nFp', (P['r_tuck'][0], O.bounds[2]))):
+        for f in np.arange(.6, 3.0, .1):  # the far paw stands a little higher in the picture (further from the camera): scan up until it shows
+            y = int(g - f * ppu); row = M[y]; xs = np.nonzero(row[int(xr[0]):int(xr[1])])[0] + int(xr[0]); runs = np.split(xs, np.where(np.diff(xs) > 3)[0] + 1)
+            cs = [r.mean() for r in runs if len(r) > 8]; far = [c for c in cs if abs(c - P[ref][0]) > ppu * 1.2]
+            if far: farpaw[leg] = U((min(far, key=lambda c: abs(c - P[ref][0])), y)); break
     J = {k: U(P[k]) for k in P}
     rep = {'knee_dx_px': knee_dx, 'ppu_px': round(ppu, 2), 'angles': {'shoulder': round(ang(P['r_scap'], P['nSh'], P['nEl']), 1), 'elbow': round(ang(P['nSh'], P['nEl'], P['nCa']), 1), 'carpus': round(ang(P['nEl'], P['nCa'], P['nFp']), 1),
            'stifle': round(ang(P['nHi'], P['nKn'], P['nHo']), 1), 'tarsus': round(ang(P['nKn'], P['nHo'], P['nHp']), 1)},
            'widths_units': {k: round(v / ppu, 2) for k, v in dict(elbow=eF + eB, wrist=wF + wB, fball=bF + bB, knee=kF + kB, hock=hF + hB, hball=pF + pB).items()}}
     parts = {'head': head, 'trunk': trunk, 'thigh': thigh, 'shank': shank, 'cannon': cannon, 'hpaw': hpaw, 'upperarm': upperarm, 'forearm': forearm, 'pastern': pastern, 'fpaw': fpaw, 'tail': tail}
-    return {'joints': J, 'outline': UP(O), 'parts': {k: UP(v) for k, v in parts.items()}, 'report': rep}
+    return {'joints': J, 'outline': UP(O), 'parts': {k: UP(v) for k, v in parts.items()}, 'report': rep, 'photoFarPaws': farpaw}
 
 if __name__ == '__main__':
     P = points(); dx = 0
