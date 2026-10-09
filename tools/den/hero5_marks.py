@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """hero5's first coat (Oct 9, 2026): flat marking shapes drawn from GrumpyDingo's rig points and the pieces' own outlines, coloured from photo 01.
    Imported by tools/den/hero5_engine.py (after the ground fit); run alone it prints the palette and saves a zone preview over the photo.
-   Zones: a dark saddle along the topline with the shoulder stripe, a cream underside and chest front, pale cheeks and muzzle, the eye and nose,
+   Zones: a dark saddle along the topline, a cream underside and chest front, pale cheeks and muzzle, the eye and nose,
    a dark top edge and tip on the tail, tawny legs and rump, pale paws. The photo is dim (evening, overcast), so every zone's colour gets the
    same lightness gain (base fur to hero3's lightness): the coat keeps the photo's own contrasts between zones."""
 import json, math, pathlib, numpy as np
@@ -26,40 +26,31 @@ def zones(J, parts):
     """J: joints (rig units), parts: {name: [[x,y]...]} after the ground fit. Returns [(id, host part, paint, polygon)]"""
     Pg = {k: Polygon(v).buffer(0) for k, v in parts.items()}; q = lambda k: np.array(J[k], float); T, H, TL = Pg['trunk'], Pg['head'], Pg['tail']
     depth = q('r_brisket')[1] - q('wither')[1]; ALL = unary_union([g for g in Pg.values()]).buffer(0)
-    inner = lambda P, host: P.intersection(host).intersection(ALL.buffer(-.03))  # inside its piece; off the outside edge by a hair only (a seam between pieces gets no gap)
+    inner = lambda P, host: P.intersection(host)  # inside its piece and flush with its edge (an inset of 0.03 left the piece under it showing as a thin line round every marking: GrumpyDingo's notes, Oct 9)
     out = []; TH = T.union(H).buffer(0)  # the zones are drawn over trunk and head together, then cut per piece: they flow across the neck seam
     split = lambda zid, z, pal, hz=None: [(zid, 'trunk', pal, inner(z, T)), *([(hz, 'head', pal, inner(z.intersection(H.buffer(.12)), TH))] if hz else [])]  # the head's part reaches 0.12 past the head's edge, over the trunk's: no antialiased seam line
     # saddle: a cape along the topline from the tail root to the back of the ears, deepest over the withers and shoulders (0.34 of the body's
-    # depth), thinning over the loin (0.24) and the croup (0.2), with the dark stripe that runs down behind the shoulder blade
-    x0, xn = q('r_tailTop')[0] - .6, q('r_earBack')[0] + .6; xs = np.linspace(x0, xn, 14)
+    # depth), thinning over the loin (0.24) and the croup (0.2)
+    x0, xn = T.bounds[0] - .5, q('r_earTip')[0] + .3;  # from the very back of the croup (a fixed start left a vertical cut end)  # up to the ear tip: no fur left between the saddle and the ear's back rim (notes 7, 9) xs = np.linspace(x0, xn, 14)
     th = lambda x: depth * np.interp(x, [x0, q('r_croup')[0], q('r_back')[0], q('wither')[0] - 2, q('r_nape')[0], xn], [.2, .22, .24, .34, .3, .2])
     from scipy.ndimage import gaussian_filter1d
     def edge_y(P, x, top=True):  # the outline's top (or bottom) at x
         I = P.intersection(LineString([(x, -99), (x, 99)])); ys = [c[1] for g in (I.geoms if hasattr(I, 'geoms') else [I]) for c in g.coords] if not I.is_empty else [np.nan]
         return min(ys) if top else max(ys)
-    xs = np.linspace(x0, xn, 120); ty = gaussian_filter1d(np.array([edge_y(TH, x) for x in xs]), 4, mode='nearest')  # the topline, smoothed: the saddle's lower edge hangs from it in one curve
+    xs = np.linspace(x0, xn, 120); ty0 = np.array([edge_y(TH, x) for x in xs]); okk = np.isfinite(ty0); ty0 = np.interp(xs, xs[okk], ty0[okk]); ty = gaussian_filter1d(ty0, 4, mode='nearest')  # (columns past the croup have no edge: filled from their neighbours)  # the topline, smoothed: the saddle's lower edge hangs from it in one curve
     sad = Polygon([(x0, -99), *[(x, y + th(x)) for x, y in zip(xs, ty)], (xn, -99)]).buffer(0).intersection(TH)
     sc, el = q('r_scap'), q('r_elbowBack'); d = (el - sc) / np.linalg.norm(el - sc); n = np.array([-d[1], d[0]])
-    stripe = Polygon([sc + n * 1.1 - d * 1.5, sc - n * 1.1 - d * 1.5, sc + d * depth * .5 - n * .15, sc + d * depth * .5 + n * .3])
     zs = soft(sad.intersection(TH), .6); zs = big(zs.union(zs.buffer(.4).intersection(TH).intersection(sad.buffer(.1))))
-    # the shoulder bar (photo 01's dark streak behind the blade): a tapered sweep from the saddle down the blade's back edge, added after the
-    # smoothing (the opening had shaved it to a stub that read as a drip)
-    s0 = sc - d * 1.2 - n * .2; s1 = sc + d * depth * .5 + n * .5; ctl_s = (s0 + s1) / 2 - n * .35
-    bar = [tuple((1 - t) ** 2 * s0 + 2 * (1 - t) * t * ctl_s + t * t * s1) for t in np.linspace(0, 1, 22)]
-    P_ = np.array(bar); Lb, Rb = [], []
-    for i in range(len(P_)):
-        dd_ = P_[min(i + 1, len(P_) - 1)] - P_[max(i - 1, 0)]; dd_ = dd_ / np.linalg.norm(dd_); nn_ = np.array([-dd_[1], dd_[0]]); w_ = (1.5 * (1 - i / (len(P_) - 1)) ** .8 + .05) / 2
-        Lb.append(tuple(P_[i] + nn_ * w_)); Rb.append(tuple(P_[i] - nn_ * w_))
-    zs = big(zs.union(Polygon(Lb + Rb[::-1]).buffer(0).intersection(TH)).buffer(.25).buffer(-.25))
+    # (the shoulder bar is gone: its tapered end read as a spike on the saddle, GrumpyDingo's note 3, Oct 9)
     eb0, ef0 = q('r_earBack'), q('ear'); db = (ef0 - eb0) / np.linalg.norm(ef0 - eb0); nb = np.array([db[1], -db[0]]); nb = nb if nb[1] < 0 else -nb  # up, off the ear's base line
     Hx = np.array(H.exterior.coords); cand = Hx[(Hx[:, 0] > eb0[0] - 1) & (Hx[:, 0] < ef0[0] + 2.5)]; tip = cand[np.argmin(cand[:, 1])]  # the ear tip: the outline's top
     by = (eb0[1] + ef0[1]) / 2; I = H.exterior.intersection(LineString([(tip[0], by), (tip[0] + 6, by)]))
     fx = max([c[0] for g_ in (I.geoms if hasattr(I, 'geoms') else [I]) for c in g_.coords]) if not I.is_empty else ef0[0]; ef1 = np.array([fx, by])  # front base: the outline's front edge at base height
     EAR = big(H.intersection(Polygon([eb0 - [.3, -.2], tip + [0, -1], ef1 + [.5, 0]]).buffer(0)))  # the ear: the outline inside the triangle back base, tip, front base
     eb0, ef0 = eb0 - [.3, -.2], ef1; db = (ef0 - eb0) / np.linalg.norm(ef0 - eb0); nb = np.array([db[1], -db[0]]); nb = nb if nb[1] < 0 else -nb
-    out += [(i_, h_, p_, g_.difference(EAR) if h_ == 'head' else g_) for i_, h_, p_, g_ in split('saddle', zs, 'saddle', 'saddleNeck')]  # the saddle stops at the ear's base: the ear is its own shape
+    out += split('saddle', zs, 'saddle', 'saddleNeck')  # the saddle runs on under the ear; the ear's inside is drawn over it, flush (no fur left between them)  # the saddle runs up to the ear's dark rim (same colour), the ear's inside is its own (a fur gap between them read as a square and a thin line, notes 7 and 9)
     # cream underside: belly and brisket (0.2 of the depth), the chest front and the throat
-    tk = q('r_tuck'); bx = np.linspace(tk[0] - .5, q('r_brisket')[0] + 6.5, 18); bt = lambda x: depth * np.interp(x, [tk[0] - .5, tk[0] + 3.5, 99], [.02, .2, .2])
+    tk = q('r_tuck'); bx = np.linspace(tk[0] - .5, q('r_brisket')[0] + 6.5, 18); bt = lambda x: depth * np.interp(x, [tk[0] - .5, tk[0] + 3.5, 99], [.1, .2, .2])  # (thinning to nothing left a sliver; the smoothing rounds this end)
     bx = np.linspace(bx[0], bx[-1], 90); by = gaussian_filter1d(np.array([edge_y(T, x, False) for x in bx]), 3, mode='nearest')
     und = Polygon([(bx[0], 99), *[(x, y - bt(x)) for x, y in zip(bx, by)], (bx[-1], 99)]).buffer(0).intersection(T)  # thins to nothing at the tuck
     br, ch, tr, jw0 = q('r_brisket'), q('r_chest'), q('r_throat'), q('r_jaw'); ctl = [br + [3.0, -1.0], ch + [-.6, -1.9], tr + [-.4, -2.0], jw0 + [.4, -.3]]  # the cream's upper edge, a smooth line
@@ -102,11 +93,13 @@ def zones(J, parts):
     # the ear: a dark rim all round its edge (wolves' ears are edged dark), a warm inside, the base open into the head
     core = EAR.buffer(-.3); open_ = Polygon([eb0 - db * .6, ef0 + db * .6, ef0 + db * .6 - nb * 3, eb0 - db * .6 - nb * 3]).buffer(0).union(Polygon([eb0 + nb * .35 - db * .6, ef0 + nb * .35 + db * .6, ef0 - nb * 3, eb0 - nb * 3]))
     rimz = EAR.difference(core).difference(open_); out.append(('earRim', 'head', 'saddle', soft(inner(rimz, H), .06)))
-    out.append(('earIn', 'head', 'tan', soft(inner(core.difference(open_.buffer(-.1)), H), .1)))
+    out.append(('earIn', 'head', 'tan', soft(inner(core.difference(open_.buffer(-.1)), H), .1).buffer(-.28).buffer(.28)))  # its base corners rounded (they read as a square)
     # tail: the dark guard hair along its top (back) edge, and the black tip (the last 28% of its length from the root)
     root = q('tail'); tip = np.array(max(TL.exterior.coords, key=lambda c: np.hypot(c[0] - root[0], c[1] - root[1]))); ax = tip - root; L = np.linalg.norm(ax); u = ax / L
-    top = band(TL, (.55, .3)).intersection(Polygon([root - u * 9 + [9 * u[1], -9 * u[0]], root + u * L * .8 + [9 * u[1], -9 * u[0]], root + u * L * .8 - [9 * u[1], -9 * u[0]], root - u * 9 - [9 * u[1], -9 * u[0]]]))
-    cut = root + u * L * .76; tipz = TL.intersection(Polygon([cut + [u[1] * 9, -u[0] * 9], cut + u * 9 + [u[1] * 9, -u[0] * 9], cut + u * 9 - [u[1] * 9, -u[0] * 9], cut - [u[1] * 9, -u[0] * 9]]))
+    top = band(TL, (.55, .3)).difference(Point(root).buffer(L * .2)).intersection(Polygon([root - u * 9 + [9 * u[1], -9 * u[0]], root + u * L * .8 + [9 * u[1], -9 * u[0]], root + u * L * .8 - [9 * u[1], -9 * u[0]], root - u * 9 - [9 * u[1], -9 * u[0]]]))
+    nt = -np.array([.55, .3]) / np.linalg.norm([.55, .3]); nt = nt - u * (nt @ u); nt = nt / np.linalg.norm(nt)  # across the tail, toward its dark top edge
+    cut_ = [root + u * L * (.73 - .13 * t + .03 * (1 - t * t)) + nt * t * 3 for t in np.linspace(-1, 1, 25)]  # a long slant: high on the top edge, low on the underside
+    tipz = TL.intersection(Polygon(cut_ + [cut_[-1] + u * L, cut_[0] + u * L]).buffer(0))  # the black tip as a flame swept along the tail, not a block cut across it (note 10)
     zt = soft(top.union(tipz), .2); zt = big(zt.union(zt.buffer(.3).intersection(TL).intersection(top.union(tipz).buffer(.3))))
     out.append(('tailTip', 'tail', 'furDark', inner(zt, TL)))
     # legs: grey fur at the top like the body, tawny from partway down (a slanted edge, higher at the front, as on photo 01): no 'sleeve' cap at the elbow or knee

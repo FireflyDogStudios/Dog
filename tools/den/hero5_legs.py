@@ -86,7 +86,17 @@ def rebuild(J, parts, W, far_dx=0.0):
     # whenever the leg swung away from it (the elbow is the leg's own circle now)
     bk = q('r_brisket'); cutc = _box(bk[0] - 2.5, bk[1] + .2, bk[0] + 4.5, 99)
     _big = lambda g: max(g.geoms, key=lambda x: x.area) if hasattr(g, 'geoms') else g
-    out['trunk'] = _big(T.difference(cutw).difference(cutc)).buffer(.2).buffer(-.2)
+    out['trunk'] = _big(T.difference(cutw).difference(cutc)).buffer(.45).buffer(-.45).buffer(-.2).buffer(.2)  # the cut corners rounded (concave and convex)
+    # the tail emerges from under the croup: where it shows outside the trunk only as a thin sliver (its root edge beside the saddle), that sliver goes
+    # (GrumpyDingo's note 2: the tail showing through at the back of the saddle)
+    # the thigh's top stays inside the body outline (its top-back corner poked out beside the tail root as a nub)
+    hy = q('nHi')[1]
+    for kk in ('thigh', 'thighFar'):
+        g = out[kk]; free = _box(-99, tk[1] + .25, 99, 99).union(_box(q('nHi')[0] + 2.0, -99, 99, 99))  # below the tuck and in front of the hip the thigh is the leg's own shape
+        out[kk] = _big(g.intersection(out['trunk'].buffer(-.02)).union(g.intersection(free)).buffer(.05).buffer(-.05))  # elsewhere it stays inside the body: its back edge poked a fur strip past the rump beside the tail
+    TLp = Polygon(parts['tail']).buffer(0); tr_ = np.array(J['tail'], float); tl_ = max(np.hypot(*(np.array(c) - tr_)) for c in TLp.exterior.coords)
+    vis = TLp.difference(out['trunk']).difference(Point(tr_).buffer(tl_ * .14)); vis_ok = vis.buffer(-.25).buffer(.25)  # (corners rounded: its top corner stood out past the croup as a nub) near its root the tail stays under the croup (its root corner poked out as a nub)
+    out['tail'] = _big(TLp.intersection(out['trunk'].buffer(-.02)).union(vis_ok).buffer(.01))
     out['fpaw'] = paw(q('nFp'), q('r_fHeel')[0], q('r_fToe')[0]); out['hpaw'] = paw(q('nHp'), q('r_hHeel')[0], q('r_hToe')[0], .95)
     big = lambda g: max(g.geoms, key=lambda x: x.area) if hasattr(g, 'geoms') else g
     # the far thigh is drawn shifted by far_dx: above the hip it must stay inside the body after that shift (it poked out behind the rump)

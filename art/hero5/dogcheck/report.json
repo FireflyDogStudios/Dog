@@ -21,7 +21,7 @@
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (8.4, 22.5), 0.03 sq units (walk 0%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (8.3, 22.4), 0.04 sq units (walk 0%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
@@ -36,7 +36,7 @@
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (8.3, 24.9), 0.03 sq units (walk 25%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (8.6, 24.7), 0.06 sq units (walk 25%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
@@ -46,7 +46,7 @@
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (8.2, 23.0), 0.02 sq units (walk 50%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (8.3, 23.0), 0.02 sq units (walk 50%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
@@ -56,12 +56,12 @@
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (6.6, 26.3), 0.28 sq units (walk 50%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (24.7, 25.3), 0.02 sq units (walk 50%): two edges meet at a sharp angle"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: skull 17%, foreF 22%, foreN 22%)"
+   "msg": "every part is rooted in what it hangs from (least: skull 7%, foreF 22%, foreN 22%)"
   },
   {
    "check": "visible",
@@ -76,17 +76,17 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "saddle is partly drawn over by saddleNeck 5%, thighN 3% (check the edge that makes)"
+   "msg": "tailTip is partly drawn over by saddle 3% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "belly is partly drawn over by throat 7%, upperarmN 15%, forearmN 7% (check the edge that makes)"
+   "msg": "belly is partly drawn over by throat 7%, upperarmN 14%, forearmN 7% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "tailTip is partly drawn over by thighN 7% (check the edge that makes)"
+   "msg": "saddleNeck is partly drawn over by earRim 7%, earIn 18%, saddle 33% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -181,7 +181,7 @@
   {
    "check": "contrast",
    "level": "PASS",
-   "msg": "against the meadow sand: fur 2.05, leg 1.74, saddle 4.62, pale 1.22, pale2 1.40"
+   "msg": "against the meadow sand: fur 2.05, leg 1.70, saddle 4.50, pale 1.19, pale2 1.40"
   },
   {
    "check": "preview",

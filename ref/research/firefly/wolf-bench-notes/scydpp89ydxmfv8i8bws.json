@@ -1,0 +1,18 @@
+{
+  "build": "794e8bd",
+  "created": 1791580981427,
+  "joint": "root",
+  "lx": 28.649,
+  "lx2": 28.672,
+  "ly": 7.529,
+  "ly2": 10.27,
+  "part": "the body",
+  "phase": 0.442,
+  "rig": "hero5",
+  "sev": "should",
+  "standing": false,
+  "status": "open",
+  "tag": "Back and body",
+  "text": "Saddle doesnt sit cleanly with the body there is a thin line here",
+  "type": "arrow"
+}

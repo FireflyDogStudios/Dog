@@ -1,0 +1,18 @@
+{
+  "build": "794e8bd",
+  "created": 1791580777501,
+  "joint": "root",
+  "lx": 35.385,
+  "lx2": 34.814,
+  "ly": 7.546,
+  "ly2": 9.945,
+  "part": "the body",
+  "phase": 0.442,
+  "rig": "hero5",
+  "sev": "should",
+  "standing": false,
+  "status": "open",
+  "tag": "Back and body",
+  "text": "Part poking out of saddle here",
+  "type": "arrow"
+}
