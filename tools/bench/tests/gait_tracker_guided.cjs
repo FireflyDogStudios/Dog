@@ -14,6 +14,8 @@ const {chromium}=require('/home/user/Dog/node_modules/playwright'); const path=r
  await pg.screenshot({path:process.argv[2]+'/gt_guided.png'});
  // finish picture 1 quickly: place every remaining point by clicking
  const n=await pg.evaluate(()=>gList().length); for(let i=0;i<n+2&&await pg.evaluate(()=>st.cur===0&&guide.on);i++) await click(.62+.3*(i%7)/7*.4,.08+.8*Math.floor(i/7)/8);
- console.log('debug',await pg.evaluate(()=>({cur:st.cur,on:guide.on,i:guide.i,sel:st.sel,done:gList().filter(g=>keyAt(g[1],0)).length})));
  ok(await pg.evaluate(()=>st.cur===1&&guide.on),'finishing picture 1 moved on to picture 2, guided still on ('+n+' points per picture)');
+ await pg.click('summary:has-text("File")'); await pg.click('#fClear'); ok((await pg.textContent('#fClear')).includes('Delete all'),'Clear all points asks first'); await pg.click('#fClear'); await pg.waitForTimeout(200);
+ ok(await pg.evaluate(()=>Object.values(st.keys).every(K=>!Object.keys(K).length)),'Clear all points removed every point');
+ ok(await pg.evaluate(()=>!!document.querySelector('#gMap svg')),'the guide card shows the wolf diagram');
  console.log('errors',errs.length?errs:'none'); await b.close();})();

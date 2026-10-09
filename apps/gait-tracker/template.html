@@ -44,7 +44,7 @@ details.pop>div{position:absolute;z-index:20;top:calc(100% + 4px);left:0;backgro
 .viewer{display:grid;grid-template-rows:minmax(0,1fr) auto;min-height:0}
 .guide{margin:8px 8px 0;background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:10px 12px;display:grid;gap:6px;max-height:46vh;overflow:auto}
 .guide .gStep{font-size:12px;color:var(--muted)} .guide .gName{font-size:18px;font-weight:700;color:var(--accent)} .guide .gWhat,.guide .gLook{font-size:13.5px;line-height:1.45} .guide .gLook b,.guide .gWhat b{color:var(--ink)}
-.guide .gPic svg{width:150px;height:auto;display:block;margin:2px 0} .guide .gHelp{font-size:12.5px;color:var(--muted);line-height:1.4} .guide .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.guide .gMap svg{width:100%;max-width:330px;height:auto;display:block;background:#23272d;border-radius:6px} .guide .gMap .k{font-size:11px;color:var(--muted)} .guide .gPic svg{width:150px;height:auto;display:block;margin:2px 0} .guide .gHelp{font-size:12.5px;color:var(--muted);line-height:1.4} .guide .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
 #stageBox{position:relative;min-height:200px;background:var(--stage);overflow:hidden;touch-action:none;border-radius:4px 4px 0 0}
 #stage{width:100%;height:100%;display:block;cursor:crosshair}
 #stage.pan{cursor:grab}
@@ -139,6 +139,7 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
     <details class="pop" id="fileMenu"><summary>File</summary><div style="min-width:300px">
       <div class="row"><button id="fSave" disabled title="Ctrl+S">Save now</button><button id="fBackup" disabled title="Keep a dated copy you can go back to">Save a backup copy</button></div>
       <div class="row"><button id="fExport" disabled title="A .json file with every point, footfall and track, to keep or move to another computer">Export points (.json)</button><button id="fCsv" disabled title="One row per frame: every joint's x, y and every angle">Export table (.csv)</button></div>
+      <div class="row"><button id="fClear" disabled title="Remove every point on every frame of this clip and start fresh (asks first; a backup copy is kept)">Clear all points</button></div>
       <div class="row"><label class="file"><button tabindex="-1" id="fImportBtn" disabled>Import points (.json)…</button><input type="file" id="fImport" accept=".json,application/json" aria-label="Import points from a .json file" disabled></label></div>
       <div style="display:grid;gap:6px;border-top:1px solid var(--line);padding-top:8px"><span class="lab">Share</span>
         <div class="row"><select id="gxW" aria-label="Picture width"><option value="360">360 px wide</option><option value="480" selected>480 px wide</option><option value="720">720 px wide</option></select>
@@ -210,7 +211,7 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
     </section>
 
     <aside class="panel inspector" aria-label="Inspector">
-      <div class="guide" id="guide" hidden aria-live="polite"><div class="gStep" id="gStep"></div><div class="gName" id="gName"></div><div class="row"><button id="gBack" title="Back to the previous point (Backspace while guided)">◀ Back</button><button id="gSkip" title="Can't see it on this picture: mark it hidden and move on (X)">Can't see it, skip</button><button id="gStop">Stop guided</button></div><div class="gPic" id="gPic" hidden></div><div class="gWhat" id="gWhat"></div><div class="gLook" id="gLook"></div><div class="gHelp" id="gHelp"></div>
+      <div class="guide" id="guide" hidden aria-live="polite"><div class="gStep" id="gStep"></div><div class="gName" id="gName"></div><div class="row"><button id="gBack" title="Back to the previous point (Backspace while guided)">◀ Back</button><button id="gSkip" title="Can't see it on this picture: mark it hidden and move on (X)">Can't see it, skip</button><button id="gStop">Stop guided</button></div><div class="gMap" id="gMap"></div><div class="gPic" id="gPic" hidden></div><div class="gWhat" id="gWhat"></div><div class="gLook" id="gLook"></div><div class="gHelp" id="gHelp"></div>
           </div>
       <div class="tabs" role="tablist">
         <button role="tab" id="tabJ" aria-selected="true" aria-controls="paneJ">Joint</button>
@@ -406,7 +407,7 @@ async function extract(){if(!fileMeta) return; const fps=+$("fps").value||30, t0
   st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=fw/fileMeta.vw; st.cur=0;
   st.clip={id:clipId(fileMeta,t0,fps),name:fileMeta.name,vw:fileMeta.vw,vh:fileMeta.vh,dur:fileMeta.dur,fps,t0,n:st.n};
   st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null; integ.clear();
-  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","evDown","evUp","evAuto","guideBtn"].forEach(id=>$(id).disabled=false); guideStop(); $("empty").hidden=true;
+  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","evDown","evUp","evAuto","guideBtn","fClear"].forEach(id=>$(id).disabled=false); guideStop(); $("empty").hidden=true;
   hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); renderJoints(); rebuildAll(); refreshLists(); draw();}
 const clipId=(m,t0,fps)=>(m.name.replace(/[^A-Za-z0-9_.-]/g,"_").slice(0,60)+"_"+m.vw+"x"+m.vh+"_"+Math.round(m.dur*100)+"_"+Math.round(t0*100)+"_"+Math.round(fps*100));
 
@@ -463,9 +464,9 @@ $("imgFiles").onchange=async e=>{const fs=[...(e.target.files||[])].sort((a,b)=>
     imgSrc.push(img); metas.push(m); st.frames.push(await frameFrom(img,m,fw,fh));}
   st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=1; st.cur=0; fileMeta=null;
   const key=metas.map(m=>m.name+":"+m.w+"x"+m.h).join("|"); let h=0; for(const c of key) h=(h*31+c.charCodeAt(0))>>>0;
-  st.clip={id:"images_"+h.toString(36)+"_"+st.n,name:`${st.n} pictures`,vw:fw,vh:fh,dur:st.n,fps:1,t0:0,n:st.n,images:metas};
+  st.clip={id:"imgs2_"+h.toString(36)+"_"+st.n, /* imgs2: GrumpyDingo started fresh on Oct 9 (older sets are ignored) */name:`${st.n} pictures`,vw:fw,vh:fh,dur:st.n,fps:1,t0:0,n:st.n,images:metas};
   st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null;
-  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","guideBtn"].forEach(id=>$(id).disabled=false); $("empty").hidden=true; $("mirrorImg").hidden=false; guideStop();
+  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","guideBtn","fClear"].forEach(id=>$(id).disabled=false); $("empty").hidden=true; $("mirrorImg").hidden=false; guideStop();
   hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); ensureRigPoints(); renderJoints(); rebuildAll(); refreshLists(); draw(); showImgName();
   toast(`${st.n} pictures loaded, one per frame. Rig tracks (head, neck and back, front leg, hind leg, tail) hold the extra points; each point's exact spot is in the Joint tab.`);};
 function showImgName(){if(!st.clip||!st.clip.images) return; const m=st.clip.images[st.cur]; if(m){$("clipInfo").textContent=`${st.cur+1}/${st.n} · ${m.name}${m.flip?" (mirrored)":""} · ${m.w}×${m.h}`; $("clipInfo").title=m.name;}}
@@ -518,10 +519,23 @@ const GUIDE=[["Head", "nose", "The nose is the tip of the muzzle: the black leat
  ["Near front leg", "nFp", "The ball of the front foot is where the toes join the foot, just above the ground.", "BONE point: in the middle of the foot, just above the big pad, under where the pastern ends.", "dog front paw anatomy side"],
  ["Near front leg", "r_fHeel", "The back of the front foot is where the pastern meets the big pad.", "EDGE point: on the back line of the near front foot, where it meets the ground (or the big pad).", "dog paw pads side view"],
  ["Near front leg", "r_fToe", "The front toes are the front end of the foot.", "EDGE point: the front tip of the near front toes, at the ground (claws included if you can see them).", "dog front paw toes side view"]];
+/* a plain side-view wolf for the guide card (facing right, ground at y 180): the outline, the near legs' bones, and where each guided point goes */
+const GMAP={nose:[282,63],r_stop:[256,50],r_brow:[246,42],ear:[236,37],r_earTip:[228,10],r_earBack:[218,39],r_eye:[250,53],r_mouth:[262,70],r_chin:[277,72],r_jaw:[246,79],
+ r_nape:[212,46],wither:[190,52],r_scap:[186,61],r_back:[140,60],r_croup:[88,56],tail:[77,66],r_tailTop:[74,58],r_tailTip:[54,151],r_tailWide:[66,118],r_tailUnder:[72,76],r_buttock:[69,86],
+ nIl:[94,67],nHi:[84,84],r_thighFront:[105,97],nKn:[98,124],r_kneeFront:[107,124],nHo:[76,152],r_hockPoint:[68,150],nHp:[82,173],r_hHeel:[72,178],r_hToe:[93,178],
+ r_tuck:[116,110],r_brisket:[184,125],r_chest:[214,96],r_throat:[226,84],nSh:[208,93],nEl:[186,120],r_elbowBack:[178,121],nCa:[190,156],r_wristFront:[197,156],r_wristBack:[183,154],nFp:[194,172],r_fHeel:[186,178],r_fToe:[207,178]};
+const GOUT="M282,62 L270,56 256,50 246,42 236,36 228,10 218,38 212,46 190,52 160,58 140,60 110,58 88,56 74,58 64,72 56,100 52,130 54,151 62,140 66,118 70,96 72,75 69,86 66,100 70,118 72,136 68,150 70,166 72,178 93,178 88,170 84,160 82,150 92,138 107,124 106,108 105,97 116,110 150,118 178,122 178,130 180,150 183,154 186,166 186,178 207,178 200,170 197,156 196,140 194,126 200,116 214,96 226,84 246,79 262,72 277,72 282,66 Z";
+const GBONES=[["r_scap","nSh"],["nSh","nEl"],["nEl","nCa"],["nCa","nFp"],["nIl","nHi"],["nHi","nKn"],["nKn","nHo"],["nHo","nHp"],["wither","r_croup"]];
+function guideMap(id){const done=new Set(Object.keys(st.keys).filter(j=>keyAt(j,st.cur)&&GMAP[j])); const [x,y]=GMAP[id]||[-99,-99];
+  return `<svg viewBox="0 0 300 190" role="img" aria-label="Where this point goes on a wolf facing right"><rect x="0" y="182" width="300" height="2" fill="#4a5059"/><path d="${GOUT}" fill="#353a42" stroke="#9aa3ad" stroke-width="1.5" stroke-linejoin="round"/>`+
+   GBONES.map(([a,b])=>`<line x1="${GMAP[a][0]}" y1="${GMAP[a][1]}" x2="${GMAP[b][0]}" y2="${GMAP[b][1]}" stroke="#6b7480" stroke-width="2" stroke-dasharray="3 3"/>`).join("")+
+   Object.entries(GMAP).map(([k,q])=>`<circle cx="${q[0]}" cy="${q[1]}" r="2.2" fill="${done.has(k)?"#7fd18b":"#7a838e"}"/>`).join("")+
+   `<circle cx="${x}" cy="${y}" r="9" fill="none" stroke="#e2a548" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="3.6" fill="#e2a548"/><text x="292" y="18" fill="#8f99a4" font-size="10" text-anchor="end">nose →</text><text x="8" y="18" fill="#8f99a4" font-size="10">← tail</text></svg>`;}
 const guide={on:false,i:0}; const gList=()=>GUIDE.filter(g=>jById(g[1]));
 function guideShow(){const L=gList(), g=L[guide.i]; if(!g){guideStop(); return;} const j=jById(g[1]); st.sel=g[1]; if(st.track!=="all"&&!inTrack(g[1])){st.track="all"; trackSet=null;}
   const done=L.filter(x=>keyAt(x[1],st.cur)).length, pic=st.clip&&st.clip.images?` · picture ${st.cur+1} of ${st.n}`:` · frame ${st.cur+1}`;
   $("gStep").textContent=`${g[0]} · point ${guide.i+1} of ${L.length}${pic} · ${done} done here`; $("gName").textContent=j.name.replace(/ \((edge|bone|centre)\)$/,"");
+  $("gMap").innerHTML=guideMap(g[1])+'<div class="k">amber: this point · green: placed on this picture · dashed: bones</div>';
   const ears={ear:2,r_earTip:1,r_earBack:0}; $("gPic").hidden=!(g[1] in ears); if(g[1] in ears){const P=[[30,92],[62,18],[96,86]], at=ears[g[1]];
     $("gPic").innerHTML=`<svg viewBox="0 0 160 112" role="img" aria-label="The near ear as an upside-down V: left corner, tip, right corner"><path d="M4 106 C20 96 26 94 30 92 L62 18 L96 86 C110 88 130 92 156 104" fill="#3a3f47" stroke="#8f99a4" stroke-width="2"/><path d="M30 92 L62 18 L96 86" fill="#4b5059" stroke="#c9ccd1" stroke-width="2"/><text x="118" y="70" fill="#8f99a4" font-size="11">nose →</text><text x="2" y="70" fill="#8f99a4" font-size="11">← tail</text>${P.map((q,i)=>`<circle cx="${q[0]}" cy="${q[1]}" r="${i===at?7:4}" fill="${i===at?"#e2a548":"#8f99a4"}"/>`).join("")}<text x="${P[at][0]+(at===0?-26:at===2?10:10)}" y="${P[at][1]+(at===1?4:18)}" fill="#e2a548" font-size="12" font-weight="700">here</text></svg>`;}
   $("gWhat").textContent=g[2]; $("gLook").innerHTML=""; {const b=document.createElement("b"); b.textContent="Where to click: "; $("gLook").append(b, document.createTextNode(g[3].charAt(0).toUpperCase()+g[3].slice(1)));} $("gHelp").textContent=`The wolf faces right: front = right (toward the nose), back = left (toward the tail). Need more help? Look up "${g[4]}". Zoom with the wheel; the magnifier follows the pointer. Can't see it? Skip it (X). Click again to move a point.`; $("guide").hidden=false; renderJoints(); draw();}
@@ -533,6 +547,10 @@ function guideNext(){const L=gList(); for(let k=guide.i+1;k<L.length;k++) if(!ke
   else {save(); guideStop(); toast(`All ${st.n} pictures done: ${placed} placed on the last one. Saved. Tell Firefly.`);}}
 function guideStart(){if(!st.n) return; guide.on=true; const k=guideFirstOpen(); guide.i=k>=0?k:0; $("guideBtn").textContent="Guided: on"; $("guideBtn").setAttribute("aria-pressed","true"); guideShow(); $("stage").focus();}
 function guideStop(){guide.on=false; $("guide").hidden=true; $("guideBtn").textContent="Start guided"; $("guideBtn").setAttribute("aria-pressed","false");}
+$("fClear").onclick=async e=>{const b=e.currentTarget, n=countPts(buildDoc()); if(!n){toast("No points to clear"); return;}
+  if(!b.dataset.armed){b.dataset.armed="1"; b.textContent=`Delete all ${n} points?`; setTimeout(()=>{delete b.dataset.armed; b.textContent="Clear all points";},5000); return;}
+  delete b.dataset.armed; b.textContent="Clear all points"; await backup(false); snap("clear all points"); st.keys={}; st.events={}; markDirty(); await save(); if(guide.on){guide.i=0; guideShow();} refreshLists(); renderJoints(); draw();
+  toast(`Cleared ${n} points (a backup copy is under File → backups; Ctrl+Z also brings them back)`);};
 $("guideBtn").onclick=()=>guide.on?guideStop():guideStart(); $("gStop").onclick=guideStop;
 $("gSkip").onclick=()=>{const g=gList()[guide.i]; if(!g) return; snap("hide "+g[1]); setKey(g[1],st.cur,{occ:true}); guideNext();};
 $("gBack").onclick=()=>{if(guide.i>0){guide.i--; guideShow();}};
