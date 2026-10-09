@@ -21,27 +21,47 @@
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (25.2, 25.5), 0.03 sq units (walk 0%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (44.0, 7.8), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (16.2, 31.1), 0.10 sq units (walk 0%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (24.0, 23.8), 0.03 sq units (walk 0%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (21.6, 27.7), 0.04 sq units (walk 25%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (37.1, 23.9), 0.03 sq units (walk 0%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (23.5, 28.0), 0.02 sq units (walk 50%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (37.6, 30.9), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (26.9, 21.5), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (35.1, 27.0), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (20.7, 27.8), 0.04 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (20.8, 32.4), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: skull 6%, tail 15%, hipN 29%)"
+   "msg": "every part is rooted in what it hangs from (least: skull 6%, tail 14%, hipN 29%)"
   },
   {
    "check": "visible",
@@ -106,12 +126,12 @@
   {
    "check": "feet",
    "level": "PASS",
-   "msg": "no paw below the ground (deepest 0.05)"
+   "msg": "no paw below the ground (deepest 0.00)"
   },
   {
    "check": "gait",
    "level": "PASS",
-   "msg": "footfalls (left hind = 0): left fore 0.16 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.66; paws down fore 0.65, hind 0.59 of the stride (measured 0.56-0.68)"
+   "msg": "footfalls (left hind = 0): left fore 0.17 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.67; paws down fore 0.61, hind 0.59 of the stride (measured 0.56-0.68)"
   },
   {
    "check": "feet",
@@ -120,18 +140,18 @@
   },
   {
    "check": "joints",
-   "level": "WARN",
-   "msg": "shoulder: standing 112, walk 91–125; measured dog walk 121–153: bends to 91, beyond the measured 121"
+   "level": "PASS",
+   "msg": "shoulder: standing 112, walk 116–152; measured dog walk 121–153"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "elbow: standing 145, walk 111–152; measured dog walk 98–153"
+   "msg": "elbow: standing 145, walk 92–151; measured dog walk 98–153"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "carpus: standing 186, walk 66–190; fox (hand-tracked) 64–214, dogs (5MC) 88–217"
+   "msg": "carpus: standing 186, walk 67–190; fox (hand-tracked) 64–214, dogs (5MC) 88–217"
   },
   {
    "check": "joints",
@@ -140,28 +160,28 @@
   },
   {
    "check": "joints",
-   "level": "WARN",
-   "msg": "stifle: standing 140, walk 92–118; measured dog walk 110–144: bends to 92, beyond the measured 110"
+   "level": "PASS",
+   "msg": "stifle: standing 140, walk 116–144; measured dog walk 110–144"
   },
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "tarsus: standing 145, walk 120–163; measured dog walk 119–160"
-  },
-  {
-   "check": "pattern",
-   "level": "WARN",
-   "msg": "shoulder: shape match -0.40 with walking dogs, 0.57 with the tracked fox (the opposite of the dogs; target 0.7)"
-  },
-  {
-   "check": "pattern",
-   "level": "WARN",
-   "msg": "elbow: shape match -0.59 with walking dogs, 0.33 with the tracked fox (the opposite of the dogs; target 0.7)"
+   "msg": "tarsus: standing 145, walk 121–160; measured dog walk 119–160"
   },
   {
    "check": "pattern",
    "level": "PASS",
-   "msg": "carpus: shape match 0.87 with walking dogs, 0.93 with the tracked fox (moves like the dogs; target 0.7)"
+   "msg": "shoulder: shape match 0.88 with walking dogs, 0.31 with the tracked fox (moves like the dogs; target 0.7)"
+  },
+  {
+   "check": "pattern",
+   "level": "PASS",
+   "msg": "elbow: shape match 0.85 with walking dogs, 0.71 with the tracked fox (moves like the dogs; target 0.7)"
+  },
+  {
+   "check": "pattern",
+   "level": "PASS",
+   "msg": "carpus: shape match 0.89 with walking dogs, 0.88 with the tracked fox (moves like the dogs; target 0.7)"
   },
   {
    "check": "pattern",
@@ -171,7 +191,7 @@
   {
    "check": "pattern",
    "level": "PASS",
-   "msg": "tarsus: shape match 0.91 with walking dogs, 0.33 with the tracked fox (moves like the dogs; target 0.7)"
+   "msg": "tarsus: shape match 0.94 with walking dogs, 0.22 with the tracked fox (moves like the dogs; target 0.7)"
   },
   {
    "check": "contrast",

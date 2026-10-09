@@ -149,14 +149,16 @@ function registerHero3(RIG){
      shoulders and both kept low for a wolf's smooth gait; the hind paw plants flatter and lifts lower than the front. */
   const WALK = {speed:20 /* ground units per stride (1.1 shoulder heights; fox clip 1.4, measured dogs 1.2-1.5), the same for every paw (so nothing skates) */, limbPhase:.16, keys:48,
     crouch:1.5 /* the back rides ~8% lower while walking (fox clip: 0.83-0.96 of standing) */, head:{pitch:8, bob:1.5, lag:.06} /* nose down ~13 deg while walking (the nose rides ~0.25 heights below the back), lowest while a front paw takes weight */,
-    hind:{duty:.60, lift:.9, fold:4, centre:4, maxOpen:148, bob:.45, lean:16, smooth:2, follow:"hind", crouch:1.5 /* extra drop on the dogs' height: keeps today's crouched, level back (the fox walks 0.83-0.96 of standing); 0 = the dogs' upright walk, which tilts the body ~4 deg until the front legs follow too */ /* Oct 9: centre -0.5 → 1 (the paw no longer stays planted past the leg's reach, which locked the knee straight for 6 keys) and 2 smoothing passes over the swing: worst angle corner 9.2 → 2.6 deg per key; then centre 4 with follow (the paw sweeps about evenly either side of the hip, as the dogs' hip curve does): knee shape 0.86, hock 0.96 against the dogs (tools/bench/probe/hind_fit.mjs) */}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
-    front:{duty:.62, matchBase:false /* true: ride at the hind legs' height (for when the front follows the dogs too) */, lift:1.8, fold:120, carpusHold:190 /* the wrist holds ~10 deg past straight while the paw is down: GrumpyDingo's tracked fox, stance median 193 (IQR 187-198) */, centre:-2.3, maxOpen:152, bob:.30, scap:{top:[38.8, 11.8], swing:16}, lean:10}}; /* scap.swing: degrees the blade rotates each way, forward as the paw reaches, back as it pushes off (EST) */ /* centres: the front paw lands ~0.17 heights behind the nose (fox 0.06-0.29), the hind just ahead of the hip */ /* elbow never past 152 (measured 153); bob: peak-to-peak dip in units (EST) */
+    hind:{duty:.60, lift:.9, fold:4, centre:4, maxOpen:148, bob:.45, lean:16, smooth:2, follow:"hind", crouch:0 /* extra drop on the dogs' height: keeps today's crouched, level back (the fox walks 0.83-0.96 of standing); 0 = the dogs' upright walk, which tilts the body ~4 deg until the front legs follow too */ /* Oct 9: centre -0.5 → 1 (the paw no longer stays planted past the leg's reach, which locked the knee straight for 6 keys) and 2 smoothing passes over the swing: worst angle corner 9.2 → 2.6 deg per key; then centre 4 with follow (the paw sweeps about evenly either side of the hip, as the dogs' hip curve does): knee shape 0.86, hock 0.96 against the dogs (tools/bench/probe/hind_fit.mjs) */}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
+    front:{duty:.62, follow:"front", matchBase:true /* rides at the hind legs' height, so the back stays level (GrumpyDingo, Oct 9: upright, like the dogs) */, lift:1.8, fold:120, carpusHold:190, swingCarpus:66 /* the wrist holds ~10 deg past straight while the paw is down: GrumpyDingo's tracked fox, stance median 193 (IQR 187-198) */, centre:-2.3, maxOpen:152, bob:.30, scap:{top:[38.8, 11.8], swing:16}, lean:10}}; /* scap.swing: degrees the blade rotates each way, forward as the paw reaches, back as it pushes off (EST) */ /* centres: the front paw lands ~0.17 heights behind the nose (fox 0.06-0.29), the hind just ahead of the hip */ /* elbow never past 152 (measured 153); bob: peak-to-peak dip in units (EST) */
   /* measured walking dogs (Catavitello, Ivanenko & Lacquaniti 2015, PLOS ONE 10(7): e0133936, S1 Dataset, CC BY 4.0; 5 retrievers; mean included
      angle, 180 = straight) every 4% of a stride from that paw's touchdown, paw down for the first 0.576. GrumpyDingo's tracked fox follows the same
      shapes (ref/research/firefly/fox-walk-analysis/JOINT-PATTERNS-2026-10-09.md). A leg with follow:"hind" picks, frame by frame, the pose closest to them. */
   const DOGWALK = {hind:{duty:.576, stifle:[143,141,140,141,141,141,141,141,139,138,138,139,140,139,137,132,124,116,111,110,113,120,131,141,144,143],
     tarsus:[145,140,136,136,138,141,142,143,144,145,146,149,152,157,160,159,153,141,130,122,119,122,131,141,146,144],
-    hip:[57,59,62,64,67,69,72,75,79,82,85,89,91,93,92,89,84,78,71,66,61,57,55,55,56,58] /* pelvis to thigh: rises as the thigh swings back */}};
+    hip:[57,59,62,64,67,69,72,75,79,82,85,89,91,93,92,89,84,78,71,66,61,57,55,55,56,58] /* pelvis to thigh: rises as the thigh swings back */},
+  front:{duty:.594, shoulder:[149,144,141,139,137,135,133,132,131,131,130,128,127,127,126,123,121,121,123,125,128,134,141,148,152,151],
+    elbow:[148,146,142,139,139,139,140,141,142,145,147,149,151,153,152,144,132,119,109,101,98,103,114,129,143,151]} /* the dogs' wrist runs to the toe tip, so the wrist keeps its own rules (fox-measured) */};
   const curveAt = (C, arr, ph, duty) => { const u = ph < duty ? ph / duty * C.duty : C.duty + (ph - duty) / (1 - duty) * (1 - C.duty), x = u * (arr.length - 1), i = Math.floor(x), t = x - i; return arr[i] * (1 - t) + arr[Math.min(arr.length - 1, i + 1)] * t; }; /* retimed so the dogs' paw-down share lands on ours */
   const A = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI, Ln = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
   const incl = (a, b, c) => { const v1 = [a[0] - b[0], a[1] - b[1]], v2 = [c[0] - b[0], c[1] - b[1]]; return Math.acos(Math.max(-1, Math.min(1, (v1[0] * v2[0] + v1[1] * v2[1]) / Math.hypot(...v1) / Math.hypot(...v2)))) * 180 / Math.PI; };
@@ -193,13 +195,13 @@ function registerHero3(RIG){
   /* taken frame by frame that bobs the hips 1.8 units, far more than a walk does, so a following leg takes only the stride's average height from
      it (in place of the fixed crouch) and keeps the gentle pendulum bob; the reach drop still applies */
   const dogBase = {}, baseOf = (J, L) => dogBase[L.follow] ??= [...Array(WALK.keys)].reduce((a, _, k) => a + Math.max(dropDog(J, k / WALK.keys, L), dropDog(J, k / WALK.keys + .5, L)), 0) / WALK.keys;
-  const baseShift = (J, L) => L.follow ? baseOf(J, L) + (L.crouch || 0) - WALK.crouch : L.matchBase ? baseOf([H.hip, H.stifle, H.hock, H.paw], WALK.hind) + (WALK.hind.crouch || 0) - WALK.crouch : 0; /* L.crouch: extra drop on top of the dogs' height */
-  const girdle0 = (J, ph, L) => Math.max(pend(ph, L) + baseShift(J, L), dropFor(J, ph, L), dropFor(J, ph + .5, L));
+  const baseShift = (J, L) => L.follow === "hind" ? baseOf(J, L) + (L.crouch || 0) - WALK.crouch : L.matchBase ? baseOf([H.hip, H.stifle, H.hock, H.paw], WALK.hind) + (WALK.hind.crouch || 0) - WALK.crouch : 0; /* L.crouch: extra drop on top of the dogs' height */
+  const girdle0 = (J, ph, L) => L.follow === "front" ? pend(ph, L) + baseShift(J, L) /* the following front leg reaches by turning its blade, not by dropping the withers */ : Math.max(pend(ph, L) + baseShift(J, L), dropFor(J, ph, L), dropFor(J, ph + .5, L));
   /* smoothed over +-2 keys: the reach drop ends when the paw lifts, and unsmoothed the hips jumped up at that instant (the "kick", GrumpyDingo Oct 8) */
   /* Oct 9: max(raw, smoothed) kept the raw peak, so the hips still popped at 8% and 58% (GrumpyDingo: "not as smooth at the start of the loop").
      Now the reach drop is first spread to its highest value within +-2 keys, then smoothed over +-2 keys: every smoothed value averages windows that
      each contain the raw value, so it never falls below what a planted paw needs, and it has no corner. */
-  const GK = [1, 4, 6, 4, 1], drop = (J, ph, L) => Math.max(dropFor(J, ph, L), dropFor(J, ph + .5, L)), dilated = (J, ph, L) => Math.max(pend(ph, L) + baseShift(J, L), ...[-2, -1, 0, 1, 2].map(i => drop(J, ph + i / WALK.keys, L))); /* the pendulum dip is smooth already, so only the reach drop is spread */
+  const GK = [1, 4, 6, 4, 1], drop = (J, ph, L) => Math.max(dropFor(J, ph, L), dropFor(J, ph + .5, L)), dilated = (J, ph, L) => L.follow === "front" ? pend(ph, L) + baseShift(J, L) : Math.max(pend(ph, L) + baseShift(J, L), ...[-2, -1, 0, 1, 2].map(i => drop(J, ph + i / WALK.keys, L))); /* the pendulum dip is smooth already, so only the reach drop is spread */
   const girdle = (J, ph, L) => GK.reduce((a, w, i) => a + w * dilated(J, ph + (i - 2) / WALK.keys, L), 0) / 16;
   const bakeLeg = (J, names, side, L, toeTr) => { /* J = [top, mid, low, paw] rest joints; names = [top, mid, low, toe] track names */
     const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), r1 = A(J[0], J[1]), r2 = A(J[1], J[2]), r3 = A(J[2], J[3]);
@@ -210,11 +212,22 @@ function registerHero3(RIG){
     const solveFollow = (J0, p, tS, tT, prev) => { let best = null; for (let o = -70; o <= 70; o += .25) { const a = r3 + o, lo = pol(p, a + 180, l3); if (Ln(J0, lo) > reachF) continue; const kn = twoBone(J0, l1, l2, lo, side, reachF);
         const cost = (bentIncl(J0, kn, lo, bendS) - tS) ** 2 + (bentIncl(kn, lo, p, bendT) - tT) ** 2 + (prev == null ? 0 : .2 * (a - prev) ** 2); if (!best || cost < best.cost) best = {a, cost}; } return best ? best.a : null; };
     let THIGH_REF = 0, FOLLOW_END = null;
-    if (L.follow) { const C = DOGWALK[L.follow], end = ph => { const P0 = pawAt(ph % 1, J[3], L, L.lift), J0 = [J[0][0], J[0][1] + girdle(J, ph, L)], tS = curveAt(C, C.stifle, ph % 1, L.duty), tT = curveAt(C, C.tarsus, ph % 1, L.duty);
+    if (L.follow === "hind") { const C = DOGWALK[L.follow], end = ph => { const P0 = pawAt(ph % 1, J[3], L, L.lift), J0 = [J[0][0], J[0][1] + girdle(J, ph, L)], tS = curveAt(C, C.stifle, ph % 1, L.duty), tT = curveAt(C, C.tarsus, ph % 1, L.duty);
         const a = solveFollow(J0, P0.p, tS, tT, null), lo = pol(P0.p, a + 180, l3), kn = twoBone(J0, l1, l2, lo, side, reachF); return {th:A(J0, kn), s:bentIncl(J0, kn, lo, bendS) - tS, t:bentIncl(kn, lo, P0.p, bendT) - tT, hip:curveAt(C, C.hip, ph % 1, L.duty)}; };
       const lift = end(L.duty - 1e-4), land = end(1); THIGH_REF = land.th - (land.hip - C.hip[0]); /* the thigh's world angle when the dogs' hip curve reads its touchdown value */
       FOLLOW_END = {lift:{th:lift.th - (THIGH_REF + lift.hip - C.hip[0]), s:lift.s, t:lift.t}, land:{th:0, s:land.s, t:land.t}}; }
-    for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, P = pawAt(ph % 1, J[3], L, L.lift), g = girdle(J, ph, L), sa = scapAngle(J, ph, L), R0 = rootAt(J, ph, L), J0 = [R0[0], R0[1] + g];
+    const rotAbout = (q, o, deg) => { const a = deg * Math.PI / 180, dx = q[0] - o[0], dy = q[1] - o[1]; return [o[0] + dx * Math.cos(a) - dy * Math.sin(a), o[1] + dx * Math.sin(a) + dy * Math.cos(a)]; };
+    const bSh = L.scap ? turn(L.scap.top, J[0], J[1]) : 0; let prevSa = null, FRONT_END = null;
+    const carpAt = (e, w, p) => { let t = (A(w, p) - A(e, w)); while (t > 180) t -= 360; while (t < -180) t += 360; return 180 - t; };
+    const holdFront = (J0, p) => { let best = null; for (let o = -60; o <= 60; o += .5) { const a = r3 + o, lo = pol(p, a + 180, l3); if (Ln(J0, lo) > reachF) continue;
+        const c = carpAt(twoBone(J0, l1, l2, lo, side, reachF), lo, p), cost = Math.abs(c - L.carpusHold) + .002 * o * o; if (!best || cost < best.cost) best = {a, cost}; } return best && best.a; };
+    const solveFront = (p, g, tSh, tEl, prev) => { const top = [L.scap.top[0], L.scap.top[1] + g]; let best = null;
+      for (let s2 = -40; s2 <= 40; s2 += .5) { const R = rotAbout(J[0], L.scap.top, s2), J0 = [R[0], R[1] + g], a = holdFront(J0, p); if (a == null) continue; const lo = pol(p, a + 180, l3), el = twoBone(J0, l1, l2, lo, side, reachF);
+        const cw = carpAt(el, lo, p) - L.carpusHold, cost = (bentIncl(top, J0, el, bSh) - tSh) ** 2 + (bentIncl(J0, el, lo, bendS) - tEl) ** 2 + 6 * cw * cw + (prev == null ? 0 : .3 * (s2 - prev) ** 2); /* the wrist must hold (dogcheck fails a wrist that crosses straight) */ if (!best || cost < best.cost) best = {sa:s2, J0, a3:a, cost, sh:bentIncl(top, J0, el, bSh) - tSh, el:bentIncl(J0, el, lo, bendS) - tEl}; } return best; };
+    if (L.follow === "front") { const end = ph => { const P0 = pawAt(ph % 1, J[3], L, L.lift), g = girdle(J, ph, L), C = DOGWALK.front, b = solveFront(P0.p, g, curveAt(C, C.shoulder, ph % 1, L.duty), curveAt(C, C.elbow, ph % 1, L.duty), null);
+        const lo = pol(P0.p, b.a3 + 180, l3), el = twoBone(b.J0, l1, l2, lo, side, reachF); return {sa:b.sa - scapAngle(J, ph, L), sh:b.sh, el:b.el, a3:b.a3, carp:carpAt(el, lo, P0.p)}; };
+      FRONT_END = {lift:end(L.duty - 1e-4), land:end(1)}; }
+    for (let k = 0; k <= WALK.keys; k++) { const ph = k / WALK.keys, P = pawAt(ph % 1, J[3], L, L.lift), g = girdle(J, ph, L); let sa = scapAngle(J, ph, L), R0 = rootAt(J, ph, L), J0 = [R0[0], R0[1] + g];
       const foldDeg = P.stance ? 0 : L.fold * Math.sin(Math.PI * Math.min(1, P.u * 1.25)); /* the distal bone folds back early in the swing, straightens to land */
       let a3 = r3 + side * -foldDeg; /* hind (side +1): cannon swings back; front (side -1): pastern swings back too, folding the wrist */
       /* out of reach (the paw far back or far forward in the stance): lean the distal bone about the paw, the least that brings it in */
@@ -230,7 +243,18 @@ function registerHero3(RIG){
         a3 += oe * w * w * (3 - 2 * w);
         if (L.carpusHold) { const P0 = pawAt(0, J[3], L, L.lift), R1 = rootAt(J, 1, L), s0 = holdA3([R1[0], R1[1] + girdle(J, 1, L)], P0.p), q = Math.max(0, Math.min(1, (P.u - .65) / .35)), bq = q * q * (3 - 2 * q);
           a3 = a3 * (1 - bq) + s0 * bq; } } /* the pastern eases into its touchdown angle over the last third of the swing, so the wrist lands without a snap */
-      if (L.follow) { /* follow the measured walking dogs (DOGWALK). Paw down: the hip and paw are fixed, so the cannon's angle is the one free
+      if (L.follow === "front") { /* the front leg follows the dogs' shoulder and elbow (the wrist keeps its fox-measured rules). Paw down: the blade's
+           turn and the pastern are free; take the pair whose shoulder and elbow sit closest to the dogs' with the wrist held. Swing: built straight from
+           the dogs' curves on the blade's own schedule, each shifted by what the paw-down solution needed at lift-off, easing to touchdown. */
+        const C = DOGWALK.front, tSh = curveAt(C, C.shoulder, ph % 1, L.duty), tEl = curveAt(C, C.elbow, ph % 1, L.duty), top = [L.scap.top[0], L.scap.top[1] + g];
+        if (P.stance) { const b = solveFront(P.p, g, tSh, tEl, prevSa); if (b) { sa = b.sa; J0 = b.J0; R0 = [J0[0], J0[1] - g]; a3 = b.a3; } }
+        else { const e0 = FRONT_END.lift, e1 = FRONT_END.land, w = P.u * P.u * (3 - 2 * P.u);
+          sa += e0.sa + (e1.sa - e0.sa) * w; R0 = rotAbout(J[0], L.scap.top, sa); J0 = [R0[0], R0[1] + g];
+          const S = tSh + e0.sh + (e1.sh - e0.sh) * w, E = tEl + e0.el + (e1.el - e0.el) * w, el = pol(J0, A(top, J0) + bSh * (180 - S), l1), wr = pol(el, A(J0, el) + bendS * (180 - E), l2);
+          const c0 = e0.carp, c1 = e1.carp, cS = c0 + (c1 - c0) * w - (c0 + (c1 - c0) * w - L.swingCarpus) * Math.sin(Math.PI * Math.min(1, P.u * 1.25)); /* the wrist folds relative to the forearm, deepest ~40% into the swing (the fox: 64-68) */
+          a3 = A(el, wr) + 180 - cS; const pw = pol(wr, a3, l3); P.p = [pw[0], Math.min(GROUND_PAW, pw[1])]; }
+        prevSa = sa; }
+      if (L.follow === "hind") { /* follow the measured walking dogs (DOGWALK). Paw down: the hip and paw are fixed, so the cannon's angle is the one free
            choice; take the one whose knee and hock sit closest to the dogs'. Swing: the paw is free, so the leg is built straight from the dogs' thigh,
            knee and hock curves, each shifted by what the paw-down solution needed at lift-off, easing to what it needs at touchdown, so nothing jumps. */
         const C = DOGWALK[L.follow];
