@@ -42,6 +42,9 @@ details.pop>div{position:absolute;z-index:20;top:calc(100% + 4px);left:0;backgro
 .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .work{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:6px;min-height:0}
 .viewer{display:grid;grid-template-rows:minmax(0,1fr) auto;min-height:0}
+.guide{margin:8px 8px 0;background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:10px 12px;display:grid;gap:6px;max-height:46vh;overflow:auto}
+.guide .gStep{font-size:12px;color:var(--muted)} .guide .gName{font-size:18px;font-weight:700;color:var(--accent)} .guide .gWhat,.guide .gLook{font-size:13.5px;line-height:1.45} .guide .gLook b,.guide .gWhat b{color:var(--ink)}
+.guide .gHelp{font-size:12.5px;color:var(--muted);line-height:1.4} .guide .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
 #stageBox{position:relative;min-height:200px;background:var(--stage);overflow:hidden;touch-action:none;border-radius:4px 4px 0 0}
 #stage{width:100%;height:100%;display:block;cursor:crosshair}
 #stage.pan{cursor:grab}
@@ -60,7 +63,7 @@ details.pop>div{position:absolute;z-index:20;top:calc(100% + 4px);left:0;backgro
 .empty div{max-width:560px;display:grid;gap:10px}
 .empty b{font:600 18px var(--f-display);color:#fff}
 .empty .saved{font:12px var(--f-mono);color:#aeb6bf;text-align:left}
-.inspector{display:grid;grid-template-rows:auto minmax(0,1fr);min-height:0}
+.inspector{display:grid;grid-template-rows:auto auto minmax(0,1fr);min-height:0}
 .tabs{display:flex;border-bottom:1px solid var(--line)}
 .tabs button{flex:1;border:0;border-radius:0;background:transparent;padding:8px 2px;font:600 12px var(--f-display);color:var(--muted);border-bottom:2px solid transparent}
 .tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
@@ -131,6 +134,7 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
     <h1>Gait Tracker</h1>
     <label class="file"><button class="primary" id="openBtn" tabindex="-1">Open video…</button><input type="file" id="file" accept="video/*" aria-label="Open a video from this computer"></label>
     <label class="file" title="Still pictures (cut-outs, photos, drawings) as a set, one picture per frame, for marking rig points"><button id="openImgBtn" tabindex="-1">Open images…</button><input type="file" id="imgFiles" accept="image/*" multiple aria-label="Open still images from this computer"></label>
+    <button id="guideBtn" disabled title="Walks you through every rig point on each picture, one at a time">Start guided</button>
     <button id="mirrorImg" hidden title="Turn this picture to face right (its points turn with it)">Mirror this picture</button>
     <details class="pop" id="fileMenu"><summary>File</summary><div style="min-width:300px">
       <div class="row"><button id="fSave" disabled title="Ctrl+S">Save now</button><button id="fBackup" disabled title="Keep a dated copy you can go back to">Save a backup copy</button></div>
@@ -181,6 +185,7 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
         <canvas id="loupe" width="150" height="150" aria-hidden="true" hidden></canvas>
         <div class="hud" id="hud"></div>
         <div class="banner" id="banner" aria-live="polite"></div>
+
         <div class="hud r" id="hudR" hidden></div>
         <div class="empty" id="empty"><div>
           <b>Open a walking clip to start</b>
@@ -205,6 +210,8 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
     </section>
 
     <aside class="panel inspector" aria-label="Inspector">
+      <div class="guide" id="guide" hidden aria-live="polite"><div class="gStep" id="gStep"></div><div class="gName" id="gName"></div><div class="row"><button id="gBack" title="Back to the previous point (Backspace while guided)">◀ Back</button><button id="gSkip" title="Can't see it on this picture: mark it hidden and move on (X)">Can't see it, skip</button><button id="gStop">Stop guided</button></div><div class="gWhat" id="gWhat"></div><div class="gLook" id="gLook"></div><div class="gHelp" id="gHelp"></div>
+          </div>
       <div class="tabs" role="tablist">
         <button role="tab" id="tabJ" aria-selected="true" aria-controls="paneJ">Joint</button>
         <button role="tab" id="tabT" aria-selected="false" aria-controls="paneT">Track</button>
@@ -399,7 +406,7 @@ async function extract(){if(!fileMeta) return; const fps=+$("fps").value||30, t0
   st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=fw/fileMeta.vw; st.cur=0;
   st.clip={id:clipId(fileMeta,t0,fps),name:fileMeta.name,vw:fileMeta.vw,vh:fileMeta.vh,dur:fileMeta.dur,fps,t0,n:st.n};
   st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null; integ.clear();
-  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","evDown","evUp","evAuto"].forEach(id=>$(id).disabled=false); $("empty").hidden=true;
+  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","evDown","evUp","evAuto","guideBtn"].forEach(id=>$(id).disabled=false); guideStop(); $("empty").hidden=true;
   hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); renderJoints(); rebuildAll(); refreshLists(); draw();}
 const clipId=(m,t0,fps)=>(m.name.replace(/[^A-Za-z0-9_.-]/g,"_").slice(0,60)+"_"+m.vw+"x"+m.vh+"_"+Math.round(m.dur*100)+"_"+Math.round(t0*100)+"_"+Math.round(fps*100));
 
@@ -458,13 +465,75 @@ $("imgFiles").onchange=async e=>{const fs=[...(e.target.files||[])].sort((a,b)=>
   const key=metas.map(m=>m.name+":"+m.w+"x"+m.h).join("|"); let h=0; for(const c of key) h=(h*31+c.charCodeAt(0))>>>0;
   st.clip={id:"images_"+h.toString(36)+"_"+st.n,name:`${st.n} pictures`,vw:fw,vh:fh,dur:st.n,fps:1,t0:0,n:st.n,images:metas};
   st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null;
-  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd"].forEach(id=>$(id).disabled=false); $("empty").hidden=true; $("mirrorImg").hidden=false;
+  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","guideBtn"].forEach(id=>$(id).disabled=false); $("empty").hidden=true; $("mirrorImg").hidden=false; guideStop();
   hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); ensureRigPoints(); renderJoints(); rebuildAll(); refreshLists(); draw(); showImgName();
   toast(`${st.n} pictures loaded, one per frame. Rig tracks (head, neck and back, front leg, hind leg, tail) hold the extra points; each point's exact spot is in the Joint tab.`);};
 function showImgName(){if(!st.clip||!st.clip.images) return; const m=st.clip.images[st.cur]; if(m){$("clipInfo").textContent=`${st.cur+1}/${st.n} · ${m.name}${m.flip?" (mirrored)":""} · ${m.w}×${m.h}`; $("clipInfo").title=m.name;}}
 async function mirrorFrame(i,mark=true){const m=st.clip.images[i]; if(!m||!imgSrc[i]) return; m.flip=!m.flip; st.frames[i]=await frameFrom(imgSrc[i],m,st.fw,st.fh); bmpCache.delete(i); integ.delete(i);
   for(const K of Object.values(st.keys)){const v=K[i]; if(v&&!v.occ){v.x=st.fw-v.x; if(v.orig) v.orig.x=st.fw-v.orig.x;}} if(mark){markDirty(); toast(m.flip?"Mirrored: it now faces the other way (its points moved with it)":"Back to how the picture was");} showImgName(); draw();}
 $("mirrorImg").onclick=()=>{if(st.clip&&st.clip.images) mirrorFrame(st.cur);}; /* press again to undo it (not in Ctrl+Z: the picture itself changes) */
+
+/* ---------- guided mode: one point at a time, in an order that walks round the animal; a click places it and moves on ---------- */
+const GUIDE=[["Head", "nose", "The nose is the tip of the muzzle: the black leather pad at the very front of the face, in front of the mouth.", "the front-most point of the nose leather, on the outline.", "dog nose leather side view"],
+ ["Head", "r_stop", "The stop is the step in the face's top line between the forehead (above the eyes) and the muzzle (the long part in front of the eyes).", "on the top line of the face, follow the outline back from the nose: the stop is where the line stops running flat along the muzzle and starts to rise to the forehead. On wolves it is gentle, roughly level with the eyes.", "dog stop anatomy"],
+ ["Head", "r_brow", "The forehead is the top of the skull between the eyes and the ears.", "the highest point of the head's top line in front of the ears, between the stop and the ear.", "dog skull side view forehead"],
+ ["Head", "ear", "The ear base is where the ear grows out of the head.", "where the FRONT edge of the near ear meets the top line of the head. If the two ears overlap, use the nearer one (usually larger and further forward).", "dog ear base anatomy"],
+ ["Head", "r_earTip", "The ear tip is the top end of the ear flap.", "the very tip of the near ear, fur included.", "wolf ear side view"],
+ ["Head", "r_earBack", "The back of the ear base is where the ear's back edge joins the head, between the ear and the back of the neck.", "where the BACK edge of the near ear meets the head or neck fur. On a ruffed wolf it can sink into the fur: click where the ear's edge disappears.", "dog ear anatomy side"],
+ ["Head", "r_eye", "The eye sits between the stop and the ear, about a third of the way down the side of the head.", "the middle of the eye itself (the dark pupil if you can see it), not the dark fur or mask around it.", "wolf eye position side profile"],
+ ["Head", "r_mouth", "The mouth corner is the back end of the lip line, below and a little in front of the eye.", "the far back end of the line where the upper and lower lips meet. With the mouth open, the deepest corner of the opening.", "dog lip commissure"],
+ ["Head", "r_chin", "The chin is the front of the lower jaw, under the nose.", "the front-most point of the lower jaw on the outline, below the nose. With the mouth open, the front of the lower jaw.", "dog chin lower jaw side view"],
+ ["Head", "r_jaw", "The jaw angle is the bottom back corner of the lower jaw, between the chin and the throat, under the ear.", "run along the underside of the head back from the chin: the jaw angle is where that line turns into the throat. On a ruffed wolf, click where the jaw's line meets the neck fur.", "dog mandible angle"],
+ ["Neck and back", "r_nape", "The back of the neck (nape) is the top of the neck right behind the skull, between the ears and the withers.", "on the top line, just behind the ears: where the head's outline becomes the neck's (often a slight dip or change in direction).", "dog nape anatomy"],
+ ["Neck and back", "wither", "The withers is the part of the back between the neck and the back, right above the front legs: the tops of the two shoulder blades.", "the highest point of the back's top line above the front legs. On a wolf with a mane, it is under the thickest fur over the shoulders; click the outline there.", "dog withers anatomy diagram"],
+ ["Neck and back", "r_scap", "The shoulder blade is the flat bone over the ribs above the front leg; its top edge sits just under the withers.", "BONE point: about a fifth of the way down from the withers toward the elbow, slightly in front of the withers point. On a thick coat, the top of the bulge of the shoulder.", "dog scapula position side view"],
+ ["Neck and back", "r_back", "The back is the top line between the withers and the croup (over the ribs and the loin).", "the lowest point of the back's top line between the withers and the croup. If the back is level, click its middle.", "dog topline back loin croup"],
+ ["Neck and back", "r_croup", "The croup is the top of the rump, between the loin (behind the ribs) and the tail root, over the hips.", "the highest point of the rump's top line, just in front of the tail.", "dog croup anatomy"],
+ ["Tail", "tail", "The tail root is where the tail bones leave the body, between the croup and the point of the buttock.", "BONE point: the centre of the tail where it leaves the rump, inside the fur (between the top and the underside of the tail's root).", "dog tail set anatomy"],
+ ["Tail", "r_tailTop", "The top of the tail root is where the tail's top line separates from the rump's top line.", "on the outline: where the croup's top line stops and the tail's own top edge begins (often a small dip).", "dog tail set side view"],
+ ["Tail", "r_tailTip", "The tail tip is the end of the tail.", "the very end of the tail, fur included.", "wolf tail side view"],
+ ["Tail", "r_tailWide", "The tail is widest part-way down, where the fur is fullest.", "on the tail's UNDERSIDE (the edge facing the legs or the ground): the point where the tail is widest.", "wolf tail brush shape"],
+ ["Tail", "r_tailUnder", "The underside of the tail root is where the tail's lower edge meets the buttock, below the tail root.", "where the underside of the tail leaves the rump. If the tail hangs close against the thigh, the top of the gap between them.", "dog tail underside anatomy"],
+ ["Tail", "r_buttock", "The point of the buttock is the back end of the pelvis, under the tail root, between the tail and the back of the thigh.", "the back-most point of the rump's outline below the tail. If the tail covers it, follow the rump's curve down behind the thigh to its back-most point.", "dog point of buttock ischium"],
+ ["Near hind leg", "nIl", "The pelvis top (iliac crest) is the front top corner of the hip bone, between the loin and the croup.", "BONE point: a little in front of and below the croup, about a third of the way from the top line down toward the hip joint.", "dog pelvis iliac crest side view"],
+ ["Near hind leg", "nHi", "The hip joint is where the thigh bone meets the pelvis, between the croup and the knee.", "BONE point: the knob at the top of the thigh, about a third of the way from the croup down toward the knee, and toward the BACK of the thigh (in line with the tail root, roughly).", "dog hip joint location side view"],
+ ["Near hind leg", "r_thighFront", "The front of the thigh is where the thigh meets the belly and flank, in front of the hip.", "EDGE point: the front line of the near thigh, level with the hip joint (where the thigh's outline meets the flank).", "dog thigh flank anatomy"],
+ ["Near hind leg", "nKn", "The knee (stifle) is the joint between the thigh and the lower leg, at the bottom front of the thigh, about level with the belly.", "BONE point: the centre of the joint where the hind leg bends FORWARD, at the bottom of the thick thigh.", "dog stifle joint side view"],
+ ["Near hind leg", "r_kneeFront", "The front of the knee is the knee cap, at the front of the stifle.", "EDGE point: the most forward point of the outline at the knee.", "dog stifle patella"],
+ ["Near hind leg", "nHo", "The hock is the ankle: the joint between the lower leg and the long foot bones, about a quarter of the way up from the ground.", "BONE point: the centre of the joint where the hind leg bends BACK, just in front of the sharp heel point.", "dog hock joint anatomy"],
+ ["Near hind leg", "r_hockPoint", "The point of the hock is the heel bone sticking out behind the hock joint.", "EDGE point: the back-most point of the outline at the hock (the heel).", "dog point of hock calcaneus"],
+ ["Near hind leg", "nHp", "The ball of the hind foot is where the toes join the foot, just above the ground.", "BONE point: in the middle of the foot, just above the big pad, under where the long foot bones end.", "dog hind paw anatomy side"],
+ ["Near hind leg", "r_hHeel", "The back of the hind foot is where the long foot meets the big pad.", "EDGE point: on the back line of the near hind foot, where it meets the ground (or the big pad).", "dog paw pads side view"],
+ ["Near hind leg", "r_hToe", "The hind toes are the front end of the foot.", "EDGE point: the front tip of the near hind toes, at the ground (claws included if you can see them).", "dog hind paw toes side view"],
+ ["Chest and belly", "r_tuck", "The tuck-up is where the belly rises toward the back legs, between the ribs and the thigh.", "EDGE point: the highest point of the belly line, just in front of the near thigh.", "dog tuck-up belly line"],
+ ["Chest and belly", "r_brisket", "The brisket is the bottom of the chest, between the front legs and the belly.", "EDGE point: the lowest point of the chest outline, usually just behind the near elbow.", "dog brisket chest depth"],
+ ["Chest and belly", "r_chest", "The point of the chest is the front of the breastbone, between the throat and the front legs.", "EDGE point: the most forward point of the chest outline, below the neck and in front of the shoulders.", "dog prosternum point of chest"],
+ ["Chest and belly", "r_throat", "The throat is the front of the neck, between the jaw and the chest.", "EDGE point: on the neck's front line, where the throat meets the chest (often a slight change in direction below the jaw).", "dog throat neck anatomy side"],
+ ["Near front leg", "nSh", "The point of the shoulder is the joint between the shoulder blade and the upper arm, at the front of the chest, about level with the bottom of the neck.", "BONE point: the front of the upper arm bone where it meets the blade, a little behind the chest's front outline, about a third of the way down from the withers to the ground.", "dog point of shoulder anatomy"],
+ ["Near front leg", "nEl", "The elbow is the joint between the upper arm and the forearm, at the bottom of the chest, where the front leg leaves the body.", "BONE point: the centre of the joint where the front leg bends BACK, about level with the deepest chest.", "dog elbow joint side view"],
+ ["Near front leg", "r_elbowBack", "The back of the elbow is the point of the elbow bone (olecranon), sticking out behind the joint.", "EDGE point: the back-most point of the near front leg's outline at the elbow.", "dog olecranon point of elbow"],
+ ["Near front leg", "nCa", "The wrist (carpus) is the joint between the forearm and the long foot bones (the pastern), about a quarter of the way up from the ground.", "BONE point: the centre of the joint where the front leg bends, a little above the dew claw if you can see it.", "dog carpus wrist side view"],
+ ["Near front leg", "r_wristFront", "The front of the wrist is the front of the carpus joint.", "EDGE point: the front line of the near front leg, level with the wrist joint.", "dog carpus anatomy"],
+ ["Near front leg", "r_wristBack", "The back of the wrist has a small pad (the carpal pad) that sticks out behind the joint.", "EDGE point: the back-most point of the leg's outline at the wrist (the little pad bump).", "dog carpal pad"],
+ ["Near front leg", "nFp", "The ball of the front foot is where the toes join the foot, just above the ground.", "BONE point: in the middle of the foot, just above the big pad, under where the pastern ends.", "dog front paw anatomy side"],
+ ["Near front leg", "r_fHeel", "The back of the front foot is where the pastern meets the big pad.", "EDGE point: on the back line of the near front foot, where it meets the ground (or the big pad).", "dog paw pads side view"],
+ ["Near front leg", "r_fToe", "The front toes are the front end of the foot.", "EDGE point: the front tip of the near front toes, at the ground (claws included if you can see them).", "dog front paw toes side view"]];
+const guide={on:false,i:0}; const gList=()=>GUIDE.filter(g=>jById(g[1]));
+function guideShow(){const L=gList(), g=L[guide.i]; if(!g){guideStop(); return;} const j=jById(g[1]); st.sel=g[1]; if(st.track!=="all"&&!inTrack(g[1])){st.track="all"; trackSet=null;}
+  const done=L.filter(x=>keyAt(x[1],st.cur)).length, pic=st.clip&&st.clip.images?` · picture ${st.cur+1} of ${st.n}`:` · frame ${st.cur+1}`;
+  $("gStep").textContent=`${g[0]} · point ${guide.i+1} of ${L.length}${pic} · ${done} done here`; $("gName").textContent=j.name.replace(/ \((edge|bone|centre)\)$/,"");
+  $("gWhat").textContent=g[2]; $("gLook").innerHTML=""; {const b=document.createElement("b"); b.textContent="Where to click: "; $("gLook").append(b, document.createTextNode(g[3].charAt(0).toUpperCase()+g[3].slice(1)));} $("gHelp").textContent=`Need more help? Look up "${g[4]}". Zoom with the wheel; the magnifier follows the pointer. Can't see it? Skip it (X). Click again to move a point.`; $("guide").hidden=false; renderJoints(); draw();}
+function guideFirstOpen(){const L=gList(); const k=L.findIndex(g=>!keyAt(g[1],st.cur)); return k;}
+function guideNext(){const L=gList(); for(let k=guide.i+1;k<L.length;k++) if(!keyAt(L[k][1],st.cur)){guide.i=k; guideShow(); return;}
+  const k=guideFirstOpen(); if(k>=0){guide.i=k; guideShow(); return;} /* points skipped earlier on this picture */
+  const placed=L.filter(g=>{const v=keyAt(g[1],st.cur); return v&&!v.occ;}).length, hid=L.length-placed;
+  if(st.cur+1<st.n){goTo(st.cur+1); guide.i=Math.max(0,guideFirstOpen()); toast(`Picture done: ${placed} placed${hid?`, ${hid} skipped`:""}. On to picture ${st.cur+1}.`); save(); guideShow();}
+  else {save(); guideStop(); toast(`All ${st.n} pictures done: ${placed} placed on the last one. Saved. Tell Firefly.`);}}
+function guideStart(){if(!st.n) return; guide.on=true; const k=guideFirstOpen(); guide.i=k>=0?k:0; $("guideBtn").textContent="Guided: on"; $("guideBtn").setAttribute("aria-pressed","true"); guideShow(); $("stage").focus();}
+function guideStop(){guide.on=false; $("guide").hidden=true; $("guideBtn").textContent="Start guided"; $("guideBtn").setAttribute("aria-pressed","false");}
+$("guideBtn").onclick=()=>guide.on?guideStop():guideStart(); $("gStop").onclick=guideStop;
+$("gSkip").onclick=()=>{const g=gList()[guide.i]; if(!g) return; snap("hide "+g[1]); setKey(g[1],st.cur,{occ:true}); guideNext();};
+$("gBack").onclick=()=>{if(guide.i>0){guide.i--; guideShow();}};
 
 /* decoded frames for display: a small cache of bitmaps */
 const bmpCache=new Map();
@@ -718,7 +787,7 @@ cv.addEventListener("pointerup",e=>{const d=drag; drag=null; cv.classList.remove
   if(d.id&&d.placed) afterPlace(); renderJoints(); draw();});
 cv.addEventListener("pointerleave",()=>{st.hover=null; draw();});
 /* after a click: the next joint with no point here; after the last one, on to the next frame */
-function afterPlace(){const flow=$("flow").value, step=+$("nextFrame").value; if(flow==="stay") return;
+function afterPlace(){if(guide.on){guideNext(); return;} const flow=$("flow").value, step=+$("nextFrame").value; if(flow==="stay") return;
   if(flow==="same"){if(st.cur+step<st.n) goTo(st.cur+step); else toast(`Last frame: ${jById(st.sel).name.toLowerCase()} done to the end`); return;} /* the joint you picked stays picked */
   const L=workJoints(), i=L.findIndex(j=>j.id===st.sel); for(let k=1;k<=L.length;k++){const j=L[(i+k)%L.length]; if(!keyAt(j.id,st.cur)){st.sel=j.id; return;}}
   if(st.cur+step<st.n){goTo(st.cur+step); st.sel=L[0].id; toast(`Frame done: on to frame ${st.cur+1}`);} }
@@ -869,6 +938,7 @@ function drawGraphs(){const A=angles().find(a=>a.id===$("gSel").value); const [g
 /* ---------- keyboard ---------- */
 const GROUPKEY={"1":"nF","2":"nH","3":"fF","4":"fH","5":"body"};
 document.addEventListener("keydown",e=>{const tg=e.target.tagName; if(tg==="INPUT"||tg==="SELECT"||tg==="TEXTAREA") return; const k=e.key, K=k.toLowerCase(), mod=e.ctrlKey||e.metaKey;
+  if(guide.on&&!mod){if(k==="Backspace"){e.preventDefault(); $("gBack").click(); return;} if(K==="x"){e.preventDefault(); $("gSkip").click(); return;} if(k==="Escape"){guideStop(); return;}}
   if(k==="?"){selectTab("H"); return;} if(!st.n) return;
   if(k==="Escape"){if(drag) cancelDrag(); closeMenu(); draw(); return;}
   if(!$("cmenu").hidden&&(k==="ArrowDown"||k==="ArrowUp")){e.preventDefault(); const B=[...$("cmenu").querySelectorAll("button")]; let i=B.indexOf(document.activeElement); i=(i+(k==="ArrowDown"?1:-1)+B.length)%B.length; B[i].focus(); return;}
