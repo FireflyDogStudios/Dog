@@ -1,0 +1,19 @@
+{
+  "build": "081722b",
+  "created": 1791486693376,
+  "fixedIn": "b80101e",
+  "group": "body",
+  "key": "saddle",
+  "name": "saddle (body)",
+  "phase": null,
+  "reasons": [
+    "Bad edge or seam"
+  ],
+  "reply": "The saddle now draws on top of the legs and the neck (from the thigh fix), so the tooth where it met the thigh is gone, and its seam at the withers no longer shows. Please check, and Mark fixed if it reads right.",
+  "rig": "hero3",
+  "sev": "should",
+  "status": "open",
+  "text": "",
+  "updated": 1791486693376,
+  "when": "always"
+}

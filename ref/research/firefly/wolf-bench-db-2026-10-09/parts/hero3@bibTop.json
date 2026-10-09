@@ -1,0 +1,20 @@
+{
+  "build": "081722b",
+  "created": 1791486650932,
+  "fixedIn": "154edec",
+  "group": "body",
+  "key": "bibTop",
+  "name": "bibTop (body)",
+  "phase": null,
+  "reasons": [
+    "Bad edge or seam",
+    "Pokes out"
+  ],
+  "reply": "The faint lines in the pale bib came from the grey neck fur sliding across the pale chest as the head dipped. Below the jaw, the neck fur now stops at the pale chest's edge, so the bib stays one clean shape. The chest-front corner is smoothed too. Please check, and Mark fixed if it reads right.",
+  "rig": "hero3",
+  "sev": "should",
+  "status": "open",
+  "text": "",
+  "updated": 1791486668715,
+  "when": "always"
+}

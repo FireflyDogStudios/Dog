@@ -12,10 +12,12 @@
 function registerHero3(RIG){
   const H2 = RIG.DEFS.hero2; if (!H2) throw new Error("hero3 needs hero2");
   const f2 = v => +(+v).toFixed(2);
-  const limb = (a, b, w0, w1, extra) => { const dx = b[0] - a[0], dy = b[1] - a[1], m = Math.hypot(dx, dy) || 1, ux = dx / m, uy = dy / m, nx = -uy, ny = ux, r0 = w0 / 2, r1 = w1 / 2, pts = [];
+  /* a tapered capsule from a to b; f0 narrows the top end on the -n side only (for the upper arm: its bulk, the triceps, sits behind the bone) */
+  const limbF = (a, b, w0, w1, f0, extra) => { const dx = b[0] - a[0], dy = b[1] - a[1], m = Math.hypot(dx, dy) || 1, ux = dx / m, uy = dy / m, nx = -uy, ny = ux, r0 = w0 / 2, r1 = w1 / 2, pts = [];
     for (let i = 0; i <= 8; i++){ const t = Math.PI * i / 8; pts.push([b[0] + (nx * Math.cos(t) + ux * Math.sin(t)) * r1, b[1] + (ny * Math.cos(t) + uy * Math.sin(t)) * r1]); }
-    for (let i = 0; i <= 8; i++){ const t = Math.PI + Math.PI * i / 8; pts.push([a[0] + (nx * Math.cos(t) + ux * Math.sin(t)) * r0, a[1] + (ny * Math.cos(t) + uy * Math.sin(t)) * r0]); }
+    for (let i = 0; i <= 8; i++){ const t = Math.PI + Math.PI * i / 8, c = Math.cos(t), k = c < 0 ? f0 : 1; pts.push([a[0] + nx * c * r0 * k + ux * Math.sin(t) * r0, a[1] + ny * c * r0 * k + uy * Math.sin(t) * r0]); }
     return Object.assign({poly:pts.map(q => [f2(q[0]), f2(q[1])])}, extra || {}); };
+  const limb = (a, b, w0, w1, extra) => limbF(a, b, w0, w1, 1, extra);
   /* a wolf paw: bigger and rounder than hero2's, standing on the ground line (p.y + 1) */
   const paw = (p, extra) => { const [x, y] = p, k = .85, X = v => f2(x + v * k), Y = v => f2(v >= 1.05 ? y + 1.05 : y + 1.05 - (1.05 - v) * k * 1.08);
     return Object.assign({d:`M${X(-1.3)} ${Y(-.4)} C${X(-1.9)} ${Y(.4)} ${X(-1.4)} ${Y(1.05)} ${X(-.3)} ${Y(1.05)} L${X(2.3)} ${Y(1.05)} C${X(3.3)} ${Y(1.05)} ${X(3.4)} ${Y(.1)} ${X(2.5)} ${Y(-.4)} C${X(1.8)} ${Y(-.95)} ${X(.7)} ${Y(-1.2)} ${X(-.3)} ${Y(-.95)} C${X(-.8)} ${Y(-.8)} ${X(-1.1)} ${Y(-.6)} ${X(-1.3)} ${Y(-.4)} Z`}, extra || {}); };
@@ -58,11 +60,16 @@ function registerHero3(RIG){
   /* the thigh: the lower half of the rump, from inside the croup to a round knee cap at the stifle; the rear edge continues the buttock line */
   const THIGH = (() => { const [sx, sy] = H.stifle, cap = []; for (let k = 0; k <= 8; k++){ const a = Math.PI * (.95 - k / 8 * 1.05); cap.push([f2(sx + Math.cos(a) * 2.1), f2(sy + Math.sin(a) * 2.1)]); }
     return [[22.4, 16.4], [20.4, 16.3], [18.8, 16.4], [17.6, 17.0], [17.4, 18.4], [17.8, 20.2], [18.6, 21.6], ...cap, [23.9, 20.6], [24.6, 18.6], [24.8, 17.0], [24.4, 16.6], [23.6, 16.4]]; })(); /* the top sits below the saddle inside the rump, so the swing never lifts it into the saddle or past the croup */
+  /* the thigh is skinned (Oct 9): its top rides with the body (the muscles are fixed to the pelvis) and only the knee end swings with the femur,
+     so the hip swing (-40 to +26 deg) bends the thigh instead of turning it as one piece, whose top corner left the rump (GrumpyDingo: "the rear
+     leg never felt connected"). Weight 1 above y 16.4, smoothstep to 0 by y 21.6. */
+  const THIGH_W0 = 16.4, THIGH_W1 = 21.6;
+  const thighSkin = T => { const P = P2(densify(T, .3)); return {poly:P, skin:{to:"body", w:P.map(q => { const u = Math.max(0, Math.min(1, (q[1] - THIGH_W0) / (THIGH_W1 - THIGH_W0))); return +(1 - u * u * (3 - 2 * u)).toFixed(3); })}}; };
   /* legs: thicker than hero2 (a wolf is heavier-boned), still tapering; the pale starts below the elbow and the hock */
   const legParts = k => [
-    {poly:k === "F" ? THIGH.map(q => [f2(q[0] + FAR_DX.hind), q[1]]) : THIGH, in:"hip" + k}, limb(HL(k).stifle, HL(k).hock, 4.0, 2.6, {in:"shank" + k}), limb(HL(k).hock, HL(k).paw, 2.5, 2.2, {in:"meta" + k, paint:"leg"}),
+    {...thighSkin(k === "F" ? THIGH.map(q => [f2(q[0] + FAR_DX.hind), q[1]]) : THIGH), in:"hip" + k}, limb(HL(k).stifle, HL(k).hock, 4.0, 2.6, {in:"shank" + k}), limb(HL(k).hock, HL(k).paw, 2.5, 2.2, {in:"meta" + k, paint:"leg"}),
     {circle:[HL(k).hock[0], HL(k).hock[1], 1.3], in:"meta" + k}, paw(HL(k).paw, {in:"htoe" + k, paint:"pale2"}),
-    limb([FL(k).sh[0] + (FL(k).elbow[0] - FL(k).sh[0]) * .22, FL(k).sh[1] + (FL(k).elbow[1] - FL(k).sh[1]) * .22], FL(k).elbow, 5.2, 3.4, {in:"sh" + k}) /* the arm's top stays inside the chest as the blade carries it forward */, limb(FL(k).elbow, FL(k).past, 3.0, 2.3, {in:"fore" + k, paint:"leg"}),
+    limbF([FL(k).sh[0] + (FL(k).elbow[0] - FL(k).sh[0]) * .22, FL(k).sh[1] + (FL(k).elbow[1] - FL(k).sh[1]) * .22], FL(k).elbow, 5.2, 3.4, .35, {in:"sh" + k}) /* the arm's top stays inside the chest as the blade carries it forward; its front edge hugs the bone (the bulk is the triceps behind it), so in the swing it never pokes over the pale throat and forechest (GrumpyDingo's shots, Oct 9: up to 2.9 sq units over the pale at 50%, now 0.05) */, limb(FL(k).elbow, FL(k).past, 3.0, 2.3, {in:"fore" + k, paint:"leg"}),
     limb(FL(k).elbow, [FL(k).elbow[0], FL(k).elbow[1] + .9], 3.4, 2.9, {in:"fore" + k}), limb(FL(k).past, FL(k).paw, 2.3, 2.0, {in:"past" + k, paint:"leg"}),
     paw(FL(k).paw, {in:"ftoe" + k, paint:"pale2"})];
 
@@ -142,7 +149,7 @@ function registerHero3(RIG){
      shoulders and both kept low for a wolf's smooth gait; the hind paw plants flatter and lifts lower than the front. */
   const WALK = {speed:20 /* ground units per stride (1.1 shoulder heights; fox clip 1.4, measured dogs 1.2-1.5), the same for every paw (so nothing skates) */, limbPhase:.16, keys:48,
     crouch:1.5 /* the back rides ~8% lower while walking (fox clip: 0.83-0.96 of standing) */, head:{pitch:8, bob:1.5, lag:.06} /* nose down ~13 deg while walking (the nose rides ~0.25 heights below the back), lowest while a front paw takes weight */,
-    hind:{duty:.60, lift:.9, fold:4, centre:-.5, maxOpen:148, bob:.45, lean:16}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
+    hind:{duty:.60, lift:.9, fold:4, centre:1, maxOpen:148, bob:.45, lean:16, smooth:2 /* Oct 9: centre -0.5 → 1 (the paw no longer stays planted past the leg's reach, which locked the knee straight for 6 keys) and 2 smoothing passes over the swing: worst angle corner 9.2 → 2.6 deg per key */}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
     front:{duty:.62, lift:1.8, fold:120, carpusHold:190 /* the wrist holds ~10 deg past straight while the paw is down: GrumpyDingo's tracked fox, stance median 193 (IQR 187-198) */, centre:-2.3, maxOpen:152, bob:.30, scap:{top:[38.8, 11.8], swing:16}, lean:10}}; /* scap.swing: degrees the blade rotates each way, forward as the paw reaches, back as it pushes off (EST) */ /* centres: the front paw lands ~0.17 heights behind the nose (fox 0.06-0.29), the hind just ahead of the hip */ /* elbow never past 152 (measured 153); bob: peak-to-peak dip in units (EST) */
   const A = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI, Ln = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
   const pol = (o, deg, l) => [o[0] + Math.cos(deg * Math.PI / 180) * l, o[1] + Math.sin(deg * Math.PI / 180) * l];
@@ -169,7 +176,11 @@ function registerHero3(RIG){
   const pend = (ph, L) => WALK.crouch + L.bob * (.5 + .5 * Math.cos(4 * Math.PI * (ph - .05)));
   const girdle0 = (J, ph, L) => Math.max(pend(ph, L), dropFor(J, ph, L), dropFor(J, ph + .5, L));
   /* smoothed over +-2 keys: the reach drop ends when the paw lifts, and unsmoothed the hips jumped up at that instant (the "kick", GrumpyDingo Oct 8) */
-  const girdle = (J, ph, L) => Math.max(girdle0(J, ph, L), [1, 4, 6, 4, 1].reduce((a, w, i) => a + w * girdle0(J, ph + (i - 2) / WALK.keys, L), 0) / 16); /* never less than a planted paw needs */
+  /* Oct 9: max(raw, smoothed) kept the raw peak, so the hips still popped at 8% and 58% (GrumpyDingo: "not as smooth at the start of the loop").
+     Now the reach drop is first spread to its highest value within +-2 keys, then smoothed over +-2 keys: every smoothed value averages windows that
+     each contain the raw value, so it never falls below what a planted paw needs, and it has no corner. */
+  const GK = [1, 4, 6, 4, 1], drop = (J, ph, L) => Math.max(dropFor(J, ph, L), dropFor(J, ph + .5, L)), dilated = (J, ph, L) => Math.max(pend(ph, L), ...[-2, -1, 0, 1, 2].map(i => drop(J, ph + i / WALK.keys, L))); /* the pendulum dip is smooth already, so only the reach drop is spread */
+  const girdle = (J, ph, L) => GK.reduce((a, w, i) => a + w * dilated(J, ph + (i - 2) / WALK.keys, L), 0) / 16;
   const bakeLeg = (J, names, side, L, toeTr) => { /* J = [top, mid, low, paw] rest joints; names = [top, mid, low, toe] track names */
     const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), r1 = A(J[0], J[1]), r2 = A(J[1], J[2]), r3 = A(J[2], J[3]);
     const T = names.map(() => []);
@@ -195,6 +206,11 @@ function registerHero3(RIG){
       const toe = P.stance ? -(a3 - r3) : -(a3 - r3) * .55 + (toeTr ? RIG.sample(toeTr, ph).v * .5 : 0); /* paw flat on the ground in stance; hangs and peels in the swing */
       [rot1, rot2, rot3, toe].forEach((v, i) => T[i].push(Object.assign({at:+ph.toFixed(4), v:+v.toFixed(3)}, i === 0 && !L.scap ? {y:+g.toFixed(3)} : {})));
       if (L.scap) (T.scap ||= []).push({at:+ph.toFixed(4), v:+sa.toFixed(3), y:+g.toFixed(3)}); } /* the blade carries the girdle drop */
+    /* L.smooth passes of a [1 2 1] filter over the swing keys only (stance keys stay exact, so planted paws never slide): the swing starts from a
+       fully opened leg, and the clamp at its limit left corners in the angles as it let go (the hind "kick" at 10-23%, GrumpyDingo Oct 8) */
+    const SW = [...Array(WALK.keys + 1)].map((_, k) => !pawAt((k / WALK.keys) % 1, J[3], L, L.lift).stance);
+    for (let pass = 0; pass < (L.smooth || 0); pass++) for (const Tr of T.slice(0, 3)) { const v = Tr.map(e => e.v), n = WALK.keys;
+      for (let k = 0; k <= n; k++) if (SW[k]) Tr[k].v = +((v[(k - 1 + n) % n] + 2 * v[k % n] + v[(k + 1) % n]) / 4).toFixed(3); Tr[n].v = Tr[0].v; }
     const out = Object.fromEntries(names.map((n, i) => [n, T[i]])); if (L.scap) out.fscap = T.scap; return out;
   };
   const BODY_PIVOT = [31, 18], bodyTrack = [], tailTrack = [], HJ = [H.hip, H.stifle, H.hock, H.paw], FJ = [Fj.sh, Fj.elbow, Fj.past, Fj.paw];

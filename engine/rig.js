@@ -79,7 +79,9 @@ function build(PIXI, id, opts = {}){
         C.rotation = rot * DEG; C.x = x; C.y = y; if (sc !== 1 || C.scale.x !== 1) C.scale.set(sc); }
       /* gear hosted at the root that follows a joint (parts.follow) takes that joint's transform every tick, so it moves with the body (bob) while drawing above the near legs */
       for (const f of followers) syncFollower(PIXI, f);
-      for (const k of skins){ const st = []; for (let n = k.to; n && n !== k.host; n = n.parent) st.push(n); const R = new PIXI.Matrix(); for (let i = st.length - 1; i >= 0; i--){ st[i].updateLocalTransform(); R.append(st[i].localTransform); }
+      /* the bend-to joint's frame seen from the host joint (inverse host chain times the to chain, both up to the rig root), so `to` need not sit under the host (the thigh bends toward the body) */
+      const upTo = n => { const st = []; for (; n && n !== root; n = n.parent) st.push(n); const R = new PIXI.Matrix(); for (let i = st.length - 1; i >= 0; i--){ st[i].updateLocalTransform(); R.append(st[i].localTransform); } return R; };
+      for (const k of skins){ const R = upTo(k.host).invert().append(upTo(k.to));
         const pts = skinPts(k.p, [1, 0, 0, 1, 0, 0], [R.a, R.b, R.c, R.d, R.tx, R.ty]); k.g.clear(); k.g.poly(pts.flat()).fill(k.col); }
       let al = D.alpha ?? 1; for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.alpha != null) al *= a.alpha; } } root.alpha = al;
       for (const p of D.parts){ if (p.id) parts[p.id].visible = !p.state && !p.hidden; }

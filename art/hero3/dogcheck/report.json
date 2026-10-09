@@ -1,7 +1,7 @@
 {
  "rig": "hero3",
  "fails": 0,
- "warns": 1,
+ "warns": 9,
  "results": [
   {
    "check": "fit",
@@ -20,13 +20,48 @@
   },
   {
    "check": "notches",
-   "level": "PASS",
-   "msg": "no new cracks (16 known ones in the baseline)"
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (17.4, 22.6), 0.03 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (16.8, 25.0), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (14.7, 31.2), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (17.9, 21.8), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (19.5, 27.7), 0.05 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (23.8, 24.2), 0.16 sq units (walk 50%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (23.2, 26.0), 0.04 sq units (walk 50%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (16.6, 26.2), 0.02 sq units (walk 50%): two edges meet at a sharp angle"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: skull 6%, tail 15%, hipN 19%)"
+   "msg": "every part is rooted in what it hangs from (least: skull 6%, tail 15%, hipN 28%)"
   },
   {
    "check": "visible",
@@ -46,7 +81,7 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "bibTop is partly drawn over by fur@shN 41%, fur@foreN 11%, leg@foreN 4% (check the edge that makes)"
+   "msg": "bibTop is partly drawn over by fur@shN 16%, fur@foreN 11%, leg@foreN 4% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -96,7 +131,7 @@
   {
    "check": "gait",
    "level": "PASS",
-   "msg": "footfalls (left hind = 0): left fore 0.18 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.68; paws down fore 0.66, hind 0.61 of the stride (measured 0.56-0.68)"
+   "msg": "footfalls (left hind = 0): left fore 0.17 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.67; paws down fore 0.66, hind 0.60 of the stride (measured 0.56-0.68)"
   },
   {
    "check": "feet",
@@ -106,7 +141,7 @@
   {
    "check": "joints",
    "level": "WARN",
-   "msg": "shoulder: standing 112, walk 90–125; measured dog walk 121–153: bends to 90, beyond the measured 121"
+   "msg": "shoulder: standing 112, walk 91–125; measured dog walk 121–153: bends to 91, beyond the measured 121"
   },
   {
    "check": "joints",
@@ -131,7 +166,7 @@
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "tarsus: standing 145, walk 118–151; measured dog walk 119–160"
+   "msg": "tarsus: standing 145, walk 120–158; measured dog walk 119–160"
   },
   {
    "check": "contrast",

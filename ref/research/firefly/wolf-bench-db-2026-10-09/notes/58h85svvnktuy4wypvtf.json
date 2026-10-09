@@ -1,0 +1,20 @@
+{
+  "build": "081722b",
+  "created": 1791486743532,
+  "fixedIn": "0e018ae",
+  "joint": "root",
+  "lx": 21.382,
+  "lx2": 28.959,
+  "ly": 30.827,
+  "ly2": 30.365,
+  "part": "the body",
+  "phase": 0.788,
+  "reply": "Not quite: at 79% the far hind hock folded to 113°, and walking dogs never go below about 119°. Eased the fold, so it now stops at 119°. Please check, and Mark fixed if it reads right.",
+  "rig": "hero3",
+  "sev": "should",
+  "standing": false,
+  "status": "open",
+  "tag": "Back and body",
+  "text": "Is this supposed to bend like this?",
+  "type": "arrow"
+}
