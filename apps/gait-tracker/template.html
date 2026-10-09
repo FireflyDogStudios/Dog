@@ -130,6 +130,8 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
   <header class="panel topbar" aria-label="Tools">
     <h1>Gait Tracker</h1>
     <label class="file"><button class="primary" id="openBtn" tabindex="-1">Open video…</button><input type="file" id="file" accept="video/*" aria-label="Open a video from this computer"></label>
+    <label class="file" title="Still pictures (cut-outs, photos, drawings) as a set, one picture per frame, for marking rig points"><button id="openImgBtn" tabindex="-1">Open images…</button><input type="file" id="imgFiles" accept="image/*" multiple aria-label="Open still images from this computer"></label>
+    <button id="mirrorImg" hidden title="Turn this picture to face right (its points turn with it)">Mirror this picture</button>
     <details class="pop" id="fileMenu"><summary>File</summary><div style="min-width:300px">
       <div class="row"><button id="fSave" disabled title="Ctrl+S">Save now</button><button id="fBackup" disabled title="Keep a dated copy you can go back to">Save a backup copy</button></div>
       <div class="row"><button id="fExport" disabled title="A .json file with every point, footfall and track, to keep or move to another computer">Export points (.json)</button><button id="fCsv" disabled title="One row per frame: every joint's x, y and every angle">Export table (.csv)</button></div>
@@ -376,7 +378,7 @@ let fileMeta=null;
 $("file").onchange=async e=>{const f=e.target.files&&e.target.files[0]; if(!f) return; stopPlay(); if(vid.src) URL.revokeObjectURL(vid.src);
   vid.src=URL.createObjectURL(f); $("clipInfo").textContent="reading…";
   try{await new Promise((ok,no)=>{vid.onloadedmetadata=ok; vid.onerror=()=>no(new Error("This browser cannot play that video file. Try an .mp4 (H.264) or .webm."));});}catch(err){$("clipInfo").textContent=err.message; return;}
-  fileMeta={name:f.name,size:f.size,vw:vid.videoWidth,vh:vid.videoHeight,dur:vid.duration};
+  fileMeta={name:f.name,size:f.size,vw:vid.videoWidth,vh:vid.videoHeight,dur:vid.duration}; $("mirrorImg").hidden=true;
   $("clipInfo").textContent=`${f.name} · ${fileMeta.vw}×${fileMeta.vh} · ${fileMeta.dur.toFixed(2)} s`;
   let fps=await detectFps(); if(fps){const C=[10,12,15,20,23.976,24,25,29.97,30,48,50,59.94,60,90,120,240], c=C.find(v=>Math.abs(v-fps)/v<.02); if(c) fps=c;} $("fps").value=fps?+fps.toFixed(3):30; $("t0").value=0; $("t1").value=+Math.min(fileMeta.dur,20).toFixed(2); $("extract").disabled=false;
   $("clipInfo").textContent=`${f.name} · ${fileMeta.vw}×${fileMeta.vh} · ${fps?+fps.toFixed(2)+" fps":"fps? check Clip"}`; $("clipInfo").title=`${fileMeta.dur.toFixed(2)} s long`;
@@ -400,6 +402,69 @@ async function extract(){if(!fileMeta) return; const fps=+$("fps").value||30, t0
   ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","evDown","evUp","evAuto"].forEach(id=>$(id).disabled=false); $("empty").hidden=true;
   hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); renderJoints(); rebuildAll(); refreshLists(); draw();}
 const clipId=(m,t0,fps)=>(m.name.replace(/[^A-Za-z0-9_.-]/g,"_").slice(0,60)+"_"+m.vw+"x"+m.vh+"_"+Math.round(m.dur*100)+"_"+Math.round(t0*100)+"_"+Math.round(fps*100));
+
+/* ---------- still images → frames (rig marking): each picture is fitted into one shared frame on a plain background, bottom-aligned so the
+   paws sit on the same line; its scale and offset are kept with the points (doc.images) so every point maps back to that picture's own pixels ---------- */
+/* the rig set (GrumpyDingo, Oct 9: "be very specific"): BONE points are joints under the fur (where the leg bends); EDGE points sit on the outline
+   (where fur meets background). Grouped as tracks, placed on the near side only (the far legs are copied from the near ones). The legs' joints
+   (shoulder, elbow, wrist, paw ball, pelvis top, hip, knee, hock) and nose, ear base, withers and tail base are the built-in points. */
+const RIG_GROUPS={rH:"Rig: head",rB:"Rig: neck, back and belly",rF:"Rig: near front leg",rK:"Rig: near hind leg",rT:"Rig: tail"};
+const RIG_POINTS=[
+ ["rH","stop","Stop (edge)","Top line of the face: the dip where the forehead drops down to the muzzle, between the eyes."],
+ ["rH","brow","Forehead top (edge)","Highest point of the head's top line in front of the ears."],
+ ["rH","earBack","Ear back base (edge)","Where the BACK edge of the near ear meets the head or neck fur."],
+ ["rH","earTip","Ear tip (edge)","Very tip of the near ear."],
+ ["rH","eye","Eye (centre)","Centre of the near eye."],
+ ["rH","mouth","Mouth corner","Corner of the lips, at the back of the mouth line."],
+ ["rH","chin","Chin (edge)","Front-most point of the lower jaw on the outline, under the nose."],
+ ["rH","jaw","Jaw angle (edge)","Underside of the head: where the jaw line turns up into the throat."],
+ ["rB","nape","Back of the neck (edge)","Top line right behind the ears: where the head's outline becomes the neck's."],
+ ["rB","scap","Shoulder blade top (bone)","Top edge of the shoulder blade: a little below and in front of the withers point; on a shaggy wolf, at the top of the shoulder mass."],
+ ["rB","back","Mid-back (edge)","Lowest point of the back line between the withers and the croup."],
+ ["rB","croup","Croup (edge)","Highest point of the rump's top line, over the hips, in front of the tail."],
+ ["rB","throat","Throat (edge)","Front line of the neck: where the throat meets the chest, under the jaw."],
+ ["rB","chest","Point of the chest (edge)","Most forward point of the chest outline (in front of the breastbone)."],
+ ["rB","brisket","Deepest chest (edge)","Lowest point of the chest outline, just behind the near elbow."],
+ ["rB","tuck","Tuck-up (edge)","Highest point of the belly line, just in front of the near thigh."],
+ ["rB","buttock","Point of the buttock (edge)","Back-most point of the rump outline, under the tail."],
+ ["rF","elbowBack","Elbow back (edge)","Back point of the near elbow on the outline (the point of the elbow bone, olecranon)."],
+ ["rF","wristFront","Wrist front (edge)","Front of the near wrist on the outline, level with the wrist joint."],
+ ["rF","wristBack","Wrist back (edge)","Back of the near wrist: the little pad bump behind it (accessory carpal pad)."],
+ ["rF","fHeel","Back of the front foot (edge)","Where the back of the near front pastern meets the big pad, at the ground."],
+ ["rF","fToe","Front toe tip (edge)","Front tip of the near front toes, at the ground."],
+ ["rK","thighFront","Thigh front (edge)","Front line of the near thigh, level with the hip joint (where the thigh meets the flank)."],
+ ["rK","kneeFront","Knee front (edge)","Front of the near knee on the outline (the knee cap)."],
+ ["rK","hockPoint","Point of the hock (edge)","The heel point at the back of the near hock (top of the calcaneus), behind the hock joint."],
+ ["rK","hHeel","Back of the hind foot (edge)","Where the back of the near hind foot meets the big pad, at the ground."],
+ ["rK","hToe","Hind toe tip (edge)","Front tip of the near hind toes, at the ground."],
+ ["rT","tailTop","Tail root top (edge)","Where the top line of the tail leaves the rump (the built-in Tail base is the bone)."],
+ ["rT","tailUnder","Tail root underside (edge)","Where the underside of the tail leaves the buttock."],
+ ["rT","tailWide","Tail widest (edge)","On the tail's underside: the point where the tail is widest."],
+ ["rT","tailTip","Tail tip (edge)","End of the tail, fur included."]];
+const RIG_COL={rH:"#ffe08a",rB:"#ffb3ff",rF:"#ff9d7a",rK:"#9ad0ff",rT:"#b8f0a0"};
+function ensureRigPoints(){const have=new Set(st.extra.joints.map(j=>j.id)); for(const [g,k,name,lm] of RIG_POINTS) if(!have.has("r_"+k)) st.extra.joints.push({id:"r_"+k,name,grp:g,col:RIG_COL[g],lm});
+  for(const [g,name] of Object.entries(RIG_GROUPS)) if(!(st.extra.tracks||[]).some(t=>t.id===g)) (st.extra.tracks ||= []).push({id:g,name,joints:RIG_POINTS.filter(r=>r[0]===g).map(r=>"r_"+r[1]),custom:true});}
+async function frameFrom(img,m,fw,fh){const cv=document.createElement("canvas"); cv.width=fw; cv.height=fh; const cx=cv.getContext("2d",{willReadFrequently:true}); cx.fillStyle="#c9c4bb"; cx.fillRect(0,0,fw,fh);
+  cx.save(); if(m.flip){cx.translate(fw,0); cx.scale(-1,1);} cx.drawImage(img,m.flip?fw-m.ox-m.w*m.s:m.ox,m.oy,m.w*m.s,m.h*m.s); cx.restore();
+  const im=cx.getImageData(0,0,fw,fh).data, g=new Uint8Array(fw*fh); for(let p=0,q=0;q<g.length;p+=4,q++) g[q]=(im[p]*77+im[p+1]*150+im[p+2]*29)>>8;
+  const blob=await new Promise(ok=>cv.toBlob(ok,"image/png")); return {blob,g};}
+const imgSrc=[];
+$("imgFiles").onchange=async e=>{const fs=[...(e.target.files||[])].sort((a,b)=>a.name.localeCompare(b.name)); if(!fs.length) return; stopPlay(); $("clipInfo").textContent="reading pictures…";
+  const ims=[]; for(const f of fs){try{ims.push({f,img:await createImageBitmap(f)});}catch(err){toast(`Could not read ${f.name}`);}} if(!ims.length) return;
+  const fw=960, fh=640, pad=24; imgSrc.length=0; st.frames=[]; bmpCache.clear(); integ.clear(); const metas=[];
+  for(const {f,img} of ims){const s=Math.min((fw-2*pad)/img.width,(fh-2*pad)/img.height), m={name:f.name,w:img.width,h:img.height,s:+s.toFixed(6),ox:Math.round((fw-img.width*s)/2),oy:Math.round(fh-pad-img.height*s),flip:false};
+    imgSrc.push(img); metas.push(m); st.frames.push(await frameFrom(img,m,fw,fh));}
+  st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=1; st.cur=0; fileMeta=null;
+  const key=metas.map(m=>m.name+":"+m.w+"x"+m.h).join("|"); let h=0; for(const c of key) h=(h*31+c.charCodeAt(0))>>>0;
+  st.clip={id:"images_"+h.toString(36)+"_"+st.n,name:`${st.n} pictures`,vw:fw,vh:fh,dur:st.n,fps:1,t0:0,n:st.n,images:metas};
+  st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null;
+  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd"].forEach(id=>$(id).disabled=false); $("empty").hidden=true; $("mirrorImg").hidden=false;
+  hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); ensureRigPoints(); renderJoints(); rebuildAll(); refreshLists(); draw(); showImgName();
+  toast(`${st.n} pictures loaded, one per frame. Rig tracks (head, neck and back, front leg, hind leg, tail) hold the extra points; each point's exact spot is in the Joint tab.`);};
+function showImgName(){if(!st.clip||!st.clip.images) return; const m=st.clip.images[st.cur]; if(m){$("clipInfo").textContent=`${st.cur+1}/${st.n} · ${m.name}${m.flip?" (mirrored)":""} · ${m.w}×${m.h}`; $("clipInfo").title=m.name;}}
+async function mirrorFrame(i,mark=true){const m=st.clip.images[i]; if(!m||!imgSrc[i]) return; m.flip=!m.flip; st.frames[i]=await frameFrom(imgSrc[i],m,st.fw,st.fh); bmpCache.delete(i); integ.delete(i);
+  for(const K of Object.values(st.keys)){const v=K[i]; if(v&&!v.occ){v.x=st.fw-v.x; if(v.orig) v.orig.x=st.fw-v.orig.x;}} if(mark){markDirty(); toast(m.flip?"Mirrored: it now faces the other way (its points moved with it)":"Back to how the picture was");} showImgName(); draw();}
+$("mirrorImg").onclick=()=>{if(st.clip&&st.clip.images) mirrorFrame(st.cur);}; /* press again to undo it (not in Ctrl+Z: the picture itself changes) */
 
 /* decoded frames for display: a small cache of bitmaps */
 const bmpCache=new Map();
@@ -491,7 +556,7 @@ function fit(){const b=cv.getBoundingClientRect(); if(!st.fw) return; const z=Ma
 const toScr=(x,y)=>[st.view.ox+x*st.view.z,st.view.oy+y*st.view.z], toImg=(X,Y)=>[(X-st.view.ox)/st.view.z,(Y-st.view.oy)/st.view.z];
 function drawFrame(ctx,i,alpha){const b=bitmap(i); if(!b) return false; ctx.save(); ctx.globalAlpha=alpha; ctx.filter=`contrast(${st.con}%) brightness(${st.bri}%)`; ctx.drawImage(b,st.view.ox,st.view.oy,st.fw*st.view.z,st.fh*st.view.z); ctx.restore(); return true;}
 let drawQueued=false; function draw(){if(drawQueued) return; drawQueued=true; requestAnimationFrame(()=>{drawQueued=false; drawNow();});}
-function drawNow(){const b=cv.getBoundingClientRect(), dpr=window.devicePixelRatio||1; if(cv.width!==Math.round(b.width*dpr)||cv.height!==Math.round(b.height*dpr)){cv.width=Math.round(b.width*dpr); cv.height=Math.round(b.height*dpr);}
+function drawNow(){if(st.clip&&st.clip.images) showImgName(); const b=cv.getBoundingClientRect(), dpr=window.devicePixelRatio||1; if(cv.width!==Math.round(b.width*dpr)||cv.height!==Math.round(b.height*dpr)){cv.width=Math.round(b.width*dpr); cv.height=Math.round(b.height*dpr);}
   cx.setTransform(dpr,0,0,dpr,0,0); cx.fillStyle=getComputedStyle(document.body).getPropertyValue("--stage")||"#1d2128"; cx.fillRect(0,0,b.width,b.height);
   if(st.n){const f=st.cur; drawFrame(cx,f,1); if(st.show.onion){drawFrame(cx,f-1,.32); drawFrame(cx,f+1,.32);} overlay(cx,f);}
   drawTL(); hud(); banner(); if(st.show.loupe&&st.hover&&st.n) loupe(); else lp.hidden=true;}
@@ -836,8 +901,9 @@ let saveT=null; function markDirty(){seriesCache=null; st.dirty=true; saveSoon()
 function saveSoon(){clearTimeout(saveT); saveT=setTimeout(save,1500);}
 const r1=v=>Math.round(v*10)/10;
 function buildDoc(){const s=1/st.sx, keys={}; for(const [j,K] of Object.entries(st.keys)){const o={}; for(const [f,v] of Object.entries(K)) o[f]=v.occ?"hidden":v.orig?[r1(v.x*s),r1(v.y*s),r1(v.orig.x*s),r1(v.orig.y*s)]:[r1(v.x*s),r1(v.y*s)]; if(Object.keys(o).length) keys[j]=o;}
-  return {name:st.clip.name,w:st.clip.vw,h:st.clip.vh,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:st.facing,keys,events:st.events,extra:st.extra,build:BUILD.commit,updated:Date.now()};}
+  return {name:st.clip.name,w:st.clip.vw,h:st.clip.vh,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:st.facing,keys,events:st.events,extra:st.extra,images:st.clip.images||undefined,build:BUILD.commit,updated:Date.now()};}
 function applyDoc(doc){const s=st.sx; st.keys={}; for(const [j,K] of Object.entries(doc.keys||{})){st.keys[j]={}; for(const [f,v] of Object.entries(K)){if(+f>=st.n) continue; st.keys[j][f]=v==="hidden"?{occ:true}:v.length>3?{x:v[0]*s,y:v[1]*s,orig:{x:v[2]*s,y:v[3]*s}}:{x:v[0]*s,y:v[1]*s};}}
+  if(doc.images&&st.clip.images) doc.images.forEach((m,i)=>{const c=st.clip.images[i]; if(c&&m.flip!==c.flip&&m.name===c.name) mirrorFrame(i,false);}); /* re-apply a saved mirror */
   st.events=doc.events||{}; st.extra=Object.assign({joints:[],bones:[],angles:[],tracks:[]},doc.extra||{}); trackSet=null; st.facing=doc.facing||"auto"; $("facing").value=st.facing;}
 const countPts=doc=>Object.values(doc.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0);
 async function save(){if(!st.clip||!st.dirty&&!st.resultsDirty) return; const s=1/st.sx; const doc=buildDoc();

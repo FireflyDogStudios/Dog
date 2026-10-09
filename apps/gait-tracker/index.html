@@ -130,6 +130,8 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
   <header class="panel topbar" aria-label="Tools">
     <h1>Gait Tracker</h1>
     <label class="file"><button class="primary" id="openBtn" tabindex="-1">Open video…</button><input type="file" id="file" accept="video/*" aria-label="Open a video from this computer"></label>
+    <label class="file" title="Still pictures (cut-outs, photos, drawings) as a set, one picture per frame, for marking rig points"><button id="openImgBtn" tabindex="-1">Open images…</button><input type="file" id="imgFiles" accept="image/*" multiple aria-label="Open still images from this computer"></label>
+    <button id="mirrorImg" hidden title="Turn this picture to face right (its points turn with it)">Mirror this picture</button>
     <details class="pop" id="fileMenu"><summary>File</summary><div style="min-width:300px">
       <div class="row"><button id="fSave" disabled title="Ctrl+S">Save now</button><button id="fBackup" disabled title="Keep a dated copy you can go back to">Save a backup copy</button></div>
       <div class="row"><button id="fExport" disabled title="A .json file with every point, footfall and track, to keep or move to another computer">Export points (.json)</button><button id="fCsv" disabled title="One row per frame: every joint's x, y and every angle">Export table (.csv)</button></div>
@@ -315,7 +317,7 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
 <div class="cmenu" id="cmenu" role="menu" hidden></div>
 
 <script>
-const BUILD = {"commit":"a334755","date":"2026-10-09"};
+const BUILD = {"commit":"ee10ec1","date":"2026-10-09"};
 const GAIT_REF = {"carpus":[208.4,210.1,211.9,213.4,214.8,216.1,217.1,218.1,218.8,219.4,219.9,220.3,220.8,221.3,221.8,222.4,223,223.6,224.3,224.8,225.4,225.9,226.3,226.7,227,227.3,227.5,227.7,227.8,227.9,228.1,228.3,228.5,228.7,229,229.3,229.7,230,230.3,230.4,230.6,230.6,230.6,230.5,230.3,230.2,230.1,230,229.8,229.6,229.2,228.4,227.1,225.1,222.2,218.3,213,206.6,198.9,190.3,180.9,171,161.1,151.4,142.1,133.5,126.1,119.3,113.9,109.4,106,103.7,102.3,101.9,102.3,103.8,106,109.1,113.1,117.6,122.9,128.8,135.2,141.9,148.7,155.4,161.9,168.1,173.9,179,183.8,187.8,191.5,194.7,197.5,200.2,202.4,204.7,206.9,208.9,211],"elbow":[147.6,147.6,147.5,146.9,146,145,143.8,142.6,141.6,140.6,139.9,139.3,139,138.8,138.7,138.8,138.9,139,139.2,139.3,139.5,139.7,139.8,140,140.2,140.3,140.5,140.7,140.9,141.2,141.5,141.8,142.3,142.8,143.3,143.9,144.6,145.3,145.9,146.5,147.1,147.6,148,148.4,148.8,149.3,149.8,150.3,150.9,151.5,152.2,152.8,153.2,153.5,153.5,153.1,152.3,151,149.3,147.1,144.4,141.4,138.3,134.9,131.6,128.3,125.2,122.1,119.3,116.7,114.1,111.7,109.4,107.2,105,103,101.2,99.8,98.7,98,97.9,98.3,99.3,100.8,102.7,105.1,107.8,110.9,114.1,117.7,121.4,125.2,129,132.9,136.5,140,143,145.7,147.9,149.3,150.6],"hip":[57,57.5,58.1,58.6,59.3,59.9,60.5,61.2,61.8,62.5,63.1,63.7,64.3,64.9,65.4,66,66.6,67.2,67.8,68.5,69.2,69.9,70.6,71.4,72.2,72.9,73.8,74.5,75.4,76.2,77,77.8,78.7,79.5,80.3,81.1,82,82.8,83.7,84.5,85.3,86.2,87,87.8,88.6,89.3,90,90.7,91.2,91.7,92.1,92.5,92.6,92.7,92.7,92.4,92.1,91.5,90.8,89.9,88.8,87.7,86.4,85,83.6,82.1,80.6,79,77.5,76,74.4,72.9,71.4,70,68.5,67.2,65.8,64.5,63.2,62,60.9,59.8,58.7,57.8,57,56.3,55.7,55.3,55,54.9,54.8,54.9,55,55.2,55.5,55.7,56.1,56.4,56.9,57.4,57.9],"shoulder":[148.8,147.7,146.7,145.6,144.5,143.4,142.5,141.6,140.9,140.2,139.7,139.1,138.6,138.2,137.7,137.2,136.7,136.2,135.6,135.1,134.6,134.1,133.6,133.2,132.8,132.5,132.2,131.9,131.6,131.4,131.2,131,130.8,130.8,130.7,130.6,130.6,130.5,130.4,130.2,129.9,129.6,129.2,128.7,128.3,127.8,127.5,127.2,126.9,126.8,126.7,126.6,126.6,126.5,126.3,126,125.6,125.1,124.6,123.9,123.3,122.7,122.1,121.6,121.2,120.9,120.8,120.8,121,121.2,121.6,122.1,122.5,123.1,123.5,124.1,124.6,125.2,125.9,126.6,127.7,128.9,130.2,131.9,133.6,135.5,137.4,139.4,141.3,143.3,145.1,146.9,148.5,149.9,151,151.9,152.4,152.6,152.5,152,151.4],"stifle":[143.3,142.6,141.9,141.3,140.7,140.3,140.2,140.1,140.2,140.3,140.5,140.7,140.9,141.1,141.2,141.3,141.4,141.4,141.4,141.4,141.5,141.5,141.5,141.5,141.4,141.3,141.2,140.9,140.7,140.3,140,139.6,139.2,138.9,138.7,138.5,138.4,138.3,138.3,138.4,138.5,138.6,138.8,138.9,139.1,139.2,139.3,139.5,139.5,139.6,139.6,139.4,139.2,138.9,138.4,137.7,136.9,135.8,134.6,133.2,131.5,129.8,127.9,126,124,122,120.1,118.2,116.5,114.9,113.5,112.2,111.2,110.5,109.9,109.7,109.7,110,110.5,111.4,112.5,114,115.8,117.9,120.3,122.8,125.6,128.4,131.3,134,136.6,138.8,140.7,142.3,143.2,144,144.2,144.2,143.9,143.3,142.8],"tarsus":[145,143.7,142.3,141,139.7,138.4,137.5,136.7,136.2,135.9,135.9,136.1,136.4,136.8,137.3,137.9,138.4,139,139.6,140.1,140.6,141,141.4,141.8,142.1,142.4,142.7,142.9,143.1,143.3,143.4,143.6,143.8,144,144.2,144.4,144.8,145.1,145.5,146,146.5,147,147.6,148.3,149,149.8,150.6,151.5,152.5,153.5,154.5,155.6,156.6,157.6,158.4,159.1,159.7,160,160,159.8,159.1,158.1,156.7,154.8,152.7,150.1,147.4,144.4,141.4,138.3,135.4,132.6,130.1,127.8,125.7,123.9,122.4,121.1,120.3,119.6,119.4,119.5,120,120.9,122.2,123.9,126,128.3,130.8,133.4,136,138.5,140.8,142.7,144.2,145.4,145.9,146,145.8,144.9,144.1]}; /* Catavitello 2015, retrievers walking: mean angle per 1% of each limb's stride, 0 = touchdown */
 const WOLF = {"stifle":[144,142.9,141.7,141,140.2,139.7,139.2,138.8,138.6,138.3,138,137.8,137.6,137.4,136.9,136.6,136.3,136,135.7,135.3,135,134.7,134.4,134.2,133.9,133.7,133.4,133.2,133,132.9,132.7,132.6,132.5,132.4,132.4,132.5,132.5,132.6,132.6,132.6,132.6,132.6,132.5,132.3,132.2,132.1,132.1,132.2,132.2,132.5,132.8,133.2,133.6,134.3,135,135.9,136.9,138,139.2,139.6,139.6,139.1,138.1,136.7,134.9,132.9,130.8,128.6,126.5,124.5,122.6,120.8,119.4,118.1,117.2,116.3,115.9,115.6,115.8,116,116.8,117.6,118.9,120.3,122.1,124.1,126.4,128.8,131.2,133.7,136,138.2,140.1,141.5,142.8,143.5,144.1,144.2,144.3,144.2,144],"tarsus":[145.4,144,142.6,141.2,139.8,138.6,137.5,136.4,135.4,134.7,134.1,133.7,133.3,133.3,133.5,133.9,134.2,134.6,135.3,135.9,136.6,137.2,137.5,137.9,138.1,138.3,138.5,138.8,139,139.3,139.7,140.1,140.7,141.3,141.7,142.1,142.5,142.9,143.2,143.6,143.8,144,144.4,145.1,145.8,146.6,147.4,148.3,149.1,149.9,150.7,152.1,153.4,154.8,156.1,157,157.9,158.7,159.6,159.7,159.4,158.9,158.3,157.2,155.8,154,151.9,149.5,146.7,143.9,141,138.1,135.3,132.6,130.2,127.8,125.9,124.1,122.8,121.7,121.2,120.8,121.1,121.6,122.7,124,125.8,127.8,130,132.4,134.8,137.1,139.2,141.1,142.7,143.8,144.7,145.1,145.4,145.4,145.4],"shoulder":[150.2,148.8,147.5,145.4,143.2,142.1,141.2,141,141,140.2,139.1,138,136.9,136.3,136.2,135.8,135.1,134.5,133.8,133.2,132.6,131.9,130.8,129.7,128.9,128,127.5,126.9,126.5,126.2,125.7,125.2,124.7,124.2,123.6,122.9,122.6,122.7,122,120.6,119.4,118.4,117.7,117.4,117,116.6,116.2,116.3,116.4,116.5,116.6,117.2,117.7,118.4,119.1,120,120.9,121.9,123.1,124.5,126.1,127.5,128.9,129.2,128.6,128,127.5,127,126.9,126.8,126.8,126.8,127.1,127.4,127.7,128,128.2,128.5,128.9,129.4,129.9,130.4,131.5,132.9,134.3,135.7,137.3,139,140.8,142.5,144.3,146.1,147.7,149.1,150.4,151.5,152.4,152.5,152.4,151.3,150.2],"elbow":[132.3,131.5,130.7,130.1,129.6,129.1,128.7,128.2,127.8,127.5,127.3,127.2,127.1,127.1,127,126.9,127,127.1,127.2,127.4,127.6,127.9,128.3,128.7,129.1,129.4,129.7,130.1,130.3,130.4,130.8,131.1,131.5,131.8,132.2,132.7,132.9,133,133.7,134.9,136.2,137.4,138.6,139.5,140.5,142,143.4,144.3,145.3,146.7,148.2,148.9,149.6,150.1,150.5,150.9,151.3,151.2,151.1,150.8,150.4,149.5,148.3,146,142.7,139.3,135.8,132.2,128.3,124.5,120.9,117.3,114,110.8,107.8,104.8,101.9,99.1,97.1,95.3,93.7,92.2,92.2,92.7,93.5,94.4,96.1,98.3,100.8,103.5,106.6,110,113.4,116.8,120.2,123.6,126.8,129,131.1,131.7,132.3],"carpus":[190.3,190.2,190.2,190.2,190.3,190.3,190.3,190.3,190.4,190.3,190.3,190.2,190.3,190.3,190.2,190.2,190.2,190.2,190.2,190.2,190.2,190.3,190.3,190.3,190.2,190.1,190.2,190.2,190.2,190.1,190.1,190.2,190.3,190.4,190.3,190.2,190.2,190.3,190.4,190.4,190.4,190.3,190.3,190.3,190.4,190.3,190.2,190.2,190.2,190.2,190.3,190.3,190.3,190.2,190,190,190,189.9,189.8,189.9,190.1,188.3,185.1,177.1,164.5,152.2,140.4,128.9,118.3,108.1,99.2,90.7,84.1,77.6,73.4,69.2,67.7,66.1,67.1,68.3,71.8,75.7,81.5,88,95.9,104.5,114.2,124.7,135.9,147.7,159.9,172.4,182.4,186.9,190.3,190.3,190.3,190.3,190.3,190.3,190.3]}; /* hero3's near legs, same angle convention, 0 = touchdown */
 
@@ -376,7 +378,7 @@ let fileMeta=null;
 $("file").onchange=async e=>{const f=e.target.files&&e.target.files[0]; if(!f) return; stopPlay(); if(vid.src) URL.revokeObjectURL(vid.src);
   vid.src=URL.createObjectURL(f); $("clipInfo").textContent="reading…";
   try{await new Promise((ok,no)=>{vid.onloadedmetadata=ok; vid.onerror=()=>no(new Error("This browser cannot play that video file. Try an .mp4 (H.264) or .webm."));});}catch(err){$("clipInfo").textContent=err.message; return;}
-  fileMeta={name:f.name,size:f.size,vw:vid.videoWidth,vh:vid.videoHeight,dur:vid.duration};
+  fileMeta={name:f.name,size:f.size,vw:vid.videoWidth,vh:vid.videoHeight,dur:vid.duration}; $("mirrorImg").hidden=true;
   $("clipInfo").textContent=`${f.name} · ${fileMeta.vw}×${fileMeta.vh} · ${fileMeta.dur.toFixed(2)} s`;
   let fps=await detectFps(); if(fps){const C=[10,12,15,20,23.976,24,25,29.97,30,48,50,59.94,60,90,120,240], c=C.find(v=>Math.abs(v-fps)/v<.02); if(c) fps=c;} $("fps").value=fps?+fps.toFixed(3):30; $("t0").value=0; $("t1").value=+Math.min(fileMeta.dur,20).toFixed(2); $("extract").disabled=false;
   $("clipInfo").textContent=`${f.name} · ${fileMeta.vw}×${fileMeta.vh} · ${fps?+fps.toFixed(2)+" fps":"fps? check Clip"}`; $("clipInfo").title=`${fileMeta.dur.toFixed(2)} s long`;
@@ -400,6 +402,69 @@ async function extract(){if(!fileMeta) return; const fps=+$("fps").value||30, t0
   ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","evDown","evUp","evAuto"].forEach(id=>$(id).disabled=false); $("empty").hidden=true;
   hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); renderJoints(); rebuildAll(); refreshLists(); draw();}
 const clipId=(m,t0,fps)=>(m.name.replace(/[^A-Za-z0-9_.-]/g,"_").slice(0,60)+"_"+m.vw+"x"+m.vh+"_"+Math.round(m.dur*100)+"_"+Math.round(t0*100)+"_"+Math.round(fps*100));
+
+/* ---------- still images → frames (rig marking): each picture is fitted into one shared frame on a plain background, bottom-aligned so the
+   paws sit on the same line; its scale and offset are kept with the points (doc.images) so every point maps back to that picture's own pixels ---------- */
+/* the rig set (GrumpyDingo, Oct 9: "be very specific"): BONE points are joints under the fur (where the leg bends); EDGE points sit on the outline
+   (where fur meets background). Grouped as tracks, placed on the near side only (the far legs are copied from the near ones). The legs' joints
+   (shoulder, elbow, wrist, paw ball, pelvis top, hip, knee, hock) and nose, ear base, withers and tail base are the built-in points. */
+const RIG_GROUPS={rH:"Rig: head",rB:"Rig: neck, back and belly",rF:"Rig: near front leg",rK:"Rig: near hind leg",rT:"Rig: tail"};
+const RIG_POINTS=[
+ ["rH","stop","Stop (edge)","Top line of the face: the dip where the forehead drops down to the muzzle, between the eyes."],
+ ["rH","brow","Forehead top (edge)","Highest point of the head's top line in front of the ears."],
+ ["rH","earBack","Ear back base (edge)","Where the BACK edge of the near ear meets the head or neck fur."],
+ ["rH","earTip","Ear tip (edge)","Very tip of the near ear."],
+ ["rH","eye","Eye (centre)","Centre of the near eye."],
+ ["rH","mouth","Mouth corner","Corner of the lips, at the back of the mouth line."],
+ ["rH","chin","Chin (edge)","Front-most point of the lower jaw on the outline, under the nose."],
+ ["rH","jaw","Jaw angle (edge)","Underside of the head: where the jaw line turns up into the throat."],
+ ["rB","nape","Back of the neck (edge)","Top line right behind the ears: where the head's outline becomes the neck's."],
+ ["rB","scap","Shoulder blade top (bone)","Top edge of the shoulder blade: a little below and in front of the withers point; on a shaggy wolf, at the top of the shoulder mass."],
+ ["rB","back","Mid-back (edge)","Lowest point of the back line between the withers and the croup."],
+ ["rB","croup","Croup (edge)","Highest point of the rump's top line, over the hips, in front of the tail."],
+ ["rB","throat","Throat (edge)","Front line of the neck: where the throat meets the chest, under the jaw."],
+ ["rB","chest","Point of the chest (edge)","Most forward point of the chest outline (in front of the breastbone)."],
+ ["rB","brisket","Deepest chest (edge)","Lowest point of the chest outline, just behind the near elbow."],
+ ["rB","tuck","Tuck-up (edge)","Highest point of the belly line, just in front of the near thigh."],
+ ["rB","buttock","Point of the buttock (edge)","Back-most point of the rump outline, under the tail."],
+ ["rF","elbowBack","Elbow back (edge)","Back point of the near elbow on the outline (the point of the elbow bone, olecranon)."],
+ ["rF","wristFront","Wrist front (edge)","Front of the near wrist on the outline, level with the wrist joint."],
+ ["rF","wristBack","Wrist back (edge)","Back of the near wrist: the little pad bump behind it (accessory carpal pad)."],
+ ["rF","fHeel","Back of the front foot (edge)","Where the back of the near front pastern meets the big pad, at the ground."],
+ ["rF","fToe","Front toe tip (edge)","Front tip of the near front toes, at the ground."],
+ ["rK","thighFront","Thigh front (edge)","Front line of the near thigh, level with the hip joint (where the thigh meets the flank)."],
+ ["rK","kneeFront","Knee front (edge)","Front of the near knee on the outline (the knee cap)."],
+ ["rK","hockPoint","Point of the hock (edge)","The heel point at the back of the near hock (top of the calcaneus), behind the hock joint."],
+ ["rK","hHeel","Back of the hind foot (edge)","Where the back of the near hind foot meets the big pad, at the ground."],
+ ["rK","hToe","Hind toe tip (edge)","Front tip of the near hind toes, at the ground."],
+ ["rT","tailTop","Tail root top (edge)","Where the top line of the tail leaves the rump (the built-in Tail base is the bone)."],
+ ["rT","tailUnder","Tail root underside (edge)","Where the underside of the tail leaves the buttock."],
+ ["rT","tailWide","Tail widest (edge)","On the tail's underside: the point where the tail is widest."],
+ ["rT","tailTip","Tail tip (edge)","End of the tail, fur included."]];
+const RIG_COL={rH:"#ffe08a",rB:"#ffb3ff",rF:"#ff9d7a",rK:"#9ad0ff",rT:"#b8f0a0"};
+function ensureRigPoints(){const have=new Set(st.extra.joints.map(j=>j.id)); for(const [g,k,name,lm] of RIG_POINTS) if(!have.has("r_"+k)) st.extra.joints.push({id:"r_"+k,name,grp:g,col:RIG_COL[g],lm});
+  for(const [g,name] of Object.entries(RIG_GROUPS)) if(!(st.extra.tracks||[]).some(t=>t.id===g)) (st.extra.tracks ||= []).push({id:g,name,joints:RIG_POINTS.filter(r=>r[0]===g).map(r=>"r_"+r[1]),custom:true});}
+async function frameFrom(img,m,fw,fh){const cv=document.createElement("canvas"); cv.width=fw; cv.height=fh; const cx=cv.getContext("2d",{willReadFrequently:true}); cx.fillStyle="#c9c4bb"; cx.fillRect(0,0,fw,fh);
+  cx.save(); if(m.flip){cx.translate(fw,0); cx.scale(-1,1);} cx.drawImage(img,m.flip?fw-m.ox-m.w*m.s:m.ox,m.oy,m.w*m.s,m.h*m.s); cx.restore();
+  const im=cx.getImageData(0,0,fw,fh).data, g=new Uint8Array(fw*fh); for(let p=0,q=0;q<g.length;p+=4,q++) g[q]=(im[p]*77+im[p+1]*150+im[p+2]*29)>>8;
+  const blob=await new Promise(ok=>cv.toBlob(ok,"image/png")); return {blob,g};}
+const imgSrc=[];
+$("imgFiles").onchange=async e=>{const fs=[...(e.target.files||[])].sort((a,b)=>a.name.localeCompare(b.name)); if(!fs.length) return; stopPlay(); $("clipInfo").textContent="reading pictures…";
+  const ims=[]; for(const f of fs){try{ims.push({f,img:await createImageBitmap(f)});}catch(err){toast(`Could not read ${f.name}`);}} if(!ims.length) return;
+  const fw=960, fh=640, pad=24; imgSrc.length=0; st.frames=[]; bmpCache.clear(); integ.clear(); const metas=[];
+  for(const {f,img} of ims){const s=Math.min((fw-2*pad)/img.width,(fh-2*pad)/img.height), m={name:f.name,w:img.width,h:img.height,s:+s.toFixed(6),ox:Math.round((fw-img.width*s)/2),oy:Math.round(fh-pad-img.height*s),flip:false};
+    imgSrc.push(img); metas.push(m); st.frames.push(await frameFrom(img,m,fw,fh));}
+  st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=1; st.cur=0; fileMeta=null;
+  const key=metas.map(m=>m.name+":"+m.w+"x"+m.h).join("|"); let h=0; for(const c of key) h=(h*31+c.charCodeAt(0))>>>0;
+  st.clip={id:"images_"+h.toString(36)+"_"+st.n,name:`${st.n} pictures`,vw:fw,vh:fh,dur:st.n,fps:1,t0:0,n:st.n,images:metas};
+  st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null;
+  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd"].forEach(id=>$(id).disabled=false); $("empty").hidden=true; $("mirrorImg").hidden=false;
+  hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); ensureRigPoints(); renderJoints(); rebuildAll(); refreshLists(); draw(); showImgName();
+  toast(`${st.n} pictures loaded, one per frame. Rig tracks (head, neck and back, front leg, hind leg, tail) hold the extra points; each point's exact spot is in the Joint tab.`);};
+function showImgName(){if(!st.clip||!st.clip.images) return; const m=st.clip.images[st.cur]; if(m){$("clipInfo").textContent=`${st.cur+1}/${st.n} · ${m.name}${m.flip?" (mirrored)":""} · ${m.w}×${m.h}`; $("clipInfo").title=m.name;}}
+async function mirrorFrame(i,mark=true){const m=st.clip.images[i]; if(!m||!imgSrc[i]) return; m.flip=!m.flip; st.frames[i]=await frameFrom(imgSrc[i],m,st.fw,st.fh); bmpCache.delete(i); integ.delete(i);
+  for(const K of Object.values(st.keys)){const v=K[i]; if(v&&!v.occ){v.x=st.fw-v.x; if(v.orig) v.orig.x=st.fw-v.orig.x;}} if(mark){markDirty(); toast(m.flip?"Mirrored: it now faces the other way (its points moved with it)":"Back to how the picture was");} showImgName(); draw();}
+$("mirrorImg").onclick=()=>{if(st.clip&&st.clip.images) mirrorFrame(st.cur);}; /* press again to undo it (not in Ctrl+Z: the picture itself changes) */
 
 /* decoded frames for display: a small cache of bitmaps */
 const bmpCache=new Map();
@@ -491,7 +556,7 @@ function fit(){const b=cv.getBoundingClientRect(); if(!st.fw) return; const z=Ma
 const toScr=(x,y)=>[st.view.ox+x*st.view.z,st.view.oy+y*st.view.z], toImg=(X,Y)=>[(X-st.view.ox)/st.view.z,(Y-st.view.oy)/st.view.z];
 function drawFrame(ctx,i,alpha){const b=bitmap(i); if(!b) return false; ctx.save(); ctx.globalAlpha=alpha; ctx.filter=`contrast(${st.con}%) brightness(${st.bri}%)`; ctx.drawImage(b,st.view.ox,st.view.oy,st.fw*st.view.z,st.fh*st.view.z); ctx.restore(); return true;}
 let drawQueued=false; function draw(){if(drawQueued) return; drawQueued=true; requestAnimationFrame(()=>{drawQueued=false; drawNow();});}
-function drawNow(){const b=cv.getBoundingClientRect(), dpr=window.devicePixelRatio||1; if(cv.width!==Math.round(b.width*dpr)||cv.height!==Math.round(b.height*dpr)){cv.width=Math.round(b.width*dpr); cv.height=Math.round(b.height*dpr);}
+function drawNow(){if(st.clip&&st.clip.images) showImgName(); const b=cv.getBoundingClientRect(), dpr=window.devicePixelRatio||1; if(cv.width!==Math.round(b.width*dpr)||cv.height!==Math.round(b.height*dpr)){cv.width=Math.round(b.width*dpr); cv.height=Math.round(b.height*dpr);}
   cx.setTransform(dpr,0,0,dpr,0,0); cx.fillStyle=getComputedStyle(document.body).getPropertyValue("--stage")||"#1d2128"; cx.fillRect(0,0,b.width,b.height);
   if(st.n){const f=st.cur; drawFrame(cx,f,1); if(st.show.onion){drawFrame(cx,f-1,.32); drawFrame(cx,f+1,.32);} overlay(cx,f);}
   drawTL(); hud(); banner(); if(st.show.loupe&&st.hover&&st.n) loupe(); else lp.hidden=true;}
@@ -836,8 +901,9 @@ let saveT=null; function markDirty(){seriesCache=null; st.dirty=true; saveSoon()
 function saveSoon(){clearTimeout(saveT); saveT=setTimeout(save,1500);}
 const r1=v=>Math.round(v*10)/10;
 function buildDoc(){const s=1/st.sx, keys={}; for(const [j,K] of Object.entries(st.keys)){const o={}; for(const [f,v] of Object.entries(K)) o[f]=v.occ?"hidden":v.orig?[r1(v.x*s),r1(v.y*s),r1(v.orig.x*s),r1(v.orig.y*s)]:[r1(v.x*s),r1(v.y*s)]; if(Object.keys(o).length) keys[j]=o;}
-  return {name:st.clip.name,w:st.clip.vw,h:st.clip.vh,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:st.facing,keys,events:st.events,extra:st.extra,build:BUILD.commit,updated:Date.now()};}
+  return {name:st.clip.name,w:st.clip.vw,h:st.clip.vh,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:st.facing,keys,events:st.events,extra:st.extra,images:st.clip.images||undefined,build:BUILD.commit,updated:Date.now()};}
 function applyDoc(doc){const s=st.sx; st.keys={}; for(const [j,K] of Object.entries(doc.keys||{})){st.keys[j]={}; for(const [f,v] of Object.entries(K)){if(+f>=st.n) continue; st.keys[j][f]=v==="hidden"?{occ:true}:v.length>3?{x:v[0]*s,y:v[1]*s,orig:{x:v[2]*s,y:v[3]*s}}:{x:v[0]*s,y:v[1]*s};}}
+  if(doc.images&&st.clip.images) doc.images.forEach((m,i)=>{const c=st.clip.images[i]; if(c&&m.flip!==c.flip&&m.name===c.name) mirrorFrame(i,false);}); /* re-apply a saved mirror */
   st.events=doc.events||{}; st.extra=Object.assign({joints:[],bones:[],angles:[],tracks:[]},doc.extra||{}); trackSet=null; st.facing=doc.facing||"auto"; $("facing").value=st.facing;}
 const countPts=doc=>Object.values(doc.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0);
 async function save(){if(!st.clip||!st.dirty&&!st.resultsDirty) return; const s=1/st.sx; const doc=buildDoc();
