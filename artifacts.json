@@ -120,5 +120,12 @@
     ],
     "db": "clips/<clip id> = key points (source-video px), footfalls, own points; results/<clip id> = per-frame points and angles, per-stride curves; backups/<clip id>~<ms> = dated copies (auto every 10 min while working, manual from File)",
     "status": "live"
+  },
+  "compendium": {
+    "url": "https://claude.ai/artifact/JCjQAPUbrV2dTtfg4eE2eT",
+    "title": "Den Compendium",
+    "source": "apps/compendium/index.html",
+    "publish": "apps/compendium/index.html",
+    "note": "Master index of every live Den artifact. Update its BOOK array when an artifact is added or retired."
   }
 }

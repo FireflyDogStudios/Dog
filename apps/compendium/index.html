@@ -1,0 +1,168 @@
+<title>Den Compendium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@500;700&family=Alegreya:ital,wght@1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a field-guide compendium of the den's tools. A title page, then one chapter per kind of tool, each a grid of cards that tilt
+   toward the cursor like a card picked up off the table. Dark pine night by default (the benches' world), a moss-paper day page in light mode. */
+:root{
+  --bg:#101614; --bg2:#151d1a; --card:#1b2421; --card2:#212c28; --ink:#e7e9e2; --muted:#9aa69f; --line:#2c3833;
+  --amber:#e2a548; --amber-ink:#1b1408; --moss:#7fa58a; --dusk:#8e9fc7; --ember:#e07a5f; --glare:rgba(255,236,200,.16);
+  --f-display:"Alegreya SC","Palatino Linotype","Book Antiqua",Georgia,serif; --f-italic:"Alegreya",Georgia,serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#eef0e9;--bg2:#e6e9e0;--card:#fbfbf7;--card2:#f3f4ee;--ink:#1d2823;--muted:#56645c;--line:#d3d9cf;--amber:#a8650f;--amber-ink:#ffffff;--moss:#3f7553;--dusk:#4b5d92;--ember:#b34d33;--glare:rgba(255,255,255,.55);color-scheme:light}}
+:root[data-theme="light"]{--bg:#eef0e9;--bg2:#e6e9e0;--card:#fbfbf7;--card2:#f3f4ee;--ink:#1d2823;--muted:#56645c;--line:#d3d9cf;--amber:#a8650f;--amber-ink:#ffffff;--moss:#3f7553;--dusk:#4b5d92;--ember:#b34d33;--glare:rgba(255,255,255,.55);color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body);padding-inline:clamp(16px,4vw,56px);padding-block:clamp(24px,5vw,56px)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(1200px 520px at 78% -8%,color-mix(in srgb,var(--amber) 14%,transparent),transparent 70%),radial-gradient(900px 600px at -10% 110%,color-mix(in srgb,var(--moss) 10%,transparent),transparent 70%);z-index:-1}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:clamp(36px,6vw,64px)}
+[hidden]{display:none!important}
+a{color:inherit}
+
+/* title page */
+header{display:grid;gap:18px;border-bottom:1px solid var(--line);padding-bottom:28px}
+.eyebrow{font:500 12px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+h1{font:700 clamp(44px,8vw,88px)/.92 var(--f-display);letter-spacing:.01em;margin:0;text-wrap:balance}
+h1 .eye{display:inline-block;width:.34em;height:.2em;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:var(--amber);box-shadow:0 0 22px color-mix(in srgb,var(--amber) 70%,transparent);transform:translateY(-.32em) rotate(-8deg);margin-left:.08em}
+.lede{font:500 italic clamp(18px,2.2vw,22px)/1.45 var(--f-italic);color:var(--muted);max-width:56ch;margin:0}
+.bar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.find{flex:1 1 260px;max-width:420px;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.find svg{flex:none;color:var(--muted)}
+.find input{flex:1;min-width:0;background:transparent;border:0;color:var(--ink);font:inherit;outline:none}
+.find:focus-within{border-color:var(--amber)}
+.jump{display:flex;flex-wrap:wrap;gap:6px}
+.jump a{font:500 12px var(--f-mono);letter-spacing:.04em;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:var(--bg2)}
+.jump a:hover,.jump a:focus-visible{color:var(--ink);border-color:var(--amber);outline:none}
+.tally{font:12px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* chapters */
+section{display:grid;gap:18px;scroll-margin-top:24px}
+.chap{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.chap h2{font:700 clamp(26px,3.4vw,36px)/1 var(--f-display);margin:0;letter-spacing:.015em}
+.chap p{margin:0;color:var(--muted);font:500 italic 17px var(--f-italic)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,268px),1fr));gap:18px;perspective:1100px}
+
+/* the cards: tilt toward the pointer, a glare that follows it, the seal lifts off the card */
+.card{--rx:0deg;--ry:0deg;--mx:50%;--my:50%;--lift:0px;position:relative;display:grid;grid-template-rows:auto 1fr auto;gap:12px;min-height:236px;padding:18px 18px 16px;border-radius:16px;
+  text-decoration:none;color:var(--ink);background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line);
+  transform:rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s,border-color .3s;
+  box-shadow:0 1px 0 color-mix(in srgb,var(--ink) 4%,transparent) inset,0 10px 24px -14px rgba(0,0,0,.55)}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(420px circle at var(--mx) var(--my),var(--glare),transparent 46%);opacity:0;transition:opacity .3s}
+.card.hot{transition:transform .08s linear,box-shadow .3s,border-color .3s;--lift:-4px;border-color:color-mix(in srgb,var(--tone) 55%,var(--line));box-shadow:0 1px 0 color-mix(in srgb,var(--ink) 6%,transparent) inset,0 26px 46px -22px rgba(0,0,0,.7),0 0 0 1px color-mix(in srgb,var(--tone) 22%,transparent)}
+.card.hot::after{opacity:1}
+.card:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;transform:translateZ(26px)}
+.seal{width:46px;height:46px;flex:none;border-radius:12px;display:grid;place-items:center;color:var(--tone);background:color-mix(in srgb,var(--tone) 13%,transparent);border:1px solid color-mix(in srgb,var(--tone) 30%,transparent)}
+.seal svg{width:26px;height:26px}
+.chip{font:500 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px;border:1px solid currentColor;white-space:nowrap}
+.chip.live{color:var(--moss)} .chip.proto{color:var(--dusk)} .chip.old{color:var(--muted)} .chip.yours{color:var(--amber)}
+.body{display:grid;gap:6px;align-content:start;transform:translateZ(16px);min-width:0}
+.card h3{font:700 22px/1.08 var(--f-display);margin:0;letter-spacing:.01em;text-wrap:balance}
+.card .aka{font:500 12px var(--f-mono);color:var(--tone)}
+.card p{margin:0;font-size:14px;color:var(--muted)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:8px;font:11.5px var(--f-mono);color:var(--muted);transform:translateZ(10px);border-top:1px dashed var(--line);padding-top:10px}
+.open{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:500}
+.open svg{transition:transform .25s}
+.card.hot .open svg{transform:translateX(3px)}
+.none{color:var(--muted);font:italic 17px var(--f-italic)}
+footer{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between}
+footer code{font:12px var(--f-mono)}
+@media (prefers-reduced-motion: reduce){.card,.card.hot{transition:none;transform:none}html{scroll-behavior:auto}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">The Den Ledger · Project Dog</span>
+    <h1>Den Compendium<span class="eye" aria-hidden="true"></span></h1>
+    <p class="lede">Every bench, forge and kit behind the game, gathered in one ledger. Pick a card to open that tool in a new tab.</p>
+    <div class="bar">
+      <label class="find"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Find a tool: wolf, sword, colours…" aria-label="Find a tool"></label>
+      <nav class="jump" id="jump" aria-label="Chapters"></nav>
+      <span class="tally" id="tally"></span>
+    </div>
+  </header>
+  <main id="book"></main>
+  <footer>
+    <span>Made by Firefly for GrumpyDingo · 9 Oct 2026. The pages are private to your account.</span>
+    <span>Source of truth: <code>artifacts.json</code> in the repo</span>
+  </footer>
+</div>
+
+<script>
+/* glyphs: small line drawings, one per kind of tool */
+const G={
+  paw:'<path d="M12 21c-3.2 0-5.5-1.8-5.5-4.2 0-2.3 2.3-4.8 5.5-4.8s5.5 2.5 5.5 4.8C17.5 19.2 15.2 21 12 21Z"/><ellipse cx="5" cy="10" rx="1.8" ry="2.4"/><ellipse cx="9" cy="6" rx="1.8" ry="2.5"/><ellipse cx="15" cy="6" rx="1.8" ry="2.5"/><ellipse cx="19" cy="10" rx="1.8" ry="2.4"/>',
+  den:'<path d="M3 20h18"/><path d="M5 20c0-6.1 3.1-10 7-10s7 3.9 7 10"/><path d="M9.5 20c0-2.6 1.1-4.5 2.5-4.5s2.5 1.9 2.5 4.5"/><path d="M12 10V6"/><path d="M9 7.5 12 4l3 3.5"/>',
+  wolf:'<path d="M4 4l3.5 5L12 7l4.5 2L20 4l-1 9-7 7-7-7Z"/><circle cx="9.3" cy="12" r=".9" fill="currentColor"/><circle cx="14.7" cy="12" r=".9" fill="currentColor"/>',
+  track:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14.5" r="1.3" fill="currentColor"/><circle cx="13" cy="12.5" r="1.3" fill="currentColor"/><path d="M8 14.5 13 12.5l3.5 3"/>',
+  forge:'<path d="M14.5 3.5 20.5 9.5"/><path d="M4 20l9-9"/><path d="M12 6l6 6"/><path d="M15.5 6.5 17.5 4.5l2 2-2 2"/>',
+  anvil:'<path d="M4 8h12c0 2.2 1.8 3.5 4 3.5V13c-3 0-5 1.2-5.5 3H9.5C9 14.2 7 13 4 13Z"/><path d="M8 16v3h8v-3"/><path d="M6 19h12"/>',
+  sword:'<path d="M20 4 9.5 14.5"/><path d="M20 4v4l-9.5 9.5"/><path d="M7 12l5 5"/><path d="M8.5 15.5 4.5 19.5"/>',
+  flask:'<path d="M9 3h6"/><path d="M10 3v6L4.5 18.5A1.8 1.8 0 0 0 6 21h12a1.8 1.8 0 0 0 1.5-2.5L14 9V3"/><path d="M7 15h10"/>',
+  book:'<path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5Z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5Z"/>',
+  swatch:'<rect x="3" y="3" width="7" height="18" rx="2"/><path d="M10 7.5 15 4.6l4.4 6L10 17"/><circle cx="6.5" cy="17" r="1.2" fill="currentColor"/>',
+  looks:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M3 10h6v7"/>',
+  bag:'<path d="M5 8h14l-1 12H6Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/><path d="M9 12h6"/>',
+  pixi:'<path d="M12 3 20 7.5v9L12 21l-8-4.5v-9Z"/><path d="M12 12 20 7.5"/><path d="M12 12v9"/><path d="M12 12 4 7.5"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/>',
+  style:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17"/><path d="M12 12c3.5-1.5 5-4 5.5-7"/>'};
+const T={amber:"var(--amber)",moss:"var(--moss)",dusk:"var(--dusk)",ember:"var(--ember)"};
+const BOOK=[
+ {id:"game",title:"The game",line:"Where everything ends up.",tone:"amber",cards:[
+  {name:"The Den Ledger",aka:"the game · v0.54",url:"https://claude.ai/artifact/APeiXGfpJhnYRfjs7NorsT",g:"paw",st:["live","Live"],date:"3 Oct",what:"The cozy idle AFK game itself: the dingo, the meadow, loot, gear and the den.",when:"Play, or check that a change landed."},
+  {name:"Your Den",aka:"your own copy",url:"https://claude.ai/artifact/NUJoMc4k9TXFYGMdPwgu3F",g:"den",st:["yours","Yours"],date:"1 Oct",what:"Your own Den, a separate codebase that game work never touches.",when:"Your playground."}]},
+ {id:"creatures",title:"Creatures and motion",line:"How the animals look, stand and walk.",tone:"moss",cards:[
+  {name:"Wolf Bench",aka:"the wolf, hero3",url:"https://claude.ai/artifact/5MVTVAmLQmBxUaC5PL9QLC",g:"wolf",st:["live","Live"],date:"9 Oct",what:"The wolf big and walking: skeleton, joint angles, ghosts, a parts list, notes and trouble tags that Firefly answers.",when:"Judge the wolf and tag what looks off."},
+  {name:"Gait Tracker",aka:"joints on video",url:"https://claude.ai/artifact/EjofNnxftBQYFPth6GgHT2",g:"track",st:["live","Live"],date:"8 Oct",what:"Place joint points on a walking clip, track by track, and measure every joint against real dogs and our wolf.",when:"Turn a reference video into numbers."},
+  {name:"Den Dingo Workbench",aka:"the character forge",url:"https://claude.ai/artifact/2N5JULUbfKNkKB3szMUo8Y",g:"style",st:["live","Live"],date:"3 Oct",what:"The dingo hero's build: body, coat, poses and gait, one change at a time.",when:"Work on the hero dog."},
+  {name:"Den Pixi Bench",aka:"hero + creatures",url:"https://claude.ai/artifact/LXdgL2k38t7ZdjDBk5r4Bw",g:"pixi",st:["live","Live"],date:"3 Oct",what:"The hero big and at game size with walk, face left, ears back and howl, plus a crowd of 60 for the frame cost.",when:"Check how a rig runs in the game engine."},
+  {name:"Den Dingo Style Studio",aka:"earlier style sheet",url:"https://claude.ai/artifact/MVxnkDzLu3inYcetEXc1xi",g:"swatch",st:["old","Superseded"],date:"2 Oct",what:"The first dingo style sheet. The Workbench took its place.",when:"Only for history."}]},
+ {id:"gear",title:"Gear and goods",line:"Weapons, armour, brews and the rules for drawing them.",tone:"ember",cards:[
+  {name:"Weapon Forge Bench",aka:"the weapons forge",url:"https://claude.ai/artifact/VWys8gnSDCt1LJyXwM9nCs",g:"sword",st:["live","Live"],date:"1 Oct",what:"Build and preview weapons from parts and materials.",when:"Make or tune a weapon."},
+  {name:"Den Smithy",aka:"forge showroom",url:"https://claude.ai/artifact/AX1AckrJ39AdzZ16Vt4XSs",g:"anvil",st:["proto","Prototype"],date:"2 Oct",what:"The forge's showroom: finished pieces laid out by tier and material.",when:"See the set side by side."},
+  {name:"Den Gear Bench",aka:"hero2 + gear",url:"https://claude.ai/artifact/YM5BQsk83Kwd1S6pGG3EcL",g:"forge",st:["live","Live"],date:"6 Oct",what:"Fit armour to the dog: collar, tail rings and guard, paw covers, bracelets, on their mounts.",when:"Check how gear sits and moves."},
+  {name:"Den Stillroom",aka:"alchemy goods",url:"https://claude.ai/artifact/T5Y5iGAeRTPMQEfFhJJs4M",g:"flask",st:["proto","In the pocket"],date:"3 Oct",what:"Brews, gems, foods and materials in the Smithy's style.",when:"Waits for the alchemy and currency rework."},
+  {name:"Den Gear Design Guide",aka:"how gear should look",url:"https://claude.ai/artifact/LGTbTR7ZCU6dstv4jYuKvx",g:"book",st:["live","Guide"],date:"5 Oct",what:"Symmetry then one break, the tier budget and set motifs.",when:"Before designing any piece."}]},
+ {id:"kit",title:"Look and feel kit",line:"The theming kit: colours, type and screens.",tone:"dusk",cards:[
+  {name:"Den Field Kit",aka:"the theming kit",url:"https://claude.ai/artifact/1vXfDMziP9Va4AjkpKLEUd",g:"swatch",st:["live","Kit"],date:"2 Oct",what:"Colours, type scale, buttons, dock, tabs, HUD, boss bars, loot slots and tooltip cards for every rarity.",when:"Style any new screen."},
+  {name:"Den Look Studio",aka:"three looks",url:"https://claude.ai/artifact/3hynkNvYbjrdsSDy4Mw2Jw",g:"looks",st:["proto","Study"],date:"2 Oct",what:"One full game screen in three looks: Dark Glass, Storybook and Cozy Modern.",when:"Compare directions for the UI."},
+  {name:"Den Inventory Mock-up",aka:"bags and loadout",url:"https://claude.ai/artifact/9bxWvmV1DkVnA2Z4BnDRAt",g:"bag",st:["proto","Mock-up"],date:"2 Oct",what:"Loadout, bag strip, collapsible bag blocks, New markers and drag anywhere.",when:"Shape the inventory."}]},
+ {id:"studio",title:"The studio",line:"The team that builds it.",tone:"amber",cards:[
+  {name:"Den Team Inbox",aka:"notes and the board",url:"https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK",g:"mail",st:["live","Live"],date:"8 Oct",what:"Needs-you notes, the team board with live session state, every note, and a composer.",when:"See what the team needs from you."}]}];
+
+const book=document.getElementById("book"), jump=document.getElementById("jump");
+const svg=g=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${G[g]||G.book}</svg>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+book.style.display="grid"; book.style.gap="clamp(36px,6vw,64px)";
+for(const ch of BOOK){const sec=document.createElement("section"); sec.id=ch.id; sec.setAttribute("aria-labelledby","h-"+ch.id);
+  sec.innerHTML=`<div class="chap"><h2 id="h-${ch.id}">${esc(ch.title)}</h2><p>${esc(ch.line)}</p></div><div class="grid"></div>`;
+  const grid=sec.querySelector(".grid");
+  for(const c of ch.cards){const a=document.createElement("a"); a.className="card"; a.href=c.url; a.target="_blank"; a.rel="noopener"; a.style.setProperty("--tone",T[ch.tone]);
+    a.dataset.text=[c.name,c.aka,c.what,c.when,ch.title].join(" ").toLowerCase();
+    a.setAttribute("aria-label",`${c.name}, ${c.aka}. ${c.what} Opens in a new tab.`);
+    a.innerHTML=`<div class="top"><span class="seal">${svg(c.g)}</span><span class="chip ${c.st[0]}">${esc(c.st[1])}</span></div>
+      <div class="body"><span class="aka">${esc(c.aka)}</span><h3>${esc(c.name)}</h3><p>${esc(c.what)}</p></div>
+      <div class="foot"><span>${esc(c.when)}</span><span class="open">Open <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>`;
+    a.title=`Updated ${c.date}`; grid.append(a);}
+  book.append(sec);
+  const j=document.createElement("a"); j.href="#"+ch.id; j.textContent=ch.title; jump.append(j);}
+const none=document.createElement("p"); none.className="none"; none.hidden=true; none.textContent="No tool by that name. Try wolf, forge, colours or inbox."; book.append(none);
+
+/* the tilt: the card leans toward the pointer and a soft glare follows it */
+const still=matchMedia("(prefers-reduced-motion: reduce)");
+document.querySelectorAll(".card").forEach(card=>{
+  card.addEventListener("pointermove",e=>{if(still.matches||e.pointerType==="touch") return; const r=card.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+    card.classList.add("hot"); card.style.setProperty("--ry",((x-.5)*14).toFixed(2)+"deg"); card.style.setProperty("--rx",((.5-y)*11).toFixed(2)+"deg");
+    card.style.setProperty("--mx",(x*100).toFixed(1)+"%"); card.style.setProperty("--my",(y*100).toFixed(1)+"%");});
+  card.addEventListener("pointerleave",()=>{card.classList.remove("hot"); card.style.setProperty("--rx","0deg"); card.style.setProperty("--ry","0deg");});
+  card.addEventListener("focus",()=>card.classList.add("hot")); card.addEventListener("blur",()=>card.classList.remove("hot"));});
+
+/* finding a tool */
+const q=document.getElementById("q"), tally=document.getElementById("tally"), total=document.querySelectorAll(".card").length;
+function filter(){const s=q.value.trim().toLowerCase(); let shown=0;
+  document.querySelectorAll("section").forEach(sec=>{let n=0; sec.querySelectorAll(".card").forEach(c=>{const ok=!s||s.split(/\s+/).every(w=>c.dataset.text.includes(w)); c.hidden=!ok; if(ok) n++;}); sec.hidden=!n; shown+=n;});
+  none.hidden=shown>0; tally.textContent=s?`${shown} of ${total} tools`:`${total} tools in ${BOOK.length} chapters`;}
+q.addEventListener("input",filter); filter();
+</script>
