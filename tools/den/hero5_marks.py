@@ -4,7 +4,7 @@
    Zones: a dark saddle along the topline with the shoulder stripe, a cream underside and chest front, pale cheeks and muzzle, the eye and nose,
    a dark top edge and tip on the tail, tawny legs and rump, pale paws. The photo is dim (evening, overcast), so every zone's colour gets the
    same lightness gain (base fur to hero3's lightness): the coat keeps the photo's own contrasts between zones."""
-import json, pathlib, numpy as np
+import json, math, pathlib, numpy as np
 from PIL import Image
 from shapely.geometry import Polygon, Point, box, LineString
 from shapely import affinity
@@ -41,8 +41,23 @@ def zones(J, parts):
     sad = Polygon([(x0, -99), *[(x, y + th(x)) for x, y in zip(xs, ty)], (xn, -99)]).buffer(0).intersection(TH)
     sc, el = q('r_scap'), q('r_elbowBack'); d = (el - sc) / np.linalg.norm(el - sc); n = np.array([-d[1], d[0]])
     stripe = Polygon([sc + n * 1.1 - d * 1.5, sc - n * 1.1 - d * 1.5, sc + d * depth * .5 - n * .15, sc + d * depth * .5 + n * .3])
-    zs = soft(sad.union(stripe).intersection(TH), .6); zs = big(zs.union(zs.buffer(.4).intersection(TH).intersection(sad.union(stripe).buffer(.1))))
-    out += split('saddle', zs, 'saddle', 'saddleNeck')
+    zs = soft(sad.intersection(TH), .6); zs = big(zs.union(zs.buffer(.4).intersection(TH).intersection(sad.buffer(.1))))
+    # the shoulder bar (photo 01's dark streak behind the blade): a tapered sweep from the saddle down the blade's back edge, added after the
+    # smoothing (the opening had shaved it to a stub that read as a drip)
+    s0 = sc - d * 1.2 - n * .2; s1 = sc + d * depth * .5 + n * .5; ctl_s = (s0 + s1) / 2 - n * .35
+    bar = [tuple((1 - t) ** 2 * s0 + 2 * (1 - t) * t * ctl_s + t * t * s1) for t in np.linspace(0, 1, 22)]
+    P_ = np.array(bar); Lb, Rb = [], []
+    for i in range(len(P_)):
+        dd_ = P_[min(i + 1, len(P_) - 1)] - P_[max(i - 1, 0)]; dd_ = dd_ / np.linalg.norm(dd_); nn_ = np.array([-dd_[1], dd_[0]]); w_ = (1.5 * (1 - i / (len(P_) - 1)) ** .8 + .05) / 2
+        Lb.append(tuple(P_[i] + nn_ * w_)); Rb.append(tuple(P_[i] - nn_ * w_))
+    zs = big(zs.union(Polygon(Lb + Rb[::-1]).buffer(0).intersection(TH)).buffer(.25).buffer(-.25))
+    eb0, ef0 = q('r_earBack'), q('ear'); db = (ef0 - eb0) / np.linalg.norm(ef0 - eb0); nb = np.array([db[1], -db[0]]); nb = nb if nb[1] < 0 else -nb  # up, off the ear's base line
+    Hx = np.array(H.exterior.coords); cand = Hx[(Hx[:, 0] > eb0[0] - 1) & (Hx[:, 0] < ef0[0] + 2.5)]; tip = cand[np.argmin(cand[:, 1])]  # the ear tip: the outline's top
+    by = (eb0[1] + ef0[1]) / 2; I = H.exterior.intersection(LineString([(tip[0], by), (tip[0] + 6, by)]))
+    fx = max([c[0] for g_ in (I.geoms if hasattr(I, 'geoms') else [I]) for c in g_.coords]) if not I.is_empty else ef0[0]; ef1 = np.array([fx, by])  # front base: the outline's front edge at base height
+    EAR = big(H.intersection(Polygon([eb0 - [.3, -.2], tip + [0, -1], ef1 + [.5, 0]]).buffer(0)))  # the ear: the outline inside the triangle back base, tip, front base
+    eb0, ef0 = eb0 - [.3, -.2], ef1; db = (ef0 - eb0) / np.linalg.norm(ef0 - eb0); nb = np.array([db[1], -db[0]]); nb = nb if nb[1] < 0 else -nb
+    out += [(i_, h_, p_, g_.difference(EAR) if h_ == 'head' else g_) for i_, h_, p_, g_ in split('saddle', zs, 'saddle', 'saddleNeck')]  # the saddle stops at the ear's base: the ear is its own shape
     # cream underside: belly and brisket (0.2 of the depth), the chest front and the throat
     tk = q('r_tuck'); bx = np.linspace(tk[0] - .5, q('r_brisket')[0] + 6.5, 18); bt = lambda x: depth * np.interp(x, [tk[0] - .5, tk[0] + 3.5, 99], [.02, .2, .2])
     bx = np.linspace(bx[0], bx[-1], 90); by = gaussian_filter1d(np.array([edge_y(T, x, False) for x in bx]), 3, mode='nearest')
@@ -56,12 +71,38 @@ def zones(J, parts):
     # face: pale cheek, lips and throat below a line under the eye; the eye; the nose
     e, st, ns, jw, th = q('r_eye'), q('r_stop'), q('nose'), q('r_jaw'), q('r_throat')
     cheek = H.intersection(Polygon([th + [-.8, 0], jw + [-1.2, -.6], e + [-1.0, 1.0], e + [.6, .7], st + [.4, 1.6], ns + [.2, .6], ns + [3, 3], th + [0, 5]]))
-    out.append(('cheek', 'head', 'pale', inner(soft(cheek, .25), H)))
+    ti = next(k for k, o in enumerate(out) if o[0] == 'throat'); thr = out[ti][3]
+    face = soft(cheek, .3).union(thr).buffer(.35).buffer(-.35)  # cheek and throat as one cream shape: no step where they met
+    out[ti] = ('throat', 'head', 'pale', inner(face.intersection(H.buffer(.12)), TH))
     a = np.degrees(np.arctan2(st[1] - e[1], st[0] - e[0]))
-    out.append(('eye', 'head', 'ink', affinity.rotate(affinity.scale(Point(e).buffer(1), .42, .2), a, origin=tuple(e))))
+    # the eye: almond, set obliquely with the outer (back) corner higher, toward the ear, as on photo 01; a dark rim, a muted amber iris, the pupil
+    def lens(c, L, H, ang):  # an almond: two arcs meeting in points at both corners
+        t = np.linspace(0, math.pi, 16); top = [(L / 2 * math.cos(x), -H / 2 * math.sin(x) ** .8) for x in t]; bot = [(L / 2 * math.cos(x), H / 2 * math.sin(x) ** .8) for x in t[::-1]]
+        return affinity.translate(affinity.rotate(Polygon(top + bot[1:-1]), ang, origin=(0, 0)), *c)
+    ea = 16  # degrees: the front corner lower (y grows down, the dog faces +x)
+    out.append(('eyeRim', 'head', 'furDark', inner(lens(e, 1.15, .6, ea), H)))
+    out.append(('iris', 'head', 'iris', inner(lens(e + [.06, .01], .84, .42, ea), H)))
+    out.append(('eye', 'head', 'ink', Point(e + [.1, .01]).buffer(.15)))
+    # the lips: tight and black, as on photo 01. One line where the lips meet, from the mouth's corner curving down to where they part behind the
+    # nose, thin at the corner; then flush along the upper lip's underside to under the nose, and down the front of the chin (the lower lip)
+    mc, ch = q('r_mouth'), q('r_chin'); Hc = np.array(H.exterior.coords)
+    def turn(i, k=3):  # signed turn of the outline at point i (negative = a notch, for this ring's direction)
+        p0, p1, p2 = Hc[(i - k) % len(Hc)], Hc[i], Hc[(i + k) % len(Hc)]; v1, v2 = p1 - p0, p2 - p1; return float(np.cross(v1, v2)) / (np.linalg.norm(v1) * np.linalg.norm(v2) + 1e-9)
+    near = [i for i in range(len(Hc)) if ch[0] < Hc[i, 0] < ns[0] - .3 and ns[1] + .4 < Hc[i, 1] < ch[1] + .1]
+    sg = 1 if Polygon(Hc).exterior.is_ccw else -1; gi = min(near, key=lambda i: sg * turn(i)); gap = Hc[gi]  # the deepest notch: where the lips part
+    lo = min((Hc[i] for i in near if Hc[i, 1] > gap[1] + .3), key=lambda c: abs(c[1] - gap[1] - .5))  # the front of the lower lip, below it
+    # the open mouth (photo 01 pants): a dark wedge from the corner to the notch; its edges are the black lips. No teeth or tongue: kept plain.
+    mc = mc + (gap - mc) * .3  # the corner a little forward of the point: a long black line curving up reads as a grin
+    up_ = [tuple((1 - t) ** 2 * mc + 2 * (1 - t) * t * ((mc + gap) / 2 + [.12, .22]) + t * t * gap) for t in np.linspace(0, 1, 20)]
+    lw_ = [tuple((1 - t) ** 2 * lo + 2 * (1 - t) * t * ((mc + lo) / 2 + [.12, .32]) + t * t * mc) for t in np.linspace(0, 1, 20)]
+    mouth = Polygon(up_ + lw_[1:]).buffer(0)
+    edge = H.exterior.intersection(box(gap[0] - .02, gap[1] - .9, ns[0] - .3, gap[1] + .05)); rim = edge.buffer(.24).intersection(H)  # the upper lip's black edge, flush, to under the nose
+    out.append(('lips', 'head', 'furDark', soft(inner(mouth.buffer(.05).union(rim), H), .03)))
     nose = H.intersection(Point(ns + [-.25, -.1]).buffer(.62)); out.append(('noseTip', 'head', 'ink', inner(nose, H) if not inner(nose, H).is_empty else nose))
-    eb, et, ef = q('r_earBack'), q('r_earTip'), q('ear'); ear = H.intersection(Polygon([eb, et + [0, -.5], ef]).buffer(.35))
-    rim = ear.intersection(LineString([eb + (eb - et) * .1, et + (et - eb) * .2]).buffer(.38)); out.append(('earRim', 'head', 'saddle', inner(rim, H)))
+    # the ear: a dark rim all round its edge (wolves' ears are edged dark), a warm inside, the base open into the head
+    core = EAR.buffer(-.3); open_ = Polygon([eb0 - db * .6, ef0 + db * .6, ef0 + db * .6 - nb * 3, eb0 - db * .6 - nb * 3]).buffer(0).union(Polygon([eb0 + nb * .35 - db * .6, ef0 + nb * .35 + db * .6, ef0 - nb * 3, eb0 - nb * 3]))
+    rimz = EAR.difference(core).difference(open_); out.append(('earRim', 'head', 'saddle', soft(inner(rimz, H), .06)))
+    out.append(('earIn', 'head', 'tan', soft(inner(core.difference(open_.buffer(-.1)), H), .1)))
     # tail: the dark guard hair along its top (back) edge, and the black tip (the last 28% of its length from the root)
     root = q('tail'); tip = np.array(max(TL.exterior.coords, key=lambda c: np.hypot(c[0] - root[0], c[1] - root[1]))); ax = tip - root; L = np.linalg.norm(ax); u = ax / L
     top = band(TL, (.55, .3)).intersection(Polygon([root - u * 9 + [9 * u[1], -9 * u[0]], root + u * L * .8 + [9 * u[1], -9 * u[0]], root + u * L * .8 - [9 * u[1], -9 * u[0]], root - u * 9 - [9 * u[1], -9 * u[0]]]))
@@ -74,6 +115,23 @@ def zones(J, parts):
         e1, e2 = c + nn * 3 - dd * .9, c - nn * 3 + dd * .9  # the edge rises toward the front of the leg
         zone = Pg[host].intersection(Polygon([e1, e2, e2 + dd * 20, e1 + dd * 20]))
         out.append((host + 'Tan', host, 'leg', soft(zone, .15)))
+    # a last pass on the broad zones: each outline resampled and smoothed (sigma 0.25 units), then trimmed back inside its piece, so no zone keeps
+    # a stair step from the shapes it was built from (the throat's edge by the shoulder). The small features (eye, nose, lips) keep their drawn shapes.
+    from scipy.ndimage import gaussian_filter1d as g1
+    def smooth(g, sig=.25, step=.05):
+        g = big(g); P = np.array(g.exterior.coords)[:-1]; seg = np.r_[0, np.cumsum(np.hypot(*np.diff(np.vstack([P, P[:1]]), axis=0).T))]
+        t = np.arange(0, seg[-1], step); Q = np.c_[np.interp(t, seg, np.r_[P[:, 0], P[0, 0]]), np.interp(t, seg, np.r_[P[:, 1], P[0, 1]])]
+        return Polygon(np.c_[g1(Q[:, 0], sig / step, mode='wrap'), g1(Q[:, 1], sig / step, mode='wrap')]).buffer(0)
+    host = {'trunk': T, 'head': TH, 'tail': TL}
+    BROAD = {'saddle', 'saddleNeck', 'belly', 'throat', 'tailTip', 'forearmTan', 'shankTan'}
+    def keep_edge(g, hs):  # smoothed inside, but flush with the silhouette where the zone meets it (the outline's own band keeps the original)
+        ring = hs.difference(hs.buffer(-.35)); return inner(big(smooth(g).union(g.intersection(ring)).buffer(.05).buffer(-.05)), hs)
+    # pairs that cross the neck seam are smoothed as one shape and split again, so both halves share one edge
+    for a_, b_ in (('saddle', 'saddleNeck'), ('belly', 'throat')):
+        ia, ib = [next(k for k, o in enumerate(out) if o[0] == x) for x in (a_, b_)]; whole = keep_edge(out[ia][3].union(out[ib][3]), TH)
+        out[ia] = (a_, 'trunk', out[ia][2], inner(whole, T)); out[ib] = (b_, 'head', out[ib][2], whole.intersection(H.buffer(.12)))
+    out = [(i, h, p, keep_edge(g, host.get(h, Pg.get(h))) if i in BROAD - {'saddle', 'saddleNeck', 'belly', 'throat'} and not g.is_empty else g) for i, h, p, g in out]
+    out = [(i, h, p, (g.intersection(H.buffer(.12)) if i in ('saddleNeck', 'throat') else g)) for i, h, p, g in out]
     return [(i, h, p, big(g)) for i, h, p, g in out if not g.is_empty and g.area > .05]
 
 def palette(J, parts, frame):
@@ -87,11 +145,11 @@ def palette(J, parts, frame):
         sel = sub & M[y0:y1, x0:x1]; px = Lab[y0:y1, x0:x1][sel]; return np.array([np.percentile(px[:, 0], pct), np.median(px[:, 1]), np.median(px[:, 2])])
     Z = {i: P for i, h, p, P in zones(J, parts)}; Pg = {k: Polygon(v).buffer(0) for k, v in parts.items()}
     base = Pg['trunk'].difference(Z['saddle']).difference(Z['belly']).buffer(-.3); legs = Pg['forearm'].union(Pg['shank'])
-    raw = {'fur': med(base), 'saddle': med(Z['saddle'], 15), 'pale': med(Z['belly'], 80), 'tan': med(Pg['thigh'], 65), 'leg': med(legs, 60), 'pale2': med(Pg['fpaw'], 85), 'cheek': med(Z['cheek'], 85)}
+    raw = {'fur': med(base), 'saddle': med(Z['saddle'], 15), 'pale': med(Z['belly'], 80), 'tan': med(Pg['thigh'], 65), 'leg': med(legs, 60), 'pale2': med(Pg['fpaw'], 85), 'cheek': med(Z['throat'], 85)}
     gain = 57.0 / raw['fur'][0]; hexs = {}
     for k, v in raw.items():
         L = min(92, v[0] * gain); c = color.lab2rgb(np.array([[[L, v[1] * 1.15, v[2] * 1.15]]]))[0, 0]; hexs[k] = '#%02x%02x%02x' % tuple(int(round(x * 255)) for x in np.clip(c, 0, 1))
-    hexs['furDark'] = '#2f2a26'; hexs['ink'] = '#1a1714'
+    hexs['furDark'] = '#2f2a26'; hexs['ink'] = '#1a1714'; hexs['iris'] = '#a8843f'  # the eye: photo 01's amber, muted
     return hexs, {k: [round(x, 1) for x in v] for k, v in raw.items()}, gain
 
 if __name__ == '__main__':

@@ -6,6 +6,10 @@ import sys, json, math, pathlib, numpy as np
 sys.path.insert(0, str(pathlib.Path(__file__).parent)); import hero5_build as H
 from PIL import Image, ImageDraw
 G = json.load(open(H.ROOT / 'engine/hero5_geo.json'))['nudged']; J = G['joints']
+import os, re
+if os.environ.get('FINAL'):  # the shapes the engine draws (after the ground fit and the clean legs), not the builder's photo cuts
+    E = json.loads(re.search(r'const HERO5_GEO = (\{.*?\});\n', (H.ROOT / 'engine/hero5.js').read_text(), re.S).group(1)); J = {**J, **E['J']}
+    G = {**G, 'parts': {k: [q[:2] for q in v] for k, v in E['parts'].items()}}
 P = H.points(); O = H.outline(); g = max(P[k][1] for k in ('r_fToe', 'r_hToe', 'r_fHeel', 'r_hHeel')); ppu = (g - P['wither'][1]) / 25.0; X0 = min(O.bounds[0], P['r_tailTip'][0]) - 3 * ppu
 cut = Image.open(sys.argv[1]).convert('RGBA'); k = cut.width / Image.open(H.PHOTO).width; Z = 3
 px = lambda q: ((((q[0] - 1.0) * ppu + X0) * k) * Z, ((g - (35.55 - q[1]) * ppu) * k) * Z)

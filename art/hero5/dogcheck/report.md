@@ -7,23 +7,24 @@
 | fit | SKIP | no measured yardstick wired for this rig yet |
 | pieces | PASS | one connected silhouette in all 24 walk frames |
 | slivers | PASS | no colour band thinner than 0.2 units and no stray fragments at rest |
-| notches | WARN | NEW narrow crack in the outline at (15.5, 34.2), 0.07 sq units (standing): two edges meet at a sharp angle |
-| notches | WARN | NEW narrow crack in the outline at (12.7, 24.0), 0.02 sq units (walk 0%): two edges meet at a sharp angle |
-| notches | WARN | NEW narrow crack in the outline at (6.6, 26.3), 0.27 sq units (walk 0%): two edges meet at a sharp angle |
-| notches | WARN | NEW narrow crack in the outline at (28.0, 34.1), 0.02 sq units (walk 0%): two edges meet at a sharp angle |
-| notches | WARN | NEW narrow crack in the outline at (17.5, 34.2), 0.04 sq units (walk 0%): two edges meet at a sharp angle |
-| notches | WARN | NEW narrow crack in the outline at (16.7, 22.1), 0.02 sq units (walk 25%): two edges meet at a sharp angle |
-| notches | WARN | NEW narrow crack in the outline at (8.7, 24.0), 0.04 sq units (walk 25%): two edges meet at a sharp angle |
-| notches | WARN | NEW narrow crack in the outline at (24.2, 27.5), 0.02 sq units (walk 25%): two edges meet at a sharp angle |
-| attach | PASS | every part is rooted in what it hangs from (least: foreF 16%, foreN 16%, skull 17%) |
+| notches | WARN | NEW narrow crack in the outline at (8.4, 22.5), 0.03 sq units (walk 0%): two edges meet at a sharp angle |
+| notches | WARN | NEW narrow crack in the outline at (11.3, 25.6), 0.01 sq units (walk 0%): two edges meet at a sharp angle |
+| notches | WARN | NEW narrow crack in the outline at (26.6, 31.6), 0.02 sq units (walk 0%): two edges meet at a sharp angle |
+| notches | WARN | NEW narrow crack in the outline at (8.3, 24.9), 0.03 sq units (walk 25%): two edges meet at a sharp angle |
+| notches | WARN | NEW narrow crack in the outline at (24.3, 26.9), 0.02 sq units (walk 25%): two edges meet at a sharp angle |
+| notches | WARN | NEW narrow crack in the outline at (8.2, 23.0), 0.02 sq units (walk 50%): two edges meet at a sharp angle |
+| notches | WARN | NEW narrow crack in the outline at (11.8, 24.8), 0.02 sq units (walk 50%): two edges meet at a sharp angle |
+| notches | WARN | NEW narrow crack in the outline at (6.6, 26.3), 0.28 sq units (walk 50%): two edges meet at a sharp angle |
+| attach | PASS | every part is rooted in what it hangs from (least: skull 17%, foreF 22%, foreN 22%) |
 | visible | PASS | eye, nose and every named marking show in all checked frames |
 | topline | PASS | above hip and shoulder height every leg stays inside the body, all walk frames |
-| markings | INFO | saddle is partly drawn over by saddleNeck 6%, thighN 3% (check the edge that makes) |
-| markings | INFO | belly is partly drawn over by throat 5%, upperarmN 15%, forearmN 9% (check the edge that makes) |
+| markings | INFO | saddle is partly drawn over by saddleNeck 5%, thighN 3% (check the edge that makes) |
+| markings | INFO | belly is partly drawn over by throat 7%, upperarmN 15%, forearmN 7% (check the edge that makes) |
 | markings | INFO | tailTip is partly drawn over by thighN 7% (check the edge that makes) |
-| markings | INFO | saddleNeck is partly drawn over by earRim 12% (check the edge that makes) |
-| markings | INFO | throat is partly drawn over by cheek 56% (check the edge that makes) |
-| markings | PASS | 7 markings stay inside their shapes, and no leg cuts into them while walking |
+| markings | INFO | throat is partly drawn over by lips 5% (check the edge that makes) |
+| markings | INFO | eyeRim is partly drawn over by iris 38%, eye 12% (check the edge that makes) |
+| markings | INFO | iris is partly drawn over by eye 25% (check the edge that makes) |
+| markings | PASS | 9 markings stay inside their shapes, and no leg cuts into them while walking |
 | feet | PASS | no paw below the ground (deepest 0.01) |
 | gait | PASS | footfalls (left hind = 0): left fore 0.17 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.67; paws down fore 0.61, hind 0.59 of the stride (measured 0.56-0.68) |
 | feet | PASS | planted paws move back at (ground units per stride): htoeF 20.0, ftoeF 20.0, htoeN 20.0, ftoeN 20.0 units |
@@ -38,5 +39,5 @@
 | pattern | PASS | carpus: shape match 0.89 with walking dogs, 0.88 with the tracked fox (moves like the dogs; target 0.7) |
 | pattern | PASS | stifle: shape match 0.96 with walking dogs (moves like the dogs; target 0.7) |
 | pattern | PASS | tarsus: shape match 0.91 with walking dogs, 0.32 with the tracked fox (moves like the dogs; target 0.7) |
-| contrast | PASS | against the meadow sand: fur 2.05, leg 1.77, saddle 4.62, pale 1.22, pale2 1.40 |
+| contrast | PASS | against the meadow sand: fur 2.05, leg 1.74, saddle 4.62, pale 1.22, pale2 1.40 |
 | preview | INFO | walk.gif: 36 frames, one stride, ground marks scroll at the planted-paw speed |

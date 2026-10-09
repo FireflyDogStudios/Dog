@@ -23,6 +23,9 @@ def ground_fit(top, low, paw, names):
 fit = {'hind': ground_fit('nKn', 'nHo', 'nHp', ['thigh', 'shank', 'cannon', 'hpaw']), 'front': ground_fit('nEl', 'nCa', 'nFp', ['upperarm', 'forearm', 'pastern', 'fpaw'])}
 J = {k: [r2(v[0]), r2(v[1])] for k, v in J.items()}
 parts = {k: [[r2(x), r2(y)] for x, y in v] for k, v in parts.items()}
+import sys; sys.path.insert(0, str(ROOT / 'tools/den')); import hero5_legs
+FAR_HIND_DX = -.4  # must match FAR_DX.hind in the rig below
+parts = hero5_legs.rebuild(J, parts, G['report']['widths_units'], FAR_HIND_DX)  # clean capsule bones and drawn paws (GrumpyDingo's joint notes, Oct 9)
 print('ground fit (units lifted):', {k: round(v, 3) for k, v in fit.items()})
 import sys; sys.path.insert(0, str(ROOT / 'tools/den')); import hero5_marks
 PAL, _, _ = hero5_marks.palette(J, parts, G['frame'])
@@ -49,7 +52,7 @@ function registerHero5(RIG){
   const BODY_PIVOT = [f2((H.hip[0] + Fj.sh[0]) / 2), f2((J.wither[1] + J.r_brisket[1]) / 2)];
   const HEAD_PIVOT = [f2((J.r_nape[0] + J.r_throat[0]) / 2), f2((J.r_nape[1] * 2 + J.r_throat[1]) / 3)]; /* the head nods at the neck's end, nearer the top */
   const tracks = Object.assign({}, H2.tracks, canineWalk(RIG, {H, Fj, WALK, BODY_PIVOT, toe:{htoe:H2.tracks.htoe, ftoe:H2.tracks.ftoe}}));
-  const FAR_DX = {hind:1.3, front:-1.3}, shJ = (o, dx) => Object.fromEntries(Object.entries(o).map(([n, q]) => [n, [f2(q[0] + dx), q[1]]]));
+  const FAR_DX = {hind:''' + str(FAR_HIND_DX) + ''', front:-1.3}, shJ = (o, dx) => Object.fromEntries(Object.entries(o).map(([n, q]) => [n, [f2(q[0] + dx), q[1]]]));
   const HL = k => k === "F" ? shJ(H, FAR_DX.hind) : H, FL = k => k === "F" ? shJ(Fj, FAR_DX.front) : Fj, shP = (P, dx) => P.map(q => [f2(q[0] + dx), q[1]]);
   const hind = (k, ph, far) => [{id:"hip" + k, at:HL(k).hip, track:"hhip", ph, far, in:"root"}, {id:"shank" + k, at:HL(k).stifle, track:"hshank", ph, in:"hip" + k},
     {id:"meta" + k, at:HL(k).hock, track:"hmeta", ph, in:"shank" + k}, {id:"htoe" + k, at:HL(k).paw, track:"htoe", ph, in:"meta" + k}];
@@ -62,7 +65,7 @@ function registerHero5(RIG){
   const legMk = (h, k, dx) => G.marks.filter(m => m.host === h).map(m => ({poly:shP(m.poly, dx), in:{shank:"shank", forearm:"fore"}[h] + k, paint:m.paint, id:m.id + k}));
   const legParts = k => { const dh = k === "F" ? FAR_DX.hind : 0, df = k === "F" ? FAR_DX.front : 0, P = G.parts;
     const hide = k === "F" ? {mayHide:true} : {}; /* the far legs tuck behind the body and the near legs */
-    return [{...thighSkin(shP(P.thigh, dh)), in:"hip" + k, id:"thigh" + k}, {poly:shP(P.shank, dh), in:"shank" + k, id:"shank" + k}, ...legMk("shank", k, dh), {poly:shP(P.cannon, dh), in:"meta" + k, id:"cannon" + k, paint:"leg"}, {poly:shP(P.hpaw, dh), in:"htoe" + k, id:"hpaw" + k, paint:"pale"},
+    return [{...thighSkin(shP(k === "F" ? P.thighFar : P.thigh, dh)), in:"hip" + k, id:"thigh" + k}, {poly:shP(P.shank, dh), in:"shank" + k, id:"shank" + k}, ...legMk("shank", k, dh), {poly:P.achilles.map(q => [f2(q[0] + dh), q[1]]), skin:{to:"meta" + k, w:P.achilles.map(q => q[2])}, in:"shank" + k, id:"achilles" + k, paint:"leg"}, {poly:shP(P.cannon, dh), in:"meta" + k, id:"cannon" + k, paint:"leg"}, {poly:shP(P.hpaw, dh), in:"htoe" + k, id:"hpaw" + k, paint:"pale"},
       {poly:shP(P.upperarm, df), in:"sh" + k, id:"upperarm" + k}, {poly:shP(P.forearm, df), in:"fore" + k, id:"forearm" + k}, ...legMk("forearm", k, df), {poly:shP(P.pastern, df), in:"past" + k, id:"pastern" + k, paint:"leg"}, {poly:shP(P.fpaw, df), in:"ftoe" + k, id:"fpaw" + k, paint:"pale"}].map(p => ({...p, ...hide})); };
   /* the coat's markings (tools/den/hero5_marks.py): each rides the piece it was cut inside and draws just after it */
   const HOST = {tail:"tail", trunk:"body", head:"skull"}, mk = h => G.marks.filter(m => m.host === h).map(m => ({poly:m.poly, in:HOST[h], paint:m.paint, id:m.id, ...(m.id === "belly" ? {mayHide:true} : {}), ...(m.host === "head" && /Neck$|^throat$/.test(m.id) ? {markOn:"outlineRef"} : {})})); /* the neck pieces lap over the trunk's: checked against the whole outline */

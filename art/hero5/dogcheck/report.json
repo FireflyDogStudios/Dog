@@ -21,47 +21,47 @@
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (15.5, 34.2), 0.07 sq units (standing): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (8.4, 22.5), 0.03 sq units (walk 0%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (12.7, 24.0), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (11.3, 25.6), 0.01 sq units (walk 0%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (6.6, 26.3), 0.27 sq units (walk 0%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (26.6, 31.6), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (28.0, 34.1), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (8.3, 24.9), 0.03 sq units (walk 25%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (17.5, 34.2), 0.04 sq units (walk 0%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (24.3, 26.9), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (16.7, 22.1), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (8.2, 23.0), 0.02 sq units (walk 50%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (8.7, 24.0), 0.04 sq units (walk 25%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (11.8, 24.8), 0.02 sq units (walk 50%): two edges meet at a sharp angle"
   },
   {
    "check": "notches",
    "level": "WARN",
-   "msg": "NEW narrow crack in the outline at (24.2, 27.5), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+   "msg": "NEW narrow crack in the outline at (6.6, 26.3), 0.28 sq units (walk 50%): two edges meet at a sharp angle"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: foreF 16%, foreN 16%, skull 17%)"
+   "msg": "every part is rooted in what it hangs from (least: skull 17%, foreF 22%, foreN 22%)"
   },
   {
    "check": "visible",
@@ -76,12 +76,12 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "saddle is partly drawn over by saddleNeck 6%, thighN 3% (check the edge that makes)"
+   "msg": "saddle is partly drawn over by saddleNeck 5%, thighN 3% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "belly is partly drawn over by throat 5%, upperarmN 15%, forearmN 9% (check the edge that makes)"
+   "msg": "belly is partly drawn over by throat 7%, upperarmN 15%, forearmN 7% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -91,17 +91,22 @@
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "saddleNeck is partly drawn over by earRim 12% (check the edge that makes)"
+   "msg": "throat is partly drawn over by lips 5% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "throat is partly drawn over by cheek 56% (check the edge that makes)"
+   "msg": "eyeRim is partly drawn over by iris 38%, eye 12% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "iris is partly drawn over by eye 25% (check the edge that makes)"
   },
   {
    "check": "markings",
    "level": "PASS",
-   "msg": "7 markings stay inside their shapes, and no leg cuts into them while walking"
+   "msg": "9 markings stay inside their shapes, and no leg cuts into them while walking"
   },
   {
    "check": "feet",
@@ -176,7 +181,7 @@
   {
    "check": "contrast",
    "level": "PASS",
-   "msg": "against the meadow sand: fur 2.05, leg 1.77, saddle 4.62, pale 1.22, pale2 1.40"
+   "msg": "against the meadow sand: fur 2.05, leg 1.74, saddle 4.62, pale 1.22, pale2 1.40"
   },
   {
    "check": "preview",
