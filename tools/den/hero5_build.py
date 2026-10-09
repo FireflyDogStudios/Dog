@@ -19,8 +19,20 @@ def points():
     d = json.load(open(PTS)); m = d['images'][0]; k = Image.open(PHOTO).width / m['w']
     return {j: np.array([((v['0'][0] - m['ox']) / m['s']) * k, ((v['0'][1] - m['oy']) / m['s']) * k]) for j, v in d['keys'].items() if '0' in v and isinstance(v['0'], list)}
 
+from scipy.ndimage import gaussian_filter1d, gaussian_filter
+SMOOTH_PX = 9.0   # how much fur noise to iron out of the outline (photo px; about a quarter of a rig unit)
+def smooth_ring(coords, sigma, step=2.0):
+    """resample a closed ring every `step` px and smooth it (circular gaussian on x and y): clean curves instead of traced fur"""
+    P = np.array(coords[:-1] if np.allclose(coords[0], coords[-1]) else coords, float); seg = np.r_[0, np.cumsum(np.hypot(*np.diff(np.vstack([P, P[:1]]), axis=0).T))]
+    t = np.arange(0, seg[-1], step); Q = np.c_[np.interp(t, seg, np.r_[P[:, 0], P[0, 0]]), np.interp(t, seg, np.r_[P[:, 1], P[0, 1]])]
+    if sigma > 0: Q = np.c_[gaussian_filter1d(Q[:, 0], sigma / step, mode='wrap'), gaussian_filter1d(Q[:, 1], sigma / step, mode='wrap')]
+    return Q
+def smooth_poly(poly, sigma):
+    poly = big(poly.buffer(0)); return Polygon(smooth_ring(list(poly.exterior.coords), sigma)).buffer(0).simplify(.6)
+
 def outline():
-    M = np.load(MASK); C = max(measure.find_contours(M.astype(float), .5), key=len); return Polygon([(c[1], c[0]) for c in C]).buffer(0).simplify(1.2)
+    M = np.load(MASK); M = gaussian_filter(M.astype(float), 2.0) > .5  # a light blur first, so single stray hairs never become spikes
+    C = max(measure.find_contours(M.astype(float), .5), key=len); return smooth_poly(Polygon([(c[1], c[0]) for c in C]), SMOOTH_PX)
 
 def ang(a, b, c):
     v1, v2 = a - b, c - b; return math.degrees(math.acos(np.clip(v1 @ v2 / np.linalg.norm(v1) / np.linalg.norm(v2), -1, 1)))
@@ -69,7 +81,7 @@ def leg_from_mask(axis, y0, y1, cap_l, cap_r, foot=None):
         cl, cr = cap_l(y), cap_r(y)
         if foot and y > foot[2]: cl, cr = max(cl, x - foot[0] + 6), max(cr, foot[1] - x + 6)
         L.append((max(l, x - cl), y)); R.append((min(r, x + cr), y))
-    return Polygon(R + L[::-1]).buffer(1.5).buffer(-1.5)
+    return smooth_poly(Polygon(R + L[::-1]), SMOOTH_PX * .8)
 
 def build(knee_dx):
     P = points(); P['nKn'] = P['nKn'] + np.array([-knee_dx, 0]); O = outline()
@@ -105,7 +117,9 @@ def build(knee_dx):
     # the body: the outline, minus everything below the elbow line at the front and below the knee line at the back
     # the underside follows GrumpyDingo's points: deepest chest, then a gently sagging belly line up to the tuck-up (the far legs' tops hide the real line)
     bk, tk = P['r_brisket'], P['r_tuck']; belly = [bk + (tk - bk) * t + np.array([0, (1 - t) * t * 4 * (tk[1] - bk[1]) * -.18]) for t in np.linspace(0, 1, 12)]
-    fr = Polygon([(O.bounds[2] + 50, bk[1] + 2)] + [tuple(q) for q in belly] + [(tk[0], g + 99), (O.bounds[2] + 50, g + 99)])
+    ch = P['r_chest']; ef = P['nEl'] + nE * eF; chest_curve = [ef + (ch - ef) * t + np.array([0, (ch[1] - ef[1]) * .35 * math.sin(math.pi * t) * 0]) * 0 + np.array([((ch - ef) * t)[0] * 0, -(1 - (1 - t) ** 2) * 0]) for t in np.linspace(0, 1, 2)]
+    cc = [ef + np.array([(ch[0] - ef[0]) * t, (ch[1] - ef[1]) * (1 - (1 - t) ** 2)]) for t in np.linspace(0, 1, 12)]  # bulges down, rises steeply to the point of the chest
+    fr = Polygon([(O.bounds[2] + 50, ch[1])] + [tuple(q) for q in cc[::-1]] + [tuple(bk)] + [tuple(q) for q in belly] + [(tk[0], g + 99), (O.bounds[2] + 50, g + 99)]).buffer(0)
     kl = P['nKn'][1] - (P['nKn'][1] - P['r_tuck'][1]) * .0
     rr = Polygon([(O.bounds[0] - 50, kl), (P['r_tuck'][0], P['r_tuck'][1] + (kl - P['r_tuck'][1]) * .5), (P['r_tuck'][0], g + 99), (O.bounds[0] - 50, g + 99)])
     # between the near legs the photo's own underside shows (no far leg there in photo 01): keep the outline itself from the knee front to the elbow back
@@ -113,18 +127,25 @@ def build(knee_dx):
     body = big(O.difference(fr.difference(gap)).difference(rr.difference(gap)))
     body = big(body.difference(box(P['r_kneeFront'][0] + 4, P['nEl'][1] + .9 * ppu, P['r_elbowBack'][0] - 4, g + 99)))  # never below the elbows' level
     hcut = LineString([P['r_nape'] + (P['r_nape'] - P['r_throat']) * .3, P['r_throat'] + (P['r_throat'] - P['r_nape']) * .3]); head = side(body, hcut, P['nose']); trunk = side(body, hcut, P['wither'])
-    # the thigh: the rump behind a line from the tuck up through the pelvis top, down to the knee (skinned to the body)
-    tl = LineString([P['r_tuck'] + (P['r_tuck'] - P['nIl']) * .4, P['nIl'] + (P['nIl'] - P['r_tuck']) * 1.5])
-    nT = across('nHi', 'nHi', 'nKn'); tF, tB = dist('nHi', 'r_thighFront', nT), max(dist('nHi', 'r_buttock', nT), dist('nHi', 'r_tailUnder', nT))
-    thigh = side(trunk, tl, P['nHi']).intersection(box(0, P['nIl'][1], 1e5, P['nHi'][1] + (P['nKn'][1] - P['nHi'][1]) * .3)).union(limb_shape(P['nHi'], P['nKn'], (tF, tB), (kF * 1.05, max(kB, kF) * 1.1))).buffer(0)
-    thigh = big(thigh.intersection(box(0, P['nIl'][1], 1e5, P['nKn'][1] + kF * .6)))
-    # the tail: a ribbon through its root (top and underside), widest point and tip
+    # the tail: a band along its own line (root between its top and underside, through its widest point, to the tip), trimmed to the photo's
+    # outline; in photo 01 it hangs over the far hind leg, so "everything behind the near leg" would take the far thigh too
     root = (P['r_tailTop'] + P['r_tailUnder']) / 2; w0 = np.linalg.norm(P['r_tailTop'] - P['r_tailUnder']); tip = P['r_tailTip']
     axis = tip - root; L = np.linalg.norm(axis); dvec = axis / L; nvec = np.array([dvec[1], -dvec[0]])
     uw = float(np.clip(((P['r_tailWide'] - root) @ dvec) / L, .2, .85)); ww = max(w0 * 1.15, 2 * abs((P['r_tailWide'] - root) @ nvec))
     wf = lambda u: (w0 + (ww - w0) * (u / uw) if u < uw else ww * (1 - (u - uw) / (1 - uw)) ** .7 + 6 * (1 - (u - uw) / (1 - uw)))
     us = np.linspace(0, 1, 15); C = [root + axis * u for u in us]
-    tail = Polygon([c + nvec * wf(u) / 2 for c, u in zip(C, us)] + [c - nvec * wf(u) / 2 for c, u in zip(C, us)][::-1]).buffer(0)
+    tail_ribbon = Polygon([c + nvec * wf(u) / 2 for c, u in zip(C, us)] + [c - nvec * wf(u) / 2 for c, u in zip(C, us)][::-1]).buffer(0)
+    wide = Polygon([c + nvec * wf(u) * .75 for c, u in zip(C, us)] + [c - nvec * wf(u) * .75 for c, u in zip(C, us)][::-1]).buffer(0)
+    tail = big(O.intersection(wide).union(tail_ribbon)); tail = big(tail.intersection(O.buffer(ppu * .15)))
+    tail_line = [P['r_tailUnder'], P['r_buttock'], P['r_hockPoint']]; tail_zone = tail
+    # the thigh: the rump behind a line from the tuck up through the pelvis top, down to the knee (skinned to the body)
+    tl = LineString([P['r_tuck'] + (P['r_tuck'] - P['nIl']) * .4, P['nIl'] + (P['nIl'] - P['r_tuck']) * 1.5])
+    nT = across('nHi', 'nHi', 'nKn'); tF, tB = dist('nHi', 'r_thighFront', nT), max(dist('nHi', 'r_buttock', nT), dist('nHi', 'r_tailUnder', nT))
+    thigh = side(trunk, tl, P['nHi']).intersection(box(0, P['nIl'][1], 1e5, P['nHi'][1] + (P['nKn'][1] - P['nHi'][1]) * .3)).union(limb_shape(P['nHi'], P['nKn'], (tF, tB), (kF * 1.05, max(kB, kF) * 1.1))).buffer(0)
+    thigh = big(thigh.intersection(box(0, P['nIl'][1], 1e5, P['nKn'][1] + kF * .6)))
+    rump = O.difference(tail_zone).intersection(Polygon([P['nIl'], P['r_tuck'] + np.array([0, ppu]), P['nKn'] + nK * kF, P['nKn'] - nK * kB * 1.5] + tail_line[::-1]).buffer(0))
+    thigh = big(thigh.union(rump).difference(tail_zone.buffer(-1)))
+
     M = np.load(MASK); farpaw = {}
     for leg, ref, xr in (('hind', 'nHp', (O.bounds[0], P['r_tuck'][0])), ('front', 'nFp', (P['r_tuck'][0], O.bounds[2]))):
         for f in np.arange(.6, 3.0, .1):  # the far paw stands a little higher in the picture (further from the camera): scan up until it shows
@@ -135,7 +156,9 @@ def build(knee_dx):
     rep = {'knee_dx_px': knee_dx, 'ppu_px': round(ppu, 2), 'angles': {'shoulder': round(ang(P['r_scap'], P['nSh'], P['nEl']), 1), 'elbow': round(ang(P['nSh'], P['nEl'], P['nCa']), 1), 'carpus': round(ang(P['nEl'], P['nCa'], P['nFp']), 1),
            'stifle': round(ang(P['nHi'], P['nKn'], P['nHo']), 1), 'tarsus': round(ang(P['nKn'], P['nHo'], P['nHp']), 1)},
            'widths_units': {k: round(v / ppu, 2) for k, v in dict(elbow=eF + eB, wrist=wF + wB, fball=bF + bB, knee=kF + kB, hock=hF + hB, hball=pF + pB).items()}}
+    trunk = big(trunk.difference(tail_zone.intersection(box(0, P['r_tailUnder'][1] + ppu * .3, 1e5, 1e5))))
     parts = {'head': head, 'trunk': trunk, 'thigh': thigh, 'shank': shank, 'cannon': cannon, 'hpaw': hpaw, 'upperarm': upperarm, 'forearm': forearm, 'pastern': pastern, 'fpaw': fpaw, 'tail': tail}
+    parts = {k: smooth_poly(v, 2.5) for k, v in parts.items()}  # a last light pass, so the cut seams and traced rows leave no steps
     return {'joints': J, 'outline': UP(O), 'parts': {k: UP(v) for k, v in parts.items()}, 'report': rep, 'photoFarPaws': farpaw}
 
 if __name__ == '__main__':

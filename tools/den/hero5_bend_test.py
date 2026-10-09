@@ -18,7 +18,7 @@ def draw(g,rot,rotF,dx_far=(1.3,-1.3)):
     im=Image.new('RGB',(int(60*S),int(39*S)),(29,33,40)); d=ImageDraw.Draw(im); M=pose(g,rot); MF=pose(g,rotF)
     leg=lambda names,M,off,col:[d.polygon([((ap(M[n],q)[0]+off)*S,ap(M[n],q)[1]*S) for q in g['parts'][n]],fill=col) for n in names]
     leg(['thigh','shank','cannon','hpaw'],MF,dx_far[0],FAR); leg(['upperarm','forearm','pastern','fpaw'],MF,dx_far[1],FAR)
-    for n in ('tail','trunk','head'): d.polygon([(x*S,y*S) for x,y in g['parts'][n]],fill=FUR)
+    for n in ('trunk','head','tail'): d.polygon([(x*S,y*S) for x,y in g['parts'][n]],fill=FUR)
     leg(['thigh','shank','cannon','hpaw','upperarm','forearm','pastern','fpaw'],M,0,FUR)
     d.line([(0,35.55*S),(im.width,35.55*S)],fill=(217,196,147),width=2); return im
 poses=[({},{}),({'thigh':18,'shank':-25,'cannon':20,'upperarm':-16,'forearm':10,'pastern':-15},{'thigh':-15,'shank':10,'upperarm':14,'forearm':-30,'pastern':60}),
