@@ -47,6 +47,23 @@ def outline():
         a0, b0, a1, b1 = mx.min(), my.min(), xs.min(), ys.min()
         _OUTLINE = smooth_poly(Polygon([(a0 + (c[1] - a1) * sx, b0 + (c[0] - b1) * sy) for c in C]), 2.0); return _OUTLINE
     return outline_photo()
+TAIL12 = ROOT / 'ref/research/firefly/wolf-silhouettes/hand/12_wolf_flickr8455338582_shankars_vector_GrumpyDingo.svg'  # GrumpyDingo's vector of photo 12 (shankar s., CC BY 2.0)
+def tail12():
+    """the tail from GrumpyDingo's vector silhouette of photo 12 (walking, the tail hanging clear of the leg; in photo 01 it lies flat on the thigh).
+       Cut from the rump along a line from the croup, where the tail leaves it, to the top of the gap between tail and hind leg (read off a
+       grid, 1024-px frame). Returns (polygon in that frame, the cut's top end, the withers height in px)."""
+    import subprocess, tempfile
+    with tempfile.TemporaryDirectory() as td:
+        png = pathlib.Path(td) / 't.png'; subprocess.run(['inkscape', str(TAIL12), '-o', str(png), '-w', '2048'], check=True, capture_output=True); V = np.array(Image.open(png).convert('LA'))
+    V = (V[..., 1] > 127) & (V[..., 0] < 128); C = max(measure.find_contours(V.astype(float), .5), key=len)
+    W = smooth_poly(Polygon([(c[1] / 2, c[0] / 2) for c in C]), 1.5); ys, xs = np.nonzero(V); ground = ys.max() / 2
+    withers = ground - min(np.nonzero(V[:, x])[0].min() / 2 for x in range(1400, 1530, 4))  # the back's top over the shoulder (x 700-765)
+    A, B = np.array([165., 282.]), np.array([192., 428.]); d = (B - A) / np.linalg.norm(B - A)
+    cut = LineString([A - d * 40, B + d * 12]).buffer(.6); pieces = W.difference(cut)
+    assert hasattr(pieces, 'geoms'), 'the tail cut no longer splits photo 12: check A and B against the grid'
+    tail = min(pieces.geoms, key=lambda g: g.distance(Point(35, 585)))  # the piece holding the tip
+    root = W.intersection(LineString([A, B]).buffer(22)).intersection(box(0, 0, 1e4, B[1]))  # an overlap into the rump, so the root never opens
+    return big(tail.union(root).buffer(0)), A, withers
 _OPH = None
 def outline_photo():
     global _OPH
@@ -134,6 +151,10 @@ def build(knee_dx):
     hk, hball = cut_line(P, 'nHo', 'nKn', 'nHp'), cut_line(P, 'nHp', 'nHo', 'nHp')
     shank = limb_shape(P['nKn'], P['nHo'], (kF, kB), (hF, hB)); cannon = side(legH, hball, P['nHo'] + (P['nHp'] - P['nHo']) * .5).union(Point(P['nHo']).buffer(hW * .45)).buffer(0)
     hpaw = side(legH, hball, P['r_hToe']).union(Point(P['nHp']).buffer(hW * .4)).buffer(0)
+    # in photo 01 the near hind paw stands over the far one, so its cut comes out a small ball: use the front paw's shape instead (a wolf's hind
+    # paw is a little smaller), set on the hind paw joint with its sole on the same ground line (GrumpyDingo, Oct 9: "ball feet")
+    from shapely import affinity
+    k_ = float(np.clip(hW / wW, .85, .95)); hpaw = affinity.scale(affinity.translate(fpaw, *(P['nHp'] - P['nFp'])), k_, k_, origin=(P['nHp'][0], g))
     # the body: the outline, minus everything below the elbow line at the front and below the knee line at the back
     # the underside follows GrumpyDingo's points: deepest chest, then a gently sagging belly line up to the tuck-up (the far legs' tops hide the real line)
     bk, tk = P['r_brisket'], P['r_tuck']; belly = [bk + (tk - bk) * t + np.array([0, (1 - t) * t * 4 * (tk[1] - bk[1]) * -.18]) for t in np.linspace(0, 1, 12)]
@@ -164,14 +185,29 @@ def build(knee_dx):
     wide = Polygon([c + nvec * wf(u) * .75 for c, u in zip(C, us)] + [c - nvec * wf(u) * .75 for c, u in zip(C, us)][::-1]).buffer(0)
     tail = big(O.intersection(wide).union(tail_ribbon)); tail = big(tail.intersection(O.buffer(ppu * .15)))
     tail = big(tail.union(O.intersection(tail.buffer(ppu * .35))))  # fill the photo's silhouette right round it, so no notch opens where the tip meets the leg
+    tail = big(tail.buffer(-.35 * ppu).buffer(.35 * ppu))  # soften the tip: rounds the spike off without adding a ball (the old round end read as a lump on the hock, Oct 9)
     tail_line = [P['r_tailUnder'], P['r_buttock'], P['r_hockPoint']]; tail_zone = tail
+    if TAIL12.exists():
+        # photo 12's tail on photo 01's rump: scaled by withers height, its cut's top end on GrumpyDingo's tail-top point. The photo-01 tail and
+        # everything behind the line tail underside → buttock → point of the hock goes (the back of the thigh, hidden in photo 01 by the tail)
+        from shapely import affinity
+        T12, A12, W12 = tail12(); k12 = 25.0 * ppu / W12
+        tail = affinity.translate(affinity.scale(T12, k12, k12, origin=(A12[0], A12[1])), P['r_tailTop'][0] - A12[0], P['r_tailTop'][1] - A12[1])
+        # in photo 01 the buttock point sits at the tail root (the tail hides the real one), so the back of the thigh is drawn as a wolf's is:
+        # a slight bulge behind below the tail, then curving in to come down nearly straight into the point of the hock
+        a_, c_ = np.array(tail_line[0], float), np.array(tail_line[2], float); c1 = a_ + np.array([-.9, 4.5]) * ppu; c2 = c_ + np.array([-.5, -6.5]) * ppu
+        cr = lambda t: (1 - t) ** 3 * a_ + 3 * (1 - t) ** 2 * t * c1 + 3 * (1 - t) * t * t * c2 + t ** 3 * c_
+        curve = [cr(t) for t in np.linspace(0, 1, 30)]; far = 6 * ppu
+        tt = np.array(P['r_tailTop'], float); up = tt + (tt - a_) * 3  # behind the tail root's own line (tail top → underside) too, so no corner of rump is left poking out beside the new tail
+        tail_zone = Polygon([up, *curve, c_ + np.array([-far, 0]), np.array([min(a_[0], up[0]) - far, up[1]])]).buffer(0)
     # the thigh: the rump behind a line from the tuck up through the pelvis top, down to the knee (skinned to the body)
     tl = LineString([P['r_tuck'] + (P['r_tuck'] - P['nIl']) * .4, P['nIl'] + (P['nIl'] - P['r_tuck']) * 1.5])
     nT = across('nHi', 'nHi', 'nKn'); tF, tB = dist('nHi', 'r_thighFront', nT), max(dist('nHi', 'r_buttock', nT), dist('nHi', 'r_tailUnder', nT))
     thigh = side(trunk, tl, P['nHi']).intersection(box(0, P['nIl'][1], 1e5, P['nHi'][1] + (P['nKn'][1] - P['nHi'][1]) * .3)).union(limb_shape(P['nHi'], P['nKn'], (tF, tB), (kF * 1.05, max(kB, kF) * 1.1))).buffer(0)
     thigh = big(thigh.intersection(box(0, P['nIl'][1], 1e5, P['nKn'][1] + kF * .6)))
-    rump = O.difference(tail_zone).intersection(Polygon([P['nIl'], P['r_tuck'] + np.array([0, ppu]), P['nKn'] + nK * kF, P['nKn'] - nK * kB * 1.5] + tail_line[::-1]).buffer(0))
+    rump = O.difference(tail_zone).intersection(Polygon([P['nIl'], P['r_tuck'] + np.array([0, ppu]), P['nKn'] + nK * kF, P['nKn'] - nK * kB * 1.5] + (tail_line[:1] if TAIL12.exists() else tail_line[::-1])).buffer(0))  # (with photo 12's tail: the thigh stops at the knee, the shank is the back of the leg below it)
     thigh = big(thigh.union(rump).difference(tail_zone.buffer(-1)))
+    if TAIL12.exists(): trunk = big(trunk.difference(tail_zone))
 
     M = np.load(MASK); farpaw = {}
     for leg, ref, xr in (('hind', 'nHp', (O.bounds[0], P['r_tuck'][0])), ('front', 'nFp', (P['r_tuck'][0], O.bounds[2]))):
@@ -183,9 +219,11 @@ def build(knee_dx):
     rep = {'knee_dx_px': knee_dx, 'ppu_px': round(ppu, 2), 'angles': {'shoulder': round(ang(P['r_scap'], P['nSh'], P['nEl']), 1), 'elbow': round(ang(P['nSh'], P['nEl'], P['nCa']), 1), 'carpus': round(ang(P['nEl'], P['nCa'], P['nFp']), 1),
            'stifle': round(ang(P['nHi'], P['nKn'], P['nHo']), 1), 'tarsus': round(ang(P['nKn'], P['nHo'], P['nHp']), 1)},
            'widths_units': {k: round(v / ppu, 2) for k, v in dict(elbow=eF + eB, wrist=wF + wB, fball=bF + bB, knee=kF + kB, hock=hF + hB, hball=pF + pB).items()}}
-    trunk = big(trunk.difference(tail_zone.intersection(box(0, P['r_tailUnder'][1] + ppu * .3, 1e5, 1e5))))
+    # (the trunk keeps the whole rump: the tail draws over it, under the near hind leg, so no gap opens behind the swinging thigh)
     parts = {'head': head, 'trunk': trunk, 'thigh': thigh, 'shank': shank, 'cannon': cannon, 'hpaw': hpaw, 'upperarm': upperarm, 'forearm': forearm, 'pastern': pastern, 'fpaw': fpaw, 'tail': tail}
-    parts = {k: smooth_poly(v, 2.5) for k, v in parts.items()}  # a last light pass, so the cut seams and traced rows leave no steps
+    # the head overlaps a strip of the neck behind its cut, so a nod never opens the seam
+    strip = hcut.buffer(1.2 * ppu, cap_style=2); parts['head'] = big(parts['head'].union(trunk.intersection(strip)))
+    parts = {k: smooth_poly(v, 2.5).buffer(.05 * ppu) for k, v in parts.items()}  # a last light pass, so the cut seams and traced rows leave no steps; the small grow overlaps neighbours (no hairline seams)
     return {'joints': J, 'outline': UP(O), 'parts': {k: UP(v) for k, v in parts.items()}, 'report': rep, 'photoFarPaws': farpaw}
 
 if __name__ == '__main__':

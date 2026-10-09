@@ -23,8 +23,8 @@ fs.mkdirSync(OUT, { recursive: true });
 
 // ---------- load the engine (classic scripts) in one sandbox ----------
 const box = { console, Math }; vm.createContext(box);
-for (const f of ['rig.js', 'rig_den.js', 'hero3.js']) vm.runInContext(fs.readFileSync(path.join(ROOT, 'engine', f), 'utf8'), box, { filename: f });
-const RIG = vm.runInContext('RIG', box); vm.runInContext('registerDenRigs(RIG); registerHero3(RIG);', box);
+for (const f of ['rig.js', 'rig_den.js', 'hero3.js', 'hero5.js']) if (fs.existsSync(path.join(ROOT, 'engine', f))) vm.runInContext(fs.readFileSync(path.join(ROOT, 'engine', f), 'utf8'), box, { filename: f });
+const RIG = vm.runInContext('RIG', box); vm.runInContext('registerDenRigs(RIG); registerHero3(RIG); if (typeof registerHero5 === "function") registerHero5(RIG);', box);
 const D = RIG.DEFS[id]; if (!D) { console.error('unknown rig ' + id); process.exit(2); }
 const [BW, BH] = D.box, GROUND = 35.55; /* paw soles stand on y = paw joint + 1.05 = 35.55 */
 const PX = 40; /* px per drawing unit for the checks */
