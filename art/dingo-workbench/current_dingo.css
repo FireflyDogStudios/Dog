@@ -1,0 +1,103 @@
+.paw-past svg { fill: var(--muted); opacity: 0.45; }
+.paw-future svg { fill: none; stroke: var(--ink); stroke-width: 1.6; opacity: 0.75; }
+.paw-today svg { fill: var(--firefly); filter: drop-shadow(0 0 6px var(--glow)); }
+.paw-today { color: var(--ink); font-weight: 700; }
+@media (prefers-reduced-motion: no-preference) {
+  .paw-today svg { animation: 2.6s ease-in-out 0s infinite normal none running glow; }
+  @keyframes glow { 
+  50% { filter: drop-shadow(0 0 12px var(--glow)); }
+}
+}
+.gift .bx .body { fill: var(--c); }
+.dingo .acc { display: none; }
+.tier-0 .dingo { transform: scale(0.9); transform-origin: 50% 100%; }
+.dingo-cap { position: relative; z-index: 1; margin: 8px 0px 0px; font-size: 0.85rem; color: var(--muted); }
+.phase-tabs span.past { color: var(--moss); border-color: var(--moss); }
+.dingo-run .buddy { display: none; position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--firefly); box-shadow: 0 0 10px 3px var(--glow); left: 62px; top: 4px; }
+.dingo-run.c-buddy .buddy { display: block; }
+.dingo-run .acc-ball { display: none; }
+.dingo-run.c-ball:not(.tier-4) .acc-ball { display: inline; }
+.dingo-run.c-gold .dingo { filter: drop-shadow(rgb(227, 178, 60) 0px 0px 5px); }
+#dingo-preview { position: relative; left: 0px; bottom: 0px; width: 120px; height: 74px; animation: auto ease 0s 1 normal none running none; }
+.dingo-run.still * { animation: auto ease 0s 1 normal none running none !important; }
+.dingo .w { display: none; }
+.dingo-run.wear-head .acc-crown, .dingo-run.wear-head .acc-bindle { display: none !important; }
+.dingo-run.wear-neck .acc-bandana { display: none !important; }
+.hero.theme-haunted .big, .hero.theme-haunted .sub, .hero.theme-haunted .today, .hero.theme-haunted .dingo-cap, .hero.theme-haunted .trail li, .hero.theme-haunted .legend { color: rgb(232, 224, 255); }
+.hero.theme-sunset .big, .hero.theme-sunset .sub, .hero.theme-sunset .today, .hero.theme-sunset .dingo-cap { color: rgb(42, 18, 8); }
+.hero.theme-auroranight .big, .hero.theme-auroranight .sub, .hero.theme-auroranight .today, .hero.theme-auroranight .dingo-cap, .hero.theme-auroranight .trail li, .hero.theme-auroranight .legend, .hero.theme-neon .big, .hero.theme-neon .sub, .hero.theme-neon .today, .hero.theme-neon .dingo-cap, .hero.theme-neon .trail li, .hero.theme-neon .legend { color: rgb(240, 236, 255); }
+.hero.theme-auroranight .paw-future svg, .hero.theme-neon .paw-future svg { stroke: rgb(240, 236, 255); }
+.dingo-run.fighting { animation-play-state: paused !important; }
+.dingo-run.fighting .lg, .dingo-run.fighting .lg g { animation: auto ease 0s 1 normal none running none !important; }
+.dingo-run.fighting .body { animation: 1.8s ease-in-out 0s infinite normal none running dstand !important; }
+.dingo .cos { display: none; }
+.dingo-run.cos-on-ghost .cos-ghost, .dingo-run.cos-on-vampire .cos-vampire, .dingo-run.cos-on-pumpkin .cos-pumpkin, .dingo-run.cos-on-skeleton .cos-skeleton, .dingo-run.cos-on-witch .cos-witch { display: inline; }
+.dingo-run.cos-on-ghost .w, .dingo-run.cos-on-ghost .acc, .dingo-run.cos-on-pumpkin .w[class*="w-head"], .dingo-run.cos-on-pumpkin .w[class*="w-eyes"], .dingo-run.cos-on-witch .w[class*="w-head"] { display: none !important; }
+.dingo-run.aura-spectral .dingo { filter: drop-shadow(rgb(159, 232, 255) 0px 0px 6px) drop-shadow(rgb(185, 140, 240) 0px 0px 14px); }
+#battle .shadowdingo { position: absolute; left: 0px; top: 0px; width: 80px; height: 50px; opacity: 0.55; filter: hue-rotate(180deg) brightness(1.4) drop-shadow(rgb(159, 211, 255) 0px 0px 8px); pointer-events: none; transition: opacity 0.5s; }
+#battle .shadowdingo.fade { opacity: 0; }
+#battle .shadowdingo svg { width: 100%; height: 100%; }
+body.sleepy .hero #battle, body.sleepy .hero .dingo-run, body.sleepy .hero .trees, body.sleepy .hero #wx { filter: brightness(calc(1 - var(--sleepy) * .6)) saturate(calc(1 - var(--sleepy) * .7)) blur(calc(var(--sleepy) * 1.2px)); }
+.dingo-run.drowsy::after { content: "💤"; position: absolute; right: -6px; top: -18px; font-size: 16px; }
+@media (prefers-reduced-motion: no-preference) {
+  .sleep-card .zz { animation: 2.4s ease-in-out 0s infinite normal none running zzz; }
+  @keyframes zzz { 
+  50% { transform: translate(8px, -8px) scale(1.1); opacity: 0.7; }
+}
+  .dingo-run.drowsy::after { animation: 2.4s ease-in-out 0s infinite normal none running zzz; }
+}
+.dingo-run.smoky::before { content: ""; position: absolute; left: 62%; top: 8%; width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle, rgba(200, 200, 210, 0.75), transparent 70%); filter: blur(1px); }
+.dingo-run.clearlungs .dingo { filter: drop-shadow(rgba(143, 209, 158, 0.9) 0px 0px 5px); }
+@media (prefers-reduced-motion: no-preference) {
+  .dingo-run.smoky::before { animation: 2.2s ease-out 0s infinite normal none running puffsmoke; }
+  @keyframes puffsmoke { 
+  0% { transform: translate(0px, 0px) scale(0.5); opacity: 0.9; }
+  100% { transform: translate(18px, -26px) scale(2.4); opacity: 0; }
+}
+}
+.mdingo { position: absolute; left: -90px; bottom: 14px; width: 92px; height: 56px; }
+.mdingo .dingo-run { width: 100%; height: 100%; position: relative !important; left: 0px !important; bottom: 0px !important; animation: auto ease 0s 1 normal none running none !important; }
+.mdingo svg { width: 100%; height: 100%; overflow: visible; }
+.mdingo .mbasket { position: absolute; right: -4px; top: 12px; }
+.mdingo .mbasket .emo { width: 24px; height: 24px; }
+@media (prefers-reduced-motion: reduce) {
+  .mdingo { left: calc(50% + 30px); }
+}
+.dingo-run.wraith .dingo { filter: drop-shadow(rgb(125, 255, 176) 0px 0px 6px) drop-shadow(rgb(58, 255, 138) 0px 0px 14px); }
+.dingo-run .dingo { transition: transform 0.18s cubic-bezier(0.3, 1.4, 0.5, 1); }
+.dingo-run.fighting .dingo { transform: translateY(0.5px); }
+.dingo-run.flinch .dingo { transform: translateX(-3px) !important; }
+.hero.tod-day:not([class*="theme-"]) .big, .hero.tod-day:not([class*="theme-"]) .sub, .hero.tod-day:not([class*="theme-"]) .today, .hero.tod-day:not([class*="theme-"]) .dingo-cap, .hero.tod-day:not([class*="theme-"]) .trail li, .hero.tod-day:not([class*="theme-"]) .legend, .hero.tod-dawn:not([class*="theme-"]) .big, .hero.tod-dawn:not([class*="theme-"]) .sub, .hero.tod-dawn:not([class*="theme-"]) .today, .hero.tod-dawn:not([class*="theme-"]) .dingo-cap, .hero.tod-dawn:not([class*="theme-"]) .trail li, .hero.tod-dawn:not([class*="theme-"]) .legend { color: rgb(29, 42, 51); }
+.hero.tod-day:not([class*="theme-"]) .paw-future svg, .hero.tod-dawn:not([class*="theme-"]) .paw-future svg { stroke: rgb(29, 42, 51); }
+.dingo-run.destiny .dingo { filter: drop-shadow(rgb(255, 79, 216) 0px 0px 6px) drop-shadow(rgb(0, 229, 255) 0px 0px 14px); }
+@media (prefers-reduced-motion: no-preference) {
+  .compcard.ultimate .cbook { animation: 4s linear 0s infinite normal none running tomex; }
+  .dingo-run.destiny .dingo { animation: 3s linear 0s infinite normal none running destglow; }
+  @keyframes destglow { 
+  100% { filter: hue-rotate(360deg) drop-shadow(rgb(255, 79, 216) 0px 0px 6px) drop-shadow(rgb(0, 229, 255) 0px 0px 14px); }
+}
+}
+.dingo-run.guardian .dingo { filter: drop-shadow(rgb(255, 211, 77) 0px 0px 5px) drop-shadow(rgb(255, 138, 42) 0px 0px 12px); }
+.hero.theme-harvest .big, .hero.theme-harvest .sub, .hero.theme-harvest .today, .hero.theme-harvest .dingo-cap, .hero.theme-harvest .trail li, .hero.theme-harvest .legend { color: rgb(255, 240, 220); }
+.dingo-run.pushed .dingo { animation: 1.3s cubic-bezier(0.2, 0.8, 0.3, 1) 0s 1 normal none running pushed !important; }
+.dingo-run.debuffed .dingo { filter: hue-rotate(250deg) saturate(0.6) brightness(0.8) drop-shadow(rgb(185, 140, 240) 0px 0px 5px); }
+.dingo-run.titanslayer .dingo { filter: drop-shadow(rgba(255, 45, 85, 0.6) 3px 0px 0px) drop-shadow(rgba(0, 229, 255, 0.6) -3px 0px 0px) drop-shadow(rgb(255, 79, 216) 0px 0px 10px); }
+.hero.athome #battle, .hero.athome .dingo-run, .hero.athome .plx, .hero.athome .trees, .hero.athome .celestial, .hero.athome .clouds, .hero.athome .flies { display: none !important; }
+.homescene .hdingo { position: absolute; left: 34%; bottom: 12%; width: 150px; }
+.homescene .hdingo svg { width: 100%; height: auto; filter: drop-shadow(rgba(0, 0, 0, 0.35) 0px 6px 8px); }
+.homescene .hdingo .zz { position: absolute; left: 10%; top: -18px; font-size: 1rem; opacity: 0.8; }
+.hero.athome .big, .hero.athome .sub, .hero.athome .today, .hero.athome .dingo-cap, .hero.athome .trail li, .hero.athome .legend { color: rgb(255, 244, 220) !important; text-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px; }
+.dingo-run.gohome { animation: 0.9s ease-in 0s 1 normal forwards running gohome !important; }
+.dingo-run.comeout .dingo { animation: 1.1s ease-out 0s 1 normal none running comeout; }
+.townscene .tdingo { position: absolute; left: 46%; bottom: 8%; }
+.townscene .tdingo .emo { width: 34px; height: 34px; transform: scaleX(-1); }
+.dingo-run { position: absolute; bottom: 2px; left: 14px; width: 88px; height: 54px; z-index: 3; pointer-events: none; }
+.dingo { width: 100%; height: 100%; overflow: visible; }
+.dingo .fur { fill: var(--ginger); }
+.dingo .far { filter: brightness(0.78); }
+.dingo .lg line { stroke: var(--ginger); stroke-linecap: round; }
+.dingo .lg .paw { fill: var(--ginger); }
+.dingo .eye { fill: var(--pine); }
+.dingo .acc-bandana { display: inline !important; }
+.dingo-run.wear-neck .acc-bandana { display: inline !important; }
+section.hero .dingo-run:not(.gohome):not(.comeout) { left: 300px; animation: auto ease 0s 1 normal none running none; }

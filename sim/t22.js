@@ -1,0 +1,10 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:900,height:800}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')+';'});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<3;i++) await p.evaluate(()=>__advance(5000));
+ await p.evaluate(()=>{document.querySelectorAll(".welcomeov,.lvlup,.mailnote,.sos-ov").forEach(e=>e.remove());});
+ console.log('dev', await p.evaluate(()=>__E('devOn')), 'tabs', await p.$$eval('.tab', t=>t.map(x=>x.textContent.trim())));
+ const h = await p.$('section.hero'); await h.screenshot({path:'sim/fall.png'});
+ console.log('errs',errs.slice(0,5));
+ await b.close();})();

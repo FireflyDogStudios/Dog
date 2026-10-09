@@ -1,0 +1,47 @@
+/* ===== Mega bosses ===== */
+const MEGAS = [
+  {id:"brood", zone:"meadow", icon:"🕷️", name:"The Broodmother", mech:["summon","debuff"], add:["🕷️","Brood Spiderling"], trophy:["🗡️","Broodfang","blade"], lore:"She never fights alone."},
+  {id:"iron", zone:"meadow", icon:"🦏", name:"Ironback the Unbroken", mech:["shield","push"], add:["🪲","Iron Beetle"], trophy:["🔨","Ironback Maul","blunt"], lore:"Its hide regrows faster than most weapons can break it."},
+  {id:"storm", zone:"moon", icon:"🦅", name:"Stormwing", mech:["push","debuff","summon"], add:["🦇","Storm Bat"], trophy:["🏹","Stormwing Bow","ranged"], lore:"Every flap of its wings is a gale."},
+  {id:"oak", zone:"forest", icon:"🌳", name:"The Elder Oak", mech:["heal","summon"], add:["🍄","Oakling Shroom"], trophy:["🔱","Heartwood Trident","pierce"], lore:"Its roots mend it as long as its children stand."},
+  {id:"rex", zone:"meadow", icon:"🦖", name:"Tyrant Rex", mech:["push","enrage"], add:["🦎","Raptor Pup"], trophy:["⛏️","Tyrant Tooth Pick","pick"], lore:"Gets angrier the more it's hurt."},
+  {id:"grizz", zone:"forest", icon:"🐻", name:"Grizzlord", mech:["push","enrage","summon"], add:["🐗","Tusk Boar"], trophy:["🦌","Grizzlord's Antler","blunt"], lore:"King of the old woods. It remembers every trespasser."},
+  {id:"mycel", zone:"forest", icon:"🍄", name:"The Mycelium Queen", mech:["summon","heal","debuff"], add:["🍄","Sporeling"], trophy:["🍄","Queen's Spore Cannon","ranged"], lore:"The whole forest floor is her body."},
+  {id:"frost", zone:"moon", icon:"❄️", name:"Frostmaw", mech:["shield","debuff","push"], add:["❄️","Ice Sprite"], trophy:["❄️","Frostmaw Fang","boomer"], lore:"The cold between the stars, given teeth."},
+  {id:"devour", zone:"moon", icon:"👾", name:"The Star Devourer", mech:["summon","enrage","debuff"], add:["👾","Voidling"], trophy:["🌠","Devourer's Comet Bow","ranged"], lore:"It ate a constellation once. It's still hungry."}
+];
+const MEGA_DEBUFFS = {weak:{n:"Weakened", i:"🥀", d:"−30% damage"}, slow:{n:"Sluggish", i:"🐌", d:"−30% attack speed"}, blind:{n:"Dazzled", i:"😵‍💫", d:"30% of attacks miss"}};
+const MD_ST = {weak:"weakened", slow:"sluggish", blind:"dazzled"};
+function megaDebuff(k){ return SE.has(DINGO, MD_ST[k]); }
+function megaState(){ const H = huntState(); H.megaCount = H.megaCount || 0; H.megaWins = H.megaWins || {}; return H; }
+function pickMega(){ const zid = zoneId(), pool = MEGAS.filter(m => (m.zone || "meadow") === zid && (m.oct ? isOct() && zone().home : true)); if (isOct() && zone().home && Math.random() < 0.5) return MEGAS.find(m => m.id === "colossus"); return pool[Math.floor(Math.random()*pool.length)]; }
+function spawnMega(){ const M = pickMega(); B.megaNext = M; spawnEnemy("mega"); }
+function megaBar(){ return null; /* v0.32: bosses show in the target frame */ }
+function megaFrame(dt, P){ const G = B.mega; if (!G) return; const E = G.E, now = performance.now(), bar = megaBar();
+  if (E.dead){ if (bar) bar.remove(); B.mega = null; return; }
+  const left = Math.max(0, (G.until - now)/1000);
+  if (bar) bar.innerHTML = `<b>☠️ MEGA BOSS: ${esc(G.def.name)}</b><span class="mhp"><i style="width:${Math.max(0, 100*E.hp/E.max)}%"></i></span><span class="mtime${left < 20 ? " low" : ""}">⏱️ ${Math.floor(left/60)}:${String(Math.floor(left%60)).padStart(2,"0")}${Object.keys(MD_ST).filter(k => megaDebuff(k)).map(k => " · " + MEGA_DEBUFFS[k].i + " " + MEGA_DEBUFFS[k].n).join("")}${G.enraged ? " · 🔥 ENRAGED" : ""}</span>`;
+  if (left <= 0){ E.escaping = true; E.boss = false; E.el.classList.add("escape"); B.mega = null; if (bar) bar.remove(); toast("💨 " + G.def.name + " rushed off into the woods! It'll be back..."); sfx("oops"); const run = setInterval(() => { E.x += 22; E.el.style.left = E.x + "px"; if (E.x > (P ? P.w + 120 : 1200)){ clearInterval(run); E.el.remove(); B.enemies = B.enemies.filter(x => x !== E); } }, 30); return; }
+  if (dt <= 0) return; const mech = G.def.mech, rage = G.enraged ? 1.6 : 1;
+  if (!G.enraged && mech.includes("enrage") && E.hp < E.max * 0.35){ G.enraged = true; E.el.classList.add("enraged"); moonBanner(G.def.name.toUpperCase() + " IS ENRAGED!", "It hits the field harder and faster"); heroShake(8, 400); }
+  G.t = (G.t || 0) + dt * rage;
+  if (mech.includes("summon") && G.t - (G.sumT||0) > 8){ G.sumT = G.t; for (let i=0;i<2;i++) setTimeout(() => { spawnEnemy("add:" + G.def.add[0] + ":" + G.def.add[1]); const a = B.enemies[B.enemies.length-1]; if (a && !E.dead){ a.x = E.x - 60 - i*44; a.el.style.left = a.x + "px"; poof(a.x, (parseFloat(E.el.style.top)||0) + 50, 6, "rgba(180,120,255,.7)"); } }, i*200); }
+  if (mech.includes("push") && G.t - (G.pushT||0) > 11){ G.pushT = G.t; const d = $("#dingo"); if (d && !calm){ d.classList.remove("pushed"); void d.offsetWidth; d.classList.add("pushed"); setTimeout(() => d.classList.remove("pushed"), 1300); } B.dazedUntil = now + 1300; heroShake(9, 420); ringFx("#ff6b6b", true); dmgPop(P.x, P.y - 30, "PUSHED BACK!", true);
+    for (let i=0;i<3;i++) setTimeout(() => { spawnEnemy("add:" + G.def.add[0] + ":" + G.def.add[1]); const a = B.enemies[B.enemies.length-1]; if (a && !E.dead){ a.x = P.x + 110 + i*42; a.el.style.left = a.x + "px"; } }, 150 + i*150); }
+  if (mech.includes("debuff") && G.t - (G.debT||0) > 13){ G.debT = G.t; const ks = Object.keys(MEGA_DEBUFFS), k = ks[Math.floor(Math.random()*ks.length)]; SE.apply(DINGO, MD_ST[k], {dur:7}); /* v0.44: no message; the status bar shows the debuff icon */ const d = $("#dingo"); if (d){ d.classList.add("debuffed"); setTimeout(() => d.classList.remove("debuffed"), 7000); } }
+  if (mech.includes("shield") && G.t - (G.shT||0) > 15){ G.shT = G.t; E.shieldMax = E.max * 0.3; E.shield = E.shieldMax; if (!E.el.querySelector(".eshield")) E.el.querySelector(".ehp").insertAdjacentHTML("afterend", `<span class="eshield"><i></i></span>`); fieldCue(E.x, (parseFloat(E.el.style.top)||0) - 24, "Armor up!"); }
+  if (mech.includes("heal") && G.t - (G.hlT||0) > 6){ G.hlT = G.t; const kids = B.enemies.filter(x => x.addOf === E && !x.dead).length; if (kids){ E.hp = Math.min(E.max, E.hp + E.max * 0.025 * kids); dmgPop(E.x, (parseFloat(E.el.style.top)||0) - 10, "+💚"); } } }
+function autoCloseBox(ov){ const H = huntState(); if (!H.autoClose || !ov) return; const card = ov.querySelector(".card"); if (card) card.insertAdjacentHTML("beforeend", `<span class="acbar"><i></i></span>`); setTimeout(() => { if (ov.isConnected) ov.remove(); }, 3000); }
+function megaWin(E){ tlog("mega", E.megaDef && E.megaDef.def ? E.megaDef.def.name : ""); const G = E.megaDef, H = megaState(), first = !H.megaWins[G.id]; H.megaWins[G.id] = (H.megaWins[G.id]||0) + 1; const got = [];
+  addEss("megacore", first ? 3 : 1); got.push(["🌟", (first ? 3 : 1) + " Mega Core"]);
+  addEss("paper", 5); got.push(["📜","5 Scroll Paper"]); shopState().coins += 5; got.push(["🪙","5 Dingo Coins"]);
+  const ty = Object.keys(TOME_T).filter(t => !TOME_T[t].ev), tk = ty[Math.floor(Math.random()*ty.length)] + (Math.random() < 0.3 ? 2 : 1); giveTome(tk, true); got.push(["📖", tomeName(tk)]);
+  PRIMALS.forEach(a => addEss(a, 4)); got.push(["⚗️","4 of every primal essence"]);
+  if (first){ const [ic, nm, cls] = G.trophy, w = makeWeapon(enemyHP(false), "mythic", ic, nm + " (Trophy)"); w.trophy = G.id; w.o = "mythic"; ensureTraits(w); huntState().weapons.push(w); if (huntState().autoEquip) autoEquip(); syncGhosts(); got.push(["🏆", nm + " (Mythic trophy weapon)"]); }
+  /* v0.44: no pop-up box; the banner and the loot on the ground say it all */
+  moonBanner("☠️ " + G.name.toUpperCase() + " DEFEATED", first ? "First victory! Its trophy is yours" : "Victory #" + H.megaWins[G.id]); lootPile(E.x, (parseFloat(E.el.style.top)||0) + 40, got, "#ffd34d"); sfx("victory");
+  for (let i=0;i<4;i++) setTimeout(() => { const q = stageToScreen(E.x, (parseFloat(E.el.style.top)||0) + 40); rollBurst(q.x, q.y, ["#ff4fd8","#ffd34d","#00e5ff","#fff"][i], 30); }, i*180);
+  { const bar = document.querySelector("#megabar"); if (bar) bar.remove(); } B.mega = null; Object.values(MD_ST).forEach(id => SE.remove(DINGO, id)); save("Mega boss defeated!"); return; }
+function megaSection(){ const H = megaState(); return `<p class="small">Every <b>5th boss</b> is a <b>Mega Boss</b>: huge, with special tricks like summoning helpers, pushing your dingo back, cursing you with debuffs, regrowing armor, or healing. You have <b>2 minutes</b> to take it down, or it rushes off into the woods. Mega bosses drop <b>Mega Cores</b> 🌟 and loot no other boss has, and the <b>first win</b> against each earns its <b>Mythic trophy weapon</b>. Next mega boss in <b>${Math.max(1, 5 - (H.megaCount||0))}</b> boss${5 - (H.megaCount||0) === 1 ? "" : "es"}.</p>
+  <div class="bgrid">${MEGAS.filter(m => !m.oct || isOct() || H.megaWins[m.id]).map(m => { const w = H.megaWins[m.id] || 0; return `<div class="bcard${w ? "" : " bunk"}"><span class="bart">${emoImg(m.icon)}</span><b>${w ? esc(m.name) : "???"}</b><span class="small">${emoImg(ZONES[m.zone || "meadow"].icon)} ${esc(ZONES[m.zone || "meadow"].name)}</span><span class="small">${w ? esc(m.lore) : "Not yet defeated"}</span><span class="btraits">${m.mech.map(x => `<span class="wtag">${{summon:"🐣 Summons",push:"💨 Pushes back",debuff:"🥀 Debuffs",shield:"🔰 Regrows armor",heal:"💚 Heals",enrage:"🔥 Enrages"}[x]}</span>`).join("")}</span><span class="small">${w ? "🏆 " + w + " win" + (w === 1 ? "" : "s") + " · Trophy: " + esc(m.trophy[1]) : ""}</span></div>`; }).join("")}</div>`; }
+

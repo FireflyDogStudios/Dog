@@ -1,0 +1,347 @@
+{
+ "id": "wolf",
+ "report": {
+  "species weight (kg)": 31.8,
+  "force scale from the model (mass^2/3)": 1.744,
+  "all 150 real muscles, both sides (kg; share of body weight)": [
+   11.1,
+   0.35
+  ],
+  "surface muscles built (near side)": 26,
+  "their mass, near side (g)": 2773,
+  "missing from the model (from the plate)": [
+   "temporalis",
+   "masseter",
+   "sternocephalicus",
+   "sternohyoid_ventral_strap_zone",
+   "omotransversarius",
+   "cleidobrachialis"
+  ]
+ },
+ "bulge_check_share_of_WH": {
+  "brachiocephalicus_cleidocephalicus": {
+   "plate": 0.0717,
+   "plate_confidence": "mixed",
+   "from": "cervical_dorsal_line",
+   "wolf": 0.073
+  },
+  "trapezius_cervical": {
+   "plate": 0.116,
+   "plate_confidence": "clear",
+   "from": "cervical_dorsal_line",
+   "wolf": 0.0
+  },
+  "trapezius_thoracic": {
+   "plate": 0.0184,
+   "plate_confidence": "mixed",
+   "from": "thoracic_spinous_tips",
+   "wolf": 0.017
+  },
+  "deltoid_scapular_part": {
+   "plate": null,
+   "plate_confidence": "mixed",
+   "from": "no profile bulge on the plate",
+   "wolf": null
+  },
+  "deltoid_acromial_part": {
+   "plate": null,
+   "plate_confidence": "inferred",
+   "from": "no profile bulge on the plate",
+   "wolf": null
+  },
+  "triceps_long_head": {
+   "plate": 0.133,
+   "plate_confidence": "mixed",
+   "from": "humerus_caudal_border",
+   "wolf": 0.055
+  },
+  "triceps_lateral_head": {
+   "plate": 0.0952,
+   "plate_confidence": "mixed",
+   "from": "humerus_caudal_border",
+   "wolf": 0.0
+  },
+  "pectoralis_superficialis": {
+   "plate": 0.0746,
+   "plate_confidence": "inferred",
+   "from": "humerus_cranial_border",
+   "wolf": 0.0
+  },
+  "pectoralis_profundus": {
+   "plate": 0.0182,
+   "plate_confidence": "clear",
+   "from": "sternum_ventral_border",
+   "wolf": 0.08
+  },
+  "latissimus_dorsi": {
+   "plate": null,
+   "plate_confidence": "clear",
+   "from": "no profile bulge on the plate",
+   "wolf": null
+  },
+  "forearm_extensor_group": {
+   "plate": 0.0329,
+   "plate_confidence": "inferred",
+   "from": "radius_cranial_border",
+   "wolf": 0.0
+  },
+  "forearm_flexor_group": {
+   "plate": 0.0159,
+   "plate_confidence": "inferred",
+   "from": "ulna_caudal_border",
+   "wolf": 0.045
+  },
+  "gluteus_medius": {
+   "plate": 0.0436,
+   "plate_confidence": "mixed",
+   "from": "pelvis_line_tuber_sacrale_to_tuber_ischiadicum",
+   "wolf": 0.021
+  },
+  "gluteus_superficialis": {
+   "plate": 0.0419,
+   "plate_confidence": "inferred",
+   "from": "pelvis_line_tuber_sacrale_to_tuber_ischiadicum",
+   "wolf": 0.003
+  },
+  "tensor_fasciae_latae": {
+   "plate": 0.1269,
+   "plate_confidence": "inferred",
+   "from": "femur_cranial_border",
+   "wolf": 0.141
+  },
+  "biceps_femoris": {
+   "plate": 0.0648,
+   "plate_confidence": "mixed",
+   "from": "femur_caudal_border",
+   "wolf": 0.035
+  },
+  "semitendinosus": {
+   "plate": 0.0958,
+   "plate_confidence": "mixed",
+   "from": "femur_caudal_border",
+   "wolf": 0.0
+  },
+  "gastrocnemius": {
+   "plate": 0.0532,
+   "plate_confidence": "inferred",
+   "from": "tibia_caudal_border",
+   "wolf": 0.132
+  },
+  "crus_cranial_group": {
+   "plate": 0.0374,
+   "plate_confidence": "inferred",
+   "from": "tibia_cranial_border",
+   "wolf": 0.032
+  }
+ },
+ "bellies": {
+  "left_brachiocephalicus_1": {
+   "plate_muscle": "brachiocephalicus_cleidocephalicus",
+   "volume_cm3": 38.6,
+   "mass_g": 40.9,
+   "belly_mm": 371.3,
+   "max_thickness_mm": 11.5,
+   "max_width_mm": 23.0
+  },
+  "left_brachiocephalicus_2": {
+   "plate_muscle": "brachiocephalicus_cleidocephalicus",
+   "volume_cm3": 30.5,
+   "mass_g": 32.4,
+   "belly_mm": 453.0,
+   "max_thickness_mm": 9.3,
+   "max_width_mm": 18.5
+  },
+  "left_trapezius_cervical": {
+   "plate_muscle": "trapezius_cervical",
+   "volume_cm3": 26.6,
+   "mass_g": 28.2,
+   "belly_mm": 103.4,
+   "max_thickness_mm": 11.5,
+   "max_width_mm": 57.3
+  },
+  "left_trapezius_thoracic": {
+   "plate_muscle": "trapezius_thoracic",
+   "volume_cm3": 40.2,
+   "mass_g": 42.6,
+   "belly_mm": 117.6,
+   "max_thickness_mm": 12.0,
+   "max_width_mm": 72.3
+  },
+  "left_deltoideus_sca": {
+   "plate_muscle": "deltoid_scapular_part",
+   "volume_cm3": 36.8,
+   "mass_g": 39.1,
+   "belly_mm": 69.4,
+   "max_thickness_mm": 26.0,
+   "max_width_mm": 52.0
+  },
+  "left_deltoideus_acr": {
+   "plate_muscle": "deltoid_acromial_part",
+   "volume_cm3": 20.5,
+   "mass_g": 21.7,
+   "belly_mm": 26.0,
+   "max_thickness_mm": 39.2,
+   "max_width_mm": 51.0
+  },
+  "left_triceps_caput_longum": {
+   "plate_muscle": "triceps_long_head",
+   "volume_cm3": 259.6,
+   "mass_g": 275.1,
+   "belly_mm": 81.3,
+   "max_thickness_mm": 79.1,
+   "max_width_mm": 102.8
+  },
+  "left_triceps_caput_laterale": {
+   "plate_muscle": "triceps_lateral_head",
+   "volume_cm3": 105.0,
+   "mass_g": 111.3,
+   "belly_mm": 72.5,
+   "max_thickness_mm": 53.2,
+   "max_width_mm": 69.2
+  },
+  "left_pectoralis_superficialis": {
+   "plate_muscle": "pectoralis_superficialis",
+   "volume_cm3": 172.8,
+   "mass_g": 183.1,
+   "belly_mm": 129.6,
+   "max_thickness_mm": 33.6,
+   "max_width_mm": 100.9
+  },
+  "left_pectoralis_profundus": {
+   "plate_muscle": "pectoralis_profundus",
+   "volume_cm3": 287.3,
+   "mass_g": 304.6,
+   "belly_mm": 228.9,
+   "max_thickness_mm": 32.6,
+   "max_width_mm": 97.9
+  },
+  "left_latissimus_dorsi": {
+   "plate_muscle": "latissimus_dorsi",
+   "volume_cm3": 325.5,
+   "mass_g": 345.1,
+   "belly_mm": 471.1,
+   "max_thickness_mm": 17.1,
+   "max_width_mm": 102.7
+  },
+  "left_extensor_carpi_radialis": {
+   "plate_muscle": "forearm_extensor_group",
+   "volume_cm3": 45.6,
+   "mass_g": 48.3,
+   "belly_mm": 66.7,
+   "max_thickness_mm": 36.5,
+   "max_width_mm": 47.4
+  },
+  "left_extensor_carpi_ulnaris": {
+   "plate_muscle": "forearm_extensor_group",
+   "volume_cm3": 15.7,
+   "mass_g": 16.6,
+   "belly_mm": 19.9,
+   "max_thickness_mm": 38.8,
+   "max_width_mm": 50.4
+  },
+  "left_abductor_policis_longum": {
+   "plate_muscle": "forearm_extensor_group",
+   "volume_cm3": 3.6,
+   "mass_g": 3.8,
+   "belly_mm": 7.9,
+   "max_thickness_mm": 29.4,
+   "max_width_mm": 38.2
+  },
+  "left_flexor_carpi_radialis": {
+   "plate_muscle": "forearm_flexor_group",
+   "volume_cm3": 27.2,
+   "mass_g": 28.8,
+   "belly_mm": 81.4,
+   "max_thickness_mm": 25.6,
+   "max_width_mm": 33.3
+  },
+  "left_flexor_carpi_ulnaris": {
+   "plate_muscle": "forearm_flexor_group",
+   "volume_cm3": 42.8,
+   "mass_g": 45.4,
+   "belly_mm": 26.0,
+   "max_thickness_mm": 56.1,
+   "max_width_mm": 72.9
+  },
+  "left_gluteus_medius": {
+   "plate_muscle": "gluteus_medius",
+   "volume_cm3": 140.2,
+   "mass_g": 148.6,
+   "belly_mm": 47.0,
+   "max_thickness_mm": 76.4,
+   "max_width_mm": 99.4
+  },
+  "left_gluteus_superficialis": {
+   "plate_muscle": "gluteus_superficialis",
+   "volume_cm3": 64.7,
+   "mass_g": 68.6,
+   "belly_mm": 87.3,
+   "max_thickness_mm": 25.1,
+   "max_width_mm": 75.2
+  },
+  "left_tensor_fasciae": {
+   "plate_muscle": "tensor_fasciae_latae",
+   "volume_cm3": 49.1,
+   "mass_g": 52.0,
+   "belly_mm": 164.8,
+   "max_thickness_mm": 15.9,
+   "max_width_mm": 47.7
+  },
+  "left_biceps_femoris_longum": {
+   "plate_muscle": "biceps_femoris",
+   "volume_cm3": 159.6,
+   "mass_g": 169.2,
+   "belly_mm": 112.6,
+   "max_thickness_mm": 52.6,
+   "max_width_mm": 68.4
+  },
+  "left_abductor_cruris": {
+   "plate_muscle": "biceps_femoris",
+   "volume_cm3": 9.2,
+   "mass_g": 9.8,
+   "belly_mm": 280.8,
+   "max_thickness_mm": 5.3,
+   "max_width_mm": 15.8
+  },
+  "left_semitendinosus": {
+   "plate_muscle": "semitendinosus",
+   "volume_cm3": 110.3,
+   "mass_g": 116.9,
+   "belly_mm": 226.1,
+   "max_thickness_mm": 30.9,
+   "max_width_mm": 40.2
+  },
+  "left_gastrocnemius_lateralis": {
+   "plate_muscle": "gastrocnemius",
+   "volume_cm3": 106.4,
+   "mass_g": 112.8,
+   "belly_mm": 30.3,
+   "max_thickness_mm": 81.9,
+   "max_width_mm": 106.5
+  },
+  "left_gastrocnemius_medialis": {
+   "plate_muscle": "gastrocnemius",
+   "volume_cm3": 128.8,
+   "mass_g": 136.6,
+   "belly_mm": 45.4,
+   "max_thickness_mm": 74.0,
+   "max_width_mm": 96.2
+  },
+  "left_tibialis_cranialis": {
+   "plate_muscle": "crus_cranial_group",
+   "volume_cm3": 39.5,
+   "mass_g": 41.9,
+   "belly_mm": 151.0,
+   "max_thickness_mm": 22.6,
+   "max_width_mm": 29.4
+  },
+  "left_peroneus_longus": {
+   "plate_muscle": "crus_cranial_group",
+   "volume_cm3": 329.5,
+   "mass_g": 349.3,
+   "belly_mm": 173.3,
+   "max_thickness_mm": 61.0,
+   "max_width_mm": 79.3
+  }
+ }
+}

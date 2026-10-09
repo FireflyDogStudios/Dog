@@ -1,0 +1,40 @@
+# Den kit V2 extras (on top of tools/lens/requirements.txt). Install: uv pip install --system -r tools/den/requirements.txt  (or pip)
+hypothesis
+colour-science
+scikit-learn
+pyclipper
+uv
+# Oct 6, second round: species files, curves, previews, tests
+jsonschema
+pydantic
+pyyaml
+pandas
+rich
+pytest
+sympy
+svgelements
+bezier
+imageio
+imageio-ffmpeg
+# Oct 7: research and pipeline tools (light)
+trimesh
+opencv-python-headless
+pycocotools
+pdfplumber
+ikpy
+polars
+statsmodels
+hypothesis
+mypy
+skia-pathops
+pyoxipng
+# Oct 7, from the tool research (ref/research/tools/REPORT.md)
+pyclipr
+morphops
+pyefd
+pyright
+ssimulacra2
+lmfit
+syrupy
+# Oct 7: learned background removal (IS-Net / U2-Net models, Apache 2.0) for cutting dogs out of plates and photos
+rembg[cpu]

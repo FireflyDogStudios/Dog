@@ -1,0 +1,1543 @@
+{
+ "item": "05-muybridge",
+ "fetched": "2026-10-06",
+ "source": "Eadweard Muybridge, Animal Locomotion: an electro-photographic investigation of consecutive phases of animal movements, 1872-1885, vol. X Domestic Animals, plates 704-710 (Philadelphia: University of Pennsylvania, 1887)",
+ "licence": "Public domain (1887 publication; Muybridge d. 1904). Commons tags all files \"Public domain\".",
+ "conventions": {
+  "contact": "1 = paw on ground, 0 = in the air, \"?\" = unclear",
+  "sides": "lateral cameras show the dog moving to the RIGHT, so its RIGHT side faces the camera: near (brighter, less occluded) limbs are RF/RH, far limbs LF/LH. Since the Oct 7 correction (see `corrections`), L/R on 706, 707, Maggie A and Maggie B is checked against the plates (near-limb occlusion, rear-oblique rows, floor scale) or Muybridge's own 1902 text; 708 is 50/50 (blur) and 704/705 are not scored per limb. The earlier labels fitted to Muybridge 1893's generic description proved mirrored on 707 and Maggie A.",
+  "duty_factor": "fraction of frames in stance on this plate (duty_known ignores \"?\"; duty_min counts \"?\" as 0, duty_max as 1). Plates hold 1-2 strides at coarse sampling, so expect +/-0.1 or worse.",
+  "frame_index": "Muybridge frame number as printed on the plate (lateral series)"
+ },
+ "plates": [
+  {
+   "plate": 704,
+   "title": "Animal Locomotion, Plate 704: \"Dread\" walking",
+   "catalogue_1887": "Dog; walking; mastiff. Dread",
+   "subject": "mastiff \"Dread\"",
+   "gait": "walk",
+   "source_page": "https://commons.wikimedia.org/wiki/File:Animal_locomotion._Plate_704_(Boston_Public_Library).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Animal_locomotion._Plate_704_%28Boston_Public_Library%29.jpg/1920px-Animal_locomotion._Plate_704_%28Boston_Public_Library%29.jpg",
+   "holder": "Boston Public Library, Rare Books Dept. (BPLDC 08_11_000672), via Wikimedia Commons",
+   "licence": "Public domain (published 1887; author died 1904)",
+   "local_file": "plate704_dread_walk_BPL.jpg",
+   "grid": {
+    "rows": 4,
+    "cols": 6,
+    "layout": "rows 1 and 3 = frames 1-12 from a front-oblique camera (dog walking toward camera-right); rows 2 and 4 = the same 12 instants from a rear-oblique camera. No true lateral view."
+   },
+   "interval_s": null,
+   "interval_note": "Not printed on the plate or in the 1887 catalogue. Animals in Motion (1902) reprints this as Series 14 (\"one stride in ten phases, photographed synchronously from two points of view\") without a time interval.",
+   "series_1902": "Series 14 (Animals in Motion, 1902, p.61)",
+   "scoring": "feet_down only: oblique view, left/right limb identity not reliable, so per-limb columns are \"?\"",
+   "frames": [
+    {
+     "index": 1,
+     "row": 1,
+     "col": 1,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 2,
+     "row": 1,
+     "col": 2,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 4,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 3,
+     "row": 1,
+     "col": 3,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 4,
+     "row": 1,
+     "col": 4,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 5,
+     "row": 1,
+     "col": 5,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 6,
+     "row": 1,
+     "col": 6,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 7,
+     "row": 3,
+     "col": 1,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 8,
+     "row": 3,
+     "col": 2,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 9,
+     "row": 3,
+     "col": 3,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 10,
+     "row": 3,
+     "col": 4,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 4,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 11,
+     "row": 3,
+     "col": 5,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 12,
+     "row": 3,
+     "col": 6,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 2,
+     "note": "front-oblique view",
+     "confirmed": false
+    }
+   ],
+   "derived": {
+    "mean_feet_down": [
+     2.83,
+     3.08
+    ],
+    "duty_from_feet_down": [
+     0.71,
+     0.77
+    ]
+   },
+   "label_status": "unchanged: oblique views only, per-limb identity still not scored (feet-down counts only). See NOTE.md for the 960 px single-frame USC scans found for 704."
+  },
+  {
+   "plate": 705,
+   "title": "Animal Locomotion, Plate 705: \"Dread\" trotting",
+   "catalogue_1887": "Dog; trotting; interrupted; mastiff. Dread",
+   "subject": "mastiff \"Dread\"",
+   "gait": "trot (catalogue: \"interrupted\")",
+   "source_page": "https://commons.wikimedia.org/wiki/File:Animal_locomotion._Plate_705_(Boston_Public_Library).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Animal_locomotion._Plate_705_%28Boston_Public_Library%29.jpg/1920px-Animal_locomotion._Plate_705_%28Boston_Public_Library%29.jpg",
+   "holder": "Boston Public Library (BPLDC 08_11_000673), via Wikimedia Commons; USC Digital Library copy also on Commons (File:Dog Dread trotting (rbm-QP301M8-1887-705).jpg)",
+   "licence": "Public domain",
+   "local_file": "plate705_dread_trot_BPL.jpg",
+   "grid": {
+    "rows": 4,
+    "cols": 6,
+    "layout": "rows 1-2 = frames 1-12 front-oblique camera; rows 3-4 = frames 1-12 rear-oblique camera. No true lateral view."
+   },
+   "interval_s": null,
+   "interval_note": "Not found (not on plate, not in 1887 catalogue OCR, not reprinted with an interval in Animals in Motion 1902).",
+   "scoring": "feet_down only (oblique view; dog turns toward camera in frames 6-12)",
+   "frames": [
+    {
+     "index": 1,
+     "row": 1,
+     "col": 1,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 2,
+     "row": 1,
+     "col": 2,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 3,
+     "row": 1,
+     "col": 3,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 4,
+     "row": 1,
+     "col": 4,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 2,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 5,
+     "row": 1,
+     "col": 5,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 1,
+     "feet_down_max": 2,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 6,
+     "row": 1,
+     "col": 6,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 1,
+     "feet_down_max": 2,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 7,
+     "row": 2,
+     "col": 1,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 3,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 8,
+     "row": 2,
+     "col": 2,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 9,
+     "row": 2,
+     "col": 3,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 3,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 10,
+     "row": 2,
+     "col": 4,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 2,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 11,
+     "row": 2,
+     "col": 5,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 2,
+     "note": "front-oblique view",
+     "confirmed": false
+    },
+    {
+     "index": 12,
+     "row": 2,
+     "col": 6,
+     "LF": "?",
+     "RF": "?",
+     "LH": "?",
+     "RH": "?",
+     "feet_down_min": 2,
+     "feet_down_max": 2,
+     "note": "front-oblique view",
+     "confirmed": false
+    }
+   ],
+   "derived": {
+    "mean_feet_down": [
+     1.92,
+     2.5
+    ],
+    "duty_from_feet_down": [
+     0.48,
+     0.62
+    ]
+   },
+   "label_status": "unchanged: oblique views only, per-limb identity still not scored (feet-down counts only)."
+  },
+  {
+   "plate": 706,
+   "title": "Animal Locomotion, Plate 706: \"Smith\" trotting",
+   "catalogue_1887": "Dog; trotting; interrupted; mastiff. Smith",
+   "subject": "mastiff \"Smith\"",
+   "gait": "slow \"trot\" per catalogue; contacts show a lateral-sequence walk/amble with lateral-pair support (Muybridge 1902: \"an irregular stride\")",
+   "source_page": "https://commons.wikimedia.org/wiki/File:Dog_Smith_trotting_(rbm-QP301M8-1887-706).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Dog_Smith_trotting_%28rbm-QP301M8-1887-706%29.jpg/3840px-Dog_Smith_trotting_%28rbm-QP301M8-1887-706%29.jpg",
+   "holder": "USC Digital Library (digitallibrary.usc.edu/cdm/ref/collection/p15799coll58/id/5252), via Wikimedia Commons; BPL copy also on Commons",
+   "licence": "Public domain",
+   "local_file": "plate706_smith_trot_USC.jpg",
+   "grid": {
+    "rows": 2,
+    "cols": 6,
+    "layout": "both rows lateral, frames 1-12, dog moving to the right (right side toward camera)"
+   },
+   "interval_s": 0.11,
+   "interval_note": "Animals in Motion (1902) p.131, Series 39 (same 12 frames): \"Length of stride 52 inches (1.30 m). Time-intervals .110 second. Approximate time of completed movement 1.21 seconds.\"",
+   "series_1902": "Series 39, \"An irregular stride. The Dog (Mastiff)\"",
+   "frames": [
+    {
+     "index": 1,
+     "row": 1,
+     "col": 1,
+     "LF": 0,
+     "RF": 1,
+     "LH": 0,
+     "RH": 1,
+     "note": "LH in swing, hidden behind RH (it is in the air in frame 2 and lands in frame 3): inferred",
+     "confirmed": true,
+     "changed_from_05": {
+      "LH": "?"
+     }
+    },
+    {
+     "index": 2,
+     "row": 1,
+     "col": 2,
+     "LF": 0,
+     "RF": 1,
+     "LH": 0,
+     "RH": 1,
+     "note": "only the near (right) lateral pair down; far limbs darker and in swing",
+     "confirmed": true
+    },
+    {
+     "index": 3,
+     "row": 1,
+     "col": 3,
+     "LF": 0,
+     "RF": 1,
+     "LH": 1,
+     "RH": 1,
+     "note": "LH lands (scale ~21.4); RH toe still on its spot (~18.2-18.7); LF reaching, in the air",
+     "confirmed": true
+    },
+    {
+     "index": 4,
+     "row": 1,
+     "col": 4,
+     "LF": 1,
+     "RF": 1,
+     "LH": 1,
+     "RH": 0,
+     "note": "LF lands (~26.6); RF toe still on its spot (~23.0-23.2, toe-off); RH passing forward in the air",
+     "confirmed": true,
+     "changed_from_05": {
+      "RF": "?"
+     }
+    },
+    {
+     "index": 5,
+     "row": 1,
+     "col": 5,
+     "LF": 1,
+     "RF": 0,
+     "LH": 1,
+     "RH": 1,
+     "note": "LF hidden behind folded RF but at the same scale spot as in frames 4 and 6: planted (inferred); RH lands (~24.7)",
+     "confirmed": true,
+     "changed_from_05": {
+      "LF": "?"
+     }
+    },
+    {
+     "index": 6,
+     "row": 1,
+     "col": 6,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 1,
+     "note": "LH lifted (paw in the air at ~23); RF reaching, in the air",
+     "confirmed": true,
+     "changed_from_05": {
+      "LH": "?"
+     }
+    },
+    {
+     "index": 7,
+     "row": 2,
+     "col": 1,
+     "LF": 0,
+     "RF": 1,
+     "LH": 1,
+     "RH": 1,
+     "note": "RF lands (~31.6); LH lands (~28.0); RH still on its spot (~24.9); far fore (dark) in swing",
+     "confirmed": true
+    },
+    {
+     "index": 8,
+     "row": 2,
+     "col": 2,
+     "LF": 0,
+     "RF": 1,
+     "LH": 1,
+     "RH": 0,
+     "note": "RH lifting at rear (back paw not on its frame-7 spot); LH and RF planted",
+     "confirmed": true
+    },
+    {
+     "index": 9,
+     "row": 2,
+     "col": 3,
+     "LF": 0,
+     "RF": 1,
+     "LH": 1,
+     "RH": 0,
+     "note": "CHANGED RH 1->0: the front hind paw is toe-down in the air at ~30.5 and lands at ~32.5 in frame 10",
+     "confirmed": true,
+     "changed_from_05": {
+      "RH": 1
+     }
+    },
+    {
+     "index": 10,
+     "row": 2,
+     "col": 4,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 1,
+     "note": "LF lands (~36.1); RH lands (~32.5); LH toe lifted at ~29.4; RF folded in the air",
+     "confirmed": true
+    },
+    {
+     "index": 11,
+     "row": 2,
+     "col": 5,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 1,
+     "note": "LH in swing, a thin dark leg behind RH (inferred 0); LF (dark, far) planted; RF (light, near) folded in swing",
+     "confirmed": true,
+     "changed_from_05": {
+      "LH": "?"
+     }
+    },
+    {
+     "index": 12,
+     "row": 2,
+     "col": 6,
+     "LF": 0,
+     "RF": "?",
+     "LH": 1,
+     "RH": 1,
+     "note": "CHANGED LF 1->0: dark far fore is lifting, paw flexed and off the ground; LH lands (~36.6); RH toe still down; RF reaching, may touch",
+     "confirmed": true,
+     "changed_from_05": {
+      "LF": 1,
+      "RF": 1,
+      "RH": "?"
+     }
+    }
+   ],
+   "derived": {
+    "duty_factor": {
+     "LF": {
+      "duty_known": 0.42,
+      "duty_min": 0.42,
+      "duty_max": 0.42,
+      "n_frames": 12,
+      "n_unknown": 0
+     },
+     "RF": {
+      "duty_known": 0.64,
+      "duty_min": 0.58,
+      "duty_max": 0.67,
+      "n_frames": 12,
+      "n_unknown": 1
+     },
+     "LH": {
+      "duty_known": 0.58,
+      "duty_min": 0.58,
+      "duty_max": 0.58,
+      "n_frames": 12,
+      "n_unknown": 0
+     },
+     "RH": {
+      "duty_known": 0.75,
+      "duty_min": 0.75,
+      "duty_max": 0.75,
+      "n_frames": 12,
+      "n_unknown": 0
+     }
+    },
+    "touchdown_sequence": [
+     "LH@3",
+     "LF@4",
+     "RH@5",
+     "LH@7",
+     "RF@7",
+     "RH@10",
+     "LF@10",
+     "LH@12"
+    ],
+    "feet_down_per_frame": [
+     2,
+     2,
+     3,
+     3,
+     3,
+     2,
+     3,
+     2,
+     2,
+     2,
+     2,
+     2
+    ],
+    "mean_feet_down": 2.33,
+    "duty_from_feet_down": 0.58
+   },
+   "label_status": "L/R confirmed. Near side = dog's right (dog moves right; scale numerals read normally, so the print is not mirrored). Far limbs are darker; planted paws were tracked against the numbered floor scale (a planted paw keeps its scale value). Two contacts flipped (frame 9 RH 1->0, frame 12 LF 1->0), frame 12 RF downgraded 1->?, six unknowns resolved (f1 LH, f4 RF, f5 LF, f6 LH, f11 LH, f12 RH).",
+   "gait_reading": "Frames 3-7: lateral-sequence walk, LH(3) LF(4) RH(5) RF(7); limb phase about 1 interval / 4-interval hind stride = 0.25 (quantisation +/-0.12). From frame 7 the diagonal pairs land together (LH+RF at 7, RH+LF at 10): the dog breaks into a trot, which fits the catalogue \"trotting, interrupted\" and Muybridge 1902 \"an irregular stride\".",
+   "stride_estimates": {
+    "hind_touchdown_to_touchdown_frames": {
+     "LH": [
+      3,
+      7,
+      12
+     ],
+     "RH": [
+      5,
+      10
+     ]
+    },
+    "fore_touchdown_to_touchdown_frames": {
+     "LF": [
+      4,
+      10
+     ],
+     "RF": [
+      7,
+      12
+     ]
+    },
+    "mean_stride_s": 0.55,
+    "note": "about 5 intervals of 0.110 s; frame quantisation +/-0.055 s per event"
+   }
+  },
+  {
+   "plate": 707,
+   "title": "Animal Locomotion, Plate 707: \"Dread\" galloping",
+   "catalogue_1887": "Dog; galloping; interrupted; mastiff. Dread",
+   "subject": "mastiff \"Dread\"",
+   "gait": "rotary gallop, one suspension (after the fores) per stride",
+   "source_page": "https://commons.wikimedia.org/wiki/File:Dog_Dread_galloping_(rbm-QP301M8-1887-707).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Dog_Dread_galloping_%28rbm-QP301M8-1887-707%29.jpg/3840px-Dog_Dread_galloping_%28rbm-QP301M8-1887-707%29.jpg",
+   "holder": "USC Digital Library (id/5272), via Wikimedia Commons; BPL copy also on Commons",
+   "licence": "Public domain",
+   "local_file": "plate707_dread_gallop_USC.jpg",
+   "grid": {
+    "rows": 3,
+    "cols": "4,4,8",
+    "layout": "rows 1-2 lateral frames 1-8 (dog moving right); row 3 = 8 rear-oblique frames, same instants"
+   },
+   "interval_s": null,
+   "interval_note": "Not given. Animals in Motion (1902) Series 57 reprints it with no interval and notes the mastiff \"effects a spring from a fore-foot\" but cannot \"spring from a hind-foot\".",
+   "series_1902": "Series 57, rotatory gallop, \"One stride, photographed synchronously from two points of view. Dog (Mastiff)\"",
+   "stride_frames": 6,
+   "frames": [
+    {
+     "index": 1,
+     "row": 1,
+     "col": 1,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "single support on the lead fore = LF (far): same phase as frame 7, where the planted leg passes behind the raised near (right) fore",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": 1
+     },
+     "confirmed": true
+    },
+    {
+     "index": 2,
+     "row": 1,
+     "col": 2,
+     "LF": "?",
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "suspension after fore push-off; LF toe may just be leaving",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": "?"
+     },
+     "confirmed": false
+    },
+    {
+     "index": 3,
+     "row": 1,
+     "col": 3,
+     "LF": 0,
+     "RF": 0,
+     "LH": 1,
+     "RH": 0,
+     "note": "trailing hind lands = LH (far): its upper leg is hidden behind the near thigh, whose leg (RH) swings forward; rear-oblique view agrees (planted hind on the left of the tail)",
+     "changed_from_05": {
+      "LH": 0,
+      "RH": 1
+     },
+     "confirmed": true
+    },
+    {
+     "index": 4,
+     "row": 1,
+     "col": 4,
+     "LF": 0,
+     "RF": 0,
+     "LH": 1,
+     "RH": 1,
+     "note": "both hinds down: LH behind, RH (from the near thigh) ahead; rear view shows both hinds planted",
+     "confirmed": true
+    },
+    {
+     "index": 5,
+     "row": 2,
+     "col": 1,
+     "LF": 0,
+     "RF": 1,
+     "LH": 0,
+     "RH": 1,
+     "note": "trailing fore lands = RF (near: elbow bulges over the body outline); far fore (LF) reaching; LH lifted, RH planted",
+     "changed_from_05": {
+      "LF": 1,
+      "RF": 0,
+      "LH": 1,
+      "RH": 0
+     },
+     "confirmed": true
+    },
+    {
+     "index": 6,
+     "row": 2,
+     "col": 2,
+     "LF": 1,
+     "RF": 1,
+     "LH": 0,
+     "RH": 0,
+     "note": "RF behind (near shoulder), LF ahead emerging from under the chest = lead fore",
+     "confirmed": true
+    },
+    {
+     "index": 7,
+     "row": 2,
+     "col": 3,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "single support on the lead fore LF (far); the near (right) fore is raised and crosses in front of it",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": 1
+     },
+     "confirmed": true
+    },
+    {
+     "index": 8,
+     "row": 2,
+     "col": 4,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "suspension",
+     "confirmed": true
+    }
+   ],
+   "derived": {
+    "duty_factor": {
+     "LF": {
+      "duty_known": 0.43,
+      "duty_min": 0.38,
+      "duty_max": 0.5,
+      "n_frames": 8,
+      "n_unknown": 1
+     },
+     "RF": {
+      "duty_known": 0.25,
+      "duty_min": 0.25,
+      "duty_max": 0.25,
+      "n_frames": 8,
+      "n_unknown": 0
+     },
+     "LH": {
+      "duty_known": 0.25,
+      "duty_min": 0.25,
+      "duty_max": 0.25,
+      "n_frames": 8,
+      "n_unknown": 0
+     },
+     "RH": {
+      "duty_known": 0.25,
+      "duty_min": 0.25,
+      "duty_max": 0.25,
+      "n_frames": 8,
+      "n_unknown": 0
+     }
+    },
+    "touchdown_sequence": [
+     "LH@3",
+     "RH@4",
+     "RF@5",
+     "LF@6"
+    ],
+    "feet_down_per_frame": [
+     1,
+     0,
+     1,
+     2,
+     2,
+     2,
+     1,
+     0
+    ],
+    "mean_feet_down": 1.12,
+    "duty_from_feet_down": 0.28
+   },
+   "label_status": "CHANGED: every L/R label was mirrored in 05. Corrected sequence LH, RH, RF, LF, then one suspension: still a rotary gallop (as Muybridge 1902 captions Series 57), but the lead hind is RIGHT and the lead fore is LEFT. Confirmed by near-thigh and near-shoulder occlusion in the lateral frames and by the rear-oblique row (frames 3-4)."
+  },
+  {
+   "plate": 708,
+   "title": "Animal Locomotion, Plate 708: \"Ike\" galloping",
+   "catalogue_1887": "Dog; galloping; brown racing hound. Ike",
+   "subject": "brown racing hound \"Ike\"",
+   "gait": "rotary gallop with double suspension",
+   "source_page": "https://commons.wikimedia.org/wiki/File:Dog_Ike_galloping_(rbm-QP301M8-1887-708).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Dog_Ike_galloping_%28rbm-QP301M8-1887-708%29.jpg/3840px-Dog_Ike_galloping_%28rbm-QP301M8-1887-708%29.jpg",
+   "holder": "USC Digital Library (id/5296), via Wikimedia Commons; BPL copy also on Commons",
+   "licence": "Public domain",
+   "local_file": "plate708_ike_gallop_USC.jpg",
+   "grid": {
+    "rows": 3,
+    "cols": "5,5,10",
+    "layout": "rows 1-2 lateral frames 1-10; row 3 = 10 front views (dog running toward camera)"
+   },
+   "interval_s": null,
+   "interval_note": "Not found.",
+   "stride_frames": 6,
+   "frames": [
+    {
+     "index": 1,
+     "row": 1,
+     "col": 1,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "heavy motion blur on whole plate",
+     "confirmed": false
+    },
+    {
+     "index": 2,
+     "row": 1,
+     "col": 2,
+     "LF": 1,
+     "RF": "?",
+     "LH": 0,
+     "RH": 0,
+     "note": "lead fore folded up; trailing fore still planted",
+     "confirmed": false
+    },
+    {
+     "index": 3,
+     "row": 1,
+     "col": 3,
+     "LF": 0,
+     "RF": "?",
+     "LH": 0,
+     "RH": 0,
+     "note": "gathered suspension",
+     "confirmed": false
+    },
+    {
+     "index": 4,
+     "row": 1,
+     "col": 4,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 1,
+     "note": "",
+     "confirmed": false
+    },
+    {
+     "index": 5,
+     "row": 1,
+     "col": 5,
+     "LF": 0,
+     "RF": 0,
+     "LH": 1,
+     "RH": 0,
+     "note": "",
+     "confirmed": false
+    },
+    {
+     "index": 6,
+     "row": 2,
+     "col": 1,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "extended suspension",
+     "confirmed": false
+    },
+    {
+     "index": 7,
+     "row": 2,
+     "col": 2,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "",
+     "confirmed": false
+    },
+    {
+     "index": 8,
+     "row": 2,
+     "col": 3,
+     "LF": 1,
+     "RF": "?",
+     "LH": 0,
+     "RH": 0,
+     "note": "",
+     "confirmed": false
+    },
+    {
+     "index": 9,
+     "row": 2,
+     "col": 4,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": "?",
+     "note": "gathered; a hind may be touching",
+     "confirmed": false
+    },
+    {
+     "index": 10,
+     "row": 2,
+     "col": 5,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 1,
+     "note": "hind lands",
+     "confirmed": false
+    }
+   ],
+   "derived": {
+    "duty_factor": {
+     "LF": {
+      "duty_known": 0.4,
+      "duty_min": 0.4,
+      "duty_max": 0.4,
+      "n_frames": 10,
+      "n_unknown": 0
+     },
+     "RF": {
+      "duty_known": 0.0,
+      "duty_min": 0.0,
+      "duty_max": 0.3,
+      "n_frames": 10,
+      "n_unknown": 3
+     },
+     "LH": {
+      "duty_known": 0.1,
+      "duty_min": 0.1,
+      "duty_max": 0.1,
+      "n_frames": 10,
+      "n_unknown": 0
+     },
+     "RH": {
+      "duty_known": 0.22,
+      "duty_min": 0.2,
+      "duty_max": 0.3,
+      "n_frames": 10,
+      "n_unknown": 1
+     }
+    },
+    "touchdown_sequence": [
+     "RH@4",
+     "LH@5",
+     "LF@7",
+     "RH@10"
+    ],
+    "feet_down_per_frame": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1
+    ],
+    "mean_feet_down": 0.7,
+    "duty_from_feet_down": 0.17
+   },
+   "label_status": "UNCERTAIN, unchanged. Motion blur hides which leg is near. The 05 labels were chosen to fit Muybridge 1893's generic description (right hind lands first), and that choice proved mirrored on both other checkable plates (707, Maggie A). Treat L/R here as 50/50: the observed fore/hind order and the contact counts stand; the mirror (LH, RH / RF, LF) is equally likely."
+  },
+  {
+   "plate": "709 (BPL copy) = 710 (USC copy)",
+   "title": "Animal Locomotion, Plate 709/710: \"Maggie\" galloping, sequence A",
+   "catalogue_1887": "Dog; galloping; white racing hound. Maggie",
+   "subject": "white racing hound \"Maggie\"",
+   "gait": "rotary gallop with double suspension",
+   "plate_number_conflict": "The plate number is hand-stamped. The BPL copy stamps this sequence 709 (File:Animal locomotion. Plate 709 (Boston Public Library).jpg); the USC copy stamps the same sequence 710 (File:Dog Maggie galloping (rbm-QP301M8-1887-710).jpg). Frames, rear row and blemishes match one to one.",
+   "source_page": "https://commons.wikimedia.org/wiki/File:Dog_Maggie_galloping_(rbm-QP301M8-1887-710).jpg",
+   "also_at": "https://commons.wikimedia.org/wiki/File:Animal_locomotion._Plate_709_(Boston_Public_Library).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Dog_Maggie_galloping_%28rbm-QP301M8-1887-710%29.jpg/3840px-Dog_Maggie_galloping_%28rbm-QP301M8-1887-710%29.jpg",
+   "holder": "USC Digital Library (id/5367) and Boston Public Library (BPLDC 08_11_000677), via Wikimedia Commons",
+   "licence": "Public domain",
+   "local_file": "plate709or710_maggie_gallop_seqA_USC.jpg",
+   "grid": {
+    "rows": 3,
+    "cols": "6,6,12",
+    "layout": "rows 1-2 lateral frames 1-12; row 3 = 12 rear views"
+   },
+   "interval_s": null,
+   "interval_note": "Not found for this sequence.",
+   "stride_frames": 6,
+   "frames": [
+    {
+     "index": 1,
+     "row": 1,
+     "col": 1,
+     "LF": 0,
+     "RF": 0,
+     "LH": 1,
+     "RH": 0,
+     "note": "trailing hind LH planted (far: grey upper leg hidden behind the near thigh); RH swinging forward. Rear view: planted hind on the left of the tail",
+     "changed_from_05": {
+      "LH": 0,
+      "RH": 1
+     },
+     "confirmed": true
+    },
+    {
+     "index": 2,
+     "row": 1,
+     "col": 2,
+     "LF": 0,
+     "RF": 0,
+     "LH": 1,
+     "RH": 1,
+     "note": "LH toe at rear, RH (from the near thigh) planted ahead = lead hind. Rear view: right hind planted",
+     "confirmed": true
+    },
+    {
+     "index": 3,
+     "row": 1,
+     "col": 3,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "extended suspension",
+     "confirmed": true
+    },
+    {
+     "index": 4,
+     "row": 1,
+     "col": 4,
+     "LF": 0,
+     "RF": 1,
+     "LH": 0,
+     "RH": 0,
+     "note": "trailing fore lands = RF (near: continuous with the lit shoulder); LF (far) reaching",
+     "changed_from_05": {
+      "LF": 1,
+      "RF": 0
+     },
+     "confirmed": true
+    },
+    {
+     "index": 5,
+     "row": 1,
+     "col": 5,
+     "LF": 1,
+     "RF": 1,
+     "LH": 0,
+     "RH": 0,
+     "note": "both fores down: RF behind, LF ahead = lead fore",
+     "confirmed": true
+    },
+    {
+     "index": 6,
+     "row": 1,
+     "col": 6,
+     "LF": "?",
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "gathered; lead fore (LF) toe may still touch",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": "?"
+     },
+     "confirmed": false
+    },
+    {
+     "index": 7,
+     "row": 2,
+     "col": 1,
+     "LF": 0,
+     "RF": 0,
+     "LH": 1,
+     "RH": "?",
+     "note": "second stride: same lead assumed (LH trailing)",
+     "changed_from_05": {
+      "LH": "?",
+      "RH": 1
+     },
+     "confirmed": false
+    },
+    {
+     "index": 8,
+     "row": 2,
+     "col": 2,
+     "LF": 0,
+     "RF": 0,
+     "LH": "?",
+     "RH": 1,
+     "note": "second stride: same lead assumed",
+     "changed_from_05": {
+      "LH": 1,
+      "RH": "?"
+     },
+     "confirmed": false
+    },
+    {
+     "index": 9,
+     "row": 2,
+     "col": 3,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "extended suspension",
+     "confirmed": true
+    },
+    {
+     "index": 10,
+     "row": 2,
+     "col": 4,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "extended suspension",
+     "confirmed": true
+    },
+    {
+     "index": 11,
+     "row": 2,
+     "col": 5,
+     "LF": 0,
+     "RF": 1,
+     "LH": 0,
+     "RH": 0,
+     "note": "second stride: trailing fore, same lead assumed",
+     "changed_from_05": {
+      "LF": 1,
+      "RF": 0
+     },
+     "confirmed": false
+    },
+    {
+     "index": 12,
+     "row": 2,
+     "col": 6,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "second stride: lead fore planted, same lead assumed",
+     "changed_from_05": {
+      "LF": 0,
+      "RF": 1
+     },
+     "confirmed": false
+    }
+   ],
+   "derived": {
+    "duty_factor": {
+     "LF": {
+      "duty_known": 0.18,
+      "duty_min": 0.17,
+      "duty_max": 0.25,
+      "n_frames": 12,
+      "n_unknown": 1
+     },
+     "RF": {
+      "duty_known": 0.25,
+      "duty_min": 0.25,
+      "duty_max": 0.25,
+      "n_frames": 12,
+      "n_unknown": 0
+     },
+     "LH": {
+      "duty_known": 0.27,
+      "duty_min": 0.25,
+      "duty_max": 0.33,
+      "n_frames": 12,
+      "n_unknown": 1
+     },
+     "RH": {
+      "duty_known": 0.18,
+      "duty_min": 0.17,
+      "duty_max": 0.25,
+      "n_frames": 12,
+      "n_unknown": 1
+     }
+    },
+    "touchdown_sequence": [
+     "RH@2",
+     "RF@4",
+     "LF@5",
+     "LH@7",
+     "RF@11",
+     "LF@12"
+    ],
+    "feet_down_per_frame": [
+     1,
+     2,
+     0,
+     1,
+     2,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1
+    ],
+    "mean_feet_down": 0.83,
+    "duty_from_feet_down": 0.21
+   },
+   "label_status": "CHANGED: every L/R label was mirrored in 05. Corrected sequence LH, RH, extended suspension, RF, LF, gathered suspension (rotary; lead hind RIGHT, lead fore LEFT). Frames 1, 2, 4, 5 checked directly (lateral occlusion + rear row); frames 6-8 and 11-12 assume the dog kept the same lead in its second stride."
+  },
+  {
+   "plate": "710 (BPL copy)",
+   "title": "Animal Locomotion, Plate 710 (BPL copy): \"Maggie\" galloping, sequence B = Animals in Motion Series 56",
+   "catalogue_1887": "Dog; galloping; white racing hound. Maggie",
+   "subject": "white racing hound \"Maggie\" (1902 text: \"small coursing hound ... about 16 inches high\")",
+   "gait": "rotary gallop with double suspension",
+   "source_page": "https://commons.wikimedia.org/wiki/File:Animal_locomotion._Plate_710_(Boston_Public_Library).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Animal_locomotion._Plate_710_%28Boston_Public_Library%29.jpg/1280px-Animal_locomotion._Plate_710_%28Boston_Public_Library%29.jpg",
+   "scored_from": "https://archive.org/details/animalsmotion00muyb (Muybridge, Animals in Motion, London: Chapman & Hall 1902, p.189, leaf n208; page image https://archive.org/download/animalsmotion00muyb/page/n208.jpg), public domain",
+   "holder": "Boston Public Library (BPLDC 08_11_000678) via Wikimedia Commons; Internet Archive (Getty Research Institute scan) for the 1902 reprint",
+   "licence": "Public domain",
+   "local_file": [
+    "plate710_maggie_gallop_seqB_BPL.jpg",
+    "animals_in_motion_1902_p189_series56_maggie_seqB.jpg"
+   ],
+   "grid": {
+    "rows": 3,
+    "cols": "6,6,12",
+    "layout": "rows 1-2 lateral frames 1-12; row 3 = 12 rear views"
+   },
+   "interval_s": 0.049,
+   "interval_note": "Animals in Motion (1902) p.189, Series 56 (same frames): \"Height, shoulder to ground 16 inches (.40 m). Length of stride 114 inches (2.85 m). Time-intervals .049 second. Approximate time of stride .25 second, equivalent to a mile in 139 seconds.\"",
+   "series_1902": "Series 56, rotatory gallop, \"One stride in six phases. The Dog (racing hound)\"",
+   "stride_frames": 5,
+   "frames": [
+    {
+     "index": 1,
+     "row": 1,
+     "col": 1,
+     "LF": 0,
+     "RF": 1,
+     "LH": 0,
+     "RH": 0,
+     "note": "single support on lead fore (Muybridge: same phase as 6 and 11)",
+     "confirmed": true
+    },
+    {
+     "index": 2,
+     "row": 1,
+     "col": 2,
+     "LF": 0,
+     "RF": "?",
+     "LH": 0,
+     "RH": 0,
+     "note": "",
+     "confirmed": true
+    },
+    {
+     "index": 3,
+     "row": 1,
+     "col": 3,
+     "LF": 0,
+     "RF": 0,
+     "LH": "?",
+     "RH": 1,
+     "note": "",
+     "confirmed": true
+    },
+    {
+     "index": 4,
+     "row": 1,
+     "col": 4,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "extended suspension",
+     "confirmed": true
+    },
+    {
+     "index": 5,
+     "row": 1,
+     "col": 5,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "",
+     "confirmed": true
+    },
+    {
+     "index": 6,
+     "row": 1,
+     "col": 6,
+     "LF": "?",
+     "RF": 1,
+     "LH": 0,
+     "RH": 0,
+     "note": "",
+     "confirmed": true
+    },
+    {
+     "index": 7,
+     "row": 2,
+     "col": 1,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "gathered suspension (Muybridge 1902)",
+     "confirmed": true
+    },
+    {
+     "index": 8,
+     "row": 2,
+     "col": 2,
+     "LF": 0,
+     "RF": 0,
+     "LH": 1,
+     "RH": "?",
+     "note": "",
+     "confirmed": true
+    },
+    {
+     "index": 9,
+     "row": 2,
+     "col": 3,
+     "LF": 0,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "extended suspension (Muybridge 1902)",
+     "confirmed": true
+    },
+    {
+     "index": 10,
+     "row": 2,
+     "col": 4,
+     "LF": 1,
+     "RF": 0,
+     "LH": 0,
+     "RH": 0,
+     "note": "landing on trailing fore (Muybridge 1902)",
+     "confirmed": true
+    },
+    {
+     "index": 11,
+     "row": 2,
+     "col": 5,
+     "LF": "?",
+     "RF": 1,
+     "LH": 0,
+     "RH": 0,
+     "note": "support transferred to lead fore (Muybridge 1902)",
+     "confirmed": true
+    },
+    {
+     "index": 12,
+     "row": 2,
+     "col": 6,
+     "LF": 0,
+     "RF": "?",
+     "LH": 0,
+     "RH": 0,
+     "note": "",
+     "confirmed": true
+    }
+   ],
+   "derived": {
+    "duty_factor": {
+     "LF": {
+      "duty_known": 0.2,
+      "duty_min": 0.17,
+      "duty_max": 0.33,
+      "n_frames": 12,
+      "n_unknown": 2
+     },
+     "RF": {
+      "duty_known": 0.3,
+      "duty_min": 0.25,
+      "duty_max": 0.42,
+      "n_frames": 12,
+      "n_unknown": 2
+     },
+     "LH": {
+      "duty_known": 0.09,
+      "duty_min": 0.08,
+      "duty_max": 0.17,
+      "n_frames": 12,
+      "n_unknown": 1
+     },
+     "RH": {
+      "duty_known": 0.09,
+      "duty_min": 0.08,
+      "duty_max": 0.17,
+      "n_frames": 12,
+      "n_unknown": 1
+     }
+    },
+    "touchdown_sequence": [
+     "RH@3",
+     "LF@5",
+     "RF@6",
+     "LH@8",
+     "LF@10",
+     "RF@11"
+    ],
+    "feet_down_per_frame": [
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0
+    ],
+    "mean_feet_down": 0.58,
+    "duty_from_feet_down": 0.15
+   },
+   "label_status": "CONFIRMED by Muybridge himself, Animals in Motion (1902) p.158, which names the feet with his symbols (left fore open triangle, right fore filled triangle, left hind open circle, right hind filled circle): \"phase 6 ... the hound on [RF] ... in 7 [suspension] ... alights [RH] ... quickly follows with [LH] ... in 9 [extended flight] ... the landing takes place on [LF]. In 11 the support is transferred to [RF]\". No change. The halftone is too coarse to check near/far independently. Frames 1-5 and 12 repeat phases 6-11 (Muybridge: 11 repeats 6)."
+  }
+ ],
+ "summary": {
+  "regenerated": "2026-10-07 by Atlas from the corrected `plates` (each plate's `label_status` and `derived`); approved as A-002 item 4 in docs/log/APPROVALS.md",
+  "footfall_order_by_plate": {
+   "706": "lateral-sequence walk or amble breaking into a trot, irregular: touchdowns LH@3, LF@4, RH@5, LH@7, RF@7, RH@10, LF@10, LH@12; L/R confirmed",
+   "707": "LH, RH, RF, LF, suspension (rotary gallop; lead hind RIGHT, lead fore LEFT); one suspension per stride; L/R confirmed (was mirrored)",
+   "708": "fore/hind order observed: LF, (RF unclear), gathered suspension, RH, LH, extended suspension (rotary, double suspension); L/R 50/50 because of blur, the mirror (RF ..., LH, RH) is equally likely",
+   "maggie_A": "LH, RH, extended suspension, RF, LF, gathered suspension (rotary, double suspension; lead hind RIGHT, lead fore LEFT); L/R checked on frames 1, 2, 4, 5 (was mirrored)",
+   "maggie_B": "RH, LH, extended suspension, LF, RF, gathered suspension (rotary, double suspension); confirmed by Muybridge 1902 p.158; same cycle as the earlier 'LF, RF, susp, RH, LH' started at a different foot"
+  },
+  "duty_factor_by_plate": {
+   "706": {
+    "LF": 0.42,
+    "RF": 0.64,
+    "LH": 0.58,
+    "RH": 0.75
+   },
+   "707": {
+    "LF": 0.43,
+    "RF": 0.25,
+    "LH": 0.25,
+    "RH": 0.25
+   },
+   "708": {
+    "LF": 0.4,
+    "RF": 0.0,
+    "LH": 0.1,
+    "RH": 0.22
+   },
+   "709 (BPL copy) = 710 (USC copy)": {
+    "LF": 0.18,
+    "RF": 0.25,
+    "LH": 0.27,
+    "RH": 0.18
+   },
+   "710 (BPL copy)": {
+    "LF": 0.2,
+    "RF": 0.3,
+    "LH": 0.09,
+    "RH": 0.09
+   }
+  },
+  "feet_down_over_4_by_plate": {
+   "704": [
+    0.71,
+    0.77
+   ],
+   "705": [
+    0.48,
+    0.62
+   ],
+   "706": 0.58,
+   "707": 0.28,
+   "708": 0.17,
+   "709 (BPL copy) = 710 (USC copy)": 0.21,
+   "710 (BPL copy)": 0.15
+  }
+ },
+ "corrections": {
+  "date": "2026-10-07",
+  "by": "Firefly, from ref/research/missingfound/walk-footfall-and-muybridge/data.json",
+  "what": "707 and Maggie A (709 BPL = 710 USC) left/right labels mirrored; 706 two contact fixes; each frame now carries a confirmed flag. 708 (blur), 704 and 705 (oblique views) still unconfirmed."
+ }
+}

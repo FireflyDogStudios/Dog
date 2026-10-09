@@ -1,0 +1,8279 @@
+{
+ "id": "wolf",
+ "report": {
+  "bones: worst offset from skeleton3d (mm)": 38.86,
+  "muscles": 158,
+  "placeholder (not judged)": [
+   "left_iliocostalis",
+   "left_longissimus",
+   "left_quadratus_lumborum",
+   "left_sacrocaudalis",
+   "right_iliocostalis",
+   "right_longissimus",
+   "right_quadratus_lumborum",
+   "right_sacrocaudalis"
+  ],
+  "attachments: median / 95th pct / worst distance to own bone (mm)": [
+   6.0,
+   36.1,
+   [
+    63.7,
+    "right_latissimus_dorsi"
+   ]
+  ],
+  "attachments over 10 mm from their bone, ours (on the bone in the source model)": [],
+  "attachments off the bone in the source model too (inherited; muscles from fascia or neighbouring bone)": [
+   "left_abductor_cruris",
+   "left_anconeus",
+   "left_biceps_femoris_breve",
+   "left_biceps_femoris_longum",
+   "left_brachialis",
+   "left_brachiocephalicus_1",
+   "left_brachiocephalicus_2",
+   "left_deltoideus_acr",
+   "left_extensor_carpi_ulnaris",
+   "left_gluteus_superficialis",
+   "left_iliacus",
+   "left_iliocostalis",
+   "left_latissimus_dorsi",
+   "left_longissimus",
+   "left_obturator_ext",
+   "left_obturator_int",
+   "left_pectoralis_profundus",
+   "left_pectoralis_superficialis",
+   "left_pronator_teres",
+   "left_psoas_major",
+   "left_quadratus_lumborum",
+   "left_rhomboideus_cervicis",
+   "left_sartorius_caudal",
+   "left_sartorius_cranial",
+   "left_serratus_1",
+   "left_serratus_10",
+   "left_serratus_11",
+   "left_serratus_12",
+   "left_serratus_2",
+   "left_serratus_3",
+   "left_serratus_6",
+   "left_serratus_7",
+   "left_serratus_8",
+   "left_serratus_9",
+   "left_teres_minor",
+   "left_tibialis_cranialis",
+   "left_trapezius_cervical",
+   "left_triceps_caput_medial",
+   "left_vastus_lateralis",
+   "left_vastus_medialis",
+   "right_abductor_cruris",
+   "right_adductor_longus",
+   "right_anconeus",
+   "right_biceps_femoris_breve",
+   "right_biceps_femoris_longum",
+   "right_brachialis",
+   "right_brachiocephalicus_1",
+   "right_brachiocephalicus_2",
+   "right_extensor_carpi_ulnaris",
+   "right_gluteus_superficialis",
+   "right_iliacus",
+   "right_iliocostalis",
+   "right_latissimus_dorsi",
+   "right_longissimus",
+   "right_obturator_ext",
+   "right_obturator_int",
+   "right_pectoralis_profundus",
+   "right_pectoralis_superficialis",
+   "right_pronator_teres",
+   "right_psoas_major",
+   "right_quadratus_lumborum",
+   "right_rhomboideus_cervicis",
+   "right_rhomboideus_thoracic",
+   "right_sacrocaudalis",
+   "right_sartorius_caudal",
+   "right_sartorius_cranial",
+   "right_serratus_1",
+   "right_serratus_10",
+   "right_serratus_11",
+   "right_serratus_12",
+   "right_serratus_2",
+   "right_serratus_3",
+   "right_serratus_4",
+   "right_serratus_5",
+   "right_serratus_6",
+   "right_serratus_7",
+   "right_serratus_8",
+   "right_serratus_9",
+   "right_teres_minor",
+   "right_tibialis_cranialis",
+   "right_trapezius_cervical",
+   "right_trapezius_thoracic",
+   "right_triceps_caput_medial",
+   "right_vastus_lateralis",
+   "right_vastus_medialis"
+  ],
+  "stance fibre length / optimal: median and range (real muscles)": [
+   0.88,
+   0.44,
+   2.46
+  ],
+  "stance fibre length outside 0.5-1.5, ours (fine in the source model)": [
+   "left_serratus_4 0.458",
+   "right_serratus_4 0.458",
+   "left_anconeus 1.592",
+   "right_anconeus 1.758"
+  ],
+  "already outside 0.5-1.5 in the source model at its own pose (inherited)": [
+   "left_brachiocephalicus_2",
+   "left_deltoideus_acr",
+   "left_gastrocnemius_lateralis",
+   "left_psoas_major",
+   "left_psoas_minor",
+   "left_rhomboideus_cervicis",
+   "left_serratus_12",
+   "left_subscapularis",
+   "left_triceps_caput_accessorium",
+   "right_brachiocephalicus_2",
+   "right_gastrocnemius_lateralis",
+   "right_gluteus_profundus",
+   "right_psoas_major",
+   "right_psoas_minor",
+   "right_rhomboideus_cervicis",
+   "right_serratus_12",
+   "right_subscapularis",
+   "right_triceps_caput_accessorium"
+  ],
+  "left/right path difference, worst (mm)": 14.2
+ },
+ "muscles": {
+  "left_trapezius_cervical": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "cervix"
+   ],
+   "points_mm": [
+    [
+     87.3145211217099,
+     -374.67058414986155,
+     400.374177830008
+    ],
+    [
+     0.0,
+     -368.02821913079185,
+     458.8417217809756
+    ]
+   ],
+   "path_mm": [
+    [
+     87.3145211217099,
+     -374.67058414986155,
+     400.374177830008
+    ],
+    [
+     0.0,
+     -368.02821913079185,
+     458.8417217809756
+    ]
+   ],
+   "length_mm": 105.3,
+   "attach_off_mm": [
+    3.8,
+    60.2
+   ],
+   "attach_off_source_mm": [
+    3.2,
+    37.6
+   ],
+   "norm_fibre_length": 0.753,
+   "norm_fibre_length_source_default": 0.948,
+   "placeholder": false,
+   "L_opt_mm": 81.0,
+   "tendon_slack_mm": 45.0,
+   "Fmax_N_shepherd": 44.339976350715
+  },
+  "left_trapezius_thoracic": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     83.73984827443017,
+     -365.02525088651566,
+     415.39378594743886
+    ],
+    [
+     6.030865881655104,
+     -272.9286741020922,
+     500.43790069627505
+    ]
+   ],
+   "path_mm": [
+    [
+     83.73984827443017,
+     -365.02525088651566,
+     415.39378594743886
+    ],
+    [
+     6.030865881655104,
+     -272.9286741020922,
+     500.43790069627505
+    ]
+   ],
+   "length_mm": 147.5,
+   "attach_off_mm": [
+    3.4,
+    7.3
+   ],
+   "attach_off_source_mm": [
+    2.8,
+    5.2
+   ],
+   "norm_fibre_length": 0.946,
+   "norm_fibre_length_source_default": 0.949,
+   "placeholder": false,
+   "L_opt_mm": 101.5,
+   "tendon_slack_mm": 52.7,
+   "Fmax_N_shepherd": 58.833382753066
+  },
+  "left_rhomboideus_thoracic": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     64.72055969421412,
+     -305.6289417764423,
+     419.8500730465086
+    ],
+    [
+     5.801845658301113,
+     -265.3531062193909,
+     494.3428346900194
+    ]
+   ],
+   "path_mm": [
+    [
+     64.72055969421412,
+     -305.6289417764423,
+     419.8500730465086
+    ],
+    [
+     5.801845658301113,
+     -265.3531062193909,
+     494.3428346900194
+    ]
+   ],
+   "length_mm": 103.2,
+   "attach_off_mm": [
+    1.1,
+    2.3
+   ],
+   "attach_off_source_mm": [
+    1.0,
+    1.8
+   ],
+   "norm_fibre_length": 0.969,
+   "norm_fibre_length_source_default": 0.875,
+   "placeholder": false,
+   "L_opt_mm": 61.9,
+   "tendon_slack_mm": 44.1,
+   "Fmax_N_shepherd": 58.909794380967
+  },
+  "left_rhomboideus_cervicis": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "cervix"
+   ],
+   "points_mm": [
+    [
+     38.2559244709582,
+     -346.81910244811326,
+     445.31929014774346
+    ],
+    [
+     -4.391616002622875,
+     -509.11009181940136,
+     596.8881709238087
+    ]
+   ],
+   "path_mm": [
+    [
+     38.2559244709582,
+     -346.81910244811326,
+     445.31929014774346
+    ],
+    [
+     -4.391616002622875,
+     -509.11009181940136,
+     596.8881709238087
+    ]
+   ],
+   "length_mm": 226.1,
+   "attach_off_mm": [
+    19.0,
+    19.6
+   ],
+   "attach_off_source_mm": [
+    15.8,
+    12.2
+   ],
+   "norm_fibre_length": 0.444,
+   "norm_fibre_length_source_default": 0.444,
+   "placeholder": false,
+   "L_opt_mm": 77.1,
+   "tendon_slack_mm": 277.9,
+   "Fmax_N_shepherd": 101.786628380852
+  },
+  "left_latissimus_dorsi": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     -0.8015707817389695,
+     14.165105753255123,
+     548.5288358404938
+    ],
+    [
+     54.757968510165966,
+     -390.1180246614518,
+     273.19496238789145
+    ]
+   ],
+   "path_mm": [
+    [
+     -0.8015707817389695,
+     14.165105753255123,
+     548.5288358404938
+    ],
+    [
+     54.757968510165966,
+     -390.1180246614518,
+     273.19496238789145
+    ]
+   ],
+   "length_mm": 492.3,
+   "attach_off_mm": [
+    63.7,
+    58.3
+   ],
+   "attach_off_source_mm": [
+    42.1,
+    62.8
+   ],
+   "norm_fibre_length": 1.038,
+   "norm_fibre_length_source_default": 0.999,
+   "placeholder": false,
+   "L_opt_mm": 441.1,
+   "tendon_slack_mm": 34.2,
+   "Fmax_N_shepherd": 125.154500626919
+  },
+  "left_brachiocephalicus_1": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "left_humerus",
+    "cervix"
+   ],
+   "points_mm": [
+    [
+     73.33564614700418,
+     -365.5826624502643,
+     229.44634814809368
+    ],
+    [
+     65.86114264204899,
+     -412.9236531899131,
+     268.39218319577753
+    ],
+    [
+     0.09616677378006297,
+     -478.3168881568981,
+     564.3225810820477
+    ]
+   ],
+   "path_mm": [
+    [
+     73.33564614700418,
+     -365.5826624502643,
+     229.44634814809368
+    ],
+    [
+     65.86114264204899,
+     -412.9236531899131,
+     268.39218319577753
+    ],
+    [
+     62.85731244666384,
+     -430.8840208198289,
+     283.3577197481926
+    ],
+    [
+     57.92022769595291,
+     -443.6342056080219,
+     306.33240237146674
+    ],
+    [
+     0.09616677378006297,
+     -478.3168881568981,
+     564.3225810820477
+    ]
+   ],
+   "length_mm": 379.3,
+   "attach_off_mm": [
+    5.9,
+    22.3
+   ],
+   "attach_off_source_mm": [
+    4.9,
+    14.0
+   ],
+   "norm_fibre_length": 1.026,
+   "norm_fibre_length_source_default": 1.032,
+   "placeholder": false,
+   "L_opt_mm": 349.1,
+   "tendon_slack_mm": 21.1,
+   "Fmax_N_shepherd": 18.466305777948
+  },
+  "left_brachiocephalicus_2": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "left_humerus",
+    "cervix"
+   ],
+   "points_mm": [
+    [
+     73.33564614700418,
+     -365.5826624502643,
+     229.44634814809368
+    ],
+    [
+     65.86114264204899,
+     -412.9236531899131,
+     268.39218319577753
+    ],
+    [
+     38.06601462127493,
+     -615.4552152272342,
+     608.1332220126947
+    ]
+   ],
+   "path_mm": [
+    [
+     73.33564614700418,
+     -365.5826624502643,
+     229.44634814809368
+    ],
+    [
+     65.86114264204899,
+     -412.9236531899131,
+     268.39218319577753
+    ],
+    [
+     64.84279361800854,
+     -430.81907715259575,
+     283.4794286566756
+    ],
+    [
+     64.0762557893966,
+     -439.13148645360496,
+     293.5360975589212
+    ],
+    [
+     38.06601462127493,
+     -615.4552152272342,
+     608.1332220126947
+    ]
+   ],
+   "length_mm": 459.9,
+   "attach_off_mm": [
+    5.9,
+    48.8
+   ],
+   "attach_off_source_mm": [
+    4.9,
+    33.9
+   ],
+   "norm_fibre_length": 1.573,
+   "norm_fibre_length_source_default": 1.563,
+   "placeholder": false,
+   "L_opt_mm": 281.1,
+   "tendon_slack_mm": 17.0,
+   "Fmax_N_shepherd": 18.466305777948
+  },
+  "left_serratus_1": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     42.05693573314754,
+     -466.2966850951872,
+     346.0265781152874
+    ],
+    [
+     54.73541998215355,
+     -358.8950202321988,
+     427.3419007567559
+    ]
+   ],
+   "path_mm": [
+    [
+     42.05693573314754,
+     -466.2966850951872,
+     346.0265781152874
+    ],
+    [
+     54.73541998215355,
+     -358.8950202321988,
+     427.3419007567559
+    ]
+   ],
+   "length_mm": 135.3,
+   "attach_off_mm": [
+    13.6,
+    2.9
+   ],
+   "attach_off_source_mm": [
+    8.8,
+    2.4
+   ],
+   "norm_fibre_length": 0.673,
+   "norm_fibre_length_source_default": 0.694,
+   "placeholder": false,
+   "L_opt_mm": 115.3,
+   "tendon_slack_mm": 64.4,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "left_serratus_2": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     30.67720083584009,
+     -504.74757124112233,
+     370.2177319996163
+    ],
+    [
+     53.268844219420174,
+     -368.8606649299442,
+     431.7364178071853
+    ]
+   ],
+   "path_mm": [
+    [
+     30.67720083584009,
+     -504.74757124112233,
+     370.2177319996163
+    ],
+    [
+     53.268844219420174,
+     -368.8606649299442,
+     431.7364178071853
+    ]
+   ],
+   "length_mm": 150.9,
+   "attach_off_mm": [
+    28.1,
+    1.5
+   ],
+   "attach_off_source_mm": [
+    18.6,
+    1.3
+   ],
+   "norm_fibre_length": 0.853,
+   "norm_fibre_length_source_default": 0.957,
+   "placeholder": false,
+   "L_opt_mm": 110.3,
+   "tendon_slack_mm": 61.7,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "left_serratus_3": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     32.472313946401265,
+     -508.43503979361304,
+     426.69666965630097
+    ],
+    [
+     53.21509751590059,
+     -375.0907294872275,
+     437.12143148184185
+    ]
+   ],
+   "path_mm": [
+    [
+     32.472313946401265,
+     -508.43503979361304,
+     426.69666965630097
+    ],
+    [
+     53.21509751590059,
+     -375.0907294872275,
+     437.12143148184185
+    ]
+   ],
+   "length_mm": 135.4,
+   "attach_off_mm": [
+    13.2,
+    0.7
+   ],
+   "attach_off_source_mm": [
+    8.7,
+    0.6
+   ],
+   "norm_fibre_length": 0.742,
+   "norm_fibre_length_source_default": 0.952,
+   "placeholder": false,
+   "L_opt_mm": 108.4,
+   "tendon_slack_mm": 60.6,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "left_serratus_4": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     36.190762532563696,
+     -511.3979243846096,
+     467.1415241868405
+    ],
+    [
+     51.72135161344972,
+     -388.75069623007766,
+     440.78062650362006
+    ]
+   ],
+   "path_mm": [
+    [
+     36.190762532563696,
+     -511.3979243846096,
+     467.1415241868405
+    ],
+    [
+     51.72135161344972,
+     -388.75069623007766,
+     440.78062650362006
+    ]
+   ],
+   "length_mm": 126.4,
+   "attach_off_mm": [
+    0.6,
+    0.6
+   ],
+   "attach_off_source_mm": [
+    0.4,
+    0.5
+   ],
+   "norm_fibre_length": 0.458,
+   "norm_fibre_length_source_default": 0.648,
+   "placeholder": false,
+   "L_opt_mm": 137.1,
+   "tendon_slack_mm": 76.6,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "left_serratus_5": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     40.21373923569634,
+     -513.7519096884887,
+     502.14384485572674
+    ],
+    [
+     51.522402341435644,
+     -366.3787238949411,
+     447.2003519538202
+    ]
+   ],
+   "path_mm": [
+    [
+     40.21373923569634,
+     -513.7519096884887,
+     502.14384485572674
+    ],
+    [
+     51.522402341435644,
+     -366.3787238949411,
+     447.2003519538202
+    ]
+   ],
+   "length_mm": 157.7,
+   "attach_off_mm": [
+    2.7,
+    1.4
+   ],
+   "attach_off_source_mm": [
+    1.7,
+    1.3
+   ],
+   "norm_fibre_length": 0.673,
+   "norm_fibre_length_source_default": 0.924,
+   "placeholder": false,
+   "L_opt_mm": 134.3,
+   "tendon_slack_mm": 75.1,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "left_serratus_6": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     70.74816399777046,
+     -127.5546591658378,
+     252.271768564596
+    ],
+    [
+     66.95022477623127,
+     -298.4937417468815,
+     403.90896424340235
+    ]
+   ],
+   "path_mm": [
+    [
+     70.74816399777046,
+     -127.5546591658378,
+     252.271768564596
+    ],
+    [
+     66.95022477623127,
+     -298.4937417468815,
+     403.90896424340235
+    ]
+   ],
+   "length_mm": 228.5,
+   "attach_off_mm": [
+    33.4,
+    3.1
+   ],
+   "attach_off_source_mm": [
+    28.5,
+    2.7
+   ],
+   "norm_fibre_length": 0.997,
+   "norm_fibre_length_source_default": 1.068,
+   "placeholder": false,
+   "L_opt_mm": 106.7,
+   "tendon_slack_mm": 125.1,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "left_serratus_7": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     68.75377955272947,
+     -172.8443244208872,
+     241.0598822936511
+    ],
+    [
+     61.7998255291896,
+     -304.6768248963853,
+     409.74399173039757
+    ]
+   ],
+   "path_mm": [
+    [
+     68.75377955272947,
+     -172.8443244208872,
+     241.0598822936511
+    ],
+    [
+     61.7998255291896,
+     -304.6768248963853,
+     409.74399173039757
+    ]
+   ],
+   "length_mm": 214.2,
+   "attach_off_mm": [
+    34.3,
+    4.9
+   ],
+   "attach_off_source_mm": [
+    31.6,
+    4.1
+   ],
+   "norm_fibre_length": 0.849,
+   "norm_fibre_length_source_default": 0.928,
+   "placeholder": false,
+   "L_opt_mm": 107.7,
+   "tendon_slack_mm": 126.4,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "left_serratus_8": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     54.71674836299108,
+     -224.41147624018905,
+     221.55382868580165
+    ],
+    [
+     59.04018422267299,
+     -309.53019945873535,
+     417.2275107085923
+    ]
+   ],
+   "path_mm": [
+    [
+     54.71674836299108,
+     -224.41147624018905,
+     221.55382868580165
+    ],
+    [
+     59.04018422267299,
+     -309.53019945873535,
+     417.2275107085923
+    ]
+   ],
+   "length_mm": 213.4,
+   "attach_off_mm": [
+    26.2,
+    5.1
+   ],
+   "attach_off_source_mm": [
+    21.4,
+    4.2
+   ],
+   "norm_fibre_length": 0.998,
+   "norm_fibre_length_source_default": 1.091,
+   "placeholder": false,
+   "L_opt_mm": 99.5,
+   "tendon_slack_mm": 116.8,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "left_serratus_9": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     53.65752982997888,
+     -273.94847540721145,
+     232.51556173623644
+    ],
+    [
+     57.07490434321663,
+     -316.1545372883562,
+     424.14132282543943
+    ]
+   ],
+   "path_mm": [
+    [
+     53.65752982997888,
+     -273.94847540721145,
+     232.51556173623644
+    ],
+    [
+     57.07490434321663,
+     -316.1545372883562,
+     424.14132282543943
+    ]
+   ],
+   "length_mm": 196.2,
+   "attach_off_mm": [
+    20.5,
+    4.3
+   ],
+   "attach_off_source_mm": [
+    19.0,
+    3.7
+   ],
+   "norm_fibre_length": 0.827,
+   "norm_fibre_length_source_default": 0.912,
+   "placeholder": false,
+   "L_opt_mm": 99.9,
+   "tendon_slack_mm": 117.2,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "left_serratus_10": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     49.363400642091534,
+     -322.99148322723846,
+     233.93590975000254
+    ],
+    [
+     54.92079733539877,
+     -324.7802303486555,
+     432.89181446445536
+    ]
+   ],
+   "path_mm": [
+    [
+     49.363400642091534,
+     -322.99148322723846,
+     233.93590975000254
+    ],
+    [
+     54.92079733539877,
+     -324.7802303486555,
+     432.89181446445536
+    ]
+   ],
+   "length_mm": 199.0,
+   "attach_off_mm": [
+    22.8,
+    3.6
+   ],
+   "attach_off_source_mm": [
+    20.9,
+    3.0
+   ],
+   "norm_fibre_length": 0.927,
+   "norm_fibre_length_source_default": 0.998,
+   "placeholder": false,
+   "L_opt_mm": 96.1,
+   "tendon_slack_mm": 112.8,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "left_serratus_11": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     35.13551926622483,
+     -369.71115784639807,
+     240.62467766068585
+    ],
+    [
+     53.86498440952196,
+     -335.8614309501373,
+     434.99895516773654
+    ]
+   ],
+   "path_mm": [
+    [
+     35.13551926622483,
+     -369.71115784639807,
+     240.62467766068585
+    ],
+    [
+     53.86498440952196,
+     -335.8614309501373,
+     434.99895516773654
+    ]
+   ],
+   "length_mm": 198.2,
+   "attach_off_mm": [
+    12.5,
+    3.9
+   ],
+   "attach_off_source_mm": [
+    11.0,
+    3.3
+   ],
+   "norm_fibre_length": 1.012,
+   "norm_fibre_length_source_default": 1.057,
+   "placeholder": false,
+   "L_opt_mm": 91.8,
+   "tendon_slack_mm": 107.7,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "left_serratus_12": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "left_scapula"
+   ],
+   "points_mm": [
+    [
+     31.786098499672704,
+     -397.52561768231254,
+     242.35032013614924
+    ],
+    [
+     55.12534115056955,
+     -346.02506447612257,
+     430.7116112739684
+    ]
+   ],
+   "path_mm": [
+    [
+     31.786098499672704,
+     -397.52561768231254,
+     242.35032013614924
+    ],
+    [
+     55.12534115056955,
+     -346.02506447612257,
+     430.7116112739684
+    ]
+   ],
+   "length_mm": 196.7,
+   "attach_off_mm": [
+    16.4,
+    3.1
+   ],
+   "attach_off_source_mm": [
+    12.4,
+    2.6
+   ],
+   "norm_fibre_length": 1.658,
+   "norm_fibre_length_source_default": 1.691,
+   "placeholder": false,
+   "L_opt_mm": 68.7,
+   "tendon_slack_mm": 80.6,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "left_pectoralis_profundus": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     61.46580747231625,
+     -428.36741783476685,
+     316.91728870773863
+    ],
+    [
+     0.0,
+     -254.69277801722663,
+     134.5361874106159
+    ]
+   ],
+   "path_mm": [
+    [
+     61.46580747231625,
+     -428.36741783476685,
+     316.91728870773863
+    ],
+    [
+     0.0,
+     -254.69277801722663,
+     134.5361874106159
+    ]
+   ],
+   "length_mm": 259.2,
+   "attach_off_mm": [
+    1.0,
+    54.5
+   ],
+   "attach_off_source_mm": [
+    0.9,
+    35.7
+   ],
+   "norm_fibre_length": 1.129,
+   "norm_fibre_length_source_default": 1.041,
+   "placeholder": false,
+   "L_opt_mm": 187.5,
+   "tendon_slack_mm": 47.2,
+   "Fmax_N_shepherd": 249.151896181272
+  },
+  "left_pectoralis_superficialis": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     66.09263554047152,
+     -404.86736308250806,
+     275.28036586242126
+    ],
+    [
+     0.0,
+     -395.0524614138917,
+     148.85008913456718
+    ]
+   ],
+   "path_mm": [
+    [
+     66.09263554047152,
+     -404.86736308250806,
+     275.28036586242126
+    ],
+    [
+     0.0,
+     -395.0524614138917,
+     148.85008913456718
+    ]
+   ],
+   "length_mm": 143.0,
+   "attach_off_mm": [
+    4.6,
+    49.2
+   ],
+   "attach_off_source_mm": [
+    3.8,
+    31.5
+   ],
+   "norm_fibre_length": 1.068,
+   "norm_fibre_length_source_default": 1.042,
+   "placeholder": false,
+   "L_opt_mm": 101.7,
+   "tendon_slack_mm": 34.2,
+   "Fmax_N_shepherd": 249.151896181272
+  },
+  "left_supraspinatus": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     68.7121757451402,
+     -385.4315016858016,
+     408.9713778516507
+    ],
+    [
+     71.56537288899355,
+     -428.76383810088976,
+     336.3422700174214
+    ]
+   ],
+   "path_mm": [
+    [
+     68.7121757451402,
+     -385.4315016858016,
+     408.9713778516507
+    ],
+    [
+     71.56537288899355,
+     -428.76383810088976,
+     336.3422700174214
+    ]
+   ],
+   "length_mm": 84.6,
+   "attach_off_mm": [
+    3.8,
+    1.0
+   ],
+   "attach_off_source_mm": [
+    3.2,
+    0.9
+   ],
+   "norm_fibre_length": 0.674,
+   "norm_fibre_length_source_default": 0.703,
+   "placeholder": false,
+   "L_opt_mm": 38.4,
+   "tendon_slack_mm": 64.2,
+   "Fmax_N_shepherd": 280.25079319635
+  },
+  "left_infraspinatus": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     77.18762485284671,
+     -351.02537802388485,
+     394.7560759408891
+    ],
+    [
+     82.90410564780758,
+     -418.8969203295786,
+     328.99236470848217
+    ]
+   ],
+   "path_mm": [
+    [
+     77.18762485284671,
+     -351.02537802388485,
+     394.7560759408891
+    ],
+    [
+     82.90410564780758,
+     -418.8969203295786,
+     328.99236470848217
+    ]
+   ],
+   "length_mm": 94.7,
+   "attach_off_mm": [
+    6.3,
+    6.9
+   ],
+   "attach_off_source_mm": [
+    5.4,
+    5.7
+   ],
+   "norm_fibre_length": 0.503,
+   "norm_fibre_length_source_default": 0.522,
+   "placeholder": false,
+   "L_opt_mm": 27.1,
+   "tendon_slack_mm": 87.2,
+   "Fmax_N_shepherd": 362.58599099807
+  },
+  "left_subscapularis": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     60.92357206280676,
+     -361.73400108877377,
+     395.02950075789147
+    ],
+    [
+     44.52252284952069,
+     -405.0927239872347,
+     338.8643605967709
+    ]
+   ],
+   "path_mm": [
+    [
+     60.92357206280676,
+     -361.73400108877377,
+     395.02950075789147
+    ],
+    [
+     44.52252284952069,
+     -405.0927239872347,
+     338.8643605967709
+    ]
+   ],
+   "length_mm": 72.8,
+   "attach_off_mm": [
+    0.9,
+    7.2
+   ],
+   "attach_off_source_mm": [
+    0.7,
+    5.9
+   ],
+   "norm_fibre_length": 0.444,
+   "norm_fibre_length_source_default": 0.444,
+   "placeholder": false,
+   "L_opt_mm": 17.4,
+   "tendon_slack_mm": 72.4,
+   "Fmax_N_shepherd": 481.319576552922
+  },
+  "left_deltoideus_sca": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     83.71078110246036,
+     -364.54839084476276,
+     411.9353530404697
+    ],
+    [
+     84.9401352454248,
+     -402.3643817544948,
+     282.5134904899871
+    ]
+   ],
+   "path_mm": [
+    [
+     83.71078110246036,
+     -364.54839084476276,
+     411.9353530404697
+    ],
+    [
+     84.9401352454248,
+     -402.3643817544948,
+     282.5134904899871
+    ]
+   ],
+   "length_mm": 134.8,
+   "attach_off_mm": [
+    5.8,
+    0.4
+   ],
+   "attach_off_source_mm": [
+    4.9,
+    0.4
+   ],
+   "norm_fibre_length": 0.829,
+   "norm_fibre_length_source_default": 0.82,
+   "placeholder": false,
+   "L_opt_mm": 69.4,
+   "tendon_slack_mm": 78.2,
+   "Fmax_N_shepherd": 91.326159982551
+  },
+  "left_deltoideus_acr": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     97.54223949470203,
+     -406.0815198843754,
+     340.77639659973914
+    ],
+    [
+     81.91961892588512,
+     -400.4562343486056,
+     270.9095925730287
+    ]
+   ],
+   "path_mm": [
+    [
+     97.54223949470203,
+     -406.0815198843754,
+     340.77639659973914
+    ],
+    [
+     81.91961892588512,
+     -400.4562343486056,
+     270.9095925730287
+    ]
+   ],
+   "length_mm": 71.8,
+   "attach_off_mm": [
+    11.3,
+    5.8
+   ],
+   "attach_off_source_mm": [
+    11.0,
+    4.8
+   ],
+   "norm_fibre_length": 0.478,
+   "norm_fibre_length_source_default": 0.474,
+   "placeholder": false,
+   "L_opt_mm": 26.0,
+   "tendon_slack_mm": 63.1,
+   "Fmax_N_shepherd": 135.512273163552
+  },
+  "left_teres_major": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     74.1597114042814,
+     -307.20299779588265,
+     396.28010808687424
+    ],
+    [
+     56.65438757259101,
+     -395.98947726969936,
+     276.51510087613
+    ]
+   ],
+   "path_mm": [
+    [
+     74.1597114042814,
+     -307.20299779588265,
+     396.28010808687424
+    ],
+    [
+     56.65438757259101,
+     -395.98947726969936,
+     276.51510087613
+    ]
+   ],
+   "length_mm": 150.1,
+   "attach_off_mm": [
+    6.3,
+    6.2
+   ],
+   "attach_off_source_mm": [
+    6.8,
+    5.1
+   ],
+   "norm_fibre_length": 0.924,
+   "norm_fibre_length_source_default": 0.913,
+   "placeholder": false,
+   "L_opt_mm": 126.9,
+   "tendon_slack_mm": 32.6,
+   "Fmax_N_shepherd": 61.857547551599
+  },
+  "left_teres_minor": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     74.34129447374855,
+     -366.85065796746755,
+     354.89521118447846
+    ],
+    [
+     83.78617672434827,
+     -406.4608491485061,
+     322.3922332446942
+    ]
+   ],
+   "path_mm": [
+    [
+     74.34129447374855,
+     -366.85065796746755,
+     354.89521118447846
+    ],
+    [
+     83.78617672434827,
+     -406.4608491485061,
+     322.3922332446942
+    ]
+   ],
+   "length_mm": 52.1,
+   "attach_off_mm": [
+    12.2,
+    1.9
+   ],
+   "attach_off_source_mm": [
+    10.4,
+    1.5
+   ],
+   "norm_fibre_length": 0.583,
+   "norm_fibre_length_source_default": 0.594,
+   "placeholder": false,
+   "L_opt_mm": 25.1,
+   "tendon_slack_mm": 40.1,
+   "Fmax_N_shepherd": 43.570184533173
+  },
+  "left_coracobrachialis": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     56.63882678641878,
+     -417.6960111221359,
+     339.60299074370937
+    ],
+    [
+     56.72313443041051,
+     -388.54562630326865,
+     277.2100294155126
+    ]
+   ],
+   "path_mm": [
+    [
+     56.63882678641878,
+     -417.6960111221359,
+     339.60299074370937
+    ],
+    [
+     56.72313443041051,
+     -388.54562630326865,
+     277.2100294155126
+    ]
+   ],
+   "length_mm": 68.9,
+   "attach_off_mm": [
+    2.1,
+    9.4
+   ],
+   "attach_off_source_mm": [
+    1.8,
+    7.8
+   ],
+   "norm_fibre_length": 0.526,
+   "norm_fibre_length_source_default": 0.524,
+   "placeholder": false,
+   "L_opt_mm": 25.5,
+   "tendon_slack_mm": 64.6,
+   "Fmax_N_shepherd": 39.750153004772
+  },
+  "left_biceps_brachii": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_antebrachium"
+   ],
+   "points_mm": [
+    [
+     67.87895211879983,
+     -416.6204031619618,
+     335.35964136238806
+    ],
+    [
+     60.9050336971608,
+     -325.80613120141226,
+     141.54142156889557
+    ]
+   ],
+   "path_mm": [
+    [
+     67.87895211879983,
+     -416.6204031619618,
+     335.35964136238806
+    ],
+    [
+     61.20854609444211,
+     -331.6049196952823,
+     149.51692524387624
+    ],
+    [
+     61.09428645117362,
+     -329.7145373640482,
+     146.4416369766922
+    ],
+    [
+     60.9050336971608,
+     -325.80613120141226,
+     141.54142156889557
+    ]
+   ],
+   "length_mm": 214.4,
+   "attach_off_mm": [
+    2.7,
+    8.8
+   ],
+   "attach_off_source_mm": [
+    2.6,
+    7.5
+   ],
+   "norm_fibre_length": 0.621,
+   "norm_fibre_length_source_default": 0.601,
+   "placeholder": false,
+   "L_opt_mm": 59.6,
+   "tendon_slack_mm": 199.7,
+   "Fmax_N_shepherd": 195.591213439937
+  },
+  "left_brachialis": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_antebrachium",
+    "left_antebrachium"
+   ],
+   "points_mm": [
+    [
+     75.55399042397708,
+     -395.7068117097698,
+     298.10625184591584
+    ],
+    [
+     60.61848023271157,
+     -326.92177217564074,
+     148.36091003308613
+    ],
+    [
+     64.18869442328328,
+     -306.03747303778937,
+     135.77120145061994
+    ]
+   ],
+   "path_mm": [
+    [
+     75.55399042397708,
+     -395.7068117097698,
+     298.10625184591584
+    ],
+    [
+     60.61848023271157,
+     -326.92177217564074,
+     148.36091003308613
+    ],
+    [
+     64.18869442328328,
+     -306.03747303778937,
+     135.77120145061994
+    ]
+   ],
+   "length_mm": 190.1,
+   "attach_off_mm": [
+    35.1,
+    0.5
+   ],
+   "attach_off_source_mm": [
+    38.7,
+    0.4
+   ],
+   "norm_fibre_length": 0.87,
+   "norm_fibre_length_source_default": 0.838,
+   "placeholder": false,
+   "L_opt_mm": 79.5,
+   "tendon_slack_mm": 125.8,
+   "Fmax_N_shepherd": 61.770821709816
+  },
+  "left_triceps_caput_longum": {
+   "group": "fore",
+   "bodies": [
+    "left_scapula",
+    "left_antebrachium"
+   ],
+   "points_mm": [
+    [
+     68.81332740758057,
+     -376.1838847025571,
+     347.14473521933246
+    ],
+    [
+     67.76471972839148,
+     -276.9976841645768,
+     182.97717502837324
+    ]
+   ],
+   "path_mm": [
+    [
+     68.81332740758057,
+     -376.1838847025571,
+     347.14473521933246
+    ],
+    [
+     67.76471972839148,
+     -276.9976841645768,
+     182.97717502837324
+    ]
+   ],
+   "length_mm": 191.8,
+   "attach_off_mm": [
+    6.7,
+    1.1
+   ],
+   "attach_off_source_mm": [
+    5.7,
+    1.0
+   ],
+   "norm_fibre_length": 0.704,
+   "norm_fibre_length_source_default": 0.814,
+   "placeholder": false,
+   "L_opt_mm": 81.3,
+   "tendon_slack_mm": 141.9,
+   "Fmax_N_shepherd": 549.249122471397
+  },
+  "left_triceps_caput_laterale": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "left_antebrachium"
+   ],
+   "points_mm": [
+    [
+     84.30393668944241,
+     -403.0718029604643,
+     298.2024822969708
+    ],
+    [
+     79.31183152986493,
+     -280.2388767921566,
+     168.86222536483982
+    ]
+   ],
+   "path_mm": [
+    [
+     84.30393668944241,
+     -403.0718029604643,
+     298.2024822969708
+    ],
+    [
+     79.31183152986493,
+     -280.2388767921566,
+     168.86222536483982
+    ]
+   ],
+   "length_mm": 178.4,
+   "attach_off_mm": [
+    3.9,
+    2.3
+   ],
+   "attach_off_source_mm": [
+    3.2,
+    1.9
+   ],
+   "norm_fibre_length": 0.871,
+   "norm_fibre_length_source_default": 0.986,
+   "placeholder": false,
+   "L_opt_mm": 72.5,
+   "tendon_slack_mm": 114.7,
+   "Fmax_N_shepherd": 249.151896181272
+  },
+  "left_triceps_caput_accessorium": {
+   "group": "fore",
+   "bodies": [
+    "left_antebrachium",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     61.299653716633564,
+     -273.2861690086268,
+     174.27736064788778
+    ],
+    [
+     69.9250876875054,
+     -388.293384094999,
+     328.7443210710246
+    ]
+   ],
+   "path_mm": [
+    [
+     61.299653716633564,
+     -273.2861690086268,
+     174.27736064788778
+    ],
+    [
+     69.9250876875054,
+     -388.293384094999,
+     328.7443210710246
+    ]
+   ],
+   "length_mm": 192.8,
+   "attach_off_mm": [
+    2.9,
+    7.5
+   ],
+   "attach_off_source_mm": [
+    2.4,
+    6.2
+   ],
+   "norm_fibre_length": 1.722,
+   "norm_fibre_length_source_default": 1.856,
+   "placeholder": false,
+   "L_opt_mm": 79.7,
+   "tendon_slack_mm": 52.9,
+   "Fmax_N_shepherd": 73.271235651697
+  },
+  "left_triceps_caput_medial": {
+   "group": "fore",
+   "bodies": [
+    "left_antebrachium",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     57.89073109404859,
+     -304.16730860073136,
+     194.93076604936692
+    ],
+    [
+     55.55220031413076,
+     -394.93148669522725,
+     279.42549435327584
+    ]
+   ],
+   "path_mm": [
+    [
+     57.89073109404859,
+     -304.16730860073136,
+     194.93076604936692
+    ],
+    [
+     55.55220031413076,
+     -394.93148669522725,
+     279.42549435327584
+    ]
+   ],
+   "length_mm": 124.0,
+   "attach_off_mm": [
+    14.0,
+    7.6
+   ],
+   "attach_off_source_mm": [
+    12.2,
+    6.3
+   ],
+   "norm_fibre_length": 0.503,
+   "norm_fibre_length_source_default": 0.503,
+   "placeholder": false,
+   "L_opt_mm": 84.9,
+   "tendon_slack_mm": 139.2,
+   "Fmax_N_shepherd": 105.460468434411
+  },
+  "left_anconeus": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "left_antebrachium",
+    "left_antebrachium"
+   ],
+   "points_mm": [
+    [
+     79.81528872085806,
+     -288.0887357406037,
+     162.94961440321546
+    ],
+    [
+     84.02388901979205,
+     -314.7009206447253,
+     185.79161574280462
+    ],
+    [
+     83.74281129559782,
+     -317.41250140281284,
+     187.72730214486808
+    ]
+   ],
+   "path_mm": [
+    [
+     79.81528872085806,
+     -288.0887357406037,
+     162.94961440321546
+    ],
+    [
+     84.02388901979205,
+     -314.7009206447253,
+     185.79161574280462
+    ],
+    [
+     83.74281129559782,
+     -317.41250140281284,
+     187.72730214486808
+    ]
+   ],
+   "length_mm": 38.7,
+   "attach_off_mm": [
+    11.2,
+    17.2
+   ],
+   "attach_off_source_mm": [
+    9.3,
+    15.5
+   ],
+   "norm_fibre_length": 1.592,
+   "norm_fibre_length_source_default": 0.974,
+   "placeholder": false,
+   "L_opt_mm": 8.7,
+   "tendon_slack_mm": 24.1,
+   "Fmax_N_shepherd": 57.183791762734
+  },
+  "left_pronator_teres": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "left_antebrachium",
+    "left_antebrachium"
+   ],
+   "points_mm": [
+    [
+     50.104423739071244,
+     -313.4074749799967,
+     169.50696790179543
+    ],
+    [
+     51.71325941355791,
+     -322.41557669179974,
+     161.12119300843116
+    ],
+    [
+     61.537193696104126,
+     -336.827293653773,
+     89.69880943016332
+    ]
+   ],
+   "path_mm": [
+    [
+     50.104423739071244,
+     -313.4074749799967,
+     169.50696790179543
+    ],
+    [
+     51.71325941355791,
+     -322.41557669179974,
+     161.12119300843116
+    ],
+    [
+     61.537193696104126,
+     -336.827293653773,
+     89.69880943016332
+    ]
+   ],
+   "length_mm": 85.9,
+   "attach_off_mm": [
+    1.0,
+    10.6
+   ],
+   "attach_off_source_mm": [
+    0.8,
+    8.8
+   ],
+   "norm_fibre_length": 0.576,
+   "norm_fibre_length_source_default": 0.576,
+   "placeholder": false,
+   "L_opt_mm": 12.6,
+   "tendon_slack_mm": 86.8,
+   "Fmax_N_shepherd": 67.881772977964
+  },
+  "left_supinator": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "left_antebrachium",
+    "left_antebrachium"
+   ],
+   "points_mm": [
+    [
+     89.45014266808808,
+     -315.5620575585139,
+     159.73670585372062
+    ],
+    [
+     89.93516089105924,
+     -318.81399026752615,
+     158.70519735485016
+    ],
+    [
+     73.25681514996329,
+     -331.19342277789485,
+     117.7946488878163
+    ]
+   ],
+   "path_mm": [
+    [
+     89.45014266808808,
+     -315.5620575585139,
+     159.73670585372062
+    ],
+    [
+     89.93516089105924,
+     -318.81399026752615,
+     158.70519735485016
+    ],
+    [
+     73.25681514996329,
+     -331.19342277789485,
+     117.7946488878163
+    ]
+   ],
+   "length_mm": 49.3,
+   "attach_off_mm": [
+    7.0,
+    1.2
+   ],
+   "attach_off_source_mm": [
+    5.7,
+    1.0
+   ],
+   "norm_fibre_length": 1.101,
+   "norm_fibre_length_source_default": 1.084,
+   "placeholder": false,
+   "L_opt_mm": 34.6,
+   "tendon_slack_mm": 14.0,
+   "Fmax_N_shepherd": 11.997707293655
+  },
+  "left_flexor_carpi_radialis": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "left_antebrachium",
+    "left_carpus"
+   ],
+   "points_mm": [
+    [
+     85.08307721776885,
+     -319.97787261253274,
+     202.57206013652
+    ],
+    [
+     66.26290158989237,
+     -343.65516297370607,
+     85.91174948096584
+    ],
+    [
+     57.32861089060044,
+     -347.24650524950937,
+     -52.27935912282947
+    ]
+   ],
+   "path_mm": [
+    [
+     85.08307721776885,
+     -319.97787261253274,
+     202.57206013652
+    ],
+    [
+     66.26290158989237,
+     -343.65516297370607,
+     85.91174948096584
+    ],
+    [
+     57.32861089060044,
+     -347.24650524950937,
+     -52.27935912282947
+    ]
+   ],
+   "length_mm": 259.0,
+   "attach_off_mm": [
+    2.5,
+    1.5
+   ],
+   "attach_off_source_mm": [
+    2.0,
+    1.3
+   ],
+   "norm_fibre_length": 1.019,
+   "norm_fibre_length_source_default": 0.943,
+   "placeholder": false,
+   "L_opt_mm": 81.4,
+   "tendon_slack_mm": 177.7,
+   "Fmax_N_shepherd": 57.46300949595
+  },
+  "left_flexor_carpi_ulnaris": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "left_antebrachium",
+    "left_carpus"
+   ],
+   "points_mm": [
+    [
+     89.42895294993808,
+     -307.12492371280666,
+     162.06197303978715
+    ],
+    [
+     83.6077055068941,
+     -309.8550639696495,
+     42.169388962057106
+    ],
+    [
+     86.86250355539096,
+     -333.76795692884605,
+     -56.213781285022485
+    ]
+   ],
+   "path_mm": [
+    [
+     89.42895294993808,
+     -307.12492371280666,
+     162.06197303978715
+    ],
+    [
+     83.6077055068941,
+     -309.8550639696495,
+     42.169388962057106
+    ],
+    [
+     86.86250355539096,
+     -333.76795692884605,
+     -56.213781285022485
+    ]
+   ],
+   "length_mm": 221.4,
+   "attach_off_mm": [
+    5.4,
+    0.8
+   ],
+   "attach_off_source_mm": [
+    4.5,
+    0.8
+   ],
+   "norm_fibre_length": 0.576,
+   "norm_fibre_length_source_default": 0.576,
+   "placeholder": false,
+   "L_opt_mm": 26.0,
+   "tendon_slack_mm": 248.6,
+   "Fmax_N_shepherd": 283.440636679128
+  },
+  "left_extensor_carpi_ulnaris": {
+   "group": "fore",
+   "bodies": [
+    "left_carpus",
+    "left_antebrachium",
+    "left_humerus"
+   ],
+   "points_mm": [
+    [
+     62.71144527090565,
+     -313.9826464464109,
+     -34.149113614366094
+    ],
+    [
+     64.08792369053262,
+     -287.12802381459556,
+     157.59349387581156
+    ],
+    [
+     59.68287211652399,
+     -282.5898947873998,
+     181.0637561402061
+    ]
+   ],
+   "path_mm": [
+    [
+     62.71144527090565,
+     -313.9826464464109,
+     -34.149113614366094
+    ],
+    [
+     64.08792369053262,
+     -287.12802381459556,
+     157.59349387581156
+    ],
+    [
+     59.68287211652399,
+     -282.5898947873998,
+     181.0637561402061
+    ]
+   ],
+   "length_mm": 217.9,
+   "attach_off_mm": [
+    13.6,
+    15.8
+   ],
+   "attach_off_source_mm": [
+    12.3,
+    13.2
+   ],
+   "norm_fibre_length": 0.576,
+   "norm_fibre_length_source_default": 0.576,
+   "placeholder": false,
+   "L_opt_mm": 19.9,
+   "tendon_slack_mm": 254.1,
+   "Fmax_N_shepherd": 135.35755884618
+  },
+  "left_extensor_carpi_radialis": {
+   "group": "fore",
+   "bodies": [
+    "left_humerus",
+    "left_antebrachium",
+    "left_carpus",
+    "left_carpus"
+   ],
+   "points_mm": [
+    [
+     50.34774822297182,
+     -307.4438424942487,
+     165.20081958047177
+    ],
+    [
+     48.481805687559046,
+     -322.94469594596575,
+     137.74835555722484
+    ],
+    [
+     47.04562890470883,
+     -327.45901563169855,
+     -51.92875231770334
+    ],
+    [
+     59.70452834492578,
+     -340.2357517152587,
+     -80.16755380373557
+    ]
+   ],
+   "path_mm": [
+    [
+     50.34774822297182,
+     -307.4438424942487,
+     165.20081958047177
+    ],
+    [
+     48.481805687559046,
+     -322.94469594596575,
+     137.74835555722484
+    ],
+    [
+     47.04562890470883,
+     -327.45901563169855,
+     -51.92875231770334
+    ],
+    [
+     59.70452834492578,
+     -340.2357517152587,
+     -80.16755380373557
+    ]
+   ],
+   "length_mm": 254.8,
+   "attach_off_mm": [
+    1.0,
+    9.6
+   ],
+   "attach_off_source_mm": [
+    0.8,
+    8.1
+   ],
+   "norm_fibre_length": 0.823,
+   "norm_fibre_length_source_default": 0.882,
+   "placeholder": false,
+   "L_opt_mm": 66.7,
+   "tendon_slack_mm": 210.1,
+   "Fmax_N_shepherd": 117.639048965585
+  },
+  "left_abductor_policis_longum": {
+   "group": "fore",
+   "bodies": [
+    "left_carpus",
+    "left_carpus",
+    "left_antebrachium"
+   ],
+   "points_mm": [
+    [
+     41.91012991344045,
+     -331.5232887642505,
+     -58.44475607479101
+    ],
+    [
+     42.02024721764208,
+     -334.89730203445407,
+     -48.06319132381864
+    ],
+    [
+     77.21445627232123,
+     -330.5071891442367,
+     49.77227299400651
+    ]
+   ],
+   "path_mm": [
+    [
+     41.91012991344045,
+     -331.5232887642505,
+     -58.44475607479101
+    ],
+    [
+     42.02024721764208,
+     -334.89730203445407,
+     -48.06319132381864
+    ],
+    [
+     77.21445627232123,
+     -330.5071891442367,
+     49.77227299400651
+    ]
+   ],
+   "length_mm": 115.0,
+   "attach_off_mm": [
+    5.2,
+    6.0
+   ],
+   "attach_off_source_mm": [
+    4.4,
+    5.0
+   ],
+   "norm_fibre_length": 0.503,
+   "norm_fibre_length_source_default": 0.503,
+   "placeholder": false,
+   "L_opt_mm": 7.9,
+   "tendon_slack_mm": 124.7,
+   "Fmax_N_shepherd": 77.797155628542
+  },
+  "right_trapezius_cervical": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "cervix"
+   ],
+   "points_mm": [
+    [
+     -87.66027219337366,
+     -374.84492667328465,
+     399.7509824059376
+    ],
+    [
+     0.0,
+     -368.02821913079185,
+     458.8417217809756
+    ]
+   ],
+   "path_mm": [
+    [
+     -87.66027219337366,
+     -374.84492667328465,
+     399.7509824059376
+    ],
+    [
+     0.0,
+     -368.02821913079185,
+     458.8417217809756
+    ]
+   ],
+   "length_mm": 105.9,
+   "attach_off_mm": [
+    2.7,
+    60.2
+   ],
+   "attach_off_source_mm": [
+    2.2,
+    37.6
+   ],
+   "norm_fibre_length": 0.754,
+   "norm_fibre_length_source_default": 0.948,
+   "placeholder": false,
+   "L_opt_mm": 81.4,
+   "tendon_slack_mm": 45.2,
+   "Fmax_N_shepherd": 44.339976350715
+  },
+  "right_trapezius_thoracic": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     -83.45049910745173,
+     -365.17231819211327,
+     414.86808705496463
+    ],
+    [
+     -6.030865881655104,
+     -272.9286741020922,
+     500.43790069627505
+    ]
+   ],
+   "path_mm": [
+    [
+     -83.45049910745173,
+     -365.17231819211327,
+     414.86808705496463
+    ],
+    [
+     -6.030865881655104,
+     -272.9286741020922,
+     500.43790069627505
+    ]
+   ],
+   "length_mm": 147.7,
+   "attach_off_mm": [
+    3.1,
+    15.8
+   ],
+   "attach_off_source_mm": [
+    2.6,
+    15.3
+   ],
+   "norm_fibre_length": 0.946,
+   "norm_fibre_length_source_default": 0.948,
+   "placeholder": false,
+   "L_opt_mm": 101.7,
+   "tendon_slack_mm": 52.8,
+   "Fmax_N_shepherd": 58.833382753066
+  },
+  "right_rhomboideus_thoracic": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     -63.40340161563936,
+     -305.6391278921792,
+     419.8136623049665
+    ],
+    [
+     -5.801845658301113,
+     -265.3531062193909,
+     494.3428346900194
+    ]
+   ],
+   "path_mm": [
+    [
+     -63.40340161563936,
+     -305.6391278921792,
+     419.8136623049665
+    ],
+    [
+     -5.801845658301113,
+     -265.3531062193909,
+     494.3428346900194
+    ]
+   ],
+   "length_mm": 102.4,
+   "attach_off_mm": [
+    2.8,
+    12.9
+   ],
+   "attach_off_source_mm": [
+    2.3,
+    13.3
+   ],
+   "norm_fibre_length": 0.968,
+   "norm_fibre_length_source_default": 0.872,
+   "placeholder": false,
+   "L_opt_mm": 61.5,
+   "tendon_slack_mm": 43.8,
+   "Fmax_N_shepherd": 58.909794380967
+  },
+  "right_rhomboideus_cervicis": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "cervix"
+   ],
+   "points_mm": [
+    [
+     -36.69834903002018,
+     -346.6429920865305,
+     445.94880479127113
+    ],
+    [
+     -4.391616002622875,
+     -509.11009181940136,
+     596.8881709238087
+    ]
+   ],
+   "path_mm": [
+    [
+     -36.69834903002018,
+     -346.6429920865305,
+     445.94880479127113
+    ],
+    [
+     -4.391616002622875,
+     -509.11009181940136,
+     596.8881709238087
+    ]
+   ],
+   "length_mm": 224.1,
+   "attach_off_mm": [
+    24.5,
+    19.6
+   ],
+   "attach_off_source_mm": [
+    20.4,
+    12.2
+   ],
+   "norm_fibre_length": 0.444,
+   "norm_fibre_length_source_default": 0.444,
+   "placeholder": false,
+   "L_opt_mm": 77.2,
+   "tendon_slack_mm": 278.3,
+   "Fmax_N_shepherd": 101.786628380852
+  },
+  "right_latissimus_dorsi": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -0.8015707817389695,
+     14.165105753255123,
+     548.5288358404938
+    ],
+    [
+     -59.4789256709005,
+     -390.07955313389283,
+     273.332480644159
+    ]
+   ],
+   "path_mm": [
+    [
+     -0.8015707817389695,
+     14.165105753255123,
+     548.5288358404938
+    ],
+    [
+     -59.4789256709005,
+     -390.07955313389283,
+     273.332480644159
+    ]
+   ],
+   "length_mm": 492.5,
+   "attach_off_mm": [
+    63.7,
+    58.1
+   ],
+   "attach_off_source_mm": [
+    42.1,
+    62.9
+   ],
+   "norm_fibre_length": 1.037,
+   "norm_fibre_length_source_default": 0.999,
+   "placeholder": false,
+   "L_opt_mm": 441.7,
+   "tendon_slack_mm": 34.3,
+   "Fmax_N_shepherd": 125.154500626919
+  },
+  "right_brachiocephalicus_1": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "right_humerus",
+    "cervix"
+   ],
+   "points_mm": [
+    [
+     -65.06945651182345,
+     -366.12573916729025,
+     229.35850951659015
+    ],
+    [
+     -54.50314043483476,
+     -412.72383261341736,
+     268.42450269213026
+    ],
+    [
+     -0.09616677378006297,
+     -478.3168881568981,
+     564.3225810820477
+    ]
+   ],
+   "path_mm": [
+    [
+     -65.06945651182345,
+     -366.12573916729025,
+     229.35850951659015
+    ],
+    [
+     -54.50314043483476,
+     -412.72383261341736,
+     268.42450269213026
+    ],
+    [
+     -50.86064288418186,
+     -430.71241199033017,
+     284.2373512370779
+    ],
+    [
+     -46.33060895613335,
+     -442.85281339769256,
+     306.9109496165737
+    ],
+    [
+     -0.09616677378006297,
+     -478.3168881568981,
+     564.3225810820477
+    ]
+   ],
+   "length_mm": 376.5,
+   "attach_off_mm": [
+    3.4,
+    22.4
+   ],
+   "attach_off_source_mm": [
+    2.9,
+    14.1
+   ],
+   "norm_fibre_length": 1.013,
+   "norm_fibre_length_source_default": 1.019,
+   "placeholder": false,
+   "L_opt_mm": 350.7,
+   "tendon_slack_mm": 21.2,
+   "Fmax_N_shepherd": 18.466305777948
+  },
+  "right_brachiocephalicus_2": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "right_humerus",
+    "cervix"
+   ],
+   "points_mm": [
+    [
+     -65.06945651182345,
+     -366.12573916729025,
+     229.35850951659015
+    ],
+    [
+     -54.50314043483476,
+     -412.72383261341736,
+     268.42450269213026
+    ],
+    [
+     -38.06601462127493,
+     -615.4552152272342,
+     608.1332220126947
+    ]
+   ],
+   "path_mm": [
+    [
+     -65.06945651182345,
+     -366.12573916729025,
+     229.35850951659015
+    ],
+    [
+     -54.50314043483476,
+     -412.72383261341736,
+     268.42450269213026
+    ],
+    [
+     -53.29084926552892,
+     -430.79190230069725,
+     284.08838091676927
+    ],
+    [
+     -52.710149704256885,
+     -438.7139598725539,
+     293.7997865941426
+    ],
+    [
+     -38.06601462127493,
+     -615.4552152272342,
+     608.1332220126947
+    ]
+   ],
+   "length_mm": 459.2,
+   "attach_off_mm": [
+    3.4,
+    56.1
+   ],
+   "attach_off_source_mm": [
+    2.9,
+    38.4
+   ],
+   "norm_fibre_length": 1.565,
+   "norm_fibre_length_source_default": 1.555,
+   "placeholder": false,
+   "L_opt_mm": 282.1,
+   "tendon_slack_mm": 17.0,
+   "Fmax_N_shepherd": 18.466305777948
+  },
+  "right_serratus_1": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -42.05693573314754,
+     -466.2966850951872,
+     346.0265781152874
+    ],
+    [
+     -53.9514525621962,
+     -358.8371024842647,
+     427.5489304287006
+    ]
+   ],
+   "path_mm": [
+    [
+     -42.05693573314754,
+     -466.2966850951872,
+     346.0265781152874
+    ],
+    [
+     -53.9514525621962,
+     -358.8371024842647,
+     427.5489304287006
+    ]
+   ],
+   "length_mm": 135.4,
+   "attach_off_mm": [
+    30.1,
+    5.8
+   ],
+   "attach_off_source_mm": [
+    19.1,
+    4.8
+   ],
+   "norm_fibre_length": 0.673,
+   "norm_fibre_length_source_default": 0.694,
+   "placeholder": false,
+   "L_opt_mm": 115.4,
+   "tendon_slack_mm": 64.5,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "right_serratus_2": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -30.67720083584009,
+     -504.74757124112233,
+     370.2177319996163
+    ],
+    [
+     -52.48684806580374,
+     -368.7924768833754,
+     431.98015913639443
+    ]
+   ],
+   "path_mm": [
+    [
+     -30.67720083584009,
+     -504.74757124112233,
+     370.2177319996163
+    ],
+    [
+     -52.48684806580374,
+     -368.7924768833754,
+     431.98015913639443
+    ]
+   ],
+   "length_mm": 150.9,
+   "attach_off_mm": [
+    33.1,
+    4.4
+   ],
+   "attach_off_source_mm": [
+    21.6,
+    3.7
+   ],
+   "norm_fibre_length": 0.852,
+   "norm_fibre_length_source_default": 0.957,
+   "placeholder": false,
+   "L_opt_mm": 110.4,
+   "tendon_slack_mm": 61.7,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "right_serratus_3": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -32.472313946401265,
+     -508.43503979361304,
+     426.69666965630097
+    ],
+    [
+     -52.348386228216235,
+     -375.0218679787594,
+     437.36758013336157
+    ]
+   ],
+   "path_mm": [
+    [
+     -32.472313946401265,
+     -508.43503979361304,
+     426.69666965630097
+    ],
+    [
+     -52.348386228216235,
+     -375.0218679787594,
+     437.36758013336157
+    ]
+   ],
+   "length_mm": 135.3,
+   "attach_off_mm": [
+    29.9,
+    3.0
+   ],
+   "attach_off_source_mm": [
+    19.3,
+    2.5
+   ],
+   "norm_fibre_length": 0.742,
+   "norm_fibre_length_source_default": 0.952,
+   "placeholder": false,
+   "L_opt_mm": 108.4,
+   "tendon_slack_mm": 60.6,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "right_serratus_4": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -36.190762532563696,
+     -511.3979243846096,
+     467.1415241868405
+    ],
+    [
+     -50.93497793960836,
+     -388.67164860587263,
+     441.06318589668194
+    ]
+   ],
+   "path_mm": [
+    [
+     -36.190762532563696,
+     -511.3979243846096,
+     467.1415241868405
+    ],
+    [
+     -50.93497793960836,
+     -388.67164860587263,
+     441.06318589668194
+    ]
+   ],
+   "length_mm": 126.3,
+   "attach_off_mm": [
+    21.7,
+    4.0
+   ],
+   "attach_off_source_mm": [
+    13.6,
+    3.4
+   ],
+   "norm_fibre_length": 0.458,
+   "norm_fibre_length_source_default": 0.648,
+   "placeholder": false,
+   "L_opt_mm": 137.1,
+   "tendon_slack_mm": 76.6,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "right_serratus_5": {
+   "group": "fore",
+   "bodies": [
+    "cervix",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -40.21373923569634,
+     -513.7519096884887,
+     502.14384485572674
+    ],
+    [
+     -50.19691057049655,
+     -366.2963931421517,
+     447.49464704121584
+    ]
+   ],
+   "path_mm": [
+    [
+     -40.21373923569634,
+     -513.7519096884887,
+     502.14384485572674
+    ],
+    [
+     -50.19691057049655,
+     -366.2963931421517,
+     447.49464704121584
+    ]
+   ],
+   "length_mm": 157.6,
+   "attach_off_mm": [
+    21.5,
+    6.2
+   ],
+   "attach_off_source_mm": [
+    14.0,
+    5.1
+   ],
+   "norm_fibre_length": 0.673,
+   "norm_fibre_length_source_default": 0.924,
+   "placeholder": false,
+   "L_opt_mm": 134.3,
+   "tendon_slack_mm": 75.1,
+   "Fmax_N_shepherd": 22.755946286965
+  },
+  "right_serratus_6": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -70.74816399777046,
+     -127.5546591658378,
+     252.271768564596
+    ],
+    [
+     -66.05102827572837,
+     -298.521016966142,
+     403.8114677114049
+    ]
+   ],
+   "path_mm": [
+    [
+     -70.74816399777046,
+     -127.5546591658378,
+     252.271768564596
+    ],
+    [
+     -66.05102827572837,
+     -298.521016966142,
+     403.8114677114049
+    ]
+   ],
+   "length_mm": 228.5,
+   "attach_off_mm": [
+    15.8,
+    5.0
+   ],
+   "attach_off_source_mm": [
+    14.4,
+    4.3
+   ],
+   "norm_fibre_length": 0.997,
+   "norm_fibre_length_source_default": 1.068,
+   "placeholder": false,
+   "L_opt_mm": 106.7,
+   "tendon_slack_mm": 125.1,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "right_serratus_7": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -68.75377955272947,
+     -172.8443244208872,
+     241.0598822936511
+    ],
+    [
+     -60.79814021085669,
+     -304.6676489743205,
+     409.77679148969145
+    ]
+   ],
+   "path_mm": [
+    [
+     -68.75377955272947,
+     -172.8443244208872,
+     241.0598822936511
+    ],
+    [
+     -60.79814021085669,
+     -304.6676489743205,
+     409.77679148969145
+    ]
+   ],
+   "length_mm": 214.3,
+   "attach_off_mm": [
+    15.8,
+    7.6
+   ],
+   "attach_off_source_mm": [
+    14.7,
+    6.3
+   ],
+   "norm_fibre_length": 0.849,
+   "norm_fibre_length_source_default": 0.928,
+   "placeholder": false,
+   "L_opt_mm": 107.8,
+   "tendon_slack_mm": 126.4,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "right_serratus_8": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -54.71674836299108,
+     -224.41147624018905,
+     221.55382868580165
+    ],
+    [
+     -57.86360347331918,
+     -309.501072218727,
+     417.3316273749454
+    ]
+   ],
+   "path_mm": [
+    [
+     -54.71674836299108,
+     -224.41147624018905,
+     221.55382868580165
+    ],
+    [
+     -57.86360347331918,
+     -309.501072218727,
+     417.3316273749454
+    ]
+   ],
+   "length_mm": 213.5,
+   "attach_off_mm": [
+    13.2,
+    8.4
+   ],
+   "attach_off_source_mm": [
+    10.4,
+    7.1
+   ],
+   "norm_fibre_length": 0.998,
+   "norm_fibre_length_source_default": 1.091,
+   "placeholder": false,
+   "L_opt_mm": 99.6,
+   "tendon_slack_mm": 116.8,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "right_serratus_9": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -53.65752982997888,
+     -273.94847540721145,
+     232.51556173623644
+    ],
+    [
+     -55.76847791257431,
+     -316.11118315955395,
+     424.2962941648202
+    ]
+   ],
+   "path_mm": [
+    [
+     -53.65752982997888,
+     -273.94847540721145,
+     232.51556173623644
+    ],
+    [
+     -55.76847791257431,
+     -316.11118315955395,
+     424.2962941648202
+    ]
+   ],
+   "length_mm": 196.4,
+   "attach_off_mm": [
+    17.2,
+    8.4
+   ],
+   "attach_off_source_mm": [
+    12.1,
+    7.1
+   ],
+   "norm_fibre_length": 0.827,
+   "norm_fibre_length_source_default": 0.912,
+   "placeholder": false,
+   "L_opt_mm": 99.9,
+   "tendon_slack_mm": 117.2,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "right_serratus_10": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -49.363400642091534,
+     -322.99148322723846,
+     233.93590975000254
+    ],
+    [
+     -53.45373632861665,
+     -324.7212182238419,
+     433.1027560351944
+    ]
+   ],
+   "path_mm": [
+    [
+     -49.363400642091534,
+     -322.99148322723846,
+     233.93590975000254
+    ],
+    [
+     -53.45373632861665,
+     -324.7212182238419,
+     433.1027560351944
+    ]
+   ],
+   "length_mm": 199.2,
+   "attach_off_mm": [
+    23.6,
+    8.3
+   ],
+   "attach_off_source_mm": [
+    17.0,
+    7.1
+   ],
+   "norm_fibre_length": 0.927,
+   "norm_fibre_length_source_default": 0.998,
+   "placeholder": false,
+   "L_opt_mm": 96.2,
+   "tendon_slack_mm": 112.9,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "right_serratus_11": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -35.13551926622483,
+     -369.71115784639807,
+     240.62467766068585
+    ],
+    [
+     -52.49135956843268,
+     -335.79534747350095,
+     435.2351736175508
+    ]
+   ],
+   "path_mm": [
+    [
+     -35.13551926622483,
+     -369.71115784639807,
+     240.62467766068585
+    ],
+    [
+     -52.49135956843268,
+     -335.79534747350095,
+     435.2351736175508
+    ]
+   ],
+   "length_mm": 198.3,
+   "attach_off_mm": [
+    17.1,
+    8.7
+   ],
+   "attach_off_source_mm": [
+    11.5,
+    7.3
+   ],
+   "norm_fibre_length": 1.012,
+   "norm_fibre_length_source_default": 1.057,
+   "placeholder": false,
+   "L_opt_mm": 91.9,
+   "tendon_slack_mm": 107.8,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "right_serratus_12": {
+   "group": "fore",
+   "bodies": [
+    "thorax",
+    "right_scapula"
+   ],
+   "points_mm": [
+    [
+     -31.786098499672704,
+     -397.52561768231254,
+     242.35032013614924
+    ],
+    [
+     -54.042052747197594,
+     -345.9688303837599,
+     430.91262264135435
+    ]
+   ],
+   "path_mm": [
+    [
+     -31.786098499672704,
+     -397.52561768231254,
+     242.35032013614924
+    ],
+    [
+     -54.042052747197594,
+     -345.9688303837599,
+     430.91262264135435
+    ]
+   ],
+   "length_mm": 196.7,
+   "attach_off_mm": [
+    13.0,
+    6.9
+   ],
+   "attach_off_source_mm": [
+    8.4,
+    5.7
+   ],
+   "norm_fibre_length": 1.658,
+   "norm_fibre_length_source_default": 1.69,
+   "placeholder": false,
+   "L_opt_mm": 68.7,
+   "tendon_slack_mm": 80.6,
+   "Fmax_N_shepherd": 34.799294240981
+  },
+  "right_pectoralis_profundus": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     -49.721920238219525,
+     -427.78971874164154,
+     317.0107272530752
+    ],
+    [
+     0.0,
+     -254.69277801722663,
+     134.5361874106159
+    ]
+   ],
+   "path_mm": [
+    [
+     -49.721920238219525,
+     -427.78971874164154,
+     317.0107272530752
+    ],
+    [
+     0.0,
+     -254.69277801722663,
+     134.5361874106159
+    ]
+   ],
+   "length_mm": 256.4,
+   "attach_off_mm": [
+    0.5,
+    54.5
+   ],
+   "attach_off_source_mm": [
+    0.5,
+    35.7
+   ],
+   "norm_fibre_length": 1.078,
+   "norm_fibre_length_source_default": 0.992,
+   "placeholder": false,
+   "L_opt_mm": 192.6,
+   "tendon_slack_mm": 48.5,
+   "Fmax_N_shepherd": 249.151896181272
+  },
+  "right_pectoralis_superficialis": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     -55.49678974479673,
+     -404.71799225473785,
+     275.304525485577
+    ],
+    [
+     0.0,
+     -395.0524614138917,
+     148.85008913456718
+    ]
+   ],
+   "path_mm": [
+    [
+     -55.49678974479673,
+     -404.71799225473785,
+     275.304525485577
+    ],
+    [
+     0.0,
+     -395.0524614138917,
+     148.85008913456718
+    ]
+   ],
+   "length_mm": 138.4,
+   "attach_off_mm": [
+    8.4,
+    49.2
+   ],
+   "attach_off_source_mm": [
+    7.0,
+    31.5
+   ],
+   "norm_fibre_length": 0.848,
+   "norm_fibre_length_source_default": 0.825,
+   "placeholder": false,
+   "L_opt_mm": 116.7,
+   "tendon_slack_mm": 39.3,
+   "Fmax_N_shepherd": 249.151896181272
+  },
+  "right_supraspinatus": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -68.92610837283559,
+     -385.47502418008975,
+     408.8158046816493
+    ],
+    [
+     -60.089436423761285,
+     -429.02894658942694,
+     336.29939068539903
+    ]
+   ],
+   "path_mm": [
+    [
+     -68.92610837283559,
+     -385.47502418008975,
+     408.8158046816493
+    ],
+    [
+     -60.089436423761285,
+     -429.02894658942694,
+     336.29939068539903
+    ]
+   ],
+   "length_mm": 85.1,
+   "attach_off_mm": [
+    4.1,
+    3.0
+   ],
+   "attach_off_source_mm": [
+    3.4,
+    2.5
+   ],
+   "norm_fibre_length": 0.682,
+   "norm_fibre_length_source_default": 0.712,
+   "placeholder": false,
+   "L_opt_mm": 38.4,
+   "tendon_slack_mm": 64.2,
+   "Fmax_N_shepherd": 280.25079319635
+  },
+  "right_infraspinatus": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -77.36501092183758,
+     -351.1281651907216,
+     394.3886584555681
+    ],
+    [
+     -72.05242802395271,
+     -420.12156327194236,
+     328.79428779215726
+    ]
+   ],
+   "path_mm": [
+    [
+     -77.36501092183758,
+     -351.1281651907216,
+     394.3886584555681
+    ],
+    [
+     -72.05242802395271,
+     -420.12156327194236,
+     328.79428779215726
+    ]
+   ],
+   "length_mm": 95.3,
+   "attach_off_mm": [
+    7.5,
+    4.5
+   ],
+   "attach_off_source_mm": [
+    6.4,
+    3.7
+   ],
+   "norm_fibre_length": 0.516,
+   "norm_fibre_length_source_default": 0.538,
+   "placeholder": false,
+   "L_opt_mm": 27.1,
+   "tendon_slack_mm": 87.2,
+   "Fmax_N_shepherd": 362.58599099807
+  },
+  "right_subscapularis": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -61.24192445879247,
+     -361.72330987548327,
+     395.06771699075836
+    ],
+    [
+     -35.07575379779257,
+     -403.21421272258624,
+     339.1681958653332
+    ]
+   ],
+   "path_mm": [
+    [
+     -61.24192445879247,
+     -361.72330987548327,
+     395.06771699075836
+    ],
+    [
+     -35.07575379779257,
+     -403.21421272258624,
+     339.1681958653332
+    ]
+   ],
+   "length_mm": 74.4,
+   "attach_off_mm": [
+    0.8,
+    6.2
+   ],
+   "attach_off_source_mm": [
+    0.7,
+    5.1
+   ],
+   "norm_fibre_length": 0.444,
+   "norm_fibre_length_source_default": 0.444,
+   "placeholder": false,
+   "L_opt_mm": 17.5,
+   "tendon_slack_mm": 72.9,
+   "Fmax_N_shepherd": 481.319576552922
+  },
+  "right_deltoideus_sca": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -83.52761841559882,
+     -364.69562651584624,
+     411.40905231737486
+    ],
+    [
+     -74.60467610902583,
+     -403.7779639547195,
+     282.2848540508665
+    ]
+   ],
+   "path_mm": [
+    [
+     -83.52761841559882,
+     -364.69562651584624,
+     411.40905231737486
+    ],
+    [
+     -74.60467610902583,
+     -403.7779639547195,
+     282.2848540508665
+    ]
+   ],
+   "length_mm": 135.2,
+   "attach_off_mm": [
+    5.4,
+    2.4
+   ],
+   "attach_off_source_mm": [
+    4.6,
+    2.0
+   ],
+   "norm_fibre_length": 0.839,
+   "norm_fibre_length_source_default": 0.832,
+   "placeholder": false,
+   "L_opt_mm": 69.2,
+   "tendon_slack_mm": 77.9,
+   "Fmax_N_shepherd": 91.326159982551
+  },
+  "right_deltoideus_acr": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -100.30537026769623,
+     -406.3360044085883,
+     339.86672988457923
+    ],
+    [
+     -71.54752617949426,
+     -401.6195462219956,
+     270.72143550291054
+    ]
+   ],
+   "path_mm": [
+    [
+     -100.30537026769623,
+     -406.3360044085883,
+     339.86672988457923
+    ],
+    [
+     -71.54752617949426,
+     -401.6195462219956,
+     270.72143550291054
+    ]
+   ],
+   "length_mm": 75.0,
+   "attach_off_mm": [
+    8.7,
+    2.0
+   ],
+   "attach_off_source_mm": [
+    8.4,
+    1.7
+   ],
+   "norm_fibre_length": 0.579,
+   "norm_fibre_length_source_default": 0.575,
+   "placeholder": false,
+   "L_opt_mm": 25.9,
+   "tendon_slack_mm": 62.7,
+   "Fmax_N_shepherd": 135.512273163552
+  },
+  "right_teres_major": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -73.64159934715951,
+     -307.2821296026612,
+     395.99724777897114
+    ],
+    [
+     -46.82215094277861,
+     -395.0942415169512,
+     276.65989862118045
+    ]
+   ],
+   "path_mm": [
+    [
+     -73.64159934715951,
+     -307.2821296026612,
+     395.99724777897114
+    ],
+    [
+     -50.713652370048706,
+     -376.49474306812687,
+     291.8138972717284
+    ],
+    [
+     -48.00777121105687,
+     -388.11345114826264,
+     280.7918934549547
+    ],
+    [
+     -46.82215094277861,
+     -395.0942415169512,
+     276.65989862118045
+    ]
+   ],
+   "length_mm": 151.7,
+   "attach_off_mm": [
+    5.5,
+    2.6
+   ],
+   "attach_off_source_mm": [
+    6.0,
+    2.2
+   ],
+   "norm_fibre_length": 0.941,
+   "norm_fibre_length_source_default": 0.928,
+   "placeholder": false,
+   "L_opt_mm": 126.5,
+   "tendon_slack_mm": 32.5,
+   "Fmax_N_shepherd": 61.857547551599
+  },
+  "right_teres_minor": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -76.05483158953132,
+     -366.9388815137375,
+     354.57985203212274
+    ],
+    [
+     -73.81282053544687,
+     -407.79430527549965,
+     322.1765566024566
+    ]
+   ],
+   "path_mm": [
+    [
+     -76.05483158953132,
+     -366.9388815137375,
+     354.57985203212274
+    ],
+    [
+     -73.81282053544687,
+     -407.79430527549965,
+     322.1765566024566
+    ]
+   ],
+   "length_mm": 52.2,
+   "attach_off_mm": [
+    15.2,
+    3.5
+   ],
+   "attach_off_source_mm": [
+    13.0,
+    2.9
+   ],
+   "norm_fibre_length": 0.592,
+   "norm_fibre_length_source_default": 0.605,
+   "placeholder": false,
+   "L_opt_mm": 25.0,
+   "tendon_slack_mm": 40.0,
+   "Fmax_N_shepherd": 43.570184533173
+  },
+  "right_coracobrachialis": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -59.59223101380525,
+     -417.6645267649517,
+     339.7155330361653
+    ],
+    [
+     -47.49809836876169,
+     -387.68105608420075,
+     277.34986723718606
+    ]
+   ],
+   "path_mm": [
+    [
+     -59.59223101380525,
+     -417.6645267649517,
+     339.7155330361653
+    ],
+    [
+     -47.49809836876169,
+     -387.68105608420075,
+     277.34986723718606
+    ]
+   ],
+   "length_mm": 70.2,
+   "attach_off_mm": [
+    2.8,
+    6.4
+   ],
+   "attach_off_source_mm": [
+    2.5,
+    5.3
+   ],
+   "norm_fibre_length": 0.54,
+   "norm_fibre_length_source_default": 0.538,
+   "placeholder": false,
+   "L_opt_mm": 25.6,
+   "tendon_slack_mm": 64.9,
+   "Fmax_N_shepherd": 39.750153004772
+  },
+  "right_biceps_brachii": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_antebrachium"
+   ],
+   "points_mm": [
+    [
+     -70.9606353821805,
+     -416.6681347941443,
+     335.1890224320426
+    ],
+    [
+     -36.88398552926951,
+     -325.5658032281955,
+     141.82752777640866
+    ]
+   ],
+   "path_mm": [
+    [
+     -70.9606353821805,
+     -416.6681347941443,
+     335.1890224320426
+    ],
+    [
+     -38.40537540877195,
+     -331.39853357946475,
+     149.2562960087778
+    ],
+    [
+     -37.66239842861789,
+     -328.84348265617746,
+     145.40547015850817
+    ],
+    [
+     -36.88398552926951,
+     -325.5658032281955,
+     141.82752777640866
+    ]
+   ],
+   "length_mm": 216.7,
+   "attach_off_mm": [
+    4.8,
+    9.6
+   ],
+   "attach_off_source_mm": [
+    4.1,
+    8.2
+   ],
+   "norm_fibre_length": 0.637,
+   "norm_fibre_length_source_default": 0.612,
+   "placeholder": false,
+   "L_opt_mm": 59.6,
+   "tendon_slack_mm": 199.7,
+   "Fmax_N_shepherd": 195.591213439937
+  },
+  "right_brachialis": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_antebrachium",
+    "right_antebrachium"
+   ],
+   "points_mm": [
+    [
+     -79.55124490836893,
+     -395.8115350805616,
+     297.7319133096932
+    ],
+    [
+     -36.78592496596826,
+     -326.67807413513736,
+     148.65102824738787
+    ],
+    [
+     -40.35510867555707,
+     -305.85633188382565,
+     135.98684679656907
+    ]
+   ],
+   "path_mm": [
+    [
+     -79.55124490836893,
+     -395.8115350805616,
+     297.7319133096932
+    ],
+    [
+     -36.78592496596826,
+     -326.67807413513736,
+     148.65102824738787
+    ],
+    [
+     -40.35510867555707,
+     -305.85633188382565,
+     135.98684679656907
+    ]
+   ],
+   "length_mm": 194.4,
+   "attach_off_mm": [
+    35.1,
+    0.8
+   ],
+   "attach_off_source_mm": [
+    38.8,
+    0.7
+   ],
+   "norm_fibre_length": 0.925,
+   "norm_fibre_length_source_default": 0.889,
+   "placeholder": false,
+   "L_opt_mm": 79.3,
+   "tendon_slack_mm": 125.6,
+   "Fmax_N_shepherd": 61.770821709816
+  },
+  "right_triceps_caput_longum": {
+   "group": "fore",
+   "bodies": [
+    "right_scapula",
+    "right_antebrachium"
+   ],
+   "points_mm": [
+    [
+     -70.91522459954903,
+     -376.2347310978527,
+     346.9629824252167
+    ],
+    [
+     -45.91366654133304,
+     -276.89658212518475,
+     183.09753522110438
+    ]
+   ],
+   "path_mm": [
+    [
+     -70.91522459954903,
+     -376.2347310978527,
+     346.9629824252167
+    ],
+    [
+     -45.91366654133304,
+     -276.89658212518475,
+     183.09753522110438
+    ]
+   ],
+   "length_mm": 193.2,
+   "attach_off_mm": [
+    9.4,
+    1.3
+   ],
+   "attach_off_source_mm": [
+    8.0,
+    1.1
+   ],
+   "norm_fibre_length": 0.721,
+   "norm_fibre_length_source_default": 0.829,
+   "placeholder": false,
+   "L_opt_mm": 81.2,
+   "tendon_slack_mm": 141.8,
+   "Fmax_N_shepherd": 549.249122471397
+  },
+  "right_triceps_caput_laterale": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "right_antebrachium"
+   ],
+   "points_mm": [
+    [
+     -74.18388923144586,
+     -404.44185988652646,
+     297.98088574747237
+    ],
+    [
+     -56.96262890212045,
+     -280.335766246561,
+     168.7468801802236
+    ]
+   ],
+   "path_mm": [
+    [
+     -74.18388923144586,
+     -404.44185988652646,
+     297.98088574747237
+    ],
+    [
+     -56.96262890212045,
+     -280.335766246561,
+     168.7468801802236
+    ]
+   ],
+   "length_mm": 180.0,
+   "attach_off_mm": [
+    5.0,
+    3.0
+   ],
+   "attach_off_source_mm": [
+    4.1,
+    2.5
+   ],
+   "norm_fibre_length": 0.892,
+   "norm_fibre_length_source_default": 1.01,
+   "placeholder": false,
+   "L_opt_mm": 72.5,
+   "tendon_slack_mm": 114.7,
+   "Fmax_N_shepherd": 249.151896181272
+  },
+  "right_triceps_caput_accessorium": {
+   "group": "fore",
+   "bodies": [
+    "right_antebrachium",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -39.25377883957629,
+     -273.07006340011066,
+     174.53463056045598
+    ],
+    [
+     -61.5615648516515,
+     -388.55156810735974,
+     328.7025617220298
+    ]
+   ],
+   "path_mm": [
+    [
+     -39.25377883957629,
+     -273.07006340011066,
+     174.53463056045598
+    ],
+    [
+     -61.5615648516515,
+     -388.55156810735974,
+     328.7025617220298
+    ]
+   ],
+   "length_mm": 193.9,
+   "attach_off_mm": [
+    3.4,
+    7.5
+   ],
+   "attach_off_source_mm": [
+    2.9,
+    6.2
+   ],
+   "norm_fibre_length": 1.735,
+   "norm_fibre_length_source_default": 1.866,
+   "placeholder": false,
+   "L_opt_mm": 79.7,
+   "tendon_slack_mm": 52.9,
+   "Fmax_N_shepherd": 73.271235651697
+  },
+  "right_triceps_caput_medial": {
+   "group": "fore",
+   "bodies": [
+    "right_antebrachium",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -35.9079175885394,
+     -303.89201617284425,
+     195.25849682456055
+    ],
+    [
+     -45.858412123408655,
+     -393.95117881535316,
+     279.5840518838894
+    ]
+   ],
+   "path_mm": [
+    [
+     -35.9079175885394,
+     -303.89201617284425,
+     195.25849682456055
+    ],
+    [
+     -45.858412123408655,
+     -393.95117881535316,
+     279.5840518838894
+    ]
+   ],
+   "length_mm": 123.8,
+   "attach_off_mm": [
+    14.2,
+    4.4
+   ],
+   "attach_off_source_mm": [
+    12.5,
+    3.7
+   ],
+   "norm_fibre_length": 0.503,
+   "norm_fibre_length_source_default": 0.503,
+   "placeholder": false,
+   "L_opt_mm": 84.9,
+   "tendon_slack_mm": 139.3,
+   "Fmax_N_shepherd": 105.460468434411
+  },
+  "right_anconeus": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "right_antebrachium",
+    "right_antebrachium"
+   ],
+   "points_mm": [
+    [
+     -76.58258872584717,
+     -289.3727313281428,
+     162.74193763735713
+    ],
+    [
+     -61.55342322200896,
+     -314.87932361809953,
+     185.57923015330064
+    ],
+    [
+     -61.281618279532,
+     -317.58605990330636,
+     187.5206838137018
+    ]
+   ],
+   "path_mm": [
+    [
+     -76.58258872584717,
+     -289.3727313281428,
+     162.74193763735713
+    ],
+    [
+     -61.55342322200896,
+     -314.87932361809953,
+     185.57923015330064
+    ],
+    [
+     -61.281618279532,
+     -317.58605990330636,
+     187.5206838137018
+    ]
+   ],
+   "length_mm": 40.7,
+   "attach_off_mm": [
+    14.2,
+    17.2
+   ],
+   "attach_off_source_mm": [
+    11.8,
+    15.6
+   ],
+   "norm_fibre_length": 1.758,
+   "norm_fibre_length_source_default": 1.217,
+   "placeholder": false,
+   "L_opt_mm": 8.7,
+   "tendon_slack_mm": 24.2,
+   "Fmax_N_shepherd": 57.183791762734
+  },
+  "right_pronator_teres": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "right_antebrachium",
+    "right_antebrachium"
+   ],
+   "points_mm": [
+    [
+     -45.06036567464523,
+     -312.1699722976814,
+     169.70712478557908
+    ],
+    [
+     -28.359476136592953,
+     -322.0200149625279,
+     161.59210226188367
+    ],
+    [
+     -35.72298124217476,
+     -336.5823318372762,
+     89.99043214706954
+    ]
+   ],
+   "path_mm": [
+    [
+     -45.06036567464523,
+     -312.1699722976814,
+     169.70712478557908
+    ],
+    [
+     -28.359476136592953,
+     -322.0200149625279,
+     161.59210226188367
+    ],
+    [
+     -35.72298124217476,
+     -336.5823318372762,
+     89.99043214706954
+    ]
+   ],
+   "length_mm": 94.5,
+   "attach_off_mm": [
+    6.9,
+    14.0
+   ],
+   "attach_off_source_mm": [
+    5.7,
+    11.6
+   ],
+   "norm_fibre_length": 0.787,
+   "norm_fibre_length_source_default": 0.735,
+   "placeholder": false,
+   "L_opt_mm": 12.7,
+   "tendon_slack_mm": 87.3,
+   "Fmax_N_shepherd": 67.881772977964
+  },
+  "right_supinator": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "right_antebrachium",
+    "right_antebrachium"
+   ],
+   "points_mm": [
+    [
+     -83.93156892460028,
+     -317.54542516533377,
+     159.41591084977523
+    ],
+    [
+     -66.55557440233932,
+     -319.0880189194102,
+     158.378971082249
+    ],
+    [
+     -48.40231220741545,
+     -331.16224964882264,
+     117.83175994745395
+    ]
+   ],
+   "path_mm": [
+    [
+     -83.93156892460028,
+     -317.54542516533377,
+     159.41591084977523
+    ],
+    [
+     -66.55557440233932,
+     -319.0880189194102,
+     158.378971082249
+    ],
+    [
+     -48.40231220741545,
+     -331.16224964882264,
+     117.83175994745395
+    ]
+   ],
+   "length_mm": 63.5,
+   "attach_off_mm": [
+    2.2,
+    3.1
+   ],
+   "attach_off_source_mm": [
+    1.8,
+    2.5
+   ],
+   "norm_fibre_length": 1.448,
+   "norm_fibre_length_source_default": 1.445,
+   "placeholder": false,
+   "L_opt_mm": 35.3,
+   "tendon_slack_mm": 14.3,
+   "Fmax_N_shepherd": 11.997707293655
+  },
+  "right_flexor_carpi_radialis": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "right_antebrachium",
+    "right_carpus"
+   ],
+   "points_mm": [
+    [
+     -79.96286287672714,
+     -321.61798407986583,
+     202.30678426713254
+    ],
+    [
+     -40.20397165006231,
+     -343.4908721596739,
+     86.10733479443127
+    ],
+    [
+     -37.364560735390015,
+     -346.81442952322175,
+     -52.07919718068614
+    ]
+   ],
+   "path_mm": [
+    [
+     -79.96286287672714,
+     -321.61798407986583,
+     202.30678426713254
+    ],
+    [
+     -40.20397165006231,
+     -343.4908721596739,
+     86.10733479443127
+    ],
+    [
+     -37.364560735390015,
+     -346.81442952322175,
+     -52.07919718068614
+    ]
+   ],
+   "length_mm": 263.0,
+   "attach_off_mm": [
+    9.8,
+    1.0
+   ],
+   "attach_off_source_mm": [
+    8.1,
+    0.9
+   ],
+   "norm_fibre_length": 1.056,
+   "norm_fibre_length_source_default": 0.98,
+   "placeholder": false,
+   "L_opt_mm": 81.7,
+   "tendon_slack_mm": 178.2,
+   "Fmax_N_shepherd": 57.46300949595
+  },
+  "right_flexor_carpi_ulnaris": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "right_antebrachium",
+    "right_carpus"
+   ],
+   "points_mm": [
+    [
+     -84.62538573848217,
+     -309.1359892222846,
+     161.73669810484373
+    ],
+    [
+     -56.825394106652325,
+     -309.988392284309,
+     42.0106639581993
+    ],
+    [
+     -67.24360266776732,
+     -334.17689789095226,
+     -56.40322589564541
+    ]
+   ],
+   "path_mm": [
+    [
+     -84.62538573848217,
+     -309.1359892222846,
+     161.73669810484373
+    ],
+    [
+     -56.825394106652325,
+     -309.988392284309,
+     42.0106639581993
+    ],
+    [
+     -67.24360266776732,
+     -334.17689789095226,
+     -56.40322589564541
+    ]
+   ],
+   "length_mm": 224.8,
+   "attach_off_mm": [
+    4.9,
+    0.2
+   ],
+   "attach_off_source_mm": [
+    4.1,
+    0.2
+   ],
+   "norm_fibre_length": 0.576,
+   "norm_fibre_length_source_default": 0.576,
+   "placeholder": false,
+   "L_opt_mm": 26.1,
+   "tendon_slack_mm": 249.2,
+   "Fmax_N_shepherd": 283.440636679128
+  },
+  "right_extensor_carpi_ulnaris": {
+   "group": "fore",
+   "bodies": [
+    "right_carpus",
+    "right_antebrachium",
+    "right_humerus"
+   ],
+   "points_mm": [
+    [
+     -44.6237990075346,
+     -313.72952491979765,
+     -34.03185338992463
+    ],
+    [
+     -41.27318421845319,
+     -286.9540440558001,
+     157.80061370824404
+    ],
+    [
+     -57.27023069332326,
+     -282.2496062806269,
+     181.11879528278533
+    ]
+   ],
+   "path_mm": [
+    [
+     -44.6237990075346,
+     -313.72952491979765,
+     -34.03185338992463
+    ],
+    [
+     -41.27318421845319,
+     -286.9540440558001,
+     157.80061370824404
+    ],
+    [
+     -57.27023069332326,
+     -282.2496062806269,
+     181.11879528278533
+    ]
+   ],
+   "length_mm": 222.4,
+   "attach_off_mm": [
+    13.5,
+    17.4
+   ],
+   "attach_off_source_mm": [
+    12.4,
+    14.5
+   ],
+   "norm_fibre_length": 0.576,
+   "norm_fibre_length_source_default": 0.576,
+   "placeholder": false,
+   "L_opt_mm": 19.9,
+   "tendon_slack_mm": 254.5,
+   "Fmax_N_shepherd": 135.35755884618
+  },
+  "right_extensor_carpi_radialis": {
+   "group": "fore",
+   "bodies": [
+    "right_humerus",
+    "right_antebrachium",
+    "right_carpus",
+    "right_carpus"
+   ],
+   "points_mm": [
+    [
+     -45.705869852921055,
+     -306.2429406114755,
+     165.3950565552615
+    ],
+    [
+     -24.40345520775635,
+     -322.4861560705383,
+     138.29423918123686
+    ],
+    [
+     -27.843231190073638,
+     -326.74660101003695,
+     -51.59872152429396
+    ],
+    [
+     -39.02641553577801,
+     -339.8608324637689,
+     -79.99386997644697
+    ]
+   ],
+   "path_mm": [
+    [
+     -45.705869852921055,
+     -306.2429406114755,
+     165.3950565552615
+    ],
+    [
+     -43.557659140998084,
+     -304.540280877153,
+     161.78703569419628
+    ],
+    [
+     -29.710898115338317,
+     -313.42761173720805,
+     141.1896835384723
+    ],
+    [
+     -24.40345520775635,
+     -322.4861560705383,
+     138.29423918123686
+    ],
+    [
+     -27.843231190073638,
+     -326.74660101003695,
+     -51.59872152429396
+    ],
+    [
+     -29.21568665261256,
+     -327.8900959025004,
+     -55.46576743300913
+    ],
+    [
+     -29.878377761585202,
+     -328.57858970705735,
+     -57.221109545027744
+    ],
+    [
+     -39.02641553577801,
+     -339.8608324637689,
+     -79.99386997644697
+    ]
+   ],
+   "length_mm": 267.6,
+   "attach_off_mm": [
+    6.6,
+    8.4
+   ],
+   "attach_off_source_mm": [
+    5.5,
+    7.0
+   ],
+   "norm_fibre_length": 0.868,
+   "norm_fibre_length_source_default": 0.956,
+   "placeholder": false,
+   "L_opt_mm": 69.1,
+   "tendon_slack_mm": 217.5,
+   "Fmax_N_shepherd": 117.639048965585
+  },
+  "right_abductor_policis_longum": {
+   "group": "fore",
+   "bodies": [
+    "right_carpus",
+    "right_carpus",
+    "right_antebrachium"
+   ],
+   "points_mm": [
+    [
+     -22.331509297385473,
+     -330.6601579641176,
+     -58.04490501262863
+    ],
+    [
+     -22.67804480734688,
+     -334.04063536014263,
+     -47.66633481022788
+    ],
+    [
+     -50.2859966391921,
+     -330.52719892285256,
+     49.74845170597038
+    ]
+   ],
+   "path_mm": [
+    [
+     -22.331509297385473,
+     -330.6601579641176,
+     -58.04490501262863
+    ],
+    [
+     -22.67804480734688,
+     -334.04063536014263,
+     -47.66633481022788
+    ],
+    [
+     -50.2859966391921,
+     -330.52719892285256,
+     49.74845170597038
+    ]
+   ],
+   "length_mm": 112.2,
+   "attach_off_mm": [
+    5.2,
+    7.4
+   ],
+   "attach_off_source_mm": [
+    4.3,
+    6.2
+   ],
+   "norm_fibre_length": 0.503,
+   "norm_fibre_length_source_default": 0.503,
+   "placeholder": false,
+   "L_opt_mm": 7.9,
+   "tendon_slack_mm": 124.6,
+   "Fmax_N_shepherd": 77.797155628542
+  },
+  "left_longissimus": {
+   "group": "trunk",
+   "bodies": [
+    "pelvis",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     36.21129090450965,
+     276.45092662729,
+     457.34226480883814
+    ],
+    [
+     24.352483749974407,
+     -224.11353352170752,
+     432.56566231353355
+    ]
+   ],
+   "path_mm": [
+    [
+     36.21129090450965,
+     276.45092662729,
+     457.34226480883814
+    ],
+    [
+     24.352483749974407,
+     -224.11353352170752,
+     432.56566231353355
+    ]
+   ],
+   "length_mm": 501.3,
+   "attach_off_mm": [
+    1.8,
+    13.3
+   ],
+   "attach_off_source_mm": [
+    1.5,
+    9.3
+   ],
+   "norm_fibre_length": 7.014,
+   "norm_fibre_length_source_default": 10.0,
+   "placeholder": true,
+   "L_opt_mm": 14.3,
+   "tendon_slack_mm": 0.0,
+   "Fmax_N_shepherd": 1.0
+  },
+  "left_quadratus_lumborum": {
+   "group": "trunk",
+   "bodies": [
+    "pelvis",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     42.41578140132413,
+     260.739681163218,
+     421.7468152784151
+    ],
+    [
+     4.9239348021108125,
+     -104.43664788309212,
+     450.3991486508293
+    ]
+   ],
+   "path_mm": [
+    [
+     42.41578140132413,
+     260.739681163218,
+     421.7468152784151
+    ],
+    [
+     4.9239348021108125,
+     -104.43664788309212,
+     450.3991486508293
+    ]
+   ],
+   "length_mm": 368.2,
+   "attach_off_mm": [
+    9.7,
+    16.5
+   ],
+   "attach_off_source_mm": [
+    7.9,
+    10.4
+   ],
+   "norm_fibre_length": 7.072,
+   "norm_fibre_length_source_default": 10.0,
+   "placeholder": true,
+   "L_opt_mm": 14.1,
+   "tendon_slack_mm": 0.0,
+   "Fmax_N_shepherd": 1.0
+  },
+  "left_iliocostalis": {
+   "group": "trunk",
+   "bodies": [
+    "pelvis",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     45.09578125829906,
+     253.8567852038508,
+     450.7922854631002
+    ],
+    [
+     26.442293288079576,
+     -261.0856625603006,
+     408.47198012638563
+    ]
+   ],
+   "path_mm": [
+    [
+     45.09578125829906,
+     253.8567852038508,
+     450.7922854631002
+    ],
+    [
+     26.442293288079576,
+     -261.0856625603006,
+     408.47198012638563
+    ]
+   ],
+   "length_mm": 517.0,
+   "attach_off_mm": [
+    0.8,
+    18.5
+   ],
+   "attach_off_source_mm": [
+    0.7,
+    14.0
+   ],
+   "norm_fibre_length": 6.933,
+   "norm_fibre_length_source_default": 10.0,
+   "placeholder": true,
+   "L_opt_mm": 14.4,
+   "tendon_slack_mm": 0.0,
+   "Fmax_N_shepherd": 1.0
+  },
+  "right_longissimus": {
+   "group": "trunk",
+   "bodies": [
+    "pelvis",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     -39.025858453334166,
+     276.45112460187437,
+     457.34218676189386
+    ],
+    [
+     -24.352483749974407,
+     -224.11353352170752,
+     432.56566231353355
+    ]
+   ],
+   "path_mm": [
+    [
+     -39.025858453334166,
+     276.45112460187437,
+     457.34218676189386
+    ],
+    [
+     -24.352483749974407,
+     -224.11353352170752,
+     432.56566231353355
+    ]
+   ],
+   "length_mm": 501.4,
+   "attach_off_mm": [
+    1.8,
+    23.5
+   ],
+   "attach_off_source_mm": [
+    1.5,
+    18.3
+   ],
+   "norm_fibre_length": 7.013,
+   "norm_fibre_length_source_default": 10.0,
+   "placeholder": true,
+   "L_opt_mm": 14.3,
+   "tendon_slack_mm": 0.0,
+   "Fmax_N_shepherd": 1.0
+  },
+  "right_quadratus_lumborum": {
+   "group": "trunk",
+   "bodies": [
+    "pelvis",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     -43.088753449347564,
+     266.18452221047113,
+     422.6522453166549
+    ],
+    [
+     -2.948635375682638,
+     -104.20533025908757,
+     449.6597523873377
+    ]
+   ],
+   "path_mm": [
+    [
+     -43.088753449347564,
+     266.18452221047113,
+     422.6522453166549
+    ],
+    [
+     -2.948635375682638,
+     -104.20533025908757,
+     449.6597523873377
+    ]
+   ],
+   "length_mm": 373.5,
+   "attach_off_mm": [
+    5.8,
+    19.0
+   ],
+   "attach_off_source_mm": [
+    4.7,
+    13.1
+   ],
+   "norm_fibre_length": 7.092,
+   "norm_fibre_length_source_default": 10.0,
+   "placeholder": true,
+   "L_opt_mm": 14.1,
+   "tendon_slack_mm": 0.0,
+   "Fmax_N_shepherd": 1.0
+  },
+  "right_iliocostalis": {
+   "group": "trunk",
+   "bodies": [
+    "pelvis",
+    "thorax"
+   ],
+   "points_mm": [
+    [
+     -48.008354556144,
+     254.05721715326328,
+     450.46440974958244
+    ],
+    [
+     -26.43275077877316,
+     -265.501268803363,
+     408.7041723096228
+    ]
+   ],
+   "path_mm": [
+    [
+     -48.008354556144,
+     254.05721715326328,
+     450.46440974958244
+    ],
+    [
+     -26.43275077877316,
+     -265.501268803363,
+     408.7041723096228
+    ]
+   ],
+   "length_mm": 521.7,
+   "attach_off_mm": [
+    1.3,
+    26.3
+   ],
+   "attach_off_source_mm": [
+    1.0,
+    19.4
+   ],
+   "norm_fibre_length": 6.932,
+   "norm_fibre_length_source_default": 10.0,
+   "placeholder": true,
+   "L_opt_mm": 14.4,
+   "tendon_slack_mm": 0.0,
+   "Fmax_N_shepherd": 1.0
+  },
+  "left_sacrocaudalis": {
+   "group": "trunk",
+   "bodies": [
+    "cauda",
+    "abdomen"
+   ],
+   "points_mm": [
+    [
+     22.83427948723291,
+     366.32967443220014,
+     490.72196131917667
+    ],
+    [
+     17.598519601751523,
+     -2.6839868143093657,
+     543.8563357815242
+    ]
+   ],
+   "path_mm": [
+    [
+     22.83427948723291,
+     366.32967443220014,
+     490.72196131917667
+    ],
+    [
+     17.598519601751523,
+     -2.6839868143093657,
+     543.8563357815242
+    ]
+   ],
+   "length_mm": 372.9,
+   "attach_off_mm": [
+    3.3,
+    9.0
+   ],
+   "attach_off_source_mm": [
+    2.2,
+    5.7
+   ],
+   "norm_fibre_length": 6.99,
+   "norm_fibre_length_source_default": 10.0,
+   "placeholder": true,
+   "L_opt_mm": 14.3,
+   "tendon_slack_mm": 0.0,
+   "Fmax_N_shepherd": 1.0
+  },
+  "left_psoas_major": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "abdomen"
+   ],
+   "points_mm": [
+    [
+     55.25056403154799,
+     344.7602640984714,
+     331.34155753753646
+    ],
+    [
+     43.8199932524487,
+     41.687059688837586,
+     491.1710889971264
+    ]
+   ],
+   "path_mm": [
+    [
+     55.25056403154799,
+     344.7602640984714,
+     331.34155753753646
+    ],
+    [
+     43.8199932524487,
+     41.687059688837586,
+     491.1710889971264
+    ]
+   ],
+   "length_mm": 342.8,
+   "attach_off_mm": [
+    18.4,
+    18.0
+   ],
+   "attach_off_source_mm": [
+    15.3,
+    11.2
+   ],
+   "norm_fibre_length": 2.185,
+   "norm_fibre_length_source_default": 2.054,
+   "placeholder": false,
+   "L_opt_mm": 89.7,
+   "tendon_slack_mm": 137.9,
+   "Fmax_N_shepherd": 37.91612
+  },
+  "left_psoas_minor": {
+   "group": "trunk",
+   "bodies": [
+    "pelvis",
+    "abdomen"
+   ],
+   "points_mm": [
+    [
+     33.5192179090213,
+     316.7109294448277,
+     354.3602018063465
+    ],
+    [
+     14.617349614569571,
+     -27.75100461460786,
+     482.13261248958423
+    ]
+   ],
+   "path_mm": [
+    [
+     33.5192179090213,
+     316.7109294448277,
+     354.3602018063465
+    ],
+    [
+     14.617349614569571,
+     -27.75100461460786,
+     482.13261248958423
+    ]
+   ],
+   "length_mm": 367.9,
+   "attach_off_mm": [
+    3.0,
+    2.1
+   ],
+   "attach_off_source_mm": [
+    2.5,
+    1.4
+   ],
+   "norm_fibre_length": 2.453,
+   "norm_fibre_length_source_default": 2.319,
+   "placeholder": false,
+   "L_opt_mm": 90.3,
+   "tendon_slack_mm": 138.8,
+   "Fmax_N_shepherd": 37.91612
+  },
+  "left_adductor_longus": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     69.7661734344096,
+     347.8133924099272,
+     314.74957512657824
+    ],
+    [
+     17.09631942521401,
+     327.8640296268626,
+     339.6004274053077
+    ]
+   ],
+   "path_mm": [
+    [
+     69.7661734344096,
+     347.8133924099272,
+     314.74957512657824
+    ],
+    [
+     17.09631942521401,
+     327.8640296268626,
+     339.6004274053077
+    ]
+   ],
+   "length_mm": 61.6,
+   "attach_off_mm": [
+    10.0,
+    2.4
+   ],
+   "attach_off_source_mm": [
+    8.4,
+    2.0
+   ],
+   "norm_fibre_length": 0.915,
+   "norm_fibre_length_source_default": 0.916,
+   "placeholder": false,
+   "L_opt_mm": 25.3,
+   "tendon_slack_mm": 41.5,
+   "Fmax_N_shepherd": 68.88
+  },
+  "left_gemelli": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     76.55903554450002,
+     351.8474246110832,
+     352.3406612942246
+    ],
+    [
+     53.09960324813408,
+     369.95810755821736,
+     368.6776294852061
+    ]
+   ],
+   "path_mm": [
+    [
+     76.55903554450002,
+     351.8474246110832,
+     352.3406612942246
+    ],
+    [
+     53.09960324813408,
+     369.95810755821736,
+     368.6776294852061
+    ]
+   ],
+   "length_mm": 33.8,
+   "attach_off_mm": [
+    2.1,
+    4.4
+   ],
+   "attach_off_source_mm": [
+    1.7,
+    3.6
+   ],
+   "norm_fibre_length": 0.686,
+   "norm_fibre_length_source_default": 0.686,
+   "placeholder": false,
+   "L_opt_mm": 12.8,
+   "tendon_slack_mm": 32.7,
+   "Fmax_N_shepherd": 51.36
+  },
+  "left_gluteus_medius": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     84.29698161229757,
+     345.58917268933845,
+     365.78777989772954
+    ],
+    [
+     46.539895709722174,
+     275.1000297091938,
+     436.9375048226349
+    ]
+   ],
+   "path_mm": [
+    [
+     84.29698161229757,
+     345.58917268933845,
+     365.78777989772954
+    ],
+    [
+     46.539895709722174,
+     275.1000297091938,
+     436.9375048226349
+    ]
+   ],
+   "length_mm": 107.0,
+   "attach_off_mm": [
+    1.2,
+    4.5
+   ],
+   "attach_off_source_mm": [
+    1.0,
+    3.7
+   ],
+   "norm_fibre_length": 0.9,
+   "norm_fibre_length_source_default": 0.9,
+   "placeholder": false,
+   "L_opt_mm": 47.0,
+   "tendon_slack_mm": 75.2,
+   "Fmax_N_shepherd": 513.20416
+  },
+  "left_gluteus_profundus": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     85.59923314644888,
+     340.6722422993536,
+     357.3222556962718
+    ],
+    [
+     42.88097087992112,
+     312.42156694829515,
+     400.2398720715287
+    ]
+   ],
+   "path_mm": [
+    [
+     85.59923314644888,
+     340.6722422993536,
+     357.3222556962718
+    ],
+    [
+     42.88097087992112,
+     312.42156694829515,
+     400.2398720715287
+    ]
+   ],
+   "length_mm": 66.8,
+   "attach_off_mm": [
+    4.8,
+    1.0
+   ],
+   "attach_off_source_mm": [
+    4.0,
+    0.8
+   ],
+   "norm_fibre_length": 0.516,
+   "norm_fibre_length_source_default": 0.517,
+   "placeholder": false,
+   "L_opt_mm": 10.1,
+   "tendon_slack_mm": 64.1,
+   "Fmax_N_shepherd": 126.96
+  },
+  "left_gluteus_superficialis": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_femur"
+   ],
+   "points_mm": [
+    [
+     0.40399024944089407,
+     310.42336633244634,
+     447.14861910580277
+    ],
+    [
+     85.33104081393485,
+     354.21018639163805,
+     347.25873840967046
+    ]
+   ],
+   "path_mm": [
+    [
+     0.40399024944089407,
+     310.42336633244634,
+     447.14861910580277
+    ],
+    [
+     67.02806187542238,
+     355.163053326838,
+     374.9679171559992
+    ],
+    [
+     78.30715343384487,
+     357.4666277896762,
+     359.6122477501995
+    ],
+    [
+     85.33104081393485,
+     354.21018639163805,
+     347.25873840967046
+    ]
+   ],
+   "length_mm": 142.1,
+   "attach_off_mm": [
+    27.7,
+    4.8
+   ],
+   "attach_off_source_mm": [
+    22.7,
+    3.9
+   ],
+   "norm_fibre_length": 1.055,
+   "norm_fibre_length_source_default": 1.054,
+   "placeholder": false,
+   "L_opt_mm": 87.3,
+   "tendon_slack_mm": 71.3,
+   "Fmax_N_shepherd": 127.45652
+  },
+  "left_iliacus": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     56.30799136984878,
+     345.4366602267651,
+     333.5031588573205
+    ],
+    [
+     43.2602617503574,
+     282.47908404774296,
+     398.19592592183795
+    ]
+   ],
+   "path_mm": [
+    [
+     56.30799136984878,
+     345.4366602267651,
+     333.5031588573205
+    ],
+    [
+     52.68150049111118,
+     326.087790627376,
+     350.0595691758961
+    ],
+    [
+     52.31927760874335,
+     324.28686627038024,
+     351.8146290887091
+    ],
+    [
+     43.2602617503574,
+     282.47908404774296,
+     398.19592592183795
+    ]
+   ],
+   "length_mm": 91.4,
+   "attach_off_mm": [
+    17.1,
+    9.9
+   ],
+   "attach_off_source_mm": [
+    14.2,
+    8.1
+   ],
+   "norm_fibre_length": 0.972,
+   "norm_fibre_length_source_default": 0.974,
+   "placeholder": false,
+   "L_opt_mm": 36.8,
+   "tendon_slack_mm": 56.6,
+   "Fmax_N_shepherd": 75.83223
+  },
+  "left_obturator_ext": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     72.83308003163289,
+     350.36332066215857,
+     344.8905946184476
+    ],
+    [
+     29.456472949202304,
+     372.10899560472114,
+     341.6011596833312
+    ]
+   ],
+   "path_mm": [
+    [
+     72.83308003163289,
+     350.36332066215857,
+     344.8905946184476
+    ],
+    [
+     29.456472949202304,
+     372.10899560472114,
+     341.6011596833312
+    ]
+   ],
+   "length_mm": 48.6,
+   "attach_off_mm": [
+    2.8,
+    10.7
+   ],
+   "attach_off_source_mm": [
+    2.4,
+    8.8
+   ],
+   "norm_fibre_length": 0.9,
+   "norm_fibre_length_source_default": 0.899,
+   "placeholder": false,
+   "L_opt_mm": 23.0,
+   "tendon_slack_mm": 32.2,
+   "Fmax_N_shepherd": 132.96
+  },
+  "left_obturator_int": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_femur"
+   ],
+   "points_mm": [
+    [
+     105.48899694359294,
+     348.09667917216,
+     351.47775716169923
+    ],
+    [
+     49.41343476232731,
+     365.5239688359341,
+     351.9884662102554
+    ]
+   ],
+   "path_mm": [
+    [
+     105.48899694359294,
+     348.09667917216,
+     351.47775716169923
+    ],
+    [
+     49.41343476232731,
+     365.5239688359341,
+     351.9884662102554
+    ]
+   ],
+   "length_mm": 58.7,
+   "attach_off_mm": [
+    41.6,
+    19.7
+   ],
+   "attach_off_source_mm": [
+    34.0,
+    16.4
+   ],
+   "norm_fibre_length": 0.92,
+   "norm_fibre_length_source_default": 0.92,
+   "placeholder": false,
+   "L_opt_mm": 19.4,
+   "tendon_slack_mm": 42.8,
+   "Fmax_N_shepherd": 188.4
+  },
+  "left_piriformis": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     103.14387547770426,
+     347.81030232194735,
+     369.55589643029117
+    ],
+    [
+     48.27776335737847,
+     318.829937570514,
+     432.60132131540075
+    ]
+   ],
+   "path_mm": [
+    [
+     103.14387547770426,
+     347.81030232194735,
+     369.55589643029117
+    ],
+    [
+     48.27776335737847,
+     318.829937570514,
+     432.60132131540075
+    ]
+   ],
+   "length_mm": 88.5,
+   "attach_off_mm": [
+    5.2,
+    6.3
+   ],
+   "attach_off_source_mm": [
+    4.3,
+    5.1
+   ],
+   "norm_fibre_length": 0.522,
+   "norm_fibre_length_source_default": 0.522,
+   "placeholder": false,
+   "L_opt_mm": 71.0,
+   "tendon_slack_mm": 134.2,
+   "Fmax_N_shepherd": 104.3504
+  },
+  "left_pectineus": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     63.01111702948044,
+     308.7641677492167,
+     197.94392019780238
+    ],
+    [
+     32.613652456828405,
+     322.30769952319264,
+     347.7577523668728
+    ]
+   ],
+   "path_mm": [
+    [
+     63.01111702948044,
+     308.7641677492167,
+     197.94392019780238
+    ],
+    [
+     32.613652456828405,
+     322.30769952319264,
+     347.7577523668728
+    ]
+   ],
+   "length_mm": 153.5,
+   "attach_off_mm": [
+    6.3,
+    2.3
+   ],
+   "attach_off_source_mm": [
+    5.3,
+    1.9
+   ],
+   "norm_fibre_length": 0.675,
+   "norm_fibre_length_source_default": 0.676,
+   "placeholder": false,
+   "L_opt_mm": 46.1,
+   "tendon_slack_mm": 147.5,
+   "Fmax_N_shepherd": 191.76
+  },
+  "left_sartorius_caudal": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     54.75130234069557,
+     244.6924298653824,
+     422.40769856083034
+    ],
+    [
+     54.461442248180475,
+     311.57218831419885,
+     125.0797159873861
+    ],
+    [
+     59.089630326700465,
+     328.1489198168949,
+     92.98466751434442
+    ]
+   ],
+   "path_mm": [
+    [
+     54.75130234069557,
+     244.6924298653824,
+     422.40769856083034
+    ],
+    [
+     54.44592106888552,
+     288.87635694643996,
+     153.98514553582874
+    ],
+    [
+     54.41400288374501,
+     296.02567452323484,
+     140.2604831101374
+    ],
+    [
+     54.461442248180475,
+     311.57218831419885,
+     125.0797159873861
+    ],
+    [
+     59.089630326700465,
+     328.1489198168949,
+     92.98466751434442
+    ]
+   ],
+   "length_mm": 345.9,
+   "attach_off_mm": [
+    12.0,
+    2.4
+   ],
+   "attach_off_source_mm": [
+    9.8,
+    2.0
+   ],
+   "norm_fibre_length": 1.142,
+   "norm_fibre_length_source_default": 1.128,
+   "placeholder": false,
+   "L_opt_mm": 278.4,
+   "tendon_slack_mm": 81.1,
+   "Fmax_N_shepherd": 21.7012
+  },
+  "left_sartorius_cranial": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     59.78094898984206,
+     241.2070640538411,
+     445.0500447517267
+    ],
+    [
+     70.57786582623393,
+     283.98094095308284,
+     145.90345247703945
+    ],
+    [
+     70.83205872144586,
+     287.3062975799883,
+     140.46816822442065
+    ]
+   ],
+   "path_mm": [
+    [
+     59.78094898984206,
+     241.2070640538411,
+     445.0500447517267
+    ],
+    [
+     70.57786582623393,
+     283.98094095308284,
+     145.90345247703945
+    ],
+    [
+     70.83205872144586,
+     287.3062975799883,
+     140.46816822442065
+    ]
+   ],
+   "length_mm": 308.8,
+   "attach_off_mm": [
+    1.7,
+    34.0
+   ],
+   "attach_off_source_mm": [
+    1.4,
+    26.9
+   ],
+   "norm_fibre_length": 1.117,
+   "norm_fibre_length_source_default": 1.096,
+   "placeholder": false,
+   "L_opt_mm": 230.3,
+   "tendon_slack_mm": 96.4,
+   "Fmax_N_shepherd": 66.24
+  },
+  "left_tensor_fasciae": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_femur"
+   ],
+   "points_mm": [
+    [
+     55.52227696451345,
+     246.63237502767205,
+     425.5123670145283
+    ],
+    [
+     98.41425662220054,
+     315.37613910442997,
+     259.15905120586143
+    ]
+   ],
+   "path_mm": [
+    [
+     55.52227696451345,
+     246.63237502767205,
+     425.5123670145283
+    ],
+    [
+     98.41425662220054,
+     315.37613910442997,
+     259.15905120586143
+    ]
+   ],
+   "length_mm": 185.0,
+   "attach_off_mm": [
+    8.7,
+    8.3
+   ],
+   "attach_off_source_mm": [
+    7.1,
+    6.9
+   ],
+   "norm_fibre_length": 1.188,
+   "norm_fibre_length_source_default": 1.189,
+   "placeholder": false,
+   "L_opt_mm": 164.8,
+   "tendon_slack_mm": 33.2,
+   "Fmax_N_shepherd": 51.22743
+  },
+  "left_quadratus_femoris": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_femur"
+   ],
+   "points_mm": [
+    [
+     52.426627344023075,
+     396.6842326498928,
+     344.37460906275317
+    ],
+    [
+     68.92141253905268,
+     352.8157485733152,
+     328.7600881756446
+    ]
+   ],
+   "path_mm": [
+    [
+     52.426627344023075,
+     396.6842326498928,
+     344.37460906275317
+    ],
+    [
+     68.92141253905268,
+     352.8157485733152,
+     328.7600881756446
+    ]
+   ],
+   "length_mm": 49.4,
+   "attach_off_mm": [
+    1.7,
+    7.0
+   ],
+   "attach_off_source_mm": [
+    1.4,
+    5.8
+   ],
+   "norm_fibre_length": 0.964,
+   "norm_fibre_length_source_default": 0.961,
+   "placeholder": false,
+   "L_opt_mm": 35.0,
+   "tendon_slack_mm": 20.5,
+   "Fmax_N_shepherd": 64.8
+  },
+  "left_vastus_lateralis": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     84.27752726250188,
+     337.49048479922664,
+     337.78486538344237
+    ],
+    [
+     81.21482154644886,
+     294.6984477676172,
+     135.63827848942475
+    ],
+    [
+     73.78262523439422,
+     313.71501459524217,
+     109.33918871535842
+    ]
+   ],
+   "path_mm": [
+    [
+     84.27752726250188,
+     337.49048479922664,
+     337.78486538344237
+    ],
+    [
+     81.79451255741398,
+     289.769149101691,
+     163.60374528435506
+    ],
+    [
+     81.5093444790488,
+     290.1661420746936,
+     149.19719433428233
+    ],
+    [
+     81.21482154644886,
+     294.6984477676172,
+     135.63827848942475
+    ],
+    [
+     73.78262523439422,
+     313.71501459524217,
+     109.33918871535842
+    ]
+   ],
+   "length_mm": 242.8,
+   "attach_off_mm": [
+    10.6,
+    5.3
+   ],
+   "attach_off_source_mm": [
+    8.8,
+    4.4
+   ],
+   "norm_fibre_length": 0.909,
+   "norm_fibre_length_source_default": 0.887,
+   "placeholder": false,
+   "L_opt_mm": 110.7,
+   "tendon_slack_mm": 188.9,
+   "Fmax_N_shepherd": 487.68
+  },
+  "left_vastus_medialis": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     62.25840656037461,
+     333.7085038777526,
+     331.4053137986099
+    ],
+    [
+     66.31847843165706,
+     288.1765917968072,
+     146.96258031243394
+    ],
+    [
+     64.32974488646836,
+     313.06216144850885,
+     109.08308272240133
+    ]
+   ],
+   "path_mm": [
+    [
+     62.25840656037461,
+     333.7085038777526,
+     331.4053137986099
+    ],
+    [
+     66.00609179441885,
+     289.51573066848385,
+     163.95146634984064
+    ],
+    [
+     66.10599875773158,
+     288.71939876478626,
+     158.75379272609848
+    ],
+    [
+     66.31847843165706,
+     288.1765917968072,
+     146.96258031243394
+    ],
+    [
+     64.32974488646836,
+     313.06216144850885,
+     109.08308272240133
+    ]
+   ],
+   "length_mm": 235.7,
+   "attach_off_mm": [
+    10.1,
+    1.3
+   ],
+   "attach_off_source_mm": [
+    8.4,
+    1.0
+   ],
+   "norm_fibre_length": 0.755,
+   "norm_fibre_length_source_default": 0.709,
+   "placeholder": false,
+   "L_opt_mm": 58.2,
+   "tendon_slack_mm": 209.0,
+   "Fmax_N_shepherd": 513.84
+  },
+  "left_rectus_femoris": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     51.97358150878666,
+     313.419171347473,
+     376.4012185948985
+    ],
+    [
+     75.8809617122724,
+     285.889692414265,
+     144.50957686651893
+    ],
+    [
+     68.06414860170102,
+     312.20342777811067,
+     111.65107874204693
+    ]
+   ],
+   "path_mm": [
+    [
+     51.97358150878666,
+     313.419171347473,
+     376.4012185948985
+    ],
+    [
+     75.8809617122724,
+     285.889692414265,
+     144.50957686651893
+    ],
+    [
+     68.06414860170102,
+     312.20342777811067,
+     111.65107874204693
+    ]
+   ],
+   "length_mm": 277.6,
+   "attach_off_mm": [
+    4.8,
+    1.1
+   ],
+   "attach_off_source_mm": [
+    3.9,
+    0.9
+   ],
+   "norm_fibre_length": 0.664,
+   "norm_fibre_length_source_default": 0.621,
+   "placeholder": false,
+   "L_opt_mm": 55.6,
+   "tendon_slack_mm": 257.8,
+   "Fmax_N_shepherd": 444.14527
+  },
+  "left_abductor_cruris": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     39.31996204322589,
+     366.9306890802005,
+     392.9776043906762
+    ],
+    [
+     79.56902233190822,
+     398.70965412441694,
+     170.21810212101897
+    ],
+    [
+     73.46517049790556,
+     378.6904891260813,
+     23.97468347707915
+    ]
+   ],
+   "path_mm": [
+    [
+     39.31996204322589,
+     366.9306890802005,
+     392.9776043906762
+    ],
+    [
+     79.56902233190822,
+     398.70965412441694,
+     170.21810212101897
+    ],
+    [
+     73.46517049790556,
+     378.6904891260813,
+     23.97468347707915
+    ]
+   ],
+   "length_mm": 376.3,
+   "attach_off_mm": [
+    9.7,
+    31.5
+   ],
+   "attach_off_source_mm": [
+    7.9,
+    26.2
+   ],
+   "norm_fibre_length": 0.977,
+   "norm_fibre_length_source_default": 1.037,
+   "placeholder": false,
+   "L_opt_mm": 280.8,
+   "tendon_slack_mm": 101.3,
+   "Fmax_N_shepherd": 5.64705
+  },
+  "left_adductoren": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     75.89801066212118,
+     326.55764234752684,
+     249.55040078621587
+    ],
+    [
+     14.147153197553742,
+     366.8686325836419,
+     332.06853700400393
+    ]
+   ],
+   "path_mm": [
+    [
+     75.89801066212118,
+     326.55764234752684,
+     249.55040078621587
+    ],
+    [
+     14.147153197553742,
+     366.8686325836419,
+     332.06853700400393
+    ]
+   ],
+   "length_mm": 110.7,
+   "attach_off_mm": [
+    1.0,
+    2.1
+   ],
+   "attach_off_source_mm": [
+    0.9,
+    1.7
+   ],
+   "norm_fibre_length": 1.017,
+   "norm_fibre_length_source_default": 1.015,
+   "placeholder": false,
+   "L_opt_mm": 79.7,
+   "tendon_slack_mm": 38.6,
+   "Fmax_N_shepherd": 342.38755
+  },
+  "left_biceps_femoris_longum": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     73.91594252738207,
+     394.9236264503557,
+     359.43415972175984
+    ],
+    [
+     92.62304479908806,
+     386.1881781840919,
+     172.52127330533003
+    ],
+    [
+     77.7325460122708,
+     320.90916505044197,
+     98.74464806331076
+    ]
+   ],
+   "path_mm": [
+    [
+     73.91594252738207,
+     394.9236264503557,
+     359.43415972175984
+    ],
+    [
+     92.62304479908806,
+     386.1881781840919,
+     172.52127330533003
+    ],
+    [
+     77.7325460122708,
+     320.90916505044197,
+     98.74464806331076
+    ]
+   ],
+   "length_mm": 287.7,
+   "attach_off_mm": [
+    1.1,
+    13.7
+   ],
+   "attach_off_source_mm": [
+    0.9,
+    11.3
+   ],
+   "norm_fibre_length": 1.326,
+   "norm_fibre_length_source_default": 1.446,
+   "placeholder": false,
+   "L_opt_mm": 96.6,
+   "tendon_slack_mm": 172.2,
+   "Fmax_N_shepherd": 284.22081
+  },
+  "left_biceps_femoris_breve": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     88.50970391218523,
+     373.43075103437525,
+     272.90865058034734
+    ],
+    [
+     92.62304479908806,
+     386.1881781840919,
+     172.52127330533003
+    ],
+    [
+     77.7325460122708,
+     320.90916505044197,
+     98.74464806331076
+    ]
+   ],
+   "path_mm": [
+    [
+     88.50970391218523,
+     373.43075103437525,
+     272.90865058034734
+    ],
+    [
+     92.62304479908806,
+     386.1881781840919,
+     172.52127330533003
+    ],
+    [
+     77.7325460122708,
+     320.90916505044197,
+     98.74464806331076
+    ]
+   ],
+   "length_mm": 200.9,
+   "attach_off_mm": [
+    39.2,
+    13.7
+   ],
+   "attach_off_source_mm": [
+    32.5,
+    11.3
+   ],
+   "norm_fibre_length": 0.788,
+   "norm_fibre_length_source_default": 0.979,
+   "placeholder": false,
+   "L_opt_mm": 77.8,
+   "tendon_slack_mm": 138.8,
+   "Fmax_N_shepherd": 400.0
+  },
+  "left_gracilis_tractus_calcaneus": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     12.458381781866457,
+     375.9045064937833,
+     329.9089712481708
+    ],
+    [
+     33.90491337311583,
+     371.50619765151407,
+     159.53822588968785
+    ],
+    [
+     56.17615459316017,
+     350.6554816766182,
+     74.55411080001896
+    ]
+   ],
+   "path_mm": [
+    [
+     12.458381781866457,
+     375.9045064937833,
+     329.9089712481708
+    ],
+    [
+     33.90491337311583,
+     371.50619765151407,
+     159.53822588968785
+    ],
+    [
+     56.17615459316017,
+     350.6554816766182,
+     74.55411080001896
+    ]
+   ],
+   "length_mm": 262.1,
+   "attach_off_mm": [
+    4.0,
+    4.4
+   ],
+   "attach_off_source_mm": [
+    3.3,
+    3.6
+   ],
+   "norm_fibre_length": 1.089,
+   "norm_fibre_length_source_default": 1.129,
+   "placeholder": false,
+   "L_opt_mm": 203.4,
+   "tendon_slack_mm": 104.9,
+   "Fmax_N_shepherd": 217.68827
+  },
+  "left_semimembranosus": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     52.87945146340233,
+     408.77673916195414,
+     345.54482391909596
+    ],
+    [
+     47.25627855539101,
+     326.93204168426246,
+     161.5224343091187
+    ],
+    [
+     55.966803217873164,
+     314.47170423453133,
+     131.62140316274358
+    ]
+   ],
+   "path_mm": [
+    [
+     52.87945146340233,
+     408.77673916195414,
+     345.54482391909596
+    ],
+    [
+     47.25627855539101,
+     326.93204168426246,
+     161.5224343091187
+    ],
+    [
+     55.966803217873164,
+     314.47170423453133,
+     131.62140316274358
+    ]
+   ],
+   "length_mm": 235.0,
+   "attach_off_mm": [
+    3.3,
+    6.5
+   ],
+   "attach_off_source_mm": [
+    2.7,
+    5.1
+   ],
+   "norm_fibre_length": 1.06,
+   "norm_fibre_length_source_default": 1.07,
+   "placeholder": false,
+   "L_opt_mm": 200.8,
+   "tendon_slack_mm": 43.3,
+   "Fmax_N_shepherd": 223.30747
+  },
+  "left_semitendinosus": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     71.59080029062211,
+     398.03181111912045,
+     354.162397370007
+    ],
+    [
+     42.659638849280256,
+     388.42763437818263,
+     139.22373393782863
+    ],
+    [
+     56.03091148314386,
+     353.06640395232705,
+     74.99462182307862
+    ]
+   ],
+   "path_mm": [
+    [
+     71.59080029062211,
+     398.03181111912045,
+     354.162397370007
+    ],
+    [
+     42.659638849280256,
+     388.42763437818263,
+     139.22373393782863
+    ],
+    [
+     56.03091148314386,
+     353.06640395232705,
+     74.99462182307862
+    ]
+   ],
+   "length_mm": 291.6,
+   "attach_off_mm": [
+    3.3,
+    3.4
+   ],
+   "attach_off_source_mm": [
+    2.7,
+    2.8
+   ],
+   "norm_fibre_length": 1.084,
+   "norm_fibre_length_source_default": 1.14,
+   "placeholder": false,
+   "L_opt_mm": 226.1,
+   "tendon_slack_mm": 82.9,
+   "Fmax_N_shepherd": 83.93746
+  },
+  "left_gastrocnemius_lateralis": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "left_crus",
+    "left_calx"
+   ],
+   "points_mm": [
+    [
+     87.44869839994807,
+     317.0990583731801,
+     169.60588413203192
+    ],
+    [
+     91.79835724379852,
+     344.9301217197633,
+     159.63639041209487
+    ],
+    [
+     74.00484078391437,
+     510.8614030980404,
+     -30.88467609535551
+    ]
+   ],
+   "path_mm": [
+    [
+     87.44869839994807,
+     317.0990583731801,
+     169.60588413203192
+    ],
+    [
+     91.79835724379852,
+     344.9301217197633,
+     159.63639041209487
+    ],
+    [
+     74.00484078391437,
+     510.8614030980404,
+     -30.88467609535551
+    ]
+   ],
+   "length_mm": 283.2,
+   "attach_off_mm": [
+    3.3,
+    2.0
+   ],
+   "attach_off_source_mm": [
+    2.7,
+    2.3
+   ],
+   "norm_fibre_length": 0.452,
+   "norm_fibre_length_source_default": 0.465,
+   "placeholder": false,
+   "L_opt_mm": 30.3,
+   "tendon_slack_mm": 295.2,
+   "Fmax_N_shepherd": 604.40215
+  },
+  "left_gastrocnemius_medialis": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "left_crus",
+    "left_calx"
+   ],
+   "points_mm": [
+    [
+     60.066957082501844,
+     315.975600242243,
+     173.74620845245192
+    ],
+    [
+     59.51865749916158,
+     354.8458233592353,
+     153.40831026703148
+    ],
+    [
+     70.49195695932846,
+     511.36944923343384,
+     -30.20099207827847
+    ]
+   ],
+   "path_mm": [
+    [
+     60.066957082501844,
+     315.975600242243,
+     173.74620845245192
+    ],
+    [
+     59.51865749916158,
+     354.8458233592353,
+     153.40831026703148
+    ],
+    [
+     70.49195695932846,
+     511.36944923343384,
+     -30.20099207827847
+    ]
+   ],
+   "length_mm": 285.4,
+   "attach_off_mm": [
+    2.3,
+    3.0
+   ],
+   "attach_off_source_mm": [
+    1.9,
+    3.4
+   ],
+   "norm_fibre_length": 0.619,
+   "norm_fibre_length_source_default": 0.619,
+   "placeholder": false,
+   "L_opt_mm": 45.4,
+   "tendon_slack_mm": 321.1,
+   "Fmax_N_shepherd": 488.19623
+  },
+  "left_peroneus_longus": {
+   "group": "hind",
+   "bodies": [
+    "left_crus",
+    "left_calx",
+    "left_calx"
+   ],
+   "points_mm": [
+    [
+     87.97275591790181,
+     334.69819655297573,
+     128.3998438742747
+    ],
+    [
+     80.66428586552355,
+     497.1879739534909,
+     -64.93401461639378
+    ],
+    [
+     76.4400756734807,
+     514.7985840468323,
+     -74.29098160071162
+    ]
+   ],
+   "path_mm": [
+    [
+     87.97275591790181,
+     334.69819655297573,
+     128.3998438742747
+    ],
+    [
+     80.66428586552355,
+     497.1879739534909,
+     -64.93401461639378
+    ],
+    [
+     76.4400756734807,
+     514.7985840468323,
+     -74.29098160071162
+    ]
+   ],
+   "length_mm": 273.0,
+   "attach_off_mm": [
+    2.4,
+    1.6
+   ],
+   "attach_off_source_mm": [
+    1.9,
+    1.4
+   ],
+   "norm_fibre_length": 0.825,
+   "norm_fibre_length_source_default": 0.833,
+   "placeholder": false,
+   "L_opt_mm": 173.3,
+   "tendon_slack_mm": 142.1,
+   "Fmax_N_shepherd": 327.14428
+  },
+  "left_tibialis_caudalis": {
+   "group": "hind",
+   "bodies": [
+    "left_calx",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     48.23961928047032,
+     488.7847168435779,
+     -50.579510730859205
+    ],
+    [
+     50.074131593520306,
+     490.2967463096134,
+     -41.605887822481726
+    ],
+    [
+     84.00934288340312,
+     349.619571627184,
+     135.78139062152297
+    ]
+   ],
+   "path_mm": [
+    [
+     48.23961928047032,
+     488.7847168435779,
+     -50.579510730859205
+    ],
+    [
+     50.074131593520306,
+     490.2967463096134,
+     -41.605887822481726
+    ],
+    [
+     84.00934288340312,
+     349.619571627184,
+     135.78139062152297
+    ]
+   ],
+   "length_mm": 238.2,
+   "attach_off_mm": [
+    1.0,
+    2.8
+   ],
+   "attach_off_source_mm": [
+    0.8,
+    2.3
+   ],
+   "norm_fibre_length": 1.043,
+   "norm_fibre_length_source_default": 1.053,
+   "placeholder": false,
+   "L_opt_mm": 132.6,
+   "tendon_slack_mm": 106.9,
+   "Fmax_N_shepherd": 45.0
+  },
+  "left_tibialis_cranialis": {
+   "group": "hind",
+   "bodies": [
+    "left_calx",
+    "left_calx",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     46.11879638215452,
+     515.4275044138856,
+     -68.79212463706597
+    ],
+    [
+     47.85063939561255,
+     493.8609443926366,
+     -63.27932191470006
+    ],
+    [
+     70.1753307436415,
+     324.80754703603486,
+     102.02015328115296
+    ]
+   ],
+   "path_mm": [
+    [
+     46.11879638215452,
+     515.4275044138856,
+     -68.79212463706597
+    ],
+    [
+     47.85063939561255,
+     493.8609443926366,
+     -63.27932191470006
+    ],
+    [
+     70.1753307436415,
+     324.80754703603486,
+     102.02015328115296
+    ]
+   ],
+   "length_mm": 259.8,
+   "attach_off_mm": [
+    14.6,
+    8.0
+   ],
+   "attach_off_source_mm": [
+    12.6,
+    6.5
+   ],
+   "norm_fibre_length": 0.972,
+   "norm_fibre_length_source_default": 0.977,
+   "placeholder": false,
+   "L_opt_mm": 151.0,
+   "tendon_slack_mm": 121.7,
+   "Fmax_N_shepherd": 45.0
+  },
+  "left_popliteus": {
+   "group": "hind",
+   "bodies": [
+    "left_femur",
+    "left_crus",
+    "left_crus"
+   ],
+   "points_mm": [
+    [
+     89.18839565481171,
+     317.26777695782323,
+     147.45749277056265
+    ],
+    [
+     89.72892920709077,
+     319.96824586248215,
+     147.60195555101623
+    ],
+    [
+     55.38405014799589,
+     351.63472620009725,
+     116.68513682406285
+    ]
+   ],
+   "path_mm": [
+    [
+     89.18839565481171,
+     317.26777695782323,
+     147.45749277056265
+    ],
+    [
+     89.72892920709077,
+     319.96824586248215,
+     147.60195555101623
+    ],
+    [
+     55.38405014799589,
+     351.63472620009725,
+     116.68513682406285
+    ]
+   ],
+   "length_mm": 58.8,
+   "attach_off_mm": [
+    4.9,
+    8.4
+   ],
+   "attach_off_source_mm": [
+    4.0,
+    7.0
+   ],
+   "norm_fibre_length": 0.699,
+   "norm_fibre_length_source_default": 0.69,
+   "placeholder": false,
+   "L_opt_mm": 15.3,
+   "tendon_slack_mm": 56.7,
+   "Fmax_N_shepherd": 119.20334
+  },
+  "right_sacrocaudalis": {
+   "group": "trunk",
+   "bodies": [
+    "cauda",
+    "abdomen"
+   ],
+   "points_mm": [
+    [
+     -22.83427948723291,
+     366.32967443220014,
+     490.72196131917667
+    ],
+    [
+     -17.598519601751523,
+     -2.6839868143093657,
+     543.8563357815242
+    ]
+   ],
+   "path_mm": [
+    [
+     -22.83427948723291,
+     366.32967443220014,
+     490.72196131917667
+    ],
+    [
+     -17.598519601751523,
+     -2.6839868143093657,
+     543.8563357815242
+    ]
+   ],
+   "length_mm": 372.9,
+   "attach_off_mm": [
+    4.2,
+    28.6
+   ],
+   "attach_off_source_mm": [
+    2.8,
+    18.3
+   ],
+   "norm_fibre_length": 6.99,
+   "norm_fibre_length_source_default": 10.0,
+   "placeholder": true,
+   "L_opt_mm": 14.3,
+   "tendon_slack_mm": 0.0,
+   "Fmax_N_shepherd": 1.0
+  },
+  "right_psoas_major": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "abdomen"
+   ],
+   "points_mm": [
+    [
+     -55.27289282181634,
+     344.78809866693433,
+     331.34594056150473
+    ],
+    [
+     -43.8199932524487,
+     41.687059688837586,
+     491.1710889971264
+    ]
+   ],
+   "path_mm": [
+    [
+     -55.27289282181634,
+     344.78809866693433,
+     331.34594056150473
+    ],
+    [
+     -43.8199932524487,
+     41.687059688837586,
+     491.1710889971264
+    ]
+   ],
+   "length_mm": 342.8,
+   "attach_off_mm": [
+    18.9,
+    32.3
+   ],
+   "attach_off_source_mm": [
+    15.7,
+    20.4
+   ],
+   "norm_fibre_length": 2.185,
+   "norm_fibre_length_source_default": 2.054,
+   "placeholder": false,
+   "L_opt_mm": 89.7,
+   "tendon_slack_mm": 137.9,
+   "Fmax_N_shepherd": 37.91612
+  },
+  "right_psoas_minor": {
+   "group": "trunk",
+   "bodies": [
+    "pelvis",
+    "abdomen"
+   ],
+   "points_mm": [
+    [
+     -36.33335992738472,
+     316.7111132504938,
+     354.36012934556044
+    ],
+    [
+     -14.617349614569571,
+     -27.75100461460786,
+     482.13261248958423
+    ]
+   ],
+   "path_mm": [
+    [
+     -36.33335992738472,
+     316.7111132504938,
+     354.36012934556044
+    ],
+    [
+     -14.617349614569571,
+     -27.75100461460786,
+     482.13261248958423
+    ]
+   ],
+   "length_mm": 368.0,
+   "attach_off_mm": [
+    1.6,
+    6.8
+   ],
+   "attach_off_source_mm": [
+    1.3,
+    4.7
+   ],
+   "norm_fibre_length": 2.456,
+   "norm_fibre_length_source_default": 2.321,
+   "placeholder": false,
+   "L_opt_mm": 90.3,
+   "tendon_slack_mm": 138.7,
+   "Fmax_N_shepherd": 37.91612
+  },
+  "right_adductor_longus": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     -69.79964770458052,
+     347.8093859193914,
+     314.74894423716665
+    ],
+    [
+     -19.910372126994925,
+     327.8641270040248,
+     339.6003890170653
+    ]
+   ],
+   "path_mm": [
+    [
+     -69.79964770458052,
+     347.8093859193914,
+     314.74894423716665
+    ],
+    [
+     -19.910372126994925,
+     327.8641270040248,
+     339.6003890170653
+    ]
+   ],
+   "length_mm": 59.2,
+   "attach_off_mm": [
+    10.7,
+    2.0
+   ],
+   "attach_off_source_mm": [
+    8.9,
+    1.6
+   ],
+   "norm_fibre_length": 0.836,
+   "norm_fibre_length_source_default": 0.838,
+   "placeholder": false,
+   "L_opt_mm": 25.3,
+   "tendon_slack_mm": 41.5,
+   "Fmax_N_shepherd": 68.88
+  },
+  "right_gemelli": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     -76.59034173682777,
+     351.8285255707626,
+     352.33768532052795
+    ],
+    [
+     -55.91349474807698,
+     369.9583944081434,
+     368.67751640072555
+    ]
+   ],
+   "path_mm": [
+    [
+     -76.59034173682777,
+     351.8285255707626,
+     352.33768532052795
+    ],
+    [
+     -55.91349474807698,
+     369.9583944081434,
+     368.67751640072555
+    ]
+   ],
+   "length_mm": 32.0,
+   "attach_off_mm": [
+    2.2,
+    2.6
+   ],
+   "attach_off_source_mm": [
+    1.8,
+    2.1
+   ],
+   "norm_fibre_length": 0.684,
+   "norm_fibre_length_source_default": 0.684,
+   "placeholder": false,
+   "L_opt_mm": 12.8,
+   "tendon_slack_mm": 32.7,
+   "Fmax_N_shepherd": 51.36
+  },
+  "right_gluteus_medius": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     -84.31120381111421,
+     345.5533251386113,
+     365.78213509507276
+    ],
+    [
+     -49.354428033657854,
+     275.100282039939,
+     436.9374053464944
+    ]
+   ],
+   "path_mm": [
+    [
+     -84.31120381111421,
+     345.5533251386113,
+     365.78213509507276
+    ],
+    [
+     -49.354428033657854,
+     275.100282039939,
+     436.9374053464944
+    ]
+   ],
+   "length_mm": 106.1,
+   "attach_off_mm": [
+    1.4,
+    4.3
+   ],
+   "attach_off_source_mm": [
+    1.2,
+    3.5
+   ],
+   "norm_fibre_length": 0.885,
+   "norm_fibre_length_source_default": 0.885,
+   "placeholder": false,
+   "L_opt_mm": 47.0,
+   "tendon_slack_mm": 75.2,
+   "Fmax_N_shepherd": 513.20416
+  },
+  "right_gluteus_profundus": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     -85.6054550445687,
+     340.6335480304351,
+     357.31616262913576
+    ],
+    [
+     -45.6952306576431,
+     312.42180002175,
+     400.23978018762625
+    ]
+   ],
+   "path_mm": [
+    [
+     -85.6054550445687,
+     340.6335480304351,
+     357.31616262913576
+    ],
+    [
+     -45.6952306576431,
+     312.42180002175,
+     400.23978018762625
+    ]
+   ],
+   "length_mm": 65.0,
+   "attach_off_mm": [
+    4.9,
+    1.0
+   ],
+   "attach_off_source_mm": [
+    4.1,
+    0.8
+   ],
+   "norm_fibre_length": 0.455,
+   "norm_fibre_length_source_default": 0.455,
+   "placeholder": false,
+   "L_opt_mm": 10.1,
+   "tendon_slack_mm": 64.1,
+   "Fmax_N_shepherd": 126.96
+  },
+  "right_gluteus_superficialis": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_femur"
+   ],
+   "points_mm": [
+    [
+     -3.2183578654481515,
+     310.42337586460224,
+     447.1486153476261
+    ],
+    [
+     -85.36877183826404,
+     354.17204565099144,
+     347.25273250564635
+    ]
+   ],
+   "path_mm": [
+    [
+     -3.2183578654481515,
+     310.42337586460224,
+     447.1486153476261
+    ],
+    [
+     -67.62265496066198,
+     355.22916488251724,
+     374.851457034849
+    ],
+    [
+     -78.3045266193193,
+     357.47772396611265,
+     359.89160124258495
+    ],
+    [
+     -85.36877183826404,
+     354.17204565099144,
+     347.25273250564635
+    ]
+   ],
+   "length_mm": 140.4,
+   "attach_off_mm": [
+    26.9,
+    4.5
+   ],
+   "attach_off_source_mm": [
+    22.0,
+    3.8
+   ],
+   "norm_fibre_length": 1.04,
+   "norm_fibre_length_source_default": 1.04,
+   "placeholder": false,
+   "L_opt_mm": 87.3,
+   "tendon_slack_mm": 71.3,
+   "Fmax_N_shepherd": 127.45652
+  },
+  "right_iliacus": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     -56.331134405488825,
+     345.4621752490491,
+     333.50717662915054
+    ],
+    [
+     -46.074674864771474,
+     282.4793191173897,
+     398.1958332517952
+    ]
+   ],
+   "path_mm": [
+    [
+     -56.331134405488825,
+     345.4621752490491,
+     333.50717662915054
+    ],
+    [
+     -53.5403400389728,
+     326.2054409026137,
+     349.7133548159576
+    ],
+    [
+     -53.23362806417026,
+     324.2549115186808,
+     351.60364518488365
+    ],
+    [
+     -46.074674864771474,
+     282.4793191173897,
+     398.1958332517952
+    ]
+   ],
+   "length_mm": 91.0,
+   "attach_off_mm": [
+    17.6,
+    9.2
+   ],
+   "attach_off_source_mm": [
+    14.6,
+    7.5
+   ],
+   "norm_fibre_length": 0.964,
+   "norm_fibre_length_source_default": 0.966,
+   "placeholder": false,
+   "L_opt_mm": 36.8,
+   "tendon_slack_mm": 56.6,
+   "Fmax_N_shepherd": 75.83223
+  },
+  "right_obturator_ext": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     -72.86337264064103,
+     350.3525927561235,
+     344.88890532757875
+    ],
+    [
+     -32.27029695476313,
+     372.1091580278614,
+     341.6010956506894
+    ]
+   ],
+   "path_mm": [
+    [
+     -72.86337264064103,
+     350.3525927561235,
+     344.88890532757875
+    ],
+    [
+     -32.27029695476313,
+     372.1091580278614,
+     341.6010956506894
+    ]
+   ],
+   "length_mm": 46.2,
+   "attach_off_mm": [
+    3.0,
+    10.1
+   ],
+   "attach_off_source_mm": [
+    2.5,
+    8.3
+   ],
+   "norm_fibre_length": 0.818,
+   "norm_fibre_length_source_default": 0.817,
+   "placeholder": false,
+   "L_opt_mm": 23.0,
+   "tendon_slack_mm": 32.2,
+   "Fmax_N_shepherd": 132.96
+  },
+  "right_obturator_int": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_femur"
+   ],
+   "points_mm": [
+    [
+     -108.30296780722715,
+     348.09724172962143,
+     351.47753538528565
+    ],
+    [
+     -49.47384302441541,
+     365.564560915987,
+     351.994858118862
+    ]
+   ],
+   "path_mm": [
+    [
+     -108.30296780722715,
+     348.09724172962143,
+     351.47753538528565
+    ],
+    [
+     -49.47384302441541,
+     365.564560915987,
+     351.994858118862
+    ]
+   ],
+   "length_mm": 61.4,
+   "attach_off_mm": [
+    44.0,
+    19.7
+   ],
+   "attach_off_source_mm": [
+    35.9,
+    16.3
+   ],
+   "norm_fibre_length": 1.039,
+   "norm_fibre_length_source_default": 1.04,
+   "placeholder": false,
+   "L_opt_mm": 19.4,
+   "tendon_slack_mm": 42.8,
+   "Fmax_N_shepherd": 188.4
+  },
+  "right_piriformis": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     -103.1616834550683,
+     347.7331246534221,
+     369.54374350114034
+    ],
+    [
+     -51.09205655003894,
+     318.8301990449862,
+     432.6012182340269
+    ]
+   ],
+   "path_mm": [
+    [
+     -103.1616834550683,
+     347.7331246534221,
+     369.54374350114034
+    ],
+    [
+     -51.09205655003894,
+     318.8301990449862,
+     432.6012182340269
+    ]
+   ],
+   "length_mm": 86.7,
+   "attach_off_mm": [
+    5.0,
+    6.2
+   ],
+   "attach_off_source_mm": [
+    4.1,
+    5.1
+   ],
+   "norm_fibre_length": 0.522,
+   "norm_fibre_length_source_default": 0.522,
+   "placeholder": false,
+   "L_opt_mm": 71.1,
+   "tendon_slack_mm": 134.2,
+   "Fmax_N_shepherd": 104.3504
+  },
+  "right_pectineus": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     -62.995189657958484,
+     308.7750274484798,
+     197.94563024110482
+    ],
+    [
+     -35.42775132274498,
+     322.3078785630529,
+     347.75768178383413
+    ]
+   ],
+   "path_mm": [
+    [
+     -62.995189657958484,
+     308.7750274484798,
+     197.94563024110482
+    ],
+    [
+     -35.42775132274498,
+     322.3078785630529,
+     347.75768178383413
+    ]
+   ],
+   "length_mm": 152.9,
+   "attach_off_mm": [
+    7.5,
+    3.6
+   ],
+   "attach_off_source_mm": [
+    6.2,
+    2.9
+   ],
+   "norm_fibre_length": 0.673,
+   "norm_fibre_length_source_default": 0.674,
+   "placeholder": false,
+   "L_opt_mm": 46.1,
+   "tendon_slack_mm": 147.5,
+   "Fmax_N_shepherd": 191.76
+  },
+  "right_sartorius_caudal": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -57.56596454539489,
+     244.6927254091436,
+     422.4075820490049
+    ],
+    [
+     -58.392446508946776,
+     311.4217640834258,
+     125.06151413827563
+    ],
+    [
+     -63.1652174557763,
+     328.05982600847824,
+     92.97388685655963
+    ]
+   ],
+   "path_mm": [
+    [
+     -57.56596454539489,
+     244.6927254091436,
+     422.4075820490049
+    ],
+    [
+     -58.35073595315332,
+     289.1682194942905,
+     153.15916830554914
+    ],
+    [
+     -58.40802645787054,
+     296.5388094381685,
+     139.23355945172273
+    ],
+    [
+     -58.392446508946776,
+     311.4217640834258,
+     125.06151413827563
+    ],
+    [
+     -63.1652174557763,
+     328.05982600847824,
+     92.97388685655963
+    ]
+   ],
+   "length_mm": 345.9,
+   "attach_off_mm": [
+    10.8,
+    2.0
+   ],
+   "attach_off_source_mm": [
+    8.8,
+    1.7
+   ],
+   "norm_fibre_length": 1.142,
+   "norm_fibre_length_source_default": 1.128,
+   "placeholder": false,
+   "L_opt_mm": 278.4,
+   "tendon_slack_mm": 81.1,
+   "Fmax_N_shepherd": 21.7012
+  },
+  "right_sartorius_cranial": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -62.59567651184322,
+     241.20738606753648,
+     445.04991780492315
+    ],
+    [
+     -74.54223012153676,
+     284.04101653192646,
+     145.91072182907732
+    ],
+    [
+     -74.81699144272056,
+     287.36982397587076,
+     140.47585513680505
+    ]
+   ],
+   "path_mm": [
+    [
+     -62.59567651184322,
+     241.20738606753648,
+     445.04991780492315
+    ],
+    [
+     -74.54223012153676,
+     284.04101653192646,
+     145.91072182907732
+    ],
+    [
+     -74.81699144272056,
+     287.36982397587076,
+     140.47585513680505
+    ]
+   ],
+   "length_mm": 308.8,
+   "attach_off_mm": [
+    1.3,
+    33.6
+   ],
+   "attach_off_source_mm": [
+    1.0,
+    26.6
+   ],
+   "norm_fibre_length": 1.117,
+   "norm_fibre_length_source_default": 1.096,
+   "placeholder": false,
+   "L_opt_mm": 230.3,
+   "tendon_slack_mm": 96.4,
+   "Fmax_N_shepherd": 66.24
+  },
+  "right_tensor_fasciae": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_femur"
+   ],
+   "points_mm": [
+    [
+     -58.33693540123637,
+     246.6326746294699,
+     425.51224890409344
+    ],
+    [
+     -98.39483385549744,
+     315.30937304147864,
+     259.1485377588436
+    ]
+   ],
+   "path_mm": [
+    [
+     -58.33693540123637,
+     246.6326746294699,
+     425.51224890409344
+    ],
+    [
+     -98.39483385549744,
+     315.30937304147864,
+     259.1485377588436
+    ]
+   ],
+   "length_mm": 184.4,
+   "attach_off_mm": [
+    7.4,
+    6.5
+   ],
+   "attach_off_source_mm": [
+    6.1,
+    5.4
+   ],
+   "norm_fibre_length": 1.185,
+   "norm_fibre_length_source_default": 1.186,
+   "placeholder": false,
+   "L_opt_mm": 164.8,
+   "tendon_slack_mm": 33.2,
+   "Fmax_N_shepherd": 51.22743
+  },
+  "right_quadratus_femoris": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_femur"
+   ],
+   "points_mm": [
+    [
+     -55.240327772440416,
+     396.68451595850087,
+     344.37449737513674
+    ],
+    [
+     -68.96149013963033,
+     352.81358717677097,
+     328.7597478279363
+    ]
+   ],
+   "path_mm": [
+    [
+     -55.240327772440416,
+     396.68451595850087,
+     344.37449737513674
+    ],
+    [
+     -68.96149013963033,
+     352.81358717677097,
+     328.7597478279363
+    ]
+   ],
+   "length_mm": 48.5,
+   "attach_off_mm": [
+    1.1,
+    7.6
+   ],
+   "attach_off_source_mm": [
+    0.9,
+    6.3
+   ],
+   "norm_fibre_length": 0.943,
+   "norm_fibre_length_source_default": 0.94,
+   "placeholder": false,
+   "L_opt_mm": 35.0,
+   "tendon_slack_mm": 20.5,
+   "Fmax_N_shepherd": 64.8
+  },
+  "right_vastus_lateralis": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -84.28257477575865,
+     337.4546899656429,
+     337.7792288805421
+    ],
+    [
+     -85.18365991756374,
+     294.89734028497884,
+     135.66234516724418
+    ],
+    [
+     -77.82918154922585,
+     313.81744110524716,
+     109.35158267558154
+    ]
+   ],
+   "path_mm": [
+    [
+     -84.28257477575865,
+     337.4546899656429,
+     337.7792288805421
+    ],
+    [
+     -84.89095582803901,
+     289.40803456074184,
+     164.77309823856936
+    ],
+    [
+     -85.0327147227851,
+     289.897404670874,
+     149.93723784578077
+    ],
+    [
+     -85.18365991756374,
+     294.89734028497884,
+     135.66234516724418
+    ],
+    [
+     -77.82918154922585,
+     313.81744110524716,
+     109.35158267558154
+    ]
+   ],
+   "length_mm": 243.0,
+   "attach_off_mm": [
+    10.5,
+    2.8
+   ],
+   "attach_off_source_mm": [
+    8.7,
+    2.3
+   ],
+   "norm_fibre_length": 0.91,
+   "norm_fibre_length_source_default": 0.887,
+   "placeholder": false,
+   "L_opt_mm": 110.7,
+   "tendon_slack_mm": 188.9,
+   "Fmax_N_shepherd": 487.68
+  },
+  "right_vastus_medialis": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -62.25731520621773,
+     333.7209978040812,
+     331.40728117821436
+    ],
+    [
+     -70.24217656280074,
+     288.18082688905764,
+     146.9630927733759
+    ],
+    [
+     -68.38397035407364,
+     313.0412996940005,
+     109.0805583778911
+    ]
+   ],
+   "path_mm": [
+    [
+     -62.25731520621773,
+     333.7209978040812,
+     331.40728117821436
+    ],
+    [
+     -69.49332343940463,
+     289.5125516347233,
+     163.9053618669716
+    ],
+    [
+     -69.72031440755266,
+     288.7191806394571,
+     158.72269629992323
+    ],
+    [
+     -70.24217656280074,
+     288.18082688905764,
+     146.9630927733759
+    ],
+    [
+     -68.38397035407364,
+     313.0412996940005,
+     109.0805583778911
+    ]
+   ],
+   "length_mm": 235.8,
+   "attach_off_mm": [
+    10.7,
+    1.4
+   ],
+   "attach_off_source_mm": [
+    8.9,
+    1.1
+   ],
+   "norm_fibre_length": 0.756,
+   "norm_fibre_length_source_default": 0.71,
+   "placeholder": false,
+   "L_opt_mm": 58.2,
+   "tendon_slack_mm": 209.0,
+   "Fmax_N_shepherd": 513.84
+  },
+  "right_rectus_femoris": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -54.78778657803675,
+     313.41945227221413,
+     376.40110784540184
+    ],
+    [
+     -79.84226193406198,
+     286.0189411795408,
+     144.52521641238857
+    ],
+    [
+     -72.10301241252003,
+     312.23119116590533,
+     111.65443820825072
+    ]
+   ],
+   "path_mm": [
+    [
+     -54.78778657803675,
+     313.41945227221413,
+     376.40110784540184
+    ],
+    [
+     -79.84226193406198,
+     286.0189411795408,
+     144.52521641238857
+    ],
+    [
+     -72.10301241252003,
+     312.23119116590533,
+     111.65443820825072
+    ]
+   ],
+   "length_mm": 277.6,
+   "attach_off_mm": [
+    6.3,
+    0.7
+   ],
+   "attach_off_source_mm": [
+    5.2,
+    0.6
+   ],
+   "norm_fibre_length": 0.664,
+   "norm_fibre_length_source_default": 0.621,
+   "placeholder": false,
+   "L_opt_mm": 55.6,
+   "tendon_slack_mm": 257.8,
+   "Fmax_N_shepherd": 444.14527
+  },
+  "right_abductor_cruris": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -42.133919890881856,
+     366.9309034119097,
+     392.9775198947946
+    ],
+    [
+     -82.45356516174782,
+     398.8799989771896,
+     170.23871443404028
+    ],
+    [
+     -77.73789893646266,
+     378.79024909584183,
+     23.98675477555015
+    ]
+   ],
+   "path_mm": [
+    [
+     -42.133919890881856,
+     366.9309034119097,
+     392.9775198947946
+    ],
+    [
+     -82.45356516174782,
+     398.8799989771896,
+     170.23871443404028
+    ],
+    [
+     -77.73789893646266,
+     378.79024909584183,
+     23.98675477555015
+    ]
+   ],
+   "length_mm": 376.3,
+   "attach_off_mm": [
+    8.6,
+    28.9
+   ],
+   "attach_off_source_mm": [
+    7.0,
+    24.0
+   ],
+   "norm_fibre_length": 0.977,
+   "norm_fibre_length_source_default": 1.037,
+   "placeholder": false,
+   "L_opt_mm": 280.8,
+   "tendon_slack_mm": 101.3,
+   "Fmax_N_shepherd": 5.64705
+  },
+  "right_adductoren": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "pelvis"
+   ],
+   "points_mm": [
+    [
+     -75.90503185264586,
+     326.5402193835917,
+     249.5476572457514
+    ],
+    [
+     -16.960985004624664,
+     366.86871443931835,
+     332.0685047333229
+    ]
+   ],
+   "path_mm": [
+    [
+     -75.90503185264586,
+     326.5402193835917,
+     249.5476572457514
+    ],
+    [
+     -16.960985004624664,
+     366.86871443931835,
+     332.0685047333229
+    ]
+   ],
+   "length_mm": 109.1,
+   "attach_off_mm": [
+    0.8,
+    5.4
+   ],
+   "attach_off_source_mm": [
+    0.6,
+    4.4
+   ],
+   "norm_fibre_length": 0.999,
+   "norm_fibre_length_source_default": 0.998,
+   "placeholder": false,
+   "L_opt_mm": 79.7,
+   "tendon_slack_mm": 38.6,
+   "Fmax_N_shepherd": 342.38755
+  },
+  "right_biceps_femoris_longum": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -76.72968346491106,
+     394.92402284941636,
+     359.43400344998287
+    ],
+    [
+     -95.58277639867333,
+     386.52933845541247,
+     172.56255487132077
+    ],
+    [
+     -81.81357401461041,
+     321.0633538076901,
+     98.76330543341501
+    ]
+   ],
+   "path_mm": [
+    [
+     -76.72968346491106,
+     394.92402284941636,
+     359.43400344998287
+    ],
+    [
+     -95.58277639867333,
+     386.52933845541247,
+     172.56255487132077
+    ],
+    [
+     -81.81357401461041,
+     321.0633538076901,
+     98.76330543341501
+    ]
+   ],
+   "length_mm": 287.6,
+   "attach_off_mm": [
+    3.6,
+    10.6
+   ],
+   "attach_off_source_mm": [
+    2.9,
+    8.7
+   ],
+   "norm_fibre_length": 1.324,
+   "norm_fibre_length_source_default": 1.445,
+   "placeholder": false,
+   "L_opt_mm": 96.6,
+   "tendon_slack_mm": 172.3,
+   "Fmax_N_shepherd": 284.22081
+  },
+  "right_biceps_femoris_breve": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -88.60924058186914,
+     373.38557257686927,
+     272.9015364687263
+    ],
+    [
+     -95.58277639867333,
+     386.52933845541247,
+     172.56255487132077
+    ],
+    [
+     -81.81357401461041,
+     321.0633538076901,
+     98.76330543341501
+    ]
+   ],
+   "path_mm": [
+    [
+     -88.60924058186914,
+     373.38557257686927,
+     272.9015364687263
+    ],
+    [
+     -95.58277639867333,
+     386.52933845541247,
+     172.56255487132077
+    ],
+    [
+     -81.81357401461041,
+     321.0633538076901,
+     98.76330543341501
+    ]
+   ],
+   "length_mm": 201.0,
+   "attach_off_mm": [
+    39.1,
+    10.6
+   ],
+   "attach_off_source_mm": [
+    32.5,
+    8.7
+   ],
+   "norm_fibre_length": 0.789,
+   "norm_fibre_length_source_default": 0.981,
+   "placeholder": false,
+   "L_opt_mm": 77.9,
+   "tendon_slack_mm": 138.8,
+   "Fmax_N_shepherd": 400.0
+  },
+  "right_gracilis_tractus_calcaneus": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -15.272161555618586,
+     375.904579462856,
+     329.9089424824374
+    ],
+    [
+     -37.0894621818952,
+     371.0826883486939,
+     159.4869798083893
+    ],
+    [
+     -60.23615343810357,
+     350.5282720302187,
+     74.53871799577833
+    ]
+   ],
+   "path_mm": [
+    [
+     -15.272161555618586,
+     375.904579462856,
+     329.9089424824374
+    ],
+    [
+     -37.0894621818952,
+     371.0826883486939,
+     159.4869798083893
+    ],
+    [
+     -60.23615343810357,
+     350.5282720302187,
+     74.53871799577833
+    ]
+   ],
+   "length_mm": 262.3,
+   "attach_off_mm": [
+    1.6,
+    1.3
+   ],
+   "attach_off_source_mm": [
+    1.3,
+    1.1
+   ],
+   "norm_fibre_length": 1.09,
+   "norm_fibre_length_source_default": 1.13,
+   "placeholder": false,
+   "L_opt_mm": 203.4,
+   "tendon_slack_mm": 104.9,
+   "Fmax_N_shepherd": 217.68827
+  },
+  "right_semimembranosus": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -55.693090681477486,
+     408.77702485250114,
+     345.5447112918518
+    ],
+    [
+     -50.762848774546384,
+     326.6848377367116,
+     161.49252178172244
+    ],
+    [
+     -59.82037710216823,
+     314.34041635053114,
+     131.60551687699066
+    ]
+   ],
+   "path_mm": [
+    [
+     -55.693090681477486,
+     408.77702485250114,
+     345.5447112918518
+    ],
+    [
+     -50.762848774546384,
+     326.6848377367116,
+     161.49252178172244
+    ],
+    [
+     -59.82037710216823,
+     314.34041635053114,
+     131.60551687699066
+    ]
+   ],
+   "length_mm": 235.2,
+   "attach_off_mm": [
+    5.2,
+    7.4
+   ],
+   "attach_off_source_mm": [
+    4.3,
+    5.8
+   ],
+   "norm_fibre_length": 1.061,
+   "norm_fibre_length_source_default": 1.07,
+   "placeholder": false,
+   "L_opt_mm": 200.8,
+   "tendon_slack_mm": 43.3,
+   "Fmax_N_shepherd": 223.30747
+  },
+  "right_semitendinosus": {
+   "group": "hind",
+   "bodies": [
+    "pelvis",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -74.40451393326782,
+     398.032195282064,
+     354.16224592168504
+    ],
+    [
+     -45.886399335065576,
+     388.1186294415419,
+     139.1863432784554
+    ],
+    [
+     -60.06883269247899,
+     352.937155187203,
+     74.97898227895475
+    ]
+   ],
+   "path_mm": [
+    [
+     -74.40451393326782,
+     398.032195282064,
+     354.16224592168504
+    ],
+    [
+     -45.886399335065576,
+     388.1186294415419,
+     139.1863432784554
+    ],
+    [
+     -60.06883269247899,
+     352.937155187203,
+     74.97898227895475
+    ]
+   ],
+   "length_mm": 291.7,
+   "attach_off_mm": [
+    1.5,
+    2.2
+   ],
+   "attach_off_source_mm": [
+    1.2,
+    1.8
+   ],
+   "norm_fibre_length": 1.085,
+   "norm_fibre_length_source_default": 1.14,
+   "placeholder": false,
+   "L_opt_mm": 226.0,
+   "tendon_slack_mm": 82.8,
+   "Fmax_N_shepherd": 83.93746
+  },
+  "right_gastrocnemius_lateralis": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "right_crus",
+    "right_calx"
+   ],
+   "points_mm": [
+    [
+     -87.45841040302189,
+     317.05630489628714,
+     169.59915187328752
+    ],
+    [
+     -95.18125190732036,
+     345.26328237237334,
+     159.67670399610776
+    ],
+    [
+     -100.84753212075846,
+     510.1642580019834,
+     -29.853922102549035
+    ]
+   ],
+   "path_mm": [
+    [
+     -87.45841040302189,
+     317.05630489628714,
+     169.59915187328752
+    ],
+    [
+     -95.18125190732036,
+     345.26328237237334,
+     159.67670399610776
+    ],
+    [
+     -100.84753212075846,
+     510.1642580019834,
+     -29.853922102549035
+    ]
+   ],
+   "length_mm": 282.2,
+   "attach_off_mm": [
+    2.8,
+    1.1
+   ],
+   "attach_off_source_mm": [
+    2.3,
+    1.2
+   ],
+   "norm_fibre_length": 0.452,
+   "norm_fibre_length_source_default": 0.459,
+   "placeholder": false,
+   "L_opt_mm": 30.3,
+   "tendon_slack_mm": 294.8,
+   "Fmax_N_shepherd": 604.40215
+  },
+  "right_gastrocnemius_medialis": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "right_crus",
+    "right_calx"
+   ],
+   "points_mm": [
+    [
+     -60.07317668705365,
+     315.99289141414334,
+     173.74893124033755
+    ],
+    [
+     -62.88045052502925,
+     354.7576706823844,
+     153.39764348910086
+    ],
+    [
+     -97.40668576842714,
+     510.79679433317716,
+     -29.35430129801106
+    ]
+   ],
+   "path_mm": [
+    [
+     -60.07317668705365,
+     315.99289141414334,
+     173.74893124033755
+    ],
+    [
+     -62.88045052502925,
+     354.7576706823844,
+     153.39764348910086
+    ],
+    [
+     -97.40668576842714,
+     510.79679433317716,
+     -29.35430129801106
+    ]
+   ],
+   "length_mm": 286.6,
+   "attach_off_mm": [
+    3.9,
+    0.3
+   ],
+   "attach_off_source_mm": [
+    3.3,
+    0.4
+   ],
+   "norm_fibre_length": 0.619,
+   "norm_fibre_length_source_default": 0.619,
+   "placeholder": false,
+   "L_opt_mm": 45.3,
+   "tendon_slack_mm": 320.7,
+   "Fmax_N_shepherd": 488.19623
+  },
+  "right_peroneus_longus": {
+   "group": "hind",
+   "bodies": [
+    "right_crus",
+    "right_calx",
+    "right_calx"
+   ],
+   "points_mm": [
+    [
+     -91.69766770000572,
+     334.9836731940723,
+     128.43438752838605
+    ],
+    [
+     -104.1630930872325,
+     496.3122498171203,
+     -63.63922511827812
+    ],
+    [
+     -99.8989567858039,
+     514.0748238046532,
+     -73.22087616242403
+    ]
+   ],
+   "path_mm": [
+    [
+     -91.69766770000572,
+     334.9836731940723,
+     128.43438752838605
+    ],
+    [
+     -103.57619276255333,
+     492.8578565962533,
+     -52.161334741446865
+    ],
+    [
+     -103.86235937707764,
+     495.2348371697237,
+     -57.186023194168094
+    ],
+    [
+     -104.1630930872325,
+     496.3122498171203,
+     -63.63922511827812
+    ],
+    [
+     -99.8989567858039,
+     514.0748238046532,
+     -73.22087616242403
+    ]
+   ],
+   "length_mm": 273.0,
+   "attach_off_mm": [
+    3.7,
+    3.1
+   ],
+   "attach_off_source_mm": [
+    3.1,
+    3.0
+   ],
+   "norm_fibre_length": 0.844,
+   "norm_fibre_length_source_default": 0.863,
+   "placeholder": false,
+   "L_opt_mm": 171.0,
+   "tendon_slack_mm": 140.2,
+   "Fmax_N_shepherd": 327.14428
+  },
+  "right_tibialis_caudalis": {
+   "group": "hind",
+   "bodies": [
+    "right_calx",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -72.51752851980964,
+     489.0560196156519,
+     -50.98064159576966
+    ],
+    [
+     -54.05201259635285,
+     490.0893836060316,
+     -41.630979421971944
+    ],
+    [
+     -87.55846387607018,
+     349.8521880331025,
+     135.8095380066825
+    ]
+   ],
+   "path_mm": [
+    [
+     -72.51752851980964,
+     489.0560196156519,
+     -50.98064159576966
+    ],
+    [
+     -54.05201259635285,
+     490.0893836060316,
+     -41.630979421971944
+    ],
+    [
+     -87.55846387607018,
+     349.8521880331025,
+     135.8095380066825
+    ]
+   ],
+   "length_mm": 249.4,
+   "attach_off_mm": [
+    1.4,
+    3.8
+   ],
+   "attach_off_source_mm": [
+    1.2,
+    3.0
+   ],
+   "norm_fibre_length": 1.144,
+   "norm_fibre_length_source_default": 1.15,
+   "placeholder": false,
+   "L_opt_mm": 131.0,
+   "tendon_slack_mm": 105.6,
+   "Fmax_N_shepherd": 45.0
+  },
+  "right_tibialis_cranialis": {
+   "group": "hind",
+   "bodies": [
+    "right_calx",
+    "right_calx",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -70.01052409328965,
+     515.781657556439,
+     -69.31575274251958
+    ],
+    [
+     -71.29995694986684,
+     494.1610086919366,
+     -63.7229777275396
+    ],
+    [
+     -74.19942062821058,
+     324.86276010124476,
+     102.02683425216802
+    ]
+   ],
+   "path_mm": [
+    [
+     -70.01052409328965,
+     515.781657556439,
+     -69.31575274251958
+    ],
+    [
+     -71.29995694986684,
+     494.1610086919366,
+     -63.7229777275396
+    ],
+    [
+     -74.19942062821058,
+     324.86276010124476,
+     102.02683425216802
+    ]
+   ],
+   "length_mm": 259.3,
+   "attach_off_mm": [
+    16.3,
+    5.4
+   ],
+   "attach_off_source_mm": [
+    13.9,
+    4.4
+   ],
+   "norm_fibre_length": 0.967,
+   "norm_fibre_length_source_default": 0.972,
+   "placeholder": false,
+   "L_opt_mm": 151.2,
+   "tendon_slack_mm": 121.9,
+   "Fmax_N_shepherd": 45.0
+  },
+  "right_popliteus": {
+   "group": "hind",
+   "bodies": [
+    "right_femur",
+    "right_crus",
+    "right_crus"
+   ],
+   "points_mm": [
+    [
+     -89.20475852986358,
+     317.2212014998677,
+     147.45015867718226
+    ],
+    [
+     -93.40374019003654,
+     320.2763096658076,
+     147.63923233083275
+    ],
+    [
+     -59.0807446316875,
+     351.494811275227,
+     116.6682066372095
+    ]
+   ],
+   "path_mm": [
+    [
+     -89.20475852986358,
+     317.2212014998677,
+     147.45015867718226
+    ],
+    [
+     -93.40374019003654,
+     320.2763096658076,
+     147.63923233083275
+    ],
+    [
+     -59.0807446316875,
+     351.494811275227,
+     116.6682066372095
+    ]
+   ],
+   "length_mm": 61.0,
+   "attach_off_mm": [
+    7.6,
+    7.1
+   ],
+   "attach_off_source_mm": [
+    6.3,
+    5.9
+   ],
+   "norm_fibre_length": 0.754,
+   "norm_fibre_length_source_default": 0.734,
+   "placeholder": false,
+   "L_opt_mm": 15.2,
+   "tendon_slack_mm": 56.1,
+   "Fmax_N_shepherd": 119.20334
+  }
+ },
+ "bone_offsets_mm": {
+  "thorax": 0.0,
+  "cervix": 0.0,
+  "caput": 38.862789622356395,
+  "abdomen": 1.4210854715202004e-14,
+  "cauda": 0.0,
+  "left_scapula": 0.0,
+  "left_humerus": 0.0004405679073016247,
+  "left_antebrachium": 0.0003623008567273855,
+  "left_carpus": 0.000440948981257236,
+  "left_forepaw": 0.00041376101164616457,
+  "right_scapula": 0.0,
+  "right_humerus": 0.00044056790730127767,
+  "right_antebrachium": 0.0003623008567272606,
+  "right_carpus": 0.00044094898125692476,
+  "right_forepaw": 0.0004137610116455232,
+  "pelvis": 0.0,
+  "left_femur": 0.0,
+  "left_crus": 0.00040792209588469153,
+  "left_calx": 0.0011742667278919004,
+  "left_hindpaw": 0.0010520237429056322,
+  "right_femur": 0.0,
+  "right_crus": 0.00040792209588481557,
+  "right_calx": 0.0011742667278919004,
+  "right_hindpaw": 0.0010520237429054882
+ }
+}

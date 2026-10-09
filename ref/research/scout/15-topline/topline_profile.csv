@@ -1,0 +1,34 @@
+# Topline clamp profile, measured on Ellenberger Tafel 3 (PD; the 01-skin-offsets frame: WH = 1837 px, ground y = 2626, dog faces LEFT).
+# s = (x - x_withers) / (x_tailbase - x_withers): withers skin peak = 0, tail root = 1, neck stations negative.
+# frac_occiput_tail = (x - 781) / (2700 - 781) for the dog (occiput x = 781, tail root x = 2700).
+# offset = skin minus the spine-tip/bone envelope at that station, VERTICAL px / 1837, positive = skin above bone. Grade B (one lean drawn dog).
+# wolf_outline_h = fur topline height above local ground, x WH, from the top wolf template photo (CC BY Rob Foster, spring coat, grade C), at the same s.
+# fur offsets (winter/summer, x WH 750 mm) from scout/03-wolf-coat SUMMARY (withers+back anchored by Scholander 1950, rest EST).
+# 2026-10-08 correction (Scout): lumbar vertebra names caudal of T13 were one off against the plate's printed 1.L./7.L. labels; x=1915 is L2 (was "T13/L1"), x=2077 is L4 (was "L3"), x=2228 is L6 (was "L5"). Stations, s values and offsets unchanged (found by scout/17).
+station,plate_x,frac_occiput_tail,s_withers_tail,bone_under_skin,dog_skin_h_xWH,offset_skin_minus_bone_xWH,wolf_outline_h_xWH,fur_winter_xWH,fur_summer_xWH
+C2 crest,820,0.020,-0.221,C2 spinous process top,1.191,0.022,0.985,0.093,0.047
+mid-neck crest,1000,0.114,-0.104,nuchal chord (no bone near; C4-C5 arches 0.08-0.09 below),1.078,0.000 vs chord; 0.079-0.092 vs arches,0.990,0.093,0.047
+neck base dip,1100,0.166,-0.039,scapula front / C7 (first bone 0.045-0.049 below),1.019,0.047,0.992,0.093,0.047
+withers peak,1160,0.198,0.000,T1-T2 spine tips (scapular cartilage 0.009 lower),0.9995,0.026,1.000,0.080,0.040
+T2,1215,0.226,0.036,T2 spine tip,0.990,0.020,0.996,0.080,0.040
+T4,1323,0.282,0.106,T4 spine tip,0.978,0.018,0.989,0.080,0.040
+T6,1445,0.346,0.185,T6 spine tip,0.966,0.014,0.982,0.073,0.038
+T8,1554,0.403,0.256,T8 spine tip,0.959,0.007,0.977,0.067,0.037
+T11 (anticlinal),1771,0.516,0.397,T11 spine tip,0.973,0.007,0.960,0.067,0.037
+L2,1915,0.591,0.490,L2 spine tip,0.984,0.008,0.952,0.067,0.037
+L4,2077,0.675,0.595,L4 spine tip,0.993,0.009,0.947,0.063,0.035
+L6,2228,0.754,0.693,L6 spine tip,0.996,0.010,0.932,0.063,0.035
+croup (iliac crest),2350,0.818,0.773,iliac crest,1.000,0.012,0.917,0.060,0.033
+sacrum,2500,0.896,0.870,sacral spine tips,0.989,0.015,0.886,0.060,0.033
+tail root,2700,1.000,1.000,first caudal vertebrae,0.946,0.015,0.819,see scout/05-tail,see scout/05-tail
+# Ventral line (same frame; skin height above ground x WH; bone exists only at the sternum):
+# station,plate_x,dog_skin_h_xWH,note
+ventral brisket,1335,0.552,lowest sternum; sternum bone 0.021 above the skin (01)
+ventral,1450,0.553,
+ventral,1550,0.574,
+ventral,1650,0.593,xiphoid region
+ventral,1750,0.625,costal arch
+ventral,1850,0.648,
+ventral,1950,0.656,
+ventral,2050,0.678,
+ventral groin,2080,0.689,end of visible underline; tuck-up rise from brisket = 0.137 x WH (lean short-coated dog; the wolf's fur masks most of this)

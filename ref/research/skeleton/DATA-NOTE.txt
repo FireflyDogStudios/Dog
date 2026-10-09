@@ -1,0 +1,25 @@
+DATA NOTE for this folder (Firefly, 2026-10-06)
+
+derived_skeleton_ratios.csv and the skeletal fields in species_numbers.json are species MEANS
+computed by Firefly from:
+  - Law, C.J. et al. 2025, Integrative Organismal Biology 7: obaf001.
+    Raw data: https://github.com/chrisjlaw/published_data-Law_etal_2025_IOB (rawdata.csv)
+  - Law, C.J. 2021, American Naturalist, doi 10.1086/715588.
+    Data: https://github.com/chrisjlaw/published_data-Law_2021_AmNat (data/data.csv)
+Licence: those repositories carry NO licence file ("please cite if data are used").
+The raw files were therefore NOT copied here; only derived means/ratios (facts) with citation.
+Cite Law et al. if these numbers are used in anything published.
+
+PanTHERIA 1.0 (Jones et al. 2009, Ecology 90:2648, Ecological Archives E090-184) species means
+for head-body length and body mass are quoted; no explicit open licence found; file not saved.
+
+akcdata (https://github.com/tmfilho/akcdata) breed height ranges are quoted; repo is MIT but its
+README says the information belongs to the AKC; file not saved.
+
+No permissively licensed dataset could be downloaded this session (Dryad, figshare, SimTK blocked).
+Best next download: Dryad doi:10.5061/dryad.77tm4 (Samuels, Meachen & Sakai 2013 carnivoran limb
+indices; Dryad is normally CC0).
+
+Column codes from Law rawdata used here: CBL condylobasal length, ZB zygomatic breadth,
+BCL (assumed) braincase length, COL (assumed) canine out-lever TMJ-to-canine, scap_L, hum_L,
+rad_L, ul_L, ul_OL olecranon, MC3L, fem_L, tib_L, MT3L, sacral_L. All mm. n = 1-3 adult males.

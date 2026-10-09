@@ -1,0 +1,191 @@
+{
+  "_about": "Behaviour and animation numbers for the Den Ledger hero (Carolina Dog, ~15-20 kg, ~45-50 cm at the withers). Each entry: value, unit, source (title + URL), confidence (high/medium/low/estimate), notes. 'MANN-derived' means Firefly measured it from the MANN dog mocap (see REPORT.md; source data is research/education-only, numbers here are our own measurements). 'estimate' means no published number was found and the value is a design guess for the game. Compiled 2026-10-06 by Firefly.",
+
+  "gait.walk": {
+    "value": {"speed_mps": 0.64, "stride_s": 0.91, "duty_factor": [0.62, 0.69], "footfall_phase_vs_LH": {"LH": 0.0, "LF": 0.20, "RH": 0.53, "RF": 0.65}, "hip_bob_cm": 1.1, "head_bob_cm": 1.8},
+    "unit": "m/s, s, fraction of stride, fraction of stride, cm peak-to-peak",
+    "source": "MANN-derived (50 strides). Mode-Adaptive Neural Networks for Quadruped Motion Control, Zhang, Starke, Komura, Saito 2018, https://github.com/sebastianstarke/AI4Animation",
+    "confidence": "high for this dog; the walk is slow (0.64 m/s), a brisk dog walk is ~1 m/s",
+    "notes": "Lateral-sequence walk: LH, LF, RH, RF. Stride frequency ~1.1 Hz."
+  },
+  "gait.trot": {
+    "value": {"speed_mps": 1.87, "stride_s": 0.50, "duty_factor": [0.34, 0.41], "footfall_phase_vs_LH": {"LH": 0.0, "RF": 0.0, "LF": 0.44, "RH": 0.51}, "hip_bob_cm": 4.2, "wither_bob_cm": 3.4, "head_bob_cm": 2.8},
+    "unit": "m/s, s, fraction, fraction, cm peak-to-peak",
+    "source": "MANN-derived (8 strides, few). AI4Animation SIGGRAPH 2018, https://github.com/sebastianstarke/AI4Animation",
+    "confidence": "medium (only 8 clean trot strides in the mirrored clips)",
+    "notes": "Diagonal pairs (LH+RF, RH+LF) land together. Two bobs per stride (2 Hz stride -> 4 Hz bob). Labradors trot at ~2.3 m/s in the literature."
+  },
+  "gait.pace": {
+    "value": {"speed_mps": 0.94, "stride_s": 0.71, "duty_factor": [0.57, 0.63], "footfall_phase_vs_LH": {"LH": 0.0, "LF": 0.03, "RH": 0.49, "RF": 0.53}},
+    "unit": "m/s, s, fraction, fraction",
+    "source": "MANN-derived (114 strides). AI4Animation SIGGRAPH 2018 ReadMe notes 'Default locomotion is pace'",
+    "confidence": "high for this dog",
+    "notes": "Same-side legs move together; tired or long-legged dogs often pace at slow speed. Not usually what we want for the hero, but this is the best-sampled gait in the data."
+  },
+  "gait.gallop_rotary": {
+    "value": {"speed_mps": 3.07, "stride_s": 0.46, "duty_factor": [0.18, 0.25], "footfall_phase_vs_LH": {"RH": 0.83, "LH": 0.0, "LF": 0.14, "RF": 0.37}, "hip_bob_cm": 9.7, "head_bob_cm": 13.4},
+    "unit": "m/s, s, fraction, fraction, cm",
+    "source": "MANN-derived (16 strides, one lead). AI4Animation SIGGRAPH 2018",
+    "confidence": "medium (slow gallop / fast canter; only one lead kept)",
+    "notes": "Sequence RH -> LH -> LF -> RF: rotary gallop (hind lead L, fore lead R). Mirror for the other lead."
+  },
+  "gait.joint_rom_literature_walk": {
+    "value": {"shoulder": [29.9, 33.1], "elbow": [49.4, 52.8], "carpus_max": 88.1, "hip": [32.9, 35.8], "stifle": [33.7, 36.8], "tarsus": [31.7, 33.5]},
+    "unit": "degrees range of motion (sagittal)",
+    "source": "Kinematic motion analysis of the joints of the forelimbs and hind limbs of dogs during walking exercise regimens, https://www.researchgate.net/publication/44900733",
+    "confidence": "medium (seen via search summary, not the full paper)",
+    "notes": "MANN-derived walk ROM: shoulder 25, elbow 39, carpus 75, hip 42, stifle 29, hock 18. Our hock ROM is low; MANN dog walked slowly."
+  },
+  "gait.carpus_rom_literature": {
+    "value": {"walk": [79.6, 90.9], "trot": [110.2, 120.2]},
+    "unit": "degrees",
+    "source": "Kinematics of healthy American Pit Bull Terrier dogs, https://pmc.ncbi.nlm.nih.gov/articles/PMC11927105",
+    "confidence": "medium",
+    "notes": "MANN-derived trot carpus ROM 124 deg, agrees."
+  },
+
+  "tail.wag_frequency_relaxed": {
+    "value": 1.4, "range": [1.26, 1.57],
+    "unit": "Hz (full left-right-left cycles per second), 10-90th percentile range",
+    "source": "MANN-derived: 33 wag bouts while the dog stood still (121 bouts in total, all ~1.4 Hz)",
+    "confidence": "medium (one dog, mocap context, probably mild/relaxed wagging)",
+    "notes": "Use as the slow friendly wag. Excited wags are faster: see tail.wag_frequency_range."
+  },
+  "tail.wag_amplitude_relaxed": {
+    "value": 96, "range": [34, 126],
+    "unit": "degrees peak-to-peak, whole tail (base-to-tip chord), 10-90th percentile",
+    "source": "MANN-derived (same bouts as above)",
+    "confidence": "medium",
+    "notes": "Bouts last a median 4.8 s while standing (IQR ~4-9 s). Tail held ~40-50 deg below caudal horizontal during these bouts."
+  },
+  "tail.wag_frequency_range": {
+    "value": [1, 4], "max": 5,
+    "unit": "Hz",
+    "source": "Does the tail show when the nose knows? (Royal Society Open Science 2025) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12344452/ ; Left-right asymmetry and attractor-like dynamics of dog's tail wagging during dog-human interactions (iScience 2022) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9356099/",
+    "confidence": "medium (1-4 Hz peak frequency and 5 Hz upper bound seen in summaries; exact per-study numbers not read)",
+    "notes": "A wag is usually counted from >= 20 deg peak-to-peak. Asymmetry: bigger swings to the dog's right for positive stimuli (owner), to the left for negative/withdrawal (Quaranta et al. 2007, Current Biology https://www.cell.com/current-biology/fulltext/S0960-9822(07)00949-9)."
+  },
+  "tail.wag_min_amplitude_definition": {
+    "value": 20, "unit": "degrees peak-to-peak",
+    "source": "Automated Depth Sensing-Based Computer Vision for Dog Tail Wagging Interpretation, https://dl.acm.org/doi/fullHtml/10.1145/3702336.3702340",
+    "confidence": "medium"
+  },
+  "tail.carriage_standing_still": {
+    "value": -55, "unit": "degrees elevation of the whole tail vs. caudal horizontal (negative = below)",
+    "source": "MANN-derived (19 standing-still windows); trot ~-25, rotary gallop ~-10 to 0",
+    "confidence": "medium for that dog; NOT breed-typical for a Carolina Dog",
+    "notes": "Carolina Dog: tail usually carried low-to-level when relaxed, raised in a fish-hook curve when alert or excited (breed standards). Treat as estimate for the hero."
+  },
+
+  "breathing.rest_awake": {
+    "value": [15, 30], "alt_range": [14, 35],
+    "unit": "breaths per minute",
+    "source": "VCA Hospitals, Home Breathing Rate Evaluation, https://vcahospitals.com/know-your-pet/home-breathing-rate-evaluation ; FirstVet, How to Measure Resting Respiratory Rates in Dogs, https://firstvet.com/us/articles/how-to-measure-resting-respiratory-rates-in-dogs",
+    "confidence": "high",
+    "notes": "Use ~20/min for the idle chest rise (3 s cycle)."
+  },
+  "breathing.sleeping": {
+    "value": [6, 25], "typical_max": 30,
+    "unit": "breaths per minute",
+    "source": "Monitoring Your Dog's Sleeping Respiratory Rate (veterinary chart), https://evolutionvet.com/wp-content/uploads/2019/02/Dog-Chart-Final-1.pdf ; Resting respiratory rates for monitoring (vetcardiologist), http://www.vetcardiologist.com/wp-content/uploads/2014/08/Resting-Resp-Rate.7.4.141.pdf",
+    "confidence": "high",
+    "notes": "Use ~12-15/min asleep (4-5 s cycle), slow and deep."
+  },
+  "breathing.panting": {
+    "value": 5.3, "alt": {"breaths_per_min": [300, 320], "resonant_hz": 5.28},
+    "unit": "Hz (cycles per second)",
+    "source": "Crawford EC, Mechanical aspects of panting in dogs, J Appl Physiol 1962, https://journals.physiology.org/doi/abs/10.1152/jappl.1962.17.2.249 (5.33 +/- 0.7 Hz); Pulmonary gas exchange in panting dogs, https://journals.physiology.org/doi/abs/10.1152/jappl.1989.66.3.1258 (313 +/- 19 /min)",
+    "confidence": "high (thermal panting)",
+    "notes": "Dogs pant at the chest-lung resonant frequency. 5 Hz is very fast on screen: for animation, a visible tongue/jaw pump at ~3-5 Hz with small amplitude reads well. Light exercise panting is slower and irregular (estimate 2-3 Hz)."
+  },
+  "eyes.blink_rate": {
+    "value": 11.5, "sd": 2.4, "range": [4, 26], "mesocephalic": 9.9,
+    "unit": "blinks per minute",
+    "source": "Spontaneous blink rates of domestic dogs: a preliminary report, https://www.researchgate.net/publication/251690906_Spontaneous_blink_rates_of_domestic_dogs_a_preliminary_report",
+    "confidence": "high",
+    "notes": "Carolina Dog is mesocephalic: ~10/min, i.e. random interval ~3-9 s. A more recent study found 6.5 +/- 3.8 /min. Blinks are also social signals (dogs blink back at blinking dogs: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11836432/)."
+  },
+  "body.wet_dog_shake_frequency": {
+    "value": 4.5, "labrador": [4.3, 4.5], "chihuahua": 6.8, "scaling": "f proportional to M^-0.22",
+    "unit": "Hz",
+    "source": "Dickerson, Mills, Hu, Wet mammals shake at tuned frequencies to dry, J R Soc Interface 2012, https://pmc.ncbi.nlm.nih.gov/articles/PMC3481573 ; https://hoogle.gatech.edu/Publications/Hu12-dog.pdf",
+    "confidence": "high",
+    "notes": "For a 15-20 kg Carolina Dog use ~4.8-5 Hz (between Labrador and Chihuahua)."
+  },
+  "body.wet_dog_shake_amplitude": {
+    "value": {"skin_deg_each_way": 90, "spine_deg_each_way": 30},
+    "unit": "degrees of roll about the body axis",
+    "source": "Science Looks at Why and How Wet Dogs Shake (Psychology Today, on Dickerson et al.), https://www.psychologytoday.com/us/blog/canine-corner/201209/science-looks-why-and-how-wet-dogs-shake",
+    "confidence": "medium",
+    "notes": "Shake starts at the head and travels to the tail (wave). Head twists most."
+  },
+  "body.wet_dog_shake_duration": {
+    "value": 4, "unit": "seconds to shed ~70% of the water",
+    "source": "Science Looks at Why and How Wet Dogs Shake, https://www.psychologytoday.com/us/blog/canine-corner/201209/science-looks-why-and-how-wet-dogs-shake",
+    "confidence": "low-medium",
+    "notes": "A single visible shake bout in a game is better at ~1-1.5 s (5-7 oscillations), head first then body then tail (estimate)."
+  },
+  "nose.sniff_frequency": {
+    "value": 5, "range": [4, 7], "bout_burst_rate_hz": [0.5, 1.5],
+    "unit": "Hz (sniffs per second)",
+    "source": "Craven, Paterson, Settles 2010, The fluid dynamics of canine olfaction, https://pubmed.ncbi.nlm.nih.gov/20007171/ ; The Secret of a Dog's Sniffer (Science), https://www.science.org/content/article/secret-dogs-sniffer",
+    "confidence": "high",
+    "notes": "Same ~5 Hz across dog sizes. Long sniff bouts come in bursts at 0.5-1.5 Hz. Animate as tiny nostril/head pulses at 5 Hz, grouped in bursts."
+  },
+  "jaw.max_gape_angle": {
+    "value": 44.0, "sd": 4.1,
+    "unit": "degrees (temporomandibular opening, conscious dogs)",
+    "source": "Thomson, Hetzel, Snyder, Gape Angle in Asymptomatic Dogs with Normal Occlusion, J Vet Dent 2021, https://journals.sagepub.com/doi/10.1177/08987564211012487",
+    "confidence": "high",
+    "notes": "Use as the yawn peak. Interincisal opening 107 +/- 30 mm for all dogs, 134 +/- 19 mm for >25 kg (Vertical Mandibular Range of Motion in Anesthetized Dogs and Cats, https://pmc.ncbi.nlm.nih.gov/articles/PMC4923261/). Panting gape is much smaller (estimate 10-20 deg)."
+  },
+  "jaw.yawn_duration": {
+    "value": 2, "unit": "seconds (whole yawn)",
+    "source": "Search summary of contagious-yawning studies in dogs (no primary paper read); see Romero et al. 2013 and Madsen and Persson 2013 via https://www.nationalgeographic.com/science/article/130808-yawning-dogs-contagious-animals-empathy-science",
+    "confidence": "low",
+    "notes": "Stress yawns are longer and more intense than sleepy yawns. Suggest 1.5-3 s with a ~0.5 s hold at full gape, tongue curling, eyes squinting (estimate)."
+  },
+  "social.play_bow_duration": {
+    "value": 2.25, "min": 0.33,
+    "unit": "seconds",
+    "source": "Byosiere, Espinosa, Smuts 2016, Investigating the function of play bows in adult pet dogs, https://bpb-us-w2.wpmucdn.com/about.illinoisstate.edu/dist/6/45/files/2019/10/byosiere-epinosa-smuts-2016-invest-funct-of-play-bows-in-adult-pet-dogs.pdf",
+    "confidence": "high (n=414 bows; mean)",
+    "notes": "Starts when the front legs begin to bend, ends when elbows straighten again, the dog lies down, or the rear is no longer higher than the front. Pose: elbows/forearms on the ground, rear high, tail up/wagging (descriptive)."
+  },
+  "head.tilt": {
+    "value": {"roll_deg_estimate": [15, 35]},
+    "unit": "degrees of head roll",
+    "source": "No angle found. Sommese et al. 2021, An exploratory analysis of head-tilting in dogs, https://www.researchgate.net/publication/355649486_An_exploratory_analysis_of_head-tilting_in_dogs",
+    "confidence": "estimate for the angle; high for the behaviour facts",
+    "notes": "Each dog tilts to the same side consistently. Word-learner dogs tilted in 43% of trials vs 2% for typical dogs, i.e. tilt is a rare 'processing a familiar word' signal, not a constant idle."
+  },
+  "ears.action_units": {
+    "value": {"EAD101": "ears forward", "EAD102": "ears adductor (pulled together, up)", "EAD103": "ears flattener (pressed back/flat)", "EAD104": "ears rotator (turned outward/sideways) [from memory, not confirmed in this search]", "EAD105": "ears downward"},
+    "unit": "DogFACS ear action descriptors",
+    "source": "DogFACS manual (Waller et al.), as used in: Evaluating the accuracy of facial expressions as emotion indicators across contexts in dogs, https://www.researchgate.net/publication/353647503 ; Behavioural Analysis of Dogs' Response to Threatening and Neutral Conspecific Video Stimuli, https://www.mdpi.com/2076-3417/13/16/9254",
+    "confidence": "high for 101/102/103/105",
+    "notes": "EAD101 held longer in threatening contexts (alert/forward); EAD103 with fear/stress; flattened ears can also be a soft greeting when the body is loose."
+  },
+  "ears.pose_by_mood": {
+    "value": {"alert": {"pitch_deg": 0, "rotate_fwd_deg": 15, "note": "upright, openings forward (EAD101 + EAD102)"}, "relaxed": {"pitch_deg": -15, "rotate_fwd_deg": -10, "note": "upright but loose, slightly out to the side"}, "fearful": {"pitch_deg": -60, "rotate_fwd_deg": -45, "note": "pinned back and down flat to the skull (EAD103 + EAD105)"}, "ears_back_greeting": {"pitch_deg": -40, "rotate_fwd_deg": -30, "note": "back and soft, with squinty eyes and loose body"}, "listening": {"note": "one ear at a time swivels 30-60 deg towards a sound, then returns"}},
+    "unit": "degrees relative to the neutral upright ear in side view (negative = back/down)",
+    "source": "estimate (Firefly) from DogFACS descriptors and behaviour guides, e.g. Hill's Guide to Dog Ear Position, https://www.hillspet.com/dog-care/behavior-appearance/dog-ear-language-and-positions",
+    "confidence": "estimate",
+    "notes": "No published ear angles found. Carolina Dog ears are large and erect, so the swing reads strongly."
+  },
+  "posture.transition_durations": {
+    "value": {"stand_to_sit": 0.61, "sit_to_stand": 0.67, "stand_to_lie": 1.87, "lie_to_stand": 0.64, "sit_to_lie": 0.77, "lie_to_sit": 0.75},
+    "ranges": {"stand_to_sit": [0.45, 1.50], "sit_to_stand": [0.45, 1.55], "stand_to_lie": [0.87, 4.10], "lie_to_stand": [0.35, 0.90]},
+    "unit": "seconds (median), time for 5% to 95% of the height change; n = 12, 15, 7, 8, 3, 3",
+    "source": "MANN-derived (stand/sit/lie detected from hip and shoulder heights)",
+    "confidence": "medium",
+    "notes": "Lying down is slow and often goes via a sit or a front-end-first fold (variable 1-4 s); getting up is quick (~0.6 s)."
+  },
+  "posture.heights": {
+    "value": {"stand_hip_m": 0.46, "stand_shoulder_joint_m": 0.39, "sit_hip_m": [0.08, 0.14], "sit_shoulder_joint_m": 0.34, "lie_shoulder_joint_m": [0.10, 0.15]},
+    "unit": "m (joint-centre heights of the MANN skeleton, not anatomical withers)",
+    "source": "MANN-derived",
+    "confidence": "medium",
+    "notes": "Sitting keeps the front ~87% as high as standing. Scale by the hero's height."
+  }
+}

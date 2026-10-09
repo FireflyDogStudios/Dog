@@ -1,0 +1,129 @@
+{
+ "rig": "hero3",
+ "frame": "drawing units, y down, ground 35.5",
+ "withers": [
+  37.1,
+  11
+ ],
+ "WH_measured": 24.5,
+ "tail_root_x": 18.9,
+ "backline": [
+  {
+   "s": 0,
+   "model": 1,
+   "median": 1,
+   "range": [
+    1,
+    1
+   ],
+   "in_range": true,
+   "err": 0
+  },
+  {
+   "s": 0.25,
+   "model": 0.987,
+   "median": 0.97,
+   "range": [
+    0.96,
+    1
+   ],
+   "in_range": true,
+   "err": 0.017
+  },
+  {
+   "s": 0.5,
+   "model": 0.983,
+   "median": 0.98,
+   "range": [
+    0.94,
+    1
+   ],
+   "in_range": true,
+   "err": 0.003
+  },
+  {
+   "s": 0.65,
+   "model": 0.981,
+   "median": 0.99,
+   "range": [
+    0.93,
+    1
+   ],
+   "in_range": true,
+   "err": -0.009
+  },
+  {
+   "s": 0.78,
+   "model": 0.978,
+   "median": 0.97,
+   "range": [
+    0.94,
+    0.98
+   ],
+   "in_range": true,
+   "err": 0.008
+  },
+  {
+   "s": 0.9,
+   "model": 0.95,
+   "median": 0.93,
+   "range": [
+    0.92,
+    0.96
+   ],
+   "in_range": true,
+   "err": 0.02
+  },
+  {
+   "s": 1,
+   "model": 0.907,
+   "median": 0.9,
+   "range": [
+    0.88,
+    0.94
+   ],
+   "in_range": true,
+   "err": 0.007
+  }
+ ],
+ "backline_mean_abs_err": 0.009,
+ "proportions": {
+  "body_len_over_h": {
+   "model": 1.143,
+   "median": 1.15,
+   "range": [
+    1.08,
+    1.48
+   ],
+   "in_range": true
+  },
+  "chest_floor_h_over_h": {
+   "model": 0.468,
+   "median": 0.47,
+   "range": [
+    0.42,
+    0.56
+   ],
+   "in_range": true
+  },
+  "nose_fwd_over_h": {
+   "model": 0.538,
+   "median": 0.54,
+   "range": [
+    0.49,
+    0.54
+   ],
+   "in_range": true
+  },
+  "nose_h_over_h": {
+   "model": 0.855,
+   "median": 0.85,
+   "range": [
+    0.75,
+    0.86
+   ],
+   "in_range": true
+  }
+ },
+ "method": "outline = body path + near legs at rest; withers = highest body point in the 6 units behind the drawn withers; tail root = first 45 deg fall; chest front = foremost body point 0.30-0.55 H below the withers; buttock = rearmost outline point 0.10-0.55 H below; chest floor = lowest body point from 0.3 H behind to 0.1 H ahead of the withers; nose = the middle of the foremost edge of the head (within 0.1 units of the tip)"
+}

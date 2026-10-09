@@ -1,0 +1,19 @@
+{
+  "build": "081722b",
+  "created": 1791486883060,
+  "fixedIn": "b80101e",
+  "group": "near hind leg",
+  "key": "hipN.fur",
+  "name": "near thigh",
+  "phase": null,
+  "reasons": [
+    "Pokes out"
+  ],
+  "reply": "The hip joint sits right at the saddle's lower edge, so as the leg swung back the thigh's top corner rose over the saddle (up to 1.2 square units at 46%). The saddle now draws on top of the near legs, so its edge stays clean all through the stride. Please check, and Mark fixed if it reads right.",
+  "rig": "hero3",
+  "sev": "should",
+  "status": "open",
+  "text": "Pokes out over the top of the fur patch at 49% of the stride",
+  "updated": 1791486883061,
+  "when": "always"
+}

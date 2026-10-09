@@ -1,0 +1,12 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1366,height:768}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.addInitScript(()=>{ localStorage.setItem('dengame-dev','1'); });
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ const r = await p.evaluate(()=>__E(`(()=>{ const out={};
+   offlineChecked=false; huntState().lastSeen=Date.now()-3*3600e3; checkOffline(); window.__advance && __advance(2000);
+   out.offlineBox=document.querySelectorAll('.lvlup').length; out.feed=[...document.querySelectorAll('.lootfeed .lf')].map(x=>x.textContent);
+   out.bait=[0,1,2].map(baitName); out.rack=wallRackHtml().length;
+   return out; })()`));
+ await p.waitForTimeout(500); await p.screenshot({path:'sim/t44b.png'});
+ console.log(JSON.stringify(r,null,1), errs); await b.close(); })();

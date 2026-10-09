@@ -1,0 +1,18 @@
+# Species files
+
+One YAML file per animal, holding every number the species creator needs, each with its unit, source and confidence. Check one with `./den species check species/<id>.yaml`; the format is described at the top of `tools/den/species_check.py`.
+
+**Style is open (GrumpyDingo, Oct 7):** the flat two-tone look was a product of early tools, not a rule. With the research in hand, aim for the best result we can and decide the look from there; the old style is not a constraint on new species.
+
+**Direction (GrumpyDingo, Oct 6):** new models are built **skeleton-first** from these files, as accurately as the research allows. The two current dogs (`hero`, `hero2` in `engine/rig_den.js`) are on hold, and one of the new models may become the hero and companion, which would deprecate them. Gear still fits any new model through the mount-and-compile pipeline.
+
+- **Groups:** `size` (field guides), `bones` (museum skeletons), `spine`, `skull`, `ratios` (photo keypoints), `angles` (standing), `limits` (passive joint ranges), `gait`, `behaviour`, plus `traits` for what numbers cannot say.
+- **Confidence:** A = measured, clear definition; B = peer-reviewed but second-hand, or a domestic-dog proxy; C = popular source, small sample or search snippet; EST = estimate.
+- **Cross-checks:** a number with `check:` is compared with `ref/research/` (skeleton within 15%; keypoints inside the middle half or within 15% of the median); a deliberate difference needs `override: "<why>"`.
+
+| File | Status |
+|---|---|
+| `wolf.yaml` | draft: the prototype; all 22 cross-checked numbers agree with the research. Skeleton: `./den skeleton wolf` -> `build/wolf.skeleton.png` |
+| `husky.yaml` | draft (Forge, Oct 8): photo ratios from 5 standing stacks, bones are the wolf's scaled (EST), skull lengths and tail/body lengths are named gaps; `./den species check` passes shape and units only (no Husky research row) |
+
+`build/` holds generated files (`./den skeleton <id>` writes `<id>.skeleton.json`, `.svg`, `.png`). The skeleton builder lets bones and measured angles drive the pose, so the withers height, topline and stance length come out as results and are compared with the field numbers in its fit report. Anatomy the research does not give is a named assumption (`ASSUME` in `tools/den/skeleton.py`), listed in the JSON.

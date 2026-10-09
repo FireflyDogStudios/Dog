@@ -1,0 +1,16 @@
+dist/
+node_modules/
+.DS_Store
+sim/game.html
+sim/pixi.min.js
+sim/proton.web.min.js
+sim/art-*.css
+sim/*.png
+tools/lens/.cache/
+__pycache__/
+tools/den/.cache/
+tools/team/inbox-shots/node_modules
+# QA frames are rebuilt by ./den qa (large); keep the sheets, findings and meta
+art/*/qa/edges/*_mag.png
+art/*/qa/edges/*_grn.png
+art/*/qa/edges/*_id.png

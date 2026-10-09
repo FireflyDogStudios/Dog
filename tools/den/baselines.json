@@ -1,0 +1,18 @@
+{
+ "hero:k0000000": {
+  "outside": 0.011,
+  "hausdorff": 0.786
+ },
+ "hero:c0000000": {
+  "outside": 5.388,
+  "hausdorff": 0.579
+ },
+ "hero2:k0000000": {
+  "outside": 0.012,
+  "hausdorff": 0.788
+ },
+ "hero2:c0000000": {
+  "outside": 6.245,
+  "hausdorff": 0.645
+ }
+}

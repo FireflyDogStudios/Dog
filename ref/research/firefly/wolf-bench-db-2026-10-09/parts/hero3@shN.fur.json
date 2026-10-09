@@ -1,0 +1,19 @@
+{
+  "build": "081722b",
+  "created": 1791486832211,
+  "fixedIn": "4f96954",
+  "group": "near front leg",
+  "key": "shN.fur",
+  "name": "near upper arm",
+  "phase": null,
+  "reasons": [
+    "In front or behind wrong"
+  ],
+  "reply": "You were right about the draw order. The near legs were drawn over the whole body, head included, so when the head dips while walking, the jaw and throat came down under the top of the arm. The head and neck now draw in front of it. Please check, and Mark fixed if it reads right.",
+  "rig": "hero3",
+  "sev": "should",
+  "status": "open",
+  "text": "When walking this part pokes out infront of the face around 65% of the stride",
+  "updated": 1791486832211,
+  "when": "always"
+}

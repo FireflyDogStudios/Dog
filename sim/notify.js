@@ -1,0 +1,13 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1366,height:768}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500); await p.evaluate(()=>__advance(3000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.sos-ov").forEach(e=>e.remove()));
+ await p.evaluate(()=>{ for(let i=0;i<3;i++) __E('toast("🦝 A raccoon thief appeared!")'); __E('toast("Something else")'); __E('moonBanner("WAVE 2","Faster")'); __E('moonBanner("WAVE 2","Faster")'); __E('moonBanner("BOSS","Big one")'); __E('toast("🦝 Raccoon dropped 2 coins")'); __E('floatText("Awooo!")'); });
+ console.log('toasts', await p.$$eval('#toasts .toast', x=>x.map(e=>e.textContent)), 'feed', await p.$$eval('.lf', x=>x.map(e=>e.innerText)), 'banners now', await p.$$eval('.moonbanner', x=>x.map(e=>e.innerText.replace(/\n/g,' '))), 'queue', await p.evaluate(()=>__E('NOTE.bannerQ.length')));
+ await p.evaluate(()=>__advance(2800)); console.log('after 2.8s banner', await p.$$eval('.moonbanner', x=>x.map(e=>e.innerText.replace(/\n/g,' '))));
+ await p.evaluate(()=>__E(`B.trial={zone:'meadow',meta:false,wave:1,pts:0,kills:0,waveEnd:Date.now()+60000,energy:100,lastT:Date.now(),loot:[],bossDue:false,tp:0}`)); for(let i=0;i<10;i++) await p.evaluate(()=>__advance(1000));
+ console.log('pst', await p.$$eval('#fk-pst .fk-st', x=>x.map(e=>e.dataset.name)), 'trial kills', await p.evaluate(()=>__E('B.trial&&B.trial.kills')));
+ await p.evaluate(()=>__E('openSettings()')); console.log('credits', await p.$eval('.setcred', e=>!!e));
+ console.log('errs',errs.slice(0,5), await p.evaluate(()=>window.__errs||[]));
+ await b.close();})();

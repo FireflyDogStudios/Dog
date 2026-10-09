@@ -1,0 +1,78 @@
+# Siberian Husky (Canis familiaris): the second species file, written Oct 8 by Forge from Firefly's request (docs/claude/DEN-FORGE-REQUEST-husky-measurements-2026-10-08.md).
+# Same layout and units as wolf.yaml. Confidence: A = measured, clear definition; B = peer-reviewed but second-hand or a proxy; C = popular source, small sample or search snippet; EST = estimate.
+# Law et al. has no Husky, so every bone and spine number below is the WOLF's, scaled to Husky height (EST), and says so. Nothing is copied silently.
+# Not filled this round (outside the request): limits, gait, behaviour. The domestic-dog numbers in wolf.yaml (limits, gait, behaviour) are dog numbers and can be reused; confirm before relying on them.
+# Photo numbers: ref/research/forge/husky-photo-proportions/ (5 standing stacks, hand-read, fur included). Cross-check against StanfordExtra: its NOTE.md.
+id: husky
+name: Siberian Husky
+status: draft
+research: {}                  # no skeleton row and no AwA unit-B keypoint row exist for a Husky, so no skeleton:/keypoints: checks (see the NOTE)
+
+numbers:
+  size:
+    shoulder_height:   {value: 555, unit: mm, range: [508, 597], source: "AKC breed height range 50.8-59.7 cm (akcdata via ref/research/skeleton/species_numbers.json, akc_breed_heights); midpoint. Sled dogs, husky type: withers 54-59 cm (Vet Sci 2025 sled dog BCS validation, CC BY, via scout/14-muscle-body)", confidence: C}
+    weight:            {value: 22, unit: kg, range: [16, 27], source: "27 long-distance sled dogs (husky type), mean about 22 kg (Vet Sci 2025, doi 10.3390/vetsci12080766, via scout/14-muscle-body); range from the AKC/FCI breed standards, recalled and NOT fetched this session (ask Scout to verify)", confidence: C}
+    # head_body_length, tail_length, hind_foot_length: GAP. No published figure is held; the photo body length (1.42 of height) includes the chest ruff and tail brush and is not a head-body length. Ask Scout.
+    ear_length:        {value: 0.309, unit: ratio, source: "ear length / (ear base to nose), StanfordExtra Siberian husky n=7 (Scout 6, ref/research/scout/06-ears/data.csv, MIT); as a length the ear is about 0.31 x the ear-base-to-nose distance", confidence: B, note: "a ratio, not mm: the skull size is a gap"}
+
+  bones:                      # WOLF bones (Law et al. 2025) x 0.74 (Husky height 555 / wolf height 750). Isometric scaling: a Husky is not a small wolf, so every value is EST until a Husky or sled-dog skeleton is found.
+    scapula:   {value: 130, unit: mm, source: "wolf 175.5 x 0.74 (Law et al. 2025); no Husky bone data held", confidence: EST}
+    humerus:   {value: 172, unit: mm, source: "wolf 232.0 x 0.74", confidence: EST}
+    radius:    {value: 175, unit: mm, source: "wolf 236.5 x 0.74", confidence: EST}
+    mc3:       {value: 76, unit: mm, source: "wolf 102.8 x 0.74", confidence: EST}
+    femur:     {value: 183, unit: mm, source: "wolf 247.5 x 0.74", confidence: EST}
+    tibia:     {value: 191, unit: mm, source: "wolf 258.0 x 0.74", confidence: EST}
+    mt3:       {value: 83, unit: mm, source: "wolf 112.0 x 0.74", confidence: EST}
+    radius_over_humerus: {value: 1.02, unit: ratio, source: "wolf (Law et al. 2025 brachial index); domestic Stark Beagle joint-to-joint figure is 1.32 but measures different landmarks, so it is not used (skeleton3d.py compares greatest lengths)", confidence: EST}
+    tibia_over_femur:    {value: 1.04, unit: ratio, source: "wolf (Law et al. 2025 crural index); Beagle joint-to-joint 1.28, different landmarks", confidence: EST}
+    mt3_over_femur:      {value: 0.45, unit: ratio, source: "wolf (Law et al. 2025)", confidence: EST}
+    forelimb_over_hindlimb: {value: 0.93, unit: ratio, source: "wolf (Law et al. 2025)", confidence: EST}
+    scapula_over_humerus: {value: 0.76, unit: ratio, source: "wolf (Law et al. 2025)", confidence: EST}
+
+  spine:
+    cervical:  {value: 7, unit: count, source: "canid formula 7-13-7-3 (Law et al. 2025; domestic dog C7 T13 L7 S3 in species_numbers.json)", confidence: A}
+    thoracic:  {value: 13, unit: count, source: "same", confidence: A}
+    lumbar:    {value: 7, unit: count, source: "same", confidence: A}
+    sacral:    {value: 3, unit: count, source: "same", confidence: A}
+    caudal:    {value: 21, unit: count, range: [20, 23], source: "domestic dog Cd20-23 (IMAIOS vet-Anatomy, anatomylearner.com, via species_numbers.json); a Husky's own count is not held", confidence: B}
+    presacral_length: {value: 599, unit: mm, source: "wolf 809 x 0.74 (Law et al. 2021); no domestic data held", confidence: EST}
+    neck_share:   {value: 0.275, unit: fraction, source: "wolf (Law 2021); no domestic or Husky split held", confidence: EST}
+    thorax_share: {value: 0.433, unit: fraction, source: "wolf (Law 2021)", confidence: EST}
+    lumbar_share: {value: 0.292, unit: fraction, source: "wolf (Law 2021)", confidence: EST}
+    thorax_width_over_wh: {value: 0.20, unit: ratio, range: [0.18, 0.24], source: "derived: sled-dog chest circumference / withers height 1.17-1.20 (n=27, tape, live, coat on; Vet Sci 2025) with the photo chest depth 0.51 of height, as an ellipse. This is a tape figure (soft tissue and coat), so the BONY rib cage is narrower than this. Taigan chest width 0.19 (Scout 14, B) agrees. Not measured on a Husky", confidence: EST}
+    chest_girth_over_height: {value: 1.185, unit: ratio, range: [1.17, 1.20], source: "27 sled dogs, husky type, chest circumference / withers height (Vet Sci 2025, doi 10.3390/vetsci12080766, CC BY, via scout/14-muscle-body); athletic body-condition 4-5 dogs of about 22 kg", confidence: B}
+
+  skull:                      # GAP for lengths: no Husky skull is held (Law has none). Only form numbers are filled.
+    cephalic_index: {value: 0.77, unit: ratio, range: [0.75, 0.80], source: "mesaticephalic is 75-80 (cephalic index classes, species_numbers.json); that the Husky is mesaticephalic is breed-standard lore, no Husky index was measured", confidence: C, note: "index = skull width / length; the Husky value is the class midpoint, not a measurement"}
+    # condylobasal_length, zygomatic_breadth, braincase_over_length: GAP (ask Scout for a sled-dog or Husky skull measurement).
+
+  ratios:                     # photos: outer surface, fur included, shares of withers height (ref/research/forge/husky-photo-proportions/, 5 standing stacks)
+    body_length_over_height:  {value: 1.42, unit: ratio, range: [1.27, 1.49], source: "ref/research/forge/husky-photo-proportions (5 standing Huskies, median; chest front to buttock, ruff and tail brush included)", confidence: C, note: "too long for a skeleton figure; the breed standard is slightly longer than tall"}
+    chest_floor_over_height:  {value: 0.49, unit: ratio, range: [0.45, 0.52], source: "ref/research/forge/husky-photo-proportions (5 standing Huskies, median; chest floor height above ground)", confidence: C}
+    chest_depth_over_height:  {value: 0.51, unit: ratio, range: [0.48, 0.55], source: "1 - chest_floor_over_height (photos), outer surface, fur included: never apply to bone", confidence: C}
+    nose_forward_over_height: {value: 0.65, unit: ratio, range: [0.51, 0.74], source: "ref/research/forge/husky-photo-proportions (5 stacks, median; nose tip forward of the withers top)", confidence: C}
+    nose_height_over_height:  {value: 1.11, unit: ratio, range: [0.92, 1.29], source: "ref/research/forge/husky-photo-proportions (5 stacks, median; stacks are held with the head up; the one relaxed pose, 03, reads 0.92)", confidence: C}
+    topline_mid_back:    {value: 0.97, unit: ratio, range: [0.96, 0.98], source: "Shutter's back line, 4 Husky stacks (ref/research/photos/backline/SUMMARY.md): fur-outline height at s = 0.5 over withers height", confidence: C}
+    topline_croup:       {value: 0.94, unit: ratio, range: [0.92, 0.97], source: "Shutter's back line, 4 Husky stacks, s = 0.78 over the hips", confidence: C, note: "show stacks set the hind legs back, which lowers the croup a little"}
+    topline_tail_root:   {value: 0.90, unit: ratio, range: [0.87, 0.96], source: "Shutter's back line, 4 Husky stacks, s = 1.0 (outline falls at 45 deg)", confidence: C}
+    ear_over_earbase_nose: {value: 0.309, unit: ratio, source: "StanfordExtra Siberian husky n=7 (Scout 6, MIT): visible ear length / (ear base to nose)", confidence: B}
+    head_over_skull_tail:    {value: 0.46, unit: ratio, range: [0.34, 0.65], source: "StanfordExtra Siberian husky n=12, unit B (ear-base midpoint to tail base = 1), median and middle half (ref/research/keypoints/stanfordextra_breeds_unitB.csv, MIT)", confidence: C, note: "unit B, not a share of height"}
+    topline_paw_over_skull_tail: {value: 0.93, unit: ratio, source: "same row, unit B, topline-to-paw (a withers-height stand-in)", confidence: C}
+    tail_over_skull_tail:    {value: 0.35, unit: ratio, range: [0.13, 0.55], source: "same row, unit B, n=10; a curled tail foreshortens, so this reads short", confidence: C}
+    # muzzle_over_skull, neck_over_head: GAP (the StanfordExtra row has no muzzle or neck points).
+
+  angles:                     # standing angles, 180 = straight
+    carpus_standing: {value: 148, unit: deg, source: "StanfordExtra Siberian husky standing n=5 (keypoints REPORT.md)", confidence: C}
+    hock_standing:   {value: 143, unit: deg, source: "StanfordExtra Siberian husky standing n=4", confidence: C}
+    ear_carriage:    {value: 33, unit: deg, source: "StanfordExtra Siberian husky standing n=4 (ear carriage vs skull)", confidence: C}
+    ear_set:         {value: 140, unit: deg, range: [119, 162], source: "ref/research/ear-angles/NOTE.md, StanfordExtra Siberian husky n=7: ear base to tip from the forward skull line, positive up and back", confidence: C}
+    tail_carriage:   {value: 100, unit: deg, source: "StanfordExtra Siberian husky standing n=4, tail carriage vs topline; the tail curls up over the back. In the stacks it often hangs (about -60 to -75, the wolf figure); both are real Husky carriages", confidence: C, note: "the keypoint figure and the photos disagree by pose; give the builder both"}
+    shoulder_standing: {value: 115, unit: deg, range: [108, 120], source: "domestic-dog goniometry, same source as wolf.yaml (Elliott cineradiography; Anatolian 119.8); not Husky-specific", confidence: B, note: "dog proxy"}
+    elbow_standing:    {value: 140, unit: deg, range: [137, 145], source: "weight-bearing radiographs 137 +- 13 (Anat Rec 2022), dog proxy, as wolf.yaml", confidence: B, note: "dog proxy"}
+    stifle_standing:   {value: 142, unit: deg, range: [136, 146], source: "Giansetto 2022 Vet Sci 145; standing radiographs 142.9 (AJVR 2026), dog proxy, as wolf.yaml", confidence: B, note: "dog proxy"}
+
+traits:                       # what the numbers cannot say; for GrumpyDingo to judge
+  - "Dense double coat: the neck ruff and chest hair make the withers and chest read larger than the bone; every outline number above includes fur"
+  - "Ears erect, triangular, set high; carried 119-162 deg back of the skull line (ear_set)"
+  - "Tail brush-like; curled over the back when alert, hangs or trails when relaxed (see tail_carriage)"
+  - "Show stacks set the hind feet back, which lowers the croup and lengthens the body in the photos"

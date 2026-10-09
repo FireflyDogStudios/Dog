@@ -1,0 +1,13 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1366,height:768}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.addInitScript(()=>{ localStorage.setItem('dengame-dev','1'); localStorage.setItem('dengame-uiscale','0.7'); });
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<3;i++) await p.evaluate(()=>__advance(5000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.sos-ov").forEach(e=>e.remove()));
+ const b1 = await p.evaluate(()=>__E(`invState().eqB[2]`));
+ await p.click('[data-fkopen="bag"]'); await p.evaluate(()=>__advance(300));
+ await p.click(`.fkw [data-a="inv-cfg"][data-id="${b1}"]`); for(let i=0;i<5;i++) await p.evaluate(()=>__advance(100));
+ await p.click(`.fkw label:has([data-bcfg="rar"][data-v="c"])`); for(let i=0;i<3;i++) await p.evaluate(()=>__advance(100));
+ const info = await p.evaluate(()=>{ const w=document.querySelector('.fkw'); const out=[]; let e=w; const all=[w,...w.querySelectorAll('*')].filter(x=>x.scrollTop||x.scrollLeft).map(x=>x.className+':'+x.scrollTop+'/'+x.scrollLeft); return {all, doc:document.scrollingElement.scrollTop, body:document.body.scrollTop, rect:w.getBoundingClientRect().top}; });
+ console.log(JSON.stringify(info)); await p.screenshot({path:'sim/i38e.png'}); console.log('errs',errs); await b.close();})();

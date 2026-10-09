@@ -1,0 +1,11 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:900,height:1000}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<8;i++) await p.evaluate(()=>__advance(10000));
+ await p.evaluate(()=>__E(`(()=>{const H=huntState();H.autoSalvage=false;['legendary','epic','rare','uncommon','common'].forEach(rk=>dropWeapon({name:'Test',traits:[]},true,rk));syncGhosts();H.view='armory';tab='hunt';render();})()`));
+ await p.evaluate(()=>{document.querySelectorAll(".welcomeov,.lvlup,.mailnote,.sos-ov").forEach(e=>e.remove()); __advance(500);});
+ const el = await p.$('.tradebox'); if (el) await el.scrollIntoViewIfNeeded();
+ await p.screenshot({path:'sim/arm21.png', fullPage:false});
+ console.log('errs',errs.slice(0,5));
+ await b.close();})();

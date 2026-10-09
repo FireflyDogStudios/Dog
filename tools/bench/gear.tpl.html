@@ -1,0 +1,156 @@
+<title>Den Gear Bench</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral+SC:wght@600&family=Barlow:wght@400;600&family=Barlow+Condensed:wght@500;600&display=swap">
+<style>
+:root{--bg:#f3ead6;--panel:#fbf6ea;--ink:#2a2118;--muted:#6e5f4c;--rule:#d9a441;--line:#d7c9a8;--meadow:#e9d9ad;--meadow2:#cdb286;--focus:#d9a441;
+  --display:"Spectral SC",Georgia,serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;--cond:"Barlow Condensed","Barlow",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1512;--panel:#161d19;--ink:#ece3cf;--muted:#a39b86;--line:#2a332d;--meadow:#2b3a2a;--meadow2:#1e2a1e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1512;--panel:#161d19;--ink:#ece3cf;--muted:#a39b86;--line:#2a332d;--meadow:#2b3a2a;--meadow2:#1e2a1e;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);padding-block:28px;padding-inline:clamp(16px,4vw,48px);max-width:1100px;margin:0 auto}
+h1{font:600 clamp(26px,4vw,38px)/1.1 var(--display);letter-spacing:.04em;margin:0 0 6px;text-wrap:balance}
+h2{font:600 15px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;padding-top:10px;border-top:2px solid var(--rule);display:inline-block}
+p{max-width:64ch;margin:0 0 10px}.lede{color:var(--muted);margin-bottom:18px}
+.card{background:var(--panel);border:1px solid var(--line);padding:14px;margin-bottom:16px;min-width:0}
+.stage{position:relative;background:linear-gradient(var(--meadow),var(--meadow2));border:1px solid var(--line);min-height:300px;overflow:hidden}
+.stage canvas{display:block;width:100%;height:auto}
+.cap{position:absolute;left:10px;top:8px;font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-top:12px}
+label{display:flex;flex-direction:column;gap:3px;font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+select,input[type=text]{font:500 14px var(--body);padding:8px 10px;background:var(--panel);color:var(--ink);border:1px solid var(--line);min-height:44px}
+button{font:600 13px var(--cond);letter-spacing:.1em;text-transform:uppercase;padding:9px 14px;background:transparent;color:var(--ink);border:1px solid var(--line);cursor:pointer;min-height:44px}
+button[aria-pressed="true"]{border-color:var(--rule);box-shadow:inset 0 -3px 0 var(--rule)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.name{font:600 20px var(--display);letter-spacing:.03em;margin:10px 0 2px;text-wrap:balance}.rk{font:600 12px var(--cond);letter-spacing:.12em;text-transform:uppercase}
+dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:8px 0 0;font-size:13px}dt{color:var(--muted);font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase}dd{margin:0}
+code{font:12px ui-monospace,Menlo,monospace;background:var(--bg);padding:2px 6px;border:1px solid var(--line)}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:12px}
+.item{background:linear-gradient(var(--meadow),var(--meadow2));border:1px solid var(--line);padding:4px;text-align:center;font:500 11px/1.2 var(--cond);letter-spacing:.04em;cursor:pointer;min-height:44px;color:var(--ink)}
+.item canvas{width:100%;height:auto;display:block}
+.item[aria-pressed="true"]{border-color:var(--rule);box-shadow:inset 0 -3px 0 var(--rule)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.swg{margin-bottom:12px}.swg h3{font:600 12px var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px}
+.chip{border:1px solid var(--line);padding:6px;font:500 12px var(--cond);letter-spacing:.04em}
+.chip i{display:block;height:14px;border:1px solid rgba(0,0,0,.25)}.chip .t{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:4px}
+.chip small{display:block;color:var(--muted);font-size:10px;letter-spacing:.06em}
+.match{display:flex;align-items:center;gap:8px;font:600 13px var(--cond);letter-spacing:.1em;text-transform:uppercase;min-height:44px}
+.notes ul{margin:0;padding-left:18px}.notes li{margin-bottom:4px}
+</style>
+<h1>Den Gear Bench</h1>
+<p class="lede">Dingo gear, one piece at a time, made from the Smithy's own materials and drawn straight onto the hero's rig so you see it move. He keeps every piece he's been given on, in layer order (armor under, collar and jewellery over), so each new piece is judged against the ones already there. Every piece is a short code like a weapon.</p>
+<div class="tabs" role="tablist" aria-label="Piece" id="tabs"></div>
+<section class="card" id="heroCard" hidden>
+  <h2>Hero · second pass against the references</h2>
+  <div class="stage" id="stHero" style="min-height:360px"><span class="cap">left: the approved hero · right: the redraw · both walking, game size below each</span></div>
+  <div class="bar"><button id="hWalk" aria-pressed="true">Walking</button><button id="hEars" aria-pressed="false">Ears back</button></div>
+</section>
+<section class="card" id="gearCard">
+  <h2 id="hOn">On the hero</h2>
+  <div class="stage" id="stage"><span class="cap">big, and at game size in the corner · walking</span></div>
+  <div class="bar" id="bar"></div>
+  <div class="name" id="nm"></div><div class="rk" id="rk"></div><dl id="dl"></dl>
+</section>
+<section class="card">
+  <h2 id="hShelf">A shelf of rolls</h2>
+  <div class="bar"><label>Seed<input type="text" id="seed" value="den" size="8"></label><button id="roll">Reroll shelf</button></div>
+  <div class="shelf" id="shelf" role="list"></div>
+</section>
+<section class="card">
+  <h2>Smithy swatches · the colours every piece is allowed</h2>
+  <p class="lede">Each chip is one material: base, shade, light, outline, exactly as the weapons use them. If a piece says Blackened, these are the Blackened colours it must be drawn in.</p>
+  <div id="swatches"></div>
+</section>
+<section class="card notes">
+  <h2>Notes</h2>
+  <ul>
+    <li><strong>One rule for every piece:</strong> the band is the material of the whole piece, the fitting is its accent (buckle, studs, trim, rivets, edges). Pick Oak and Antler on every tab and everything he wears is oak with antler hardware.</li>
+    <li><strong>Same forge, same materials, same brush.</strong> The band is a Smithy wrap, the fitting a Smithy fitting, the gem the Smithy's diamond with its rim and glint, and every shape is drawn the Smithy's way: outline, base, shade on the lower half, a light strip on the upper edge. The name is built the Smithy way too. No new palettes.</li>
+    <li><strong>Collar:</strong> plain, studded, tag, rope. The gem is always centred on the band, studs spaced evenly either side; the buckle, tag or knot sits at the throat.</li>
+    <li><strong>Tail guard:</strong> sleeve or guard, both in the band material with the fitting as the accent (trim on the sleeve; a metal edge and a rivet on each of the guard's four plates). An Oak guard matches an Oak collar. The guard's three gaps are the ring slots; the gem takes the middle one.</li>
+    <li><strong>Tail rings:</strong> three slots in the guard's gaps, each ring its own piece: band material for the ring, fitting metal for its edges, its own gem, rarity and infusion. "Sync the three rings" (on by default) keeps material, metal, rarity and infusion matched while each ring keeps its own gem; turn it off to change one ring alone.</li>
+    <li><strong>Body armor (the base layer):</strong> a silhouette of the body from just under the collar, over the back to the rump, down to a hem that stays above the leg roots, so the legs swing free beneath it. Hide (bound hem), Scale (rows of scallops edged in the fitting), Plated (a shoulder plate and a chest plate in the fitting metal). A girth strap behind the shoulder on all three. The gem rides the chest, clear of the near leg. The body cover will stack on top of this.</li>
+    <li><strong>Layer order:</strong> body armor, tail guard, tail rings, then collar. Rings go over the guard and bracelets over any leg cover when they come.</li>
+    <li><strong>Match across pieces:</strong> with it on, the band, fitting, gem, rarity and infusion you pick on one tab are used for every piece he wears, so you can judge a whole set in one material; style stays per piece.</li>
+    <li>Levels, stats and set bonuses are not here yet, by design: this is the drawing and the code.</li>
+  </ul>
+</section>
+<script>/*__PIXI__*/</script>
+<script>/*__SMITHY__*/</script>
+<script>/*__RIG__*/</script>
+<script>/*__RIG_DEN__*/</script>
+<script>/*__GEAR__*/</script>
+<script>
+(async () => {
+  registerDenRigs(RIG); GEAR.init(SMITHY);
+  const $ = s => document.querySelector(s), esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const stage = $("#stage"); const app = new PIXI.Application();
+  await app.init({background:0x000000, backgroundAlpha:0, resizeTo:stage, antialias:true, resolution:Math.min(2, window.devicePixelRatio || 1), autoDensity:true}); stage.appendChild(app.canvas);
+  const W = () => app.screen.width, H = () => app.screen.height, at = (r, cx, cy) => r.position.set(cx - 31, cy - 19);
+  const big = RIG.build(PIXI, "hero"); big.scale.set(6); const small = RIG.build(PIXI, "hero"); small.scale.set(88 / 62); app.stage.addChild(big, small);
+  function layout(){ at(big, W() / 2, H() / 2 + 10); at(small, W() - 70, H() - 40); } layout(); app.renderer.on("resize", layout);
+  const KINDS = GEAR.KINDS, order = Object.keys(KINDS), P = GEAR.PAL; let kind = "tailguard"; const worn = {}; /* kind → {piece, big, small} */
+  function redraw(){ /* take everything off and put it back on in layer order */
+    for (const k of order){ const w = worn[k]; if (w){ w.big.remove(); w.small.remove(); } }
+    for (const k of order){ const w = worn[k]; if (w){ w.big = RIG.attach(PIXI, big, w.piece.joint, w.piece.parts, w.piece.palette); w.small = RIG.attach(PIXI, small, w.piece.joint, w.piece.parts, w.piece.palette); } } }
+  function wear(c){ const w = worn[c.kind]; if (w){ w.big.remove(); w.small.remove(); } worn[c.kind] = {piece:c, big:{remove(){}}, small:{remove(){}}}; redraw();
+    if (c.kind !== kind) return; $("#nm").textContent = c.name; $("#rk").textContent = c.picks.rarity; $("#rk").style.color = c.palette.glow;
+    $("#dl").innerHTML = Object.entries(c.picks).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("") + `<dt>code</dt><dd><code>${esc(c.code)}</code></dd>`; }
+  app.ticker.add(tk => { const dt = tk.deltaMS / 1000; big.rig.tick(dt); small.rig.tick(dt); });
+  /* controls per kind */
+  const sel = (id, label, opts) => `<label>${label}<select id="${id}"><option value="">Any</option>${opts.map((o, i) => `<option value="${i}">${esc(o.n)}</option>`).join("")}</select></label>`;
+  /* picks are kept per tab; with Match on, the shared ones (band, fitting, gem, rarity, infusion) are one set for every piece */
+  const SHARED = ["fBand", "fFit", "fGem", "fRar", "fInf"], picks = {}; let match = false;
+  const DEF = {fBand:String(P.WRAP.findIndex(w => w.n === "Oak")), fFit:String(P.FIT.findIndex(f => f.n === "Antler")), fStyle:"0", fGem:"0", fRar:"0", fInf:"0"}; /* GrumpyDingo's starting point: Oak, Antler, plain, no gem, Junk, no infusion */
+  order.forEach(k => picks[k] = Object.assign({}, DEF));
+  /* rings start as a Dark wood set with one gem each: ruby, emerald, sapphire */
+  const gemIx = n => String(P.GEMS.findIndex(g => g && g.n === n)), dark = String(P.WRAP.findIndex(w => w.n === "Dark wood"));
+  Object.assign(picks.ring1, {fBand:dark, fGem:gemIx("Ruby")}); Object.assign(picks.ring2, {fBand:dark, fGem:gemIx("Emerald")}); Object.assign(picks.ring3, {fBand:dark, fGem:gemIx("Sapphire")});
+  const opt = id => { const v = (match && SHARED.includes(id) ? picks.__shared : picks[kind])[id]; return v == null || v === "" ? undefined : +v; }; picks.__shared = {};
+  let n = 0; function make(seed, k = kind){ const pk = key => { const own = KINDS[k].slot != null && key === "fGem"; /* a ring keeps its own gem under Match and Sync */ const v = (match && SHARED.includes(key) && !own ? picks.__shared : picks[k])[key]; return v == null || v === "" ? undefined : +v; }; return KINDS[k].make(seed, {band:pk("fBand"), fit:pk("fFit"), style:pk("fStyle"), gem:pk("fGem"), rar:pk("fRar"), inf:pk("fInf")}); }
+  function rewearAll(){ for (const k of order) if (k !== kind && worn[k]) wear(make("match:" + (++n) + ":" + k, k)); }
+  /* sync: copy one ring's picks to the other two and re-wear them, so a matched set is the default and each ring can still be changed alone */
+  function syncFrom(src){ for (const k of ringKinds){ if (k === src) continue; const gem = picks[k].fGem; picks[k] = Object.assign({}, picks[src], {fGem:gem}); /* sync matches material, metal, rarity and infusion; each ring keeps its own gem */ if (worn[k] || worn[src]) wear(make("sync:" + (++n) + ":" + k, k)); } }
+  function buildBar(){ const K = KINDS[kind], isRing = K.slot != null;
+    $("#bar").innerHTML = (isRing ? `<label>Ring<select id="fRing">${ringKinds.map(k => `<option value="${k}">${esc(KINDS[k].n)}</option>`).join("")}</select></label>` : "") + (K.noBand ? "" : sel("fBand", "Band", P.WRAP)) + sel("fFit", "Fitting", P.FIT) + (K.noStyle ? "" : sel("fStyle", "Style", K.styles)) + sel("fGem", "Gem", P.GEMS.map(g => g || {n:"None"})) + sel("fRar", "Rarity", SMITHY.RARS) + sel("fInf", "Infusion", SMITHY.INFS) + `<button id="bRoll">Reroll</button><button id="bWalk" aria-pressed="${big.rig.walking}">Walking</button><button id="bOff">Take off</button>` + (isRing ? `<label class="match"><input type="checkbox" id="bSync" ${syncRings ? "checked" : ""}> Sync the three rings</label>` : "") + `<label class="match"><input type="checkbox" id="bMatch" ${match ? "checked" : ""}> Match across pieces</label>`;
+    if (isRing){ $("#fRing").value = kind; $("#fRing").addEventListener("change", e => setKind(e.target.value)); $("#bSync").addEventListener("change", e => { syncRings = e.target.checked; if (syncRings) syncFrom(kind); }); }
+    $("#bar").querySelectorAll("select").forEach(s => { if (s.id === "fRing") return; const src = match && SHARED.includes(s.id) && !(isRing && s.id === "fGem") ? picks.__shared : picks[kind]; s.value = src[s.id] ?? "";
+      s.addEventListener("change", () => { picks[kind][s.id] = s.value; const shared = match && SHARED.includes(s.id) && !(isRing && s.id === "fGem"); if (shared) picks.__shared[s.id] = s.value; wear(make("pick:" + (++n))); if (shared) rewearAll(); else if (isRing && syncRings && s.id !== "fGem") syncFrom(kind); }); });
+    $("#bMatch").addEventListener("change", e => { match = e.target.checked; if (match){ SHARED.forEach(id => { picks.__shared[id] = picks[kind][id] ?? ""; }); rewearAll(); } buildBar(); });
+    $("#bRoll").addEventListener("click", () => { const c = make("roll:" + (++n) + ":" + Math.random()); wear(c); if (isRing && syncRings){ /* same roll on all three: copy the rolled piece's choices */ const v = {fFit:String(P.FIT.findIndex(f => f.n === c.picks.fitting)), fBand:String(P.WRAP.findIndex(w => w.n === c.picks.band)), fRar:String(SMITHY.RARS.findIndex(r => r.n === c.picks.rarity)), fInf:String(SMITHY.INFS.findIndex(i => i.n === c.picks.infusion))}; for (const k of ringKinds){ picks[k] = Object.assign({}, picks[k], v); } for (const k of ringKinds) if (k !== kind) wear(make("sync:" + (++n) + ":" + k, k)); buildBar(); } });
+    $("#bWalk").addEventListener("click", e => { const on = e.currentTarget.getAttribute("aria-pressed") !== "true"; e.currentTarget.setAttribute("aria-pressed", String(on)); big.rig.walk(on); small.rig.walk(on); });
+    $("#bOff").addEventListener("click", () => { const w = worn[kind]; if (w){ w.big.remove(); w.small.remove(); delete worn[kind]; } $("#nm").textContent = "(nothing on)"; $("#rk").textContent = ""; $("#dl").innerHTML = ""; }); }
+  /* tabs */
+  /* tabs are groups: the three ring kinds share one tab with a ring picker */
+  const groupOf = k => KINDS[k].group || KINDS[k].n, groups = []; order.slice().reverse().forEach(k => { const g = groupOf(k); if (!groups.includes(g)) groups.push(g); });
+  /* the Hero tab: its own stage with the approved hero beside the redraw */
+  const hb = document.createElement("button"); hb.setAttribute("role", "tab"); hb.setAttribute("aria-pressed", "false"); hb.textContent = "Hero"; hb.addEventListener("click", () => showHero(true)); $("#tabs").appendChild(hb);
+  const hst = $("#stHero"); const happ = new PIXI.Application(); await happ.init({background:0x000000, backgroundAlpha:0, resizeTo:hst, antialias:true, resolution:Math.min(2, window.devicePixelRatio || 1), autoDensity:true}); hst.appendChild(happ.canvas);
+  const hOld = RIG.build(PIXI, "hero"), hNew = RIG.build(PIXI, "hero2"), hOldS = RIG.build(PIXI, "hero"), hNewS = RIG.build(PIXI, "hero2"); hOld.scale.set(5.2); hNew.scale.set(5.2); hOldS.scale.set(88 / 62); hNewS.scale.set(88 / 62); happ.stage.addChild(hOld, hNew, hOldS, hNewS);
+  function hlay(){ const w = happ.screen.width, h = happ.screen.height; at(hOld, w * .27, h * .45); at(hNew, w * .73, h * .45); at(hOldS, w * .27, h - 40); at(hNewS, w * .73, h - 40); } hlay(); happ.renderer.on("resize", hlay);
+  happ.ticker.add(tk => { const dt = tk.deltaMS / 1000; [hOld, hNew, hOldS, hNewS].forEach(r => r.rig.tick(dt)); });
+  $("#hWalk").addEventListener("click", e => { const on = e.currentTarget.getAttribute("aria-pressed") !== "true"; e.currentTarget.setAttribute("aria-pressed", String(on)); [hOld, hNew, hOldS, hNewS].forEach(r => r.rig.walk(on)); });
+  $("#hEars").addEventListener("click", e => { const on = e.currentTarget.getAttribute("aria-pressed") !== "true"; e.currentTarget.setAttribute("aria-pressed", String(on)); [hOld, hNew, hOldS, hNewS].forEach(r => r.rig.set("ears-back", on)); });
+  function showHero(on){ $("#heroCard").hidden = !on; $("#gearCard").hidden = on; $("#shelf").parentElement.hidden = on; hb.setAttribute("aria-pressed", String(on)); if (on) [...tabs.children].forEach(b => { if (b !== hb) b.setAttribute("aria-pressed", "false"); }); if (on) setTimeout(() => { happ.resize(); hlay(); }, 50); }
+  const tabs = $("#tabs"); groups.forEach(g => { const b = document.createElement("button"); b.setAttribute("role", "tab"); b.setAttribute("aria-pressed", String(g === groupOf(kind))); b.textContent = g; b.addEventListener("click", () => setKind(order.find(k => groupOf(k) === g && KINDS[k].slot === 1) || order.find(k => groupOf(k) === g))); tabs.appendChild(b); });
+  let syncRings = true; const ringKinds = order.filter(k => KINDS[k].slot != null);
+  function setKind(k){ showHero(false); kind = k; const g = groupOf(k); [...tabs.children].forEach(b => b.setAttribute("aria-pressed", String(b.textContent === g))); $("#hOn").textContent = KINDS[k].n + " · on the hero"; $("#hShelf").textContent = KINDS[k].n + " · a shelf of rolls"; buildBar();
+    const w = worn[k]; if (w) wear(w.piece); else { $("#nm").textContent = "(nothing on)"; $("#rk").textContent = ""; $("#dl").innerHTML = ""; } shelfRender(); }
+  /* shelf: twelve rolls of the current kind, each a close-up of where the piece sits */
+  const shelf = $("#shelf"); const sapp = new PIXI.Application(); await sapp.init({background:0x000000, backgroundAlpha:0, width:120, height:74, antialias:true, resolution:2, autoDensity:true, autoStart:false});
+  const sh = RIG.build(PIXI, "hero"); sh.rig.walk(false); sapp.stage.addChild(sh);
+  const CROP = {armor:{at:[29, 15], s:2.2}, collar:{at:[44, 12], s:3.2}, tailguard:{at:[11.5, 24], s:2.6}, ring1:{at:[11.5, 24], s:2.6}, ring2:{at:[11.5, 24], s:2.6}, ring3:{at:[11.5, 24], s:2.6}};
+  function shelfRender(){ shelf.innerHTML = ""; const seed = $("#seed").value || "den"; const C = CROP[kind] || {at:[31, 19], s:1.6}; sh.scale.set(C.s); sh.position.set(60 - 31 - (C.at[0] - 31) * C.s, 37 - 19 - (C.at[1] - 19) * C.s);
+    const others = order.filter(k => k !== kind && worn[k]).map(k => worn[k].piece); /* the other pieces stay on in the close-ups too */
+    for (let i = 0; i < 12; i++){ const c = KINDS[kind].make(seed + ":" + kind + ":" + i); const on = []; for (const k of order){ const pc = k === kind ? c : (worn[k] && worn[k].piece); if (pc) on.push(RIG.attach(PIXI, sh, pc.joint, pc.parts, pc.palette)); } sapp.render(); const url = sapp.canvas.toDataURL(); on.forEach(a => a.remove());
+      const b = document.createElement("button"); b.className = "item"; b.setAttribute("role", "listitem"); b.setAttribute("aria-pressed", "false"); b.innerHTML = `<img src="${url}" alt="" style="width:100%;display:block"><span style="color:${c.palette.glow}">${esc(c.name)}</span>`;
+      b.addEventListener("click", () => { [...shelf.children].forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); wear(GEAR.decode(c.code)); }); shelf.appendChild(b); } }
+  $("#roll").addEventListener("click", () => { $("#seed").value = Math.random().toString(36).slice(2, 7); shelfRender(); }); $("#seed").addEventListener("change", shelfRender);
+  /* swatches: the Smithy's palettes, one chip per material */
+  const tones = m => `<span class="t">${["b", "s", "l", "o"].map(k => `<i style="background:${m[k] || m.b}" title="${k}"></i>`).join("")}</span>`;
+  const group = (title, arr, extra) => `<div class="swg"><h3>${esc(title)}</h3><div class="sw">${arr.filter(Boolean).map(m => `<div class="chip">${tones(m)}${esc(m.n)}${extra ? `<small>${esc(extra(m))}</small>` : ""}</div>`).join("")}</div></div>`;
+  $("#swatches").innerHTML = group("Bands (wraps)", P.WRAP) + group("Fittings", P.FIT) + group("Gems", P.GEMS) + group("Metals (weapons)", P.METAL) + group("Woods (weapons)", P.WOOD) + group("Bone (weapons)", P.BONE)
+    + `<div class="swg"><h3>Rarity</h3><div class="sw">${SMITHY.RARS.map(r => `<div class="chip"><span class="t"><i style="background:${r.c};grid-column:span 4"></i></span>${esc(r.n)}<small>${esc(r.adj || "")}</small></div>`).join("")}</div></div>`
+    + `<div class="swg"><h3>Infusions</h3><div class="sw">${SMITHY.INFS.filter(i => i.c).map(i => `<div class="chip"><span class="t"><i style="background:${i.c};grid-column:span 4"></i></span>${esc(i.n)}<small>${esc(i.pre || "")} · ${esc(i.suf || "")}</small></div>`).join("")}</div></div>`;
+  for (const k of order) wear(make("first", k)); setKind("ring2");
+  window.__bench = {app, big, small, wear, GEAR, setKind};
+})();
+</script>

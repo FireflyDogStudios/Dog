@@ -1,0 +1,111 @@
+</head>
+<body class="fk booting">
+<div id="boot" role="status" aria-live="polite"><style>
+#boot{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(1200px 600px at 50% 110%,#3a2a1a 0%,transparent 60%),linear-gradient(180deg,#0e1512,#0b0f0d);color:#ece3cf;font:500 15px/1.4 "Barlow","Segoe UI",system-ui,sans-serif;transition:opacity .5s}
+#boot.out{opacity:0;pointer-events:none}
+#boot .bx{display:grid;justify-items:center;gap:14px;text-align:center;padding:24px}
+#boot svg{width:120px;height:74px;color:#d9a441}
+#boot b{font:500 1.4rem Georgia,"Spectral SC",serif;letter-spacing:.08em;color:#d9a441}
+#boot small{color:#9fa898;letter-spacing:.06em}
+#boot .bar{width:220px;height:4px;background:rgba(236,227,207,.1);overflow:hidden;border-radius:2px}
+#boot .bar i{display:block;height:100%;width:40%;background:#d9a441;animation:bootbar 1.4s ease-in-out infinite}
+@keyframes bootbar{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
+@media (prefers-reduced-motion:reduce){#boot .bar i{animation:none;width:100%;opacity:.5}}
+</style><div class="bx"><svg viewBox="0 0 62 38" aria-hidden="true"><path fill="currentColor" d="M16 17C8 16 6 9 9 4c2 5 5 8 10 10l-3 3zm2-2h20l4-6 2.5-7 3 5.5 3-5 1 6 6.5 3-1 2-6.5 1-5.5 5-3 2v9h-3l-1-7H23l-2 7h-3l1-8c-2-1-3-2-3-4z"/></svg><b>The Den Ledger</b><div class="bar"><i></i></div><small id="bootmsg">Waking the pack…</small></div></div>
+<div class="toasts" id="toasts" aria-live="polite"></div><div class="lootfeed" id="lootfeed" aria-live="polite"></div>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>The Den Ledger</h1>
+      <p id="subtitle">An idle dingo hunting adventure</p>
+      <p id="nowclock" class="nowclock" aria-live="off"></p>
+      <button class="mailbtn" data-settings title="Settings">⚙️ Settings<span class="mdot" id="sdot" hidden></span></button><button class="mailbtn" data-mail title="Mail">📬 Mail<span class="mdot" id="mdot" hidden></span></button>
+    </div>
+    <div class="status" id="status" aria-live="polite">Opening the den…</div>
+  </header>
+  <div class="hud" id="hud" aria-label="Your progress"></div>
+  <main id="app">
+    <section class="hero" aria-labelledby="left-h">
+      <div class="flies" id="flies" aria-hidden="true"></div>
+      <div class="skymoon" aria-hidden="true"></div>
+      <div class="shootstar" aria-hidden="true"></div>
+      <div class="sc-el sc-bloodmoon-el" aria-hidden="true"></div>
+      <div class="sc-el sc-aurora-el" aria-hidden="true"><i></i><i></i></div>
+      <div class="sc-el sc-northstar-el" aria-hidden="true">✦</div>
+      <div class="sc-el sc-snow-el" aria-hidden="true"></div>
+      <svg class="sc-el sc-lights-el" viewBox="0 0 400 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 4 Q50 20 100 6 T200 6 T300 6 T400 4" fill="none" stroke="#3a4a3f" stroke-width="1.2"/><g><circle cx="25" cy="11" r="3.2" fill="#ff5a5a"/><circle cx="60" cy="15" r="3.2" fill="#ffd34d"/><circle cx="95" cy="7" r="3.2" fill="#6fd46f"/><circle cx="130" cy="11" r="3.2" fill="#5ab0ff"/><circle cx="165" cy="14" r="3.2" fill="#ff5a5a"/><circle cx="200" cy="6" r="3.2" fill="#ffd34d"/><circle cx="235" cy="12" r="3.2" fill="#6fd46f"/><circle cx="270" cy="14" r="3.2" fill="#5ab0ff"/><circle cx="305" cy="6" r="3.2" fill="#ff5a5a"/><circle cx="340" cy="12" r="3.2" fill="#ffd34d"/><circle cx="375" cy="9" r="3.2" fill="#6fd46f"/></g></svg>
+      <div class="sc-el sc-ghost-el" aria-hidden="true"><svg viewBox="0 0 30 34"><path d="M15 2C7 2 3 8 3 15v17l4-3 4 3 4-3 4 3 4-3 4 3V15C27 8 23 2 15 2z" fill="#f4f4f8" opacity=".9"/><circle cx="11" cy="14" r="2" fill="#223"/><circle cx="19" cy="14" r="2" fill="#223"/><ellipse cx="15" cy="20" rx="2" ry="1.4" fill="#223"/></svg></div>
+      <div class="sc-el sc-bats-el" aria-hidden="true"><svg class="bat" style="--i:0" viewBox="0 0 40 16"><path d="M20 8c-2-4-6-6-10-4 2 1 3 3 2 5-3-2-8-1-12 2 5 0 8 1 10 4 2-2 6-3 10-1 4-2 8-1 10 1 2-3 5-4 10-4-4-3-9-4-12-2-1-2 0-4 2-5-4-2-8 0-10 4z" fill="#1a1520"/></svg><svg class="bat" style="--i:1" viewBox="0 0 40 16"><path d="M20 8c-2-4-6-6-10-4 2 1 3 3 2 5-3-2-8-1-12 2 5 0 8 1 10 4 2-2 6-3 10-1 4-2 8-1 10 1 2-3 5-4 10-4-4-3-9-4-12-2-1-2 0-4 2-5-4-2-8 0-10 4z" fill="#1a1520"/></svg><svg class="bat" style="--i:2" viewBox="0 0 40 16"><path d="M20 8c-2-4-6-6-10-4 2 1 3 3 2 5-3-2-8-1-12 2 5 0 8 1 10 4 2-2 6-3 10-1 4-2 8-1 10 1 2-3 5-4 10-4-4-3-9-4-12-2-1-2 0-4 2-5-4-2-8 0-10 4z" fill="#1a1520"/></svg></div>
+      <svg class="sc-el sc-pumpkins-el" viewBox="0 0 120 26" aria-hidden="true"><g><ellipse cx="18" cy="17" rx="11" ry="8" fill="#e8741c"/><path d="M18 9 v-4" stroke="#4a6b2a" stroke-width="2.4" stroke-linecap="round"/><path d="M12 15 l3 -3 l3 3z M21 15 l3 -3 l3 3z" fill="#ffd34d"/><path d="M12 19 q6 5 12 0 q-6 2 -12 0" fill="#ffd34d"/></g><g><ellipse cx="96" cy="19" rx="8" ry="6" fill="#d8641a"/><path d="M96 13 v-3" stroke="#4a6b2a" stroke-width="2" stroke-linecap="round"/><circle cx="93" cy="18" r="1.3" fill="#ffd34d"/><circle cx="99" cy="18" r="1.3" fill="#ffd34d"/></g></svg>
+      <svg class="shrooms" viewBox="0 0 200 30" preserveAspectRatio="xMinYMax meet" aria-hidden="true"><g><rect x="14" y="16" width="4" height="10" rx="1.5" fill="#f4ecd8"/><ellipse cx="16" cy="16" rx="9" ry="6" fill="#d0453b"/><circle cx="12" cy="14" r="1.4" fill="#fff"/><circle cx="19" cy="13" r="1.1" fill="#fff"/></g><g><rect x="34" y="20" width="3" height="7" rx="1.2" fill="#f4ecd8"/><ellipse cx="35.5" cy="20" rx="6" ry="4" fill="#e2a24f"/></g><g><rect x="160" y="18" width="3.5" height="9" rx="1.4" fill="#f4ecd8"/><ellipse cx="161.7" cy="18" rx="7.5" ry="5" fill="#86b894"/><circle cx="159" cy="16" r="1" fill="#fff" opacity=".8"/></g></svg>
+      <div id="hero-in"></div>
+      <svg class="trees" viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="springgrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5aa84e"/><stop offset=".18" stop-color="#f2a7c4"/><stop offset=".35" stop-color="#4f9a48"/><stop offset=".55" stop-color="#7cc06a"/><stop offset=".72" stop-color="#f6c2d6"/><stop offset="1" stop-color="#4f9a48"/></linearGradient><linearGradient id="summergrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2f7a3a"/><stop offset=".3" stop-color="#4f9e3c"/><stop offset=".55" stop-color="#25622e"/><stop offset=".8" stop-color="#3f8e38"/><stop offset="1" stop-color="#2a6c34"/></linearGradient><linearGradient id="wintergrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f9fc"/><stop offset=".3" stop-color="#e3ebf1"/><stop offset=".5" stop-color="#3a6458"/><stop offset="1" stop-color="#244a40"/></linearGradient><linearGradient id="fallgrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c2541f"/><stop offset=".22" stop-color="#e09a2a"/><stop offset=".45" stop-color="#9c3a1c"/><stop offset=".68" stop-color="#d77a24"/><stop offset=".85" stop-color="#7e2e1a"/><stop offset="1" stop-color="#cf6a22"/></linearGradient></defs><path d="M0 64V44l18-18 14 14 20-30 22 30 12-12 26 26 16-22 20 18 24-40 24 36 14-14 22 24 18-26 22 20 28-34 22 30 16-16 20 22 18-28 26 24 22-36 22 32 14-10 24 20 20-30 20 22 26-40 26 38 16-16 20 18 22-26 18 16 28-36 22 34 14-12 22 20 20-30 24 28 18-14 22 18 24-38 24 34 16-18 20 20 22-28 20 24 16-10 16 14 22-22V64z"/></svg>
+      <div class="dingo-run" id="dingo" aria-hidden="true"><span class="buddy"></span><svg class="dingo" viewBox="0 0 62 38">
+      <g class="fur">
+        <g class="lg hind far" style="--ph:0;transform-origin:19px 19px"><line x1="19" y1="19" x2="21.8" y2="26" stroke-width="4"/><g class="shank" style="transform-origin:21.8px 26px"><line x1="21.8" y1="26" x2="17.6" y2="31" stroke-width="2.8"/><g class="meta" style="transform-origin:17.6px 31px"><line x1="17.6" y1="31" x2="18.4" y2="35.2" stroke-width="2.3"/><ellipse class="paw" cx="19.3" cy="35.6" rx="2" ry="1.05"/></g></g></g><g class="lg front far" style="--ph:0.25;transform-origin:38px 18px"><line x1="38" y1="18" x2="37.2" y2="24.5" stroke-width="3.6"/><g class="fore" style="transform-origin:37.2px 24.5px"><line x1="37.2" y1="24.5" x2="37.4" y2="31.6" stroke-width="2.6"/><g class="past" style="transform-origin:37.4px 31.6px"><line x1="37.4" y1="31.6" x2="38.4" y2="35.2" stroke-width="2.3"/><ellipse class="paw" cx="39.2" cy="35.6" rx="2" ry="1.05"/></g></g></g>
+        <g class="body">
+          <path class="tail" d="M16 17 C8 16 6 9 9 4 C11 9 14 12 19 14 Z"/>
+          <ellipse cx="29" cy="18" rx="14" ry="6.5"/>
+          <path d="M38 17 L42 9 L44.5 2 L47.5 7.5 L50.5 2.5 L51.5 8.5 L58 11.5 L57 13.5 L50.5 14.5 L45 19.5 Z"/>
+          <circle class="eye" cx="51" cy="10" r=".9"/>
+          <g class="acc acc-bindle"><line x1="57" y1="13.5" x2="44" y2="-6" stroke="#6b4a2b" stroke-width="1.4" stroke-linecap="round"/><circle cx="42.5" cy="-8" r="5" fill="#c98a5a"/><circle cx="41" cy="-9.5" r=".8" fill="#fff" opacity=".7"/><circle cx="44" cy="-6.5" r=".8" fill="#fff" opacity=".7"/></g>
+          <g class="acc acc-bandana"><path d="M40.5 13.5 L46.5 18.5 L41 23 Z" fill="var(--bandana,#d0453b)"/><circle cx="42.5" cy="18" r=".7" fill="#fff" opacity=".8"/></g>
+          <g class="acc acc-pack"><rect x="22" y="7.5" width="12" height="7.5" rx="2.2" fill="#4f8a5a"/><rect x="24" y="9.5" width="8" height="2.4" rx="1" fill="#3d6f47"/></g>
+          <g class="acc acc-crown"><path d="M44.8 2.2 L45.8 -3.2 L48 -0.4 L49.6 -4.4 L51 -0.4 L53 -3.2 L53.4 2.2 Z" fill="#f2c14e" stroke="#b8862a" stroke-width=".5"/></g>
+          <g class="cos cos-ghost"><path d="M13 22C12 12 20 4 32 5 40 1 50 0 56 5 60 9 60 14 57 17 55 20 50 21 48 24L47 34 43 31 39 35 35 31 31 35 27 31 23 35 19 31 15 34Z" fill="#f6f4ff" opacity=".93"/><ellipse cx="50" cy="9.5" rx="1.6" ry="2.2" fill="#1d1d24"/><ellipse cx="54.5" cy="9.8" rx="1.3" ry="1.9" fill="#1d1d24"/><path d="M50 15q2.5 1.8 5 0" stroke="#1d1d24" stroke-width=".7" fill="none"/></g>
+          <g class="cos cos-vampire"><path d="M40 13 C30 12 20 14 14 18 L16 30 C22 26 26 30 30 27 C34 31 38 27 42 29 L44 17Z" fill="#1a1024"/><path d="M40 14 C31 14 22 16 17 19 L18 26 C23 23 27 26 30 24 C34 27 37 24 41 26Z" fill="#b01e3a"/><path d="M38 12 L44 8 L46 15 L41 18Z" fill="#1a1024"/><path d="M45.5 12.8 l.8 2.2 .8-2.2z" fill="#fff"/></g>
+          <g class="cos cos-pumpkin"><ellipse cx="50" cy="7" rx="8" ry="6.6" fill="#f07a1a"/><path d="M46 1.5 C45 6 45 10 46 13 M54 1.5 C55 6 55 10 54 13 M50 0.5 V13.5" stroke="#c85a0c" stroke-width=".8" fill="none"/><path d="M50 .6 V-2.6" stroke="#4a7a2a" stroke-width="1.6" stroke-linecap="round"/><path d="M46 6 l1.8-2.2 1.8 2.2z M51.4 6 l1.8-2.2 1.8 2.2z M46 9 q4 3 8 0 l-1.3 1-1.3-1-1.4 1-1.3-1-1.3 1z" fill="#ffd34d"/></g>
+          <g class="cos cos-skeleton"><path d="M18 17.5 H40 M21 15 v6 M25 14 v7.5 M29 13.5 v8 M33 13.5 v8 M37 14 v7.5" stroke="#f4f0e6" stroke-width="1.1" stroke-linecap="round" fill="none"/><path d="M49 6.5 a1.4 1.4 0 1 0 .01 0 M53.4 7 a1.2 1.2 0 1 0 .01 0" fill="#1d1d24"/><path d="M47 12.5 h8 M48.5 11.5 v2 M50.5 11.5 v2 M52.5 11.5 v2" stroke="#f4f0e6" stroke-width=".6"/></g>
+          <g class="cos cos-witch"><ellipse cx="49.5" cy="2.8" rx="8.5" ry="1.7" fill="#2a1a3a"/><path d="M45.2 2.6 L50.8 -9.5 L54 -5 L53.4 2.6Z" fill="#3a2550"/><rect x="45.4" y="0.6" width="7.6" height="1.4" fill="#8a4aff"/><circle cx="49" cy="1.3" r=".7" fill="#ffd34d"/></g>
+          <g class="acc-ball"><circle cx="58.6" cy="14.2" r="2.3" fill="#c9e04a" stroke="#8aa32a" stroke-width=".5"/><path d="M56.6 13.4 q2 1.6 4 0" stroke="#fff" stroke-width=".4" fill="none"/></g>
+          <g class="w w-head-party"><path d="M46 3.2 L49.3 -7.5 L52.6 3.2Z" fill="#8a7bff"/><path d="M47.2 -0.7 L51.4 -0.7 M47.9 -3.6 L50.7 -3.6" stroke="#ffd34d" stroke-width="1"/><circle cx="49.3" cy="-7.8" r="1.4" fill="#ff6fae"/></g>
+          <g class="w w-head-beanie"><path d="M44.6 3.6 C44.6 -3.4 54.4 -3.4 54.4 3.6Z" fill="#4f8fb8"/><rect x="44.2" y="2" width="10.6" height="2.4" rx="1" fill="#3a6f93"/><circle cx="49.5" cy="-2.6" r="1.6" fill="#f4ecd8"/></g>
+          <g class="w w-head-cowboy"><ellipse cx="49.5" cy="2.8" rx="8.5" ry="1.7" fill="#8a5a2b"/><path d="M45.6 2.6 C45.6 -3.6 53.4 -3.6 53.4 2.6Z" fill="#9c6a35"/><rect x="45.6" y="0.8" width="7.8" height="1.2" fill="#5a3a1a"/></g>
+          <g class="w w-head-top"><ellipse cx="49.5" cy="2.8" rx="6.4" ry="1.4" fill="#1d1d24"/><rect x="46.3" y="-6" width="6.4" height="8.6" rx="1" fill="#26262f"/><rect x="46.3" y="0" width="6.4" height="1.4" fill="#d0453b"/></g>
+          <g class="w w-head-flowers"><circle cx="45.4" cy="2.4" r="1.5" fill="#ff8fb8"/><circle cx="47.8" cy="1.2" r="1.5" fill="#ffd34d"/><circle cx="50.3" cy="0.8" r="1.5" fill="#a0d8ff"/><circle cx="52.8" cy="1.4" r="1.5" fill="#ff8fb8"/><circle cx="47.8" cy="1.2" r=".5" fill="#fff"/><circle cx="50.3" cy="0.8" r=".5" fill="#fff"/></g>
+          <g class="w w-head-witch"><ellipse cx="49.5" cy="2.8" rx="8" ry="1.6" fill="#3a2a4f"/><path d="M45.8 2.6 L50.5 -8 L53.2 -4.5 L52.6 2.6Z" fill="#4a3566"/><rect x="45.8" y="0.8" width="7" height="1.2" fill="#e8741c"/></g>
+          <g class="w w-head-santa"><path d="M45 3.4 C45.4 -3.4 52 -5 56 -1.8 L57.6 1 C55 -0.8 53.6 0.6 54 3.4Z" fill="#d93a3a"/><rect x="44.4" y="2.2" width="10.4" height="2.2" rx="1.1" fill="#f4f4f4"/><circle cx="57.8" cy="1.4" r="1.4" fill="#f4f4f4"/></g>
+          <g class="w w-neck-bandana"><path d="M40.5 13.5 L46.5 18.5 L41 23 Z" fill="var(--bcol,#4f8fb8)"/><circle cx="42.5" cy="18" r=".7" fill="#fff" opacity=".8"/></g>
+          <g class="w w-neck-bow"><path d="M40.6 16.6 L43.4 18.2 L40.6 19.8Z M46.2 16.6 L43.4 18.2 L46.2 19.8Z" fill="#8a7bff"/><circle cx="43.4" cy="18.2" r=".9" fill="#6a5bdf"/></g>
+          <g class="w w-neck-collar"><path d="M40.4 15.2 L46.8 19.6" stroke="#d0453b" stroke-width="2" stroke-linecap="round"/><circle cx="43" cy="19.9" r="1.4" fill="#f2c14e" stroke="#b8862a" stroke-width=".4"/></g>
+          <g class="w w-neck-scarf"><path d="M40.2 14 L47 18.8 L46 21.2 L39.6 16.6Z" fill="#e2a24f"/><path d="M41.6 15.2 L42.8 16 M43.6 16.6 L44.8 17.4" stroke="#d0453b" stroke-width="1"/><path d="M41 16.6 L39.4 23.4 L41.6 23.6 L42.6 17.4Z" fill="#e2a24f"/></g>
+          <g class="w w-eyes-shades"><rect x="48.8" y="8.4" width="5.6" height="3.2" rx="1.2" fill="#15151c"/><path d="M48.8 9.2 L45.6 8.4" stroke="#15151c" stroke-width=".8"/><path d="M49.8 9.2 L51.2 9.2" stroke="#fff" stroke-width=".5" opacity=".6"/></g>
+          <g class="w w-eyes-hearts"><path d="M51 11.8 C47.6 9.6 49 7.2 51 8.8 C53 7.2 54.4 9.6 51 11.8Z" fill="#ff5a8a"/><path d="M48.4 9.4 L45.6 8.6" stroke="#ff5a8a" stroke-width=".7"/></g>
+          <g class="w w-eyes-nerd"><circle cx="51" cy="10" r="2.1" fill="none" stroke="#2a2a33" stroke-width=".8"/><path d="M48.9 9.6 L45.6 8.6" stroke="#2a2a33" stroke-width=".7"/></g>
+          <g class="w w-eyes-visor"><rect x="47.4" y="8.2" width="8.4" height="3.2" rx="1.6" fill="#10263a"/><rect x="48.2" y="9.1" width="6.8" height="1.4" rx=".7" fill="#00f0ff"/></g>
+          <g class="acc acc-bone"><path d="M55.3 13.8 h4.6 a1.1 1.1 0 1 1 .9 1.6 a1.1 1.1 0 1 1 -.9 1.6 h-4.6 a1.1 1.1 0 1 1 -.9 -1.6 a1.1 1.1 0 1 1 .9 -1.6z" fill="#f4ecd8" stroke="#b9ab8c" stroke-width=".4"/></g>
+        </g>
+        <g class="lg hind" style="--ph:0.5;transform-origin:19px 19px"><line x1="19" y1="19" x2="21.8" y2="26" stroke-width="4"/><g class="shank" style="transform-origin:21.8px 26px"><line x1="21.8" y1="26" x2="17.6" y2="31" stroke-width="2.8"/><g class="meta" style="transform-origin:17.6px 31px"><line x1="17.6" y1="31" x2="18.4" y2="35.2" stroke-width="2.3"/><ellipse class="paw" cx="19.3" cy="35.6" rx="2" ry="1.05"/></g></g></g><g class="lg front" style="--ph:0.75;transform-origin:38px 18px"><line x1="38" y1="18" x2="37.2" y2="24.5" stroke-width="3.6"/><g class="fore" style="transform-origin:37.2px 24.5px"><line x1="37.2" y1="24.5" x2="37.4" y2="31.6" stroke-width="2.6"/><g class="past" style="transform-origin:37.4px 31.6px"><line x1="37.4" y1="31.6" x2="38.4" y2="35.2" stroke-width="2.3"/><ellipse class="paw" cx="39.2" cy="35.6" rx="2" ry="1.05"/></g></g></g>
+      </g>
+      <g class="acc acc-sparkle" fill="var(--firefly)"><path d="M4 8 l1 2.2 2.2 1 -2.2 1 -1 2.2 -1 -2.2 -2.2 -1 2.2 -1z"/><path d="M11 1 l.7 1.5 1.5 .7 -1.5 .7 -.7 1.5 -.7 -1.5 -1.5 -.7 1.5 -.7z"/><path d="M2 20 l.6 1.3 1.3 .6 -1.3 .6 -.6 1.3 -.6 -1.3 -1.3 -.6 1.3 -.6z"/></g>
+      </svg></div>
+    </section>
+<div class="fkhud" id="fkhud" aria-label="HUD">
+  <div class="fkp fk-tl" id="fk-tl"></div>
+  <div class="fkp fk-tr" id="fk-tr"></div>
+  <nav class="fkp fk-dock" id="fk-dock" aria-label="Menu"></nav>
+  <nav class="fkp fk-dock fk-den" id="fk-den" aria-label="Den" hidden></nav>
+  <div class="fkp fk-target" id="fk-target" hidden></div>
+  <div class="fk-sts fk-pst" id="fk-pst" aria-label="Your statuses"></div>
+  <div class="fkp fk-eq" id="fk-eq" aria-label="Equipped weapons"></div>
+
+</div>
+<div id="fktip" role="tooltip" hidden></div><section id="fkwin" aria-labelledby="fkw-title"><div class="fkw-h"><h2 id="fkw-title">Den</h2><button class="fkw-x" type="button" data-fkclose aria-label="Close window">✕</button></div></section>
+    <div id="skills"></div>
+    <div id="subnav"></div>
+    <div id="rest"></div>
+  </main>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="bone" viewBox="0 0 30 18"><path d="M6.5 2.2a3.3 3.3 0 0 1 3.2 4h10.6a3.3 3.3 0 1 1 3.2 2.8 3.3 3.3 0 1 1-3.2 2.8H9.7a3.3 3.3 0 1 1-3.2-2.8 3.3 3.3 0 0 1 0-6.8z"/></symbol>
+  <symbol id="paw" viewBox="0 0 24 24">
+    <ellipse cx="6" cy="9" rx="2.2" ry="2.8"/><ellipse cx="10" cy="5.4" rx="2.2" ry="2.9"/>
+    <ellipse cx="14.4" cy="5.4" rx="2.2" ry="2.9"/><ellipse cx="18.4" cy="9" rx="2.2" ry="2.8"/>
+    <path d="M12.2 11.2c-3.4 0-6.4 4.3-6.4 6.9 0 2 1.6 2.9 3.3 2.6 1.3-.2 2-.8 3.1-.8s1.8.6 3.1.8c1.7.3 3.3-.6 3.3-2.6 0-2.6-3-6.9-6.4-6.9z"/>
+  </symbol>
+</svg>
+
+<script src="proton.web.min.js"></script>
+<script src="pixi.min.js"></script>

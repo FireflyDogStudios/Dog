@@ -1,0 +1,17 @@
+pose,point,x_forward_m,y_down_m,global_X_m,global_Y_m,global_Z_m
+default_pose,iliosacral_midpoint (Body origin),0.0218,-0.081,0.0,0.0,0.675
+default_pose,hip,0.0,-0.0,-0.02179,0.03598,0.59395
+default_pose,stifle (knee),0.0942,0.1598,0.07243,0.04786,0.43411
+default_pose,hock (ankle),0.0284,0.3465,0.00657,0.03271,0.24743
+default_pose,MTP_est,0.0725,0.4416,0.05072,0.01681,0.15237
+default_pose,toe_tip_est,0.0945,0.4887,0.07269,0.01681,0.10527
+default_pose,pelvis_cranial_extreme (ilium),0.1001,-0.054,0.07832,0.00351,0.64792
+default_pose,pelvis_caudal_extreme (ischium/tail base),-0.0829,0.063,-0.10468,-0.01555,0.53098
+zero_pose,iliosacral_midpoint (Body origin),0.0218,-0.081,0.0,0.0,0.0
+zero_pose,hip,0.0,-0.0,-0.02179,0.03598,-0.08105
+zero_pose,stifle (knee),0.0017,0.1855,-0.02012,0.04786,-0.26659
+zero_pose,hock (ankle),0.0036,0.3835,-0.01815,0.03271,-0.46453
+zero_pose,MTP_est,0.0035,0.4883,-0.01831,0.01681,-0.56934
+zero_pose,toe_tip_est,0.0035,0.5403,-0.01831,0.01681,-0.62131
+zero_pose,pelvis_cranial_extreme (ilium),0.1001,-0.054,0.07832,0.00351,-0.02708
+zero_pose,pelvis_caudal_extreme (ischium/tail base),-0.0829,0.063,-0.10468,-0.01555,-0.14402

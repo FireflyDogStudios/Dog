@@ -1,0 +1,1866 @@
+{
+ "rig": "hero5",
+ "findings": [
+  {
+   "kind": "bleed",
+   "frame": "stand",
+   "at": [
+    6.22,
+    15.88
+   ],
+   "size": 0.02,
+   "px": 3,
+   "what": "background shows through a seam, 0.03 units long"
+  },
+  {
+   "kind": "bleed",
+   "frame": "stand",
+   "at": [
+    8.34,
+    21.91
+   ],
+   "size": 0.05,
+   "px": 5,
+   "what": "background shows through a seam, 0.05 units long"
+  },
+  {
+   "kind": "thin",
+   "frame": "stand",
+   "at": [
+    12.59,
+    35.52
+   ],
+   "paint": "far pale",
+   "part": "hpawF",
+   "size": 0.22,
+   "what": "a band of far pale under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "stand",
+   "at": [
+    26.72,
+    35.52
+   ],
+   "paint": "far pale",
+   "part": "fpawF",
+   "size": 0.24,
+   "what": "a band of far pale under 0.12 units wide"
+  },
+  {
+   "kind": "corner",
+   "frame": "stand",
+   "at": [
+    26.62,
+    35.54
+   ],
+   "paint": "far pale",
+   "part": "fpawF",
+   "angle": 70,
+   "convex": true,
+   "what": "a 70 degree point on the far pale edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "stand",
+   "at": [
+    12.5,
+    35.54
+   ],
+   "paint": "far pale",
+   "part": "hpawF",
+   "angle": 64,
+   "convex": true,
+   "what": "a 64 degree point on the far pale edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "stand",
+   "at": [
+    39.41,
+    16.77
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "size": 0.19,
+   "what": "a band of furDark under 0.12 units wide",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "stand",
+   "at": [
+    39.61,
+    14.14
+   ],
+   "paint": "furDark",
+   "part": "head",
+   "angle": 63,
+   "convex": true,
+   "what": "a 63 degree point on the furDark edge",
+   "allowed": "round the almond eye: the fur meets its two points"
+  },
+  {
+   "kind": "corner",
+   "frame": "stand",
+   "at": [
+    39.7,
+    13.64
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 59,
+   "convex": true,
+   "what": "a 59 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "stand",
+   "at": [
+    39.67,
+    14.11
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 53,
+   "convex": true,
+   "what": "a 53 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "stand",
+   "at": [
+    39.47,
+    16.82
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 48,
+   "convex": true,
+   "what": "a 48 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "thin",
+   "frame": "stand",
+   "at": [
+    28.73,
+    22.44
+   ],
+   "paint": "pale",
+   "part": "belly",
+   "size": 0.19,
+   "what": "a band of pale under 0.12 units wide"
+  },
+  {
+   "kind": "corner",
+   "frame": "stand",
+   "at": [
+    28.84,
+    22.41
+   ],
+   "paint": "pale",
+   "part": "belly",
+   "angle": 94,
+   "convex": true,
+   "what": "a 94 degree point on the pale edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "stand",
+   "at": [
+    40.08,
+    13.81
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.3,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "stand",
+   "at": [
+    40.0,
+    14.14
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.28,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "corner",
+   "frame": "stand",
+   "at": [
+    40.27,
+    13.87
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "angle": 75,
+   "convex": true,
+   "what": "a 75 degree point on the iris edge",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "bleed",
+   "frame": "walk000",
+   "at": [
+    8.1,
+    22.38
+   ],
+   "size": 0.06,
+   "px": 9,
+   "what": "background shows through a seam, 0.06 units long"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk000",
+   "at": [
+    6.56,
+    14.89
+   ],
+   "paint": "fur",
+   "part": "tail",
+   "size": 1.94,
+   "what": "a band of fur under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk000",
+   "at": [
+    6.19,
+    15.98
+   ],
+   "paint": "furDark",
+   "part": "tailTip",
+   "size": 0.6,
+   "what": "a band of furDark under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk000",
+   "at": [
+    39.1,
+    16.76
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "size": 0.16,
+   "what": "a band of furDark under 0.12 units wide",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk000",
+   "at": [
+    39.48,
+    14.16
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 63,
+   "convex": true,
+   "what": "a 63 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk000",
+   "at": [
+    39.64,
+    13.68
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 49,
+   "convex": true,
+   "what": "a 49 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk000",
+   "at": [
+    39.53,
+    14.13
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 51,
+   "convex": true,
+   "what": "a 51 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk000",
+   "at": [
+    39.15,
+    16.8
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 44,
+   "convex": true,
+   "what": "a 44 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk000",
+   "at": [
+    4.61,
+    34.61
+   ],
+   "paint": "leg",
+   "part": "cannonN",
+   "angle": 79,
+   "convex": true,
+   "what": "a 79 degree point on the leg edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk000",
+   "at": [
+    39.96,
+    13.85
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.3,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk000",
+   "at": [
+    39.85,
+    14.17
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.25,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "bleed",
+   "frame": "walk125",
+   "at": [
+    7.78,
+    24.98
+   ],
+   "size": 0.04,
+   "px": 6,
+   "what": "background shows through a seam, 0.04 units long"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk125",
+   "at": [
+    39.06,
+    17.02
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "size": 0.18,
+   "what": "a band of furDark under 0.12 units wide",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk125",
+   "at": [
+    39.45,
+    14.42
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 69,
+   "convex": true,
+   "what": "a 69 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk125",
+   "at": [
+    39.6,
+    13.92
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 55,
+   "convex": true,
+   "what": "a 55 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk125",
+   "at": [
+    39.5,
+    14.4
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 54,
+   "convex": true,
+   "what": "a 54 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk125",
+   "at": [
+    39.13,
+    17.06
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 46,
+   "convex": true,
+   "what": "a 46 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk125",
+   "at": [
+    23.22,
+    34.24
+   ],
+   "paint": "leg",
+   "part": "pasternN",
+   "angle": 95,
+   "convex": true,
+   "what": "a 95 degree point on the leg edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk125",
+   "at": [
+    2.83,
+    34.0
+   ],
+   "paint": "leg",
+   "part": "cannonN",
+   "angle": 82,
+   "convex": true,
+   "what": "a 82 degree point on the leg edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk125",
+   "at": [
+    39.95,
+    14.13
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.28,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk125",
+   "at": [
+    39.84,
+    14.44
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.25,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    10.01,
+    23.27
+   ],
+   "paint": "far fur",
+   "part": "shankF",
+   "angle": 90,
+   "convex": true,
+   "what": "a 90 degree point on the far fur edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    12.11,
+    25.27
+   ],
+   "paint": "far fur",
+   "part": "shankF",
+   "angle": 53,
+   "convex": true,
+   "what": "a 53 degree point on the far fur edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    11.84,
+    25.51
+   ],
+   "paint": "far leg",
+   "part": "shankF",
+   "angle": 99,
+   "convex": true,
+   "what": "a 99 degree point on the far leg edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    39.5,
+    14.83
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 65,
+   "convex": true,
+   "what": "a 65 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    39.72,
+    14.36
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 47,
+   "convex": true,
+   "what": "a 47 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    39.54,
+    14.81
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 51,
+   "convex": true,
+   "what": "a 51 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    38.98,
+    17.43
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 43,
+   "convex": true,
+   "what": "a 43 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    7.31,
+    33.06
+   ],
+   "paint": "leg",
+   "part": "cannonN",
+   "angle": 82,
+   "convex": true,
+   "what": "a 82 degree point on the leg edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    20.73,
+    34.22
+   ],
+   "paint": "leg",
+   "part": "pasternN",
+   "angle": 91,
+   "convex": true,
+   "what": "a 91 degree point on the leg edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk250",
+   "at": [
+    39.99,
+    14.55
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.26,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk250",
+   "at": [
+    39.88,
+    14.87
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.26,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk250",
+   "at": [
+    40.15,
+    14.62
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "angle": 71,
+   "convex": true,
+   "what": "a 71 degree point on the iris edge",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "bleed",
+   "frame": "walk375",
+   "at": [
+    11.18,
+    25.59
+   ],
+   "size": 0.02,
+   "px": 4,
+   "what": "background shows through a seam, 0.03 units long"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk375",
+   "at": [
+    6.71,
+    34.61
+   ],
+   "paint": "far leg",
+   "part": "cannonF",
+   "angle": 84,
+   "convex": true,
+   "what": "a 84 degree point on the far leg edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk375",
+   "at": [
+    6.6,
+    14.44
+   ],
+   "paint": "fur",
+   "part": "tail",
+   "size": 1.91,
+   "what": "a band of fur under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk375",
+   "at": [
+    6.25,
+    15.31
+   ],
+   "paint": "furDark",
+   "part": "tailTip",
+   "size": 0.22,
+   "what": "a band of furDark under 0.12 units wide"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk375",
+   "at": [
+    39.5,
+    14.49
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 60,
+   "convex": true,
+   "what": "a 60 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk375",
+   "at": [
+    39.64,
+    14.01
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 57,
+   "convex": true,
+   "what": "a 57 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk375",
+   "at": [
+    39.53,
+    14.48
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 51,
+   "convex": true,
+   "what": "a 51 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk375",
+   "at": [
+    6.24,
+    15.41
+   ],
+   "paint": "furDark",
+   "part": "tailTip",
+   "angle": 44,
+   "convex": true,
+   "what": "a 44 degree point on the furDark edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk375",
+   "at": [
+    39.05,
+    17.09
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 45,
+   "convex": true,
+   "what": "a 45 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk375",
+   "at": [
+    20.84,
+    30.49
+   ],
+   "paint": "leg",
+   "part": "pasternN",
+   "size": 0.15,
+   "what": "a band of leg under 0.12 units wide"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk375",
+   "at": [
+    37.42,
+    11.85
+   ],
+   "paint": "saddle",
+   "part": "saddleNeck",
+   "angle": 60,
+   "convex": true,
+   "what": "a 60 degree point on the saddle edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk375",
+   "at": [
+    39.99,
+    14.21
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.29,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk375",
+   "at": [
+    39.87,
+    14.52
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.25,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk375",
+   "at": [
+    39.74,
+    14.49
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "angle": 73,
+   "convex": true,
+   "what": "a 73 degree point on the iris edge",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk500",
+   "at": [
+    8.25,
+    22.6
+   ],
+   "paint": "far fur",
+   "part": "thighF",
+   "angle": 81,
+   "convex": true,
+   "what": "a 81 degree point on the far fur edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk500",
+   "at": [
+    4.15,
+    34.61
+   ],
+   "paint": "far leg",
+   "part": "cannonF",
+   "angle": 60,
+   "convex": true,
+   "what": "a 60 degree point on the far leg edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk500",
+   "at": [
+    4.22,
+    34.61
+   ],
+   "paint": "far leg",
+   "part": "cannonF",
+   "angle": 80,
+   "convex": true,
+   "what": "a 80 degree point on the far leg edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk500",
+   "at": [
+    6.57,
+    14.87
+   ],
+   "paint": "fur",
+   "part": "tail",
+   "size": 1.94,
+   "what": "a band of fur under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk500",
+   "at": [
+    6.2,
+    16.01
+   ],
+   "paint": "furDark",
+   "part": "tailTip",
+   "size": 0.66,
+   "what": "a band of furDark under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk500",
+   "at": [
+    39.1,
+    16.76
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "size": 0.16,
+   "what": "a band of furDark under 0.12 units wide",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk500",
+   "at": [
+    39.48,
+    14.16
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 63,
+   "convex": true,
+   "what": "a 63 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk500",
+   "at": [
+    39.64,
+    13.68
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 49,
+   "convex": true,
+   "what": "a 49 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk500",
+   "at": [
+    39.53,
+    14.13
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 51,
+   "convex": true,
+   "what": "a 51 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk500",
+   "at": [
+    39.15,
+    16.8
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 44,
+   "convex": true,
+   "what": "a 44 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk500",
+   "at": [
+    39.96,
+    13.85
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.3,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk500",
+   "at": [
+    39.85,
+    14.17
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.25,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk625",
+   "at": [
+    8.59,
+    22.73
+   ],
+   "paint": "far fur",
+   "part": "thighF",
+   "angle": 87,
+   "convex": true,
+   "what": "a 87 degree point on the far fur edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk625",
+   "at": [
+    21.9,
+    34.24
+   ],
+   "paint": "far leg",
+   "part": "pasternF",
+   "angle": 89,
+   "convex": true,
+   "what": "a 89 degree point on the far leg edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk625",
+   "at": [
+    2.43,
+    34.0
+   ],
+   "paint": "far leg",
+   "part": "cannonF",
+   "angle": 80,
+   "convex": true,
+   "what": "a 80 degree point on the far leg edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk625",
+   "at": [
+    39.06,
+    17.02
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "size": 0.18,
+   "what": "a band of furDark under 0.12 units wide",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk625",
+   "at": [
+    39.45,
+    14.42
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 69,
+   "convex": true,
+   "what": "a 69 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk625",
+   "at": [
+    39.6,
+    13.92
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 55,
+   "convex": true,
+   "what": "a 55 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk625",
+   "at": [
+    39.5,
+    14.4
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 54,
+   "convex": true,
+   "what": "a 54 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk625",
+   "at": [
+    39.13,
+    17.06
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 46,
+   "convex": true,
+   "what": "a 46 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk625",
+   "at": [
+    28.91,
+    22.56
+   ],
+   "paint": "pale",
+   "part": "belly",
+   "angle": 94,
+   "convex": true,
+   "what": "a 94 degree point on the pale edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk625",
+   "at": [
+    39.95,
+    14.13
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.28,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk625",
+   "at": [
+    39.84,
+    14.44
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.25,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "bleed",
+   "frame": "walk750",
+   "at": [
+    8.55,
+    31.49
+   ],
+   "size": 0.05,
+   "px": 6,
+   "what": "background shows through a seam, 0.05 units long"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk750",
+   "at": [
+    13.79,
+    23.38
+   ],
+   "paint": "far fur",
+   "part": "shankF",
+   "angle": 58,
+   "convex": true,
+   "what": "a 58 degree point on the far fur edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk750",
+   "at": [
+    19.43,
+    34.22
+   ],
+   "paint": "far leg",
+   "part": "pasternF",
+   "angle": 91,
+   "convex": true,
+   "what": "a 91 degree point on the far leg edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk750",
+   "at": [
+    39.5,
+    14.83
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 65,
+   "convex": true,
+   "what": "a 65 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk750",
+   "at": [
+    39.72,
+    14.36
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 47,
+   "convex": true,
+   "what": "a 47 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk750",
+   "at": [
+    39.54,
+    14.81
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 51,
+   "convex": true,
+   "what": "a 51 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk750",
+   "at": [
+    38.98,
+    17.43
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 43,
+   "convex": true,
+   "what": "a 43 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk750",
+   "at": [
+    39.99,
+    14.55
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.26,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk750",
+   "at": [
+    39.88,
+    14.87
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.26,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk750",
+   "at": [
+    40.15,
+    14.62
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "angle": 71,
+   "convex": true,
+   "what": "a 71 degree point on the iris edge",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk875",
+   "at": [
+    6.59,
+    14.46
+   ],
+   "paint": "fur",
+   "part": "tail",
+   "size": 1.91,
+   "what": "a band of fur under 0.12 units wide"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk875",
+   "at": [
+    39.5,
+    14.49
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 60,
+   "convex": true,
+   "what": "a 60 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk875",
+   "at": [
+    39.64,
+    14.01
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 57,
+   "convex": true,
+   "what": "a 57 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk875",
+   "at": [
+    39.53,
+    14.48
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 51,
+   "convex": true,
+   "what": "a 51 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk875",
+   "at": [
+    39.05,
+    17.09
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 45,
+   "convex": true,
+   "what": "a 45 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk875",
+   "at": [
+    7.11,
+    34.61
+   ],
+   "paint": "leg",
+   "part": "cannonN",
+   "angle": 84,
+   "convex": true,
+   "what": "a 84 degree point on the leg edge"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk875",
+   "at": [
+    37.42,
+    11.85
+   ],
+   "paint": "saddle",
+   "part": "saddleNeck",
+   "angle": 60,
+   "convex": true,
+   "what": "a 60 degree point on the saddle edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk875",
+   "at": [
+    39.99,
+    14.21
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.29,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "walk875",
+   "at": [
+    39.87,
+    14.52
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.25,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "corner",
+   "frame": "walk875",
+   "at": [
+    39.74,
+    14.49
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "angle": 73,
+   "convex": true,
+   "what": "a 73 degree point on the iris edge",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "bleed",
+   "frame": "ph0442",
+   "at": [
+    8.01,
+    22.08
+   ],
+   "size": 0.04,
+   "px": 4,
+   "what": "background shows through a seam, 0.04 units long"
+  },
+  {
+   "kind": "bleed",
+   "frame": "ph0442",
+   "at": [
+    8.16,
+    22.21
+   ],
+   "size": 0.04,
+   "px": 4,
+   "what": "background shows through a seam, 0.04 units long"
+  },
+  {
+   "kind": "bleed",
+   "frame": "ph0442",
+   "at": [
+    8.19,
+    22.31
+   ],
+   "size": 0.05,
+   "px": 6,
+   "what": "background shows through a seam, 0.05 units long"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0442",
+   "at": [
+    5.39,
+    34.59
+   ],
+   "paint": "far leg",
+   "part": "hpawF",
+   "angle": 87,
+   "convex": true,
+   "what": "a 87 degree point on the far leg edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0442",
+   "at": [
+    6.6,
+    14.53
+   ],
+   "paint": "fur",
+   "part": "tail",
+   "size": 1.92,
+   "what": "a band of fur under 0.12 units wide"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0442",
+   "at": [
+    4.02,
+    27.76
+   ],
+   "paint": "fur",
+   "part": "tail",
+   "angle": 100,
+   "convex": true,
+   "what": "a 100 degree point on the fur edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0442",
+   "at": [
+    6.21,
+    15.63
+   ],
+   "paint": "furDark",
+   "part": "tailTip",
+   "size": 0.61,
+   "what": "a band of furDark under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0442",
+   "at": [
+    39.06,
+    16.87
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "size": 0.15,
+   "what": "a band of furDark under 0.12 units wide",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0442",
+   "at": [
+    39.52,
+    14.31
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 65,
+   "convex": true,
+   "what": "a 65 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0442",
+   "at": [
+    39.68,
+    13.8
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 47,
+   "convex": true,
+   "what": "a 47 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0442",
+   "at": [
+    39.58,
+    14.28
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 49,
+   "convex": true,
+   "what": "a 49 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0442",
+   "at": [
+    39.11,
+    16.9
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 43,
+   "convex": true,
+   "what": "a 43 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0442",
+   "at": [
+    24.76,
+    29.51
+   ],
+   "paint": "leg",
+   "part": "pasternN",
+   "size": 0.15,
+   "what": "a band of leg under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0442",
+   "at": [
+    39.98,
+    13.99
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.29,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0442",
+   "at": [
+    39.86,
+    14.31
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.22,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0835",
+   "at": [
+    6.56,
+    14.56
+   ],
+   "paint": "fur",
+   "part": "tail",
+   "size": 1.8,
+   "what": "a band of fur under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0835",
+   "at": [
+    6.22,
+    15.52
+   ],
+   "paint": "furDark",
+   "part": "tailTip",
+   "size": 0.59,
+   "what": "a band of furDark under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0835",
+   "at": [
+    38.97,
+    17.2
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "size": 0.18,
+   "what": "a band of furDark under 0.12 units wide",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0835",
+   "at": [
+    39.51,
+    14.64
+   ],
+   "paint": "furDark",
+   "part": "head",
+   "angle": 59,
+   "convex": true,
+   "what": "a 59 degree point on the furDark edge",
+   "allowed": "round the almond eye: the fur meets its two points"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0835",
+   "at": [
+    39.64,
+    14.16
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 59,
+   "convex": true,
+   "what": "a 59 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0835",
+   "at": [
+    39.54,
+    14.63
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 48,
+   "convex": true,
+   "what": "a 48 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0835",
+   "at": [
+    39.01,
+    17.25
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 47,
+   "convex": true,
+   "what": "a 47 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0835",
+   "at": [
+    7.92,
+    34.62
+   ],
+   "paint": "leg",
+   "part": "cannonN",
+   "angle": 83,
+   "convex": true,
+   "what": "a 83 degree point on the leg edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0835",
+   "at": [
+    39.99,
+    14.35
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.26,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0835",
+   "at": [
+    39.86,
+    14.66
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.22,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "bleed",
+   "frame": "ph0000",
+   "at": [
+    8.1,
+    22.38
+   ],
+   "size": 0.06,
+   "px": 9,
+   "what": "background shows through a seam, 0.06 units long"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0000",
+   "at": [
+    6.56,
+    14.89
+   ],
+   "paint": "fur",
+   "part": "tail",
+   "size": 1.94,
+   "what": "a band of fur under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0000",
+   "at": [
+    6.19,
+    15.98
+   ],
+   "paint": "furDark",
+   "part": "tailTip",
+   "size": 0.6,
+   "what": "a band of furDark under 0.12 units wide"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0000",
+   "at": [
+    39.1,
+    16.76
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "size": 0.16,
+   "what": "a band of furDark under 0.12 units wide",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0000",
+   "at": [
+    39.48,
+    14.16
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 63,
+   "convex": true,
+   "what": "a 63 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0000",
+   "at": [
+    39.64,
+    13.68
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 49,
+   "convex": true,
+   "what": "a 49 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0000",
+   "at": [
+    39.53,
+    14.13
+   ],
+   "paint": "furDark",
+   "part": "eyeRim",
+   "angle": 51,
+   "convex": true,
+   "what": "a 51 degree point on the furDark edge",
+   "allowed": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0000",
+   "at": [
+    39.15,
+    16.8
+   ],
+   "paint": "furDark",
+   "part": "lips",
+   "angle": 44,
+   "convex": true,
+   "what": "a 44 degree point on the furDark edge",
+   "allowed": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "kind": "corner",
+   "frame": "ph0000",
+   "at": [
+    4.61,
+    34.61
+   ],
+   "paint": "leg",
+   "part": "cannonN",
+   "angle": 79,
+   "convex": true,
+   "what": "a 79 degree point on the leg edge"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0000",
+   "at": [
+    39.96,
+    13.85
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.3,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  },
+  {
+   "kind": "thin",
+   "frame": "ph0000",
+   "at": [
+    39.85,
+    14.17
+   ],
+   "paint": "iris",
+   "part": "iris",
+   "size": 0.25,
+   "what": "a band of iris under 0.12 units wide",
+   "allowed": "the iris follows the almond"
+  }
+ ]
+}

@@ -1,0 +1,1383 @@
+{
+ "_about": "Item 11: canid ethograms and time budgets for the hero's idle/AFK behaviours. Part (a) behaviours: short definitions paraphrased by Firefly (not copied). Part (b) numbers with source, URL, licence and confidence (A = stated in source; B = stated but small n or indirect; C = derived by Firefly or strongly biased). Categories follow the 14 Animal Kingdom groups. Fetched 2026-10-07. See NOTE.md.",
+ "categories_checklist": [
+  "movement",
+  "transport",
+  "feeding",
+  "sensing",
+  "resting",
+  "maintenance",
+  "communication",
+  "aggressive",
+  "defensive",
+  "social",
+  "affection",
+  "sexual",
+  "life events",
+  "other"
+ ],
+ "sources": {
+  "TATLER2021": {
+   "cite": "Tatler J, Currie SE, Cassey P, Scharf AK, Roshier DA, Prowse TAA (2021). Accelerometer informed time-energy budgets reveal the importance of temperature to the activity of a wild, arid zone canid. Movement Ecology 9:11. doi:10.1186/s40462-021-00246-w",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7977315/",
+   "licence": "CC BY 4.0 (article); CC0 waiver stated for data made available in the article"
+  },
+  "SCHORK2024": {
+   "cite": "Schork I, Zamansky A, Farhat N, de Azevedo CS, Young RJ (2024). Automated Observations of Dogs' Resting Behaviour Patterns Using Artificial Intelligence and Their Similarity to Behavioural Observations. Animals 14(7):1109. doi:10.3390/ani14071109",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11011086/",
+   "licence": "CC BY 4.0"
+  },
+  "BUSO2026": {
+   "cite": "Buso E, Loconsole M, Normando S (2026). Comparing behavioural sampling methods in shelter dogs: implications for enrichment studies. Animal Cognition. doi:10.1007/s10071-026-02075-z. Supplementary Table T1 (ethogram) and S1 dataset",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13453999/",
+   "licence": "CC BY 4.0"
+  },
+  "VDLAAN2023": {
+   "cite": "van der Laan JE, Vinke CM, Arndt SS (2023). Sensor-supported measurement of adaptability of dogs (Canis familiaris) to a shelter environment: Nocturnal activity and behaviour. PLoS ONE. doi:10.1371/journal.pone.0286429",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10270336/",
+   "licence": "CC BY 4.0"
+  },
+  "WANG2026FARM": {
+   "cite": "Wang T, Smit M, Cai X, Corner-Thomas RA, Draganova I, et al. (2026). Accelerometry-Based Assessment of Overnight Coat Use on Dog Sleep and Activity Patterns: Implications for Farm Dog Welfare. Animals 16(13):2035. doi:10.3390/ani16132035",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13359857/",
+   "licence": "CC BY 4.0"
+  },
+  "SMEDBERG2026": {
+   "cite": "Smedberg K, Bergh A, Roman E, Sporndly-Nees S, et al. (2026). Effects of a joint outdoor exercise program for dog owners and dogs on physical activity, sedentary time and sleep-related behaviour. PLoS ONE. doi:10.1371/journal.pone.0346895",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13102230/",
+   "licence": "CC BY 4.0"
+  },
+  "OROURKE2025": {
+   "cite": "O'Rourke A, Haydock R, Butterwick RF, German AJ, et al. (2025). Estimated activity levels in dogs at population scale with linear and causal modeling. Frontiers in Veterinary Science. doi:10.3389/fvets.2025.1572794",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12287635/",
+   "licence": "CC BY 4.0"
+  },
+  "FERREIRO2024": {
+   "cite": "Ferreiro-Arias I, Garcia EJ, Palacios V, Sazatornil V, et al. (2024). Drivers of Wolf Activity in a Human-Dominated Landscape and Its Individual Variability Toward Anthropogenic Disturbance. Ecology and Evolution. doi:10.1002/ece3.70397",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11494153/",
+   "licence": "CC BY 4.0"
+  },
+  "BOIC2024": {
+   "cite": "Boic N, Jukic N, Mikuska A, Bjedov D, Kovacic M, et al. (2024). Preliminary Study of Scent Rolling in Captive Wolves (Canis lupus L. 1758) in Response to Olfactory Enrichment. Biology 13(6):422. doi:10.3390/biology13060422",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11200557/",
+   "licence": "CC BY 4.0"
+  },
+  "BRYCE2024": {
+   "cite": "Bryce A, Nurkin P, Horowitz A (2024). Shake It Off: Investigating the Function of a Domestic Dog Behavior in Social Contexts. Animals 14(22):3248. doi:10.3390/ani14223248",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11591167/",
+   "licence": "CC BY 4.0"
+  },
+  "WANG2026FOX": {
+   "cite": "Wang X, Lu X, Wu J, Wang J, Sangzhu Z, Meng X (2026). Behavioral Structure, Activity Rhythm and Relationships to the Conservation and Welfare of Tibetan Fox in Tibet Plateau. Veterinary Sciences (MDPI). doi:10.3390/vetsci13090968",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13611874/",
+   "licence": "CC BY 4.0"
+  },
+  "MAGLIERI2023": {
+   "cite": "Maglieri V, Zanoli A, Mastrandrea F, Palagi E (2023). Don't stop me now, I'm having such a good time! Czechoslovakian wolfdogs renovate the motivation to play with a bow. Current Zoology. doi:10.1093/cz/zoac013",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10039175/",
+   "licence": "CC BY-NC 4.0 (single cited facts only; nothing bulk stored)"
+  },
+  "BARANYAI2025": {
+   "cite": "Baranyai L, Iotchev I, Gombos F, Kis A (2025). Family Dogs' Sleep Macrostructure Reflects Worsened Sleep Quality When Sleeping in the Absence of Their Owners. Animals (MDPI). doi:10.3390/ani15213182",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12608857/",
+   "licence": "CC BY 4.0"
+  },
+  "ROSE2021": {
+   "cite": "Rose PE, Riley LM (2021). Conducting Behavioural Research in the Zoo: A Guide to Ten Important Methods, Concepts and Theories. Journal of Zoological and Botanical Gardens 2(3):421-444. doi:10.3390/jzbg2030031",
+   "url": "https://doi.org/10.3390/jzbg2030031 (PDF fetched from figshare mirror https://figshare.com/articles/journal_contribution/29781461)",
+   "licence": "CC BY 4.0 (Crossref + figshare metadata)"
+  },
+  "NC3RS": {
+   "cite": "NC3Rs / IAT / RSPCA, 'General ethograms' (Evaluating environmental enrichment resource), undated PDF",
+   "url": "https://nc3rs.org.uk/sites/default/files/documents/EvaluatingEnvironmentalEnrichment/General%20ethograms.pdf",
+   "licence": "(c) NC3Rs, personal use only, no commercial reuse (nc3rs.org.uk/terms-and-conditions). Not stored; structure noted only"
+  }
+ },
+ "behaviours": [
+  {
+   "name": "walk",
+   "category": "movement",
+   "definition": "Moves forward at a walking pace so the whole body changes place; at most one paw off the ground at a time.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "trot",
+   "category": "movement",
+   "definition": "Brisk gait with diagonal fore/hind pairs moving together; used for covering distance and exploring.",
+   "species": "Tibetan fox",
+   "source": "WANG2026FOX"
+  },
+  {
+   "name": "run",
+   "category": "movement",
+   "definition": "Faster than walking, with moments where several paws are off the ground together.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "jump",
+   "category": "movement",
+   "definition": "Pushes off with the hind legs; either all four paws leave the ground or the forepaws are placed up on a wall/fence.",
+   "species": "domestic dog (shelter); Tibetan fox (pounce on prey)",
+   "source": "BUSO2026; WANG2026FOX"
+  },
+  {
+   "name": "pacing",
+   "category": "other",
+   "definition": "Repetitive walking along the same route with no apparent destination (a stereotypy; a sign of poor welfare, not a cozy idle).",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026",
+   "notes": "Keep out of the hero's idle set."
+  },
+  {
+   "name": "circling (repetitive)",
+   "category": "other",
+   "definition": "Tracing the same circle more than three times in one direction (stereotypy). Distinct from the brief turn-around before lying down, for which no sourced number was found.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "carry/scatter object",
+   "category": "transport",
+   "definition": "Takes an object in the mouth and carries or scatters it around the enclosure.",
+   "species": "grey wolf (captive)",
+   "source": "BOIC2024"
+  },
+  {
+   "name": "eat",
+   "category": "feeding",
+   "definition": "Eats food provided in the enclosure.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "drink",
+   "category": "feeding",
+   "definition": "Drinks from a bowl or water dispenser.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "chew/bite blanket or toy",
+   "category": "feeding",
+   "definition": "Bites or mouths a blanket or toy (object play / chewing).",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "dig",
+   "category": "feeding",
+   "definition": "Repeatedly scrapes the ground with the forepaws, making a hole.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "dig/splash in water bowl",
+   "category": "other",
+   "definition": "Puts one or both forepaws in the water bowl and paddles them back and forth, or plays in a pool.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "sniff ground/object",
+   "category": "sensing",
+   "definition": "Head lowered to a surface or object, inhaling in quick sniffs.",
+   "species": "domestic dog; grey wolf",
+   "source": "BUSO2026; BOIC2024"
+  },
+  {
+   "name": "air sniff",
+   "category": "sensing",
+   "definition": "Head raised toward a distant scent, sniffing the air.",
+   "species": "grey wolf (captive)",
+   "source": "BOIC2024"
+  },
+  {
+   "name": "visual exploration (look around)",
+   "category": "sensing",
+   "definition": "Watches particular objects inside or outside the enclosure (not other animals).",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026",
+   "notes": "The most common awake state in the shelter dataset."
+  },
+  {
+   "name": "scan",
+   "category": "sensing",
+   "definition": "Stands or sits with the head raised, staring in one direction or sweeping back and forth; ears rotate.",
+   "species": "Tibetan fox",
+   "source": "WANG2026FOX"
+  },
+  {
+   "name": "freeze",
+   "category": "defensive",
+   "definition": "Stops suddenly mid-walk or mid-run and stays rigid; only the eyes and ears move.",
+   "species": "Tibetan fox",
+   "source": "WANG2026FOX"
+  },
+  {
+   "name": "alert stand",
+   "category": "defensive",
+   "definition": "Stands with limbs straight and body tense, tail down or slightly raised.",
+   "species": "Tibetan fox",
+   "source": "WANG2026FOX"
+  },
+  {
+   "name": "lick object",
+   "category": "sensing",
+   "definition": "Touches a scented object with the tongue.",
+   "species": "grey wolf (captive)",
+   "source": "BOIC2024"
+  },
+  {
+   "name": "paw at object",
+   "category": "sensing",
+   "definition": "Touches an object with one or both forepaws.",
+   "species": "grey wolf (captive)",
+   "source": "BOIC2024"
+  },
+  {
+   "name": "paw lift",
+   "category": "communication",
+   "definition": "Lifts one foreleg and puts it down again, often several times quickly.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "lying, head down",
+   "category": "resting",
+   "definition": "Belly or side on the ground with the legs stretched out, tucked or to one side; head resting on the ground, an object or the paws; eyes open or closed.",
+   "species": "domestic dog (shelter, night)",
+   "source": "VDLAAN2023"
+  },
+  {
+   "name": "lying, head up",
+   "category": "resting",
+   "definition": "As above but with the head held up off the ground; eyes open or closed.",
+   "species": "domestic dog (shelter, night)",
+   "source": "VDLAAN2023"
+  },
+  {
+   "name": "curled up",
+   "category": "resting",
+   "definition": "Lying curled into a tight ball (a variant of the resting position).",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "sit (inactive)",
+   "category": "resting",
+   "definition": "Hindquarters on the ground, forelegs straight and supporting the front; no other behaviour going on.",
+   "species": "domestic dog",
+   "source": "BUSO2026; VDLAAN2023"
+  },
+  {
+   "name": "stand (inactive)",
+   "category": "resting",
+   "definition": "All four feet on the ground, legs (nearly) straight; no other behaviour going on.",
+   "species": "domestic dog",
+   "source": "BUSO2026; VDLAAN2023"
+  },
+  {
+   "name": "sleep: drowsiness",
+   "category": "resting",
+   "definition": "Light, transitional sleep: eye movements slow down, muscle tone drops but is still present, breathing fairly regular.",
+   "species": "domestic dog (polysomnography)",
+   "source": "BARANYAI2025"
+  },
+  {
+   "name": "sleep: non-REM",
+   "category": "resting",
+   "definition": "Deep sleep: no or slight eye movement, regular breathing, lowered muscle tone.",
+   "species": "domestic dog (polysomnography)",
+   "source": "BARANYAI2025"
+  },
+  {
+   "name": "sleep: REM",
+   "category": "resting",
+   "definition": "Rapid eye movements, muscles go slack, breathing and heartbeat become irregular (the 'dreaming' twitch phase).",
+   "species": "domestic dog (polysomnography)",
+   "source": "BARANYAI2025"
+  },
+  {
+   "name": "self-groom",
+   "category": "maintenance",
+   "definition": "Grooms itself: licking, nibbling or scratching its own coat.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "body shake (shake-off)",
+   "category": "maintenance",
+   "definition": "Quick side-to-side twist of the whole body (full) or of the head only.",
+   "species": "domestic dog",
+   "source": "BRYCE2024; BUSO2026",
+   "notes": "In a dog run/daycare most shakes (89%) fell at a switch between activities; treat as punctuation between idle states."
+  },
+  {
+   "name": "stretch",
+   "category": "maintenance",
+   "definition": "Arches the body by pushing the forelegs out in front.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "roll on back",
+   "category": "maintenance",
+   "definition": "Lies on its back and wriggles the whole body in waves.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "scent roll",
+   "category": "maintenance",
+   "definition": "Lowers chin and neck to a smell, then rubs head, neck, shoulders and back into it.",
+   "species": "grey wolf (captive)",
+   "source": "BOIC2024"
+  },
+  {
+   "name": "yawn",
+   "category": "maintenance",
+   "definition": "Opens the mouth wide for a few seconds while breathing out.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "lip lick",
+   "category": "communication",
+   "definition": "Shows part of the tongue and runs it along the upper lip (often a mild stress signal).",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "sneeze",
+   "category": "maintenance",
+   "definition": "Deep breath in then a sudden forced breath out through the nose.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "pant (modifier)",
+   "category": "maintenance",
+   "definition": "Open-mouth fast breathing; recorded as a modifier because heat causes it too.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "urinate",
+   "category": "maintenance",
+   "definition": "Passes urine.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "defecate",
+   "category": "maintenance",
+   "definition": "Passes faeces.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "tail wag",
+   "category": "communication",
+   "definition": "Tail swings side to side repeatedly.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "bark",
+   "category": "communication",
+   "definition": "Mouth snaps open and shut, giving short low sounds, often in a series.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "howl",
+   "category": "communication",
+   "definition": "Long, medium-pitched call with the muzzle pointed upward.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "whine",
+   "category": "communication",
+   "definition": "Soft, high, whistling sound in short repeated bursts.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "yelp",
+   "category": "communication",
+   "definition": "High, loud, short cry; stronger than a whine.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "scent mark (urine/rub)",
+   "category": "communication",
+   "definition": "Sniffs the ground, then urinates on or rubs the body or tail against rocks, plants or objects.",
+   "species": "Tibetan fox; grey wolf",
+   "source": "WANG2026FOX; BOIC2024"
+  },
+  {
+   "name": "beg position",
+   "category": "communication",
+   "definition": "Lifts both forepaws together while the hind legs stay bent (sitting up).",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "growl",
+   "category": "aggressive",
+   "definition": "Low threatening sound, often with teeth showing.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "negative interaction",
+   "category": "aggressive",
+   "definition": "Threatening exchange with a stiff or defensive posture.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "cower",
+   "category": "defensive",
+   "definition": "Curls up or crouches low out of fear.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "tremble",
+   "category": "defensive",
+   "definition": "Continuous shivering of the body or part of it.",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "positive interaction",
+   "category": "social",
+   "definition": "Friendly or playful exchange with another dog or person.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "solitary play",
+   "category": "social",
+   "definition": "Plays alone or with a toy.",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "play bow (full)",
+   "category": "social",
+   "definition": "Front end drops so the elbows touch the ground while the hind legs stay standing; may wag and bark. A play signal.",
+   "species": "Czechoslovakian wolfdog",
+   "source": "MAGLIERI2023"
+  },
+  {
+   "name": "play bow (half)",
+   "category": "social",
+   "definition": "Forelegs fold only halfway, elbows stay off the ground, hind legs standing.",
+   "species": "Czechoslovakian wolfdog",
+   "source": "MAGLIERI2023"
+  },
+  {
+   "name": "tail chasing",
+   "category": "other",
+   "definition": "Spins in circles trying to bite its own tail (stereotypy when repeated).",
+   "species": "domestic dog (shelter)",
+   "source": "BUSO2026"
+  },
+  {
+   "name": "courtship / mating",
+   "category": "sexual",
+   "definition": "Name only (cozy game; not modelled).",
+   "species": "canids",
+   "source": "n/a"
+  },
+  {
+   "name": "den / shelter use",
+   "category": "life events",
+   "definition": "Repeatedly returns to the same spots to rest, raise young or socialise.",
+   "species": "dingo (wild)",
+   "source": "TATLER2021"
+  },
+  {
+   "name": "out of sight",
+   "category": "other",
+   "definition": "Animal not visible (behind objects, inside the doghouse).",
+   "species": "domestic dog",
+   "source": "BUSO2026"
+  }
+ ],
+ "numbers": [
+  {
+   "behaviour": "stationary (lie+sit+stand)",
+   "quantity": "time-budget share of 24 h",
+   "value": 0.91,
+   "unit": "fraction (mean, sd 0.04)",
+   "n": "4 dingoes",
+   "species": "dingo (wild, arid S. Australia)",
+   "context": "summer (spring-summer 2017-18), collar accelerometer 1 Hz",
+   "source": "Tatler J, Currie SE, Cassey P, Scharf AK, Roshier DA, Prowse TAA (2021). Accelerometer informed time-energy budgets reveal the importance of temperature to the activity of a wild, arid zone canid. Movement Ecology 9:11. doi:10.1186/s40462-021-00246-w",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7977315/",
+   "licence": "CC BY 4.0 (article); CC0 waiver stated for data made available in the article",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "stationary (lie+sit+stand)",
+   "quantity": "time-budget share of 24 h",
+   "value": 0.46,
+   "unit": "fraction (mean, sd 0.1)",
+   "n": "3 dingoes",
+   "species": "dingo (wild, arid S. Australia)",
+   "context": "winter (autumn-winter 2016), collar accelerometer",
+   "source": "Tatler J, Currie SE, Cassey P, Scharf AK, Roshier DA, Prowse TAA (2021). Accelerometer informed time-energy budgets reveal the importance of temperature to the activity of a wild, arid zone canid. Movement Ecology 9:11. doi:10.1186/s40462-021-00246-w",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7977315/",
+   "licence": "CC BY 4.0 (article); CC0 waiver stated for data made available in the article",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "daily activity pattern",
+   "quantity": "shape",
+   "value": "crepuscular: most active at dawn and into early night; least active just before dawn and mid-afternoon",
+   "unit": "qualitative",
+   "n": "7 dingoes",
+   "species": "dingo (wild)",
+   "context": "GPS 15-min + ODBA by hour",
+   "source": "Tatler J, Currie SE, Cassey P, Scharf AK, Roshier DA, Prowse TAA (2021). Accelerometer informed time-energy budgets reveal the importance of temperature to the activity of a wild, arid zone canid. Movement Ecology 9:11. doi:10.1186/s40462-021-00246-w",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7977315/",
+   "licence": "CC BY 4.0 (article); CC0 waiver stated for data made available in the article",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "daily energy expenditure",
+   "quantity": "mass-specific DEE",
+   "value": "288 (summer) / 495 (winter)",
+   "unit": "kJ/kg/day",
+   "n": "7",
+   "species": "dingo (wild)",
+   "context": "time-energy budget",
+   "source": "Tatler J, Currie SE, Cassey P, Scharf AK, Roshier DA, Prowse TAA (2021). Accelerometer informed time-energy budgets reveal the importance of temperature to the activity of a wild, arid zone canid. Movement Ecology 9:11. doi:10.1186/s40462-021-00246-w",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7977315/",
+   "licence": "CC BY 4.0 (article); CC0 waiver stated for data made available in the article",
+   "confidence": "B"
+  },
+  {
+   "behaviour": "shelter (den) site",
+   "quantity": "definition threshold",
+   "value": 60,
+   "unit": "min average residence per visit (>=)",
+   "n": "7",
+   "species": "dingo (wild)",
+   "context": "resting/rearing sites revisited within 25 m",
+   "source": "Tatler J, Currie SE, Cassey P, Scharf AK, Roshier DA, Prowse TAA (2021). Accelerometer informed time-energy budgets reveal the importance of temperature to the activity of a wild, arid zone canid. Movement Ecology 9:11. doi:10.1186/s40462-021-00246-w",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7977315/",
+   "licence": "CC BY 4.0 (article); CC0 waiver stated for data made available in the article",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "sleep",
+   "quantity": "duration per day",
+   "value": 11.1,
+   "unit": "h/day (11 h 06 min, sd 47 min)",
+   "n": "8 dogs",
+   "species": "domestic dog (NZ working farm dogs, kennelled)",
+   "context": "24-h collar accelerometer, random-forest behaviour classes",
+   "source": "Wang T, Smit M, Cai X, Corner-Thomas RA, Draganova I, et al. (2026). Accelerometry-Based Assessment of Overnight Coat Use on Dog Sleep and Activity Patterns: Implications for Farm Dog Welfare. Animals 16(13):2035. doi:10.3390/ani16132035",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13359857/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "rest (awake, inactive)",
+   "quantity": "duration per day",
+   "value": 5.67,
+   "unit": "h/day (5 h 40 min, sd 26 min)",
+   "n": "8 dogs",
+   "species": "domestic dog (farm)",
+   "context": "same",
+   "source": "Wang T, Smit M, Cai X, Corner-Thomas RA, Draganova I, et al. (2026). Accelerometry-Based Assessment of Overnight Coat Use on Dog Sleep and Activity Patterns: Implications for Farm Dog Welfare. Animals 16(13):2035. doi:10.3390/ani16132035",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13359857/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "active",
+   "quantity": "duration per day",
+   "value": 7.2,
+   "unit": "h/day (7 h 12 min, sd 24 min)",
+   "n": "8 dogs",
+   "species": "domestic dog (farm)",
+   "context": "same",
+   "source": "Wang T, Smit M, Cai X, Corner-Thomas RA, Draganova I, et al. (2026). Accelerometry-Based Assessment of Overnight Coat Use on Dog Sleep and Activity Patterns: Implications for Farm Dog Welfare. Animals 16(13):2035. doi:10.3390/ani16132035",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13359857/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "sleep",
+   "quantity": "share of hour by time of day",
+   "value": "50-80% per hour 17:00-07:00; ~10% per hour 09:00-16:00",
+   "unit": "% of hour",
+   "n": "8 dogs",
+   "species": "domestic dog (farm)",
+   "context": "sleep drops sharply from 07:00 (before staff arrive)",
+   "source": "Wang T, Smit M, Cai X, Corner-Thomas RA, Draganova I, et al. (2026). Accelerometry-Based Assessment of Overnight Coat Use on Dog Sleep and Activity Patterns: Implications for Farm Dog Welfare. Animals 16(13):2035. doi:10.3390/ani16132035",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13359857/",
+   "licence": "CC BY 4.0",
+   "confidence": "A",
+   "notes": "Daytime pattern is shaped by human routine."
+  },
+  {
+   "behaviour": "sedentary (all)",
+   "quantity": "daytime minutes",
+   "value": 745,
+   "unit": "min/day, median (IQR-ish range 607-805)",
+   "n": "15 dogs",
+   "species": "domestic dog (pet, Sweden, 14 breeds, age 4 +/- 2)",
+   "context": "accelerometer, defined day; ~80% of daytime",
+   "source": "Smedberg K, Bergh A, Roman E, Sporndly-Nees S, et al. (2026). Effects of a joint outdoor exercise program for dog owners and dogs on physical activity, sedentary time and sleep-related behaviour. PLoS ONE. doi:10.1371/journal.pone.0346895",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13102230/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "sleep-like sedentary",
+   "quantity": "daytime minutes",
+   "value": 598,
+   "unit": "min/day, median (447-709)",
+   "n": "15 dogs",
+   "species": "domestic dog (pet)",
+   "context": "defined day; >80% of daytime sedentary is sleep-like",
+   "source": "Smedberg K, Bergh A, Roman E, Sporndly-Nees S, et al. (2026). Effects of a joint outdoor exercise program for dog owners and dogs on physical activity, sedentary time and sleep-related behaviour. PLoS ONE. doi:10.1371/journal.pone.0346895",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13102230/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "awake sedentary",
+   "quantity": "daytime minutes",
+   "value": 126,
+   "unit": "min/day, median (70-179)",
+   "n": "15 dogs",
+   "species": "domestic dog (pet)",
+   "context": "defined day",
+   "source": "Smedberg K, Bergh A, Roman E, Sporndly-Nees S, et al. (2026). Effects of a joint outdoor exercise program for dog owners and dogs on physical activity, sedentary time and sleep-related behaviour. PLoS ONE. doi:10.1371/journal.pone.0346895",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13102230/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "light-moderate activity",
+   "quantity": "daytime minutes",
+   "value": 185,
+   "unit": "min/day, median (90-243)",
+   "n": "15 dogs",
+   "species": "domestic dog (pet)",
+   "context": "defined day",
+   "source": "Smedberg K, Bergh A, Roman E, Sporndly-Nees S, et al. (2026). Effects of a joint outdoor exercise program for dog owners and dogs on physical activity, sedentary time and sleep-related behaviour. PLoS ONE. doi:10.1371/journal.pone.0346895",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13102230/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "vigorous activity",
+   "quantity": "daytime minutes",
+   "value": 24,
+   "unit": "min/day, median (8-59)",
+   "n": "15 dogs",
+   "species": "domestic dog (pet)",
+   "context": "defined day",
+   "source": "Smedberg K, Bergh A, Roman E, Sporndly-Nees S, et al. (2026). Effects of a joint outdoor exercise program for dog owners and dogs on physical activity, sedentary time and sleep-related behaviour. PLoS ONE. doi:10.1371/journal.pone.0346895",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13102230/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "sedentary",
+   "quantity": "night share",
+   "value": 0.95,
+   "unit": "fraction of night hours (96% of it sleep-like)",
+   "n": "15 dogs",
+   "species": "domestic dog (pet)",
+   "context": "defined night",
+   "source": "Smedberg K, Bergh A, Roman E, Sporndly-Nees S, et al. (2026). Effects of a joint outdoor exercise program for dog owners and dogs on physical activity, sedentary time and sleep-related behaviour. PLoS ONE. doi:10.1371/journal.pone.0346895",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13102230/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "sleep-like bout",
+   "quantity": "mean bout duration",
+   "value": 17,
+   "unit": "min (daytime)",
+   "n": "15 dogs",
+   "species": "domestic dog (pet)",
+   "context": "accelerometer",
+   "source": "Smedberg K, Bergh A, Roman E, Sporndly-Nees S, et al. (2026). Effects of a joint outdoor exercise program for dog owners and dogs on physical activity, sedentary time and sleep-related behaviour. PLoS ONE. doi:10.1371/journal.pone.0346895",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13102230/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "sleep-like bout",
+   "quantity": "mean bout duration",
+   "value": 20,
+   "unit": "min (night)",
+   "n": "15 dogs",
+   "species": "domestic dog (pet)",
+   "context": "accelerometer",
+   "source": "Smedberg K, Bergh A, Roman E, Sporndly-Nees S, et al. (2026). Effects of a joint outdoor exercise program for dog owners and dogs on physical activity, sedentary time and sleep-related behaviour. PLoS ONE. doi:10.1371/journal.pone.0346895",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13102230/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "active (any)",
+   "quantity": "duration per day",
+   "value": 51,
+   "unit": "min/day mean (range <10 to >600)",
+   "n": "28,562 dogs, 8.7 M dog-days",
+   "species": "domestic dog (pet, USA)",
+   "context": "commercial collar activity monitors (counts only bursts of movement)",
+   "source": "O'Rourke A, Haydock R, Butterwick RF, German AJ, et al. (2025). Estimated activity levels in dogs at population scale with linear and causal modeling. Frontiers in Veterinary Science. doi:10.3389/fvets.2025.1572794",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12287635/",
+   "licence": "CC BY 4.0",
+   "confidence": "B",
+   "notes": "Monitor counts 'active minutes' only; not comparable with full time budgets."
+  },
+  {
+   "behaviour": "night sleep",
+   "quantity": "total per night",
+   "value": 9.7,
+   "unit": "h (sd 1.6), human-scored video",
+   "n": "13 kennelled dogs, 11 nights scored",
+   "species": "domestic dog (mixed breed, research kennel, Brazil)",
+   "context": "night video",
+   "source": "Schork I, Zamansky A, Farhat N, de Azevedo CS, Young RJ (2024). Automated Observations of Dogs' Resting Behaviour Patterns Using Artificial Intelligence and Their Similarity to Behavioural Observations. Animals 14(7):1109. doi:10.3390/ani14071109",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11011086/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "night sleep",
+   "quantity": "bouts per night",
+   "value": 16,
+   "unit": "count (sd 3.5)",
+   "n": "13 dogs, 11 nights",
+   "species": "domestic dog (kennel)",
+   "context": "night video",
+   "source": "Schork I, Zamansky A, Farhat N, de Azevedo CS, Young RJ (2024). Automated Observations of Dogs' Resting Behaviour Patterns Using Artificial Intelligence and Their Similarity to Behavioural Observations. Animals 14(7):1109. doi:10.3390/ani14071109",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11011086/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "night sleep bout",
+   "quantity": "mean bout duration (derived)",
+   "value": 36,
+   "unit": "min (9.7 h / 16 bouts)",
+   "n": "13 dogs",
+   "species": "domestic dog (kennel)",
+   "context": "derived by Firefly from the two numbers above",
+   "source": "Schork I, Zamansky A, Farhat N, de Azevedo CS, Young RJ (2024). Automated Observations of Dogs' Resting Behaviour Patterns Using Artificial Intelligence and Their Similarity to Behavioural Observations. Animals 14(7):1109. doi:10.3390/ani14071109",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11011086/",
+   "licence": "CC BY 4.0",
+   "confidence": "C"
+  },
+  {
+   "behaviour": "night activity 00:00-04:00",
+   "quantity": "share of time active",
+   "value": 0.06,
+   "unit": "fraction (sd 0.02-0.03)",
+   "n": "21 pet dogs",
+   "species": "domestic dog (pet, at home, NL)",
+   "context": "collar accelerometer, 15-s epochs",
+   "source": "van der Laan JE, Vinke CM, Arndt SS (2023). Sensor-supported measurement of adaptability of dogs (Canis familiaris) to a shelter environment: Nocturnal activity and behaviour. PLoS ONE. doi:10.1371/journal.pone.0286429",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10270336/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "night activity 00:00-04:00",
+   "quantity": "share of time active",
+   "value": 0.28,
+   "unit": "fraction, night 1 in shelter (sd 0.21); falls to 0.10 by night 12",
+   "n": "55 shelter dogs",
+   "species": "domestic dog (shelter)",
+   "context": "same",
+   "source": "van der Laan JE, Vinke CM, Arndt SS (2023). Sensor-supported measurement of adaptability of dogs (Canis familiaris) to a shelter environment: Nocturnal activity and behaviour. PLoS ONE. doi:10.1371/journal.pone.0286429",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10270336/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "inactive bouts 00:00-04:00",
+   "quantity": "count per 4 h",
+   "value": 28,
+   "unit": "bouts (sd 8)",
+   "n": "21 pet dogs",
+   "species": "domestic dog (pet)",
+   "context": "accelerometer",
+   "source": "van der Laan JE, Vinke CM, Arndt SS (2023). Sensor-supported measurement of adaptability of dogs (Canis familiaris) to a shelter environment: Nocturnal activity and behaviour. PLoS ONE. doi:10.1371/journal.pone.0286429",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10270336/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "inactive bouts > 15 min 00:00-04:00",
+   "quantity": "count per 4 h",
+   "value": 6.7,
+   "unit": "bouts (sd 1.6)",
+   "n": "21 pet dogs",
+   "species": "domestic dog (pet)",
+   "context": "accelerometer; the paper cites a dog sleep cycle of 16-20 min",
+   "source": "van der Laan JE, Vinke CM, Arndt SS (2023). Sensor-supported measurement of adaptability of dogs (Canis familiaris) to a shelter environment: Nocturnal activity and behaviour. PLoS ONE. doi:10.1371/journal.pone.0286429",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10270336/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "visual exploration (look around)",
+   "quantity": "seconds per 10-min watch (continuous recording)",
+   "value": 225.9,
+   "unit": "s; sd 110.5; median 231.5; share 37.6%",
+   "n": "16 dogs x 2 sessions",
+   "species": "domestic dog (Italian shelter, age 2-11)",
+   "context": "10 min straight after a 5-min enrichment session, afternoon; behaviours not mutually exclusive",
+   "source": "Buso E, Loconsole M, Normando S (2026). Comparing behavioural sampling methods in shelter dogs: implications for enrichment studies. Animal Cognition. doi:10.1007/s10071-026-02075-z. Supplementary Table T1 (ethogram) and S1 dataset",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13453999/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "inactive lying",
+   "quantity": "seconds per 10-min watch (continuous recording)",
+   "value": 151.8,
+   "unit": "s; sd 143.1; median 122.5; share 25.3%",
+   "n": "16 dogs x 2 sessions",
+   "species": "domestic dog (Italian shelter, age 2-11)",
+   "context": "10 min straight after a 5-min enrichment session, afternoon; behaviours not mutually exclusive",
+   "source": "Buso E, Loconsole M, Normando S (2026). Comparing behavioural sampling methods in shelter dogs: implications for enrichment studies. Animal Cognition. doi:10.1007/s10071-026-02075-z. Supplementary Table T1 (ethogram) and S1 dataset",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13453999/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "walk",
+   "quantity": "seconds per 10-min watch (continuous recording)",
+   "value": 117.3,
+   "unit": "s; sd 59.1; median 107.0; share 19.6%",
+   "n": "16 dogs x 2 sessions",
+   "species": "domestic dog (Italian shelter, age 2-11)",
+   "context": "10 min straight after a 5-min enrichment session, afternoon; behaviours not mutually exclusive",
+   "source": "Buso E, Loconsole M, Normando S (2026). Comparing behavioural sampling methods in shelter dogs: implications for enrichment studies. Animal Cognition. doi:10.1007/s10071-026-02075-z. Supplementary Table T1 (ethogram) and S1 dataset",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13453999/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "sniff",
+   "quantity": "seconds per 10-min watch (continuous recording)",
+   "value": 33.1,
+   "unit": "s; sd 31.1; median 20.0; share 5.5%",
+   "n": "16 dogs x 2 sessions",
+   "species": "domestic dog (Italian shelter, age 2-11)",
+   "context": "10 min straight after a 5-min enrichment session, afternoon; behaviours not mutually exclusive",
+   "source": "Buso E, Loconsole M, Normando S (2026). Comparing behavioural sampling methods in shelter dogs: implications for enrichment studies. Animal Cognition. doi:10.1007/s10071-026-02075-z. Supplementary Table T1 (ethogram) and S1 dataset",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13453999/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "drink",
+   "quantity": "seconds per 10-min watch (continuous recording)",
+   "value": 8.1,
+   "unit": "s; sd 12.4; median 6.0; share 1.3%",
+   "n": "16 dogs x 2 sessions",
+   "species": "domestic dog (Italian shelter, age 2-11)",
+   "context": "10 min straight after a 5-min enrichment session, afternoon; behaviours not mutually exclusive",
+   "source": "Buso E, Loconsole M, Normando S (2026). Comparing behavioural sampling methods in shelter dogs: implications for enrichment studies. Animal Cognition. doi:10.1007/s10071-026-02075-z. Supplementary Table T1 (ethogram) and S1 dataset",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13453999/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "lip lick",
+   "quantity": "seconds per 10-min watch (continuous recording)",
+   "value": 4.7,
+   "unit": "s; sd 5.9; median 2.5; share 0.8%",
+   "n": "16 dogs x 2 sessions",
+   "species": "domestic dog (Italian shelter, age 2-11)",
+   "context": "10 min straight after a 5-min enrichment session, afternoon; behaviours not mutually exclusive",
+   "source": "Buso E, Loconsole M, Normando S (2026). Comparing behavioural sampling methods in shelter dogs: implications for enrichment studies. Animal Cognition. doi:10.1007/s10071-026-02075-z. Supplementary Table T1 (ethogram) and S1 dataset",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13453999/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "instantaneous vs continuous sampling",
+   "quantity": "underestimate of duration",
+   "value": [
+    63,
+    98
+   ],
+   "unit": "% underestimation by 15-60 s scan sampling vs continuous",
+   "n": "16 dogs",
+   "species": "domestic dog (shelter)",
+   "context": "method result: point sampling misses short behaviours",
+   "source": "Buso E, Loconsole M, Normando S (2026). Comparing behavioural sampling methods in shelter dogs: implications for enrichment studies. Animal Cognition. doi:10.1007/s10071-026-02075-z. Supplementary Table T1 (ethogram) and S1 dataset",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13453999/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "active vs inactive",
+   "quantity": "2-h transition probabilities",
+   "value": "P(stay inactive)=0.87, P(inactive->active)=0.13, P(stay active)=0.36, P(active->inactive)=0.64",
+   "unit": "probability per 2-h GPS step",
+   "n": "26 wolves",
+   "species": "grey wolf (wild, Galicia, human-dominated)",
+   "context": "hidden Markov model on GPS steps",
+   "source": "Ferreiro-Arias I, Garcia EJ, Palacios V, Sazatornil V, et al. (2024). Drivers of Wolf Activity in a Human-Dominated Landscape and Its Individual Variability Toward Anthropogenic Disturbance. Ecology and Evolution. doi:10.1002/ece3.70397",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11494153/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "active vs inactive",
+   "quantity": "derived mean run length + share",
+   "value": "inactive ~15 h runs, active ~3 h runs, ~17% of 2-h steps active",
+   "unit": "h; fraction",
+   "n": "26 wolves",
+   "species": "grey wolf (wild)",
+   "context": "derived by Firefly from the transition probabilities (geometric run lengths); coarse because of the 2-h step",
+   "source": "Ferreiro-Arias I, Garcia EJ, Palacios V, Sazatornil V, et al. (2024). Drivers of Wolf Activity in a Human-Dominated Landscape and Its Individual Variability Toward Anthropogenic Disturbance. Ecology and Evolution. doi:10.1002/ece3.70397",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11494153/",
+   "licence": "CC BY 4.0",
+   "confidence": "C"
+  },
+  {
+   "behaviour": "activity by day period",
+   "quantity": "share of time active",
+   "value": "highest at night and dusk; dawn share varied 23-75% between wolves; low by day",
+   "unit": "fraction",
+   "n": "26 wolves",
+   "species": "grey wolf (wild)",
+   "context": "nocturnal where humans are many",
+   "source": "Ferreiro-Arias I, Garcia EJ, Palacios V, Sazatornil V, et al. (2024). Drivers of Wolf Activity in a Human-Dominated Landscape and Its Individual Variability Toward Anthropogenic Disturbance. Ecology and Evolution. doi:10.1002/ece3.70397",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11494153/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "scent rolling",
+   "quantity": "mean duration per day per female",
+   "value": 70.5,
+   "unit": "s/day",
+   "n": "2 females (4 wolves)",
+   "species": "grey wolf (captive, Osijek Zoo)",
+   "context": "olfactory enrichment sessions",
+   "source": "Boic N, Jukic N, Mikuska A, Bjedov D, Kovacic M, et al. (2024). Preliminary Study of Scent Rolling in Captive Wolves (Canis lupus L. 1758) in Response to Olfactory Enrichment. Biology 13(6):422. doi:10.3390/biology13060422",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11200557/",
+   "licence": "CC BY 4.0",
+   "confidence": "B"
+  },
+  {
+   "behaviour": "scent rolling",
+   "quantity": "mean per response (derived)",
+   "value": 47,
+   "unit": "s (564 s total / 12 responses)",
+   "n": "2 wolves",
+   "species": "grey wolf (captive)",
+   "context": "derived by Firefly",
+   "source": "Boic N, Jukic N, Mikuska A, Bjedov D, Kovacic M, et al. (2024). Preliminary Study of Scent Rolling in Captive Wolves (Canis lupus L. 1758) in Response to Olfactory Enrichment. Biology 13(6):422. doi:10.3390/biology13060422",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11200557/",
+   "licence": "CC BY 4.0",
+   "confidence": "C"
+  },
+  {
+   "behaviour": "approach to novel scent",
+   "quantity": "latency",
+   "value": 5,
+   "unit": "s (approx.)",
+   "n": "4 wolves",
+   "species": "grey wolf (captive)",
+   "context": "second year, scents familiar",
+   "source": "Boic N, Jukic N, Mikuska A, Bjedov D, Kovacic M, et al. (2024). Preliminary Study of Scent Rolling in Captive Wolves (Canis lupus L. 1758) in Response to Olfactory Enrichment. Biology 13(6):422. doi:10.3390/biology13060422",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11200557/",
+   "licence": "CC BY 4.0",
+   "confidence": "B"
+  },
+  {
+   "behaviour": "locomotion / vigilance / scent-marking",
+   "quantity": "time-budget share (camera trap)",
+   "value": "0.552 / 0.232 / 0.177 (other 0.039)",
+   "unit": "fraction of recorded duration",
+   "n": "217 records",
+   "species": "Tibetan fox (wild)",
+   "context": "camera traps, biased to passing animals; no foraging captured",
+   "source": "Wang X, Lu X, Wu J, Wang J, Sangzhu Z, Meng X (2026). Behavioral Structure, Activity Rhythm and Relationships to the Conservation and Welfare of Tibetan Fox in Tibet Plateau. Veterinary Sciences (MDPI). doi:10.3390/vetsci13090968",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13611874/",
+   "licence": "CC BY 4.0",
+   "confidence": "C"
+  },
+  {
+   "behaviour": "activity rhythm",
+   "quantity": "activity rate by hour",
+   "value": "night peak 22:00-04:00 (93%), small 16:00 peak (82%), noon trough (45%)",
+   "unit": "% of records active",
+   "n": "217 records",
+   "species": "Tibetan fox (wild)",
+   "context": "camera traps",
+   "source": "Wang X, Lu X, Wu J, Wang J, Sangzhu Z, Meng X (2026). Behavioral Structure, Activity Rhythm and Relationships to the Conservation and Welfare of Tibetan Fox in Tibet Plateau. Veterinary Sciences (MDPI). doi:10.3390/vetsci13090968",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13611874/",
+   "licence": "CC BY 4.0",
+   "confidence": "C"
+  },
+  {
+   "behaviour": "body shake",
+   "quantity": "context: at a behaviour switch",
+   "value": 0.89,
+   "unit": "fraction of shakes (107/120) with different behaviour before and after",
+   "n": "120 shakes, 96 dogs",
+   "species": "domestic dog (NYC dog run + daycare)",
+   "context": "10 s before / 10 s after coded",
+   "source": "Bryce A, Nurkin P, Horowitz A (2024). Shake It Off: Investigating the Function of a Domestic Dog Behavior in Social Contexts. Animals 14(22):3248. doi:10.3390/ani14223248",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11591167/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "body shake",
+   "quantity": "not triggered by contact",
+   "value": 0.66,
+   "unit": "fraction (79/120)",
+   "n": "120 shakes",
+   "species": "domestic dog",
+   "context": "",
+   "source": "Bryce A, Nurkin P, Horowitz A (2024). Shake It Off: Investigating the Function of a Domestic Dog Behavior in Social Contexts. Animals 14(22):3248. doi:10.3390/ani14223248",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11591167/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "body shake",
+   "quantity": "full body vs head only",
+   "value": "100 full / 20 head-only",
+   "unit": "count",
+   "n": "120 shakes",
+   "species": "domestic dog",
+   "context": "",
+   "source": "Bryce A, Nurkin P, Horowitz A (2024). Shake It Off: Investigating the Function of a Domestic Dog Behavior in Social Contexts. Animals 14(22):3248. doi:10.3390/ani14223248",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11591167/",
+   "licence": "CC BY 4.0",
+   "confidence": "A"
+  },
+  {
+   "behaviour": "body shake",
+   "quantity": "rate (group level)",
+   "value": 6.3,
+   "unit": "shakes per observation hour across all dogs present (120 / 19 h)",
+   "n": "19 h",
+   "species": "domestic dog",
+   "context": "dog run/daycare, many dogs at once; not per dog",
+   "source": "Bryce A, Nurkin P, Horowitz A (2024). Shake It Off: Investigating the Function of a Domestic Dog Behavior in Social Contexts. Animals 14(22):3248. doi:10.3390/ani14223248",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11591167/",
+   "licence": "CC BY 4.0",
+   "confidence": "C"
+  },
+  {
+   "behaviour": "play bow",
+   "quantity": "frequency",
+   "value": 0.64,
+   "unit": "bows per play session (76 bows / 118 sessions)",
+   "n": "24 dogs",
+   "species": "Czechoslovakian wolfdog",
+   "context": "dyadic play; all bows made inside partner's view",
+   "source": "Maglieri V, Zanoli A, Mastrandrea F, Palagi E (2023). Don't stop me now, I'm having such a good time! Czechoslovakian wolfdogs renovate the motivation to play with a bow. Current Zoology. doi:10.1093/cz/zoac013",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10039175/",
+   "licence": "CC BY-NC 4.0 (single cited facts only; nothing bulk stored)",
+   "confidence": "B",
+   "notes": "CC BY-NC source: single fact only."
+  },
+  {
+   "behaviour": "method",
+   "quantity": "state vs event",
+   "value": "States (long behaviours) go in a time budget as % of time; events (short actions) are counted as rates per hour",
+   "unit": "concept",
+   "n": "n/a",
+   "species": "any",
+   "context": "ethogram design",
+   "source": "Rose PE, Riley LM (2021). Conducting Behavioural Research in the Zoo: A Guide to Ten Important Methods, Concepts and Theories. Journal of Zoological and Botanical Gardens 2(3):421-444. doi:10.3390/jzbg2030031",
+   "url": "https://doi.org/10.3390/jzbg2030031 (PDF fetched from figshare mirror https://figshare.com/articles/journal_contribution/29781461)",
+   "licence": "CC BY 4.0 (Crossref + figshare metadata)",
+   "confidence": "A"
+  }
+ ],
+ "tables": {
+  "dingo_daily_budget_tatler2021_tableS1": {
+   "source": "TATLER2021",
+   "licence": "CC0 (data in article) / CC BY 4.0",
+   "columns": [
+    "dingo_id",
+    "sex",
+    "stationary",
+    "walking",
+    "running",
+    "season"
+   ],
+   "rows": [
+    [
+     "JT04",
+     "F",
+     0.47,
+     0.35,
+     0.18,
+     "autumn-winter"
+    ],
+    [
+     "JT05",
+     "F",
+     0.38,
+     0.23,
+     0.4,
+     "autumn-winter"
+    ],
+    [
+     "JT07",
+     "M",
+     0.54,
+     0.46,
+     "<0.01",
+     "autumn-winter"
+    ],
+    [
+     "JT32",
+     "F",
+     0.97,
+     0.02,
+     0.01,
+     "spring-summer"
+    ],
+    [
+     "JT34",
+     "F",
+     0.93,
+     0.01,
+     0.07,
+     "spring-summer"
+    ],
+    [
+     "JT36",
+     "F",
+     0.87,
+     0.01,
+     0.12,
+     "spring-summer"
+    ],
+    [
+     "JT37",
+     "M",
+     0.88,
+     0.02,
+     0.1,
+     "spring-summer"
+    ]
+   ],
+   "unit": "fraction of each 24 h"
+  },
+  "shake_transition_categories_bryce2024_table3": {
+   "source": "BRYCE2024",
+   "licence": "CC BY 4.0",
+   "note": "Row = category before the shake (count), cells = share followed by each category after (rows need not sum to 1).",
+   "columns": [
+    "pre",
+    "n",
+    "play",
+    "charged_social",
+    "by_oneself",
+    "person_interaction",
+    "casual_social",
+    "grooming",
+    "enter_exit"
+   ],
+   "rows": [
+    [
+     "play",
+     38,
+     0.553,
+     0.158,
+     0.184,
+     0.211,
+     0.289,
+     0,
+     0.026
+    ],
+    [
+     "charged_social",
+     22,
+     0.273,
+     0.318,
+     0.273,
+     0.364,
+     0.409,
+     0,
+     0.045
+    ],
+    [
+     "by_oneself",
+     44,
+     0.25,
+     0.068,
+     0.523,
+     0.091,
+     0.318,
+     0,
+     0.023
+    ],
+    [
+     "person_interaction",
+     34,
+     0.029,
+     0.147,
+     0.382,
+     0.441,
+     0.353,
+     0,
+     0.029
+    ],
+    [
+     "casual_social",
+     27,
+     0.222,
+     0.185,
+     0.481,
+     0.148,
+     0.407,
+     0,
+     0
+    ],
+    [
+     "grooming",
+     5,
+     0,
+     0,
+     0.6,
+     0.2,
+     0.4,
+     0,
+     0
+    ],
+    [
+     "enter_exit",
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ]
+  }
+ },
+ "game_idle_shortlist": [
+  {
+   "state": "sleep (curled / lying head down)",
+   "kind": "state",
+   "real_bout": "17 min day, 20 min night, ~36 min night bouts in kennel",
+   "budget_hint": "~60% of daytime for a pet dog; 40-48% of 24 h farm dog",
+   "sources": [
+    "SMEDBERG2026",
+    "SCHORK2024",
+    "WANG2026FARM"
+   ]
+  },
+  {
+   "state": "lying head up (resting awake)",
+   "kind": "state",
+   "real_bout": "no bout number found",
+   "budget_hint": "~2 h of a pet dog's day; 23-26% of 24 h farm dog",
+   "sources": [
+    "SMEDBERG2026",
+    "WANG2026FARM"
+   ]
+  },
+  {
+   "state": "look around (sit/stand, visual exploration)",
+   "kind": "state",
+   "real_bout": "no bout number",
+   "budget_hint": "~38% of an awake 10-min window (shelter)",
+   "sources": [
+    "BUSO2026"
+   ]
+  },
+  {
+   "state": "potter / walk",
+   "kind": "state",
+   "real_bout": "no bout number",
+   "budget_hint": "~20% of awake 10-min window",
+   "sources": [
+    "BUSO2026"
+   ]
+  },
+  {
+   "state": "sniff ground",
+   "kind": "event-ish state",
+   "real_bout": "few seconds",
+   "budget_hint": "~5% of awake 10-min window",
+   "sources": [
+    "BUSO2026"
+   ]
+  },
+  {
+   "state": "body shake",
+   "kind": "event",
+   "real_bout": "~1 s (see motion/behaviour_numbers.json)",
+   "budget_hint": "fire it at state changes (89% of real shakes)",
+   "sources": [
+    "BRYCE2024"
+   ]
+  },
+  {
+   "state": "stretch (bow-stretch) + yawn",
+   "kind": "event",
+   "real_bout": "yawn ~2 s (09-face-and-ear)",
+   "budget_hint": "on waking / rising",
+   "sources": [
+    "BUSO2026"
+   ]
+  },
+  {
+   "state": "scent roll",
+   "kind": "rare event",
+   "real_bout": "~45-70 s",
+   "budget_hint": "rare, when a new smell spawns",
+   "sources": [
+    "BOIC2024"
+   ]
+  },
+  {
+   "state": "scratch / self-groom",
+   "kind": "event",
+   "real_bout": "not found",
+   "budget_hint": "design guess",
+   "sources": [
+    "BUSO2026"
+   ]
+  },
+  {
+   "state": "play bow",
+   "kind": "event",
+   "real_bout": "~2.25 s (motion/behaviour_numbers.json)",
+   "budget_hint": "~0.6 per play session",
+   "sources": [
+    "MAGLIERI2023"
+   ]
+  }
+ ]
+}

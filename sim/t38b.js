@@ -1,0 +1,12 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1440,height:900}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.addInitScript(()=>{ localStorage.setItem('dengame-dev','1'); });
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<3;i++) await p.evaluate(()=>__advance(5000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.sos-ov").forEach(e=>e.remove()));
+ const b1 = await p.evaluate(()=>__E(`invState().eqB[1]`));
+ await p.click('[data-fkopen="bag"]'); await p.evaluate(()=>__advance(300));
+ await p.evaluate(()=>__E(`(()=>{const c=invState().B[invState().eqB[1]].cfg; c.pull=['w']; c.rar=['r','e','l']; c.col='#b48ae6';})()`));
+ await p.click(`.fkw [data-a="inv-cfg"][data-id="${b1}"]`); for(let i=0;i<5;i++) await p.evaluate(()=>__advance(100)); await p.waitForTimeout(400);
+ await p.screenshot({path:'sim/i38d.png'}); console.log('errs',errs); await b.close();})();

@@ -1,0 +1,860 @@
+<title>Wolf Bench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a field-guide light table. The stage (the wolf, true vectors) takes the width; a side panel holds notes, the dog-read checklist and the automatic checks. Amber accent = wolf eye. */
+:root{
+  --bg:#eceef0; --panel:#ffffff; --ink:#1d2228; --muted:#5d6672; --line:#d5d9de; --accent:#b8771a; --accent-ink:#ffffff;
+  --ok:#2f7d4f; --warn:#a8670d; --bad:#b33a2e; --chip:#f1f3f5; --stage:#1d2128; --pin:#ff5a36;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif; --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15181c;--panel:#1d2126;--ink:#e6e8eb;--muted:#9aa3ad;--line:#2f353c;--accent:#e2a548;--accent-ink:#1b1408;--ok:#5cbf86;--warn:#e2a548;--bad:#ef7a6c;--chip:#262b31;--stage:#101317;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15181c;--panel:#1d2126;--ink:#e6e8eb;--muted:#9aa3ad;--line:#2f353c;--accent:#e2a548;--accent-ink:#1b1408;--ok:#5cbf86;--warn:#e2a548;--bad:#ef7a6c;--chip:#262b31;--stage:#101317;color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding-inline:16px;padding-block:12px;box-sizing:border-box}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+h1{font:600 20px/1.1 var(--f-display);letter-spacing:.01em;margin:0;text-wrap:balance}
+.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:10px}
+.top .meta{color:var(--muted);font:12px var(--f-mono)}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:12px;align-items:start}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px}
+.bar + .bar{border-top:1px solid var(--line)}
+.grp{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.grp + .grp{padding-left:8px;border-left:1px solid var(--line)}
+.speedbar input[type=number]{width:62px} .speedbar #speed{width:150px} .chips{display:inline-flex;gap:3px;flex-wrap:wrap} .chips button{padding:2px 7px;font-size:12px}
+.danger{border-color:#b5523b !important;color:#e2856f}
+.lab{font:600 11px var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+button,select,input[type=range]{font:inherit;color:inherit}
+button{background:var(--chip);border:1px solid var(--line);border-radius:4px;padding:4px 9px;cursor:pointer;line-height:1.3}
+button:hover{border-color:var(--muted)}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+select{background:var(--chip);border:1px solid var(--line);border-radius:4px;padding:3px 6px}
+.sw{width:22px;height:22px;padding:0;border-radius:50%}
+#stageBox{position:relative;height:min(62vh,640px);min-height:320px;background:var(--stage);overflow:hidden;touch-action:none;border-radius:0 0 6px 6px}
+#stage{width:100%;height:100%;display:block;cursor:grab}
+#stage.pin{cursor:crosshair}
+#stage.drag{cursor:grabbing}
+.hud{position:absolute;left:8px;bottom:8px;font:12px var(--f-mono);color:#cfd5dc;background:rgba(0,0,0,.45);padding:3px 7px;border-radius:4px;pointer-events:none}
+.inset{position:absolute;right:8px;bottom:8px;background:#d9c493;border-radius:4px;border:1px solid rgba(0,0,0,.25);pointer-events:none}
+.inset span{position:absolute;left:5px;top:2px;font:600 10px var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:#5b4d2b}
+#scrub{flex:1 1 160px;min-width:120px}
+.num{font:12px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--muted);min-width:4ch;text-align:right}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;border:0;border-radius:0;background:transparent;padding:9px 6px;font:600 13px var(--f-display);letter-spacing:.02em;color:var(--muted);border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.pane{padding:10px 12px;max-height:calc(62vh + 86px);overflow:auto}
+.hint{color:var(--muted);font-size:13px;margin:0 0 8px}
+.store{font:12px var(--f-mono);color:var(--muted);margin:0 0 8px}
+.form{display:grid;gap:6px;padding:8px;border:1px solid var(--accent);border-radius:6px;margin-bottom:10px}
+.form textarea{width:100%;min-height:64px;resize:vertical;border:1px solid var(--line);border-radius:4px;padding:6px;font:inherit;background:var(--bg);color:var(--ink)}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.note{border-top:1px solid var(--line);padding:8px 0;display:grid;gap:4px}
+.note:first-of-type{border-top:0}
+.note .txt{white-space:pre-wrap;overflow-wrap:anywhere}
+.note.fixed .txt{color:var(--muted);text-decoration:line-through}
+.tag{font:600 11px var(--f-display);letter-spacing:.05em;text-transform:uppercase;background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:1px 6px}
+.small{font:12px var(--f-mono);color:var(--muted)}
+.lnk{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:12px}
+.q{padding:8px 0;border-top:1px solid var(--line);display:grid;gap:5px}
+.q h3{font:600 12px var(--f-display);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:10px 0 0}
+.qs h3:first-child{margin-top:0}
+.ans{display:flex;gap:4px;flex-wrap:wrap}
+.ans button{padding:2px 8px;font-size:12px}
+.ans button[data-v="yes"][aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff}
+.ans button[data-v="close"][aria-pressed="true"]{background:var(--warn);border-color:var(--warn);color:#fff}
+.ans button[data-v="no"][aria-pressed="true"]{background:var(--bad);border-color:var(--bad);color:#fff}
+.auto{font:11px var(--f-mono);border-radius:3px;padding:1px 5px;border:1px solid var(--line)}
+.auto.PASS{color:var(--ok);border-color:var(--ok)}.auto.WARN{color:var(--warn);border-color:var(--warn)}.auto.FAIL{color:var(--bad);border-color:var(--bad)}
+.qn{width:100%;border:1px solid var(--line);border-radius:4px;padding:4px 6px;background:var(--bg);color:var(--ink);font:13px var(--f-body)}
+.chk{display:grid;grid-template-columns:auto auto 1fr;gap:4px 8px;align-items:baseline;font-size:13px}
+.chk .k{font:12px var(--f-mono);color:var(--muted)}
+.score{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.score span{font:12px var(--f-mono)}
+@media (prefers-reduced-motion: reduce){.hud{transition:none}}
+.hud2{left:auto;right:8px;top:8px;bottom:auto;color:#3ff0ff}
+.refbar{display:block}
+.refbar summary{cursor:pointer;list-style:none;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.refrow{padding-top:8px;gap:10px}
+.refrow input[type=range]{width:110px}
+.sev{font:600 11px var(--f-display);letter-spacing:.04em;border:1.5px solid;border-radius:3px;padding:0 5px}
+.reply{font-size:13px;border-left:3px solid var(--accent);padding:3px 8px;background:var(--chip);border-radius:0 4px 4px 0}
+.filt{margin:4px 0 2px}
+kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:0 5px}
+.keys{grid-template-columns:auto 0 1fr}
+.graph{margin:10px 0 0}
+.cmenu{position:absolute;z-index:5;min-width:230px;max-width:300px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 28px rgba(0,0,0,.4);padding:4px;display:grid}
+.cmenu .mh{font:600 13px var(--f-display);padding:5px 8px 3px;overflow-wrap:anywhere}
+.cmenu .ms{font:12px var(--f-mono);color:var(--muted);padding:0 8px 4px;overflow-wrap:anywhere}
+.cmenu button{text-align:left;border:0;background:none;padding:5px 8px;border-radius:4px;display:flex;justify-content:space-between;gap:14px}
+.cmenu button:hover,.cmenu button:focus-visible{background:var(--chip);outline:none}
+.cmenu button kbd{font-size:11px;color:var(--muted)}
+.cmenu hr{border:0;border-top:1px solid var(--line);margin:3px 0;width:100%}
+.hidstrip{position:absolute;left:8px;top:8px;display:flex;gap:8px;align-items:center;font:12px var(--f-mono);color:#cfd5dc;background:rgba(0,0,0,.55);padding:3px 4px 3px 8px;border-radius:4px}
+.hidstrip button{padding:1px 7px;font-size:12px;background:#2a3038;color:#e6e8eb;border-color:#3a414b}
+.reasons{display:flex;flex-wrap:wrap;gap:4px}
+.reasons button{padding:2px 8px;font-size:12px}
+.prow{display:grid;grid-template-columns:auto 14px minmax(0,1fr) auto;gap:6px;align-items:center;padding:3px 0;border-top:1px solid var(--line)}
+.prow.sel{background:var(--chip)}
+.prow .nm{background:none;border:0;padding:0;text-align:left;overflow-wrap:anywhere}
+.prow.off .nm{color:var(--muted);text-decoration:line-through}
+.prow .swc{width:14px;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.3)}
+.ptr{grid-column:2 / -1;font-size:12px;display:grid;gap:3px;padding:0 0 4px}
+.pgrp{font:600 12px var(--f-display);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:10px 0 2px;display:flex;justify-content:space-between;align-items:center}
+.graph figcaption{font:600 12px var(--f-display);letter-spacing:.04em;color:var(--muted);margin-bottom:2px}
+</style>
+
+<div class="top">
+  <h1>Wolf Bench</h1>
+  <span class="meta" id="meta"></span>
+</div>
+
+<div class="wrap">
+  <section class="card" aria-label="The creature">
+    <div class="bar">
+      <div class="grp" role="group" aria-label="Tool">
+        <span class="lab">Tool</span>
+        <button id="t-move" data-tool="move" aria-pressed="true" title="Drag to pan, wheel to zoom (1)">Move</button>
+        <button id="t-pin" data-tool="pin" aria-pressed="false" title="Click a body part to pin a note; drag to circle an area (2)">Pin</button>
+        <button id="t-arrow" data-tool="arrow" aria-pressed="false" title="Drag from a spot to where it should be (3)">Arrow</button>
+        <button id="t-pen" data-tool="pen" aria-pressed="false" title="Sketch the line you want, starting on the body part (4)">Pen</button>
+        <button id="t-measure" data-tool="measure" aria-pressed="false" title="Drag to measure; not saved (5)">Measure</button>
+      </div>
+      <div class="grp" role="group" aria-label="Zoom">
+        <span class="lab">Zoom</span>
+        <button id="zOut" aria-label="Zoom out">−</button><span class="num" id="zPct">100%</span><button id="zIn" aria-label="Zoom in">+</button>
+        <button id="zFit">Fit</button>
+        <select id="zGo" aria-label="Jump to a body part"><option value="">Jump to…</option><option value="head">Head and ears</option><option value="neck">Neck and chest</option><option value="front">Front leg</option><option value="hind">Hind leg</option><option value="paws">Paws</option><option value="tail">Tail</option><option value="back">Back line</option></select>
+      </div>
+      <div class="grp" role="group" aria-label="Creature">
+        <span class="lab">Creature</span>
+        <select id="rig" aria-label="Which rig"></select>
+        <span class="lab">Compare</span>
+        <select id="cmp" aria-label="Ghost another rig over it"><option value="">none</option></select>
+      </div>
+    </div>
+    <div class="bar">
+      <div class="grp" role="group" aria-label="Show">
+        <span class="lab">Show</span>
+        <button id="oSkel" aria-pressed="false">Skeleton</button>
+        <button id="oAng" aria-pressed="false">Joint angles</button>
+                <button id="oSil" aria-pressed="false">Silhouette</button>
+        <button id="oGround" aria-pressed="true">Ground marks</button>
+        <button id="oPins" aria-pressed="true">Marks</button>
+        <button id="oTrouble" aria-pressed="true" title="Outline the parts tagged as troubled">Trouble outlines</button>
+        <button id="oHover" aria-pressed="true">Part names</button>
+        <button id="oGame" aria-pressed="true">Game size</button>
+        <button id="oPaths" aria-pressed="false">Paw paths</button>
+      </div>
+      <div class="grp" role="group" aria-label="Ghost frames">
+        <span class="lab">Ghosts</span>
+        <button id="gOn" aria-pressed="false" title="Ghost frames (G)">Ghosts</button>
+        <select id="gN" aria-label="How many ghosts each side"><option value="1">1 each side</option><option value="2" selected>2 each side</option><option value="3">3 each side</option><option value="4">4 each side</option><option value="6">6 each side</option></select>
+        <select id="gStep" aria-label="How far apart"><option value="0.04">4% apart</option><option value="0.08">8% apart</option><option value="0.125" selected>12.5% apart</option><option value="0.25">25% apart</option></select>
+        <select id="gPick" aria-label="Which ghost to show"><option value="all">all</option></select>
+        <button id="gPrev" aria-label="Previous ghost">‹</button><button id="gNext" aria-label="Next ghost">›</button>
+        <button id="gCol" aria-pressed="false" title="Ghosts in full colour instead of tinted silhouettes">Colour</button>
+        <button id="hideDog" aria-pressed="false" title="Hide the creature itself, ghosts only (H)">Hide creature</button>
+      </div>
+      <div class="grp" role="group" aria-label="Background">
+        <span class="lab">Ground</span>
+        <button class="sw" data-bg="#1d2128" style="background:#1d2128" aria-label="Dark slate" aria-pressed="true"></button>
+        <button class="sw" data-bg="#ff00ff" style="background:#ff00ff" aria-label="Pink" aria-pressed="false"></button>
+        <button class="sw" data-bg="#000000" style="background:#000000" aria-label="Black" aria-pressed="false"></button>
+        <button class="sw" data-bg="#0000ff" style="background:#0000ff" aria-label="Blue" aria-pressed="false"></button>
+        <button class="sw" data-bg="#d9c493" style="background:#d9c493" aria-label="Meadow sand" aria-pressed="false"></button>
+        <button class="sw" data-bg="#f4f4f2" style="background:#f4f4f2" aria-label="White" aria-pressed="false"></button>
+      </div>
+    </div>
+    <div id="stageBox">
+      <svg id="stage" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The creature, side view"></svg>
+      <div class="hud" id="hud"></div>
+      <div class="hud hud2" id="hover" hidden></div>
+      <div class="hidstrip" id="hidStrip" hidden><span id="hidTxt"></span><button id="hidAll">Show all</button></div>
+      <div class="cmenu" id="cmenu" role="menu" aria-label="Part menu" hidden></div>
+      <div class="inset" id="inset"><span>game size</span><svg id="mini" width="210" height="130" viewBox="4 0 56 36" aria-hidden="true"></svg></div>
+    </div>
+    <div class="bar">
+      <div class="grp" role="group" aria-label="Pose">
+        <button id="pStand" aria-pressed="false">Standing</button>
+        <button id="pWalk" aria-pressed="true">Walking</button>
+      </div>
+      <div class="grp" role="group" aria-label="Playback">
+        <button id="play" aria-label="Pause (Space)">❚❚</button>
+        <button id="back" aria-label="One frame back (←)">◀︎</button>
+        <button id="fwd" aria-label="One frame forward (→)">▶︎</button>
+      </div>
+      <input id="scrub" type="range" min="0" max="999" value="0" aria-label="Point in the stride">
+      <span class="num" id="pct">0%</span>
+    </div>
+    <div class="bar speedbar">
+      <div class="grp" role="group" aria-label="Speed">
+        <span class="lab">Speed</span>
+        <input id="speed" type="range" min="0" max="1000" value="750" aria-label="Speed (comma slower, full stop faster)" title="Speed: , slower · . faster">
+        <span class="num" id="speedV">1×</span>
+        <span class="chips" id="speedChips"></span>
+      </div>
+      <div class="grp" role="group" aria-label="Step">
+        <span class="lab">Step</span>
+        <select id="stepDiv" aria-label="Frame step size" title="How far ← and → move"><option value="24">1/24 stride</option><option value="48" selected>1/48 (a frame)</option><option value="96">1/96</option><option value="240">1/240</option><option value="1000">0.1%</option></select>
+      </div>
+      <div class="grp" role="group" aria-label="Go to">
+        <label class="row"><span class="lab">Go to</span><input id="goPct" type="number" min="0" max="100" step="0.1" value="0" aria-label="Go to a point in the stride, in percent"><span class="small">%</span></label>
+      </div>
+      <div class="grp" role="group" aria-label="Loop a range">
+        <button id="loopOn" aria-pressed="false" title="Loop only part of the stride (L)">Loop range</button>
+        <input id="loopA" type="number" min="0" max="100" step="0.5" value="10" aria-label="Loop from, percent"><span class="small">to</span>
+        <input id="loopB" type="number" min="0" max="100" step="0.5" value="25" aria-label="Loop to, percent"><span class="small">%</span>
+        <button id="setA" title="Loop starts here (A)">A here</button><button id="setB" title="Loop ends here (B)">B here</button>
+      </div>
+    </div>
+    <details class="bar refbar" id="refBox">
+      <summary><span class="lab">Reference photo</span> <span class="small">load a photo to compare against (stays in this browser; nothing is uploaded)</span></summary>
+      <div class="row refrow">
+        <label class="row"><span class="small">Photo</span><input type="file" id="refFile" accept="image/*"></label>
+        <label class="row"><span class="small">Opacity</span><input type="range" id="refOp" min="0" max="100" value="50"></label>
+        <label class="row"><span class="small">Size</span><input type="range" id="refS" min="20" max="300" value="100"></label>
+        <label class="row"><span class="small">Left/right</span><input type="range" id="refX" min="-40" max="40" step=".1" value="0"></label>
+        <label class="row"><span class="small">Up/down</span><input type="range" id="refY" min="-25" max="25" step=".1" value="0"></label>
+        <button id="refFlip" aria-pressed="false">Flip</button>
+        <button id="refTop" aria-pressed="false">On top</button>
+        <button id="refClear">Remove</button>
+      </div>
+    </details>
+  </section>
+
+  <aside class="card" aria-label="Review">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tabN" aria-selected="true" aria-controls="paneN">Notes <span id="nCount" class="small"></span></button>
+      <button role="tab" id="tabQ" aria-selected="false" aria-controls="paneQ" title="Reads as a dog? checklist">Checklist</button>
+      <button role="tab" id="tabC" aria-selected="false" aria-controls="paneC">Checks</button>
+      <button role="tab" id="tabT" aria-selected="false" aria-controls="paneT">Tests</button>
+      <button role="tab" id="tabP" aria-selected="false" aria-controls="paneP">Parts <span id="pCount" class="small"></span></button>
+      <button role="tab" id="tabK" aria-selected="false" aria-controls="paneK">Keys</button>
+    </div>
+    <div class="pane" id="paneN" role="tabpanel">
+      <p class="hint">Pick a tool, then mark the creature. <b>Pin</b> a spot (drag to circle an area), draw an <b>Arrow</b> from a spot to where it should go, or sketch with the <b>Pen</b>. Every mark sticks to the body part under it and remembers the frame, so it rides along with the walk and is brightest on the frame you marked. Firefly reads these notes and replies on them.</p>
+      <p class="store" id="store">Connecting to the shared notes…</p>
+      <div class="form" id="form" hidden>
+        <div class="row"><span class="lab" id="formKind">New note</span><span class="small" id="formWhere"></span></div>
+        <div class="row">
+          <label class="row"><span class="lab">About</span>
+            <select id="fTag"><option>Head</option><option>Ears</option><option>Eyes</option><option>Nose and mouth</option><option>Neck and chest</option><option>Back and body</option><option>Front leg</option><option>Hind leg</option><option>Paws</option><option>Tail</option><option>Colour</option><option>Motion</option><option>Other</option></select>
+          </label>
+          <label class="row"><span class="lab">How much</span>
+            <select id="fSev"><option value="must">Must fix</option><option value="should" selected>Should fix</option><option value="nice">Nice to have</option></select>
+          </label>
+        </div>
+        <textarea id="fText" aria-label="What is wrong or what to change" placeholder="What looks wrong here, or what should change?"></textarea>
+        <div class="row"><button id="fSave" aria-pressed="true">Save note</button><button id="fCancel">Cancel</button><span class="small">Ctrl+Enter saves</span></div>
+      </div>
+      <div class="row filt">
+        <span class="lab">Show</span>
+        <select id="nFilter" aria-label="Which notes"><option value="open">Open</option><option value="all">All</option><option value="fixed">Fixed</option></select>
+        <button id="nClearFixed" title="Delete every note marked fixed">Clear fixed</button><button id="nClearAll" class="danger" title="Delete every note and every part tag, for everyone">Clear all issues</button>
+      </div>
+      <div id="notes"></div>
+    </div>
+    <div class="pane" id="paneQ" role="tabpanel" hidden>
+      <p class="hint">GrumpyDingo's questions for "does it read as a dog?", from what animators, wildlife artists and game studios check. Answer each one by eye; where dogcheck can measure it, its result shows beside the question.</p>
+      <div class="score" id="qScore"></div>
+      <div class="qs" id="qs"></div>
+    </div>
+    <div class="pane" id="paneC" role="tabpanel" hidden>
+      <p class="hint">dogcheck's automatic checks on this build (<code>./den dogcheck hero3</code>).</p>
+      <div class="chk" id="chk"></div>
+    </div>
+    <div class="pane" id="paneT" role="tabpanel" hidden>
+      <p class="hint">Tests run here, live, on the creature you have loaded (the same maths as dogcheck). The graphs show this creature's joint angles over one stride (amber) against measured dog walks (grey band: Catavitello 2015, retrievers, the mean curve; each leg's stride starts at its own touchdown).</p>
+      <div class="row"><button id="runT" aria-pressed="true">Run tests</button><span class="small" id="tWhen"></span></div>
+      <div class="chk" id="tRes"></div>
+      <div id="tGraphs"></div>
+    </div>
+    <div class="pane" id="paneP" role="tabpanel" hidden>
+      <p class="hint">Every named part of the creature. Untick a part to hide it (only in your view), or <b>Tag</b> it as troubled with a reason; tags are shared, outlined on the creature, and Firefly replies on them. Right-click any part on the stage for the same options.</p>
+      <div class="form" id="tForm" hidden>
+        <div class="row"><span class="lab">Troubled part</span><span class="small" id="tWhere"></span></div>
+        <div class="reasons" id="tReasons" role="group" aria-label="What is wrong"></div>
+        <div class="row">
+          <label class="row"><span class="small">How bad</span><select id="tSev"><option value="must">Must fix</option><option value="should" selected>Should fix</option><option value="nice">Nice to have</option></select></label>
+          <label class="row"><span class="small">When</span><select id="tWhenSel"><option value="always">always</option><option value="walk">while walking</option><option value="frame">at this frame</option><option value="stand">standing</option></select></label>
+        </div>
+        <textarea id="tText" aria-label="What is wrong with it" placeholder="Say more (optional when a reason is picked)"></textarea>
+        <div class="row"><button id="tSave" aria-pressed="true">Save tag</button><button id="tCancel">Cancel</button><span class="small">Ctrl+Enter saves</span></div>
+      </div>
+      <div class="row filt">
+        <select id="pFilter" aria-label="Which parts"><option value="all">All parts</option><option value="trouble">Troubled</option><option value="hidden">Hidden</option></select>
+        <button id="pShowAll">Show all</button><button id="pOnlyTr" title="Hide every part that is not tagged">Only troubled</button><button id="pHideTr" title="Hide the tagged parts to see what is under them">Hide troubled</button><button id="pClearTr" class="danger" title="Delete every part tag on this rig, for everyone">Clear all tags</button>
+      </div>
+      <div id="parts"></div>
+    </div>
+    <div class="pane" id="paneK" role="tabpanel" hidden>
+      <div class="chk keys">
+        <kbd>Space</kbd><span></span><span>play or pause the walk</span>
+        <kbd>← →</kbd><span></span><span>one step back or forward (Shift: five); the step size is set under the stride bar</span>
+        <kbd>, .</kbd><span></span><span>slower or faster (each press 1.25×, from 0.02× to 2×)</span>
+        <kbd>L</kbd><span></span><span>loop a range on or off; <kbd>A</kbd> <kbd>B</kbd> set its start and end at the current frame</span>
+        <kbd>1–5</kbd><span></span><span>Move, Pin, Arrow, Pen, Measure</span>
+        <kbd>+ −</kbd><span></span><span>zoom in or out; <kbd>0</kbd> fits</span>
+        <kbd>S</kbd><span></span><span>standing or walking</span>
+        <kbd>K</kbd><span></span><span>skeleton on or off</span>
+        <kbd>G</kbd><span></span><span>ghost frames on or off; <kbd>[</kbd> <kbd>]</kbd> step through them one at a time</span>
+        <kbd>H</kbd><span></span><span>hide or show the creature (ghosts only)</span>
+        <kbd>P</kbd><span></span><span>paw paths on or off</span>
+        <kbd>Right-click</kbd><span></span><span>part menu: hide, show only, tag as troubled, pin a note, zoom (long-press on touch)</span>
+        <kbd>X</kbd><span></span><span>hide the part under the pointer</span>
+        <kbd>T</kbd><span></span><span>tag the part under the pointer as troubled</span>
+        <kbd>Z</kbd><span></span><span>zoom to the part under the pointer</span>
+        <kbd>U</kbd><span></span><span>show every hidden part again</span>
+        <kbd>Esc</kbd><span></span><span>drop the mark you are drawing, close the menu</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+/*ENGINE*/
+</script>
+<script>
+const BUILD = /*BUILD*/;
+const REPORT = /*REPORT*/;
+const GAIT_REF = /*GAITREF*/; /* Catavitello 2015 retrievers walk, mean included angle per 1% of each limb's stride (from ref/research/fetched/04-gait-curves/curves.csv) */
+registerDenRigs(RIG); registerHero3(RIG); registerHero5(RIG);
+const RIGS = [["hero3","hero3 · wolf"],["hero5","hero5 · wolf from photo 01 (new)"],["hero2","hero2 · the old dog"]]; /* more creatures join this list */
+const WH = {hero3:24.5, hero5:25, hero2:24.5}; /* withers height in drawing units, for measuring */
+
+/* ---------- posing: rig.js tick() as matrices (same maths as tools/dogcheck) ---------- */
+const mul=(A,B)=>[A[0]*B[0]+A[2]*B[1],A[1]*B[0]+A[3]*B[1],A[0]*B[2]+A[2]*B[3],A[1]*B[2]+A[3]*B[3],A[0]*B[4]+A[2]*B[5]+A[4],A[1]*B[4]+A[3]*B[5]+A[5]];
+const apply=(M,p)=>[M[0]*p[0]+M[2]*p[1]+M[4],M[1]*p[0]+M[3]*p[1]+M[5]];
+const inv=M=>{const d=M[0]*M[3]-M[1]*M[2];return[M[3]/d,-M[1]/d,-M[2]/d,M[0]/d,(M[2]*M[5]-M[3]*M[4])/d,(M[1]*M[4]-M[0]*M[5])/d];};
+const CACHE={};
+function rigData(id){if(CACHE[id]) return CACHE[id]; const D=RIG.DEFS[id], kids={}, FAR={root:false};
+  D.joints.forEach(j=>{(kids[j.in||"root"] ||= []).push(j.id); FAR[j.id]=!!j.far||FAR[j.in||"root"];});
+  const anim=new Set(D.joints.filter(j=>j.track||D.tracks[j.id]).map(j=>j.id)), ORDER=[];
+  (function walk(jid){const P=D.parts.map((p,i)=>[p,i]).filter(([p])=>(p.in||"root")===jid), K=kids[jid]||[];
+    if(anim.has(jid)){P.forEach(e=>ORDER.push(e));K.forEach(walk);}else{K.forEach(walk);P.forEach(e=>ORDER.push(e));}})("root");
+  const cnt={}, KEYS=D.parts.map(p=>{if(p.id) return p.id; const b=(p.in||"root")+"."+(p.paint||"fur"); cnt[b]=(cnt[b]||0)+1; return cnt[b]>1?b+"."+cnt[b]:b;});
+  return CACHE[id]={id,D,ORDER,FAR,KEYS,GROUP:D.parts.map(groupOf)};}
+/* body-part groups, for "hide the whole leg" */
+const GROUPS={head:"head and ears",body:"body",tail:"tail",frontN:"near front leg",hindN:"near hind leg",frontF:"far front leg",hindF:"far hind leg"};
+function groupOf(p){const j=p.in||"root"; let m; if((m=/^(hip|shank|meta|htoe)([NF])$/.exec(j))) return "hind"+m[2]; if((m=/^(sh|fore|past|ftoe|scap)([NF])$/.exec(j))) return "front"+m[2];
+  if(/^(skull|head|ear)/.test(j)) return "head"; if(/^tail/.test(j)) return "tail"; return "body";}
+function pose(R,t,walking){const D=R.D, phase=walking?(t/D.stride)%1:0, M={root:[1,0,0,1,0,0]}, s={};
+  for(const j of D.joints){const tr=D.tracks[j.track||j.id]; let rot=0,x=0,y=0;
+    if(tr&&(walking||j.always)){const ph=j.period?((t/j.period)%1):(phase+(j.ph||0))%1; RIG.sample(tr,ph,s); rot=s.v; x=s.x; y=s.y;}
+    if(j.bob&&walking) y-=Math.pow(Math.sin(phase*Math.PI*2),2)*j.bob;
+    const o=j.at||[0,0], r=rot*Math.PI/180, c=Math.cos(r), n=Math.sin(r);
+    M[j.id]=mul(M[j.in||"root"],[c,n,-n,c,o[0]+x-(c*o[0]-n*o[1]),o[1]+y-(n*o[0]+c*o[1])]);}
+  for(const k in M) M[k].P=M; /* each matrix knows its whole pose, so a skinned part can reach the joint it bends toward */
+  return M;}
+const dimHex=(c,k)=>{const n=parseInt(c.slice(1),16),f=s=>Math.round(((n>>s)&255)*k).toString(16).padStart(2,"0");return"#"+f(16)+f(8)+f(0);};
+function colourOf(R,p){const pal=R.D.palette; let c=pal[p.paint||"fur"]??pal.fur; if(R.FAR[p.in||"root"]||p.far) c=dimHex(c,pal.far??.78); return c;}
+function shape(p,fill,M,extra=""){if(p.skin&&M.P){p={...p,poly:RIG.skinPts(p,M,M.P[p.skin.to])}; M=[1,0,0,1,0,0];} const tf=`transform="matrix(${M.map(v=>+v.toFixed(4)).join(" ")})"`, a=p.alpha!=null&&fill!=="none"?` fill-opacity="${p.alpha}"`:"";
+  if(p.d&&p.stroke) return `<path d="${p.d}" fill="none" stroke="${fill==="none"?"currentColor":fill}" stroke-width="${p.sw}" stroke-linecap="round" stroke-linejoin="round" ${tf}${extra}/>`;
+  if(p.d) return `<path d="${p.d}" fill="${fill}"${a} ${tf}${extra}/>`;
+  if(p.poly) return `<polygon points="${p.poly.map(q=>q.join(",")).join(" ")}" fill="${fill}"${a} ${tf}${extra}/>`;
+  if(p.circle) return `<circle cx="${p.circle[0]}" cy="${p.circle[1]}" r="${p.circle[2]}" fill="${fill}"${a} ${tf}${extra}/>`;
+  if(p.ellipse) return `<ellipse cx="${p.ellipse[0]}" cy="${p.ellipse[1]}" rx="${p.ellipse[2]}" ry="${p.ellipse[3]}" fill="${fill}"${a} ${tf}${extra}/>`;
+  if(p.line) return `<line x1="${p.line[0][0]}" y1="${p.line[0][1]}" x2="${p.line[1][0]}" y2="${p.line[1][1]}" stroke="${fill==="none"?"currentColor":fill}" stroke-width="${p.sw}" stroke-linecap="round" ${tf}${extra}/>`;
+  return "";}
+function dogSVG(R,M,{sil=false,ghost=0,hit=false,outline=null,skip=null}={}){let s="";
+  for(const [p,i] of R.ORDER){if(p.hidden||(skip&&skip.has(i))) continue;
+    if(outline) s+=shape(p,"none",M[p.in||"root"],` stroke="${outline.col}" stroke-width="${outline.w}" stroke-linejoin="round"`);
+    else s+=shape(p,sil?"#0b0d10":colourOf(R,p),M[p.in||"root"],hit?` data-j="${p.in||"root"}" data-i="${i}"`:"");}
+  return ghost?`<g opacity="${ghost}">${s}</g>`:s;}
+const JP=(R,M,id)=>{const j=R.D.joints.find(x=>x.id===id); return j?apply(M[id],j.at):null;};
+const inc=(a,b,c)=>{const v1=[a[0]-b[0],a[1]-b[1]],v2=[c[0]-b[0],c[1]-b[1]];return Math.acos(Math.max(-1,Math.min(1,(v1[0]*v2[0]+v1[1]*v2[1])/Math.hypot(...v1)/Math.hypot(...v2))))*180/Math.PI;};
+function carpus(e,w,p){const a1=Math.atan2(w[1]-e[1],w[0]-e[0]),a2=Math.atan2(p[1]-w[1],p[0]-w[0]);let t=(a2-a1)*180/Math.PI;while(t>180)t-=360;while(t<-180)t+=360;return 180-t;}
+const txt=(x,y,z,s,col="#fff",size=11)=>`<text x="${x}" y="${y}" font-size="${size/z}" font-family="IBM Plex Mono,monospace" font-weight="500" fill="${col}" stroke="#000" stroke-width="${2.6/z}" paint-order="stroke">${s}</text>`;
+function skeletonSVG(R,M,showAng,z){const chains=[["hipF","shankF","metaF","htoeF"],["shF","foreF","pastF","ftoeF"],["hipN","shankN","metaN","htoeN"],["shN","foreN","pastN","ftoeN"]];
+  const w=1.6/z, r=3.2/z; let s="";
+  chains.forEach((c,ci)=>{const pts=c.map(id=>JP(R,M,id)); if(pts.some(p=>!p)) return; const col=ci<2?"#7fd1ff":"#ffe14d", op=ci<2?.55:1;
+    s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${col}" stroke-opacity="${op}" stroke-width="${w}"/>`;
+    pts.forEach(p=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="${col}" fill-opacity="${op}"/>`);
+    if(showAng&&ci>=2){const [a,b,c2,d]=pts, hind=ci===2;
+      [[b,hind?"knee":"elbow",inc(a,b,c2)],[c2,hind?"hock":"wrist",hind?inc(b,c2,d):carpus(b,c2,d)]].forEach(([p,n,v])=>s+=txt(p[0]+5/z,p[1]-4/z,z,`${n} ${v.toFixed(0)}°`));}});
+  return s;}
+
+/* ---------- state ---------- */
+const $=id=>document.getElementById(id);
+const svg=$("stage"), mini=$("mini");
+const FIT={hero3:{cx:31,cy:19,w:58}, hero5:{cx:22,cy:19.5,w:64}, hero2:{cx:31,cy:19,w:58}}, MINI={hero3:"4 0 56 36", hero5:"-3 0 56 36", hero2:"4 0 56 36"}; /* each creature's own framing */
+const fitView=()=>({...(FIT[st.rig]||FIT.hero3)});
+const st={rig:"hero3",cmp:"",walking:true,playing:true,t:0,speed:1,stepDiv:48,loop:{on:false,a:.10,b:.25},tool:"move",bg:"#1d2128",skel:false,ang:false,onion:false,sil:false,ground:true,pins:true,hoverOn:true,game:true,
+  view:{cx:31,cy:19,w:58} /* set to the creature's own framing at start */, draft:null, notes:[], db:null, hover:null, measure:null, ref:null, filter:"open", focus:null, ghost:{on:false,n:2,step:.125,pick:"all",col:false}, hideDog:false, paths:false,
+  hid:{}, trouble:[], troubleOn:true, sel:null, tDraft:null, pFilter:"all"};
+let R=rigData(st.rig);
+const GROUND=35.55, phaseNow=()=>st.walking?((st.t/R.D.stride)%1):null;
+RIGS.forEach(([id,l])=>{const o=document.createElement("option"); o.value=id; o.textContent=l; $("rig").append(o); const o2=o.cloneNode(true); $("cmp").append(o2);});
+
+function viewBox(){const b=svg.getBoundingClientRect(), ar=b.height/Math.max(1,b.width), w=st.view.w, h=w*ar; return [st.view.cx-w/2, st.view.cy-h/2, w, h];}
+function zoomPct(){return Math.round(58/st.view.w*100);}
+/* marks: pin (point or circle), arrow (start and end on the same body part), pen (a stroke on a body part); all in that part's joint frame */
+const at=(M,j,p)=>apply(M[j]||M.root,p);
+function onFrame(n){const ph=phaseNow(); if(n.standing) return !st.walking; if(ph==null||n.phase==null) return false; const d=Math.abs(ph-n.phase); return Math.min(d,1-d)<.035;}
+function markSVG(M,z,n,label,col,strong){let s=""; const op=strong?1:.5, w=(strong?2.4:1.6)/z;
+  if(n.type==="arrow"){const a=at(M,n.joint,[n.lx,n.ly]), b=at(M,n.joint,[n.lx2,n.ly2]), ang=Math.atan2(b[1]-a[1],b[0]-a[0]), h=9/z;
+    s+=`<g opacity="${op}"><line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+    s+=`<polygon points="${b[0]},${b[1]} ${b[0]-h*Math.cos(ang-.45)},${b[1]-h*Math.sin(ang-.45)} ${b[0]-h*Math.cos(ang+.45)},${b[1]-h*Math.sin(ang+.45)}" fill="${col}"/>`;
+    s+=`<circle cx="${a[0]}" cy="${a[1]}" r="${3.5/z}" fill="${col}"/></g>`+txt(a[0]+6/z,a[1]-5/z,z,label);}
+  else if(n.type==="pen"&&n.pts&&n.pts.length){const P=n.pts.map(q=>at(M,n.joint,q));
+    s+=`<polyline points="${P.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${col}" stroke-opacity="${op}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`+txt(P[0][0]+6/z,P[0][1]-5/z,z,label);}
+  else {const p=at(M,n.joint,[n.lx,n.ly]);
+    if(n.r>.15) s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${n.r}" fill="none" stroke="${col}" stroke-opacity="${op}" stroke-width="${w}" stroke-dasharray="${5/z} ${3/z}"/>`;
+    s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${(strong?5.5:4)/z}" fill="${col}" fill-opacity="${op}" stroke="#000" stroke-width="${1.2/z}"/>`+txt(p[0]+7/z,p[1]+4/z,z,label);}
+  return s;}
+const SEVCOL={must:"#ff4d3a",should:"#ffb02e",nice:"#7fd1ff"};
+function marksSVG(M,z){if(!st.pins) return ""; let s="";
+  st.notes.forEach((n,k)=>{if(n.rig!==st.rig||n.status==="fixed") return; const strong=onFrame(n)||st.focus===n.id; s+=markSVG(M,z,n,String(k+1),SEVCOL[n.sev]||SEVCOL.should,strong);});
+  if(st.draft) s+=markSVG(M,z,st.draft,"new","#ffffff",true);
+  return s;}
+function ghostList(){const g=st.ghost, out=[]; for(let k=g.n;k>=1;k--) out.push({d:-k*g.step,label:`${Math.round(-k*g.step*100)}%`}); for(let k=1;k<=g.n;k++) out.push({d:k*g.step,label:`+${Math.round(k*g.step*100)}%`}); return out;}
+function ghostsSVG(){const L=ghostList(), g=st.ghost; let s=""; const base=st.walking?st.t:0;
+  L.forEach((q,i)=>{if(g.pick!=="all"&&+g.pick!==i) return; const M=pose(R,base+q.d*R.D.stride,true), k=Math.abs(q.d)/(g.n*g.step), op=g.pick!=="all"?.85:Math.max(.18,.5-.3*k);
+    if(g.col) s+=dogSVG(R,M,{ghost:op,skip:hiddenIdx()}); else {const col=q.d<0?"#4aa3ff":"#ff9d3a"; let t=""; const sk=hiddenIdx(); for(const [p,i] of R.ORDER){if(!p.hidden&&!sk.has(i)) t+=shape(p,col,M[p.in||"root"]);} s+=`<g opacity="${op}">${t}</g>`;}});
+  return s;}
+function syncGhostPick(){const sel=$("gPick"), L=ghostList(), cur=st.ghost.pick; sel.textContent=""; const a=document.createElement("option"); a.value="all"; a.textContent="all"; sel.append(a);
+  L.forEach((q,i)=>{const o=document.createElement("option"); o.value=String(i); o.textContent=`only ${q.label}`; sel.append(o);}); if(cur!=="all"&&+cur>=L.length) st.ghost.pick="all"; sel.value=st.ghost.pick;}
+let PATHS=null;
+function pathsSVG(z){if(!PATHS||PATHS.rig!==st.rig){const toes=R.D.joints.filter(j=>/toe/.test(j.id)), P={}; for(const j of toes) P[j.id]=[];
+    for(let f=0;f<=96;f++){const M=pose(R,f/96*R.D.stride,true); for(const j of toes) P[j.id].push(apply(M[j.id],[j.at[0]+.5,j.at[1]+1.05]));} PATHS={rig:st.rig,P};}
+  let s=""; const cols={htoeN:"#ffe14d",ftoeN:"#ff6ad5",htoeF:"#b8a33a",ftoeF:"#a3478e"};
+  for(const [id,pts] of Object.entries(PATHS.P)) s+=`<polyline points="${pts.map(p=>p.map(v=>v.toFixed(3)).join(",")).join(" ")}" fill="none" stroke="${cols[id]||"#fff"}" stroke-width="${1.4/z}" stroke-opacity=".9"/>`;
+  return s;}
+function render(){
+  const vb=viewBox(), b=svg.getBoundingClientRect(), z=b.width/vb[2]; svg.setAttribute("viewBox",vb.join(" "));
+  const M=pose(R,st.t,st.walking); let s=`<rect x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}" fill="${st.bg}"/>`;
+  const refEl=st.ref?`<image href="${st.ref.src}" x="${st.ref.x}" y="${st.ref.y}" width="${st.ref.w}" height="${st.ref.h}" opacity="${st.ref.op}" preserveAspectRatio="none"${st.ref.flip?` transform="translate(${2*st.ref.x+st.ref.w},0) scale(-1,1)"`:""}/>`:"";
+  if(st.ref&&!st.ref.top) s+=refEl;
+  if(st.ground){const lc=st.bg==="#f4f4f2"||st.bg==="#d9c493"?"#6b5f45":"#5c6474"; s+=`<rect x="${vb[0]}" y="${GROUND}" width="${vb[2]}" height="${.6/z+.04}" fill="${lc}"/>`;
+    const g=R.D.gait, speed=g&&g.speed?g.speed:7.8/(g?g.duty:.62), off=st.walking?((st.t/R.D.stride)*speed)%4:0;
+    for(let x=Math.floor(vb[0]/4)*4-4;x<vb[0]+vb[2]+4;x+=4) s+=`<rect x="${(x-off).toFixed(3)}" y="${GROUND}" width="1.2" height=".35" fill="${lc}" opacity=".8"/>`;}
+  if(st.ghost.on) s+=ghostsSVG();
+  if(st.paths) s+=pathsSVG(z);
+  if(!st.hideDog) s+=`<g id="dog">${dogSVG(R,M,{sil:st.sil,hit:true,skip:hiddenIdx()})}</g>`;
+  if(st.cmp&&st.cmp!==st.rig){const C=rigData(st.cmp); s+=dogSVG(C,pose(C,st.t,st.walking),{outline:{col:"#3ff0ff",w:1.4/z}});}
+  if(st.ref&&st.ref.top) s+=refEl;
+  if(st.skel||st.ang) s+=skeletonSVG(R,M,st.ang,z);
+  if(st.hover!=null&&st.hoverOn&&!drag){const p=R.D.parts[st.hover]; if(p) s+=shape(p,"none",M[p.in||"root"],` stroke="#3ff0ff" stroke-width="${2/z}" stroke-dasharray="${4/z} ${2.5/z}"`);}
+  if(!st.hideDog) s+=troubleSVG(M,z);
+  if(st.sel!=null&&R.D.parts[st.sel]&&!hiddenIdx().has(st.sel)){const p=R.D.parts[st.sel]; s+=shape(p,"none",M[p.in||"root"],` stroke="#3ff0ff" stroke-width="${2.6/z}"`);}
+  s+=marksSVG(M,z);
+  if(st.measure){const [a,c]=st.measure, L=Math.hypot(c[0]-a[0],c[1]-a[1]), wh=WH[st.rig]||24.5;
+    s+=`<line x1="${a[0]}" y1="${a[1]}" x2="${c[0]}" y2="${c[1]}" stroke="#3ff0ff" stroke-width="${1.6/z}"/><circle cx="${a[0]}" cy="${a[1]}" r="${3/z}" fill="#3ff0ff"/><circle cx="${c[0]}" cy="${c[1]}" r="${3/z}" fill="#3ff0ff"/>`;
+    s+=txt((a[0]+c[0])/2+6/z,(a[1]+c[1])/2-6/z,z,`${L.toFixed(2)} units · ${(L/wh).toFixed(3)} of withers height · ${(Math.atan2(-(c[1]-a[1]),c[0]-a[0])*180/Math.PI).toFixed(0)}°`,"#3ff0ff",12);}
+  svg.innerHTML=s;
+  if(st.game){mini.innerHTML=`<rect x="0" y="-2" width="62" height="40" fill="#d9c493"/>`+dogSVG(R,M);}
+  const ph=phaseNow(); $("pct").textContent=ph==null?"—":Math.round(ph*100)+"%"; if(!scrubbing) $("scrub").value=Math.round((ph||0)*999);
+  $("zPct").textContent=zoomPct()+"%";
+  $("hud").textContent=`${st.rig} · ${ph==null?"standing":`walk ${Math.round(ph*100)}% of the stride`} · zoom ${zoomPct()}% · ${toolName[st.tool]}`;
+}
+const toolName={move:"Move",pin:"Pin",arrow:"Arrow",pen:"Pen",measure:"Measure"};
+let last=performance.now(), scrubbing=false, drag=null;
+function loop(now){const dt=Math.min(.1,(now-last)/1000); last=now; if(st.playing&&st.walking&&!drag){st.t+=dt*st.speed; keepInLoop();} render(); requestAnimationFrame(loop);}
+/* loop a range: playback wraps from B back to A (A after B loops across the stride's end) */
+function inLoop(ph){const {a,b}=st.loop; return a<=b?ph>=a&&ph<b:ph>=a||ph<b;}
+function keepInLoop(){if(!st.loop.on||!st.walking) return; const S=R.D.stride, n=Math.floor(st.t/S), ph=st.t/S-n; if(inLoop(ph)) return; st.t=(n+st.loop.a)*S;}
+requestAnimationFrame(loop);
+
+/* ---------- controls ---------- */
+const press=(el,on)=>el.setAttribute("aria-pressed",on?"true":"false");
+function setTool(t){st.tool=t; document.querySelectorAll("[data-tool]").forEach(b=>press(b,b.dataset.tool===t)); svg.classList.toggle("pin",t!=="move"); if(t!=="measure") st.measure=null;}
+document.querySelectorAll("[data-tool]").forEach(b=>b.onclick=()=>setTool(b.dataset.tool));
+function setPlaying(p){st.playing=p; $("play").textContent=p?"❚❚":"▶"; $("play").setAttribute("aria-label",p?"Pause (Space)":"Play (Space)");}
+$("play").onclick=()=>{if(!st.walking) setWalking(true); setPlaying(!st.playing);};
+const step=d=>{setWalking(true); setPlaying(false); st.t=Math.max(0,st.t+d*R.D.stride/st.stepDiv);};
+$("back").onclick=()=>step(-1); $("fwd").onclick=()=>step(1);
+$("scrub").addEventListener("input",e=>{scrubbing=true; setWalking(true); setPlaying(false); st.t=(+e.target.value/999)*R.D.stride;});
+$("scrub").addEventListener("change",()=>{scrubbing=false;});
+/* speed: a log slider from 0.02x to 2x (750 = 1x), preset chips, and , . to step it */
+const SPMIN=.02, SPMAX=2, toSpeed=v=>SPMIN*Math.pow(SPMAX/SPMIN,v/1000), toSlider=x=>Math.round(1000*Math.log(x/SPMIN)/Math.log(SPMAX/SPMIN));
+const fmtSpeed=x=>(x<.1?x.toFixed(3):x<1?x.toFixed(2):x.toFixed(2)).replace(/\.?0+$/,"")+"×";
+function setSpeed(x){st.speed=Math.max(SPMIN,Math.min(SPMAX,x)); $("speed").value=toSlider(st.speed); $("speedV").textContent=fmtSpeed(st.speed); document.querySelectorAll("#speedChips button").forEach(b=>press(b,Math.abs(+b.dataset.v-st.speed)<1e-6));}
+[.05,.1,.25,.5,1,1.5].forEach(v=>{const b=document.createElement("button"); b.dataset.v=v; b.textContent=v+"×"; b.onclick=()=>setSpeed(v); $("speedChips").append(b);});
+$("speed").addEventListener("input",e=>setSpeed(toSpeed(+e.target.value))); setSpeed(1);
+$("stepDiv").onchange=e=>{st.stepDiv=+e.target.value;};
+$("goPct").onchange=e=>{const v=Math.max(0,Math.min(100,+e.target.value||0)); setWalking(true); setPlaying(false); st.t=Math.floor(st.t/R.D.stride)*R.D.stride+v/100*R.D.stride;};
+const readLoop=()=>{st.loop.a=Math.max(0,Math.min(100,+$("loopA").value||0))/100; st.loop.b=Math.max(0,Math.min(100,+$("loopB").value||0))/100;};
+function setLoop(on){st.loop.on=on; press($("loopOn"),on); readLoop(); if(on){setWalking(true); keepInLoop();}}
+$("loopOn").onclick=()=>setLoop(!st.loop.on); $("loopA").onchange=()=>{readLoop(); keepInLoop();}; $("loopB").onchange=()=>{readLoop(); keepInLoop();};
+const setEnd=k=>{const ph=phaseNow(); if(ph==null) return; $(k==="a"?"loopA":"loopB").value=(Math.round(ph*1000)/10).toFixed(1); readLoop(); if(!st.loop.on) setLoop(true);};
+$("setA").onclick=()=>setEnd("a"); $("setB").onclick=()=>setEnd("b");
+function setWalking(w){st.walking=w; press($("pWalk"),w); press($("pStand"),!w);}
+$("pWalk").onclick=()=>{setWalking(true); setPlaying(true);}; $("pStand").onclick=()=>{setWalking(false); setPlaying(false);};
+const toggles=[["oSkel","skel"],["oAng","ang"],["oSil","sil"],["oGround","ground"],["oPins","pins"],["oHover","hoverOn"],["oGame","game"],["oPaths","paths"],["hideDog","hideDog"],["oTrouble","troubleOn"]];
+const toggle=(id,k)=>{st[k]=!st[k]; press($(id),st[k]); if(k==="game") $("inset").hidden=!st.game;};
+toggles.forEach(([id,k])=>$(id).onclick=()=>toggle(id,k));
+document.querySelectorAll(".sw").forEach(b=>b.onclick=()=>{st.bg=b.dataset.bg; document.querySelectorAll(".sw").forEach(x=>press(x,x===b));});
+$("rig").onchange=e=>{st.rig=e.target.value; R=rigData(st.rig); st.sel=null; st.view=fitView(); mini.setAttribute("viewBox",MINI[st.rig]||MINI.hero3); renderNotes(); renderParts();};
+const gToggle=()=>{st.ghost.on=!st.ghost.on; press($("gOn"),st.ghost.on);};
+$("gOn").onclick=gToggle;
+$("gN").onchange=e=>{st.ghost.n=+e.target.value; syncGhostPick();}; $("gStep").onchange=e=>{st.ghost.step=+e.target.value; syncGhostPick();};
+$("gPick").onchange=e=>{st.ghost.pick=e.target.value; if(!st.ghost.on) gToggle();};
+const gStepPick=d=>{const n=ghostList().length; let i=st.ghost.pick==="all"?(d>0?-1:n):+st.ghost.pick; i=(i+d+n)%n; st.ghost.pick=String(i); $("gPick").value=st.ghost.pick; if(!st.ghost.on) gToggle();};
+$("gPrev").onclick=()=>gStepPick(-1); $("gNext").onclick=()=>gStepPick(1);
+$("gCol").onclick=()=>{st.ghost.col=!st.ghost.col; press($("gCol"),st.ghost.col);};
+syncGhostPick();
+$("cmp").onchange=e=>{st.cmp=e.target.value;};
+const zoomBy=(k,cx,cy)=>{const v=st.view, nw=Math.max(.6,Math.min(120,v.w/k)); if(cx!=null){v.cx=cx+(v.cx-cx)*(nw/v.w); v.cy=cy+(v.cy-cy)*(nw/v.w);} v.w=nw;};
+$("zIn").onclick=()=>zoomBy(1.5); $("zOut").onclick=()=>zoomBy(1/1.5); $("zFit").onclick=()=>{st.view=fitView();};
+const AREAS_BY={hero3:{head:[46,10,14],neck:[43,18,14],front:[40,27,16],hind:[20,25,18],paws:[30,33.5,34],tail:[16,21,16],back:[30,13,30]},
+  hero5:{head:[39.5,12,14],neck:[34,18,14],front:[27.5,27,16],hind:[11.5,25,18],paws:[20,33.5,34],tail:[6,21,16],back:[22,13,30]}}; /* hero5 stands about 7 units further left than hero3 (its tail hangs from x 0.5) */
+const AREAS_OF=()=>AREAS_BY[st.rig]||AREAS_BY.hero3;
+$("zGo").onchange=e=>{const a=AREAS_OF()[e.target.value]; if(a) st.view={cx:a[0],cy:a[1],w:a[2]}; e.target.value="";};
+const toDraw=ev=>{const pt=svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY; const p=pt.matrixTransform(svg.getScreenCTM().inverse()); return [p.x,p.y];};
+const partAt=ev=>{const el=document.elementFromPoint(ev.clientX,ev.clientY); return el&&el.dataset&&el.dataset.i!=null?{j:el.dataset.j,i:+el.dataset.i}:null;};
+svg.addEventListener("wheel",ev=>{ev.preventDefault(); const [x,y]=toDraw(ev); zoomBy(ev.deltaY<0?1.15:1/1.15,x,y);},{passive:false});
+svg.addEventListener("pointerdown",ev=>{if(ev.button===2) return; closeMenu(); svg.setPointerCapture(ev.pointerId); const p=toDraw(ev), hit=partAt(ev);
+  if(st.tool==="move"){drag={mode:"pan",sx:ev.clientX,sy:ev.clientY,cx:st.view.cx,cy:st.view.cy}; svg.classList.add("drag"); return;}
+  if(st.tool==="measure"){drag={mode:"measure"}; st.measure=[p,p]; return;}
+  setPlaying(false); const joint=hit?hit.j:"root", M=pose(R,st.t,st.walking), Mi=inv(M[joint]||M.root), L=apply(Mi,p);
+  const base={rig:st.rig,joint,phase:phaseNow(),standing:!st.walking,part:hit?hit.i:null};
+  if(st.tool==="pin") st.draft={...base,type:"pin",lx:L[0],ly:L[1],r:0};
+  if(st.tool==="arrow") st.draft={...base,type:"arrow",lx:L[0],ly:L[1],lx2:L[0],ly2:L[1]};
+  if(st.tool==="pen") st.draft={...base,type:"pen",lx:L[0],ly:L[1],pts:[L]};
+  drag={mode:"mark",start:p,Mi};});
+svg.addEventListener("pointermove",ev=>{
+  if(!drag){const h=partAt(ev); st.hover=h?h.i:null; const hv=$("hover"); if(h&&st.hoverOn){const tr=troubleOf(R.KEYS[h.i]); hv.hidden=false; hv.textContent=partName(h.i)+(tr?` · troubled: ${troubleLine(tr)}`:"");} else hv.hidden=true; return;}
+  const p=toDraw(ev);
+  if(drag.mode==="pan"){const b=svg.getBoundingClientRect(), k=st.view.w/b.width; st.view.cx=drag.cx-(ev.clientX-drag.sx)*k; st.view.cy=drag.cy-(ev.clientY-drag.sy)*k;}
+  else if(drag.mode==="measure"){st.measure[1]=p;}
+  else if(st.draft){const L=apply(drag.Mi,p);
+    if(st.draft.type==="pin") st.draft.r=Math.hypot(p[0]-drag.start[0],p[1]-drag.start[1]);
+    if(st.draft.type==="arrow"){st.draft.lx2=L[0]; st.draft.ly2=L[1];}
+    if(st.draft.type==="pen"){const q=st.draft.pts[st.draft.pts.length-1]; if(Math.hypot(L[0]-q[0],L[1]-q[1])>.08) st.draft.pts.push(L);}}});
+const endDrag=()=>{if(!drag) return; svg.classList.remove("drag"); const m=drag.mode; drag=null;
+  if(m==="mark"&&st.draft){const d=st.draft; if(d.type==="arrow"&&Math.hypot(d.lx2-d.lx,d.ly2-d.ly)<.3){d.type="pin"; d.r=0;} if(d.type==="pen"&&d.pts.length<3){d.type="pin"; d.r=0;} openForm();}};
+svg.addEventListener("pointerup",endDrag); svg.addEventListener("pointercancel",endDrag);
+svg.addEventListener("pointerleave",()=>{if(!drag){st.hover=null; $("hover").hidden=true;}});
+svg.addEventListener("contextmenu",openMenu);
+
+/* reference photo: stays in this browser */
+const refIn=()=>{if(!st.ref) return; const s=+$("refS").value/100; st.ref.h=38*s; st.ref.w=st.ref.h*st.ref.ar; st.ref.x=31-st.ref.w/2+ +$("refX").value; st.ref.y=-1+(38-st.ref.h)/2+ +$("refY").value; st.ref.op=+$("refOp").value/100;};
+$("refFile").onchange=e=>{const f=e.target.files&&e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{const im=new Image(); im.onload=()=>{st.ref={src:r.result,ar:im.width/im.height,flip:false,top:false}; refIn();}; im.src=r.result;}; r.readAsDataURL(f);};
+["refOp","refS","refX","refY"].forEach(id=>$(id).addEventListener("input",refIn));
+$("refFlip").onclick=()=>{if(!st.ref) return; st.ref.flip=!st.ref.flip; press($("refFlip"),st.ref.flip);};
+$("refTop").onclick=()=>{if(!st.ref) return; st.ref.top=!st.ref.top; press($("refTop"),st.ref.top);};
+$("refClear").onclick=()=>{st.ref=null; $("refFile").value="";};
+
+/* keyboard */
+document.addEventListener("keydown",e=>{const tg=e.target.tagName; if(tg==="TEXTAREA"||tg==="INPUT"||tg==="SELECT"){if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)&&e.target.id==="fText"){e.preventDefault(); $("fSave").click();} if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)&&e.target.id==="tText"){e.preventDefault(); $("tSave").click();} return;}
+  const k=e.key;
+  if(!$("cmenu").hidden){if(k==="Escape"){e.preventDefault(); closeMenu(true); return;} if(k==="ArrowDown"||k==="ArrowUp"){e.preventDefault(); menuStep(k==="ArrowDown"?1:-1); return;}}
+  if(e.ctrlKey||e.metaKey||e.altKey) return;
+  const hv=st.hover;
+  if((k==="x"||k==="X")&&hv!=null){hideKeys([R.KEYS[hv]]); return;} if((k==="t"||k==="T")&&hv!=null){openTrouble(hv); return;} if((k==="z"||k==="Z")&&hv!=null){zoomToPart(hv); return;} if(k==="u"||k==="U"){showAll(); return;}
+  if(k===" "){e.preventDefault(); $("play").click();}
+  else if(k==="ArrowLeft"||k==="ArrowRight"){e.preventDefault(); step((k==="ArrowLeft"?-1:1)*(e.shiftKey?5:1));}
+  else if("12345".includes(k)&&k.length===1) setTool(["move","pin","arrow","pen","measure"][+k-1]);
+  else if(k==="+"||k==="=") zoomBy(1.25); else if(k==="-"||k==="_") zoomBy(1/1.25); else if(k==="0") st.view=fitView();
+  else if(k==="s"||k==="S"){if(st.walking){setWalking(false); setPlaying(false);} else {setWalking(true); setPlaying(true);}}
+  else if(k==="k"||k==="K") toggle("oSkel","skel"); else if(k==="g"||k==="G") gToggle(); else if(k==="["||k==="]") gStepPick(k==="]"?1:-1); else if(k==="h"||k==="H") toggle("hideDog","hideDog"); else if(k==="p"||k==="P") toggle("oPaths","paths");
+  else if(k===","||k==="<") setSpeed(st.speed/1.25); else if(k==="."||k===">") setSpeed(st.speed*1.25);
+  else if(k==="l"||k==="L") setLoop(!st.loop.on); else if(k==="a"||k==="A") setEnd("a"); else if(k==="b"||k==="B") setEnd("b");
+  else if(k==="Escape"){st.draft=null; st.measure=null; $("form").hidden=true; st.sel=null; renderParts();}});
+
+/* ---------- notes (shared store: db collection "notes") ---------- */
+function partName(i){if(i==null) return "the body"; const p=R.D.parts[+i]; if(!p) return "the body"; const j=p.in||"root";
+  const nice={hipN:"near thigh",shankN:"near gaskin (shin)",metaN:"near hind cannon",htoeN:"near hind paw",hipF:"far thigh",shankF:"far gaskin",metaF:"far hind cannon",htoeF:"far hind paw",
+    shN:"near upper arm",foreN:"near forearm",pastN:"near front pastern",ftoeN:"near front paw",shF:"far upper arm",foreF:"far forearm",pastF:"far front pastern",ftoeF:"far front paw",
+    tail:"tail",earNear:"near ear",earFar:"far ear",body:"body",vault:"body",skull:"head",head:"head",scapN:"near shoulder blade",scapF:"far shoulder blade"}[j]||j;
+  return p.id&&p.id!=="body"?`${p.id} (${nice})`:nice+(p.paint&&p.paint!=="fur"&&!p.id?` · ${p.paint}`:"");}
+function tagFor(d){const j=d.joint||"", x=apply(pose(R,st.t,st.walking)[j]||[1,0,0,1,0,0],[d.lx,d.ly])[0];
+  if(/^(hip|shank|meta)/.test(j)) return "Hind leg"; if(/^(sh|fore|past)/.test(j)) return "Front leg"; if(/toe/.test(j)) return "Paws"; if(/tail/.test(j)) return "Tail"; if(/ear/.test(j)) return "Ears";
+  return x>43.5?"Head":x>38?"Neck and chest":"Back and body";}
+const KIND={pin:"Pin",arrow:"Arrow",pen:"Sketch"};
+function openForm(){selectTab("N"); $("form").hidden=false; const d=st.draft; $("fTag").value=tagFor(d);
+  $("formKind").textContent=`New ${KIND[d.type].toLowerCase()}`;
+  $("formWhere").textContent=`on ${partName(d.part)} · ${d.standing?"standing":`walk ${Math.round(d.phase*100)}%`}${d.type==="pin"&&d.r>.15?` · circle r ${d.r.toFixed(1)}`:""}`;
+  $("fText").value=""; $("fText").focus();}
+$("fCancel").onclick=()=>{st.draft=null; $("form").hidden=true;};
+const r3=v=>+(+v).toFixed(3);
+$("fSave").onclick=async()=>{const text=$("fText").value.trim(); if(!text){$("fText").focus(); return;}
+  const d=st.draft; if(!d) return; const doc={type:d.type,text,tag:$("fTag").value,sev:$("fSev").value,status:"open",rig:d.rig,joint:d.joint,lx:r3(d.lx),ly:r3(d.ly),
+    phase:d.phase==null?null:r3(d.phase),standing:d.standing,part:partName(d.part),build:BUILD.commit,created:Date.now()};
+  if(d.type==="pin") doc.r=r3(d.r); if(d.type==="arrow"){doc.lx2=r3(d.lx2); doc.ly2=r3(d.ly2);} if(d.type==="pen") doc.pts=d.pts.filter((q,i)=>i%Math.max(1,Math.ceil(d.pts.length/120))===0).map(q=>[r3(q[0]),r3(q[1])]);
+  st.draft=null; $("form").hidden=true;
+  if(st.db){try{await st.db.collection("notes").add(doc);}catch(e){$("store").textContent="Could not save that note: "+(e.message||e.code||"the store refused it")+". Your text: "+text;}}
+  else{st.notes.push({...doc,id:"local"+Date.now()}); saveLocal(); renderNotes();}};
+function saveLocal(){try{localStorage.setItem("wolfNotes",JSON.stringify(st.notes));}catch(e){}}
+const SEVLAB={must:"Must fix",should:"Should fix",nice:"Nice to have"};
+function renderNotes(){const box=$("notes"); box.textContent="";
+  st.notes=st.notes.slice().sort((a,b)=>(a.created||0)-(b.created||0));
+  const open=st.notes.filter(n=>n.status!=="fixed").length; $("nCount").textContent=st.notes.length?`(${open} open)`:"";
+  const list=st.notes.map((n,k)=>[n,k]).filter(([n])=>st.filter==="all"||(st.filter==="fixed"?n.status==="fixed":n.status!=="fixed"));
+  if(!list.length){const p=document.createElement("p"); p.className="hint"; p.textContent=st.notes.length?"Nothing in this list.":"No notes yet. Mark the first thing that looks off: a paw, a joint, an edge, a curve."; box.append(p); return;}
+  list.forEach(([n,k])=>{const el=document.createElement("div"); el.className="note"+(n.status==="fixed"?" fixed":"");
+    const head=document.createElement("div"); head.className="row";
+    const num=document.createElement("b"); num.textContent=String(k+1);
+    const sv=document.createElement("span"); sv.className="sev"; sv.style.borderColor=SEVCOL[n.sev]||SEVCOL.should; sv.textContent=SEVLAB[n.sev]||"Should fix";
+    const tag=document.createElement("span"); tag.className="tag"; tag.textContent=`${KIND[n.type]||"Pin"} · ${n.tag||"Note"}`;
+    const where=document.createElement("span"); where.className="small"; where.textContent=`${n.rig} · ${n.standing?"standing":`walk ${Math.round((n.phase||0)*100)}%`} · ${n.part||""}`;
+    head.append(num,sv,tag,where);
+    const t=document.createElement("div"); t.className="txt"; t.textContent=n.text; el.append(head,t);
+    if(n.reply){const rp=document.createElement("div"); rp.className="reply"; rp.textContent=`Firefly: ${n.reply}${n.fixedIn?` (build ${n.fixedIn})`:""}`; el.append(rp);}
+    const acts=document.createElement("div"); acts.className="row";
+    const go=document.createElement("button"); go.className="lnk"; go.textContent="Show me"; go.onclick=()=>showNote(n);
+    const fx=document.createElement("button"); fx.className="lnk"; fx.textContent=n.status==="fixed"?"Reopen":"Mark fixed"; fx.onclick=()=>setStatus(n,n.status==="fixed"?"open":"fixed");
+    const del=document.createElement("button"); del.className="lnk"; del.textContent="Delete"; del.onclick=()=>{if(del.dataset.armed){removeNote(n);} else {del.dataset.armed="1"; del.textContent="Delete for good?";}};
+    acts.append(go,fx,del); el.append(acts); box.append(el);});}
+$("nFilter").onchange=e=>{st.filter=e.target.value; renderNotes();};
+/* clearing: a button asks once (its label turns into the question), the second press within 5 s does it */
+function armed(btn,ask,act){if(btn.dataset.armed){clearTimeout(+btn.dataset.armed); delete btn.dataset.armed; btn.textContent=btn.dataset.label; act(); return;}
+  btn.dataset.label=btn.textContent; btn.textContent=ask; btn.dataset.armed=setTimeout(()=>{delete btn.dataset.armed; btn.textContent=btn.dataset.label;},5000);}
+async function clearDocs(kind,list){if(!list.length) return 0; let n=0;
+  if(st.db){for(const d of list){try{await st.db.doc(kind+"/"+d.id).delete(); n++;}catch(e){$("store").textContent=`Could not delete a ${kind==="notes"?"note":"tag"}: `+(e.message||e.code);}}}
+  else {if(kind==="notes"){st.notes=st.notes.filter(x=>!list.includes(x)); saveLocal(); renderNotes();} else {st.trouble=st.trouble.filter(x=>!list.includes(x)); saveTroubleLocal(); renderParts();} n=list.length;}
+  return n;}
+const mineTags=()=>st.trouble.filter(t=>t.rig===st.rig);
+$("nClearFixed").onclick=e=>{const L=st.notes.filter(n=>n.status==="fixed"); if(!L.length){$("store").textContent="No fixed notes to clear."; return;} armed(e.currentTarget,`Delete ${L.length} fixed?`,async()=>{const n=await clearDocs("notes",L); $("store").textContent=`Cleared ${n} fixed note${n===1?"":"s"}.`;});};
+$("nClearAll").onclick=e=>{const L=st.notes.slice(), T=mineTags(); if(!L.length&&!T.length){$("store").textContent="Nothing to clear: no notes or part tags."; return;}
+  armed(e.currentTarget,`Delete ${L.length} note${L.length===1?"":"s"} + ${T.length} tag${T.length===1?"":"s"}?`,async()=>{const a=await clearDocs("notes",L), b=await clearDocs("parts",T); $("store").textContent=`Cleared ${a} note${a===1?"":"s"} and ${b} part tag${b===1?"":"s"}.`;});};
+$("pClearTr").onclick=e=>{const T=mineTags(); if(!T.length){$("store").textContent="No part tags to clear."; return;} armed(e.currentTarget,`Delete ${T.length} tag${T.length===1?"":"s"}?`,async()=>{const b=await clearDocs("parts",T); $("store").textContent=`Cleared ${b} part tag${b===1?"":"s"}.`;});};
+function showNote(n){if(n.rig!==st.rig){st.rig=n.rig; $("rig").value=n.rig; R=rigData(n.rig); mini.setAttribute("viewBox",MINI[st.rig]||MINI.hero3);} if(n.standing){setWalking(false);} else {setWalking(true); st.t=(n.phase||0)*R.D.stride;} setPlaying(false); st.focus=n.id;
+  const M=pose(R,st.t,st.walking), p=at(M,n.joint,[n.lx,n.ly]), q=n.type==="arrow"?at(M,n.joint,[n.lx2,n.ly2]):p;
+  st.view={cx:(p[0]+q[0])/2,cy:(p[1]+q[1])/2,w:Math.max(8,(n.r||0)*6,Math.hypot(q[0]-p[0],q[1]-p[1])*2.5)};}
+async function setStatus(n,s){if(st.db&&!String(n.id).startsWith("local")){try{await st.db.doc("notes/"+n.id).update({status:s});}catch(e){$("store").textContent="Could not update that note: "+(e.message||e.code);}} else {n.status=s; saveLocal(); renderNotes();}}
+async function removeNote(n){if(st.db&&!String(n.id).startsWith("local")){try{await st.db.doc("notes/"+n.id).delete();}catch(e){$("store").textContent="Could not delete that note: "+(e.message||e.code);}} else {st.notes=st.notes.filter(x=>x!==n); saveLocal(); renderNotes();}}
+
+/* ---------- parts: hide (this viewer only), show only, tag as troubled (shared store: db collection "parts") ---------- */
+let hidV=0, hidCache=null;
+const hiddenSet=()=>st.hid[st.rig]||(st.hid[st.rig]=new Set());
+function hiddenIdx(){if(hidCache&&hidCache.rig===st.rig&&hidCache.v===hidV) return hidCache.set; const H=hiddenSet(), set=new Set(); R.KEYS.forEach((k,i)=>{if(H.has(k)) set.add(i);}); hidCache={rig:st.rig,v:hidV,set}; return set;}
+function loadHidden(){try{const o=JSON.parse(localStorage.getItem("wolfHidden")||"{}"); for(const [r,a] of Object.entries(o)) st.hid[r]=new Set(a);}catch(e){} hidChanged(false);}
+function hidChanged(save=true){hidV++; if(save){try{localStorage.setItem("wolfHidden",JSON.stringify(Object.fromEntries(Object.entries(st.hid).map(([r,s])=>[r,[...s]]))));}catch(e){}}
+  const n=hiddenSet().size; $("hidStrip").hidden=!n; $("hidTxt").textContent=`${n} part${n===1?"":"s"} hidden`; renderParts();}
+function hideKeys(keys){const H=hiddenSet(); keys.forEach(k=>H.add(k)); if(st.sel!=null&&H.has(R.KEYS[st.sel])) st.sel=null; st.hover=null; $("hover").hidden=true; hidChanged();}
+function solo(keys){const H=hiddenSet(), keep=new Set(keys); H.clear(); R.KEYS.forEach(k=>{if(!keep.has(k)) H.add(k);}); hidChanged();}
+function showAll(){hiddenSet().clear(); hidChanged();}
+const keysOfGroup=g=>R.KEYS.filter((k,i)=>R.GROUP[i]===g);
+$("hidAll").onclick=showAll; $("pShowAll").onclick=showAll;
+const troubleOf=(key,rig=st.rig)=>st.trouble.find(t=>t.rig===rig&&t.key===key&&t.status!=="fixed")||null;
+const WHEN={always:"always",walk:"while walking",frame:"at one frame",stand:"standing"};
+const troubleLine=t=>[(t.reasons||[]).join(", "),t.text].filter(Boolean).join(": ")||"no reason given";
+function troubleSVG(M,z){if(!st.troubleOn) return ""; let s=""; const sk=hiddenIdx(), ph=phaseNow();
+  st.trouble.forEach(t=>{if(t.rig!==st.rig||t.status==="fixed") return; const i=R.KEYS.indexOf(t.key); if(i<0||sk.has(i)) return; const p=R.D.parts[i];
+    let op=1; if(t.when==="frame"&&t.phase!=null){const d=ph==null?1:Math.abs(ph-t.phase); op=Math.min(d,1-d)<.035?1:.45;} if(t.when==="walk"&&!st.walking) op=.45; if(t.when==="stand"&&st.walking) op=.45;
+    s+=shape(p,"none",M[p.in||"root"],` stroke="${SEVCOL[t.sev]||SEVCOL.should}" stroke-opacity="${op}" stroke-width="${2.2/z}" stroke-dasharray="${6/z} ${3/z}" stroke-linejoin="round"`);});
+  return s;}
+/* bounding box of a part as drawn now, for zooming to it */
+function partBox(i){const p=R.D.parts[i], M=pose(R,st.t,st.walking)[p.in||"root"]; let P=[];
+  if(p.poly) P=p.poly; else if(p.circle) P=[[p.circle[0]-p.circle[2],p.circle[1]-p.circle[2]],[p.circle[0]+p.circle[2],p.circle[1]+p.circle[2]]];
+  else if(p.ellipse) P=[[p.ellipse[0]-p.ellipse[2],p.ellipse[1]-p.ellipse[3]],[p.ellipse[0]+p.ellipse[2],p.ellipse[1]+p.ellipse[3]]];
+  else if(p.line) P=p.line; else if(p.d){const n=(p.d.match(/-?\d*\.?\d+(?:e-?\d+)?/g)||[]).map(Number); for(let k=0;k+1<n.length;k+=2) P.push([n[k],n[k+1]]);}
+  if(!P.length) return null; const Q=P.map(q=>apply(M,q)), xs=Q.map(q=>q[0]), ys=Q.map(q=>q[1]); return [Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];}
+function zoomToPart(i){const b=partBox(i); if(!b) return; const vb=viewBox(), ar=vb[3]/vb[2]; st.sel=i; st.view={cx:(b[0]+b[2])/2,cy:(b[1]+b[3])/2,w:Math.max(5,(b[2]-b[0])*2.2,(b[3]-b[1])*2.2/ar)}; renderParts();}
+/* the right-click menu */
+let menuFor=null, menuFocus=null;
+function closeMenu(refocus){const cm=$("cmenu"); if(cm.hidden) return; cm.hidden=true; cm.textContent=""; menuFor=null; if(refocus&&menuFocus) try{menuFocus.focus();}catch(e){}}
+function menuStep(d){const B=[...$("cmenu").querySelectorAll("button")]; if(!B.length) return; let k=B.indexOf(document.activeElement); k=(k+d+B.length)%B.length; B[k].focus();}
+function openMenu(ev){ev.preventDefault(); closeMenu(); menuFocus=document.activeElement; const hit=partAt(ev), cm=$("cmenu"), add=[]; menuFor=hit;
+  const item=(label,key,fn)=>add.push({label,key,fn}), sep=()=>add.push(null);
+  if(hit){const i=hit.i, key=R.KEYS[i], g=R.GROUP[i], tr=troubleOf(key);
+    const h=document.createElement("div"); h.className="mh"; h.textContent=partName(i); cm.append(h);
+    const sub=document.createElement("div"); sub.className="ms"; sub.textContent=tr?`troubled · ${SEVLAB[tr.sev]||""} · ${troubleLine(tr)}`:`in the ${GROUPS[g]} · key ${key}`; if(tr) sub.style.color=SEVCOL[tr.sev]||""; cm.append(sub);
+    item("Hide this part","X",()=>hideKeys([key])); item("Show only this part","",()=>solo([key]));
+    item(`Hide the ${GROUPS[g]}`,"",()=>hideKeys(keysOfGroup(g))); item(`Show only the ${GROUPS[g]}`,"",()=>solo(keysOfGroup(g)));
+    sep(); item(tr?"Edit the trouble tag…":"Tag as troubled…","T",()=>openTrouble(i)); if(tr) item("Mark the trouble fixed","",()=>setTroubleStatus(tr,"fixed"));
+    item("Pin a note here","",()=>pinAt(ev,hit));
+    sep(); item("Zoom to this part","Z",()=>zoomToPart(i)); item("Find in the parts list","",()=>{st.sel=i; selectTab("P"); renderParts(); const r=document.querySelector(`.prow[data-i="${i}"]`); if(r) r.scrollIntoView({block:"center"});});
+    item("Copy the part name","",()=>{try{navigator.clipboard.writeText(`${partName(i)} [${key}]`);}catch(e){}});}
+  else {const h=document.createElement("div"); h.className="mh"; h.textContent="Stage"; cm.append(h);}
+  sep(); const n=hiddenSet().size; if(n) item(`Show all hidden parts (${n})`,"U",showAll);
+  item(st.playing&&st.walking?"Pause":"Play","Space",()=>$("play").click()); item(st.walking?"Stand still":"Walk","S",()=>st.walking?$("pStand").click():$("pWalk").click());
+  item(st.skel?"Skeleton off":"Skeleton on","K",()=>toggle("oSkel","skel")); item(st.troubleOn?"Trouble outlines off":"Trouble outlines on","",()=>toggle("oTrouble","troubleOn"));
+  item("Fit to view","0",()=>{st.view=fitView();});
+  add.forEach((a,k)=>{if(!a){if(k&&add[k-1]&&k<add.length-1) cm.append(document.createElement("hr")); return;}
+    const b=document.createElement("button"); b.setAttribute("role","menuitem"); const l=document.createElement("span"); l.textContent=a.label; b.append(l);
+    if(a.key){const kb=document.createElement("kbd"); kb.textContent=a.key; b.append(kb);} b.onclick=()=>{closeMenu(); a.fn();}; cm.append(b);});
+  cm.hidden=false; const box=$("stageBox").getBoundingClientRect(), w=cm.offsetWidth, hh=cm.offsetHeight;
+  cm.style.left=Math.max(4,Math.min(ev.clientX-box.left,box.width-w-4))+"px"; cm.style.top=Math.max(4,Math.min(ev.clientY-box.top,box.height-hh-4))+"px";
+  const f=cm.querySelector("button"); if(f) f.focus({preventScroll:true});}
+document.addEventListener("pointerdown",e=>{if(!$("cmenu").hidden&&!$("cmenu").contains(e.target)) closeMenu();},true);
+window.addEventListener("blur",()=>closeMenu());
+/* touch: long-press opens the menu */
+let lp=null;
+svg.addEventListener("pointerdown",ev=>{if(ev.pointerType!=="touch") return; const x=ev.clientX, y=ev.clientY; clearTimeout(lp&&lp.t);
+  lp={x,y,t:setTimeout(()=>{lp=null; drag=null; st.draft=null; svg.classList.remove("drag"); openMenu({preventDefault(){},clientX:x,clientY:y});},550)};});
+svg.addEventListener("pointermove",ev=>{if(lp&&Math.hypot(ev.clientX-lp.x,ev.clientY-lp.y)>8){clearTimeout(lp.t); lp=null;}});
+["pointerup","pointercancel"].forEach(t=>svg.addEventListener(t,()=>{if(lp){clearTimeout(lp.t); lp=null;}}));
+function pinAt(ev,hit){setPlaying(false); setTool("pin"); const p=toDraw(ev), joint=hit?hit.j:"root", M=pose(R,st.t,st.walking), L=apply(inv(M[joint]||M.root),p);
+  st.draft={rig:st.rig,joint,phase:phaseNow(),standing:!st.walking,part:hit?hit.i:null,type:"pin",lx:L[0],ly:L[1],r:0}; openForm();}
+/* the trouble tag form */
+const REASONS=["Gap or crack","Pokes out","Bad edge or seam","Wrong shape","Wrong size","Wrong place","Wrong colour","In front or behind wrong","Comes loose while walking","Moves wrong","Too stiff","Missing something","Other"];
+function openTrouble(i){selectTab("P"); setPlaying(false); const key=R.KEYS[i], tr=troubleOf(key); st.sel=i;
+  st.tDraft={rig:st.rig,key,i,phase:phaseNow(),standing:!st.walking,id:tr?tr.id:null,reasons:new Set(tr?tr.reasons||[]:[])};
+  $("tForm").hidden=false; $("tWhere").textContent=`${partName(i)} · now ${st.walking?`walk ${Math.round(phaseNow()*100)}%`:"standing"}`;
+  $("tSev").value=tr?tr.sev||"should":"should"; $("tWhenSel").value=tr?tr.when||"always":"always"; $("tText").value=tr?tr.text||"":"";
+  const box=$("tReasons"); box.textContent=""; REASONS.forEach(r=>{const b=document.createElement("button"); b.textContent=r; press(b,st.tDraft.reasons.has(r));
+    b.onclick=()=>{const S=st.tDraft.reasons; S.has(r)?S.delete(r):S.add(r); press(b,S.has(r));}; box.append(b);});
+  renderParts(); const f=box.querySelector("button"); if(f) f.focus();}
+$("tCancel").onclick=()=>{st.tDraft=null; $("tForm").hidden=true;};
+const keyDoc=(rig,key)=>`${rig}~${key}`.replace(/[^A-Za-z0-9_.~-]/g,"_");
+$("tSave").onclick=async()=>{const d=st.tDraft; if(!d) return; const text=$("tText").value.trim(), reasons=[...d.reasons];
+  if(!text&&!reasons.length){$("tText").focus(); $("tText").placeholder="Pick a reason or say what is wrong"; return;}
+  const old=d.id?st.trouble.find(t=>t.id===d.id):null, when=$("tWhenSel").value;
+  const doc={rig:d.rig,key:d.key,name:partName(d.i),group:GROUPS[R.GROUP[d.i]]||"",reasons,text,sev:$("tSev").value,when,phase:when==="frame"&&d.phase!=null?r3(d.phase):null,
+    status:"open",build:BUILD.commit,created:old&&old.created||Date.now(),updated:Date.now()}; if(old&&old.reply) doc.reply=old.reply; if(old&&old.fixedIn) doc.fixedIn=old.fixedIn;
+  st.tDraft=null; $("tForm").hidden=true; const id=d.id||keyDoc(d.rig,d.key);
+  if(st.db){try{await st.db.doc("parts/"+id).set(doc);}catch(e){$("store").textContent="Could not save that tag: "+(e.message||e.code||"the store refused it");}}
+  else {st.trouble=st.trouble.filter(t=>t.id!==id); st.trouble.push({...doc,id}); saveTroubleLocal(); renderParts();}};
+function saveTroubleLocal(){try{localStorage.setItem("wolfTrouble",JSON.stringify(st.trouble));}catch(e){}}
+async function setTroubleStatus(t,s){if(st.db){try{await st.db.doc("parts/"+t.id).update({status:s,updated:Date.now()});}catch(e){$("store").textContent="Could not update that tag: "+(e.message||e.code);}} else {t.status=s; saveTroubleLocal(); renderParts();}}
+async function removeTrouble(t){if(st.db){try{await st.db.doc("parts/"+t.id).delete();}catch(e){$("store").textContent="Could not delete that tag: "+(e.message||e.code);}} else {st.trouble=st.trouble.filter(x=>x!==t); saveTroubleLocal(); renderParts();}}
+$("pFilter").onchange=e=>{st.pFilter=e.target.value; renderParts();};
+$("pOnlyTr").onclick=()=>{const K=st.trouble.filter(t=>t.rig===st.rig&&t.status!=="fixed").map(t=>t.key); if(K.length) solo(K);};
+$("pHideTr").onclick=()=>{const K=st.trouble.filter(t=>t.rig===st.rig&&t.status!=="fixed").map(t=>t.key); if(K.length) hideKeys(K);};
+/* the parts list */
+function renderParts(){const box=$("parts"); if(!box) return; box.textContent=""; const H=hiddenSet(), mine=st.trouble.filter(t=>t.rig===st.rig);
+  const open=mine.filter(t=>t.status!=="fixed").length; $("pCount").textContent=open?`(${open} troubled)`:"";
+  const byG={}; R.D.parts.forEach((p,i)=>{if(p.hidden) return; (byG[R.GROUP[i]] ||= []).push(i);});
+  let shown=0;
+  for(const g of Object.keys(GROUPS)){const L=(byG[g]||[]).filter(i=>{const k=R.KEYS[i]; return st.pFilter==="all"||(st.pFilter==="hidden"?H.has(k):mine.some(t=>t.key===k));}); if(!L.length) continue; shown+=L.length;
+    const gh=document.createElement("div"); gh.className="pgrp"; const gt=document.createElement("span"); gt.textContent=GROUPS[g]; gh.append(gt);
+    const ga=document.createElement("span"); const gall=keysOfGroup(g), anyOn=gall.some(k=>!H.has(k));
+    const gb=document.createElement("button"); gb.className="lnk"; gb.textContent=anyOn?"hide all":"show all"; gb.onclick=()=>{if(anyOn) hideKeys(gall); else {gall.forEach(k=>H.delete(k)); hidChanged();}};
+    const go=document.createElement("button"); go.className="lnk"; go.textContent="only these"; go.style.marginLeft="8px"; go.onclick=()=>solo(gall); ga.append(gb,go); gh.append(ga); box.append(gh);
+    for(const i of L){const p=R.D.parts[i], k=R.KEYS[i], off=H.has(k), t=mine.find(x=>x.key===k&&x.status!=="fixed")||mine.find(x=>x.key===k);
+      const row=document.createElement("div"); row.className="prow"+(off?" off":"")+(st.sel===i?" sel":""); row.dataset.i=i;
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!off; cb.setAttribute("aria-label",`Show ${partName(i)}`); cb.onchange=()=>{if(cb.checked){H.delete(k); hidChanged();} else hideKeys([k]);};
+      const sw=document.createElement("span"); sw.className="swc"; sw.style.background=colourOf(R,p);
+      const nm=document.createElement("button"); nm.className="nm"; nm.textContent=partName(i); nm.title="Outline it on the stage; double-click to zoom to it"; nm.onclick=()=>{st.sel=st.sel===i?null:i; renderParts();}; nm.ondblclick=()=>zoomToPart(i);
+      const tg=document.createElement("button"); tg.className="lnk"; tg.textContent=t&&t.status!=="fixed"?"Edit tag":"Tag"; tg.onclick=()=>openTrouble(i);
+      row.append(cb,sw,nm,tg); box.append(row);
+      if(t){const d=document.createElement("div"); d.className="ptr";
+        const hd=document.createElement("div"); hd.className="row"; const sv=document.createElement("span"); sv.className="sev"; sv.style.borderColor=SEVCOL[t.sev]||SEVCOL.should; sv.textContent=t.status==="fixed"?"Fixed":SEVLAB[t.sev]||"Should fix";
+        const wh=document.createElement("span"); wh.className="small"; wh.textContent=`${WHEN[t.when]||"always"}${t.when==="frame"&&t.phase!=null?` (walk ${Math.round(t.phase*100)}%)`:""}`; hd.append(sv,wh);
+        const tx=document.createElement("div"); tx.textContent=troubleLine(t); if(t.status==="fixed") tx.style.textDecoration="line-through"; d.append(hd,tx);
+        if(t.reply){const rp=document.createElement("div"); rp.className="reply"; rp.textContent=`Firefly: ${t.reply}${t.fixedIn?` (build ${t.fixedIn})`:""}`; d.append(rp);}
+        const ac=document.createElement("div"); ac.className="row";
+        if(t.when==="frame"&&t.phase!=null){const sh=document.createElement("button"); sh.className="lnk"; sh.textContent="Show the frame"; sh.onclick=()=>{setWalking(true); setPlaying(false); st.t=t.phase*R.D.stride; zoomToPart(i);}; ac.append(sh);}
+        const fx=document.createElement("button"); fx.className="lnk"; fx.textContent=t.status==="fixed"?"Reopen":"Mark fixed"; fx.onclick=()=>setTroubleStatus(t,t.status==="fixed"?"open":"fixed");
+        const dl=document.createElement("button"); dl.className="lnk"; dl.textContent="Delete"; dl.onclick=()=>{if(dl.dataset.armed) removeTrouble(t); else {dl.dataset.armed="1"; dl.textContent="Delete for good?";}};
+        ac.append(fx,dl); d.append(ac); box.append(d);}}}
+  if(!shown){const p=document.createElement("p"); p.className="hint"; p.textContent=st.pFilter==="hidden"?"Nothing is hidden.":st.pFilter==="trouble"?"No part is tagged yet. Right-click a part on the stage and pick Tag as troubled.":"No parts."; box.append(p);}}
+
+/* ---------- the "reads as a dog?" checklist (GrumpyDingo's research, Oct 8) ---------- */
+const QS=[
+ ["Silhouette first (flat style: these carry almost all the recognition)",[
+  ["sil-thumb","In black silhouette, small, does it read as a canine at once?",["pieces"]],
+  ["sil-muzzle","Muzzle length: not so short it reads husky-dog, not so thin and pointed it reads fox?",["fit"]],
+  ["sil-ears","Ears: triangular, upright, on top of the skull, not oversized (fox) or round (hyena)?",[]],
+  ["sil-hock","Hock bend: the hind leg zig-zags (knee forward, hock back) in the outline?",["joints"]],
+  ["sil-tail","Tail carriage: set as the end of the spine, hanging as a full brush (wolf), not dainty or stubby?",[]]]],
+ ["Head (where most canine drawings succeed or fail)",[
+  ["head-stop","Is there a stop (the forehead drop between the eyes), not a flat ramp from nose to skull?",[]],
+  ["head-planes","Are the top of the muzzle and the top of the skull close to parallel (a cat's slope sharply)?",[]],
+  ["head-masses","Cranium (round) and muzzle (wedge) read as two masses, about one to one for a wolf?",[]],
+  ["head-eye","Eye on the cranium's middle line, set slightly to the side, almond to round, amber (never blue, no big whites)?",["visible"]],
+  ["head-nose","Nose reads as a nose: a simple anchor shape, not over-rendered?",[]]]],
+ ["Legs (digitigrade, the right joint bends)",[
+  ["leg-toes","Does it stand on its toes, with the heel (hock) held well off the ground?",["feet"]],
+  ["leg-stifle","Is the real knee (stifle) high and close to the body, bending forward?",["joints"]],
+  ["leg-hock","Does the hock bend backward and sit just behind the point of the buttock?",["joints"]],
+  ["leg-wrist","Is the front 'knee' a wrist: elbow at the brisket, wrist bending backward?",["joints"]],
+  ["leg-paws","Do the paws look like paws: compact, blunt, no hooked claws (cat)?",[]],
+  ["leg-mass","Do legs taper from muscled tops (thigh, upper arm) to slim lower legs, not tubes?",["attach"]]]],
+ ["Body",[
+  ["body-chest","Deep, narrow chest with a modest tuck-up, not a box or a sausage?",["fit"]],
+  ["body-shoulder","Does the shoulder look like it floats (the blade slides), not a toy's fixed pin?",[]],
+  ["body-withers","Is there a wolf's shoulder hump (withers) and a level back?",["fit"]],
+  ["body-fur","Does the fur read as mass (ruff, brush tail) rather than texture?",[]]]],
+ ["Motion (half of reading as a dog)",[
+  ["mo-plant","Do planted paws stay put on the ground while the body passes over them?",["feet"]],
+  ["mo-order","Leg order: each hind paw followed by the front paw on the same side (a lateral-sequence walk)?",["gait"]],
+  ["mo-poses","Walk: do the contact, passing, down and up poses read, like two offset bipeds?",[]],
+  ["mo-spine","Does the spine flex and the body ride over the legs, not a rigid box on legs?",[]],
+  ["mo-follow","Head settles a little late, tail trails (follow-through)?",[]],
+  ["mo-idle","Standing still, does it look alive (breathing, blinking, ear flicks)?",[]]]],
+ ["Not-a-dog tells (any yes here is a problem)",[
+  ["no-cat","Anything cat-like: round short skull, hooked claws, hyper-flexible spine?",[]],
+  ["no-fox","Anything fox-like: thin pointed muzzle, oversized ears, slim legs, dainty tail?",[]],
+  ["no-bear","Anything bear-like: flat feet, stub tail, heavy forearms?",[]],
+  ["no-hyena","Anything hyena-like: sloped back, short hind legs, round ears?",[]]]]];
+let answers={};
+function autoFor(keys){if(!keys.length||!REPORT) return null; const rs=REPORT.results.filter(r=>keys.includes(r.check)&&r.level!=="INFO"); if(!rs.length) return null;
+  const lvl=rs.some(r=>r.level==="FAIL")?"FAIL":rs.some(r=>r.level==="WARN")?"WARN":"PASS"; return {lvl,msg:rs.map(r=>`${r.check}: ${r.msg}`).join("\n")};}
+function renderQs(){const box=$("qs"); box.textContent=""; let y=0,c=0,n=0,tot=0;
+  QS.forEach(([title,items])=>{const h=document.createElement("h3"); h.textContent=title; box.append(h);
+    items.forEach(([id,q,keys])=>{tot++; const a=answers[id]||{}; if(a.v==="yes")y++; if(a.v==="close")c++; if(a.v==="no")n++;
+      const el=document.createElement("div"); el.className="q";
+      const t=document.createElement("div"); t.textContent=q; el.append(t);
+      const row=document.createElement("div"); row.className="ans";
+      [["yes","Yes"],["close","Close"],["no","No"]].forEach(([v,l])=>{const b=document.createElement("button"); b.dataset.v=v; b.textContent=l; b.setAttribute("aria-pressed",a.v===v?"true":"false");
+        b.onclick=()=>setAnswer(id,{...a,v:a.v===v?null:v}); row.append(b);});
+      const au=autoFor(keys); if(au){const s=document.createElement("span"); s.className="auto "+au.lvl; s.textContent="dogcheck "+au.lvl.toLowerCase(); s.title=au.msg; row.append(s);}
+      el.append(row);
+      const inp=document.createElement("input"); inp.className="qn"; inp.id="qn-"+id; inp.placeholder="Note (optional)"; inp.value=a.note||"";
+      inp.onchange=()=>setAnswer(id,{...answers[id],note:inp.value}); el.append(inp); box.append(el);});});
+  $("qScore").textContent=""; [["yes",y,"var(--ok)"],["close",c,"var(--warn)"],["no",n,"var(--bad)"],["open",tot-y-c-n,"var(--muted)"]].forEach(([l,v,col])=>{const s=document.createElement("span"); s.style.color=col; s.textContent=`${v} ${l}`; $("qScore").append(s);});}
+let qTimer=null;
+function setAnswer(id,a){answers={...answers,[id]:a}; renderQs(); clearTimeout(qTimer); qTimer=setTimeout(saveAnswers,400);}
+async function saveAnswers(){const body={rig:"hero3",build:BUILD.commit,updated:Date.now(),answers};
+  if(st.db){try{await st.db.doc("checklist/hero3").set(body);}catch(e){$("store").textContent="Could not save the checklist: "+(e.message||e.code);}}
+  else{try{localStorage.setItem("wolfChecklist",JSON.stringify(answers));}catch(e){}}}
+
+/* ---------- automatic checks tab ---------- */
+function renderChecks(){const box=$("chk"); box.textContent=""; if(!REPORT){box.textContent="No report bundled."; return;}
+  REPORT.results.filter(r=>r.level!=="INFO").forEach(r=>{const a=document.createElement("span"); a.className="auto "+r.level; a.textContent=r.level;
+    const k=document.createElement("span"); k.className="k"; k.textContent=r.check; const m=document.createElement("span"); m.textContent=r.msg; box.append(a,k,m);});}
+
+/* ---------- tests (live, on the loaded creature) ---------- */
+function runTests(){const D=R.D, out=[], add=(lvl,k,m)=>out.push([lvl,k,m]); const N=96, toes=D.joints.filter(j=>/toe/.test(j.id));
+  const topOf=j=>{let c=j; while(c&&!(c.track==="hhip"||c.track==="fsh")) c=D.joints.find(x=>x.id===c.in); return c;};
+  const g=D.gait||{}, legs={};
+  for(const j of toes){const top=topOf(j); if(!top) continue; legs[j.id]={j,top,duty:top.track==="hhip"&&g.hindDuty?g.hindDuty:(g.duty||(D.tracks[top.track][1]||{}).at||.62),pts:[]};}
+  let sink=0, sinkAt="";
+  for(let f=0;f<N;f++){const t=f/N*D.stride, M=pose(R,t,true), phase=(t/D.stride)%1;
+    for(const L of Object.values(legs)){const c=apply(M[L.j.id],[L.j.at[0]+.5,L.j.at[1]+1.05]), ph=(phase+(L.top.ph||0))%1; L.pts.push({t,ph,x:c[0],y:c[1]}); if(c[1]-GROUND>sink){sink=c[1]-GROUND; sinkAt=`${L.j.id} at ${Math.round(ph*100)}% of its stride`;}}}
+  add(sink>.15?"FAIL":"PASS","ground",sink>.15?`a paw sinks ${sink.toFixed(2)} below the ground (${sinkAt})`:`no paw below the ground (deepest ${sink.toFixed(2)})`);
+  const sp={};
+  for(const [id,L] of Object.entries(legs)){const S=L.pts.filter(q=>q.ph>.05*L.duty&&q.ph<.95*L.duty); if(S.length<4) continue; S.forEach(q=>q.u=q.ph*D.stride);
+    const mu=S.reduce((a,q)=>a+q.u,0)/S.length, mx=S.reduce((a,q)=>a+q.x,0)/S.length, k=S.reduce((a,q)=>a+(q.u-mu)*(q.x-mx),0)/S.reduce((a,q)=>a+(q.u-mu)**2,0);
+    const slide=Math.max(...S.map(q=>Math.abs(q.x-(mx+k*(q.u-mu))))), bob=Math.max(...S.map(q=>q.y))-Math.min(...S.map(q=>q.y)); sp[id]=-k*D.stride;
+    add(slide>.25?"FAIL":"PASS","planted",`${id}: slides ${slide.toFixed(2)}, rises and dips ${bob.toFixed(2)} while planted${bob>.3?" (too much)":""}`); if(bob>.3) out[out.length-1][0]="WARN";}
+  const v=Object.values(sp); if(v.length){const lo=Math.min(...v), hi=Math.max(...v); add(hi/lo>1.12?"WARN":"PASS","speed",`planted paws move back at ${Object.entries(sp).map(([a,b])=>`${a} ${b.toFixed(1)}`).join(", ")} units per stride${hi/lo>1.12?": they differ, so a pair skates":""}`);}
+  const td={}, du={}; for(const [id,L] of Object.entries(legs)){const P=L.pts, n=P.length, dn=P.map(q=>q.y>=GROUND-.03); for(let i=0;i<n;i++) if(dn[i]&&!dn[(i-1+n)%n]) td[id]=P[i].t/D.stride%1; du[id]=dn.filter(Boolean).length/n;}
+  if(td.htoeF!=null&&td.ftoeF!=null){const rel=k=>((td[k]-td.htoeF)%1+1)%1, lf=rel("ftoeF"), rh=rel("htoeN"), ok=lf>=.12&&lf<=.2&&Math.abs(rh-.5)<.03;
+    add(ok?"PASS":"WARN","order",`left fore lands ${lf.toFixed(2)} of a stride after the left hind (measured dogs 0.13-0.16, wolf 0.12-0.20); right hind ${rh.toFixed(2)} (0.50)${lf>.5?": that is a diagonal-sequence walk, which dogs do not use":""}`);
+    const fd=((du.ftoeF||0)+(du.ftoeN||0))/2, hd=((du.htoeF||0)+(du.htoeN||0))/2; add(fd>=.56&&fd<=.68&&hd>=.56&&hd<=.68?"PASS":"WARN","duty",`paws down fore ${fd.toFixed(2)}, hind ${hd.toFixed(2)} of the stride (measured 0.56-0.68)`);}
+  // joint curves over each leg's own stride (0 = that leg's touchdown)
+  const J=Object.fromEntries(D.joints.map(j=>[j.id,j])), P=(M,id)=>J[id]?apply(M[id],J[id].at):null, curves={stifle:[],tarsus:[],elbow:[],carpus:[],shoulder:[]};
+  const L3=D.landmarks&&D.landmarks.scapTop, offH=(J.hipN&&J.hipN.ph)||0, offF=(J.shN&&J.shN.ph)||0;
+  for(let f=0;f<=100;f++){const u=f/100, Mh=pose(R,((u-offH+2)%1)*D.stride,true), Mf=pose(R,((u-offF+2)%1)*D.stride,true);
+    if(P(Mh,"hipN")){curves.stifle.push(inc(P(Mh,"hipN"),P(Mh,"shankN"),P(Mh,"metaN"))); curves.tarsus.push(inc(P(Mh,"shankN"),P(Mh,"metaN"),P(Mh,"htoeN")));}
+    if(P(Mf,"shN")){curves.elbow.push(inc(P(Mf,"shN"),P(Mf,"foreN"),P(Mf,"pastN"))); curves.carpus.push(carpus(P(Mf,"foreN"),P(Mf,"pastN"),P(Mf,"ftoeN"))); if(L3) curves.shoulder.push(inc(apply(Mf[L3.in],L3.at),P(Mf,"shN"),P(Mf,"foreN")));}}
+  for(const [k,c] of Object.entries(curves)){if(!c.length||!GAIT_REF[k]) continue; const m=GAIT_REF[k], lo=Math.min(...c), hi=Math.max(...c), mlo=Math.min(...m), mhi=Math.max(...m), tol=k==="carpus"?25:10;
+    const off=lo<mlo-tol||hi>mhi+tol, small=(hi-lo)<(mhi-mlo)*.5; add(off||small?"WARN":"PASS","joint "+k,`walk ${lo.toFixed(0)}–${hi.toFixed(0)}° against measured ${mlo.toFixed(0)}–${mhi.toFixed(0)}°${small?"; moves too little":""}${k==="shoulder"?" (shoulder blade top is an estimate)":""}`);}
+  const box=$("tRes"); box.textContent=""; out.forEach(([lvl,k,m])=>{const a=document.createElement("span"); a.className="auto "+lvl; a.textContent=lvl; const kk=document.createElement("span"); kk.className="k"; kk.textContent=k; const mm=document.createElement("span"); mm.textContent=m; box.append(a,kk,mm);});
+  const gb=$("tGraphs"); gb.textContent=""; const names={stifle:"Knee (stifle), hind",tarsus:"Hock (tarsus), hind",elbow:"Elbow, front",carpus:"Wrist (carpus), front",shoulder:"Shoulder, front"};
+  for(const [k,c] of Object.entries(curves)){if(!c.length) continue; const m=GAIT_REF[k]||[], all=c.concat(m), lo=Math.floor(Math.min(...all)/10)*10, hi=Math.ceil(Math.max(...all)/10)*10, W=320, Hh=120, X=i=>8+i*(W-40)/100, Y=v=>8+(hi-v)/(hi-lo)*(Hh-26);
+    let g=`<svg viewBox="0 0 ${W} ${Hh}" width="100%" role="img" aria-label="${names[k]} angle over one stride"><rect x="0" y="0" width="${W}" height="${Hh}" fill="var(--panel)"/>`;
+    for(let v=lo;v<=hi;v+=20) g+=`<line x1="8" x2="${W-32}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${W-28}" y="${Y(v)+4}" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono,monospace">${v}°</text>`;
+    const duty=k==="stifle"||k==="tarsus"?(g2=>g2.hindDuty||g2.duty||.6)(D.gait||{}):((D.gait||{}).duty||.62); g+=`<rect x="${X(0)}" y="${Hh-16}" width="${X(duty*100)-X(0)}" height="5" fill="var(--muted)" opacity=".5"/><text x="${X(0)}" y="${Hh-2}" font-size="10" fill="var(--muted)" font-family="IBM Plex Sans,sans-serif">paw down</text><text x="${X(duty*100)+4}" y="${Hh-2}" font-size="10" fill="var(--muted)" font-family="IBM Plex Sans,sans-serif">swing</text>`;
+    if(m.length) g+=`<polyline points="${m.map((v,i)=>`${X(i)},${Y(v)}`).join(" ")}" fill="none" stroke="var(--muted)" stroke-width="6" stroke-opacity=".35" stroke-linejoin="round"/>`;
+    g+=`<polyline points="${c.map((v,i)=>`${X(i)},${Y(v)}`).join(" ")}" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>`;
+    const fig=document.createElement("figure"); fig.className="graph"; const cap=document.createElement("figcaption"); cap.textContent=names[k]; fig.innerHTML=g; fig.prepend(cap); gb.append(fig);}
+  $("tWhen").textContent=`${st.rig} · tested ${new Date().toLocaleTimeString()}`;}
+$("runT").onclick=runTests;
+
+/* ---------- tabs ---------- */
+function selectTab(k){["N","Q","C","T","P","K"].forEach(x=>{$("tab"+x).setAttribute("aria-selected",x===k?"true":"false"); $("pane"+x).hidden=x!==k;});}
+["N","Q","C","T","P","K"].forEach(x=>$("tab"+x).onclick=()=>selectTab(x));
+
+/* ---------- boot ---------- */
+$("meta").textContent=`build ${BUILD.commit} · ${BUILD.date} · dogcheck ${REPORT?`${REPORT.fails} fail, ${REPORT.warns} warn`:"n/a"}`;
+renderQs(); renderChecks(); renderNotes(); loadHidden(); renderParts();
+(async()=>{const db=window.claude&&window.claude.use?await window.claude.use("db"):null;
+  if(!db){try{st.notes=JSON.parse(localStorage.getItem("wolfNotes")||"[]"); answers=JSON.parse(localStorage.getItem("wolfChecklist")||"{}");}catch(e){}
+    try{st.trouble=JSON.parse(localStorage.getItem("wolfTrouble")||"[]");}catch(e){}
+    $("store").textContent="Notes are kept in this browser only (the shared store is not available in this view)."; renderNotes(); renderQs(); renderParts(); return;}
+  st.db=db; $("store").textContent="Notes save to the shared store; Firefly reads them and replies here.";
+  db.collection("notes").onSnapshot(s=>{st.notes=s.docs.map(d=>({...d.data(),id:d.id})); renderNotes();},e=>{$("store").textContent="Could not load the notes: "+(e.message||e.code);});
+  db.collection("parts").onSnapshot(s=>{st.trouble=s.docs.map(d=>({...d.data(),id:d.id})); renderParts();},e=>{$("store").textContent="Could not load the part tags: "+(e.message||e.code);});
+  try{const c=await db.doc("checklist/hero3").get(); if(c.exists){answers=(c.data().answers)||{}; renderQs();}}catch(e){}})();
+</script>

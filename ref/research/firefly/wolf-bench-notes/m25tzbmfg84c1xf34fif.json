@@ -1,0 +1,18 @@
+{
+  "build": "794e8bd",
+  "created": 1791580644172,
+  "joint": "root",
+  "lx": -1.728,
+  "lx2": 4.001,
+  "ly": 12.998,
+  "ly2": 19.466,
+  "part": "the body",
+  "phase": 0.835,
+  "rig": "hero5",
+  "sev": "should",
+  "standing": false,
+  "status": "open",
+  "tag": "Tail",
+  "text": "Tail has Thin line of pixels around it",
+  "type": "arrow"
+}

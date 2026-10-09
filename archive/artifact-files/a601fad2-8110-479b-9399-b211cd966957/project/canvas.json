@@ -1,0 +1,130 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "All.dc.html": {
+      "h": 660,
+      "title": "6 · Blend: all four",
+      "w": 560,
+      "x": 0,
+      "y": 780
+    },
+    "Clay.dc.html": {
+      "h": 660,
+      "title": "3 · Chunky flat cartoon",
+      "w": 560,
+      "x": 1280,
+      "y": 0
+    },
+    "Dingo.dc.html": {
+      "h": 400,
+      "title": "Dingo generator (open Tweaks to change style and proportions)",
+      "w": 480,
+      "x": 0,
+      "y": 1560
+    },
+    "Fieldguide.dc.html": {
+      "h": 660,
+      "title": "10 · Naturalist watercolour",
+      "w": 560,
+      "x": 2560,
+      "y": 780
+    },
+    "Ink.dc.html": {
+      "h": 660,
+      "title": "4 · Ink and shadow",
+      "w": 560,
+      "x": 1920,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "h": 660,
+      "title": "1 · Vector-painted storybook",
+      "w": 560,
+      "x": 0,
+      "y": 0
+    },
+    "Pulp.dc.html": {
+      "h": 660,
+      "title": "9 · Pulp sci-fi poster",
+      "w": 560,
+      "x": 1920,
+      "y": 780
+    },
+    "Retro.dc.html": {
+      "h": 660,
+      "title": "8 · Retro sixties poster",
+      "w": 560,
+      "x": 1280,
+      "y": 780
+    },
+    "Scratchy.dc.html": {
+      "h": 660,
+      "title": "2 · Scratchy ink gothic",
+      "w": 560,
+      "x": 640,
+      "y": 0
+    },
+    "Trio.dc.html": {
+      "h": 660,
+      "title": "5 · Blend: your three",
+      "w": 560,
+      "x": 2560,
+      "y": 0
+    },
+    "Woodcut.dc.html": {
+      "h": 660,
+      "title": "7 · Woodcut print",
+      "w": 560,
+      "x": 640,
+      "y": 780
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-02T23:10:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "s1": {
+      "fill": "orange",
+      "text": "Same dingo in every card: one parametric drawing (points → curves), with each style changing proportions, line, fills and shading. That is the seed of the creature generator.\n\nPose: head up, chest forward, tail raised. Heroic, not cute-for-cute's-sake.\n\nStyles are moods, not copies: nothing here is traced from another game.",
+      "w": 360,
+      "x": 3200,
+      "y": 0
+    },
+    "s2": {
+      "fill": "green",
+      "text": "Open the Dingo generator board's Tweaks to flip styles and push head, ears, legs and body. Tell me which card (or which mix) feels like 'I want to be that dingo' and I'll push that one further: expression, bandana, weapon stance, walk cycle.",
+      "w": 360,
+      "x": 3200,
+      "y": 780
+    },
+    "t1": {
+      "kind": "title1",
+      "maxW": 3120,
+      "text": "The Den dingo — ten looks, one generator",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    }
+  },
+  "order": [
+    "Dingo.dc.html",
+    "Fieldguide.dc.html",
+    "Pulp.dc.html",
+    "Retro.dc.html",
+    "Woodcut.dc.html",
+    "All.dc.html",
+    "Trio.dc.html",
+    "Ink.dc.html",
+    "Clay.dc.html",
+    "Scratchy.dc.html",
+    "Main.dc.html"
+  ],
+  "pages": [],
+  "title": "Den Dingo Style Studio"
+}

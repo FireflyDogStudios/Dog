@@ -1,0 +1,17 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1366,height:768}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.addInitScript(()=>localStorage.setItem('dengame-dev','1'));
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<8;i++) await p.evaluate(()=>__advance(5000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.sos-ov").forEach(e=>e.remove()));
+ const E=c=>p.evaluate(c=>__E(c),c);
+ console.log('daily mail', await E(`JSON.stringify(mailState().filter(m=>/^daily/.test(m.id)).map(m=>[m.subject,m.items.map(itemLabel)]))`));
+ await E(`trialState().gifts={}; mailState().splice(mailState().findIndex(m=>/^daily/.test(m.id)),1); state.lettersSent && Object.keys(state.lettersSent).forEach(k=>/^daily/.test(k)&&delete state.lettersSent[k]); checkLetters()`);
+ console.log('resent', await E(`JSON.stringify(mailState().filter(m=>/^daily/.test(m.id)).map(m=>[m.subject,m.items.length,m.body]))`));
+ await E(`claimMail(mailState().find(m=>/^daily/.test(m.id)).id)`);
+ console.log('claimed', await E(`Object.keys(trialState().gifts).length`));
+ await E(`checkLetters()`); console.log('no dupes', await E(`mailState().filter(m=>/^daily/.test(m.id)).length`));
+ await p.click('[data-fkopen="bag"]'); await p.evaluate(()=>__advance(300)); console.log('bandana in bag', await p.$$eval('.fkw #band-h',x=>x.length));
+ await p.click('[data-fkopen="events"]'); await p.evaluate(()=>__advance(300)); console.log('gift in events', await p.$$eval('.fkw #gift-h',x=>x.length));
+ console.log('errs',errs.slice(0,5)); await b.close();})();

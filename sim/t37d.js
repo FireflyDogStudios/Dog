@@ -1,0 +1,12 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1440,height:900}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.addInitScript(()=>{ localStorage.setItem('dengame-dev','1'); });
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<3;i++) await p.evaluate(()=>__advance(5000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.sos-ov").forEach(e=>e.remove()));
+ await p.evaluate(()=>__E(`(()=>{const H=huntState(); H.autoSalvage=false; ['rare','uncommon','common','common','epic','rare'].forEach(rk=>dropWeapon({name:'Test',traits:[]},true,rk)); const ids=H.weapons.map(w=>w.id); H.equipped=ids.slice(0,5); invSync(); })()`));
+ await p.click('[data-fkopen="bag"]'); await p.evaluate(()=>__advance(300));
+ const ws = await p.$$('.fkw .islot.full[data-iloc="b"][data-ik^="w:"]'); const bb=await ws[ws.length-1].boundingBox(); await p.mouse.move(bb.x+25,bb.y+25); await p.waitForTimeout(150);
+ console.log(await p.$$eval('#ivtip .ivcard',e=>e.length)); await p.screenshot({path:'sim/i37c.png'});
+ console.log('errs',errs); await b.close();})();

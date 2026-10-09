@@ -1,0 +1,236 @@
+/* ================= Den Stillroom engine =================
+   Item art in the Smithy's language: split shading, one highlight strip, dark outline, 200×200 view.
+   Four generators: brews (potions), gems, foods, materials. Each item is a short code, like weapons. */
+const STILL = (() => {
+"use strict";
+const B36 = "0123456789abcdefghijklmnopqrstuvwxyz";
+let rng = Math.random, UID = 0;
+const R = (a, b) => a + rng() * (b - a), RI = (a, b) => Math.floor(R(a, b + 1)), pick = arr => arr[Math.floor(rng() * arr.length)];
+function seeded(str){ let h = 1779033703 ^ str.length; for (let i = 0; i < str.length; i++){ h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19; }
+  return () => { h = Math.imul(h ^ h >>> 16, 2246822507); h = Math.imul(h ^ h >>> 13, 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; }; }
+const f1 = v => (+v).toFixed(1);
+
+/* ---------- the Smithy's drawing helpers (same look as the weapons) ---------- */
+function shaded(d, m, opt = {}){
+  const id = "c" + (++UID), cx = opt.cx ?? 0, sw = opt.sw ?? 3.2, hw = opt.hw ?? 9;
+  return `<g><clipPath id="${id}"><path d="${d}"/></clipPath><path d="${d}" fill="${m.b}"${opt.op ? ` opacity="${opt.op}"` : ""}/>
+    <g clip-path="url(#${id})"><rect x="${cx}" y="-400" width="400" height="800" fill="${m.s}" opacity="${opt.sop ?? .85}"/>
+    ${opt.nohl ? "" : `<rect x="${cx - hw}" y="-400" width="${hw * .42}" height="800" fill="${m.l}" opacity=".9"/>`}${opt.extra || ""}</g>
+    <path d="${d}" fill="none" stroke="${m.o}" stroke-width="${sw}" stroke-linejoin="round"/></g>`;
+}
+function roundShade(d, m, cx, cy, r, extra = "", sw = 3.2){
+  const id = "c" + (++UID), gid = "r" + (++UID);
+  return `<g><radialGradient id="${gid}" gradientUnits="userSpaceOnUse" cx="${cx - r * .35}" cy="${cy - r * .4}" r="${r * 1.35}"><stop offset="0" stop-color="${m.l}"/><stop offset=".35" stop-color="${m.b}"/><stop offset=".85" stop-color="${m.s}"/></radialGradient>
+    <clipPath id="${id}"><path d="${d}"/></clipPath><path d="${d}" fill="url(#${gid})"/><g clip-path="url(#${id})">${extra}</g>
+    <path d="${d}" fill="none" stroke="${m.o}" stroke-width="${sw}" stroke-linejoin="round"/></g>`;
+}
+const circleP = (cx, cy, r) => `M${cx - r} ${cy} A${r} ${r} 0 1 0 ${cx + r} ${cy} A${r} ${r} 0 1 0 ${cx - r} ${cy} Z`;
+const ellipseP = (cx, cy, rx, ry) => `M${cx - rx} ${cy} A${rx} ${ry} 0 1 0 ${cx + rx} ${cy} A${rx} ${ry} 0 1 0 ${cx - rx} ${cy} Z`;
+const poly = pts => "M" + pts.map(p => f1(p[0]) + " " + f1(p[1])).join(" L") + " Z";
+
+/* ---------- shared palettes (from the Smithy where they exist) ---------- */
+const RARS = [
+  {n:"Common", k:"common", c:"#93a399"}, {n:"Uncommon", k:"uncommon", c:"#4f8fb8"}, {n:"Rare", k:"rare", c:"#a77bd6"},
+  {n:"Epic", k:"epic", c:"#e8741c"}, {n:"Legendary", k:"legendary", c:"#e3b23c"}];
+const GLASS = [
+  {n:"Clear", b:"#dfeef5", s:"#a9c4d2", l:"#ffffff", o:"#2a3a44"},
+  {n:"Green glass", b:"#cfe9d4", s:"#8fbf9a", l:"#ffffff", o:"#1e3a28"},
+  {n:"Brown glass", b:"#d9b78a", s:"#a8824e", l:"#fff1d8", o:"#3a2410"},
+  {n:"Blue glass", b:"#cfe0f5", s:"#8aa9d0", l:"#ffffff", o:"#1e2a44"},
+  {n:"Smoked", b:"#b9b4c4", s:"#7e7890", l:"#eeeaf6", o:"#241f30"}];
+const CORK = {n:"Cork", b:"#c9a06a", s:"#96703e", l:"#eccfa0", o:"#3a2410"};
+const WAX = [{n:"Red wax", b:"#c23b3b", s:"#7e1f1f", l:"#f08a8a", o:"#2e0808"}, {n:"Green wax", b:"#4f9a5a", s:"#2e6638", l:"#93d49b", o:"#0e2412"}, {n:"Gold wax", b:"#e2b84f", s:"#a97c1f", l:"#fff0b0", o:"#3a2806"}];
+const PAPER = {n:"Paper", b:"#f1e7cf", s:"#cbbd9c", l:"#ffffff", o:"#4a3b26"};
+const TWINE = {n:"Twine", b:"#cbb88a", s:"#8a7450", l:"#eadcb8", o:"#3a2c18"};
+const BONE = {n:"Bone", b:"#efe4c9", s:"#c7b58d", l:"#fffaf0", o:"#4a3b26"};
+const WOOD = [{n:"Oak", b:"#a8743f", s:"#77502a", l:"#d9a874", o:"#2e1c0c"}, {n:"Birch", b:"#ece4d2", s:"#c4b89c", l:"#ffffff", o:"#3a3226"}, {n:"Pine", b:"#8a5a34", s:"#5e3b20", l:"#c08a5a", o:"#24140a"}, {n:"Driftwood", b:"#c9bca6", s:"#968a76", l:"#ece4d6", o:"#33302a"}, {n:"Cherry", b:"#a4503c", s:"#743222", l:"#d88a72", o:"#2a0e08"}, {n:"Ghostwood", b:"#d4dcf0", s:"#9aa6c8", l:"#ffffff", o:"#283048"}, {n:"Ironbark", b:"#5a5450", s:"#3a3634", l:"#8a847e", o:"#141210"}];
+const METAL = [{n:"Iron", b:"#b9c2cc", s:"#7d8794", l:"#eef3f7", o:"#2b2f36"}, {n:"Bronze", b:"#d99a4e", s:"#a2652a", l:"#ffd9a1", o:"#3a2410"}, {n:"Steel", b:"#9cc4e4", s:"#5e88ab", l:"#e6f4ff", o:"#1f2c3a"}, {n:"Moonsilver", b:"#cdbff2", s:"#9480cc", l:"#f8f2ff", o:"#2a2148"}, {n:"Sunsteel", b:"#f3c64e", s:"#c48a1c", l:"#fff2b8", o:"#3f2a06"}, {n:"Emberstone", b:"#ef7a43", s:"#b2401e", l:"#ffd0a8", o:"#3a1408"}, {n:"Mossjade", b:"#7fcf9a", s:"#3f9466", l:"#d9ffe6", o:"#123020"}, {n:"Frostglass", b:"#9fe8f2", s:"#56bccd", l:"#f2feff", o:"#163a44"}, {n:"Obsidian", b:"#4a4058", s:"#2a2333", l:"#9a8cc0", o:"#120e18"}];
+const BONES = [{n:"Bone", b:"#efe4c9", s:"#c7b58d", l:"#fffaf0", o:"#4a3b26"}, {n:"Old Bone", b:"#d9c79a", s:"#a8915e", l:"#f4e8c4", o:"#3e3018"}, {n:"Charred Bone", b:"#6a5c56", s:"#443a36", l:"#9a8a82", o:"#161210"}, {n:"Gilded Bone", b:"#f3d27a", s:"#c49a36", l:"#fff4c8", o:"#3f2a06"}];
+
+/* ---------- rarity frame (the Smithy's glow table, simplified) ---------- */
+function frame(id, rk, inner, opts = {}){
+  const Rr = RARS.find(r => r.k === rk) || RARS[0], c = Rr.c;
+  const outlineR = {common:0, uncommon:0, rare:1.4, epic:1.6, legendary:1.8}[rk], glowR = {common:0, uncommon:3, rare:3.5, epic:4.5, legendary:5.5}[rk];
+  let defs = "", back = "";
+  if (glowR) defs += `<filter id="${id}O" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">${outlineR ? `<feMorphology in="SourceAlpha" operator="dilate" radius="${outlineR}" result="d"/>` : `<feOffset in="SourceAlpha" result="d"/>`}<feFlood flood-color="${c}"/><feComposite in2="d" operator="in" result="o"/><feGaussianBlur in="o" stdDeviation="${glowR}" result="g"/><feMerge><feMergeNode in="g"/>${rk !== "uncommon" ? `<feMergeNode in="g"/><feMergeNode in="o"/>` : ""}</feMerge></filter>`;
+  if (rk === "legendary"){ defs += `<radialGradient id="${id}A"><stop offset="0" stop-color="${c}" stop-opacity=".55"/><stop offset=".55" stop-color="${c}" stop-opacity=".18"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>`; back += `<circle cx="0" cy="0" r="94" fill="url(#${id}A)"/>`; }
+  return `<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${opts.label || ""}"><defs>${defs}${opts.defs || ""}<g id="${id}W">${inner}</g></defs>${back}<ellipse cx="0" cy="78" rx="38" ry="7" fill="#000" opacity=".16"/>${glowR ? `<use href="#${id}W" filter="url(#${id}O)"/>` : ""}<use href="#${id}W"/>${opts.over || ""}</svg>`;
+}
+
+/* ======================= BREWS (potions) ======================= */
+const BREW_TYPES = {
+  str:{n:"Strength Brew", c:{b:"#ff6a3a", s:"#b83a14", l:"#ffc29a"}, key:"str"},
+  cur:{n:"Meat Magnet", c:{b:"#d85a7a", s:"#8a2a48", l:"#ffb4c8"}, key:"cur"},
+  luck:{n:"Lucky Nose", c:{b:"#5ad06a", s:"#2a8a3a", l:"#c4ffcc"}, key:"luck"},
+  swift:{n:"Zoomies Tonic", c:{b:"#ffd23f", s:"#c48a10", l:"#fff6b8"}, key:"swift"},
+  treasure:{n:"Treasure Sniffer", c:{b:"#f3c64e", s:"#a87a18", l:"#fff2c0"}, key:"treasure"},
+  heal:{n:"Second Wind", c:{b:"#ff8fc8", s:"#b83a84", l:"#ffd6ec"}, key:"heal"},
+  night:{n:"Moonwater", c:{b:"#8a7bff", s:"#4a3ab8", l:"#d6d0ff"}, key:"night"}
+};
+const BREW_TYPE_KEYS = Object.keys(BREW_TYPES);
+/* bottle shapes: outline path (neck at top, centred at 0,0), inner liquid box [x0,y0,x1,y1] and the neck y */
+const BOTTLES = [
+  {n:"Round flask", d:"M-10 -58 L10 -58 L10 -30 C36 -22 44 4 44 24 C44 52 24 66 0 66 C-24 66 -44 52 -44 24 C-44 4 -36 -22 -10 -30 Z", neck:-58, body:[-44,-30,44,66], nw:10},
+  {n:"Tall vial", d:"M-12 -62 L12 -62 L12 -44 L16 -40 L16 56 C16 62 10 66 0 66 C-10 66 -16 62 -16 56 L-16 -40 L-12 -44 Z", neck:-62, body:[-16,-40,16,66], nw:12},
+  {n:"Square jar", d:"M-14 -56 L14 -56 L14 -40 L30 -34 L30 56 C30 62 24 66 18 66 L-18 66 C-24 66 -30 62 -30 56 L-30 -34 L-14 -40 Z", neck:-56, body:[-30,-34,30,66], nw:14},
+  {n:"Teardrop", d:"M-8 -62 L8 -62 L8 -40 C30 -14 40 14 40 32 C40 54 22 66 0 66 C-22 66 -40 54 -40 32 C-40 14 -30 -14 -8 -40 Z", neck:-62, body:[-40,-40,40,66], nw:8},
+  {n:"Gourd", d:"M-9 -60 L9 -60 L9 -42 C22 -38 26 -24 22 -12 C40 -4 44 20 40 40 C36 58 18 66 0 66 C-18 66 -36 58 -40 40 C-44 20 -40 -4 -22 -12 C-26 -24 -22 -38 -9 -42 Z", neck:-60, body:[-44,-42,44,66], nw:9},
+  {n:"Bulb", d:"M-11 -58 L11 -58 L11 -34 L20 -30 L20 0 C40 8 46 30 38 48 C32 62 16 66 0 66 C-16 66 -32 62 -38 48 C-46 30 -40 8 -20 0 L-20 -30 L-11 -34 Z", neck:-58, body:[-46,-30,46,66], nw:11}
+];
+const STOPPERS = [
+  {n:"Cork", draw:(nw, ny) => shaded(`M${-nw - 3} ${ny - 16} L${nw + 3} ${ny - 16} L${nw + 1} ${ny + 6} L${-nw - 1} ${ny + 6} Z`, CORK, {cx:0, hw:5, sw:2.6}) + `<path d="M${-nw} ${ny - 10} h${nw * 2} M${-nw + 1} ${ny - 4} h${nw * 2 - 2}" stroke="${CORK.s}" stroke-width="1.2" opacity=".7"/>`},
+  {n:"Wax seal", draw:(nw, ny, w) => shaded(`M${-nw - 2} ${ny - 6} L${nw + 2} ${ny - 6} L${nw + 1} ${ny + 4} L${-nw - 1} ${ny + 4} Z`, CORK, {cx:0, hw:5, sw:2.6}) + shaded(`M${-nw - 6} ${ny - 4} C${-nw - 8} ${ny - 14} ${nw + 8} ${ny - 14} ${nw + 6} ${ny - 4} C${nw + 10} ${ny + 4} ${nw - 2} ${ny + 10} ${nw - 8} ${ny + 2} L${-nw + 4} ${ny + 8} C${-nw - 4} ${ny + 10} ${-nw - 10} ${ny + 2} ${-nw - 6} ${ny - 4} Z`, w, {cx:0, hw:6, sw:2.6})},
+  {n:"Glass ball", draw:(nw, ny, w, g) => shaded(`M${-nw - 2} ${ny - 2} L${nw + 2} ${ny - 2} L${nw} ${ny + 6} L${-nw} ${ny + 6} Z`, g, {cx:0, hw:4, sw:2.4}) + roundShade(circleP(0, ny - 12, nw + 4), g, 0, ny - 12, nw + 4, "", 2.8)},
+  {n:"Cloth and twine", draw:(nw, ny) => shaded(`M${-nw - 8} ${ny - 4} C${-nw - 10} ${ny - 16} ${nw + 10} ${ny - 16} ${nw + 8} ${ny - 4} L${nw + 10} ${ny + 10} L${-nw - 10} ${ny + 10} Z`, {b:"#e8dcc4", s:"#b8a888", l:"#ffffff", o:"#3a2c18"}, {cx:0, hw:7, sw:2.6}) + `<path d="M${-nw - 10} ${ny + 4} h${nw * 2 + 20}" stroke="${TWINE.b}" stroke-width="2.6"/><path d="M${-nw - 10} ${ny + 4} h${nw * 2 + 20}" stroke="${TWINE.o}" stroke-width="2.6" stroke-dasharray="2 2" opacity=".5"/>`},
+  {n:"Bone plug", draw:(nw, ny) => shaded(`M${-nw - 2} ${ny - 18} C${-nw - 8} ${ny - 24} ${-nw + 2} ${ny - 28} ${-nw + 4} ${ny - 20} L${nw - 4} ${ny - 20} C${nw - 2} ${ny - 28} ${nw + 8} ${ny - 24} ${nw + 2} ${ny - 18} L${nw} ${ny + 6} L${-nw} ${ny + 6} Z`, BONE, {cx:0, hw:5, sw:2.6})}
+];
+const TAGS = [
+  {n:"None", draw:() => ""},
+  {n:"Paper label", draw:(B, col) => { const [x0, y0, x1, y1] = B.body, w = Math.min(44, (x1 - x0) * .6), y = (y0 + y1) / 2 + 6; return shaded(`M${-w / 2} ${y - 11} L${w / 2} ${y - 11} L${w / 2} ${y + 11} L${-w / 2} ${y + 11} Z`, PAPER, {cx:0, hw:4, sw:2.4}) + `<path d="M${-w / 2 + 6} ${y - 3} h${w - 12} M${-w / 2 + 6} ${y + 4} h${w - 18}" stroke="${col}" stroke-width="2.4" stroke-linecap="round"/>`; }},
+  {n:"Ribbon", draw:(B, col) => { const ny = B.neck + 14, nw = B.nw + 2; return shaded(`M${-nw - 3} ${ny - 3} L${nw + 3} ${ny - 3} L${nw + 3} ${ny + 4} L${-nw - 3} ${ny + 4} Z`, {b:col, s:"#000000", l:"#ffffff", o:"#1a1010"}, {cx:0, hw:3, sw:2, sop:.35}) + shaded(`M${nw + 2} ${ny} L${nw + 16} ${ny + 14} L${nw + 8} ${ny + 16} L${nw + 2} ${ny + 6} Z`, {b:col, s:"#000000", l:"#ffffff", o:"#1a1010"}, {cx:nw + 8, hw:3, sw:2, sop:.35}); }},
+  {n:"Bone charm", draw:(B) => { const ny = B.neck + 16, nw = B.nw + 2; return `<path d="M${nw + 1} ${ny} C${nw + 10} ${ny + 4} ${nw + 12} ${ny + 14} ${nw + 10} ${ny + 22}" fill="none" stroke="${TWINE.o}" stroke-width="1.4"/>` + shaded(`M${nw + 4} ${ny + 20} C${nw + 2} ${ny + 16} ${nw + 8} ${ny + 14} ${nw + 9} ${ny + 19} L${nw + 17} ${ny + 27} C${nw + 22} ${ny + 26} ${nw + 24} ${ny + 32} ${nw + 19} ${ny + 34} C${nw + 17} ${ny + 38} ${nw + 12} ${ny + 36} ${nw + 12} ${ny + 32} L${nw + 4} ${ny + 24} C${nw} ${ny + 25} ${nw - 1} ${ny + 21} ${nw + 4} ${ny + 20} Z`, BONE, {cx:nw + 10, hw:4, sw:2.2}); }},
+  {n:"Leaf", draw:(B) => { const ny = B.neck + 18, nw = B.nw + 2; return shaded(`M${nw + 1} ${ny} C${nw + 14} ${ny - 6} ${nw + 22} ${ny + 6} ${nw + 12} ${ny + 16} C${nw + 6} ${ny + 10} ${nw + 2} ${ny + 6} ${nw + 1} ${ny} Z`, {b:"#6f9a3a", s:"#3e6a20", l:"#b8e07a", o:"#1e3010"}, {cx:nw + 10, hw:4, sw:2.2}) + `<path d="M${nw + 2} ${ny + 1} L${nw + 12} ${ny + 14}" stroke="#3e6a20" stroke-width="1" opacity=".8"/>`; }}
+];
+function brew(seed, o = {}){
+  rng = seeded("b" + seed);
+  const type = o.type || pick(BREW_TYPE_KEYS), tier = o.tier ?? RI(0, 2), bi = o.bottle ?? RI(0, BOTTLES.length - 1), gi = o.glass ?? RI(0, GLASS.length - 1), si = o.stopper ?? RI(0, STOPPERS.length - 1), ti = o.tag ?? (tier === 0 ? pick([0, 0, 1]) : RI(0, TAGS.length - 1)), wi = RI(0, WAX.length - 1);
+  const T = BREW_TYPES[type], B = BOTTLES[bi], G = GLASS[gi], liq = T.c, rk = ["uncommon", "rare", "epic"][tier];
+  const [x0, y0, x1, y1] = B.body, fill = [.55, .72, .9][tier], ly = y1 - (y1 - y0) * fill; // liquid surface
+  const id = "s" + (++UID);
+  let extra = `<rect x="-100" y="${f1(ly)}" width="200" height="200" fill="${liq.b}"/><rect x="0" y="${f1(ly)}" width="200" height="200" fill="${liq.s}" opacity=".55"/><rect x="-9" y="${f1(ly)}" width="4" height="200" fill="${liq.l}" opacity=".75"/>`;
+  extra += `<path d="M-60 ${f1(ly)} Q-20 ${f1(ly - 5)} 0 ${f1(ly)} T60 ${f1(ly)}" fill="${liq.l}" opacity=".45"/>`;
+  if (tier >= 1) for (let i = 0; i < 5 + tier * 3; i++){ extra += `<circle cx="${f1(R(x0 + 8, x1 - 8))}" cy="${f1(R(ly + 6, y1 - 6))}" r="${f1(R(1.4, 3.6))}" fill="${liq.l}" opacity="${f1(R(.35, .8))}"/>`; }
+  if (tier >= 2){ extra += `<path d="M${x0 + 6} ${f1(ly + 18)} C${x0 + 24} ${f1(ly + 4)} ${x1 - 24} ${f1(ly + 30)} ${x1 - 6} ${f1(ly + 14)}" fill="none" stroke="${liq.l}" stroke-width="3" opacity=".6" stroke-linecap="round"/>`; for (let i = 0; i < 6; i++){ const x = R(x0 + 10, x1 - 10), y = R(ly + 4, y1 - 8); extra += `<path d="M${f1(x)} ${f1(y - 4)} L${f1(x + 1.2)} ${f1(y - 1.2)} L${f1(x + 4)} ${f1(y)} L${f1(x + 1.2)} ${f1(y + 1.2)} L${f1(x)} ${f1(y + 4)} L${f1(x - 1.2)} ${f1(y + 1.2)} L${f1(x - 4)} ${f1(y)} L${f1(x - 1.2)} ${f1(y - 1.2)} Z" fill="#ffffff" opacity=".9"/>`; } }
+  // glass body with the liquid clipped inside, then the glass tint and highlight over it
+  let inner = shaded(B.d, G, {cx:0, hw:11, sw:3.2, extra, sop:.25}) ;
+  inner += `<path d="${B.d}" fill="${G.b}" opacity=".18"/>`;
+  inner += STOPPERS[si].draw(B.nw, B.neck, WAX[wi], G);
+  inner += TAGS[ti].draw(B, liq.s);
+  let over = "";
+  if (tier >= 2) over += `<circle cx="0" cy="${f1((y0 + y1) / 2)}" r="70" fill="url(#${id}G)" opacity=".9"/>`;
+  const defs = tier >= 2 ? `<radialGradient id="${id}G"><stop offset="0" stop-color="${liq.b}" stop-opacity=".45"/><stop offset="1" stop-color="${liq.b}" stop-opacity="0"/></radialGradient>` : "";
+  const name = T.n + " " + ["I", "II", "III"][tier];
+  return {svg: frame(id, rk, inner, {label:name, defs}), name, rk, parts:{type, tier, bottle:B.n, glass:G.n, stopper:STOPPERS[si].n, tag:TAGS[ti].n}, code:"b" + B36[BREW_TYPE_KEYS.indexOf(type)] + tier + bi + gi + si + ti + wi};
+}
+
+/* ======================= GEMS ======================= */
+const GEM_TYPES = {
+  ruby:{n:"Ruby", b:"#ff4d6d", s:"#b3123a", l:"#ffd0da", o:"#4a0818"}, sapphire:{n:"Sapphire", b:"#4da3ff", s:"#1b5fc4", l:"#d6ebff", o:"#0a1e48"},
+  emerald:{n:"Emerald", b:"#3ee08a", s:"#13965a", l:"#d2ffe6", o:"#063a20"}, topaz:{n:"Topaz", b:"#ffb238", s:"#c4720c", l:"#ffefc9", o:"#3f2404"},
+  amethyst:{n:"Amethyst", b:"#b07cff", s:"#6a3ad2", l:"#e6d6ff", o:"#240a48"}, onyx:{n:"Onyx", b:"#4a4a58", s:"#1e1e26", l:"#9a9ab0", o:"#0a0a10"},
+  moonstone:{n:"Moonstone", b:"#d4c6ff", s:"#8b74d9", l:"#ffffff", o:"#2a2148"}, citrine:{n:"Citrine", b:"#ffe14a", s:"#c4a010", l:"#fffbd0", o:"#3a2e04"},
+  garnet:{n:"Garnet", b:"#c23b55", s:"#6e1428", l:"#f49ab0", o:"#2e0410"}
+};
+const GEM_KEYS = Object.keys(GEM_TYPES);
+function ngon(n, r, rot = 0, cx = 0, cy = 0){ const p = []; for (let i = 0; i < n; i++){ const a = rot + i / n * Math.PI * 2; p.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]); } return p; }
+const CUTS = [
+  {n:"Brilliant", outline:(r) => ngon(8, r, Math.PI / 8), table:(r) => ngon(8, r * .55, Math.PI / 8)},
+  {n:"Oval", outline:(r) => ngon(10, r, 0).map(p => [p[0] * .8, p[1] * 1.05]), table:(r) => ngon(10, r * .55, 0).map(p => [p[0] * .8, p[1] * 1.05])},
+  {n:"Pear", outline:(r) => [[0, -r * 1.2], [r * .55, -r * .5], [r * .85, r * .2], [r * .5, r * .9], [0, r * 1.05], [-r * .5, r * .9], [-r * .85, r * .2], [-r * .55, -r * .5]], table:(r) => [[0, -r * .6], [r * .3, -r * .22], [r * .45, r * .15], [r * .26, r * .5], [0, r * .58], [-r * .26, r * .5], [-r * .45, r * .15], [-r * .3, -r * .22]]},
+  {n:"Hex", outline:(r) => ngon(6, r, 0), table:(r) => ngon(6, r * .55, 0)},
+  {n:"Cushion", outline:(r) => [[-r * .7, -r], [r * .7, -r], [r, -r * .7], [r, r * .7], [r * .7, r], [-r * .7, r], [-r, r * .7], [-r, -r * .7]], table:(r) => [[-r * .4, -r * .55], [r * .4, -r * .55], [r * .55, -r * .4], [r * .55, r * .4], [r * .4, r * .55], [-r * .4, r * .55], [-r * .55, r * .4], [-r * .55, -r * .4]]},
+  {n:"Raw chunk", outline:(r) => ngon(7, r, .3).map(p => [p[0] * R(.78, 1.12), p[1] * R(.78, 1.12)]), table:null},
+  {n:"Cabochon", outline:(r) => null, table:null},
+  {n:"Shard", outline:(r) => [[0, -r * 1.3], [r * .45, -r * .2], [r * .25, r * 1.1], [-r * .3, r * .6], [-r * .5, -r * .3]], table:(r) => [[0, -r * .7], [r * .2, -r * .1], [r * .1, r * .5], [-r * .15, r * .25], [-r * .22, -r * .15]]}
+];
+function gem(seed, o = {}){
+  rng = seeded("g" + seed);
+  const type = o.type || pick(GEM_KEYS), ci = o.cut ?? RI(0, CUTS.length - 1), q = o.q ?? RI(0, 2), cracked = o.cracked ?? (rng() < .18);
+  const G = GEM_TYPES[type], C = CUTS[ci], r = [26, 38, 50][q], rk = cracked ? "common" : ["uncommon", "rare", "epic"][q];
+  const id = "s" + (++UID), m = {b:G.b, s:G.s, l:G.l, o:G.o};
+  let inner = "";
+  if (C.n === "Cabochon"){
+    const d = ellipseP(0, 6, r * .95, r * .7);
+    inner += roundShade(d, m, 0, 6, r * .9, `<ellipse cx="${f1(-r * .3)}" cy="${f1(-r * .2)}" rx="${f1(r * .25)}" ry="${f1(r * .14)}" fill="#fff" opacity=".7"/>`);
+  } else {
+    const out = C.outline(r), d = poly(out);
+    let facets = "";
+    if (C.table){ const tab = C.table(r);
+      // side facets: alternate light / shade triangles between outline and table
+      for (let i = 0; i < out.length; i++){ const j = (i + 1) % out.length; const li = i % tab.length, lj = j % tab.length;
+        facets += `<path d="${poly([out[i], out[j], tab[lj], tab[li]])}" fill="${i % 2 ? G.s : G.l}" opacity="${i < out.length / 2 ? (i % 2 ? .55 : .35) : (i % 2 ? .7 : .2)}"/>`; }
+      facets += `<path d="${poly(tab)}" fill="${G.l}" opacity=".55"/><path d="${poly(tab)}" fill="none" stroke="${G.o}" stroke-width="1" opacity=".5"/>`;
+      out.forEach((p, i) => { facets += `<path d="M${f1(p[0])} ${f1(p[1])} L${f1(tab[i % tab.length][0])} ${f1(tab[i % tab.length][1])}" stroke="${G.o}" stroke-width=".8" opacity=".45"/>`; });
+    } else {
+      // raw: a few flat planes
+      for (let k = 0; k < 4; k++){ const a = out[RI(0, out.length - 1)], b = out[RI(0, out.length - 1)]; facets += `<path d="${poly([a, b, [R(-r * .3, r * .3), R(-r * .3, r * .3)]])}" fill="${k % 2 ? G.l : G.s}" opacity=".35"/>`; }
+    }
+    inner += shaded(d, m, {cx:0, hw:r * .35, sw:3.2, extra:facets, sop:.5});
+    inner += `<path d="M${f1(-r * .45)} ${f1(-r * .5)} L${f1(-r * .2)} ${f1(-r * .6)}" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85"/>`;
+  }
+  if (cracked) inner += `<path d="M${f1(R(-r * .5, -r * .2))} ${f1(-r * .7)} L${f1(R(-r * .2, r * .1))} ${f1(R(-r * .2, r * .1))} L${f1(R(-r * .1, r * .4))} ${f1(r * .55)} M${f1(R(-r * .1, r * .1))} ${f1(R(-r * .1, r * .1))} L${f1(R(r * .2, r * .6))} ${f1(R(-r * .5, -r * .1))}" fill="none" stroke="${G.o}" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if (q === 2 && !cracked){ for (let i = 0; i < 4; i++){ const a = R(0, Math.PI * 2), rr = R(r * .9, r * 1.35), x = Math.cos(a) * rr, y = Math.sin(a) * rr; inner += `<path d="M${f1(x)} ${f1(y - 5)} L${f1(x + 1.4)} ${f1(y - 1.4)} L${f1(x + 5)} ${f1(y)} L${f1(x + 1.4)} ${f1(y + 1.4)} L${f1(x)} ${f1(y + 5)} L${f1(x - 1.4)} ${f1(y + 1.4)} L${f1(x - 5)} ${f1(y)} L${f1(x - 1.4)} ${f1(y - 1.4)} Z" fill="#fff" opacity=".9"/>`; } }
+  const name = (cracked ? "Cracked " : ["", "", "Flawless "][q]) + G.n + (C.n === "Raw chunk" ? " (raw)" : C.n === "Shard" ? " shard" : "");
+  return {svg: frame(id, rk, inner, {label:name}), name, rk, parts:{type, cut:C.n, quality:["chip", "gem", "great"][q], cracked}, code:"g" + B36[GEM_KEYS.indexOf(type)] + ci + q + (cracked ? 1 : 0)};
+}
+
+/* ======================= FOODS ======================= */
+const MEAT = {raw:{b:"#e05a6a", s:"#9a2a3a", l:"#ffb4bc", o:"#3a0a12"}, cooked:{b:"#b0623a", s:"#6e3418", l:"#e8a874", o:"#2a1008"}, burnt:{b:"#4a3028", s:"#2a1a14", l:"#8a6a5a", o:"#120806"}};
+const FAT = {b:"#f6e9cf", s:"#cfb996", l:"#ffffff", o:"#3a2410"};
+const FOODS = [
+  {n:"Meat chunk", draw:(st) => { const m = MEAT[st]; return shaded("M-44 -10 C-40 -40 -10 -48 14 -42 C40 -36 50 -10 44 14 C38 40 10 50 -14 44 C-40 38 -50 14 -44 -10 Z", m, {cx:0, hw:12, extra:`<path d="M-30 -8 C-20 -24 4 -30 20 -20" fill="none" stroke="${m.l}" stroke-width="5" opacity=".5" stroke-linecap="round"/>`}) + (st === "raw" ? shaded("M-36 -2 C-30 -12 -14 -14 -8 -6 C-4 2 -14 10 -24 8 C-32 6 -38 4 -36 -2 Z", FAT, {cx:-22, hw:5, sw:2.4}) : `<path d="M-26 10 L-10 18 M-4 22 L14 26 M16 -8 L30 2" stroke="${m.s}" stroke-width="3" stroke-linecap="round" opacity=".8"/>`); }},
+  {n:"Drumstick", draw:(st) => { const m = MEAT[st]; return shaded("M-6 -8 C-16 -34 10 -56 34 -46 C58 -36 54 -4 30 4 L2 18 Z", m, {cx:14, hw:10}) + shaded("M2 18 L-44 50 C-54 56 -60 48 -52 40 L-8 4 Z", BONE, {cx:-24, hw:5, sw:2.6}) + shaded("M-46 44 C-56 38 -60 50 -52 56 C-46 60 -40 54 -44 48 Z", BONE, {cx:-50, hw:4, sw:2.4}) + (st !== "raw" ? `<path d="M6 -22 L20 -14 M12 -36 L26 -30" stroke="${m.s}" stroke-width="3" stroke-linecap="round" opacity=".8"/>` : ""); }},
+  {n:"Ribs", draw:(st) => { const m = MEAT[st]; let b = shaded("M-50 -14 C-40 -34 40 -34 50 -14 L46 30 C30 44 -30 44 -46 30 Z", m, {cx:0, hw:12}); for (let i = -30; i <= 30; i += 20) b += shaded(`M${i - 5} -22 L${i + 5} -22 L${i + 4} 36 L${i - 4} 36 Z`, BONE, {cx:i, hw:3, sw:2.2, sop:.5}); return b; }},
+  {n:"Fish", draw:(st) => { const m = st === "raw" ? {b:"#8ab8c8", s:"#4a7a8c", l:"#d8f0f8", o:"#122a34"} : MEAT[st]; return shaded("M-56 0 C-36 -30 30 -34 56 -6 C30 28 -36 30 -56 0 Z", m, {cx:-10, hw:14}) + shaded("M44 -8 L70 -26 L66 0 L70 26 L44 6 Z", m, {cx:56, hw:5, sw:2.6}) + `<circle cx="-34" cy="-4" r="4" fill="${m.o}"/><path d="M-16 -10 C-10 -2 -10 6 -16 12 M-2 -14 C4 -4 4 6 -2 14 M12 -12 C18 -4 18 4 12 10" fill="none" stroke="${m.s}" stroke-width="2.4" opacity=".7"/>`; }},
+  {n:"Pupcake", draw:() => shaded("M-30 6 L30 6 L24 50 L-24 50 Z", {b:"#e8b86a", s:"#a87a30", l:"#ffe0a8", o:"#3a2410"}, {cx:0, hw:8, extra:`<path d="M-22 10 L-18 50 M-8 10 L-6 50 M8 10 L6 50 M22 10 L18 50" stroke="#a87a30" stroke-width="2" opacity=".6"/>`}) + shaded("M-34 8 C-40 -14 -22 -28 -6 -22 C0 -44 30 -40 32 -16 C48 -14 44 10 32 8 Z", {b:"#ff9ad5", s:"#c2508e", l:"#ffd6ec", o:"#3a0a2a"}, {cx:0, hw:12}) + `<circle cx="-14" cy="-12" r="3" fill="#fff6b8"/><circle cx="12" cy="-20" r="3" fill="#8ad0ff"/><circle cx="4" cy="-4" r="2.6" fill="#b8ffa8"/>` + shaded("M-6 -38 L6 -38 L8 -24 L-8 -24 Z", {b:"#c23b3b", s:"#7e1f1f", l:"#f08a8a", o:"#2e0808"}, {cx:0, hw:3, sw:2.2})},
+  {n:"Kibble", draw:() => { let b = shaded("M-48 12 C-52 -10 52 -10 48 12 L40 44 C20 54 -20 54 -40 44 Z", {b:"#a8743f", s:"#77502a", l:"#d9a874", o:"#2e1c0c"}, {cx:0, hw:12}); for (let i = 0; i < 9; i++){ const x = -30 + (i % 3) * 30 + R(-5, 5), y = -2 + Math.floor(i / 3) * 16 + R(-3, 3); b += roundShade(circleP(x, y, 8), {b:"#c88a4a", s:"#8a5a2a", l:"#ffd8a8", o:"#3a2010"}, x, y, 8, "", 2.2); } return b; }},
+  {n:"Bone broth", draw:() => shaded("M-54 -6 C-54 -22 54 -22 54 -6 L44 40 C30 52 -30 52 -44 40 Z", {b:"#6b8fb8", s:"#3a5a84", l:"#c4dcf2", o:"#122034"}, {cx:0, hw:14, extra:`<ellipse cx="0" cy="-6" rx="46" ry="12" fill="#e8b86a"/><ellipse cx="0" cy="-6" rx="46" ry="12" fill="#c48a3a" opacity=".5" clip-path="inset(0 0 0 50%)"/><ellipse cx="-14" cy="-8" rx="10" ry="3" fill="#fff" opacity=".5"/>`}) + shaded("M-10 -30 L24 -58 C30 -62 36 -56 32 -50 L-2 -22 Z", BONE, {cx:12, hw:4, sw:2.4}) + `<path d="M-24 -46 C-20 -56 -28 -62 -22 -72 M-8 -50 C-4 -60 -12 -66 -6 -76" fill="none" stroke="#fff" stroke-width="3" opacity=".6" stroke-linecap="round"/>`},
+  {n:"Apple chew", draw:() => roundShade("M0 -40 C24 -56 56 -34 54 2 C52 32 30 54 0 52 C-30 54 -52 32 -54 2 C-56 -34 -24 -56 0 -40 Z", {b:"#e04a4a", s:"#8e1e1e", l:"#ffb0a8", o:"#3a0808"}, 0, 4, 52, `<path d="M18 -10 C40 -4 44 20 30 36 C44 24 44 0 24 -12 Z" fill="#fff" opacity=".2"/>`) + `<path d="M0 -40 L4 -62" stroke="#5a3a20" stroke-width="5" stroke-linecap="round"/>` + shaded("M4 -56 C14 -70 34 -66 36 -52 C24 -48 10 -50 4 -56 Z", {b:"#6f9a3a", s:"#3e6a20", l:"#b8e07a", o:"#1e3010"}, {cx:20, hw:5, sw:2.4}) + shaded("M30 20 C44 10 56 20 54 34 C48 44 36 42 30 32 Z", {b:"#fff3d6", s:"#d8c8a0", l:"#ffffff", o:"#3a2410"}, {cx:42, hw:4, sw:2.4})},
+  {n:"Jerky", draw:() => { let b = ""; for (let i = 0; i < 3; i++){ const y = -26 + i * 26; b += shaded(`M-48 ${y} C-30 ${y - 10} -10 ${y + 8} 10 ${y - 6} C30 ${y - 16} 44 ${y + 2} 50 ${y + 4} L46 ${y + 14} C30 ${y + 10} 12 ${y + 6} -8 ${y + 8} C-26 ${y + 14} -40 ${y + 12} -48 ${y + 12} Z`, {b:"#8a3a2a", s:"#4e1a10", l:"#d07a5a", o:"#200806"}, {cx:0, hw:10, sw:2.6}); } b += `<circle cx="-20" cy="-18" r="2.4" fill="#e03a2a"/><circle cx="18" cy="8" r="2.4" fill="#e03a2a"/><circle cx="-4" cy="34" r="2.4" fill="#e03a2a"/>`; return b; }},
+  {n:"Moon milk", draw:() => shaded("M-50 -10 C-50 -24 50 -24 50 -10 L42 44 C28 56 -28 56 -42 44 Z", {b:"#9cc4e4", s:"#5e88ab", l:"#e6f4ff", o:"#1f2c3a"}, {cx:0, hw:14, extra:`<ellipse cx="0" cy="-10" rx="42" ry="10" fill="#fffaf0"/><ellipse cx="0" cy="-10" rx="42" ry="10" fill="#d8d0b8" opacity=".4" clip-path="inset(0 0 0 50%)"/>`}) + `<path d="M12 -22 A12 12 0 1 0 22 -8 A9 9 0 1 1 12 -22 Z" fill="#fff6b8" stroke="#3a2c18" stroke-width="2"/>`},
+  {n:"Biscuit", draw:() => shaded("M-26 -40 C-40 -40 -40 -20 -28 -14 C-44 -6 -44 14 -28 18 C-40 30 -22 44 -8 36 C0 48 20 44 24 30 C40 36 50 18 38 8 C50 0 46 -20 32 -22 C40 -38 22 -50 8 -40 C0 -52 -18 -50 -26 -40 Z", {b:"#d9a35a", s:"#9c6a2a", l:"#ffd8a0", o:"#3a2010"}, {cx:0, hw:12}) + `<circle cx="-12" cy="-10" r="3.4" fill="#5a3418"/><circle cx="10" cy="-18" r="3.4" fill="#5a3418"/><circle cx="14" cy="10" r="3.4" fill="#5a3418"/><circle cx="-8" cy="16" r="3.4" fill="#5a3418"/><circle cx="2" cy="0" r="3" fill="#5a3418"/>`},
+  {n:"Bait wrap", draw:(st, k) => { const m = MEAT[st]; return shaded("M-40 -20 C-20 -36 20 -36 40 -20 L44 20 C24 40 -24 40 -44 20 Z", m, {cx:0, hw:12}) + shaded("M-50 -8 L50 -8 L50 6 L-50 6 Z", {b:"#cbb88a", s:"#8a7450", l:"#eadcb8", o:"#3a2c18"}, {cx:0, hw:6, sw:2.4, sop:.5}) + `<path d="M-8 -8 L-2 -24 L6 -8 L2 -20 Z" fill="#8a7450"/>` + (k === "feast" ? shaded("M30 -40 L40 -34 L34 -22 L24 -28 Z", {b:"#6f9a3a", s:"#3e6a20", l:"#b8e07a", o:"#1e3010"}, {cx:32, hw:3, sw:2}) : ""); }}
+];
+const FOOD_KEYS = FOODS.map(f => f.n);
+function food(seed, o = {}){
+  rng = seeded("f" + seed);
+  const fi = o.food ?? RI(0, FOODS.length - 1), F = FOODS[fi], st = o.state || pick(["raw", "cooked", "cooked", "burnt"]);
+  const rot = R(-12, 12), id = "s" + (++UID);
+  const meaty = ["Meat chunk", "Drumstick", "Ribs", "Fish", "Bait wrap"].includes(F.n);
+  const inner = `<g transform="rotate(${f1(rot)})">${F.draw(st, o.kind)}</g>`;
+  const rk = o.rk || (F.n === "Bait wrap" ? ({meat:"common", juicy:"uncommon", feast:"rare"}[o.kind] || "common") : meaty ? (st === "cooked" ? "uncommon" : "common") : "uncommon");
+  const name = meaty ? (st === "raw" ? "Raw " : st === "burnt" ? "Burnt " : "") + F.n : F.n;
+  return {svg: frame(id, rk, inner, {label:name}), name, rk, parts:{food:F.n, state:meaty ? st : "n/a"}, code:"f" + B36[fi] + ["raw", "cooked", "burnt"].indexOf(st)};
+}
+
+/* ======================= MATERIALS ======================= */
+/* a pile of pieces: shape primitive × material palette × count, jittered by seed */
+const PIECES = {
+  splinter:(m) => { const l = R(24, 40), w = R(5, 9); return shaded(`M${-l / 2} ${-w / 2} L${l / 2 - 6} ${-w / 2 + 1} L${l / 2} 0 L${l / 2 - 6} ${w / 2 - 1} L${-l / 2} ${w / 2} Z`, m, {cx:0, hw:4, sw:2.4}); },
+  nugget:(m) => { const r = R(8, 13); return shaded(poly(ngon(6, r, R(0, 1)).map(p => [p[0] * R(.8, 1.2), p[1] * R(.8, 1.2)])), m, {cx:0, hw:4, sw:2.4}); },
+  shard:(m) => { const l = R(18, 30); return shaded(`M0 ${-l / 2} L${R(5, 9)} 0 L${R(2, 5)} ${l / 2} L${-R(4, 7)} ${l * .3} L${-R(3, 6)} ${-l * .2} Z`, m, {cx:0, hw:3, sw:2.4}); },
+  flake:(m) => { const r = R(9, 14); return shaded(poly(ngon(5, r, R(0, 1)).map(p => [p[0], p[1] * .6])), m, {cx:0, hw:4, sw:2.2}); },
+  bonebit:(m) => { const l = R(20, 32); return shaded(`M${-l / 2} -4 C${-l / 2 - 6} -10 ${-l / 2 + 4} -12 ${-l / 2 + 6} -5 L${l / 2 - 6} -5 C${l / 2 - 4} -12 ${l / 2 + 6} -10 ${l / 2} -4 C${l / 2 + 6} 2 ${l / 2 - 4} 8 ${l / 2 - 6} 3 L${-l / 2 + 6} 3 C${-l / 2 + 4} 8 ${-l / 2 - 6} 2 ${-l / 2} -4 Z`, m, {cx:0, hw:4, sw:2.4}); },
+  tuft:(m) => { let s = ""; for (let i = 0; i < 5; i++){ const a = R(-1.2, 1.2); s += `<path d="M0 6 Q${f1(Math.sin(a) * 10)} -6 ${f1(Math.sin(a) * 20)} -16" fill="none" stroke="${m.b}" stroke-width="4" stroke-linecap="round"/><path d="M0 6 Q${f1(Math.sin(a) * 10)} -6 ${f1(Math.sin(a) * 20)} -16" fill="none" stroke="${m.o}" stroke-width="1" opacity=".5"/>`; } return s; },
+  ball:(m) => { const r = R(12, 18); return roundShade(circleP(0, 0, r), m, 0, 0, r, `<path d="M${-r} 0 C${-r * .5} ${-r * .6} ${r * .5} ${r * .6} ${r} 0 M0 ${-r} C${-r * .6} ${-r * .4} ${r * .6} ${r * .4} 0 ${r}" fill="none" stroke="${m.o}" stroke-width="1.4" opacity=".5"/>`, 2.4); },
+  scrap:(m) => { const w = R(22, 34), h = R(14, 22); return shaded(`M${-w / 2} ${-h / 2} L${w / 2 - 4} ${-h / 2 - 3} L${w / 2} ${h / 2 - 2} L${-w / 2 + 6} ${h / 2} Z`, m, {cx:0, hw:5, sw:2.4, extra:`<path d="M${-w / 2 + 4} ${-h / 2 + 4} L${w / 2 - 6} ${h / 2 - 4}" stroke="${m.o}" stroke-width="1" stroke-dasharray="2 3" opacity=".6"/>`}); },
+  feather:(m) => { const l = R(30, 44); return shaded(`M0 ${-l / 2} C10 ${-l / 4} 10 ${l / 4} 0 ${l / 2} C-10 ${l / 4} -10 ${-l / 4} 0 ${-l / 2} Z`, m, {cx:0, hw:3, sw:2.2}) + `<path d="M0 ${-l / 2 + 4} L0 ${l / 2}" stroke="${m.o}" stroke-width="1.4" opacity=".7"/>`; },
+  drop:(m) => { const r = R(9, 13); return roundShade(`M0 ${-r * 1.5} C${r} ${-r * .4} ${r} ${r * .6} 0 ${r} C${-r} ${r * .6} ${-r} ${-r * .4} 0 ${-r * 1.5} Z`, m, 0, 0, r, "", 2.4); },
+  leaf:(m) => { const l = R(22, 32); return shaded(`M0 ${-l / 2} C${l * .5} ${-l * .3} ${l * .5} ${l * .3} 0 ${l / 2} C${-l * .5} ${l * .3} ${-l * .5} ${-l * .3} 0 ${-l / 2} Z`, m, {cx:0, hw:4, sw:2.2}) + `<path d="M0 ${-l / 2 + 3} L0 ${l / 2 - 3}" stroke="${m.o}" stroke-width="1.2" opacity=".6"/>`; }
+};
+const MATERIALS = [
+  {n:"Oak scraps", piece:"splinter", m:WOOD[0], count:[3, 5]}, {n:"Birch scraps", piece:"splinter", m:WOOD[1], count:[3, 5]}, {n:"Pine scraps", piece:"splinter", m:WOOD[2], count:[3, 5]},
+  {n:"Driftwood bits", piece:"splinter", m:WOOD[3], count:[3, 4]}, {n:"Ironbark chips", piece:"shard", m:WOOD[6], count:[3, 5]},
+  {n:"Iron filings", piece:"nugget", m:METAL[0], count:[4, 6]}, {n:"Bronze bits", piece:"nugget", m:METAL[1], count:[3, 5]}, {n:"Steel shavings", piece:"shard", m:METAL[2], count:[4, 6]},
+  {n:"Moonsilver flakes", piece:"flake", m:METAL[3], count:[3, 5]}, {n:"Sunsteel grains", piece:"nugget", m:METAL[4], count:[4, 6]}, {n:"Emberstone chips", piece:"shard", m:METAL[5], count:[3, 5]},
+  {n:"Mossjade chips", piece:"shard", m:METAL[6], count:[3, 5]}, {n:"Frostglass shards", piece:"shard", m:METAL[7], count:[3, 5]}, {n:"Obsidian flakes", piece:"flake", m:METAL[8], count:[3, 5]},
+  {n:"Bone shards", piece:"bonebit", m:BONES[0], count:[2, 4]}, {n:"Old bone bits", piece:"bonebit", m:BONES[1], count:[2, 4]}, {n:"Charred bone", piece:"bonebit", m:BONES[2], count:[2, 3]}, {n:"Gilded bone", piece:"bonebit", m:BONES[3], count:[2, 3]},
+  {n:"Twine ball", piece:"ball", m:TWINE, count:[1, 1]}, {n:"Moss clump", piece:"tuft", m:{b:"#6f9a3a", s:"#3e6a20", l:"#b8e07a", o:"#1e3010"}, count:[3, 4]}, {n:"Dry grass", piece:"tuft", m:{b:"#d9b85a", s:"#9c7a2a", l:"#ffe6a0", o:"#3a2a08"}, count:[3, 4]},
+  {n:"Leather scrap", piece:"scrap", m:{b:"#9a5a34", s:"#5e3420", l:"#c88a5a", o:"#24120a"}, count:[2, 3]}, {n:"Hide scrap", piece:"scrap", m:{b:"#c9a06a", s:"#96703e", l:"#eccfa0", o:"#3a2410"}, count:[2, 3]}, {n:"Cloth strip", piece:"scrap", m:{b:"#4f9a5a", s:"#2e6638", l:"#93d49b", o:"#0e2412"}, count:[2, 3]},
+  {n:"Feathers", piece:"feather", m:{b:"#8a6a4a", s:"#54402a", l:"#c8a888", o:"#1e1208"}, count:[2, 3]}, {n:"Owl feathers", piece:"feather", m:{b:"#ece4d2", s:"#b8a888", l:"#ffffff", o:"#3a3226"}, count:[2, 3]},
+  {n:"Pine resin", piece:"drop", m:{b:"#f3c64e", s:"#c48a1c", l:"#fff2b8", o:"#3f2a06"}, count:[2, 3]}, {n:"Dew drops", piece:"drop", m:{b:"#9fe8f2", s:"#56bccd", l:"#f2feff", o:"#163a44"}, count:[3, 4]},
+  {n:"Clover leaves", piece:"leaf", m:{b:"#5ac06a", s:"#2a8a3a", l:"#c4ffcc", o:"#0a3014"}, count:[3, 4]}, {n:"Dry leaves", piece:"leaf", m:{b:"#d0703a", s:"#8a4018", l:"#ffb080", o:"#3a1408"}, count:[3, 4]}
+];
+function material(seed, o = {}){
+  rng = seeded("m" + seed);
+  const mi = o.mat ?? RI(0, MATERIALS.length - 1), M = MATERIALS[mi], n = o.count ?? RI(M.count[0], M.count[1]), id = "s" + (++UID);
+  let inner = "";
+  const spots = []; for (let i = 0; i < n; i++){ const a = i / n * Math.PI * 2 + R(-.4, .4), rr = n === 1 ? 0 : R(10, 26); spots.push([Math.cos(a) * rr, Math.sin(a) * rr * .7 + 6, R(-40, 40)]); }
+  spots.sort((a, b) => a[1] - b[1]).forEach(([x, y, rot]) => { inner += `<g transform="translate(${f1(x)} ${f1(y)}) rotate(${f1(rot)})">${PIECES[M.piece](M.m)}</g>`; });
+  inner = `<g transform="scale(1.45)">${inner}</g>`;
+  const rk = o.rk || (["Moonsilver flakes", "Sunsteel grains", "Gilded bone", "Obsidian flakes"].includes(M.n) ? "rare" : ["Emberstone chips", "Mossjade chips", "Frostglass shards", "Owl feathers", "Pine resin"].includes(M.n) ? "uncommon" : "common");
+  return {svg: frame(id, rk, inner, {label:M.n}), name:M.n, rk, parts:{material:M.n, pieces:n}, code:"m" + B36[mi] + n};
+}
+return {brew, gem, food, material, BREW_TYPES, BOTTLES, STOPPERS, TAGS, GEM_TYPES, CUTS, FOODS, MATERIALS, RARS};
+})();
+if (typeof module !== "undefined") module.exports = STILL;

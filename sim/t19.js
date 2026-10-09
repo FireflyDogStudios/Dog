@@ -1,0 +1,14 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const p=await b.newPage({viewport:{width:900,height:900}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<12;i++) await p.evaluate(()=>__advance(10000));
+ console.log(await p.evaluate(()=>__E('[999999,12345,786534.85e9,1e33,1e99].map(fmtMeat).join(" | ")')));
+ await p.evaluate(()=>__E(`(()=>{B.trial={zone:'meadow',meta:true,wave:1,pts:0,kills:0,waveEnd:Date.now()+60000,energy:100,lastT:Date.now(),loot:[],bossDue:false,tp:0}; feed("🐗","Tusk Boar down! +1.2K meats","#ffd34d"); feed("🪙","A rare Dingo Coin dropped!"); })()`));
+ for(let i=0;i<3;i++) await p.evaluate(()=>__advance(1000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.mailnote,.sos-ov").forEach(e=>e.remove()));
+ await p.screenshot({path:'sim/t19.png', clip:{x:0,y:300,width:900,height:300}});
+ for(let i=0;i<30;i++) await p.evaluate(()=>__advance(1000));
+ console.log('meta', await p.evaluate(()=>__E('JSON.stringify({e:Math.round(B.trial?B.trial.energy:-1),k:B.trial&&B.trial.kills, flies:document.querySelectorAll(".meatfly").length})')));
+ console.log('errs',errs.slice(0,5), await p.evaluate(()=>window.__errs||[]));
+ await b.close();})();

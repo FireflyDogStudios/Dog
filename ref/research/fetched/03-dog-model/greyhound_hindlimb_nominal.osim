@@ -1,0 +1,3071 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSimDocument Version="30000">
+	<Model name="2018_Greyhound_Hindlimb_Model_Nominal">
+		<defaults>
+			<Millard2012EquilibriumMuscle name="default">
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>0.02</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>1</max_control>
+				<!--The set of points defining the path of the muscle.-->
+				<GeometryPath>
+					<!--All properties of this object have their default values.-->
+				</GeometryPath>
+				<!--The maximum force this actuator can produce.-->
+				<optimal_force>1</optimal_force>
+				<!--Maximum isometric force that the fibers can generate-->
+				<max_isometric_force>10</max_isometric_force>
+				<!--Optimal length of the muscle fibers-->
+				<optimal_fiber_length>0.1</optimal_fiber_length>
+				<!--Resting length of the tendon-->
+				<tendon_slack_length>0.1</tendon_slack_length>
+				<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+				<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+				<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
+				<max_contraction_velocity>12</max_contraction_velocity>
+				<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
+				<ignore_tendon_compliance>false</ignore_tendon_compliance>
+				<!--Compute muscle dynamics ignoring activation dynamics. Activation is equivalent to excitation.-->
+				<ignore_activation_dynamics>false</ignore_activation_dynamics>
+				<!--The linear damping of the fiber.-->
+				<fiber_damping>0.01</fiber_damping>
+				<!--Assumed initial activation level if none is assigned.-->
+				<default_activation>0.05</default_activation>
+				<!--Activation time constant (in seconds).-->
+				<activation_time_constant>0.01</activation_time_constant>
+				<!--Deactivation time constant (in seconds).-->
+				<deactivation_time_constant>0.015</deactivation_time_constant>
+				<!--Activation lower bound.-->
+				<minimum_activation>0.02</minimum_activation>
+				<!--Active-force-length curve.-->
+				<ActiveForceLengthCurve>
+					<!--Normalized fiber length where the steep ascending limb starts-->
+					<min_norm_active_fiber_length>0.4441</min_norm_active_fiber_length>
+					<!--Normalized fiber length where the steep ascending limb transitions to the shallow ascending limb-->
+					<transition_norm_fiber_length>0.73</transition_norm_fiber_length>
+					<!--Normalized fiber length where the descending limb ends-->
+					<max_norm_active_fiber_length>1.8123</max_norm_active_fiber_length>
+					<!--Slope of the shallow ascending limb-->
+					<shallow_ascending_slope>0.8616</shallow_ascending_slope>
+					<!--Minimum value of the active-force-length curve-->
+					<minimum_value>0</minimum_value>
+				</ActiveForceLengthCurve>
+				<!--Force-velocity curve.-->
+				<ForceVelocityCurve>
+					<!--Curve slope at the maximum normalized concentric (shortening) velocity (normalized velocity of -1)-->
+					<concentric_slope_at_vmax>0</concentric_slope_at_vmax>
+					<!--Curve slope just before reaching concentric_slope_at_vmax-->
+					<concentric_slope_near_vmax>0.25</concentric_slope_near_vmax>
+					<!--Curve slope at isometric (normalized velocity of 0)-->
+					<isometric_slope>5</isometric_slope>
+					<!--Curve slope at the maximum normalized eccentric (lengthening) velocity (normalized velocity of 1)-->
+					<eccentric_slope_at_vmax>0</eccentric_slope_at_vmax>
+					<!--Curve slope just before reaching eccentric_slope_at_vmax-->
+					<eccentric_slope_near_vmax>0.15</eccentric_slope_near_vmax>
+					<!--Curve value at the maximum normalized eccentric contraction velocity-->
+					<max_eccentric_velocity_force_multiplier>1.4</max_eccentric_velocity_force_multiplier>
+					<!--Concentric curve shape, from linear (0) to maximal curve (1)-->
+					<concentric_curviness>0.6</concentric_curviness>
+					<!--Eccentric curve shape, from linear (0) to maximal curve (1)-->
+					<eccentric_curviness>0.9</eccentric_curviness>
+				</ForceVelocityCurve>
+				<!--Passive-force-length curve.-->
+				<FiberForceLengthCurve>
+					<!--Fiber strain at zero force-->
+					<strain_at_zero_force>0</strain_at_zero_force>
+					<!--Fiber strain at a tension of 1 normalized force-->
+					<strain_at_one_norm_force>0.5</strain_at_one_norm_force>
+					<!--Fiber stiffness at the end of the low-force region-->
+					<stiffness_at_low_force></stiffness_at_low_force>
+					<!--Fiber stiffness at a tension of 1 normalized force-->
+					<stiffness_at_one_norm_force></stiffness_at_one_norm_force>
+					<!--Fiber curve bend, from linear (0) to maximum bend (1)-->
+					<curviness></curviness>
+				</FiberForceLengthCurve>
+				<!--Tendon-force-length curve.-->
+				<TendonForceLengthCurve>
+					<!--Tendon strain at a tension of 1 normalized force-->
+					<strain_at_one_norm_force>0.049</strain_at_one_norm_force>
+					<!--Tendon stiffness at a tension of 1 normalized force-->
+					<stiffness_at_one_norm_force></stiffness_at_one_norm_force>
+					<!--Normalized force developed at the end of the toe region-->
+					<norm_force_at_toe_end></norm_force_at_toe_end>
+					<!--Tendon curve bend, from linear (0) to maximum bend (1)-->
+					<curviness></curviness>
+				</TendonForceLengthCurve>
+			</Millard2012EquilibriumMuscle>
+		</defaults>
+		<!--See the credits section below for information about this model's authors, data sources, intended uses, and more.
+		See the publications section for the paper(s) you should cite when using this model. Do not remove either section if you modify or add to this model.
+		If you are this model's author(s), add or update the credits and publications sections before distributing your model.-->
+		<credits>Richard G. Ellis, Jeffery W. Rankin, and John R. Hutchinson</credits>
+		<publications>Ellis, RG, Rankin, JW, and JR Hutchinson (2018). Limb kinematics, kinetics and muscle dynamics during the sit-to-stand transition in greyhounds. Frontiers in Bioengineering and Biotechnology</publications>
+		<length_units>meters</length_units>
+		<force_units>N</force_units>
+		<!--Acceleration due to gravity.-->
+		<gravity> 0 0 -9.80665</gravity>
+		<!--Bodies in the model.-->
+		<BodySet>
+			<objects>
+				<Body name="ground">
+					<mass>0</mass>
+					<mass_center> 0 0 0</mass_center>
+					<inertia_xx>0</inertia_xx>
+					<inertia_yy>0</inertia_yy>
+					<inertia_zz>0</inertia_zz>
+					<inertia_xy>0</inertia_xy>
+					<inertia_xz>0</inertia_xz>
+					<inertia_yz>0</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint />
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects />
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 1 1 1</scale_factors>
+						<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+						<transform> -0 0 -0 0 0 0</transform>
+						<!--Whether to show a coordinate frame-->
+						<show_axes>false</show_axes>
+						<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+						<display_preference>4</display_preference>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects />
+						<groups />
+					</WrapObjectSet>
+				</Body>
+				<Body name="Body">
+					<mass>16.5687123184988</mass>
+					<mass_center> 0.284999 0 -0.0964548</mass_center>
+					<inertia_xx>0.0192959598896292</inertia_xx>
+					<inertia_yy>0.0217956264826463</inertia_yy>
+					<inertia_zz>0.328793965361749</inertia_zz>
+					<inertia_xy>0</inertia_xy>
+					<inertia_xz>0</inertia_xz>
+					<inertia_yz>0</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="GndtoBod">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>ground</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0 0 0</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="Gnd_Rx">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-3.14159265359 3.14159265359</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Gnd_Ry">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-3.14159265359 3.14159265359</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Gnd_Rz">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-3.14159265359 3.14159265359</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Gnd_Tx">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-10 10</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Gnd_Ty">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-10 10</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Gnd_Tz">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0.675</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-10 10</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+								<groups />
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Gnd_Rx</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Gnd_Ry</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Gnd_Rz</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Gnd_Tx</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Gnd_Ty</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Gnd_Tz</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>PelvisTail.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 0.81 0.81 0.81</scale_factors>
+						<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+						<transform> -0 0 -0 0 0 0</transform>
+						<!--Whether to show a coordinate frame-->
+						<show_axes>false</show_axes>
+						<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+						<display_preference>4</display_preference>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects>
+							<WrapEllipsoid name="GlutesVolume">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.239634 1.0279 2.90786</xyz_body_rotation>
+								<translation> -0.0081 0.02268 -0.06075</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0.239634 1.0279 2.90786 -0.0081 0.02268 -0.06075</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<dimensions> 0.02187 0.02187 0.0486</dimensions>
+							</WrapEllipsoid>
+							<WrapCylinder name="Pelvis1">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.45595 1.30481 -1.28788</xyz_body_rotation>
+								<translation> -0.050382 0.033372 -0.085212</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 1.45595 1.30481 -1.28788 -0.050382 0.033372 -0.085212</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<radius>0.00486</radius>
+								<length>0.081</length>
+							</WrapCylinder>
+						</objects>
+						<groups />
+					</WrapObjectSet>
+				</Body>
+				<Body name="Thigh">
+					<mass>2.24707428061854</mass>
+					<mass_center> -0.0110538 0.0132379 -0.085917</mass_center>
+					<inertia_xx>0.00672914427559111</inertia_xx>
+					<inertia_yy>0.00865053028832124</inertia_yy>
+					<inertia_zz>0.00424607154397968</inertia_zz>
+					<inertia_xy>-0.000103750881704932</inertia_xy>
+					<inertia_xz>-0.0004170510677752</inertia_xz>
+					<inertia_yz>-0.000206094904624332</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="Hip">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>Body</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>-0.02179143 0.03598182 -0.0810486</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="Hip_Rx">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-0.2617994 0.7853982</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Hip_Ry">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-0.523599</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-2.0943951 0.610866</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Hip_Rz">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-0.5235988 0.698131701</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+								<groups />
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Hip_Rx</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Hip_Ry</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Hip_Rz</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<MultiplierFunction>
+											<function>
+												<Constant>
+													<value>0</value>
+												</Constant>
+											</function>
+											<scale>0.81</scale>
+										</MultiplierFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<MultiplierFunction>
+											<function>
+												<Constant>
+													<value>0</value>
+												</Constant>
+											</function>
+											<scale>0.81</scale>
+										</MultiplierFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<MultiplierFunction>
+											<function>
+												<Constant>
+													<value>0</value>
+												</Constant>
+											</function>
+											<scale>0.81</scale>
+										</MultiplierFunction>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>Femur.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>Patella.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 0.89 0.89 0.89</scale_factors>
+						<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+						<transform> -0 0 -0 0 0 0</transform>
+						<!--Whether to show a coordinate frame-->
+						<show_axes>false</show_axes>
+						<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+						<display_preference>4</display_preference>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects>
+							<WrapCylinder name="FemurShaft">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.0181514 -0.216421 -0.010821</xyz_body_rotation>
+								<translation> 0.008099 0.014596 -0.078142</translation>
+								<active>true</active>
+								<quadrant>all</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0.0181514 -0.216421 -0.010821 0.008099 0.014596 -0.078142</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<radius>0.01068</radius>
+								<length>0.1602</length>
+							</WrapCylinder>
+							<WrapCylinder name="FemurNeck">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0.621337 0.026529 -0.476824</xyz_body_rotation>
+								<translation> 0.008455 0.018957 0.006764</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 0.621337 0.026529 -0.476824 0.008455 0.018957 0.006764</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<radius>0.02225</radius>
+								<length>0.267</length>
+							</WrapCylinder>
+							<WrapCylinder name="Knee">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.51285 -0.0965167 -2.60857</xyz_body_rotation>
+								<translation> 0.007565 0.014418 -0.17889</translation>
+								<active>true</active>
+								<quadrant>y</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 1.51285 -0.0965167 -2.60857 0.007565 0.014418 -0.17889</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<radius>0.02581</radius>
+								<length>0.445</length>
+							</WrapCylinder>
+							<WrapCylinder name="KneeBack">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.5708 0 0</xyz_body_rotation>
+								<translation> 0.025365 0.007565 -0.166697</translation>
+								<active>true</active>
+								<quadrant>-x</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 1.5708 0 0 0.025365 0.007565 -0.166697</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<radius>0.0623</radius>
+								<length>0.267</length>
+							</WrapCylinder>
+							<WrapEllipsoid name="KneeLateral">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0 0.937765 0</xyz_body_rotation>
+								<translation> 0.005073 0.011303 -0.147384</translation>
+								<active>true</active>
+								<quadrant>all</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 0 0.937765 0 0.005073 0.011303 -0.147384</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<dimensions> 0.089 0.02937 0.0356</dimensions>
+							</WrapEllipsoid>
+							<WrapEllipsoid name="FemurNeckSmall">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 2.07136 -0.08029 -3.03251</xyz_body_rotation>
+								<translation> -0.003026 0.002937 -0.004628</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 2.07136 -0.08029 -3.03251 -0.003026 0.002937 -0.004628</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<dimensions> 0.00979 0.03115 0.0089</dimensions>
+							</WrapEllipsoid>
+							<WrapEllipsoid name="Ball">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.653626 1.41546 0.535467</xyz_body_rotation>
+								<translation> -0.000712 0.000445 0.001424</translation>
+								<active>true</active>
+								<quadrant>all</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0.653626 1.41546 0.535467 -0.000712 0.000445 0.001424</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<dimensions> 0.01068 0.01068 0.01068</dimensions>
+							</WrapEllipsoid>
+							<WrapCylinder name="FemurNeck2">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0.861145 0.0801106 -1.35804</xyz_body_rotation>
+								<translation> -0.001691 0.01157 -0.005518</translation>
+								<active>true</active>
+								<quadrant>all</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 0.861145 0.0801106 -1.35804 -0.001691 0.01157 -0.005518</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<radius>0.00801</radius>
+								<length>0.0267</length>
+							</WrapCylinder>
+							<WrapCylinder name="CondylesSmall">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.51146 -0.126536 -0.440172</xyz_body_rotation>
+								<translation> -0.003115 0.007832 -0.189748</translation>
+								<active>true</active>
+								<quadrant>-x</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 1.51146 -0.126536 -0.440172 -0.003115 0.007832 -0.189748</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<radius>0.00979</radius>
+								<length>0.089</length>
+							</WrapCylinder>
+							<WrapCylinder name="CondylesLarge">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.51146 -0.126536 -0.440172</xyz_body_rotation>
+								<translation> -0.002848 0.00801 -0.188591</translation>
+								<active>true</active>
+								<quadrant>-x</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 1.51146 -0.126536 -0.440172 -0.002848 0.00801 -0.188591</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<radius>0.01424</radius>
+								<length>0.089</length>
+							</WrapCylinder>
+							<WrapEllipsoid name="SConstraint">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.50657 -0.173137 3.08819</xyz_body_rotation>
+								<translation> -0.024564 -0.092293 -0.004361</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<VisibleObject>
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+									<GeometrySet>
+										<objects />
+										<groups />
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> 1.50657 -0.173137 3.08819 -0.024564 -0.092293 -0.004361</transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes>false</show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+									<display_preference>4</display_preference>
+								</VisibleObject>
+								<dimensions> 0.0267 0.0445 0.267</dimensions>
+							</WrapEllipsoid>
+						</objects>
+						<groups />
+					</WrapObjectSet>
+				</Body>
+				<Body name="Shank">
+					<mass>0.387309285238868</mass>
+					<mass_center> -0.00375995 -0.00139855 -0.0739001</mass_center>
+					<inertia_xx>0.000811699532094785</inertia_xx>
+					<inertia_yy>0.000880910487273103</inertia_yy>
+					<inertia_zz>0.000140382164967464</inertia_zz>
+					<inertia_xy>9.46461016151107e-006</inertia_xy>
+					<inertia_xz>4.58333536303352e-005</inertia_xz>
+					<inertia_yz>-7.14601908128542e-005</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="Knee">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>Thigh</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0.00167498 0.01187438 -0.1855383</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="Knee_Rx">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-0.08727 0.08727</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>true</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Knee_Ry">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0.872664626</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-0 2.35619449</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Knee_Rz">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-0.08727 0.08727</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>true</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+								<groups />
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Knee_Rx</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Knee_Ry</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Knee_Rz</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<MultiplierFunction>
+											<function>
+												<Constant>
+													<value>0</value>
+												</Constant>
+											</function>
+											<scale>0.89</scale>
+										</MultiplierFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<MultiplierFunction>
+											<function>
+												<Constant>
+													<value>0</value>
+												</Constant>
+											</function>
+											<scale>0.89</scale>
+										</MultiplierFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<MultiplierFunction>
+											<function>
+												<Constant>
+													<value>0</value>
+												</Constant>
+											</function>
+											<scale>0.89</scale>
+										</MultiplierFunction>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>TibFib.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 0.76 0.76 0.76</scale_factors>
+						<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+						<transform> -0 0 -0 0 0 0</transform>
+						<!--Whether to show a coordinate frame-->
+						<show_axes>false</show_axes>
+						<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+						<display_preference>4</display_preference>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects />
+						<groups />
+					</WrapObjectSet>
+				</Body>
+				<Body name="Foot">
+					<mass>0.152904115643841</mass>
+					<mass_center> -0.0044194 -0.00938184 -0.065942</mass_center>
+					<inertia_xx>0.000392070411040187</inertia_xx>
+					<inertia_yy>0.000383238008239818</inertia_yy>
+					<inertia_zz>2.36273116382317e-005</inertia_zz>
+					<inertia_xy>3.27727295177414e-006</inertia_xy>
+					<inertia_xz>1.20031390153214e-005</inertia_xz>
+					<inertia_yz>-5.93155965203456e-005</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="Ankle">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>Shank</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0.00196232 -0.0151506 -0.197942</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="Ankle_Rx">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-0.08727 0.08727</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>true</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Ankle_Ry">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-0.7854</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-2.35619449 -0.2618</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="Ankle_Rz">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-0.08727 0.08727</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>true</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+								<groups />
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Ankle_Rx</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Ankle_Ry</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>Ankle_Rz</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<MultiplierFunction>
+											<function>
+												<Constant>
+													<value>0</value>
+												</Constant>
+											</function>
+											<scale>0.76</scale>
+										</MultiplierFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<MultiplierFunction>
+											<function>
+												<Constant>
+													<value>0</value>
+												</Constant>
+											</function>
+											<scale>0.76</scale>
+										</MultiplierFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<MultiplierFunction>
+											<function>
+												<Constant>
+													<value>0</value>
+												</Constant>
+											</function>
+											<scale>0.76</scale>
+										</MultiplierFunction>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>Tarsals.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>Toes.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 0.78 0.78 0.78</scale_factors>
+						<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+						<transform> -0 0 -0 0 0 0</transform>
+						<!--Whether to show a coordinate frame-->
+						<show_axes>false</show_axes>
+						<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+						<display_preference>4</display_preference>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects />
+						<groups />
+					</WrapObjectSet>
+				</Body>
+			</objects>
+			<groups />
+		</BodySet>
+		<!--Constraints in the model.-->
+		<ConstraintSet>
+			<objects />
+			<groups />
+		</ConstraintSet>
+		<!--Forces in the model.-->
+		<ForceSet>
+			<objects>
+				<Millard2012EquilibriumMuscle name="GMed">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="GMed-P1">
+									<location> 0.0110322 0.0297675 -0.028026</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="GMed-P2">
+									<location> -0.0031684 0.0291119 0.0059808</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>GlutesVolume</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>723.3</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0329667456382224</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.0296700710744002</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.174532925199</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0329667456382224</default_fiber_length>					
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="GInt">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="GInt-P1">
+									<location> -0.0118341 0.0321408 -0.060183</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="GInt-P2">
+									<location> 0.001424 0.0149164 0.0013172</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>128</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0172982021605234</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.00590467477594788</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.13962634016</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0172982021605234</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="GSup">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="GSup-P1">
+									<location> -0.0339714 0.0175446 -0.0405648</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="GSup-P2">
+									<location> -0.0122731 0.0261215 0.0023229</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>GlutesVolume</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>113</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0423358210062934</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.0116903647749134</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.380481776935</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0423358210062934</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="ObtExt">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="ObtExt-P1">
+									<location> -0.0468504 0.0345141 -0.0797121</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="ObtExt-P2">
+									<location> -0.0057761 0.0212977 -0.0037736</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>FemurNeckSmall</wrap_object>
+									<method>hybrid</method>
+									<range> -1 -1</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>56.7</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0421924424661059</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>8.42164520281556e-005</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0421924424661059</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="ObtInt">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="ObtInt-P1">
+									<location> -0.0381024 0.0203715 -0.0950292</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="ObtInt-P2">
+									<location> -0.0334935 0.0302373 -0.0917406</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="ObtInt-P3">
+									<location> -0.0068797 0.0211108 -0.0032752</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Ball</wrap_object>
+									<method>hybrid</method>
+									<range> 2 3</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>FemurNeck2</wrap_object>
+									<method>hybrid</method>
+									<range> 2 3</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>106</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0191565773454178</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.0185658458854269</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0191565773454178</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="AddBrev">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="AddBrev-P1">
+									<location> -0.0219672 0.0139077 -0.0988281</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="AddBrev-P2">
+									<location> -0.0049929 0.0042186 -0.0292187</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>103.3</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.024979388348834</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.00603243732233747</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.116413461108</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.024979388348834</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="AddMag">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="AddMag-P1">
+									<location> -0.0560763 0.0146043 -0.0987957</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="AddMag-P2">
+									<location> 0.0100748 0.0155839 -0.13876</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>423.3</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.109867153214533</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.0146782516694616</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.109867153214533</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="Pect">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="Pect-P1">
+									<location> -0.008019 0.0204849 -0.0913437</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="Pect-P2">
+									<location> 0.0149075 0.0055981 -0.148434</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>128</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0159996953130869</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.122334748995007</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.247836753783</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0159996953130869</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="Sart">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="Sart-P1">
+									<location> 0.048357 0.0458379 -0.0440154</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="Sart-P2">
+									<location> 0.0391778 0.0010769 -0.147322</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="Sart-P3">
+									<location> 0.0352796 0.0108936 -0.173755</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="Sart-P4">
+									<location> 0.0255816 -0.0044384 -0.0188936</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>FemurNeck</wrap_object>
+									<method>hybrid</method>
+									<range> -1 -1</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>Knee</wrap_object>
+									<method>hybrid</method>
+									<range> 3 4</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>71.8</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.173682289568482</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.0503678639748598</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.173682289568482</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="VL">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="VL-P1">
+									<location> 0.0011926 0.0270382 -0.0088911</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VL-P2">
+									<location> 0.0193041 0.0327253 -0.0372643</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VL-P3">
+									<location> 0.0246975 0.0299752 -0.0963781</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VL-P4">
+									<location> 0.0293077 0.0227484 -0.144091</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VL-P5">
+									<location> 0.0352796 0.0108936 -0.173755</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VL-P6">
+									<location> 0.0255816 -0.0044384 -0.0188936</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Knee</wrap_object>
+									<method>hybrid</method>
+									<range> 5 6</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>348.4</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0688289452942491</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.153858087636127</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.223402144255</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0688289452942491</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="VM">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="VM-P1">
+									<location> 0.0026255 0.0065415 -0.0115611</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VM-P2">
+									<location> 0.0145604 -0.0030438 -0.0271005</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VM-P3">
+									<location> 0.0232468 -0.0098879 -0.0639109</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VM-P4">
+									<location> 0.0276434 -0.0103151 -0.0982916</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VM-P5">
+									<location> 0.0242169 -0.0016287 -0.148861</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VM-P6">
+									<location> 0.0352796 0.0108936 -0.173755</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="VM-P7">
+									<location> 0.0255816 -0.0044384 -0.0188936</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Knee</wrap_object>
+									<method>hybrid</method>
+									<range> 6 7</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>187.8</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0755810714765837</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.149936030553779</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.249582083035</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0755810714765837</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="RF">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="RF-P1">
+									<location> -0.0084078 0.0360531 -0.0763668</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="RF-P2">
+									<location> 0.0307139 0.007565 -0.0123354</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="RF-P3">
+									<location> 0.0378962 0.00623 -0.0386349</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="RF-P4">
+									<location> 0.0381365 0.0123799 -0.138902</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="RF-P5">
+									<location> 0.0352796 0.0108936 -0.173755</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="RF-P6">
+									<location> 0.0255816 -0.0044384 -0.0188936</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Knee</wrap_object>
+									<method>hybrid</method>
+									<range> 5 6</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>350.3</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0484361554726421</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.188020348971074</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.209439510239</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0484361554726421</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="Sart2">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="Sart2-P1">
+									<location> 0.0446715 0.0435942 -0.0485757</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="Sart2-P2">
+									<location> 0.0208972 -0.0155661 -0.122028</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="Sart2-P3">
+									<location> 0.004256 -0.0152228 -0.031578</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>KneeLateral</wrap_object>
+									<method>hybrid</method>
+									<range> -1 -1</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>17.2</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.21253749157206</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.00517332636686555</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.21253749157206</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="TFL1">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="TFL1-P1">
+									<location> 0.048681 0.0481221 -0.0295326</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="TFL1-P2">
+									<location> 0.0326025 0.0499527 -0.0578421</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="TFL1-P3">
+									<location> 0.0341569 0.0453752 -0.0664065</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="TFL1-P4">
+									<location> 0.0339891 0.0279549 -0.150161</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="TFL1-P5">
+									<location> 0.0368905 0.0109025 -0.176585</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>388.9</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0236623398138651</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.205626606131559</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.558505360638</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0236623398138651</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="IP">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="IP-P1">
+									<location> 0.0680643 0.0180225 -0.048114</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="IP-P2">
+									<location> 7.12e-005 0.0037024 -0.0182628</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>FemurShaft</wrap_object>
+									<method>hybrid</method>
+									<range> -1 -1</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>FemurNeck</wrap_object>
+									<method>hybrid</method>
+									<range> -1 -1</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>251.6</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.052291175784003</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.0405357951813977</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.207694180987</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.052291175784003</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="QF">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="QF-P1">
+									<location> -0.0668412 0.0385398 -0.0902421</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="QF-P2">
+									<location> -0.0125401 0.015397 -0.0203899</location>
+									<body>Thigh</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>43.1</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0417663993447789</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.000577796038366507</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0417663993447789</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="Gra">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="Gra-P1">
+									<location> -0.064233 0.009558 -0.104927</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="Gra-P2">
+									<location> -0.0520383 -0.0231044 -0.112193</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="Gra-P3">
+									<location> 0.0033212 -0.01311 -0.0345496</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="Gra-P4">
+									<location> 0.023294 -0.0105792 -0.0406068</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>469.6</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0525658210258233</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.168280021105771</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0525658210258233</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="ST">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="ST-P1">
+									<location> -0.0651645 0.0526986 -0.0934335</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="ST-P2">
+									<location> 0.003344 -0.016416 -0.0397936</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="ST-P3">
+									<location> 0.02432 -0.009842 -0.0422256</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>SConstraint</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>KneeBack</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>162.3</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.157306995351405</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.0554091161379538</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.157306995351405</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="SM">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="SM-P1">
+									<location> -0.0785538 0.0269892 -0.0991602</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="SM-P2">
+									<location> 0.0066044 -0.0161272 -0.0254828</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="SM-P3">
+									<location> 0.023636 -0.0083524 -0.032832</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>SConstraint</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>228.7</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.182589098228676</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.009103689751759</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.182589098228676</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="BF1">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="BF1-P1">
+									<location> -0.0486567 0.0303831 -0.0729486</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="BF1-P2">
+									<location> -0.0546345 0.0455949 -0.0667359</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="BF1-P3">
+									<location> -0.0576801 0.0562707 -0.0693036</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="BF1-P5">
+									<location> 0.007654 0.0510949 -0.0339179</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="BF1-P6">
+									<location> 0.002964 0.0177308 -0.0215916</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>279.5</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.103746435115416</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.150432330917353</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.103746435115416</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="BF2">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="BF2-P1">
+									<location> -0.0486567 0.0303831 -0.0729486</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="BF2-P2">
+									<location> -0.0546345 0.0455949 -0.0667359</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="BF2-P3">
+									<location> -0.0576801 0.0562707 -0.0693036</location>
+									<body>Body</body>
+								</PathPoint>
+								<PathPoint name="BF2-P5">
+									<location> -0.0340959 0.0473124 -0.0200784</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="BF2-P6">
+									<location> 0.0003876 0.013338 -0.0565136</location>
+									<body>Shank</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>343.1</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.104795658249434</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.161917881803429</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.104795658249434</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="FDS">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="FDS-P1">
+									<location> -0.0027768 0.0118103 -0.179175</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="FDS-P2">
+									<location> -0.0145388 -0.005852 -0.118659</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="FDS-P3">
+									<location> -0.0137748 0.0081822 0.0210366</location>
+									<body>Foot</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>CondylesSmall</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>863</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0354137059866492</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.16232548495168</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.493928178314</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0354137059866492</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="GasL">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="GasL-P1">
+									<location> 0.0042275 0.0027412 -0.170542</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="GasL-P2">
+									<location> -0.0237804 -0.0107844 -0.0548188</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="GasL-P3">
+									<location> -0.0140372 -0.0059888 -0.118666</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="GasL-P4">
+									<location> -0.0141258 0.0070122 0.0209664</location>
+									<body>Foot</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>CondylesLarge</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>439.2</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.023635821327479</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.186638848022811</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.45081854579</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.023635821327479</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="GasM">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="GasM-P1">
+									<location> 0.0065059 0.023496 -0.17015</location>
+									<body>Thigh</body>
+								</PathPoint>
+								<PathPoint name="GasM-P2">
+									<location> -0.0257944 0.0083068 -0.0565592</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="GasM-P3">
+									<location> -0.0144856 -0.0067108 -0.118142</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="GasM-P4">
+									<location> -0.0142428 0.0078858 0.0208494</location>
+									<body>Foot</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>CondylesLarge</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>486.4</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0168819715759918</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.200264723603786</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.46425758103</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0168819715759918</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="TibCran">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="TibCran-P1">
+									<location> 0.020368 0.0009044 -0.027588</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="TibCran-P2">
+									<location> 0.014554 -0.0108756 -0.119244</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="TibCran-P3">
+									<location> 0.0168948 -0.0226404 -0.183441</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="TibCran-P4">
+									<location> -2.34e-005 -0.0159978 -0.0351624</location>
+									<body>Foot</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>56.56</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0824266275379581</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.0967749664056767</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.0872664626</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0824266275379581</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="ExtDigLong">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="ExtDigLong-P1">
+									<location> 0.011742 0.0030476 -0.0268052</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="ExtDigLong-P2">
+									<location> 0.0121752 -0.0012996 -0.139088</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="ExtDigLong-P3">
+									<location> 0.0113392 -0.0074936 -0.189202</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="ExtDigLong-P4">
+									<location> 0.003627 -0.0005538 -0.019851</location>
+									<body>Foot</body>
+								</PathPoint>
+								<PathPoint name="ExtDigLong-P5">
+									<location> 0.0061854 -0.0199602 -0.108896</location>
+									<body>Foot</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>88.1</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0394532149331893</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.234877116139221</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0394532149331893</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="PerLong">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="PerLong-P1">
+									<location> 0.0075544 0.0138472 -0.0237272</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="PerLong-P2">
+									<location> 0.0046588 0.0095836 -0.0896192</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="PerLong-P3">
+									<location> 0.0009272 -0.0034732 -0.194932</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="PerLong-P4">
+									<location> -0.0053196 0.0094692 -0.0117</location>
+									<body>Foot</body>
+								</PathPoint>
+								<PathPoint name="PerLong-P5">
+									<location> -0.0080418 0.0060138 -0.033618</location>
+									<body>Foot</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>60.1</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.0186966229777328</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.19017136514494</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.0186966229777328</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="ExtDigLat">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="ExtDigLat-P1">
+									<location> -0.0008208 0.0105032 -0.02698</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="ExtDigLat-P2">
+									<location> 0.0036176 0.0042788 -0.088578</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="ExtDigLat-P3">
+									<location> -0.0008588 -0.006118 -0.19225</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="ExtDigLat-P4">
+									<location> -0.003666 0.0097968 0.0042198</location>
+									<body>Foot</body>
+								</PathPoint>
+								<PathPoint name="ExtDigLat-P5">
+									<location> -0.0020514 -0.002808 -0.101767</location>
+									<body>Foot</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>24.5</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.00982725318958935</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.264184204885757</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.174532925199</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.00982725318958935</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+				<Millard2012EquilibriumMuscle name="FDP">
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<PathPointSet>
+							<objects>
+								<PathPoint name="FDP-P1">
+									<location> -0.0043396 0.0065588 -0.0231648</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="FDP-P2">
+									<location> -0.0024092 -0.0037164 -0.139027</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="FDP-P3">
+									<location> 0.0013756 -0.0001596 -0.194248</location>
+									<body>Shank</body>
+								</PathPoint>
+								<PathPoint name="FDP-P4">
+									<location> -0.007371 0.0073242 0.0020514</location>
+									<body>Foot</body>
+								</PathPoint>
+								<PathPoint name="FDP-P5">
+									<location> -0.012792 0.0085176 -0.0086034</location>
+									<body>Foot</body>
+								</PathPoint>
+								<PathPoint name="FDP-P6">
+									<location> -0.0038532 -0.0158418 -0.104863</location>
+									<body>Foot</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<VisibleObject>
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+						<PathWrapSet>
+							<objects />
+							<groups />
+						</PathWrapSet>
+					</GeometryPath>
+					<!--Maximum isometric force that the fibers can generate-->
+					<max_isometric_force>550</max_isometric_force>
+					<!--Optimal length of the muscle fibers-->
+					<optimal_fiber_length>0.01181936041939</optimal_fiber_length>
+					<!--Resting length of the tendon-->
+					<tendon_slack_length>0.280824933600961</tendon_slack_length>
+					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+					<pennation_angle_at_optimal>0.541052068118</pennation_angle_at_optimal>
+					<!--Assumed initial fiber length if none is assigned.-->
+					<default_fiber_length>0.01181936041939</default_fiber_length>
+				</Millard2012EquilibriumMuscle>
+			</objects>
+			<groups>
+				<ObjectGroup name="hip_abd">
+					<members> GInt GMed GSup TFL1</members>
+				</ObjectGroup>
+				<ObjectGroup name="hip_flex">
+					<members> AddMag GMed IP Pect RF Sart Sart2</members>
+				</ObjectGroup>
+				<ObjectGroup name="hip_inrot">
+					<members> AddBrev AddMag BF1 BF2 GMed Gra Pect Sart</members>
+				</ObjectGroup>
+				<ObjectGroup name="hip">
+					<members> AddBrev AddMag BF1 BF2 GInt GMed GSup Gra IP ObtExt ObtInt Pect QF RF SM ST Sart Sart2 TFL1</members>
+				</ObjectGroup>
+				<ObjectGroup name="hip_ext">
+					<members> BF1 BF2 GSup Gra ObtInt SM ST</members>
+				</ObjectGroup>
+				<ObjectGroup name="hip_extrot">
+					<members> GSup IP ObtExt ObtInt QF SM ST Sart2</members>
+				</ObjectGroup>
+				<ObjectGroup name="hip_add">
+					<members> AddBrev AddMag Pect QF</members>
+				</ObjectGroup>
+				<ObjectGroup name="knee">
+					<members> BF1 BF2 FDS GasL GasM Gra RF SM ST Sart Sart2 TFL1 VL VM</members>
+				</ObjectGroup>
+				<ObjectGroup name="knee_ext">
+					<members> RF Sart Sart2 VL VM</members>
+				</ObjectGroup>
+				<ObjectGroup name="knee_flex">
+					<members> BF1 BF2 GasL GasM Gra SM ST</members>
+				</ObjectGroup>
+				<ObjectGroup name="ank_ext">
+					<members> ExtDigLat ExtDigLong FDP FDS GasL GasM PerLong</members>
+				</ObjectGroup>
+				<ObjectGroup name="ankle">
+					<members> ExtDigLat ExtDigLong FDP FDS GasL GasM PerLong TibCran</members>
+				</ObjectGroup>
+				<ObjectGroup name="ank_flex">
+					<members> TibCran</members>
+				</ObjectGroup>
+				<ObjectGroup name="ank_evert">
+					<members> PerLong</members>
+				</ObjectGroup>
+			</groups>
+		</ForceSet>
+		<!--Markers in the model.-->
+		<MarkerSet />					
+		<!--ContactGeometries  in the model.-->
+		<ContactGeometrySet>
+			<objects />
+			<groups />
+		</ContactGeometrySet>
+		<!--Controllers in the model.-->
+		<ControllerSet name="Controllers">
+			<objects />
+			<groups />
+		</ControllerSet>
+		<!--Additional components in the model.-->
+		<ComponentSet name="MiscComponents">
+			<objects />
+			<groups />
+		</ComponentSet>
+		<!--Probes in the model.-->
+		<ProbeSet>
+			<objects />
+			<groups />
+		</ProbeSet>
+	</Model>
+</OpenSimDocument>

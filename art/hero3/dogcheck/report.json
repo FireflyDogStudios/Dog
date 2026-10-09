@@ -1,0 +1,207 @@
+{
+ "rig": "hero3",
+ "fails": 0,
+ "warns": 8,
+ "results": [
+  {
+   "check": "fit",
+   "level": "PASS",
+   "msg": "all 7 back-line points and 4 proportions in range (back error 0.009)"
+  },
+  {
+   "check": "pieces",
+   "level": "PASS",
+   "msg": "one connected silhouette in all 24 walk frames"
+  },
+  {
+   "check": "slivers",
+   "level": "PASS",
+   "msg": "no colour band thinner than 0.2 units and no stray fragments at rest"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (44.0, 7.8), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (24.0, 23.8), 0.03 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (37.1, 23.9), 0.03 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (37.6, 30.9), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (26.9, 21.5), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (35.1, 27.0), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (20.7, 27.8), 0.04 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (20.8, 32.4), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "attach",
+   "level": "PASS",
+   "msg": "every part is rooted in what it hangs from (least: skull 6%, tail 14%, hipN 29%)"
+  },
+  {
+   "check": "visible",
+   "level": "PASS",
+   "msg": "eye, nose and every named marking show in all checked frames"
+  },
+  {
+   "check": "topline",
+   "level": "PASS",
+   "msg": "above hip and shoulder height every leg stays inside the body, all walk frames"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "tailTop is partly drawn over by saddle 8%, body 3%, tailTip 17% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "bibTop is partly drawn over by fur@shN 16%, fur@foreN 11%, leg@foreN 4% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "bib is partly drawn over by chestFrontPale 100% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "chestFrontPale is partly drawn over by throat 5% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "belly is partly drawn over by fur@foreN 15% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "earIn is partly drawn over by neck 61% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "saddleNeck is partly drawn over by saddle 38% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "throat is partly drawn over by cheek 5% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "INFO",
+   "msg": "cheek is partly drawn over by nose 7% (check the edge that makes)"
+  },
+  {
+   "check": "markings",
+   "level": "PASS",
+   "msg": "11 markings stay inside their shapes, and no leg cuts into them while walking"
+  },
+  {
+   "check": "feet",
+   "level": "PASS",
+   "msg": "no paw below the ground (deepest 0.00)"
+  },
+  {
+   "check": "gait",
+   "level": "PASS",
+   "msg": "footfalls (left hind = 0): left fore 0.17 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.67; paws down fore 0.61, hind 0.59 of the stride (measured 0.56-0.68)"
+  },
+  {
+   "check": "feet",
+   "level": "PASS",
+   "msg": "planted paws move back at (ground units per stride): htoeF 20.0, ftoeF 20.0, htoeN 20.0, ftoeN 20.0 units"
+  },
+  {
+   "check": "joints",
+   "level": "PASS",
+   "msg": "shoulder: standing 112, walk 116–152; measured dog walk 121–153"
+  },
+  {
+   "check": "joints",
+   "level": "PASS",
+   "msg": "elbow: standing 145, walk 92–151; measured dog walk 98–153"
+  },
+  {
+   "check": "joints",
+   "level": "PASS",
+   "msg": "carpus: standing 186, walk 67–190; fox (hand-tracked) 64–214, dogs (5MC) 88–217"
+  },
+  {
+   "check": "joints",
+   "level": "PASS",
+   "msg": "wrist while the paw is down: 190–190 (holds, as the tracked fox does)"
+  },
+  {
+   "check": "joints",
+   "level": "PASS",
+   "msg": "stifle: standing 140, walk 116–144; measured dog walk 110–144"
+  },
+  {
+   "check": "joints",
+   "level": "PASS",
+   "msg": "tarsus: standing 145, walk 121–160; measured dog walk 119–160"
+  },
+  {
+   "check": "pattern",
+   "level": "PASS",
+   "msg": "shoulder: shape match 0.88 with walking dogs, 0.31 with the tracked fox (moves like the dogs; target 0.7)"
+  },
+  {
+   "check": "pattern",
+   "level": "PASS",
+   "msg": "elbow: shape match 0.85 with walking dogs, 0.71 with the tracked fox (moves like the dogs; target 0.7)"
+  },
+  {
+   "check": "pattern",
+   "level": "PASS",
+   "msg": "carpus: shape match 0.89 with walking dogs, 0.88 with the tracked fox (moves like the dogs; target 0.7)"
+  },
+  {
+   "check": "pattern",
+   "level": "PASS",
+   "msg": "stifle: shape match 0.84 with walking dogs (moves like the dogs; target 0.7)"
+  },
+  {
+   "check": "pattern",
+   "level": "PASS",
+   "msg": "tarsus: shape match 0.94 with walking dogs, 0.22 with the tracked fox (moves like the dogs; target 0.7)"
+  },
+  {
+   "check": "contrast",
+   "level": "PASS",
+   "msg": "against the meadow sand: fur 2.00, leg 1.84, saddle 3.96, pale 1.38, pale2 1.11"
+  },
+  {
+   "check": "preview",
+   "level": "INFO",
+   "msg": "walk.gif: 36 frames, one stride, ground marks scroll at the planted-paw speed"
+  }
+ ]
+}

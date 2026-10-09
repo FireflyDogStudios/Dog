@@ -1,0 +1,14 @@
+greyhound_hindlimb_nominal.osim (and the numbers derived from it in data.json / *.csv)
+
+Source: "Opensim model and simulation data: greyhound sit-to-stand", figshare, 2018.
+DOI 10.6084/m9.figshare.7240538.v2
+https://figshare.com/articles/dataset/Opensim_model_and_simulation_data_greyhound_sit-to-stand/7240538
+Model credits: Richard G. Ellis, Jeffery W. Rankin, John R. Hutchinson (Royal Veterinary College).
+Paper: Ellis RG, Rankin JW, Hutchinson JR (2018) Front. Bioeng. Biotechnol. 6:162. doi:10.3389/fbioe.2018.00162
+
+Licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+(The figshare record states this licence; the archive itself ships no licence file. The file is stored unmodified apart from its file name.)
+
+Article text/table numbers for the dog model (Stark et al. 2021, Sci Rep 11:11335) are CC BY 4.0:
+https://creativecommons.org/licenses/by/4.0/

@@ -1,0 +1,18 @@
+{
+  "build": "794e8bd",
+  "created": 1791581080239,
+  "joint": "root",
+  "lx": -2.179,
+  "lx2": 3.474,
+  "ly": 24.923,
+  "ly2": 25.452,
+  "part": "the body",
+  "phase": 0.442,
+  "rig": "hero5",
+  "sev": "should",
+  "standing": false,
+  "status": "open",
+  "tag": "Tail",
+  "text": "Strange 90 degree angle here on the tail",
+  "type": "arrow"
+}

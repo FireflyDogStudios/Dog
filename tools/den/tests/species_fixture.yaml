@@ -1,0 +1,14 @@
+# a test fixture for den species check (not a real species sheet)
+id: fixture_wolf
+name: Test wolf
+base: hero2
+research: {skeleton: gray_wolf, keypoints: wolf}
+numbers:
+  bones:
+    tibia_over_femur: {value: 1.04, unit: ratio, source: "Law et al. 2025 (ref/research/skeleton)", confidence: A, check: "skeleton:crural"}
+    radius_over_humerus: {value: 1.30, unit: ratio, source: "deliberately wrong, to prove the check catches it", confidence: EST, check: "skeleton:brachial"}
+  ratios:
+    head_over_height: {value: .39, unit: ratio, source: "AwA-Pose keypoints (ref/research/keypoints)", confidence: B, check: "keypoints:sheet_ratios/head : height"}
+  behaviour:
+    tail_wag: {value: 1.4, unit: Hz, source: "ref/research/motion", confidence: B}
+traits: [tail hangs low and straight]

@@ -1,0 +1,55 @@
+{
+ "hero5": [
+  {
+   "part": "eyeRim",
+   "kinds": [
+    "corner",
+    "thin"
+   ],
+   "why": "the eye is an almond: its two corners are points by design"
+  },
+  {
+   "part": "iris",
+   "kinds": [
+    "corner",
+    "thin"
+   ],
+   "why": "the iris follows the almond"
+  },
+  {
+   "part": "eye",
+   "kinds": [
+    "corner",
+    "thin"
+   ],
+   "why": "the pupil"
+  },
+  {
+   "part": "lips",
+   "kinds": [
+    "corner",
+    "thin"
+   ],
+   "why": "the mouth line tapers to its corner, and its front tucks into the parted lips"
+  },
+  {
+   "part": "noseTip",
+   "kinds": [
+    "corner"
+   ],
+   "why": "the nose pad"
+  },
+  {
+   "at": [
+    39.94,
+    13.96
+   ],
+   "r": 1.0,
+   "kinds": [
+    "corner",
+    "thin"
+   ],
+   "why": "round the almond eye: the fur meets its two points"
+  }
+ ]
+}

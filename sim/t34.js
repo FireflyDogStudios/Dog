@@ -1,0 +1,12 @@
+const { chromium } = require('playwright'); const fs=require('fs');
+(async()=>{ const b=await chromium.launch(); const W=+(process.argv[2]||1366); const p=await b.newPage({viewport:{width:W,height:768}}); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+ await p.addInitScript({content: fs.readFileSync('sim/warp.js','utf8')});
+ await p.goto('file://'+process.cwd()+'/sim/game.html'); await p.waitForTimeout(1500);
+ for(let i=0;i<6;i++) await p.evaluate(()=>__advance(5000));
+ await p.evaluate(()=>document.querySelectorAll(".welcomeov,.lvlup,.sos-ov").forEach(e=>e.remove()));
+ await p.evaluate(()=>__E(`(()=>{const z=Object.keys(ZONES)[0]; trialReady=()=>true; trialLvl=()=>0; startTrial(z); return !!B.trial})()`)).then(v=>console.log('trial',v)).catch(e=>console.log('st',String(e).slice(0,200)));
+ for(let i=0;i<8;i++) await p.evaluate(()=>__advance(500));
+ await p.screenshot({path:'sim/trial1.png'});
+ await p.evaluate(()=>__E(`B.trial.bossDue=true; B.enemies.slice().forEach(e=>hitEnemy(e,e.max*50))`)); for(let i=0;i<12;i++) await p.evaluate(()=>__advance(500));
+ await p.screenshot({path:'sim/trial2.png'});
+ console.log('errs',errs.slice(0,5)); await b.close();})();

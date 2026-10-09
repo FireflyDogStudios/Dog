@@ -1,0 +1,425 @@
+#!/usr/bin/env python3
+"""den: Firefly's kit V2, ONE command for the gear art. V1 (tools/lens, git tag kit-v1) stays untouched and every V1 tool is reachable from here.
+
+   python3 tools/den/den.py <command> [options]          (or `./den <command>` from the repo root)
+
+   look      shot | probe | export | piece | compile | place-band | measure | refoverlay | diff1      V1 tools, unchanged (passthrough)
+   check     lint [codes]        everything below in one run (V1 geometry lint + the V2 checks); non-zero exit on any failure
+             sweep [codes]       gait sweep: the ID pass at 16 gait phases on both dogs; holes (the dog's own leg showing between two gear pieces), visibility
+             order [codes]       draw order asserted from the render order (sock < sleeve < cuff, guard < rings, torso over legs, collar over torso)
+             xcheck [codes]      analytic vs rendered: for sample points, the topmost gear part computed from the data must match the ID pass
+             determinism [codes] the same code rendered twice from scratch must be pixel-identical (a stray Math.random fails this)
+             flush [codes]       numeric flush score per piece per dog (area outside the body, Hausdorff along the seat), against tools/den/baselines.json
+             legibility [codes]  line weights in pixels at game scale, and gear-vs-coat colour contrast (CIEDE2000)
+             gait                joint angles through the walk against sourced canine limits, and planted paws must not slide
+             sample [n]          n random codes across every kind through lint (the code space is large; this samples it)
+   species   species [names] [--sheet wolf]   real canid proportions (AwA-Pose keypoints, ref/awa-pose) next to hero2's; --sheet gives a species' style-preserving targets
+   build     skeleton3d <id>      the REAL 3D skeleton (Stark bones scaled per bone to the species, stood in its sourced angles in OpenSim, rendered in Blender): species/build/<id>.skel3d.*
+   build     muscles3d <id>       muscles step M1: Stark's 158 muscle lines on the 3D skeleton in its stance, with line-up checks (attachments, stance lengths, left/right): species/build/<id>.muscles3d.*
+   build     bellies3d <id>       muscles step M2: the surface muscles get volume (Hill volume, bent out of the bones), checked against the Tafel 2 bulges: species/build/<id>.bellies3d.*
+   build     body3d <id>          muscles step M2, plate-shaped: Tafel 2 muscles warped onto the skeleton, packed as a near-side muscle body (Hill volumes, trunk and neck filler): species/build/<id>.body3d*.png
+             dogcheck <rig> [--baseline]  check a dog rig (fit to the measured wolves, one piece every walk frame, slivers, cracks, attachment, markings, feet, contrast) and write art/<rig>/dogcheck/sheet.png + report.md; --baseline records today's cracks as known
+             qa <rig> [--notes=dir] [--kill]  the standard art test (docs/claude/DEN-ART-QA.md): dogcheck, edges (hairlines, rims, thin bands, spikes, seams), notes replay, motion, joints, pixi, bench; writes art/<rig>/qa/REPORT.md
+             outline <id> [--template|--curves|--photo <template>]  --photo: a real photo (species/templates/<template>.yaml) cut out and warped onto the skeleton;  --curves: the clean outline (pinned landmarks + fitted Bezier curves, wolf-skull head; run --template first); --template: warp the public-domain atlas dog onto the skeleton (recommended); without: grow the side-view outline over the skeleton (Stark bones and muscles, Ellenberger skin offsets): species/build/<id>.outline.*
+             skeleton <id>        a species' standing skeleton from species/<id>.yaml: species/build/<id>.skeleton.json/.svg/.png with a fit report
+   watch     gif [codes] [--rig hero,hero2] [--frames 24] [--fps 24] [--scale 8] [--box x,y,w,h] [--bg 0xRRGGBB] [--state ears-back] [--gait stand] [--mp4] [--out f.gif]
+                                 one stride cycle as a looping GIF (and MP4), both dogs side by side, in any gear
+   compare   diff a.png b.png [--engine ssim|pixelmatch]   before/after images, V1's SSIM or the anti-aliasing-aware pixelmatch
+   report    report [codes]      runs every check, writes tools/den/reports/<time>.md
+   admin     doctor              what is installed (and the optional backends that can be added); baseline [--update]
+
+   The default code set is one of every kind (collar, guard, three rings, armor, paw covers, four bracelets). Pass codes to test others.
+   Everything measures in drawing units (62x38). The ID pass is the second opinion: it needs no colours, no eyeballs, and no palette luck."""
+import shutil, sys, os, re, json, math, subprocess, pathlib, time, random, argparse
+ROOT = pathlib.Path(__file__).resolve().parents[2]; DEN = ROOT / 'tools/den'; LENS = ROOT / 'tools/lens'; CACHE = DEN / '.cache'; CACHE.mkdir(exist_ok=True, parents=True)
+sys.path.insert(0, str(LENS))
+ENV = {**os.environ, 'NODE_PATH': str(ROOT / 'node_modules')}
+DEFAULT_SET = ['h0000000', 'k0000000', 't0000000', 'r0000000', 'r1000000', 'r2000000', 'c0000000', 'p0000000', 'b0000000', 'b1000000', 'b2000000', 'b3000000']
+RIGS = ['hero', 'hero2']
+LEG = re.compile(r'^(sh|fore|past|ftoe|hip|shank|meta|htoe)[NF]$')
+FAILS = []   # every failure message of this run
+
+def node(script, *a, capture=False):
+    r = subprocess.run(['node', str(script), *map(str, a)], cwd=ROOT, env=ENV, capture_output=capture, text=True)
+    if r.returncode: raise SystemExit((r.stderr or '') + f'\n{script.name} failed')
+    return r.stdout
+def say(s=''): print(s, flush=True)
+def fail(msg): FAILS.append(msg); say('  FAIL ' + msg)
+def codes_of(args): return [c for c in args if re.match(r'^[a-z][0-9a-z]+$', c)] or DEFAULT_SET
+
+# ---------- the ID pass ----------
+def idframes(codes, rigs=RIGS, phases=('standing',), scale=12):
+    import numpy as np
+    from PIL import Image
+    out = CACHE / 'ids'; [f.unlink() for f in out.glob('*') if f.is_file()] if out.exists() else None
+    ph = ','.join(str(p) for p in phases)
+    node(DEN / 'bridge.cjs', 'idframes', '--rig', ','.join(rigs), '--gear', ','.join(codes), '--phases', ph, '--scale', scale, '--out', out)
+    frames, legends = {}, {}
+    for rig in rigs:
+        legends[rig] = {int(k): v for k, v in json.load(open(out / f'legend_{rig}.json'))['legend'].items()}
+        for pi, p in enumerate(phases):
+            a = np.array(Image.open(out / f'{rig}_{pi}.png').convert('RGB')).astype(np.int64); frames[(rig, str(p))] = a[..., 0] << 16 | a[..., 1] << 8 | a[..., 2]
+    return frames, legends
+
+def classes(legend, size):
+    import numpy as np
+    c = np.zeros(size + 1, dtype=np.int8)   # 0 empty, 1 the dog's leg, 2 the dog (other), 3 gear
+    for i, v in legend.items():
+        c[i] = 3 if v['kind'] == 'gear' else (1 if LEG.match(v.get('joint') or '') else 2)
+    return c
+
+# ---------- checks ----------
+def check_sweep(codes, n=16, scale=12):
+    import numpy as np
+    say(f'sweep: ID pass at standing + {n} gait phases, both dogs, {len(codes)} pieces, scale {scale}')
+    phases = ['standing'] + [round(i / n, 4) for i in range(n)]
+    frames, legends = idframes(codes, RIGS, phases, scale); worst = {}
+    for rig in RIGS:
+        leg = legends[rig]; cls = classes(leg, max(leg)); base_vis = None; vis_by = {}
+        for ph in phases:
+            ids = frames[(rig, str(ph))]; cat = cls[ids]; holes = []
+            for x in range(cat.shape[1]):   # leg-coloured run sandwiched between gear above and below, in one column: bare leg showing through a seam
+                col = cat[:, x]; nz = np.nonzero(np.diff(col, prepend=0))[0]
+                if len(nz) < 3: continue
+                runs = [(int(col[s]), s, (nz[i + 1] if i + 1 < len(nz) else len(col)) - s) for i, s in enumerate(nz)]; runs = [r for r in runs if r[0] != 0]
+                for j in range(1, len(runs) - 1):
+                    if runs[j][0] == 1 and runs[j - 1][0] == 3 and runs[j + 1][0] == 3: holes.append((x, runs[j][1], runs[j][2]))
+            wid = max((h[2] for h in holes), default=0) / scale; px = sum(h[2] for h in holes)
+            where = max(holes, key=lambda h: h[2]) if holes else None
+            worst.setdefault(rig, []).append((ph, px, wid, (round(float(where[0]) / scale, 1), round(float(where[1]) / scale, 1)) if where else None))
+            for i in np.unique(ids):
+                v = leg.get(int(i))
+                if v and v['kind'] == 'gear': vis_by.setdefault((v['piece'], v['layer']), {}).setdefault(ph, 0); vis_by[(v['piece'], v['layer'])][ph] += int((ids == i).sum())
+        w = max(worst[rig], key=lambda t: t[1]); st = next(t for t in worst[rig] if t[0] == 'standing')
+        say(f'  {rig}: bare-leg pixels between gear: standing {st[1]} px (widest {st[2]:.2f}u); worst phase {w[0]}: {w[1]} px, widest {w[2]:.2f}u at {w[3]}')
+        bad_ph = [f'{t[0]}({t[1]}px)' for t in worst[rig] if t[1] and t[0] != 'standing']
+        if bad_ph: say(f'    phases with bare leg showing: ' + ', '.join(bad_ph))
+        if w[2] >= .2: fail(f'sweep {rig}: a {w[2]:.2f}u strip of bare leg shows between gear at phase {w[0]} near {w[3]}')
+        low = []
+        for (code, layer), by in vis_by.items():
+            st_px = by.get('standing', 0)
+            if st_px >= 30:
+                m = min((v for k, v in by.items() if k != 'standing'), default=st_px)
+                if m < .35 * st_px: low.append(f'{code}/L{layer} {m}/{st_px}px')
+        if low: say(f'    note: mostly hidden at some phase (covered by the body or another piece): ' + ', '.join(low[:6]))
+
+def roles(legend):
+    """what each gear Graphics is, for the order rules: (role, host)"""
+    out = {}
+    for i, v in legend.items():
+        if v['kind'] != 'gear': continue
+        k, j = v['pkind'], v['joint'] or ''
+        if k == 'paws': role = 'shoe' if re.match(r'^(ftoe|htoe)', v.get('follow') or '') else 'sock'
+        elif k == 'armor': role = 'tailsleeve' if j.startswith('tail') else ('sleeve' if re.match(r'^(sh|hip)[NF]$', j) else 'torso')
+        elif k and k.startswith('cuff'): role = 'cuff'
+        elif k == 'tailguard': role = 'guard'
+        elif k and k.startswith('ring'): role = 'ring'
+        elif k == 'collar': role = 'collar'
+        elif k == 'helmet': role = 'hood'
+        else: role = k
+        out[i] = (role, j)
+    return out
+
+def check_order(codes):
+    say('order: draw order asserted from the render order')
+    _, legends = idframes(codes, RIGS, ('standing',), 4)
+    for rig in RIGS:
+        L = legends[rig]; R = roles(L); ords = lambda pred: [L[i]['ord'] for i, (r, h) in R.items() if pred(r, h)]
+        rules = []
+        for host in ('shN', 'shF', 'hipN', 'hipF'):
+            rules += [(f'sock under sleeve on {host}', ords(lambda r, h: r == 'sock' and h == host), ords(lambda r, h: r == 'sleeve' and h == host)),
+                      (f'sleeve under cuff on {host}', ords(lambda r, h: r == 'sleeve' and h == host), ords(lambda r, h: r == 'cuff' and h == host))]
+        legs = ords(lambda r, h: r in ('sock', 'sleeve', 'cuff') and bool(LEG.match(h)))
+        rules += [('tail sleeve under guard', ords(lambda r, h: r == 'tailsleeve'), ords(lambda r, h: r == 'guard')), ('guard under rings', ords(lambda r, h: r == 'guard'), ords(lambda r, h: r == 'ring')),
+                  ('torso over every leg piece', legs, ords(lambda r, h: r == 'torso')), ('collar over torso', ords(lambda r, h: r == 'torso'), ords(lambda r, h: r == 'collar')), ('collar over hood', ords(lambda r, h: r == 'hood'), ords(lambda r, h: r == 'collar'))]
+        bad = 0
+        for name, lower, upper in rules:
+            if not lower or not upper: continue
+            if max(lower) >= min(upper): fail(f'order {rig}: {name} is violated (lower piece draws at {max(lower)}, upper at {min(upper)})'); bad += 1
+        say(f'  {rig}: {sum(1 for _, a, b in rules if a and b)} rules checked, {bad} violated')
+
+def part_geom(part):
+    from shapely.geometry import Polygon, LineString, Point
+    from svgpathtools import parse_path
+    if part.get('circle'): x, y, r = part['circle']; return Point(x, y).buffer(r, 24)
+    if part.get('line'): (x1, y1), (x2, y2) = part['line'][:2]; return LineString([(x1, y1), (x2, y2)]).buffer(part.get('sw', 1) / 2, 8)
+    if part.get('d'):
+        try: pts = [(z.real, z.imag) for sub in parse_path(part['d']).continuous_subpaths() for z in [sub.point(i / 40) for i in range(41)]]
+        except Exception: return None
+        if len(pts) < 2: return None
+        if part.get('stroke'): return LineString(pts).buffer(part.get('sw', 1) / 2, 8)
+        return Polygon(pts).buffer(0) if len(pts) > 2 else None
+    return None
+
+def pieces_json(codes):
+    out = CACHE / 'pieces.json'; node(LENS / 'lens.cjs', 'piece', '--rig', ','.join(RIGS), '--gear', ','.join(codes), '--out', out)
+    return {(p['rig'], p['code']): p for p in json.load(open(out))}
+
+def check_xcheck(codes, scale=14, n=900):
+    import numpy as np
+    say('xcheck: topmost gear part computed from the data vs the ID pass (standing pose)')
+    frames, legends = idframes(codes, RIGS, ('standing',), scale); P = pieces_json(codes); rnd = random.Random(7)
+    for rig in RIGS:
+        L = legends[rig]; ids = frames[(rig, 'standing')]; gear = sorted([(v['ord'], i, v) for i, v in L.items() if v['kind'] == 'gear'])
+        geoms = []; skipped = 0
+        for _, i, v in gear:
+            pc = P.get((rig, v['piece'])); layers = pc['layers'] if pc else []
+            parts = layers[v['layer']]['parts'] if v['layer'] < len(layers) else []
+            g = part_geom(parts[v['part']]) if v['part'] < len(parts) else None
+            if g is None or g.is_empty: skipped += 1
+            elif v.get('m'):
+                from shapely.affinity import affine_transform
+                a, b, c, d, tx, ty = v['m']; g = affine_transform(g, [a, c, b, d, tx, ty])   # where this pose put the part (follow hosts, body bob, joint bends)
+            geoms.append((i, g))
+        ys, xs = np.nonzero(np.isin(ids, [i for i, v in L.items() if v['kind'] == 'gear'])); agree = tot = 0; bad = []
+        from shapely.geometry import Point
+        def top_at(x, y):
+            pt = Point(x, y); top = None
+            for i, g in geoms:
+                if g is not None and g.contains(pt): top = i
+            return top
+        for k in rnd.sample(range(len(xs)), min(n, len(xs))):
+            px, py = xs[k], ys[k]; x, y = (px + .5) / scale, (py + .5) / scale; rid = int(ids[py, px]); tot += 1; e = .7 / scale   # an edge pixel may belong to the neighbouring part: allow half a pixel of slack
+            tops = {top_at(x + dx, y + dy) for dx, dy in ((0, 0), (e, 0), (-e, 0), (0, e), (0, -e))}
+            if rid in tops: agree += 1
+            else: bad.append((round(float(x), 2), round(float(y), 2), f'data top {sorted(t for t in tops if t)}, render {rid} {L[rid].get("piece")}/L{L[rid].get("layer")}/{L[rid].get("paint")}'))
+        rate = agree / tot if tot else 1
+        say(f'  {rig}: {agree}/{tot} points agree ({rate:.1%}); {skipped} parts without analytic geometry')
+        import collections
+        by = collections.Counter(re.search(r'render \d+ (\S+?)/(L\d+)', b[2]).group(1, 2) for b in bad if re.search(r'render \d+ (\S+?)/(L\d+)', b[2]))
+        if bad: say('    mismatches by piece/layer: ' + ', '.join(f'{k[0]}/{k[1]} x{v}' for k, v in by.most_common(4)) + '   (self-crossing hem shapes are the known soft spot of the analytic polygons)')
+        if rate < .95: fail(f'xcheck {rig}: only {rate:.1%} agreement; first mismatches {bad[:4]}')
+
+def check_determinism(codes, scale=8):
+    say('determinism: each frame built twice from scratch must be pixel-identical')
+    out = node(DEN / 'bridge.cjs', 'hashes', '--rig', ','.join(RIGS), '--gear', ','.join(codes), '--phases', 'standing,.3', '--scale', scale, capture=True)
+    res = json.loads(out.strip().splitlines()[-1]); bad = [r for r in res if not r['same']]
+    say(f'  {len(res)} frames, {len(bad)} differ between two builds')
+    for r in bad: fail(f"determinism: {r['code']} on {r['rig']} at {r['phase']} differs between two renders")
+    P = pieces_json(codes)
+    for c in codes:
+        a, b = P.get(('hero', c)), P.get(('hero2', c))
+        if a and b:
+            sh = lambda p: [[q.get('paint') for q in L['parts']] for L in p['layers']]
+            if sh(a) != sh(b): say(f'  note: {c} has a different part list on the two dogs ({sum(len(L) for L in sh(a))} vs {sum(len(L) for L in sh(b))} parts)')
+
+def check_flush(codes, update=False):
+    from geom import Rigs
+    from shapely.ops import unary_union
+    from shapely.geometry import Polygon
+    say('flush: area outside the body and Hausdorff distance along the seat')
+    R = Rigs(); P = pieces_json([c for c in codes if c[0] in 'kc']); base = json.load(open(DEN / 'baselines.json')) if (DEN / 'baselines.json').exists() else {}; new = {}
+    for (rig, code), pc in P.items():
+        body = R.silhouette(rig).buffer(0)
+        polys = [g for L in pc['layers'] for p in L['parts'] if not p.get('stroke') and p.get('paint') in ('band', 'm') and (g := part_geom(p)) is not None and not g.is_empty and L['joint'] in ('body', 'root', None)]
+        if not polys: continue
+        u = unary_union(polys); out = u.difference(body).area
+        seat = u.boundary.intersection(body.boundary.buffer(.8))   # the part of the piece's edge that lies along the body's edge; directed distance from it to the body outline
+        hd = max((body.boundary.distance(seat.interpolate(t, normalized=True)) for t in [i / 80 for i in range(81)]), default=0.0) if not seat.is_empty and seat.length > 0 else 0.0
+        key = f'{rig}:{code}'; new[key] = {'outside': round(out, 3), 'hausdorff': round(hd, 3)}; b = base.get(key)
+        say(f'  {key}: outside {out:.3f}u², Hausdorff {hd:.3f}u' + (f' (baseline {b["outside"]}, {b["hausdorff"]})' if b else ' (no baseline yet)'))
+        if b and (out > b['outside'] + .1 or hd > b['hausdorff'] + .15): fail(f'flush {key}: drifted from its baseline')
+    if update: base.update(new); json.dump(base, open(DEN / 'baselines.json', 'w'), indent=1); say('  baselines updated')
+
+def check_legibility(codes, scales=(1.42, 6.0)):
+    import numpy as np
+    from skimage.color import rgb2lab, deltaE_ciede2000
+    say('legibility: line weights in pixels, and gear colour against the coat')
+    LINE = {k: float(v) for k, v in re.findall(r'(\w+):(\.?\d+\.?\d*)', re.search(r'const LINE = \{([^}]*)\}', (ROOT / 'engine/gear.js').read_text()).group(1))}
+    for s in scales:
+        say(f'  at {s} px/unit: ' + ', '.join(f'{k} outline {2 * w * s:.2f}px' for k, w in LINE.items()) + ('   (an outline under ~1px blurs away)' if min(LINE.values()) * 2 * s < 1 else ''))
+    from geom import Rigs
+    R = Rigs(); P = pieces_json(codes); lab = lambda h: rgb2lab(np.array([[[int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]]]))
+    for (rig, code), pc in P.items():
+        coat = R.rigs[rig]['palette']; pal = pc['palette']; low = []
+        for name in [k for k in ('m', 'band', 'wB', 'gem') if k in pal]:
+            for cn in ('fur', 'pale', 'pale2'):
+                de = float(deltaE_ciede2000(lab(pal[name]), lab(coat[cn]))[0, 0])
+                if de < 9: low.append(f'{name} vs {cn} dE {de:.1f}')
+        if low: say(f'  {rig} {code}: low contrast against the coat: ' + '; '.join(low[:4]) + '  (outlines may still carry it)')
+
+def check_lint1(codes):
+    say('lint (V1 geometry and style sheet)')
+    r = subprocess.run([sys.executable, str(LENS / 'lint.py'), *codes], cwd=ROOT, env=ENV, capture_output=True, text=True)
+    for ln in r.stdout.splitlines():
+        if ln.startswith('FAIL'): fail('lint1 ' + ln[5:])
+        elif ln.startswith('   -'): say(ln)
+    say(f"  {sum(1 for l in r.stdout.splitlines() if l.startswith('ok'))} ok, {sum(1 for l in r.stdout.splitlines() if l.startswith('FAIL'))} failing")
+
+def sample_codes(n, seed=1):
+    r = random.Random(seed); out = []
+    for _ in range(n):
+        k = r.choice('kcptrb'); d = [r.randrange(0, 7), r.randrange(0, 8), 0, r.randrange(0, 5), r.randrange(0, 5), r.randrange(0, 4)]
+        out.append(k + ('' if k in 'kcpt' else str(r.randrange(0, 3 if k == 'r' else 4))) + ''.join(format(x, 'x') for x in d[:6 if k in 'kcpt' else 5]))
+    return out
+
+# ---------- gait checks (the research's limits, on the rig's own motion) ----------
+LIMITS_FILE = ROOT / 'ref/research/gait/gait_numbers.json'
+JOINT_TRIPLES = {'elbow': ('sh', 'fore', 'past'), 'carpus': ('fore', 'past', 'ftoe'), 'stifle': ('hip', 'shank', 'meta'), 'hock': ('shank', 'meta', 'htoe')}
+FLEX_PARTNER = {'carpus': 'elbow', 'hock': 'stifle'}   # these flex in the opposite rotational sense to their partner (carpus folds back, elbow forward; same for hock and stifle)
+
+def gait_limits():
+    """the reference species' limits (species/wolf.yaml, from ref/research/missingfound/joint-ranges): per joint (comfort low, comfort high, hard flex, hard ext)"""
+    import yaml
+    L = yaml.safe_load(open(ROOT / 'species/wolf.yaml'))['numbers']['limits']; out = {}
+    for j in ('elbow', 'carpus', 'stifle', 'hock'):
+        lo, hi = L[j + '_comfort']['range']; out[j] = (lo, hi, L[j + '_flex']['value'], L[j + '_ext']['value'])
+    return out, 'species/wolf.yaml limits (dog goniometry, ref/research/missingfound/joint-ranges): walk must stay inside the comfortable band, never past the hard clamp'
+
+def signed_turn(a, b, c):
+    v1 = (a[0] - b[0], a[1] - b[1]); v2 = (c[0] - b[0], c[1] - b[1])
+    return math.degrees(math.atan2(v1[0] * v2[1] - v1[1] * v2[0], v1[0] * v2[0] + v1[1] * v2[1]))   # signed angle from (b->a) to (b->c)
+
+def check_gait(n=64):
+    say(f'gait: joint angles and paw slide through the walk ({n} phases), against sourced canine limits')
+    lim, src = gait_limits(); phases = [round(i / n, 5) for i in range(n)]
+    out = node(DEN / 'bridge.cjs', 'joints', '--rig', ','.join(RIGS), '--phases', 'standing,' + ','.join(map(str, phases)), capture=True)
+    data = json.loads(out.strip().splitlines()[-1])
+    for R in data:
+        rig = R['rig']; frames = R['frames']; rest = frames[0]['joints']; walk = frames[1:]; problems = []; ranges = {}
+        for side in ('N', 'F'):
+            signs = {}
+            for jn, (a, b, c) in JOINT_TRIPLES.items():
+                A, B, C = a + side, b + side, c + side
+                if not all(k in rest for k in (A, B, C)): continue
+                t0 = signed_turn(rest[A], rest[B], rest[C])
+                # included angle with 180 = straight; the sign makes the rest pose read as flexed (or, for the carpus/hock, opposite to its partner)
+                sg = -signs[FLEX_PARTNER[jn]] if jn in FLEX_PARTNER and FLEX_PARTNER[jn] in signs else (1 if t0 >= 0 else -1)
+                signs[jn] = sg
+                inc = lambda J: (abs(signed_turn(J[A], J[B], J[C])) if sg * signed_turn(J[A], J[B], J[C]) >= 0 else 360 - abs(signed_turn(J[A], J[B], J[C])))
+                vals = [inc(f['joints']) for f in walk]; lo, hi = min(vals), max(vals); ranges[jn + side] = (round(inc(rest), 1), round(lo, 1), round(hi, 1))
+                cl, ch, hf, he = lim[jn]
+                if lo < hf - 1 or hi > he + 1: problems.append(f'{jn} ({side}) {lo:.0f}-{hi:.0f} deg goes past the hard clamp {hf}-{he}')
+                elif lo < cl - 1 or hi > ch + 1: problems.append(f'{jn} ({side}) {lo:.0f}-{hi:.0f} deg leaves the comfortable band {cl}-{ch} (gait and idle stay inside it)')
+            toe = ('ftoe' + side, 'htoe' + side)
+            for t in toe:
+                if t not in rest: continue
+                xs = [f['joints'][t][0] for f in walk]; ys = [f['joints'][t][1] for f in walk]; ground = max(ys)
+                stance = [i for i, y in enumerate(ys) if ground - y < .35]   # within .35u of its lowest point counts as planted (the toe joint is the pivot, not the pad)
+                if len(stance) < 4: continue
+                # the longest run of stance frames (cyclic), then a straight-line fit of x over phase: in a treadmill walk a planted paw moves back at constant speed
+                run, best, cur = [], [], []
+                for i in range(2 * len(walk)):
+                    k = i % len(walk)
+                    if k in stance: cur.append(i)
+                    else: best = max(best, cur, key=len); cur = []
+                best = max(best, cur, key=len)[:len(walk)]
+                if len(best) < 4: continue
+                X = [xs[i % len(walk)] for i in best]; T = list(range(len(best))); mt, mx = sum(T) / len(T), sum(X) / len(X)
+                k = sum((t - mt) * (x - mx) for t, x in zip(T, X)) / (sum((t - mt) ** 2 for t in T) or 1)
+                slide = max(abs(x - (mx + k * (t - mt))) for t, x in zip(T, X)); Y = [ys[i % len(walk)] for i in best]; drift = max(Y) - min(Y)
+                ranges['slide ' + t] = (round(slide, 3), f'height drift {drift:.2f}u over {len(best)}/{len(walk)} planted frames')
+                if slide > .3: problems.append(f'{t} slides {slide:.2f}u back and forth while planted')
+                if drift > .3: problems.append(f'{t} rises or sinks {drift:.2f}u while planted (a planted paw should stay on the ground)')
+        say(f'  {rig}: ' + '; '.join(f'{k} rest {v[0]} walk {v[1]}-{v[2]}' if isinstance(v[1], float) else f'{k} {v[0]}u ({v[1]})' for k, v in ranges.items()))
+        if not any(k.startswith('slide') for k in ranges): say(f'    note: {rig} has no toe joints, so paw slide is not measured')
+        for q in problems: fail(f'gait {rig}: {q}')
+    say(f'  limits: {src}')
+
+def cmd_gif(a):
+    import imageio.v2 as iio
+    from PIL import Image
+    rest = a.rest; opt = {}; codes = []; i = 0
+    while i < len(rest):
+        if rest[i].startswith('--'): k = rest[i][2:]; v = rest[i + 1] if i + 1 < len(rest) and not rest[i + 1].startswith('--') else True; opt[k] = v; i += 2 if v is not True else 1
+        else: codes.append(rest[i]); i += 1
+    frames, fps = int(opt.get('frames', 24)), float(opt.get('fps', 24)); outdir = CACHE / 'anim'
+    args = ['anim', '--rig', opt.get('rig', 'hero,hero2'), '--frames', frames, '--scale', opt.get('scale', 8), '--out', outdir]
+    if codes: args += ['--gear', ','.join(codes)]
+    for k in ('box', 'bg', 'state', 'gait'):
+        if k in opt: args += ['--' + k, opt[k]]
+    node(DEN / 'bridge.cjs', *args)
+    imgs = [Image.open(f).convert('RGB') for f in sorted(outdir.glob('f*.png'))]
+    out = pathlib.Path(opt.get('out', CACHE / 'anim.gif')); out.parent.mkdir(parents=True, exist_ok=True)
+    imgs[0].save(out, save_all=True, append_images=imgs[1:], duration=int(1000 / fps), loop=0, optimize=True)
+    say(f'wrote {out} ({len(imgs)} frames at {fps:g} fps, one stride cycle, loops)')
+    if opt.get('mp4'):
+        mp4 = out.with_suffix('.mp4'); import numpy as np
+        w = iio.get_writer(mp4, fps=fps, codec='libx264', quality=8, macro_block_size=2)
+        for _ in range(3):
+            for im in imgs: w.append_data(np.array(im))
+        w.close(); say(f'wrote {mp4} (three loops)')
+
+# ---------- commands ----------
+def cmd_lint(a):
+    codes = codes_of(a.rest); check_lint1(codes); check_order(codes); check_sweep(codes); check_gait(); check_xcheck(codes); check_determinism(codes); check_flush(codes); finish()
+def finish():
+    say(); say('ALL CHECKS PASSED' if not FAILS else f'{len(FAILS)} FAILURE(S):'); [say('  - ' + f) for f in FAILS]; sys.exit(1 if FAILS else 0)
+def cmd_report(a):
+    import io, contextlib
+    buf = io.StringIO(); codes = codes_of(a.rest)
+    class Tee(io.TextIOBase):
+        def write(self, s): sys.__stdout__.write(s); buf.write(s); return len(s)
+        def flush(self): sys.__stdout__.flush()
+    with contextlib.redirect_stdout(Tee()):
+        t = time.time(); check_lint1(codes); check_order(codes); check_sweep(codes); check_gait(); check_xcheck(codes); check_determinism(codes); check_flush(codes); check_legibility(codes)
+    (DEN / 'reports').mkdir(exist_ok=True); f = DEN / 'reports' / (time.strftime('%Y%m%d-%H%M%S') + '.md')
+    f.write_text('# Den kit V2 report\n\nCodes: ' + ' '.join(codes) + '\n\n```\n' + buf.getvalue() + f'\nfailures: {len(FAILS)}\n' + '\n'.join(FAILS) + '\n```\n'); say('wrote ' + str(f.relative_to(ROOT))); sys.exit(1 if FAILS else 0)
+def cmd_sample(a):
+    n = int(a.rest[0]) if a.rest else 40; codes = sample_codes(n); say(f'sample: {n} random codes: ' + ' '.join(codes)); check_lint1(codes); check_determinism(codes[:12]); finish()
+def cmd_diff(a):
+    if '--engine' in a.rest and a.rest[a.rest.index('--engine') + 1] == 'pixelmatch':
+        rest = [x for x in a.rest if x not in ('--engine', 'pixelmatch')]; say(node(DEN / 'bridge.cjs', 'pixelmatch', *rest, capture=True).strip())
+    else: sys.exit(subprocess.run([sys.executable, str(LENS / 'diff.py'), *[x for x in a.rest if x not in ('--engine', 'ssim')]], cwd=ROOT, env=ENV).returncode)
+def cmd_doctor(a):
+    import importlib.metadata as m
+    say('Python (tools/lens/requirements.txt):')
+    for p in ['pillow', 'numpy', 'opencv-python-headless', 'scikit-image', 'scipy', 'shapely', 'svgpathtools', 'matplotlib']:
+        try: say(f'  ok   {p} {m.version(p)}')
+        except Exception: say(f'  MISSING {p}   pip install -r tools/lens/requirements.txt')
+    say('Node:')
+    for p in ['playwright', 'pixelmatch', 'pngjs']:
+        f = ROOT / 'node_modules' / p / 'package.json'; say(f'  ok   {p} {json.load(open(f))["version"]}' if f.exists() else f'  MISSING {p}   npm install')
+    say('Industry tools (Oct 7; heavy ones install in the background at session start, log /tmp/den-heavy.log):')
+    for p, why in [('bpy', 'Blender 4.2 headless: bone meshes, Rigify metarigs, Cycles CPU renders'), ('opensim', 'OpenSim 4.6: the Beagle and greyhound musculoskeletal models'),
+                   ('mujoco', 'MuJoCo physics: gait simulation'), ('pyvista', 'VTK meshes'), ('trimesh', 'mesh loading and side-view projection'), ('ikpy', 'IK chains'),
+                   ('skia-pathops', 'Skia path booleans (Chrome and Android use the same engine)'), ('polars', 'fast tables (12k-dog keypoint sets)'), ('statsmodels', 'regressions on species data'),
+                   ('pdfplumber', 'tables out of PDF supplements'), ('pycocotools', 'COCO keypoints and masks'), ('mypy', 'Python type checks'), ('pyoxipng', 'lossless PNG shrinking'), ('vtk', 'VTK meshes'), ('dm-control', 'MuJoCo dog model'), ('pyclipr', 'Clipper2 offsets in Python'),
+                   ('morphops', 'Procrustes shape averaging'), ('pyefd', 'elliptic Fourier outlines'), ('ssimulacra2', 'perceptual image score'), ('lmfit', 'named-parameter curve fits'), ('pyright', 'Python type checks')]:
+        try: say(f'  ok   {p} {m.version(p)}')
+        except Exception: say(f'  not yet {p}   ({why})')
+    for t in ('inkscape', 'gifsicle', 'ffmpeg', 'convert', 'ruff', 'eslint'):
+        say(f'  {"ok  " if shutil.which(t) else "not yet"} {t}')
+    for t in ('odiff-bin', 'sharp', 'vitest', '@biomejs/biome', 'typescript'):
+        f = ROOT / 'node_modules' / t / 'package.json'; say(f'  {"ok  " if f.exists() else "not yet"} {t} (npm)')
+    for t in ():
+        say(f'  {"ok  " if shutil.which(t) else "not yet"} {t}')
+    say('Kit: V1 at tools/lens (git tag kit-v1, commit 70c9ee0); V2 at tools/den')
+    say('Optional backends (extra options, they replace nothing; each is added only when wanted):')
+    for name, hint, why in [('paper', 'npm i paper-jsdom', 'curve-aware booleans: compile shapes as bezier paths instead of polylines'),
+                            ('@resvg/resvg-js', 'npm i @resvg/resvg-js', 'a second, deterministic renderer to cross-check Chromium'),
+                            ('clipper2-ts', 'npm i @countertype/clipper2-ts', 'integer polygon clipping and offsetting in JS'),
+                            ('paper-jsdom', 'npm i paper-jsdom', 'paper.js in Node (installed Oct 6; not wired in yet)'),
+                            ('scikit-learn', 'pip install scikit-learn', 'PCA and clustering for species shape spaces'),
+                            ('pyclipper', 'pip install pyclipper', 'Clipper polygon offsetting in Python'),
+                            ('ajv', 'npm i -D ajv', 'JSON-schema validation of species files in JS'),
+                            ('bezier-js', 'npm i -D bezier-js', 'curve offsets, intersections and arc length for silhouettes'),
+                            ('d3-shape', 'npm i -D d3-shape', 'Catmull-Rom and basis curves through landmark points'),
+                            ('polygon-clipping', 'npm i -D polygon-clipping', 'robust polygon booleans in JS'),
+                            ('gifenc', 'npm i -D gifenc', 'animated GIF previews of gaits'),
+                            ('fast-check', 'npm i -D fast-check', 'property tests for the gait solver'),
+                            ('svgo', 'npm i -D svgo', 'canonical SVG path data'),
+                            ('culori', 'npm i -D culori', 'OKLCH coat and material palettes'),
+                            ('pydantic', 'pip install pydantic', 'typed species files in Python'),
+                            ('imageio', 'pip install imageio imageio-ffmpeg', 'GIF/MP4 stride previews'),
+                            ('uv', 'pip install uv', 'fast, pinned Python installs for each session'),
+                            ('hypothesis', 'pip install hypothesis', 'property-based sampling of the code space (den sample is the simple version)'),
+                            ('colour-science', 'pip install colour-science', 'more colour metrics than CIEDE2000'),
+                            ('MeshRope', 'built into Pixi 8', 'socks and sleeves that bend as one mesh (a texture, so it changes the look: try on one sleeve first)')]:
+        have = (ROOT / 'node_modules' / name / 'package.json').exists()
+        try: have = have or bool(m.version(name))
+        except Exception: pass
+        say(f'  {"ok  " if have else "..  "} {name:16} {why}   [{hint}]')
+def cmd_baseline(a): check_flush(codes_of([x for x in a.rest if not x.startswith('--')]), update='--update' in a.rest); finish() if '--update' not in a.rest else None
+V1 = {'shot': 'lens.cjs', 'probe': 'lens.cjs', 'export': 'lens.cjs', 'piece': 'lens.cjs', 'compile': 'compile_mounts.py', 'place-band': 'place_band.py', 'measure': 'measure_image.py', 'refoverlay': 'refoverlay.py', 'diff1': 'diff.py'}
+def main():
+    ap = argparse.ArgumentParser(add_help=False); ap.add_argument('cmd', nargs='?'); ap.add_argument('rest', nargs=argparse.REMAINDER); a = ap.parse_args()
+    if not a.cmd or a.cmd in ('-h', '--help', 'help'): print(__doc__); return
+    if a.cmd in V1:
+        f = LENS / V1[a.cmd]; sys.exit(subprocess.run((['node'] if f.suffix == '.cjs' else [sys.executable]) + [str(f)] + ([a.cmd] if a.cmd in ('shot', 'probe', 'export', 'piece') else []) + a.rest, cwd=ROOT, env=ENV).returncode)
+    fn = {'lint': cmd_lint, 'sweep': lambda a: (check_sweep(codes_of(a.rest)), finish()), 'order': lambda a: (check_order(codes_of(a.rest)), finish()), 'xcheck': lambda a: (check_xcheck(codes_of(a.rest)), finish()),
+          'determinism': lambda a: (check_determinism(codes_of(a.rest)), finish()), 'flush': lambda a: (check_flush(codes_of(a.rest)), finish()), 'legibility': lambda a: (check_legibility(codes_of(a.rest)), finish()),
+          'sample': cmd_sample, 'skeleton': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'skeleton.py'), *a.rest], cwd=ROOT).returncode), 'skeleton3d': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'skeleton3d.py'), *a.rest], cwd=ROOT).returncode), 'muscles3d': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'muscles3d.py'), *a.rest], cwd=ROOT).returncode), 'bellies3d': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'bellies3d.py'), *a.rest], cwd=ROOT).returncode), 'body3d': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'body3d.py'), *a.rest], cwd=ROOT).returncode), 'outline': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / ('outline_photo.py' if '--photo' in a.rest else 'outline_curves.py' if '--curves' in a.rest else 'outline_template.py' if '--template' in a.rest else 'outline.py')), *[x for x in a.rest if x not in ('--template', '--curves', '--photo')]], cwd=ROOT).returncode), 'gif': cmd_gif, 'gait': lambda a: (check_gait(), finish()), 'species': lambda a: sys.exit(subprocess.run([sys.executable, str(DEN / 'species.py'), *a.rest], cwd=ROOT).returncode), 'diff': cmd_diff, 'report': cmd_report, 'doctor': cmd_doctor, 'baseline': cmd_baseline, 'dogcheck': lambda a: sys.exit(subprocess.run(['node', str(ROOT / 'tools/dogcheck/dogcheck.mjs'), *a.rest], cwd=ROOT).returncode), 'qa': lambda a: sys.exit(subprocess.run(['node', str(ROOT / 'tools/qa/qa.mjs'), *a.rest], cwd=ROOT).returncode)}.get(a.cmd)
+    if not fn: print('unknown command; run `den help`'); sys.exit(2)
+    fn(a)
+if __name__ == '__main__': main()

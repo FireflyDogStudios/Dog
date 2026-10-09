@@ -1,0 +1,98 @@
+<title>Den Stillroom</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral+SC:wght@600&family=Barlow:wght@400;600&family=Barlow+Condensed:wght@500;600&display=swap">
+<style>
+/* layout: a Smithy-style showroom — dark forest-ink shelves, gold rules, a grid of items, one big item on the right */
+:root{--bg:#f3ead6;--panel:#fbf6ea;--shelf:#2a2218;--shelf2:#1a1410;--ink:#2a2118;--muted:#6e5f4c;--rule:#d9a441;--line:#d7c9a8;--focus:#d9a441;
+  --display:"Spectral SC",Georgia,serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;--cond:"Barlow Condensed","Barlow",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1512;--panel:#161d19;--ink:#ece3cf;--muted:#a39b86;--line:#2a332d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1512;--panel:#161d19;--ink:#ece3cf;--muted:#a39b86;--line:#2a332d;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);padding-block:28px;padding-inline:clamp(16px,4vw,48px);max-width:1240px;margin:0 auto}
+h1{font:600 clamp(26px,4vw,38px)/1.1 var(--display);letter-spacing:.04em;margin:0 0 6px;text-wrap:balance}
+h2{font:600 15px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;padding-top:10px;border-top:2px solid var(--rule);display:inline-block}
+p{max-width:64ch;margin:0 0 10px}.lede{color:var(--muted);margin-bottom:18px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+button{font:600 13px var(--cond);letter-spacing:.1em;text-transform:uppercase;padding:9px 14px;background:transparent;color:var(--ink);border:1px solid var(--line);cursor:pointer;min-height:44px}
+button[aria-pressed="true"]{border-color:var(--rule);box-shadow:inset 0 -3px 0 var(--rule)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+select,input[type=text]{font:500 14px var(--body);padding:8px 10px;background:var(--panel);color:var(--ink);border:1px solid var(--line);min-height:44px}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,340px);gap:18px}
+@media (max-width:820px){.wrap{grid-template-columns:1fr}}
+.shelf{background:var(--shelf);border:1px solid #3a3024;padding:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px;min-width:0}
+.item{background:var(--shelf2);border:1px solid #3a3024;padding:6px 4px 4px;text-align:center;color:#ece3cf;font:500 11px/1.2 var(--cond);letter-spacing:.04em;cursor:pointer;min-height:44px}
+.item svg{width:100%;height:auto;display:block}
+.item[aria-pressed="true"]{border-color:var(--rule);box-shadow:inset 0 -3px 0 var(--rule)}
+.big{background:var(--shelf);border:1px solid #3a3024;padding:14px;color:#ece3cf;position:sticky;top:12px;align-self:start;min-width:0}
+.big svg{width:100%;height:auto;max-width:300px;display:block;margin:0 auto}
+.big h3{font:600 20px var(--display);letter-spacing:.04em;margin:8px 0 2px;text-wrap:balance}
+.big .rk{font:600 12px var(--cond);letter-spacing:.12em;text-transform:uppercase}
+.big dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:10px 0 0;font-size:13px}
+.big dt{color:#a39b86;font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase}.big dd{margin:0}
+.big code{font:12px ui-monospace,Menlo,monospace;background:#1a1410;padding:2px 6px;border:1px solid #3a3024}
+.note{font-size:13px;color:var(--muted);margin-top:14px}
+</style>
+
+<h1>Den Stillroom</h1>
+<p class="lede">The Smithy makes weapons from parts; the Stillroom does the same for everything else you pick up: brews, gems, foods and materials. Same split shading, same outline, same rarity glow, so it all sits in one bag. Every item is a short code, like a weapon. Click one to see its parts.</p>
+
+<div class="tabs" role="tablist" aria-label="Item kind">
+  <button role="tab" id="tBrew" aria-pressed="true">Brews</button>
+  <button role="tab" id="tGem" aria-pressed="false">Gems</button>
+  <button role="tab" id="tFood" aria-pressed="false">Foods</button>
+  <button role="tab" id="tMat" aria-pressed="false">Materials</button>
+</div>
+<div class="bar" id="bar"></div>
+<div class="wrap">
+  <div class="shelf" id="shelf" role="list"></div>
+  <aside class="big" id="big" aria-live="polite"></aside>
+</div>
+<p class="note" id="note"></p>
+
+<script>
+/*__ENGINE__*/
+</script>
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const RK = Object.fromEntries(STILL.RARS.map(r => [r.k, r]));
+  let kind = "brew", seedBase = "den", filt = {};
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const sel = (id, label, opts) => `<label style="display:flex;flex-direction:column;gap:3px;font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">${label}<select id="${id}"><option value="">Any</option>${opts.map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join("")}</select></label>`;
+  const BARS = {
+    brew: () => sel("fType", "Brew", Object.entries(STILL.BREW_TYPES).map(([k, v]) => [k, v.n])) + sel("fTier", "Tier", [[0,"I"],[1,"II"],[2,"III"]]) + sel("fBottle", "Bottle", STILL.BOTTLES.map((b, i) => [i, b.n])) + sel("fStopper", "Stopper", STILL.STOPPERS.map((b, i) => [i, b.n])) + sel("fTag", "Tag", STILL.TAGS.map((b, i) => [i, b.n])),
+    gem: () => sel("fType", "Gem", Object.entries(STILL.GEM_TYPES).map(([k, v]) => [k, v.n])) + sel("fCut", "Cut", STILL.CUTS.map((c, i) => [i, c.n])) + sel("fQ", "Quality", [[0,"Chip"],[1,"Gem"],[2,"Great"]]) + sel("fCr", "Cracked", [[1,"Cracked"],[0,"Whole"]]),
+    food: () => sel("fFood", "Food", STILL.FOODS.map((f, i) => [i, f.n])) + sel("fState", "State", [["raw","Raw"],["cooked","Cooked"],["burnt","Burnt"]]) + sel("fKind", "Bait", [["meat","Meat Bait"],["juicy","Juicy Bait"],["feast","Feast Bait"]]),
+    mat: () => sel("fMat", "Material", STILL.MATERIALS.map((m, i) => [i, m.n]))
+  };
+  const NOTES = {
+    brew: "Brews: 7 types × 3 tiers × 6 bottles × 5 glass tints × 5 stoppers × 5 tags. Tier sets the fill level and the liquid's life: I is still, II bubbles, III swirls, sparkles and glows. The type sets the colour, so a Strength Brew is always that orange.",
+    gem: "Gems: 9 kinds × 8 cuts × 3 qualities, plus cracked. Facets are real polygons shaded light and dark from the table outward; cabochons and raw chunks use the Smithy's round shading. Great gems get sparkles; cracked ones lose their glow.",
+    food: "Foods: the game's treats, meats and bait drawn by hand with the Smithy's helpers; meats come raw, cooked or burnt. Bait wraps are a meat in a twine wrap (Meat / Juicy / Feast). Each one rotates a little by seed so a stack never looks like copies.",
+    mat: "Materials: a pile is one piece shape × one Smithy palette × a count, jittered by seed. The wood, metal and bone palettes are the Smithy's own, so Oak scraps match an Oak stick exactly. 30 materials from 11 piece shapes."
+  };
+  function opt(id){ const e = document.getElementById(id); return e && e.value !== "" ? e.value : undefined; }
+  function make(i){
+    const seed = seedBase + ":" + i;
+    if (kind === "brew") return STILL.brew(seed, {type: opt("fType"), tier: opt("fTier") != null ? +opt("fTier") : undefined, bottle: opt("fBottle") != null ? +opt("fBottle") : undefined, stopper: opt("fStopper") != null ? +opt("fStopper") : undefined, tag: opt("fTag") != null ? +opt("fTag") : undefined});
+    if (kind === "gem") return STILL.gem(seed, {type: opt("fType"), cut: opt("fCut") != null ? +opt("fCut") : undefined, q: opt("fQ") != null ? +opt("fQ") : undefined, cracked: opt("fCr") != null ? opt("fCr") === "1" : undefined});
+    if (kind === "food") return STILL.food(seed, {food: opt("fFood") != null ? +opt("fFood") : undefined, state: opt("fState"), kind: opt("fKind")});
+    return STILL.material(seed, {mat: opt("fMat") != null ? +opt("fMat") : undefined});
+  }
+  let items = [];
+  function render(){
+    const shelf = $("#shelf"); shelf.innerHTML = ""; items = [];
+    for (let i = 0; i < 24; i++){ const it = make(i); items.push(it); const d = document.createElement("button"); d.className = "item"; d.setAttribute("role", "listitem"); d.setAttribute("aria-pressed", "false"); d.innerHTML = it.svg + `<span style="color:${RK[it.rk].c}">${esc(it.name)}</span>`; d.addEventListener("click", () => show(i)); shelf.appendChild(d); }
+    $("#note").textContent = NOTES[kind]; show(0);
+  }
+  function show(i){ const it = items[i]; [...$("#shelf").children].forEach((c, j) => c.setAttribute("aria-pressed", String(j === i)));
+    $("#big").innerHTML = it.svg + `<h3>${esc(it.name)}</h3><div class="rk" style="color:${RK[it.rk].c}">${esc(RK[it.rk].n)}</div><dl>${Object.entries(it.parts).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}<dt>code</dt><dd><code>${esc(it.code)}</code></dd></dl>`; }
+  function setKind(k){ kind = k; for (const [id, kk] of [["tBrew","brew"],["tGem","gem"],["tFood","food"],["tMat","mat"]]) $("#" + id).setAttribute("aria-pressed", String(kk === k));
+    $("#bar").innerHTML = BARS[k]() + `<label style="display:flex;flex-direction:column;gap:3px;font:500 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Seed<input type="text" id="fSeed" value="${esc(seedBase)}" size="8"></label><button id="bRoll">Reroll</button>`;
+    $("#bar").querySelectorAll("select").forEach(s => s.addEventListener("change", render));
+    $("#fSeed").addEventListener("change", e => { seedBase = e.target.value || "den"; render(); });
+    $("#bRoll").addEventListener("click", () => { seedBase = Math.random().toString(36).slice(2, 7); $("#fSeed").value = seedBase; render(); });
+    render(); }
+  $("#tBrew").addEventListener("click", () => setKind("brew")); $("#tGem").addEventListener("click", () => setKind("gem")); $("#tFood").addEventListener("click", () => setKind("food")); $("#tMat").addEventListener("click", () => setKind("mat"));
+  setKind("brew");
+})();
+</script>

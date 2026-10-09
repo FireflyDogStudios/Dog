@@ -1,0 +1,19 @@
+{
+  "build": "081722b",
+  "created": 1791486986322,
+  "fixedIn": "0e018ae",
+  "joint": "metaN",
+  "lx": 16.955,
+  "ly": 31.652,
+  "part": "near hind cannon · leg",
+  "phase": 0.894,
+  "r": 0,
+  "reply": "Found it: at lift-off the paw stopped dead and popped up while the hips jumped, and the hock lean flickered on and off, so the paw jerked up, down and up again (on each hind leg, half a stride apart). The swing now leaves and lands at walking speed and the hips settle smoothly. Please check, and Mark fixed if it reads right.",
+  "rig": "hero3",
+  "sev": "should",
+  "standing": false,
+  "status": "open",
+  "tag": "Hind leg",
+  "text": "Both of the back legs do a weird kick 10% to 23% then on the back leg 66% to around 73%",
+  "type": "pin"
+}

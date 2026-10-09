@@ -1,0 +1,501 @@
+gbif_key,species,scientific_name,institution,catalog,sex,country,year,ear_mm,parsed_from,total_length_mm,hind_foot_mm,head_body_mm,licence,url
+876159277,coyote,"Canis latrans Say, 1823",CAS,30144,Indeterminate,United States of America,2012,108.0,text:Ear= 108.0mm,,,,CC0,https://www.gbif.org/occurrence/876159277
+1265939237,coyote,"Canis latrans Say, 1823",CAS,30871,Male,United States of America,2012,78.0,text:Ear= 78.0mm,,,,CC0,https://www.gbif.org/occurrence/1265939237
+5945016668,coyote,"Canis latrans Say, 1823",CAS,39091,Female,United States of America,2025,120.0,text:Ear: 120mm,,,,CC0,https://www.gbif.org/occurrence/5945016668
+5945016669,coyote,"Canis latrans Say, 1823",CAS,39092,Male,United States of America,2025,115.0,text:Ear: 115mm,,,,CC0,https://www.gbif.org/occurrence/5945016669
+5945016670,coyote,"Canis latrans Say, 1823",CAS,39093,Indeterminate,United States of America,2024,110.0,text:Ear: 11cm,,,,CC0,https://www.gbif.org/occurrence/5945016670
+5138159504,coyote,"Canis latrans Say, 1823",CONCOL,547,Female,United States of America,1994,106.25,text:Ear: 106.25mm,,,,CC0,https://www.gbif.org/occurrence/5138159504
+1836012170,coyote,"Canis latrans Say, 1823",EMU,EMU M 1062,Male,United States of America,2013,85.0,json:ear length,870.0,160.0,,CC0,https://www.gbif.org/occurrence/1836012170
+1836011589,coyote,"Canis latrans Say, 1823",EMU,EMU M 271,Female,United States of America,2013,121.0,json:ear length,1143.0,187.0,,CC0,https://www.gbif.org/occurrence/1836011589
+465972992,coyote,"Canis latrans Say, 1823",HSU,1144,,,,115.0,text:Ear=115,,,,CC0,https://www.gbif.org/occurrence/465972992
+465973022,coyote,"Canis latrans Say, 1823",HSU,1159,,United States of America,1975,123.0,text:Ear=123,,,,CC0,https://www.gbif.org/occurrence/465973022
+465973615,coyote,"Canis latrans Say, 1823",HSU,1459,,United States of America,1978,71.0,text:Ear=71,,,,CC0,https://www.gbif.org/occurrence/465973615
+1064642209,coyote,"Canis latrans Say, 1823",HSU,3159,,United States of America,2013,115.0,text:Ear=115,,,,CC0,https://www.gbif.org/occurrence/1064642209
+1257255102,coyote,"Canis latrans Say, 1823",HSU,3174,,United States of America,2011,116.0,text:Ear=116,,,,CC0,https://www.gbif.org/occurrence/1257255102
+1423737481,coyote,"Canis latrans Say, 1823",HSU,4203,Female,United States of America,1983,165.0,measurements T-T-HF-E,1040.0,215.0,,CC0,https://www.gbif.org/occurrence/1423737481
+1423737530,coyote,"Canis latrans Say, 1823",HSU,4204,Male,United States of America,1983,180.0,measurements T-T-HF-E,1062.0,223.0,,CC0,https://www.gbif.org/occurrence/1423737530
+1423734238,coyote,"Canis latrans Say, 1823",HSU,811,Female,United States of America,1968,90.0,measurements T-T-HF-E,1150.0,144.0,,CC0,https://www.gbif.org/occurrence/1423734238
+1423734235,coyote,"Canis latrans Say, 1823",HSU,812,Male,United States of America,1968,92.0,measurements T-T-HF-E,1188.0,148.0,,CC0,https://www.gbif.org/occurrence/1423734235
+1065410860,coyote,"Canis latrans Say, 1823",LACM,22375,Female,Mexico,1949,135.0,measurements T-T-HF-E,1040.0,158.0,,CC0,https://www.gbif.org/occurrence/1065410860
+1065381632,coyote,"Canis latrans lestes Merriam, 1897",LACM,22588,Male,United States of America,1949,115.0,measurements T-T-HF-E,1140.0,190.0,,CC0,https://www.gbif.org/occurrence/1065381632
+1065427937,coyote,"Canis latrans Say, 1823",LACM,33274,Male,Mexico,1970,118.0,measurements T-T-HF-E,1151.0,202.0,,CC0,https://www.gbif.org/occurrence/1065427937
+1065391410,coyote,"Canis latrans Say, 1823",LACM,33275,Female,Mexico,1970,105.0,measurements T-T-HF-E,1200.0,197.0,,CC0,https://www.gbif.org/occurrence/1065391410
+1065425416,coyote,"Canis latrans Say, 1823",LACM,33276,Male,Mexico,1970,110.0,measurements T-T-HF-E,1130.0,192.0,,CC0,https://www.gbif.org/occurrence/1065425416
+1065342934,coyote,"Canis latrans Say, 1823",LACM,33277,Female,Mexico,1970,112.0,measurements T-T-HF-E,1065.0,182.0,,CC0,https://www.gbif.org/occurrence/1065342934
+1065358321,coyote,"Canis latrans Say, 1823",LACM,33279,Male,Mexico,1970,110.0,measurements T-T-HF-E,1110.0,187.0,,CC0,https://www.gbif.org/occurrence/1065358321
+1065338956,coyote,"Canis latrans Say, 1823",LACM,33280,Male,Mexico,1970,118.0,measurements T-T-HF-E,1170.0,198.0,,CC0,https://www.gbif.org/occurrence/1065338956
+1065427558,coyote,"Canis latrans Say, 1823",LACM,33281,Male,Mexico,1970,120.0,measurements T-T-HF-E,1122.0,200.0,,CC0,https://www.gbif.org/occurrence/1065427558
+1065338845,coyote,"Canis latrans Say, 1823",LACM,33282,Male,Mexico,1970,112.0,measurements T-T-HF-E,1045.0,185.0,,CC0,https://www.gbif.org/occurrence/1065338845
+1065356599,coyote,"Canis latrans vigilis Merriam, 1897",LACM,33297,Female,Mexico,1970,72.0,measurements T-T-HF-E,1155.0,115.0,,CC0,https://www.gbif.org/occurrence/1065356599
+1065422552,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33330,Male,United States of America,1969,130.0,measurements T-T-HF-E,1040.0,155.0,,CC0,https://www.gbif.org/occurrence/1065422552
+1065393236,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33331,Female,United States of America,1969,100.0,measurements T-T-HF-E,1505.0,175.0,,CC0,https://www.gbif.org/occurrence/1065393236
+1065404160,coyote,"Canis latrans Say, 1823",LACM,33332,Male,United States of America,1969,115.0,measurements T-T-HF-E,1150.0,155.0,,CC0,https://www.gbif.org/occurrence/1065404160
+1065412376,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33333,Female,United States of America,1970,100.0,measurements T-T-HF-E,1050.0,180.0,,CC0,https://www.gbif.org/occurrence/1065412376
+1065371923,coyote,"Canis latrans Say, 1823",LACM,33334,Male,United States of America,1969,119.0,measurements T-T-HF-E,1140.0,190.0,,CC0,https://www.gbif.org/occurrence/1065371923
+1065411862,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33335,Male,United States of America,1969,110.0,measurements T-T-HF-E,1410.0,72.0,,CC0,https://www.gbif.org/occurrence/1065411862
+1065406767,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33336,Male,United States of America,1969,125.0,measurements T-T-HF-E,1152.0,189.0,,CC0,https://www.gbif.org/occurrence/1065406767
+1065420483,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33337,Female,United States of America,1969,110.0,measurements T-T-HF-E,974.0,172.0,,CC0,https://www.gbif.org/occurrence/1065420483
+1065368198,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33338,Male,United States of America,1969,120.0,measurements T-T-HF-E,1150.0,185.0,,CC0,https://www.gbif.org/occurrence/1065368198
+1065354310,coyote,"Canis latrans Say, 1823",LACM,33339,Male,United States of America,1969,114.0,measurements T-T-HF-E,1085.0,176.0,,CC0,https://www.gbif.org/occurrence/1065354310
+1065338604,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33340,Female,United States of America,1970,115.0,measurements T-T-HF-E,1114.0,180.0,,CC0,https://www.gbif.org/occurrence/1065338604
+1065402477,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33342,,United States of America,1969,100.0,measurements T-T-HF-E,1230.0,170.0,,CC0,https://www.gbif.org/occurrence/1065402477
+1065426377,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33343,Male,United States of America,1970,123.0,measurements T-T-HF-E,1150.0,186.0,,CC0,https://www.gbif.org/occurrence/1065426377
+1065371039,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33344,Male,United States of America,1969,110.0,measurements T-T-HF-E,1460.0,190.0,,CC0,https://www.gbif.org/occurrence/1065371039
+1065370284,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33345,Male,United States of America,1969,112.0,measurements T-T-HF-E,1170.0,185.0,,CC0,https://www.gbif.org/occurrence/1065370284
+1065368855,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33346,Male,United States of America,1970,125.0,measurements T-T-HF-E,1185.0,205.0,,CC0,https://www.gbif.org/occurrence/1065368855
+1065401504,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,33356,Male,United States of America,1969,100.0,measurements T-T-HF-E,1160.0,170.0,,CC0,https://www.gbif.org/occurrence/1065401504
+1065411936,coyote,"Canis latrans Say, 1823",LACM,35438,Female,Mexico,1970,105.0,measurements T-T-HF-E,975.0,125.0,,CC0,https://www.gbif.org/occurrence/1065411936
+1065349074,coyote,"Canis latrans Say, 1823",LACM,35439,Male,Mexico,1970,115.0,measurements T-T-HF-E,1145.0,190.0,,CC0,https://www.gbif.org/occurrence/1065349074
+1065413615,coyote,"Canis latrans Say, 1823",LACM,35440,Male,Mexico,1970,110.0,measurements T-T-HF-E,1137.0,195.0,,CC0,https://www.gbif.org/occurrence/1065413615
+1065418201,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,35441,Female,Mexico,1970,105.0,measurements T-T-HF-E,1060.0,175.0,,CC0,https://www.gbif.org/occurrence/1065418201
+1065386615,coyote,"Canis latrans Say, 1823",LACM,35442,Male,Mexico,1970,95.0,measurements T-T-HF-E,1178.0,175.0,,CC0,https://www.gbif.org/occurrence/1065386615
+1065391446,coyote,"Canis latrans Say, 1823",LACM,43379,Male,United States of America,,120.0,measurements T-T-HF-E,1240.0,205.0,,CC0,https://www.gbif.org/occurrence/1065391446
+1065399966,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,43384,Male,United States of America,1969,114.0,measurements T-T-HF-E,1105.0,180.0,,CC0,https://www.gbif.org/occurrence/1065399966
+1065415837,coyote,"Canis latrans Say, 1823",LACM,43385,Male,United States of America,1969,125.0,measurements T-T-HF-E,1135.0,190.0,,CC0,https://www.gbif.org/occurrence/1065415837
+1065407567,coyote,"Canis latrans mearnsi Merriam, 1897",LACM,45020,Male,United States of America,1969,100.0,measurements T-T-HF-E,930.0,175.0,,CC0,https://www.gbif.org/occurrence/1065407567
+1065401833,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,52213,Male,United States of America,1970,123.0,measurements T-T-HF-E,1176.0,182.0,,CC0,https://www.gbif.org/occurrence/1065401833
+1065393511,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,52253,Female,United States of America,1968,117.0,measurements T-T-HF-E,1115.0,172.0,,CC0,https://www.gbif.org/occurrence/1065393511
+1065391572,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,52254,Male,United States of America,1968,125.0,measurements T-T-HF-E,1145.0,188.0,,CC0,https://www.gbif.org/occurrence/1065391572
+1065352074,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,52255,Male,United States of America,1968,120.0,measurements T-T-HF-E,1212.0,190.0,,CC0,https://www.gbif.org/occurrence/1065352074
+1065378526,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,52276,Male,United States of America,1970,111.0,measurements T-T-HF-E,980.0,168.0,,CC0,https://www.gbif.org/occurrence/1065378526
+1065366819,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,52277,Male,United States of America,1970,117.0,measurements T-T-HF-E,1154.0,186.0,,CC0,https://www.gbif.org/occurrence/1065366819
+1065392561,coyote,"Canis latrans Say, 1823",LACM,52278,Male,United States of America,1969,104.0,measurements T-T-HF-E,1186.0,186.0,,CC0,https://www.gbif.org/occurrence/1065392561
+1065386507,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,54523,Female,United States of America,,115.0,measurements T-T-HF-E,1065.0,173.0,,CC0,https://www.gbif.org/occurrence/1065386507
+1065341421,coyote,"Canis latrans vigilis Merriam, 1897",LACM,59428,Male,Mexico,1968,112.0,measurements T-T-HF-E,1167.0,204.0,,CC0,https://www.gbif.org/occurrence/1065341421
+1065411603,coyote,"Canis latrans vigilis Merriam, 1897",LACM,59430,Female,Mexico,1968,117.0,measurements T-T-HF-E,1090.0,185.0,,CC0,https://www.gbif.org/occurrence/1065411603
+1065356411,coyote,"Canis latrans vigilis Merriam, 1897",LACM,62849,Female,Mexico,1959,105.0,measurements T-T-HF-E,1270.0,185.0,,CC0,https://www.gbif.org/occurrence/1065356411
+1065378064,coyote,"Canis latrans vigilis Merriam, 1897",LACM,70187,Female,Mexico,1958,110.0,measurements T-T-HF-E,1200.0,200.0,,CC0,https://www.gbif.org/occurrence/1065378064
+1065389863,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,7579,Female,United States of America,1940,124.0,measurements T-T-HF-E,1163.0,190.0,,CC0,https://www.gbif.org/occurrence/1065389863
+1065420349,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,8145,Male,United States of America,1942,120.0,measurements T-T-HF-E,1073.0,177.0,,CC0,https://www.gbif.org/occurrence/1065420349
+1065384375,coyote,"Canis latrans mearnsi Merriam, 1897",LACM,8146,Female,United States of America,1942,110.0,measurements T-T-HF-E,904.0,162.0,,CC0,https://www.gbif.org/occurrence/1065384375
+1065394166,coyote,"Canis latrans mearnsi Merriam, 1897",LACM,8345,Female,United States of America,1946,110.0,measurements T-T-HF-E,1135.0,188.0,,CC0,https://www.gbif.org/occurrence/1065394166
+1065388507,coyote,"Canis latrans mearnsi Merriam, 1897",LACM,8346,Male,United States of America,1946,102.0,measurements T-T-HF-E,940.0,160.0,,CC0,https://www.gbif.org/occurrence/1065388507
+1065390869,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,85735,Male,United States of America,1990,116.0,measurements T-T-HF-E,1276.0,184.0,,CC0,https://www.gbif.org/occurrence/1065390869
+1065410268,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,87420,Female,United States of America,,118.0,measurements T-T-HF-E,1325.0,200.0,,CC0,https://www.gbif.org/occurrence/1065410268
+1065377309,coyote,"Canis latrans ochropus Eschscholtz, 1829",LACM,87635,Male,United States of America,,190.0,measurements T-T-HF-E,1205.0,120.0,,CC0,https://www.gbif.org/occurrence/1065377309
+3031279783,coyote,"Canis latrans Say, 1823",NMMNHS,NMMNH:Mamm:4980,Male,Mexico,2005,120.0,text T-T-HF-E,1150.0,195.0,,CC0,https://www.gbif.org/occurrence/3031279783
+6187094571,coyote,"Canis latrans Say, 1823",NMMNHS,NMMNH:Mamm:5824,Female,United States of America,2008,110.0,text T-T-HF-E,1045.0,170.0,,CC0,https://www.gbif.org/occurrence/6187094571
+919973009,coyote,"Canis latrans Say, 1823",UAFMC,0085-0046-0363,Male,,,101.0,measurements T-T-HF-E,1210.0,202.0,,CC0,https://www.gbif.org/occurrence/919973009
+919973030,coyote,"Canis latrans Say, 1823",UAFMC,0085-0046-0365,Male,United States of America,1951,167.0,measurements T-T-HF-E,1120.0,200.0,,CC0,https://www.gbif.org/occurrence/919973030
+919969861,coyote,"Canis latrans Say, 1823",UAFMC,0088-0050-0286,Female,United States of America,1951,105.0,measurements T-T-HF-E,1130.0,185.0,,CC0,https://www.gbif.org/occurrence/919969861
+919969865,coyote,"Canis latrans Say, 1823",UAFMC,0088-0050-0288,Female,United States of America,1950,100.0,measurements T-T-HF-E,980.0,165.0,,CC0,https://www.gbif.org/occurrence/919969865
+919969927,coyote,"Canis latrans Say, 1823",UAFMC,0088-0050-0289,Female,United States of America,1949,100.0,measurements T-T-HF-E,1100.0,187.0,,CC0,https://www.gbif.org/occurrence/919969927
+919970270,coyote,"Canis latrans Say, 1823",UAFMC,0088-0050-0290,Male,United States of America,1951,107.0,measurements T-T-HF-E,1120.0,200.0,,CC0,https://www.gbif.org/occurrence/919970270
+919970176,coyote,"Canis latrans Say, 1823",UAFMC,0088-0050-0500,Female,United States of America,1951,110.0,measurements T-T-HF-E,1160.0,190.0,,CC0,https://www.gbif.org/occurrence/919970176
+2562038612,coyote,"Canis latrans lestes Merriam, 1897",UCM,UCM:Mamm:11592,Male,United States of America,1936,104.0,text T-T-HF-E,1382.0,130.0,,CC0,https://www.gbif.org/occurrence/2562038612
+2562035216,coyote,"Canis latrans mearnsi Merriam, 1897",UCM,UCM:Mamm:11593,Female,United States of America,1936,111.0,text T-T-HF-E,1125.0,179.0,,CC0,https://www.gbif.org/occurrence/2562035216
+2562038315,coyote,"Canis latrans mearnsi Merriam, 1897",UCM,UCM:Mamm:11594,Female,United States of America,1936,110.0,text T-T-HF-E,1195.0,194.0,,CC0,https://www.gbif.org/occurrence/2562038315
+2562032217,coyote,"Canis latrans latrans Say, 1823",UCM,UCM:Mamm:11610,Male,United States of America,1966,102.0,text T-T-HF-E,1372.0,172.0,,CC0,https://www.gbif.org/occurrence/2562032217
+2562035867,coyote,"Canis latrans lestes Merriam, 1897",UCM,UCM:Mamm:11611,Female,United States of America,1964,105.0,text T-T-HF-E,1090.0,180.0,,CC0,https://www.gbif.org/occurrence/2562035867
+2562028468,coyote,"Canis latrans lestes Merriam, 1897",UCM,UCM:Mamm:21983,Female,United States of America,,93.0,text T-T-HF-E,1014.0,175.0,,CC0,https://www.gbif.org/occurrence/2562028468
+2302282938,coyote,"Canis latrans Say, 1823",UCM,UCM:Mamm:22042,Female,United States of America,,93.0,text T-T-HF-E,1014.0,175.0,,CC0,https://www.gbif.org/occurrence/2302282938
+2302282411,coyote,"Canis latrans Say, 1823",UCM,UCM:Mamm:22047,Female,United States of America,2009,110.0,text T-T-HF-E,1200.0,185.0,,CC0,https://www.gbif.org/occurrence/2302282411
+2564825096,coyote,"Canis latrans Say, 1823",UCONN,11251,Female,United States of America,1967,57.0,json:ear length,715.0,145.0,,CC0,https://www.gbif.org/occurrence/2564825096
+3042293459,coyote,"Canis latrans Say, 1823",UNSM,14628,Male,United States of America,1963,110.0,measurements T-T-HF-E,1300.0,180.0,,CC0,https://www.gbif.org/occurrence/3042293459
+3042311019,coyote,"Canis latrans Say, 1823",UNSM,23436,Female,United States of America,1972,95.0,measurements T-T-HF-E,1070.0,175.0,,CC0,https://www.gbif.org/occurrence/3042311019
+4134709675,coyote,"Canis latrans Say, 1823",UWSP,M-001904,Male,United States of America,1970,94.0,text T-T-HF-E,1112.0,183.0,,CC BY,https://www.gbif.org/occurrence/4134709675
+4134707658,coyote,"Canis latrans Say, 1823",UWSP,M-002661,Male,United States of America,1969,95.0,text T-T-HF-E,1244.0,73.0,,CC BY,https://www.gbif.org/occurrence/4134707658
+4134707674,coyote,"Canis latrans Say, 1823",UWSP,M-002669,Male,United States of America,1969,115.0,text T-T-HF-E,1250.0,190.0,,CC BY,https://www.gbif.org/occurrence/4134707674
+4134708698,coyote,"Canis latrans Say, 1823",UWSP,M-002807,Male,United States of America,1971,100.0,text T-T-HF-E,1325.0,165.0,,CC BY,https://www.gbif.org/occurrence/4134708698
+4134708014,coyote,"Canis latrans Say, 1823",UWSP,M-005235,Female,United States of America,1971,105.0,text T-T-HF-E,825.0,112.0,,CC BY,https://www.gbif.org/occurrence/4134708014
+897124415,coyote,"Canis latrans Say, 1823",WNMU,WNMU:Mamm:1216,Female,United States of America,1961,110.0,text T-T-HF-E,1062.0,170.0,,CC0,https://www.gbif.org/occurrence/897124415
+897125297,coyote,"Canis latrans Say, 1823",WNMU,WNMU:Mamm:2012,Female,United States of America,1970,175.0,text T-T-HF-E,1050.0,114.0,,CC0,https://www.gbif.org/occurrence/897125297
+897130100,coyote,"Canis latrans Say, 1823",WNMU,WNMU:Mamm:6364,Male,United States of America,1971,123.0,text T-T-HF-E,1174.0,198.0,,CC0,https://www.gbif.org/occurrence/897130100
+1065381998,dingo,"Canis lupus dingo Meyer, 1793",LACM,49542,Male,Australia,1997,90.0,measurements T-T-HF-E,1215.0,195.0,,CC0,https://www.gbif.org/occurrence/1065381998
+1065354700,dingo,"Canis lupus dingo Meyer, 1793",LACM,49543,Male,Australia,1997,100.0,measurements T-T-HF-E,1235.0,210.0,,CC0,https://www.gbif.org/occurrence/1065354700
+583530914,dog,"Canis familiaris Linnaeus, 1758",CAS,26776,Female,,2002,153.0,text:ear= 153 mm,,,,CC0,https://www.gbif.org/occurrence/583530914
+583534676,dog,"Canis familiaris Linnaeus, 1758",CAS,27834,Male,,2005,89.0,text:Ear=89mm,,,,CC0,https://www.gbif.org/occurrence/583534676
+583535177,dog,"Canis familiaris Linnaeus, 1758",CAS,27978,Male,United States of America,2007,135.0,text:ear= 135 mm,,,,CC0,https://www.gbif.org/occurrence/583535177
+1265939221,dog,"Canis familiaris Linnaeus, 1758",CAS,30870,Female,United States of America,2011,100.0,text:Ear= 100.0mm,,,,CC0,https://www.gbif.org/occurrence/1265939221
+1265939239,dog,"Canis familiaris Linnaeus, 1758",CAS,30873,Male,United States of America,2010,140.0,text:Ear= 140.0mm,,,,CC0,https://www.gbif.org/occurrence/1265939239
+1656005122,dog,"Canis familiaris Linnaeus, 1758",CAS,32086,Male,,,112.0,text:Ear= 112mm,,,,CC0,https://www.gbif.org/occurrence/1656005122
+1800520907,dog,"Canis familiaris Linnaeus, 1758",CAS,32233,Male,United States of America,2011,85.0,text:Ear= 85mm,,,,CC0,https://www.gbif.org/occurrence/1800520907
+1065418602,dog,"Canis lupus familiaris Linnaeus, 1758",LACM,22825,,United States of America,1951,120.0,measurements T-T-HF-E,1380.0,225.0,,CC0,https://www.gbif.org/occurrence/1065418602
+1065370115,dog,"Canis lupus familiaris Linnaeus, 1758",LACM,52197,Female,Israel,1970,100.0,measurements T-T-HF-E,1115.0,193.0,,CC0,https://www.gbif.org/occurrence/1065370115
+1065359715,dog,"Canis lupus familiaris Linnaeus, 1758",LACM,52198,Male,Israel,1970,107.0,measurements T-T-HF-E,1198.0,207.0,,CC0,https://www.gbif.org/occurrence/1065359715
+3042302579,dog,"Canis familiaris Linnaeus, 1758",UNSM,20933,Female,United States of America,1998,83.0,measurements T-T-HF-E,1025.0,163.0,,CC0,https://www.gbif.org/occurrence/3042302579
+1065392587,golden jackal,"Canis aureus Linnaeus, 1758",LACM,56748,Male,India,1959,96.0,measurements T-T-HF-E,893.0,156.0,,CC0,https://www.gbif.org/occurrence/1065392587
+3333914514,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,10214,,Israel,2001,60.0,json:ear length,,125.0,520.0,CC0,https://www.gbif.org/occurrence/3333914514
+3333914515,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,10215,,Israel,2001,60.0,json:ear length,,130.0,593.0,CC0,https://www.gbif.org/occurrence/3333914515
+3333914513,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,10216,,Israel,2001,55.0,json:ear length,,108.0,500.0,CC0,https://www.gbif.org/occurrence/3333914513
+3333913544,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,10403,,Israel,2003,80.0,json:ear length,,167.0,880.0,CC0,https://www.gbif.org/occurrence/3333913544
+3333906018,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,11259,,Israel,2004,73.0,json:ear length,,159.0,735.0,CC0,https://www.gbif.org/occurrence/3333906018
+3333906032,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,11261,,Israel,2005,77.0,json:ear length,,155.0,773.0,CC0,https://www.gbif.org/occurrence/3333906032
+3333906014,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,11270,,Israel,2005,74.0,json:ear length,,170.0,890.0,CC0,https://www.gbif.org/occurrence/3333906014
+3333906148,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,11419,,Israel,2005,82.0,json:ear length,,176.0,863.0,CC0,https://www.gbif.org/occurrence/3333906148
+3333906154,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,11420,,Israel,2005,84.0,json:ear length,,165.0,877.0,CC0,https://www.gbif.org/occurrence/3333906154
+3333905370,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12621,,Israel,2011,78.0,json:ear length,,165.0,730.0,CC0,https://www.gbif.org/occurrence/3333905370
+3333905390,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12624,,Israel,2010,82.0,json:ear length,,178.0,895.0,CC0,https://www.gbif.org/occurrence/3333905390
+3333905377,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12625,,Israel,2010,80.0,json:ear length,,152.0,760.0,CC0,https://www.gbif.org/occurrence/3333905377
+3333905380,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12626,,Israel,2011,81.0,json:ear length,,167.0,780.0,CC0,https://www.gbif.org/occurrence/3333905380
+3333905381,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12628,,Israel,2010,80.0,json:ear length,,165.0,820.0,CC0,https://www.gbif.org/occurrence/3333905381
+3333905410,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12656,,Israel,2011,80.0,json:ear length,,170.0,810.0,CC0,https://www.gbif.org/occurrence/3333905410
+3333905531,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12665,,Israel,2010,74.0,json:ear length,,162.0,743.0,CC0,https://www.gbif.org/occurrence/3333905531
+3333905524,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12672,,Israel,2010,73.0,json:ear length,,152.0,690.0,CC0,https://www.gbif.org/occurrence/3333905524
+3333905514,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12676,,Israel,2011,84.0,json:ear length,,167.0,863.0,CC0,https://www.gbif.org/occurrence/3333905514
+3333905495,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12683,,Israel,2011,84.0,json:ear length,,162.0,750.0,CC0,https://www.gbif.org/occurrence/3333905495
+3333906593,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12687,,Israel,2011,79.0,json:ear length,,166.0,770.0,CC0,https://www.gbif.org/occurrence/3333906593
+3333906441,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12705,,Israel,2011,80.0,json:ear length,,160.0,820.0,CC0,https://www.gbif.org/occurrence/3333906441
+3333906105,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,12731,,Israel,2010,74.0,json:ear length,,154.0,690.0,CC0,https://www.gbif.org/occurrence/3333906105
+3333910737,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13223,,Israel,2011,80.0,json:ear length,,154.0,690.0,CC0,https://www.gbif.org/occurrence/3333910737
+3333910571,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13298,,Israel,2012,82.0,json:ear length,,170.0,845.0,CC0,https://www.gbif.org/occurrence/3333910571
+3333911237,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13333,,Israel,2011,82.0,json:ear length,,163.0,820.0,CC0,https://www.gbif.org/occurrence/3333911237
+3333911288,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13335,,Israel,2011,76.0,json:ear length,,165.0,805.0,CC0,https://www.gbif.org/occurrence/3333911288
+3333911322,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13361,,Israel,2011,82.0,json:ear length,,149.0,785.0,CC0,https://www.gbif.org/occurrence/3333911322
+3333911176,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13379,,Israel,2010,78.0,json:ear length,,165.0,787.0,CC0,https://www.gbif.org/occurrence/3333911176
+3333911182,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13386,,Israel,2011,74.0,json:ear length,,170.0,940.0,CC0,https://www.gbif.org/occurrence/3333911182
+3333911173,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13387,,Israel,2011,65.0,json:ear length,,148.0,670.0,CC0,https://www.gbif.org/occurrence/3333911173
+3333910956,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13405,,Israel,2012,79.0,json:ear length,,152.0,775.0,CC0,https://www.gbif.org/occurrence/3333910956
+3333909166,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13458,,Israel,2012,90.0,json:ear length,,166.0,863.0,CC0,https://www.gbif.org/occurrence/3333909166
+3333909125,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13475,,Israel,2012,75.0,json:ear length,,172.0,790.0,CC0,https://www.gbif.org/occurrence/3333909125
+3333909186,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13499,,Israel,2012,88.0,json:ear length,,164.0,800.0,CC0,https://www.gbif.org/occurrence/3333909186
+3333908618,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13507,,Israel,2012,75.0,json:ear length,,152.0,710.0,CC0,https://www.gbif.org/occurrence/3333908618
+3333908625,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13509,,Israel,2012,88.0,json:ear length,,174.0,885.0,CC0,https://www.gbif.org/occurrence/3333908625
+3333909919,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13573,,Israel,2012,75.0,json:ear length,,160.0,815.0,CC0,https://www.gbif.org/occurrence/3333909919
+3333909924,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13576,,Israel,2012,79.0,json:ear length,,170.0,880.0,CC0,https://www.gbif.org/occurrence/3333909924
+3333910046,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13578,,Israel,2013,75.0,json:ear length,,160.0,790.0,CC0,https://www.gbif.org/occurrence/3333910046
+3333910011,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13591,,Israel,2011,77.0,json:ear length,,156.0,745.0,CC0,https://www.gbif.org/occurrence/3333910011
+3333909462,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13610,,Israel,2013,80.0,json:ear length,,83.0,815.0,CC0,https://www.gbif.org/occurrence/3333909462
+3333909498,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13618,,Israel,2013,75.0,json:ear length,,147.0,755.0,CC0,https://www.gbif.org/occurrence/3333909498
+3333909438,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13621,,Israel,2013,78.0,json:ear length,,158.0,825.0,CC0,https://www.gbif.org/occurrence/3333909438
+3333909428,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13628,,Israel,2013,82.0,json:ear length,,174.0,840.0,CC0,https://www.gbif.org/occurrence/3333909428
+3333909628,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13635,,Israel,2013,79.0,json:ear length,,158.0,725.0,CC0,https://www.gbif.org/occurrence/3333909628
+3333909642,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13637,,Israel,2013,77.0,json:ear length,,160.0,690.0,CC0,https://www.gbif.org/occurrence/3333909642
+3333909647,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13639,,Israel,2013,73.0,json:ear length,,182.0,860.0,CC0,https://www.gbif.org/occurrence/3333909647
+3333909535,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13653,,Israel,2013,70.0,json:ear length,,165.0,750.0,CC0,https://www.gbif.org/occurrence/3333909535
+3333906798,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13708,,Israel,2013,82.0,json:ear length,,164.0,750.0,CC0,https://www.gbif.org/occurrence/3333906798
+3333906828,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13711,,Israel,2013,85.0,json:ear length,,164.0,790.0,CC0,https://www.gbif.org/occurrence/3333906828
+3333906835,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13714,,Israel,2013,87.0,json:ear length,,162.0,702.0,CC0,https://www.gbif.org/occurrence/3333906835
+3333906832,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13715,,Israel,2013,85.0,json:ear length,,160.0,850.0,CC0,https://www.gbif.org/occurrence/3333906832
+3333906837,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13716,,Israel,2013,80.0,json:ear length,,167.0,805.0,CC0,https://www.gbif.org/occurrence/3333906837
+3333906839,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13717,,Israel,2012,85.0,json:ear length,,161.0,760.0,CC0,https://www.gbif.org/occurrence/3333906839
+3333906840,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13718,,Israel,2012,77.0,json:ear length,,161.0,810.0,CC0,https://www.gbif.org/occurrence/3333906840
+3333906900,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13735,,Israel,2012,73.0,json:ear length,,164.0,710.0,CC0,https://www.gbif.org/occurrence/3333906900
+3333908206,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13795,,Israel,2013,81.0,json:ear length,,154.0,740.0,CC0,https://www.gbif.org/occurrence/3333908206
+3333908208,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13796,,Israel,2013,80.0,json:ear length,,165.0,772.0,CC0,https://www.gbif.org/occurrence/3333908208
+3333908336,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13797,,Israel,2013,79.0,json:ear length,,165.0,810.0,CC0,https://www.gbif.org/occurrence/3333908336
+3333907620,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13818,,Israel,2010,75.0,json:ear length,,163.0,760.0,CC0,https://www.gbif.org/occurrence/3333907620
+3333907575,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13820,,Israel,2013,71.0,json:ear length,,156.0,666.0,CC0,https://www.gbif.org/occurrence/3333907575
+3333907580,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13821,,Israel,2013,77.0,json:ear length,,159.0,710.0,CC0,https://www.gbif.org/occurrence/3333907580
+3333907582,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13822,,Israel,2013,71.0,json:ear length,,147.0,690.0,CC0,https://www.gbif.org/occurrence/3333907582
+3333907584,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13823,,Israel,2011,86.0,json:ear length,,160.0,800.0,CC0,https://www.gbif.org/occurrence/3333907584
+3333907591,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13824,,Israel,2011,76.0,json:ear length,,175.0,753.0,CC0,https://www.gbif.org/occurrence/3333907591
+3333907727,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13862,,Israel,2013,76.0,json:ear length,,150.0,610.0,CC0,https://www.gbif.org/occurrence/3333907727
+3333907679,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13863,,Israel,2014,75.0,json:ear length,,163.0,690.0,CC0,https://www.gbif.org/occurrence/3333907679
+3333907732,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13867,,Israel,2014,74.0,json:ear length,,153.0,775.0,CC0,https://www.gbif.org/occurrence/3333907732
+3333907706,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13868,,Israel,2013,81.0,json:ear length,,160.0,705.0,CC0,https://www.gbif.org/occurrence/3333907706
+3333907711,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13869,,Israel,2013,77.0,json:ear length,,162.0,750.0,CC0,https://www.gbif.org/occurrence/3333907711
+3333907670,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13870,,Israel,2013,77.0,json:ear length,,168.0,700.0,CC0,https://www.gbif.org/occurrence/3333907670
+3333907675,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13871,,Israel,2013,77.0,json:ear length,,147.0,705.0,CC0,https://www.gbif.org/occurrence/3333907675
+3333907678,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13872,,Israel,2013,75.0,json:ear length,,164.0,755.0,CC0,https://www.gbif.org/occurrence/3333907678
+3333907682,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13873,,,2014,78.0,json:ear length,,157.0,720.0,CC0,https://www.gbif.org/occurrence/3333907682
+3333907822,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13874,,Israel,2013,80.0,json:ear length,,146.0,670.0,CC0,https://www.gbif.org/occurrence/3333907822
+3333907813,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13881,,Israel,2013,74.0,json:ear length,,168.0,755.0,CC0,https://www.gbif.org/occurrence/3333907813
+3333905394,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13992,,Israel,2014,79.0,json:ear length,,162.0,800.0,CC0,https://www.gbif.org/occurrence/3333905394
+3333905399,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,13993,,Israel,2014,80.0,json:ear length,,166.0,783.0,CC0,https://www.gbif.org/occurrence/3333905399
+3333913991,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14003,,Israel,2014,81.0,json:ear length,,160.0,772.0,CC0,https://www.gbif.org/occurrence/3333913991
+3333913995,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14005,,Israel,2014,80.0,json:ear length,,157.0,810.0,CC0,https://www.gbif.org/occurrence/3333913995
+3333914135,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14006,,Israel,2014,81.0,json:ear length,,162.0,807.0,CC0,https://www.gbif.org/occurrence/3333914135
+3333914137,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14007,,Israel,2014,83.0,json:ear length,,180.0,827.0,CC0,https://www.gbif.org/occurrence/3333914137
+3333914134,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14008,,Israel,2014,78.0,json:ear length,,163.0,823.0,CC0,https://www.gbif.org/occurrence/3333914134
+3333914132,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14009,,Israel,2014,80.0,json:ear length,,160.0,805.0,CC0,https://www.gbif.org/occurrence/3333914132
+3333914110,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14010,,Israel,2014,83.0,json:ear length,,164.0,833.0,CC0,https://www.gbif.org/occurrence/3333914110
+3333914115,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14011,,Israel,2014,83.0,json:ear length,,168.0,838.0,CC0,https://www.gbif.org/occurrence/3333914115
+3333914114,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14012,,Israel,2014,76.0,json:ear length,,168.0,820.0,CC0,https://www.gbif.org/occurrence/3333914114
+3333914129,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14013,,Israel,2014,83.0,json:ear length,,174.0,822.0,CC0,https://www.gbif.org/occurrence/3333914129
+3333914118,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14014,,Israel,2014,80.0,json:ear length,,165.0,873.0,CC0,https://www.gbif.org/occurrence/3333914118
+3333914125,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14015,,Israel,2014,81.0,json:ear length,,167.0,867.0,CC0,https://www.gbif.org/occurrence/3333914125
+3333914122,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14016,,Israel,2014,80.0,json:ear length,,172.0,853.0,CC0,https://www.gbif.org/occurrence/3333914122
+3333914075,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14022,,Israel,2014,78.0,json:ear length,,167.0,790.0,CC0,https://www.gbif.org/occurrence/3333914075
+3333914077,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14025,,Israel,2014,83.0,json:ear length,,168.0,835.0,CC0,https://www.gbif.org/occurrence/3333914077
+3333914086,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14026,,Israel,2013,81.0,json:ear length,,178.0,795.0,CC0,https://www.gbif.org/occurrence/3333914086
+3333914205,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14032,,Israel,2014,82.0,json:ear length,,170.0,910.0,CC0,https://www.gbif.org/occurrence/3333914205
+3333912702,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14124,,Israel,2014,79.0,json:ear length,,160.0,780.0,CC0,https://www.gbif.org/occurrence/3333912702
+3333912706,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14125,,Israel,2014,76.0,json:ear length,,160.0,732.0,CC0,https://www.gbif.org/occurrence/3333912706
+3333912785,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14130,,Israel,2014,81.0,json:ear length,,156.0,770.0,CC0,https://www.gbif.org/occurrence/3333912785
+3333912784,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14131,,Israel,2014,80.0,json:ear length,,151.0,793.0,CC0,https://www.gbif.org/occurrence/3333912784
+3333912792,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14132,,Israel,2014,79.0,json:ear length,,160.0,773.0,CC0,https://www.gbif.org/occurrence/3333912792
+3333912947,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14174,,Israel,2014,81.0,json:ear length,,165.0,905.0,CC0,https://www.gbif.org/occurrence/3333912947
+3333912946,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14175,,Israel,2014,81.0,json:ear length,,173.0,740.0,CC0,https://www.gbif.org/occurrence/3333912946
+3333912952,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14178,,Israel,2014,73.0,json:ear length,,157.0,771.0,CC0,https://www.gbif.org/occurrence/3333912952
+3333912911,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14181,,Israel,2014,77.0,json:ear length,,165.0,701.0,CC0,https://www.gbif.org/occurrence/3333912911
+3333912494,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14199,,Israel,2015,82.0,json:ear length,,171.0,695.0,CC0,https://www.gbif.org/occurrence/3333912494
+3333913330,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14269,,Israel,2008,84.0,json:ear length,,167.0,865.0,CC0,https://www.gbif.org/occurrence/3333913330
+3333913370,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14276,,Israel,2010,77.0,json:ear length,,160.0,720.0,CC0,https://www.gbif.org/occurrence/3333913370
+3333911833,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14301,,Israel,2010,77.0,json:ear length,,152.0,855.0,CC0,https://www.gbif.org/occurrence/3333911833
+3333911887,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14313,,Israel,2013,81.0,json:ear length,,,705.0,CC0,https://www.gbif.org/occurrence/3333911887
+3333911927,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14338,,Israel,2013,73.0,json:ear length,,162.0,800.0,CC0,https://www.gbif.org/occurrence/3333911927
+3333911720,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14353,,Israel,2013,82.0,json:ear length,,175.0,700.0,CC0,https://www.gbif.org/occurrence/3333911720
+3333911744,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14371,,Israel,2015,80.0,json:ear length,,172.0,823.0,CC0,https://www.gbif.org/occurrence/3333911744
+3333912289,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14418,,Israel,2015,79.0,json:ear length,,166.0,793.0,CC0,https://www.gbif.org/occurrence/3333912289
+3333909152,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14795,,Israel,2015,80.0,json:ear length,,168.0,810.0,CC0,https://www.gbif.org/occurrence/3333909152
+3333909157,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14797,,Israel,2015,79.0,json:ear length,,162.0,782.0,CC0,https://www.gbif.org/occurrence/3333909157
+3333908830,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14848,,Israel,2015,68.0,json:ear length,,150.0,700.0,CC0,https://www.gbif.org/occurrence/3333908830
+3333909293,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14908,,Israel,2015,81.0,json:ear length,,161.0,692.0,CC0,https://www.gbif.org/occurrence/3333909293
+3333909469,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14941,,Israel,2015,78.0,json:ear length,,166.0,780.0,CC0,https://www.gbif.org/occurrence/3333909469
+3333909564,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14979,,Israel,2015,84.0,json:ear length,,153.0,810.0,CC0,https://www.gbif.org/occurrence/3333909564
+3333909515,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14980,,Israel,2015,70.0,json:ear length,,162.0,780.0,CC0,https://www.gbif.org/occurrence/3333909515
+3333909524,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14982,,Israel,2015,83.0,json:ear length,,168.0,830.0,CC0,https://www.gbif.org/occurrence/3333909524
+3333909529,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,14984,,Israel,2015,66.0,json:ear length,,165.0,736.0,CC0,https://www.gbif.org/occurrence/3333909529
+3333914747,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15031,,Israel,2016,84.0,json:ear length,,167.0,939.0,CC0,https://www.gbif.org/occurrence/3333914747
+3333914565,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15070,,Israel,2016,91.0,json:ear length,,170.0,840.0,CC0,https://www.gbif.org/occurrence/3333914565
+3333914633,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15085,,Israel,2016,82.0,json:ear length,,176.0,763.0,CC0,https://www.gbif.org/occurrence/3333914633
+3333914632,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15086,,Israel,2016,76.0,json:ear length,,162.0,773.0,CC0,https://www.gbif.org/occurrence/3333914632
+3333914635,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15087,,Israel,2016,85.0,json:ear length,,176.0,875.0,CC0,https://www.gbif.org/occurrence/3333914635
+3333914636,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15089,,Israel,2016,70.0,json:ear length,,156.0,700.0,CC0,https://www.gbif.org/occurrence/3333914636
+3333914613,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15098,,Israel,2016,73.0,json:ear length,,150.0,645.0,CC0,https://www.gbif.org/occurrence/3333914613
+3333914610,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15099,,Israel,2016,77.0,json:ear length,,160.0,730.0,CC0,https://www.gbif.org/occurrence/3333914610
+3333915111,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15104,,Israel,2016,87.0,json:ear length,,162.0,826.0,CC0,https://www.gbif.org/occurrence/3333915111
+3333915161,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15127,,Israel,2016,69.0,json:ear length,,151.0,751.0,CC0,https://www.gbif.org/occurrence/3333915161
+3333915147,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15128,,Israel,2016,76.0,json:ear length,,104.0,814.0,CC0,https://www.gbif.org/occurrence/3333915147
+3333915143,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15129,,Israel,2016,78.0,json:ear length,,173.0,785.0,CC0,https://www.gbif.org/occurrence/3333915143
+3333915130,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15130,,Israel,2016,78.0,json:ear length,,165.0,862.0,CC0,https://www.gbif.org/occurrence/3333915130
+3333915133,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15134,,Israel,2016,85.0,json:ear length,,158.0,755.0,CC0,https://www.gbif.org/occurrence/3333915133
+3333915137,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15135,,Israel,2016,83.0,json:ear length,,180.0,810.0,CC0,https://www.gbif.org/occurrence/3333915137
+3333915013,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15165,,Israel,2016,76.0,json:ear length,,157.0,687.0,CC0,https://www.gbif.org/occurrence/3333915013
+3333915026,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15190,,Israel,2016,82.0,json:ear length,,163.0,790.0,CC0,https://www.gbif.org/occurrence/3333915026
+3333915032,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15195,,Israel,2016,79.0,json:ear length,,150.0,810.0,CC0,https://www.gbif.org/occurrence/3333915032
+3333913580,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15200,,Israel,2016,80.0,json:ear length,,156.0,752.0,CC0,https://www.gbif.org/occurrence/3333913580
+3333913579,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15202,,Israel,2016,81.0,json:ear length,,166.0,835.0,CC0,https://www.gbif.org/occurrence/3333913579
+3333913529,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15296,,Israel,2016,77.0,json:ear length,,163.0,782.0,CC0,https://www.gbif.org/occurrence/3333913529
+3333914482,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15302,,Israel,2016,72.0,json:ear length,,162.0,831.0,CC0,https://www.gbif.org/occurrence/3333914482
+3333914116,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15343,,Israel,2016,85.0,json:ear length,,167.0,820.0,CC0,https://www.gbif.org/occurrence/3333914116
+3333914121,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15344,,Israel,2016,82.0,json:ear length,,154.0,760.0,CC0,https://www.gbif.org/occurrence/3333914121
+3333914120,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15345,,Israel,2016,90.0,json:ear length,,177.0,820.0,CC0,https://www.gbif.org/occurrence/3333914120
+3333914127,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15346,,Israel,2016,77.0,json:ear length,,154.0,708.0,CC0,https://www.gbif.org/occurrence/3333914127
+3333914124,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15347,,Israel,2016,81.0,json:ear length,,176.0,815.0,CC0,https://www.gbif.org/occurrence/3333914124
+3333914093,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15348,,Israel,2016,77.0,json:ear length,,167.0,840.0,CC0,https://www.gbif.org/occurrence/3333914093
+3333914065,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15350,,Israel,2016,78.0,json:ear length,,162.0,695.0,CC0,https://www.gbif.org/occurrence/3333914065
+3333914240,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15367,,Israel,2016,86.0,json:ear length,,167.0,790.0,CC0,https://www.gbif.org/occurrence/3333914240
+3333912967,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15410,,Israel,2016,84.0,json:ear length,,168.0,810.0,CC0,https://www.gbif.org/occurrence/3333912967
+3333912998,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15435,,Israel,2017,79.0,json:ear length,,165.0,780.0,CC0,https://www.gbif.org/occurrence/3333912998
+3333912742,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15436,,Israel,2017,79.0,json:ear length,,167.0,810.0,CC0,https://www.gbif.org/occurrence/3333912742
+3333912740,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15437,,Israel,2016,82.0,json:ear length,,165.0,855.0,CC0,https://www.gbif.org/occurrence/3333912740
+3333912725,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15440,,Israel,2017,88.0,json:ear length,,165.0,804.0,CC0,https://www.gbif.org/occurrence/3333912725
+3333912734,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15441,,Israel,2017,74.0,json:ear length,,161.0,800.0,CC0,https://www.gbif.org/occurrence/3333912734
+3333912892,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15485,,Israel,2017,79.0,json:ear length,,154.0,703.0,CC0,https://www.gbif.org/occurrence/3333912892
+3333913478,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15549,,Israel,2017,82.0,json:ear length,,173.0,884.0,CC0,https://www.gbif.org/occurrence/3333913478
+3333913463,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15551,,Israel,2016,87.0,json:ear length,,173.0,918.0,CC0,https://www.gbif.org/occurrence/3333913463
+3333913299,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15557,,Israel,2017,77.0,json:ear length,,168.0,834.0,CC0,https://www.gbif.org/occurrence/3333913299
+3333913284,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15561,,Israel,2017,82.0,json:ear length,,170.0,710.0,CC0,https://www.gbif.org/occurrence/3333913284
+3333913345,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15587,,Israel,2017,72.0,json:ear length,,158.0,790.0,CC0,https://www.gbif.org/occurrence/3333913345
+3333913328,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15597,,Israel,2017,75.0,json:ear length,,173.0,845.0,CC0,https://www.gbif.org/occurrence/3333913328
+3333911918,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15677,,Israel,2017,79.0,json:ear length,,153.0,635.0,CC0,https://www.gbif.org/occurrence/3333911918
+3333911724,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15683,,Israel,2017,78.0,json:ear length,,162.0,715.0,CC0,https://www.gbif.org/occurrence/3333911724
+3333911700,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15692,,Israel,2017,78.0,json:ear length,,161.0,848.0,CC0,https://www.gbif.org/occurrence/3333911700
+3333912034,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15801,,Israel,2018,78.0,json:ear length,,162.0,740.0,CC0,https://www.gbif.org/occurrence/3333912034
+3333912033,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15802,,Israel,2017,79.0,json:ear length,,165.0,755.0,CC0,https://www.gbif.org/occurrence/3333912033
+3333910650,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15833,,Israel,2017,67.0,json:ear length,,155.0,802.0,CC0,https://www.gbif.org/occurrence/3333910650
+3333910641,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,15848,,Israel,2018,85.0,json:ear length,,175.0,770.0,CC0,https://www.gbif.org/occurrence/3333910641
+3333907985,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16083,,Israel,2018,73.0,json:ear length,,156.0,723.0,CC0,https://www.gbif.org/occurrence/3333907985
+3333907608,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16097,,Israel,2019,78.0,json:ear length,,153.0,,CC0,https://www.gbif.org/occurrence/3333907608
+3333905878,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16106,,Israel,2018,81.0,json:ear length,,157.0,745.0,CC0,https://www.gbif.org/occurrence/3333905878
+3333905911,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16118,,Israel,2019,78.0,json:ear length,,173.0,750.0,CC0,https://www.gbif.org/occurrence/3333905911
+3333905570,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16132,,Israel,2019,84.0,json:ear length,,163.0,762.0,CC0,https://www.gbif.org/occurrence/3333905570
+3333905544,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16141,,Israel,2018,79.0,json:ear length,,165.0,710.0,CC0,https://www.gbif.org/occurrence/3333905544
+3333905545,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16142,,Israel,2018,86.0,json:ear length,,160.0,768.0,CC0,https://www.gbif.org/occurrence/3333905545
+3333905686,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16172,,Israel,2019,72.0,json:ear length,,147.0,674.0,CC0,https://www.gbif.org/occurrence/3333905686
+3333905641,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16180,,Israel,2019,81.0,json:ear length,,163.0,745.0,CC0,https://www.gbif.org/occurrence/3333905641
+3333905728,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16190,,Israel,2019,79.0,json:ear length,,172.0,867.0,CC0,https://www.gbif.org/occurrence/3333905728
+3333906535,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,16213,,Israel,2017,84.0,json:ear length,,160.0,762.0,CC0,https://www.gbif.org/occurrence/3333906535
+3333907005,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,3977,,Israel,2011,74.0,json:ear length,,150.0,685.0,CC0,https://www.gbif.org/occurrence/3333907005
+3333909005,golden jackal,"Canis aureus Linnaeus, 1758",SMNHTAU,4167,,Israel,2010,82.0,json:ear length,,148.0,700.0,CC0,https://www.gbif.org/occurrence/3333909005
+3333914522,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10230,,Israel,2002,120.0,json:ear length,,245.0,1190.0,CC0,https://www.gbif.org/occurrence/3333914522
+3333914976,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10334,,Israel,2005,113.0,json:ear length,,214.0,960.0,CC0,https://www.gbif.org/occurrence/3333914976
+3333914973,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10335,,Israel,2003,135.0,json:ear length,,250.0,1270.0,CC0,https://www.gbif.org/occurrence/3333914973
+3333914971,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10336,,Israel,2003,110.0,json:ear length,,225.0,1100.0,CC0,https://www.gbif.org/occurrence/3333914971
+3333914972,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10338,,Israel,2003,108.0,json:ear length,,228.0,1180.0,CC0,https://www.gbif.org/occurrence/3333914972
+3333914974,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10340,,Israel,2000,115.0,json:ear length,,230.0,1090.0,CC0,https://www.gbif.org/occurrence/3333914974
+3333914977,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10341,,Israel,2003,111.0,json:ear length,,226.0,1170.0,CC0,https://www.gbif.org/occurrence/3333914977
+3333914979,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10355,,Israel,2003,110.0,json:ear length,,240.0,1210.0,CC0,https://www.gbif.org/occurrence/3333914979
+3333914975,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10356,,Israel,2003,137.0,json:ear length,,250.0,1130.0,CC0,https://www.gbif.org/occurrence/3333914975
+3333913756,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10392,,Israel,2000,115.0,json:ear length,,223.0,1050.0,CC0,https://www.gbif.org/occurrence/3333913756
+3333913739,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10399,,Israel,2003,117.0,json:ear length,,213.0,965.0,CC0,https://www.gbif.org/occurrence/3333913739
+3333913545,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10401,,Israel,2003,129.0,json:ear length,,253.0,1120.0,CC0,https://www.gbif.org/occurrence/3333913545
+3333913543,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10402,,Israel,2003,104.0,json:ear length,,210.0,1025.0,CC0,https://www.gbif.org/occurrence/3333913543
+3333912563,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10607,,Israel,2004,110.0,json:ear length,,216.0,1050.0,CC0,https://www.gbif.org/occurrence/3333912563
+3333912557,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10609,,Israel,2003,114.0,json:ear length,,240.0,1000.0,CC0,https://www.gbif.org/occurrence/3333912557
+3333912540,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10610,,Israel,2003,125.0,json:ear length,,240.0,1180.0,CC0,https://www.gbif.org/occurrence/3333912540
+3333912537,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10611,,Israel,2004,103.0,json:ear length,,223.0,1010.0,CC0,https://www.gbif.org/occurrence/3333912537
+3333912524,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10619,,Israel,2004,114.0,json:ear length,,237.0,1100.0,CC0,https://www.gbif.org/occurrence/3333912524
+3333912612,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10620,,Israel,2004,110.0,json:ear length,,225.0,1130.0,CC0,https://www.gbif.org/occurrence/3333912612
+3333912384,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10680,,Israel,2004,115.0,json:ear length,,225.0,1000.0,CC0,https://www.gbif.org/occurrence/3333912384
+3333912383,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10681,,Israel,2004,123.0,json:ear length,,234.0,1070.0,CC0,https://www.gbif.org/occurrence/3333912383
+3333912422,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10686,,Israel,2004,106.0,json:ear length,,224.0,995.0,CC0,https://www.gbif.org/occurrence/3333912422
+3333913158,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,10725,,Israel,2003,134.0,json:ear length,,244.0,1075.0,CC0,https://www.gbif.org/occurrence/3333913158
+3333907482,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11041,,Israel,2004,110.0,json:ear length,,205.0,989.0,CC0,https://www.gbif.org/occurrence/3333907482
+3333907479,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11042,,Israel,2004,108.0,json:ear length,,220.0,1005.0,CC0,https://www.gbif.org/occurrence/3333907479
+3333907478,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11043,,Israel,2004,111.0,json:ear length,,240.0,1092.0,CC0,https://www.gbif.org/occurrence/3333907478
+3333908244,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11119,,Israel,2004,113.0,json:ear length,,217.0,980.0,CC0,https://www.gbif.org/occurrence/3333908244
+3333908267,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11120,,Israel,2004,97.0,json:ear length,,215.0,1058.0,CC0,https://www.gbif.org/occurrence/3333908267
+3333908261,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11121,,Israel,2004,117.0,json:ear length,,225.0,1015.0,CC0,https://www.gbif.org/occurrence/3333908261
+3333905955,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11251,,Israel,2004,117.0,json:ear length,,237.0,1080.0,CC0,https://www.gbif.org/occurrence/3333905955
+3333906151,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11416,,Israel,2005,120.0,json:ear length,,220.0,1082.0,CC0,https://www.gbif.org/occurrence/3333906151
+3333906149,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11417,,Israel,2005,119.0,json:ear length,,243.0,1063.0,CC0,https://www.gbif.org/occurrence/3333906149
+3333906234,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11475,,Israel,2005,123.0,json:ear length,,247.0,1090.0,CC0,https://www.gbif.org/occurrence/3333906234
+3333914820,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11479,,Israel,2005,117.0,json:ear length,,232.0,1037.0,CC0,https://www.gbif.org/occurrence/3333914820
+3333914981,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,11684,,Israel,2006,105.0,json:ear length,,215.0,1160.0,CC0,https://www.gbif.org/occurrence/3333914981
+3333909132,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12137,,,2008,100.0,json:ear length,,230.0,,CC0,https://www.gbif.org/occurrence/3333909132
+3333909902,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12208,,Israel,2008,101.0,json:ear length,,227.0,920.0,CC0,https://www.gbif.org/occurrence/3333909902
+3333909906,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12209,,Israel,2008,103.0,json:ear length,,213.0,1013.0,CC0,https://www.gbif.org/occurrence/3333909906
+3333909872,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12210,,Israel,2008,101.0,json:ear length,,240.0,1150.0,CC0,https://www.gbif.org/occurrence/3333909872
+3333909875,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12211,,Israel,2008,101.0,json:ear length,,202.0,1010.0,CC0,https://www.gbif.org/occurrence/3333909875
+3333910045,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12248,,Israel,2009,108.0,json:ear length,,248.0,,CC0,https://www.gbif.org/occurrence/3333910045
+3333910049,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12249,,Israel,2008,110.0,json:ear length,,220.0,1160.0,CC0,https://www.gbif.org/occurrence/3333910049
+3333910031,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12251,,Israel,2009,101.0,json:ear length,,210.0,1150.0,CC0,https://www.gbif.org/occurrence/3333910031
+3333910036,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12254,,Israel,2009,116.0,json:ear length,,217.0,1220.0,CC0,https://www.gbif.org/occurrence/3333910036
+3333906874,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12418,,Israel,2009,110.0,json:ear length,,217.0,980.0,CC0,https://www.gbif.org/occurrence/3333906874
+3333906916,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12419,,Israel,2009,105.0,json:ear length,,230.0,1180.0,CC0,https://www.gbif.org/occurrence/3333906916
+3333906850,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12420,,Israel,2009,112.0,json:ear length,,218.0,1020.0,CC0,https://www.gbif.org/occurrence/3333906850
+3333906854,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12421,,Israel,2009,115.0,json:ear length,,247.0,1130.0,CC0,https://www.gbif.org/occurrence/3333906854
+3333908324,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12470,,Israel,2010,108.0,json:ear length,,227.0,1050.0,CC0,https://www.gbif.org/occurrence/3333908324
+3333908329,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12475,,Israel,2010,115.0,json:ear length,,227.0,1022.0,CC0,https://www.gbif.org/occurrence/3333908329
+3333908335,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12476,,Israel,2009,119.0,json:ear length,,222.0,1040.0,CC0,https://www.gbif.org/occurrence/3333908335
+3333908303,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12477,,Israel,2009,108.0,json:ear length,,225.0,1020.0,CC0,https://www.gbif.org/occurrence/3333908303
+3333908291,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12481,,Israel,2010,118.0,json:ear length,,242.0,1030.0,CC0,https://www.gbif.org/occurrence/3333908291
+3333907626,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12520,,Israel,2010,125.0,json:ear length,,243.0,1180.0,CC0,https://www.gbif.org/occurrence/3333907626
+3333907736,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12522,,Israel,2010,105.0,json:ear length,,219.0,1120.0,CC0,https://www.gbif.org/occurrence/3333907736
+3333907674,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12540,,Israel,2010,114.0,json:ear length,,241.0,11400.0,CC0,https://www.gbif.org/occurrence/3333907674
+3333907819,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12543,,Israel,2009,108.0,json:ear length,,240.0,1100.0,CC0,https://www.gbif.org/occurrence/3333907819
+3333907825,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12544,,Israel,2010,112.0,json:ear length,,230.0,1120.0,CC0,https://www.gbif.org/occurrence/3333907825
+3333905973,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12575,,Israel,2010,124.0,json:ear length,,234.0,1170.0,CC0,https://www.gbif.org/occurrence/3333905973
+3333905343,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12632,,Israel,2008,102.0,json:ear length,,251.0,1160.0,CC0,https://www.gbif.org/occurrence/3333905343
+3333905351,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12634,,Israel,2009,113.0,json:ear length,,,,CC0,https://www.gbif.org/occurrence/3333905351
+3333905362,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12638,,Israel,2009,123.0,json:ear length,,218.0,990.0,CC0,https://www.gbif.org/occurrence/3333905362
+3333905464,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12643,,Israel,2009,120.0,json:ear length,,,,CC0,https://www.gbif.org/occurrence/3333905464
+3333905481,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12648,,Israel,2011,118.0,json:ear length,,240.0,1150.0,CC0,https://www.gbif.org/occurrence/3333905481
+3333905424,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12660,,Israel,2010,118.0,json:ear length,,222.0,1025.0,CC0,https://www.gbif.org/occurrence/3333905424
+3333905395,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12661,,Israel,2011,117.0,json:ear length,,242.0,1120.0,CC0,https://www.gbif.org/occurrence/3333905395
+3333905542,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12671,,Israel,2009,108.0,json:ear length,,197.0,940.0,CC0,https://www.gbif.org/occurrence/3333905542
+3333906163,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12747,,Israel,2011,106.0,json:ear length,,195.0,995.0,CC0,https://www.gbif.org/occurrence/3333906163
+3333914620,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12811,,Israel,2011,101.0,json:ear length,,216.0,878.0,CC0,https://www.gbif.org/occurrence/3333914620
+3333914625,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12812,,Israel,2011,112.0,json:ear length,,224.0,970.0,CC0,https://www.gbif.org/occurrence/3333914625
+3333914623,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12816,,Israel,2011,112.0,json:ear length,,243.0,1100.0,CC0,https://www.gbif.org/occurrence/3333914623
+3333914628,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12817,,Israel,2011,114.0,json:ear length,,237.0,1195.0,CC0,https://www.gbif.org/occurrence/3333914628
+3333914519,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,12894,,Israel,2011,112.0,json:ear length,,225.0,986.0,CC0,https://www.gbif.org/occurrence/3333914519
+3333910570,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13299,,Israel,2011,122.0,json:ear length,,218.0,1080.0,CC0,https://www.gbif.org/occurrence/3333910570
+3333911263,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13316,,Israel,2012,120.0,json:ear length,,230.0,1090.0,CC0,https://www.gbif.org/occurrence/3333911263
+3333911256,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13323,,Israel,2011,109.0,json:ear length,,215.0,960.0,CC0,https://www.gbif.org/occurrence/3333911256
+3333911243,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13325,,Israel,2011,119.0,json:ear length,,225.0,1200.0,CC0,https://www.gbif.org/occurrence/3333911243
+3333911233,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13331,,Israel,2009,123.0,json:ear length,,247.0,1055.0,CC0,https://www.gbif.org/occurrence/3333911233
+3333911240,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13334,,Israel,2012,102.0,json:ear length,,215.0,930.0,CC0,https://www.gbif.org/occurrence/3333911240
+3333911293,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13338,,Israel,2011,110.0,json:ear length,,237.0,1040.0,CC0,https://www.gbif.org/occurrence/3333911293
+3333911307,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13371,,Israel,2012,113.0,json:ear length,,245.0,1145.0,CC0,https://www.gbif.org/occurrence/3333911307
+3333911305,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13372,,Israel,2012,114.0,json:ear length,,236.0,1150.0,CC0,https://www.gbif.org/occurrence/3333911305
+3333910966,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13406,,Israel,2011,106.0,json:ear length,,219.0,1030.0,CC0,https://www.gbif.org/occurrence/3333910966
+3333909133,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13468,,Israel,2012,104.0,json:ear length,,226.0,1110.0,CC0,https://www.gbif.org/occurrence/3333909133
+3333909129,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13477,,Israel,2012,129.0,json:ear length,,240.0,1230.0,CC0,https://www.gbif.org/occurrence/3333909129
+3333909176,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13493,,Israel,2012,108.0,json:ear length,,228.0,1226.0,CC0,https://www.gbif.org/occurrence/3333909176
+3333909180,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13496,,Israel,2012,114.0,json:ear length,,234.0,1100.0,CC0,https://www.gbif.org/occurrence/3333909180
+3333908790,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13511,,Israel,2012,116.0,json:ear length,,232.0,1150.0,CC0,https://www.gbif.org/occurrence/3333908790
+3333909915,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13570,,Israel,2013,124.0,json:ear length,,244.0,1190.0,CC0,https://www.gbif.org/occurrence/3333909915
+3333910019,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13598,,Israel,2013,125.0,json:ear length,,236.0,1160.0,CC0,https://www.gbif.org/occurrence/3333910019
+3333909493,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13616,,Israel,2012,100.0,json:ear length,,190.0,975.0,CC0,https://www.gbif.org/occurrence/3333909493
+3333909464,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13620,,Israel,2012,111.0,json:ear length,,,,CC0,https://www.gbif.org/occurrence/3333909464
+3333909617,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13633,,Israel,2013,103.0,json:ear length,,216.0,1105.0,CC0,https://www.gbif.org/occurrence/3333909617
+3333909553,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13645,,Israel,2013,115.0,json:ear length,,241.0,983.0,CC0,https://www.gbif.org/occurrence/3333909553
+3333908264,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13777,,Israel,2013,100.0,json:ear length,,191.0,915.0,CC0,https://www.gbif.org/occurrence/3333908264
+3333908269,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13778,,Israel,2013,105.0,json:ear length,,205.0,940.0,CC0,https://www.gbif.org/occurrence/3333908269
+3333908243,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13781,,Israel,2012,115.0,json:ear length,,220.0,1150.0,CC0,https://www.gbif.org/occurrence/3333908243
+3333908249,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13783,,Israel,2012,105.0,json:ear length,,230.0,1100.0,CC0,https://www.gbif.org/occurrence/3333908249
+3333908209,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13786,,Israel,2012,103.0,json:ear length,,241.0,1225.0,CC0,https://www.gbif.org/occurrence/3333908209
+3333908009,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13801,,Israel,2013,105.0,json:ear length,,207.0,975.0,CC0,https://www.gbif.org/occurrence/3333908009
+3333908010,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13802,,Israel,2013,111.0,json:ear length,,227.0,1050.0,CC0,https://www.gbif.org/occurrence/3333908010
+3333908013,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13803,,Israel,2013,105.0,json:ear length,,254.0,1187.0,CC0,https://www.gbif.org/occurrence/3333908013
+3333907842,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13879,,Israel,2014,115.0,json:ear length,,235.0,1186.0,CC0,https://www.gbif.org/occurrence/3333907842
+3333907810,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13880,,Israel,2014,115.0,json:ear length,,218.0,1085.0,CC0,https://www.gbif.org/occurrence/3333907810
+3333907816,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13883,,Israel,2014,105.0,json:ear length,,222.0,950.0,CC0,https://www.gbif.org/occurrence/3333907816
+3333905759,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13919,,Israel,2013,113.0,json:ear length,,204.0,1035.0,CC0,https://www.gbif.org/occurrence/3333905759
+3333905391,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13957,,Israel,2014,123.0,json:ear length,,227.0,1134.0,CC0,https://www.gbif.org/occurrence/3333905391
+3333905450,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13981,,Israel,2014,120.0,json:ear length,,252.0,1325.0,CC0,https://www.gbif.org/occurrence/3333905450
+3333905454,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13982,,Israel,2014,118.0,json:ear length,,236.0,1130.0,CC0,https://www.gbif.org/occurrence/3333905454
+3333905458,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13983,,Israel,2014,125.0,json:ear length,,250.0,1245.0,CC0,https://www.gbif.org/occurrence/3333905458
+3333905419,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13984,,Israel,2014,108.0,json:ear length,,230.0,1008.0,CC0,https://www.gbif.org/occurrence/3333905419
+3333905414,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,13987,,Israel,2014,110.0,json:ear length,,235.0,1185.0,CC0,https://www.gbif.org/occurrence/3333905414
+3333912889,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14154,,Israel,2014,115.0,json:ear length,,225.0,1125.0,CC0,https://www.gbif.org/occurrence/3333912889
+3333911880,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14318,,Israel,2013,107.0,json:ear length,,225.0,1050.0,CC0,https://www.gbif.org/occurrence/3333911880
+3333911906,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14340,,Israel,2013,119.0,json:ear length,,255.0,1085.0,CC0,https://www.gbif.org/occurrence/3333911906
+3333909149,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14792,,Israel,2015,108.0,json:ear length,,235.0,1220.0,CC0,https://www.gbif.org/occurrence/3333909149
+3333909154,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14794,,Israel,2015,102.0,json:ear length,,196.0,936.0,CC0,https://www.gbif.org/occurrence/3333909154
+3333908824,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14849,,Israel,2015,115.0,json:ear length,,230.0,1170.0,CC0,https://www.gbif.org/occurrence/3333908824
+3333909880,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14873,,Israel,2015,105.0,json:ear length,,208.0,947.0,CC0,https://www.gbif.org/occurrence/3333909880
+3333909863,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14879,,Israel,2015,106.0,json:ear length,,203.0,975.0,CC0,https://www.gbif.org/occurrence/3333909863
+3333909249,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14915,,Israel,2015,112.0,json:ear length,,220.0,1110.0,CC0,https://www.gbif.org/occurrence/3333909249
+3333909326,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14930,,Israel,2015,116.0,json:ear length,,251.0,1117.0,CC0,https://www.gbif.org/occurrence/3333909326
+3333909329,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14932,,Israel,2015,115.0,json:ear length,,231.0,1140.0,CC0,https://www.gbif.org/occurrence/3333909329
+3333907271,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14992,,Israel,2016,115.0,json:ear length,,225.0,1215.0,CC0,https://www.gbif.org/occurrence/3333907271
+3333907265,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,14993,,Israel,2016,113.0,json:ear length,,235.0,1220.0,CC0,https://www.gbif.org/occurrence/3333907265
+3333915107,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15101,,Israel,2016,108.0,json:ear length,,207.0,991.0,CC0,https://www.gbif.org/occurrence/3333915107
+3333915112,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15102,,Israel,2016,110.0,json:ear length,,231.0,1180.0,CC0,https://www.gbif.org/occurrence/3333915112
+3333915030,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15192,,Israel,2016,110.0,json:ear length,,224.0,1062.0,CC0,https://www.gbif.org/occurrence/3333915030
+3333913526,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15297,,Israel,2016,112.0,json:ear length,,230.0,1255.0,CC0,https://www.gbif.org/occurrence/3333913526
+3333913533,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15298,,Israel,2016,112.0,json:ear length,,231.0,1100.0,CC0,https://www.gbif.org/occurrence/3333913533
+3333913531,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15299,,Israel,2016,115.0,json:ear length,,225.0,942.0,CC0,https://www.gbif.org/occurrence/3333913531
+3333914032,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15320,,Israel,2016,121.0,json:ear length,,225.0,1072.0,CC0,https://www.gbif.org/occurrence/3333914032
+3333914079,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15356,,Israel,2016,116.0,json:ear length,,230.0,975.0,CC0,https://www.gbif.org/occurrence/3333914079
+3333914206,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15362,,Israel,2016,117.0,json:ear length,,250.0,1220.0,CC0,https://www.gbif.org/occurrence/3333914206
+3333914227,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15366,,Israel,2016,103.0,json:ear length,,215.0,1013.0,CC0,https://www.gbif.org/occurrence/3333914227
+3333914186,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15377,,Israel,2016,106.0,json:ear length,,207.0,935.0,CC0,https://www.gbif.org/occurrence/3333914186
+3333914192,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15379,,Israel,2016,105.0,json:ear length,,194.0,890.0,CC0,https://www.gbif.org/occurrence/3333914192
+3333912975,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15406,,Israel,2017,103.0,json:ear length,,255.0,1120.0,CC0,https://www.gbif.org/occurrence/3333912975
+3333913009,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15423,,Israel,2016,110.0,json:ear length,,232.0,1075.0,CC0,https://www.gbif.org/occurrence/3333913009
+3333913008,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15424,,Israel,2017,112.0,json:ear length,,215.0,955.0,CC0,https://www.gbif.org/occurrence/3333913008
+3333912999,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15434,,Israel,2017,124.0,json:ear length,,247.0,1350.0,CC0,https://www.gbif.org/occurrence/3333912999
+3333912747,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15438,,Israel,2017,120.0,json:ear length,,236.0,1164.0,CC0,https://www.gbif.org/occurrence/3333912747
+3333913459,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15550,,Israel,2016,102.0,json:ear length,,178.0,920.0,CC0,https://www.gbif.org/occurrence/3333913459
+3333913272,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15569,,Israel,2017,114.0,json:ear length,,230.0,1260.0,CC0,https://www.gbif.org/occurrence/3333913272
+3333913261,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15571,,Israel,2017,115.0,json:ear length,,244.0,1139.0,CC0,https://www.gbif.org/occurrence/3333913261
+3333913265,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15578,,Israel,2017,106.0,json:ear length,,213.0,920.0,CC0,https://www.gbif.org/occurrence/3333913265
+3333911939,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15664,,Israel,2017,104.0,json:ear length,,200.0,872.0,CC0,https://www.gbif.org/occurrence/3333911939
+3333911942,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15665,,Israel,2017,120.0,json:ear length,,220.0,,CC0,https://www.gbif.org/occurrence/3333911942
+3333911708,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15697,,Israel,2017,108.0,json:ear length,,223.0,1208.0,CC0,https://www.gbif.org/occurrence/3333911708
+3333911718,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15698,,Israel,2017,112.0,json:ear length,,213.0,955.0,CC0,https://www.gbif.org/occurrence/3333911718
+3333912283,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15745,,Israel,2017,115.0,json:ear length,,220.0,970.0,CC0,https://www.gbif.org/occurrence/3333912283
+3333912324,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15771,,Israel,2017,114.0,json:ear length,,230.0,1130.0,CC0,https://www.gbif.org/occurrence/3333912324
+3333912322,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15772,,Israel,2018,124.0,json:ear length,,230.0,1165.0,CC0,https://www.gbif.org/occurrence/3333912322
+3333912326,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15773,,Israel,2017,114.0,json:ear length,,210.0,1030.0,CC0,https://www.gbif.org/occurrence/3333912326
+3333912361,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15797,,Israel,2018,107.0,json:ear length,,224.0,1035.0,CC0,https://www.gbif.org/occurrence/3333912361
+3333912359,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15798,,Israel,2018,110.0,json:ear length,,221.0,1048.0,CC0,https://www.gbif.org/occurrence/3333912359
+3333912191,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15799,,Israel,2018,103.0,json:ear length,,240.0,1045.0,CC0,https://www.gbif.org/occurrence/3333912191
+3333912032,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15800,,Israel,2018,114.0,json:ear length,,227.0,1091.0,CC0,https://www.gbif.org/occurrence/3333912032
+3333912064,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15812,,Israel,2017,101.0,json:ear length,,201.0,1000.0,CC0,https://www.gbif.org/occurrence/3333912064
+3333910659,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15836,,Israel,2018,108.0,json:ear length,,200.0,1035.0,CC0,https://www.gbif.org/occurrence/3333910659
+3333910658,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15837,,Israel,2018,112.0,json:ear length,,228.0,990.0,CC0,https://www.gbif.org/occurrence/3333910658
+3333910652,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15840,,Israel,2017,110.0,json:ear length,,240.0,1192.0,CC0,https://www.gbif.org/occurrence/3333910652
+3333910635,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15843,,Israel,2017,113.0,json:ear length,,203.0,820.0,CC0,https://www.gbif.org/occurrence/3333910635
+3333910639,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15846,,Israel,2018,112.0,json:ear length,,228.0,1115.0,CC0,https://www.gbif.org/occurrence/3333910639
+3333910631,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15853,,Israel,2017,117.0,json:ear length,,210.0,972.0,CC0,https://www.gbif.org/occurrence/3333910631
+3333910333,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15936,,Israel,2018,109.0,json:ear length,,220.0,970.0,CC0,https://www.gbif.org/occurrence/3333910333
+3333910314,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15940,,Israel,2018,104.0,json:ear length,,227.0,970.0,CC0,https://www.gbif.org/occurrence/3333910314
+3333911230,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15992,,Israel,2018,115.0,json:ear length,,245.0,1180.0,CC0,https://www.gbif.org/occurrence/3333911230
+3333911236,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,15993,,Israel,2018,103.0,json:ear length,,220.0,940.0,CC0,https://www.gbif.org/occurrence/3333911236
+3333907879,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16018,,Israel,2018,127.0,json:ear length,,240.0,1259.0,CC0,https://www.gbif.org/occurrence/3333907879
+3333907850,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16023,,Israel,2018,115.0,json:ear length,,213.0,1038.0,CC0,https://www.gbif.org/occurrence/3333907850
+3333907598,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16091,,Israel,2018,108.0,json:ear length,,207.0,,CC0,https://www.gbif.org/occurrence/3333907598
+3333907602,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16093,,Israel,2019,114.0,json:ear length,,213.0,830.0,CC0,https://www.gbif.org/occurrence/3333907602
+3333907606,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16099,,Israel,2018,93.0,json:ear length,,210.0,966.0,CC0,https://www.gbif.org/occurrence/3333907606
+3333905879,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16105,,Israel,2018,112.0,json:ear length,,231.0,1062.0,CC0,https://www.gbif.org/occurrence/3333905879
+3333905931,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16108,,Israel,2018,118.0,json:ear length,,225.0,1040.0,CC0,https://www.gbif.org/occurrence/3333905931
+3333905932,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16109,,Israel,2018,107.0,json:ear length,,198.0,955.0,CC0,https://www.gbif.org/occurrence/3333905932
+3333905924,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16110,,Israel,2018,100.0,json:ear length,,206.0,960.0,CC0,https://www.gbif.org/occurrence/3333905924
+3333905925,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16111,,Israel,2019,107.0,json:ear length,,242.0,1112.0,CC0,https://www.gbif.org/occurrence/3333905925
+3333905928,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16115,,Israel,2019,112.0,json:ear length,,237.0,1025.0,CC0,https://www.gbif.org/occurrence/3333905928
+3333905930,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16116,,Israel,2019,113.0,json:ear length,,245.0,1265.0,CC0,https://www.gbif.org/occurrence/3333905930
+3333905906,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16126,,Israel,2019,114.0,json:ear length,,233.0,1172.0,CC0,https://www.gbif.org/occurrence/3333905906
+3333905661,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16189,,Israel,2019,111.0,json:ear length,,217.0,1062.0,CC0,https://www.gbif.org/occurrence/3333905661
+3333905727,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16191,,Israel,2019,105.0,json:ear length,,210.0,939.0,CC0,https://www.gbif.org/occurrence/3333905727
+3333905737,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16194,,Israel,2019,97.0,json:ear length,,222.0,1032.0,CC0,https://www.gbif.org/occurrence/3333905737
+3333906532,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16211,,Israel,2019,115.0,json:ear length,,231.0,1055.0,CC0,https://www.gbif.org/occurrence/3333906532
+3333906555,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16234,,Israel,2019,114.0,json:ear length,,230.0,1145.0,CC0,https://www.gbif.org/occurrence/3333906555
+3333906556,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16238,,Israel,2019,115.0,json:ear length,,220.0,1115.0,CC0,https://www.gbif.org/occurrence/3333906556
+3333906548,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,16247,,Israel,2019,115.0,json:ear length,,242.0,1125.0,CC0,https://www.gbif.org/occurrence/3333906548
+3333909047,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,4170,,Israel,2011,110.0,json:ear length,,218.0,1010.0,CC0,https://www.gbif.org/occurrence/3333909047
+3333913016,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,5651,,Israel,2011,116.0,json:ear length,,228.0,1070.0,CC0,https://www.gbif.org/occurrence/3333913016
+3333906519,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,6292,,Israel,2011,109.0,json:ear length,,223.0,1085.0,CC0,https://www.gbif.org/occurrence/3333906519
+3333914986,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,662,,Israel,2010,113.0,json:ear length,,223.0,1170.0,CC0,https://www.gbif.org/occurrence/3333914986
+3333914341,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,9738,,Israel,1999,113.0,json:ear length,,205.0,955.0,CC0,https://www.gbif.org/occurrence/3333914341
+3333914400,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,9775,,Israel,1999,110.0,json:ear length,,238.0,1160.0,CC0,https://www.gbif.org/occurrence/3333914400
+3333913762,grey wolf,"Canis lupus Linnaeus, 1758",SMNHTAU,9836,,Israel,2001,123.0,json:ear length,,202.0,938.0,CC0,https://www.gbif.org/occurrence/3333913762
+919969956,grey wolf,"Canis lupus Linnaeus, 1758",UAFMC,0088-0050-0307,Male,United States of America,1951,101.0,measurements T-T-HF-E,1210.0,202.0,,CC0,https://www.gbif.org/occurrence/919969956
+919969859,grey wolf,"Canis lupus Linnaeus, 1758",UAFMC,0088-0050-0311,Male,United States of America,1949,108.0,measurements T-T-HF-E,1555.0,220.0,,CC0,https://www.gbif.org/occurrence/919969859
+919969896,grey wolf,"Canis lupus Linnaeus, 1758",UAFMC,0088-0050-0312,Male,United States of America,1949,115.0,measurements T-T-HF-E,1372.0,216.0,,CC0,https://www.gbif.org/occurrence/919969896

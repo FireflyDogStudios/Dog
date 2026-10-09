@@ -1,0 +1,11 @@
+casual 0m {"lvl":1,"kills":0,"dps":22} 0s real
+casual 10m {"lvl":4,"kills":113,"dps":139} 54s real
+casual 20m {"lvl":5,"kills":139,"dps":205} 375s real
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.evaluate: Target page, context or browser has been closed
+    at /tmp/claude-0/-home-claude/a9103c21-f632-55a9-95a5-5d7a9adce206/scratchpad/game/sim/run.js:11:13
+
+Node.js v22.22.0

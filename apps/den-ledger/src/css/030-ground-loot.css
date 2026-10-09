@@ -1,0 +1,17 @@
+/* ===== v0.26 ground loot: items land, bob, glow with a rarity beam, and get picked up ===== */
+.gl{position:absolute;width:30px;height:30px;margin-left:-15px;z-index:5;pointer-events:none;--lc:#b8c4bb}
+.gl .gli{position:absolute;inset:0;display:grid;place-items:center}
+.gl .gli img,.gl .gli .emo{width:26px;height:26px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.gl .glr{position:absolute;left:50%;bottom:-3px;width:30px;height:8px;margin-left:-15px;border-radius:50%;background:radial-gradient(closest-side,var(--lc),transparent);opacity:.7}
+.gl .glb{position:absolute;left:50%;bottom:6px;width:10px;margin-left:-5px;height:var(--bh,0px);border-radius:5px 5px 0 0;background:linear-gradient(to top,var(--lc) 0%,color-mix(in srgb,var(--lc) 75%,#fff) 35%,color-mix(in srgb,var(--lc) 40%,transparent) 75%,transparent);opacity:.95;box-shadow:0 0 12px 2px color-mix(in srgb,var(--lc) 70%,transparent)}
+.gl .glb::after{content:"";position:absolute;left:50%;bottom:0;width:2px;margin-left:-1px;height:80%;background:linear-gradient(to top,#fff,transparent);opacity:.9}
+.gl.t-meat .gli img,.gl.t-meat .gli .emo{width:22px;height:22px}
+.gl.big .gli img,.gl.big .gli .emo{width:34px;height:34px}
+.gl .glc{width:30px;height:26px}
+.gl.open .glc .lid{transform:translate(4px,-7px) rotate(-22deg);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.gl.got{transition:transform .35s ease-in,opacity .35s ease-in;opacity:0}
+@media (prefers-reduced-motion:no-preference){
+  .gl .gli{animation:glbob 1.3s ease-in-out infinite alternate} @keyframes glbob{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+  .gl .glb{animation:glbeam 1.6s ease-in-out infinite} @keyframes glbeam{50%{opacity:.65;transform:scaleX(.75)}}
+  .gl.t-legendary .glb,.gl.t-epic .glb{animation-duration:1.1s}
+}

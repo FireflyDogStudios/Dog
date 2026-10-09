@@ -1,0 +1,1096 @@
+<title>Gait Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a video editor. Top bar (file, mode, tools); the viewer in the middle with transport under it; an inspector on the right for the
+   selected joint or track; the timeline board along the bottom: track headers on the left that twirl open into joint rows, keyframe diamonds
+   on the lanes, a ruler with one amber playhead. Dark charcoal by choice, as editors are; the amber accent is the wolf eye of the benches. */
+:root{
+  --bg:#17191d; --panel:#202328; --panel2:#262a30; --ink:#e4e7eb; --muted:#8f99a4; --line:#30353d; --accent:#e2a548; --accent-ink:#1b1408;
+  --ok:#5cbf86; --warn:#e2a548; --bad:#ef7a6c; --chip:#2c3138; --stage:#0f1114; --past:#ef7a6c; --sel:#3a4250; --lane:#1b1e22; --lane2:#1e2126;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif; --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --tlh:290px; color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:13px/1.4 var(--f-body);padding-inline:16px;padding-block:8px;box-sizing:border-box;margin:0}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+h1{font:600 16px/1 var(--f-display);letter-spacing:.02em;margin:0;white-space:nowrap}
+h3{font:600 11px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:12px 0 4px}
+.app{height:100%;display:grid;grid-template-rows:auto minmax(220px,1fr) 6px var(--tlh);gap:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;min-width:0;min-height:0}
+.topbar{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:6px 8px;margin-bottom:6px}
+.sep{width:1px;align-self:stretch;background:var(--line)}
+.grow{flex:1}
+.lab{font:600 10px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.meta{color:var(--muted);font:11px var(--f-mono)}
+button,select,input{font:inherit;color:inherit}
+button{background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:3px 8px;cursor:pointer;line-height:1.3;white-space:nowrap}
+button:hover{border-color:var(--muted)}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,select:focus-visible,input:focus-visible,canvas:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button[aria-pressed="true"],button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+select,input[type=number],input[type=text]{background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:2px 6px}
+input[type=number]{width:5em} input[type=range]{width:90px;accent-color:var(--accent)}
+.file{position:relative;overflow:hidden;display:inline-block}
+.file input{position:absolute;inset:0;opacity:0;cursor:pointer}
+details.pop{position:relative}
+details.pop>summary{list-style:none;cursor:pointer;background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:3px 8px}
+details.pop>summary::after{content:" ▾";color:var(--muted)}
+details.pop[open]>summary{border-color:var(--accent)}
+details.pop>div{position:absolute;z-index:20;top:calc(100% + 4px);left:0;background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:10px;display:grid;gap:8px;min-width:260px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.work{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:6px;min-height:0}
+.viewer{display:grid;grid-template-rows:minmax(0,1fr) auto;min-height:0}
+.guide{margin:8px 8px 0;background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:10px 12px;display:grid;gap:6px;max-height:46vh;overflow:auto}
+.guide .gStep{font-size:12px;color:var(--muted)} .guide .gName{font-size:18px;font-weight:700;color:var(--accent)} .guide .gWhat,.guide .gLook{font-size:13.5px;line-height:1.45} .guide .gLook b,.guide .gWhat b{color:var(--ink)}
+.guide .gMap svg{width:100%;max-width:330px;height:auto;display:block;background:#23272d;border-radius:6px} .guide .gMap .k{font-size:11px;color:var(--muted)} .guide .gPic svg{width:150px;height:auto;display:block;margin:2px 0} .guide .gHelp{font-size:12.5px;color:var(--muted);line-height:1.4} .guide .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+#stageBox{position:relative;min-height:200px;background:var(--stage);overflow:hidden;touch-action:none;border-radius:4px 4px 0 0}
+#stage{width:100%;height:100%;display:block;cursor:crosshair}
+#stage.pan{cursor:grab}
+.transport{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:5px 8px;border-top:1px solid var(--line)}
+.tc{display:flex;align-items:baseline;gap:6px;font:500 18px var(--f-mono);font-variant-numeric:tabular-nums}
+.tc input{width:4.2em;font:500 18px var(--f-mono);background:transparent;border:1px solid transparent;color:var(--accent);text-align:right;padding:0 3px}
+.tc input:hover,.tc input:focus{border-color:var(--line);background:var(--chip)}
+.tc .small{font-size:12px}
+.hud{position:absolute;left:8px;bottom:8px;font:11px var(--f-mono);color:#cfd5dc;background:rgba(0,0,0,.55);padding:3px 7px;border-radius:3px;pointer-events:none}
+.hud.r{left:auto;right:8px;top:8px;bottom:auto;color:#ffd27a}
+#loupe{position:absolute;left:8px;top:8px;width:150px;height:150px;border-radius:50%;border:2px solid rgba(255,255,255,.75);box-shadow:0 2px 12px rgba(0,0,0,.5);pointer-events:none;background:#000}
+.banner{position:absolute;left:50%;top:8px;transform:translateX(-50%);font:12px var(--f-body);color:#fff;background:rgba(0,0,0,.65);padding:4px 10px;border-radius:3px;pointer-events:none;max-width:calc(100% - 340px);text-align:center}
+.banner b{color:#ffd27a;font-weight:600}
+.banner.toast{background:var(--accent);color:var(--accent-ink)}
+.empty{position:absolute;inset:0;display:grid;place-items:center;padding:16px;color:#cfd5dc;text-align:center}
+.empty div{max-width:560px;display:grid;gap:10px}
+.empty b{font:600 18px var(--f-display);color:#fff}
+.empty .saved{font:12px var(--f-mono);color:#aeb6bf;text-align:left}
+.inspector{display:grid;grid-template-rows:auto auto minmax(0,1fr);min-height:0}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;border:0;border-radius:0;background:transparent;padding:8px 2px;font:600 12px var(--f-display);color:var(--muted);border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.pane{padding:10px 12px;overflow:auto;min-height:0}
+.hint{color:var(--muted);font-size:12.5px;margin:0 0 8px}
+.small{font:11px var(--f-mono);color:var(--muted)}
+.store{font:11px var(--f-mono);color:var(--muted);margin:8px 0 0}
+.jhead{display:flex;align-items:center;gap:8px;font:600 15px var(--f-display)}
+.dot{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(0,0,0,.5);flex:none}
+.dot.far{border-style:dashed;border-color:#fff8}
+.landmark{font-size:12.5px;border-left:3px solid var(--accent);padding:4px 8px;background:var(--chip);border-radius:0 3px 3px 0;margin:8px 0}
+.knav{display:flex;gap:3px}
+.knav button{padding:2px 7px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+td,th{padding:3px 4px;border-bottom:1px solid var(--line);text-align:left;font-variant-numeric:tabular-nums}
+th{font:600 10px var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td.n{font-family:var(--f-mono);text-align:right}
+.past{color:var(--past);font-weight:600}
+.flag{display:grid;grid-template-columns:4.5em minmax(0,1fr);gap:6px;padding:3px 0;border-bottom:1px solid var(--line);cursor:pointer;font-size:12.5px}
+.flag:hover{background:var(--chip)}
+.graph{width:100%;height:180px;display:block;margin-top:6px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:11.5px;color:var(--muted)}
+.legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:4px}
+kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:0 5px}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:12.5px;align-items:baseline}
+#tJoints label,#trkJoints label{display:inline-flex;gap:4px;align-items:center;font-size:12px;padding:2px 6px;border:1px solid var(--line);border-radius:3px;background:var(--chip)}
+.splitter{cursor:row-resize;display:grid;place-items:center}
+.splitter::before{content:"";width:46px;height:2px;border-radius:2px;background:var(--line)}
+.splitter:hover::before{background:var(--accent)}
+.tl{display:grid;grid-template-rows:auto auto minmax(0,1fr);min-height:0}
+.tlbar{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:4px 8px;border-bottom:1px solid var(--line)}
+.prog{height:2px;background:var(--accent);width:0;transition:width .1s}
+.tlgrid{display:grid;grid-template-columns:290px minmax(0,1fr);grid-template-rows:24px minmax(0,1fr);min-height:0}
+.corner{border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 8px;gap:6px}
+#ruler{width:100%;height:24px;display:block;border-bottom:1px solid var(--line);cursor:ew-resize}
+.tlscroll{grid-column:1 / -1;overflow-y:auto;overflow-x:hidden;display:grid;grid-template-columns:290px minmax(0,1fr);align-items:start;min-height:0}
+#heads{border-right:1px solid var(--line)}
+#lanes{width:100%;display:block;cursor:pointer}
+.hrow{height:22px;display:flex;align-items:center;gap:5px;padding:0 6px;border-bottom:1px solid #0000;white-space:nowrap;overflow:hidden}
+.hrow.trk{background:var(--panel2);font-weight:600;border-bottom-color:var(--line)}
+.hrow.jnt{padding-left:24px;cursor:pointer}
+.hrow.jnt:hover{background:var(--chip)}
+.hrow.sel{background:var(--sel);box-shadow:inset 3px 0 0 var(--accent)}
+.hrow.foot{padding-left:24px;color:var(--muted);font:11px var(--f-mono)}
+.hrow .nm{overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.hrow input.rn{flex:1;min-width:0;padding:0 4px;font:600 12px var(--f-body)}
+.hrow .ib{background:none;border:0;padding:0 3px;color:var(--muted);font-size:12px;line-height:1}
+.hrow .ib:hover{color:var(--ink)}
+.hrow .ib[aria-pressed="true"]{background:none;color:var(--accent)}
+.hrow .tw{width:14px;text-align:center}
+.hrow .chip{width:10px;height:14px;border-radius:2px;flex:none}
+.hrow .cnt{font:10.5px var(--f-mono);color:var(--muted)}
+.hrow .stt{font:10.5px var(--f-mono);color:var(--muted)}
+.hrow .stt.key{color:var(--ok)} .hrow .stt.low{color:var(--warn)}
+.cmenu{position:fixed;z-index:30;min-width:220px;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:4px;box-shadow:0 10px 30px rgba(0,0,0,.55);padding:4px;display:grid}
+.cmenu .mh{font:600 12.5px var(--f-display);padding:5px 8px 3px}
+.cmenu button{text-align:left;border:0;background:none;padding:5px 8px;border-radius:3px;display:flex;justify-content:space-between;gap:14px}
+.cmenu button:hover,.cmenu button:focus-visible{background:var(--chip);outline:none}
+.cmenu kbd{font-size:10.5px;color:var(--muted)}
+.cmenu hr{border:0;border-top:1px solid var(--line);margin:3px 0;width:100%}
+.lnk{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:12px}
+@media (max-width:900px){.app{height:auto;grid-template-rows:auto auto 0 auto}.work{grid-template-columns:minmax(0,1fr)}#stageBox{height:55vh}.inspector{max-height:none}.tl{height:340px}.splitter{display:none}.tlgrid,.tlscroll{grid-template-columns:170px minmax(0,1fr)}.banner{max-width:calc(100% - 16px);top:auto;bottom:36px}}
+@media (prefers-reduced-motion: reduce){.prog{transition:none}}
+</style>
+
+<div class="app">
+  <header class="panel topbar" aria-label="Tools">
+    <h1>Gait Tracker</h1>
+    <label class="file"><button class="primary" id="openBtn" tabindex="-1">Open video…</button><input type="file" id="file" accept="video/*" aria-label="Open a video from this computer"></label>
+    <label class="file" title="Still pictures (cut-outs, photos, drawings) as a set, one picture per frame, for marking rig points"><button id="openImgBtn" tabindex="-1">Open images…</button><input type="file" id="imgFiles" accept="image/*" multiple aria-label="Open still images from this computer"></label>
+    <button id="guideBtn" disabled title="Walks you through every rig point on each picture, one at a time">Start guided</button>
+    <button id="mirrorImg" hidden title="Turn this picture to face right (its points turn with it)">Mirror this picture</button>
+    <details class="pop" id="fileMenu"><summary>File</summary><div style="min-width:300px">
+      <div class="row"><button id="fSave" disabled title="Ctrl+S">Save now</button><button id="fBackup" disabled title="Keep a dated copy you can go back to">Save a backup copy</button></div>
+      <div class="row"><button id="fExport" disabled title="A .json file with every point, footfall and track, to keep or move to another computer">Export points (.json)</button><button id="fCsv" disabled title="One row per frame: every joint's x, y and every angle">Export table (.csv)</button></div>
+      <div class="row"><button id="fClear" disabled title="Remove every point on every frame of this clip and start fresh (asks first; a backup copy is kept)">Clear all points</button></div>
+      <div class="row"><label class="file"><button tabindex="-1" id="fImportBtn" disabled>Import points (.json)…</button><input type="file" id="fImport" accept=".json,application/json" aria-label="Import points from a .json file" disabled></label></div>
+      <div style="display:grid;gap:6px;border-top:1px solid var(--line);padding-top:8px"><span class="lab">Share</span>
+        <div class="row"><select id="gxW" aria-label="Picture width"><option value="360">360 px wide</option><option value="480" selected>480 px wide</option><option value="720">720 px wide</option></select>
+          <select id="gxSpeed" aria-label="GIF speed"><option value="1" selected>real speed</option><option value=".5">half speed</option><option value=".25">quarter speed</option></select>
+          <button id="gxNames" aria-pressed="true" title="Write each joint's name next to its point">Names</button><button id="gxAngles" aria-pressed="true" title="Write the joint angles">Angles</button></div>
+        <div class="row"><button id="fGif" disabled>Export GIF</button><button id="fSheet" disabled title="Every frame in one numbered grid: good to send to Firefly">Frame sheet (.png)</button><button id="fZip" disabled title="Every frame as its own numbered picture">Frames (.zip)</button></div>
+      </div>
+      <div><span class="lab">Backups of this clip</span><div id="backups" class="small" style="display:grid;gap:3px;margin-top:4px;max-height:200px;overflow:auto">Open a clip to see its backups.</div></div>
+      <p class="small" style="margin:0" id="fileNote">Points save by themselves a moment after each change, and a backup copy is kept every 10 minutes while you work.</p>
+    </div></details>
+    <span class="small" id="clipInfo">no clip</span>
+    <details class="pop"><summary>Clip</summary><div>
+      <div class="row"><span class="lab">Frames/s</span><input type="number" id="fps" min="1" max="240" step="any" value="30" aria-label="Frames per second"></div>
+      <div class="row"><span class="lab">From</span><input type="number" id="t0" min="0" step=".1" value="0" aria-label="Start, seconds"><span class="lab">To</span><input type="number" id="t1" min="0" step=".1" value="20" aria-label="End, seconds"><span class="small">s</span></div>
+      <button id="extract" disabled>Load these frames</button>
+    </div></details>
+    <span class="sep"></span>
+    <select id="mode" aria-label="Mode: Manual (only my points) or Assisted (fills between my points as I go)" title="Manual: only your points. Assisted: the frames between fill as you go."><option value="manual">Manual</option><option value="assist">Assisted</option></select>
+    <button id="fill" disabled title="Fill the frames between your points once, from your points (F)">Fill gaps</button>
+    <button id="showFilled" aria-pressed="false" disabled title="Show the filled points between yours">Filled points</button>
+    <button id="adjust" disabled title="Nudge your points (up to 3 px) so each matches the same spot on your nearby frames; your clicks are kept so you can revert">Auto adjust</button>
+    <button id="revertAdj" disabled title="Put every adjusted point back where you clicked it">Revert</button>
+    <button id="nextFlag" disabled title="Jump to the next filled frame to check (N)">Check next</button>
+    <span class="sep"></span>
+    <button id="undo" disabled title="Undo (Ctrl+Z)">↶ Undo</button><button id="redo" disabled title="Redo (Ctrl+Shift+Z or Ctrl+Y)">↷ Redo</button>
+    <span class="sep"></span>
+    <details class="pop"><summary>View</summary><div>
+      <div class="row"><button id="oBones" aria-pressed="true">Lines</button><button id="oAngles" aria-pressed="true">Angles</button><button id="oLabels" aria-pressed="false">Names</button></div>
+      <div class="row"><button id="oGhost" aria-pressed="true" title="Faint rings where each joint was on your nearest points (G)">Ghosts</button><button id="oOnion" aria-pressed="false" title="Frames before and after, faintly (O)">Onion skin</button><button id="oLoupe" aria-pressed="true" title="Magnifier (M)">Loupe</button></div>
+      <div class="row"><button id="oSmooth" aria-pressed="true" title="Smooth filled points before measuring angles (your own points are never changed)">Smooth angles</button>
+        <label class="row"><span class="small">other joints</span><select id="others" aria-label="Joints outside the focused track"><option value="dim" selected>dimmed</option><option value="hide">hidden</option><option value="show">shown</option></select></label></div>
+      <label class="row"><span class="small">contrast</span><input type="range" id="con" min="50" max="300" value="100" aria-label="Contrast"></label>
+      <label class="row"><span class="small">brightness</span><input type="range" id="bri" min="50" max="250" value="100" aria-label="Brightness"></label>
+      <select id="facing" aria-label="Which way the animal walks"><option value="auto">facing: auto</option><option value="1">walks right</option><option value="-1">walks left</option></select>
+    </div></details>
+    <span class="grow"></span>
+    <span class="meta" id="meta"></span>
+  </header>
+
+  <main class="work">
+    <section class="panel viewer" aria-label="Viewer">
+      <div id="stageBox">
+        <canvas id="stage" tabindex="0" aria-label="Video frame with joint points; click to place the selected joint"></canvas>
+        <canvas id="loupe" width="150" height="150" aria-hidden="true" hidden></canvas>
+        <div class="hud" id="hud"></div>
+        <div class="banner" id="banner" aria-live="polite"></div>
+
+        <div class="hud r" id="hudR" hidden></div>
+        <div class="empty" id="empty"><div>
+          <b>Open a walking clip to start</b>
+          <span>The video stays in this browser. Only the joint points, footfalls and angles you make are saved, so Firefly can read them.</span>
+          <span>Pick a joint in the timeline below (or press 1–5 for a leg), then click that joint on the animal: it keeps the joint and steps to the next frame, so you can follow it through the clip. Ctrl+Z undoes anything, right-click for more, <kbd>?</kbd> lists every key.</span>
+          <div class="saved" id="savedList"></div>
+        </div></div>
+      </div>
+      <div class="transport">
+        <button id="rev" aria-label="Play backwards (J)" title="Play backwards (J)" disabled>◀◀</button>
+        <button id="back" aria-label="One frame back (←)" title="One frame back (←)" disabled>◀︎|</button>
+        <button id="play" aria-label="Play (Space or L)" title="Play / pause (Space; K stops)" disabled>▶</button>
+        <button id="fwd" aria-label="One frame forward (→)" title="One frame forward (→)" disabled>|▶︎</button>
+        <span class="tc"><input id="tcIn" type="text" inputmode="numeric" aria-label="Frame number (type to jump)" value="–"><span class="small" id="tcOf">/ –</span><span class="small" id="tcSec"></span></span>
+        <select id="speed" aria-label="Playback speed"><option value=".25">0.25×</option><option value=".5">0.5×</option><option value="1" selected>1×</option></select>
+        <span class="sep"></span>
+        <select id="flow" aria-label="After each click" title="What happens after each click"><option value="same" selected>Click: same joint →</option><option value="joints">Click: next joint ↓</option><option value="stay">Click: stay</option></select>
+        <select id="nextFrame" aria-label="How many frames to move on"><option value="1" selected>+1</option><option value="2">+2</option><option value="3">+3</option><option value="5">+5</option></select>
+        <span class="sep"></span>
+        <span class="lab">Paw</span><button id="evDown" disabled title="The selected leg's paw touches down on this frame (D)">Down</button><button id="evUp" disabled title="The selected leg's paw lifts off on this frame (U)">Up</button><button id="evAuto" disabled title="Suggest footfalls from the paw heights">Find</button>
+      </div>
+    </section>
+
+    <aside class="panel inspector" aria-label="Inspector">
+      <div class="guide" id="guide" hidden aria-live="polite"><div class="gStep" id="gStep"></div><div class="gName" id="gName"></div><div class="row"><button id="gBack" title="Back to the previous point (Backspace while guided)">◀ Back</button><button id="gSkip" title="Can't see it on this picture: mark it hidden and move on (X)">Can't see it, skip</button><button id="gStop">Stop guided</button></div><div class="gMap" id="gMap"></div><div class="gPic" id="gPic" hidden></div><div class="gWhat" id="gWhat"></div><div class="gLook" id="gLook"></div><div class="gHelp" id="gHelp"></div>
+          </div>
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tabJ" aria-selected="true" aria-controls="paneJ">Joint</button>
+        <button role="tab" id="tabT" aria-selected="false" aria-controls="paneT">Track</button>
+        <button role="tab" id="tabA" aria-selected="false" aria-controls="paneA">Angles</button>
+        <button role="tab" id="tabC" aria-selected="false" aria-controls="paneC">Check <span class="small" id="cCount"></span></button>
+        <button role="tab" id="tabH" aria-selected="false" aria-controls="paneH">Help</button>
+      </div>
+      <div class="pane" id="paneJ" role="tabpanel">
+        <div class="jhead"><span class="dot" id="jDot"></span><span id="jName">–</span></div>
+        <div class="small" id="jStatus"></div>
+        <div class="landmark" id="lm"></div>
+        <div class="row"><span class="lab">Keyframes</span><span class="knav"><button id="kPrev" title="Previous point of this joint (↑ or [)">◀ prev</button><button id="kToggle" title="Make the point here yours, or remove it">◆</button><button id="kNext" title="Next point of this joint (↓ or ])">next ▶</button></span></div>
+        <div class="row" style="margin-top:6px">
+          <button id="hideHere" title="This joint cannot be seen on this frame (H)">Hidden here</button>
+          <button id="delKey" title="Remove this joint's point on this frame (Delete)">Remove point</button>
+          <button id="copyPrev" title="Copy the last frame's points here, for this track (C)">Copy last frame</button>
+        </div>
+        <h3>Your own points, lines and angles</h3>
+        <div class="row"><input type="text" id="cName" placeholder="New point name" aria-label="New point name"><button id="cAdd">Add point</button></div>
+        <div class="row" style="margin-top:6px"><select id="lA" aria-label="Line from"></select><select id="lB" aria-label="Line to"></select><button id="lAdd">Add line</button></div>
+        <div class="row" style="margin-top:6px"><select id="aA" aria-label="Angle arm"></select><select id="aB" aria-label="Angle vertex"></select><select id="aC" aria-label="Angle arm"></select><button id="aAdd">Add angle</button></div>
+        <p class="store" id="store">Not connected to the shared store yet.</p>
+      </div>
+      <div class="pane" id="paneT" role="tabpanel" hidden>
+        <div class="row"><span class="lab">Track</span><input type="text" id="trkName" aria-label="Track name"><button id="trkFocus" title="Work only on this track (solo)">Focus</button></div>
+        <p class="small" id="trkInfo"></p>
+        <div class="row" id="trkJoints"></div>
+        <div class="row" style="margin-top:8px"><button id="trkDel" hidden>Delete this track</button></div>
+        <h3>New track</h3>
+        <div id="trackForm" class="row" style="flex-direction:column;align-items:stretch">
+          <input type="text" id="tName" placeholder="Name, e.g. Nose track" aria-label="New track name">
+          <input type="text" id="tPoint" placeholder="Holds a new point (optional), e.g. nose" aria-label="A new point for this track">
+          <div class="row" id="tJoints"></div>
+          <div class="row"><button id="tMake" class="primary">Make track</button><button id="tCancel">Clear</button></div>
+        </div>
+      </div>
+      <div class="pane" id="paneA" role="tabpanel" hidden>
+        <p class="hint">180° is straight. Below 180 the joint bends its normal way; <span class="past">above 180 it has gone past straight</span>. Every joint except a loaded wrist should stay below; a dog's wrist gives quite a lot under weight.</p>
+        <table><thead><tr><th>Joint</th><th>now</th><th>clip range</th></tr></thead><tbody id="angTab"></tbody></table>
+        <h3>Over the clip</h3>
+        <select id="gSel" aria-label="Which angle to graph"></select>
+        <canvas class="graph" id="gTime" aria-label="The chosen angle frame by frame"></canvas>
+        <h3>Per stride (from the paw's touchdown)</h3>
+        <div class="legend"><span><i style="background:var(--accent)"></i>this clip</span><span><i style="background:var(--muted)"></i>measured dogs walking</span><span><i style="background:#3f8fd8"></i>our wolf</span></div>
+        <canvas class="graph" id="gStride" aria-label="The chosen angle over each stride, against measured dogs and our wolf"></canvas>
+        <p class="small" id="strideNote"></p>
+      </div>
+      <div class="pane" id="paneC" role="tabpanel" hidden>
+        <p class="hint">Filled frames that look unsure: a weak match, a jump, or a bone that changed length. Click one, drag the point right (it becomes yours) and the joint refills around it.</p>
+        <div id="flags"></div>
+      </div>
+      <div class="pane" id="paneH" role="tabpanel" hidden>
+        <h3>The layout</h3>
+        <p class="hint">Like a video editor: the viewer in the middle, this inspector for the picked joint or track, and the timeline along the bottom. Each track (a leg, the head and back, or your own) twirls open into one row per joint with a diamond on every frame you placed it; the bar under the diamonds is a filled stretch, orange where it is unsure. Under each leg is its footfall row. Drag in the ruler to scrub; click a lane to pick that joint and frame. Track headers: ▾ open or close, double-click the name to rename, 👁 show or hide on the video, 🔒 lock against edits, S focus (solo: clicks, Fill, Auto adjust, copy and Clear stay inside it). Drag the bar above the timeline to resize it.</p>
+        <h3>Modes</h3>
+        <p class="hint"><b>Manual</b> (the default): only the points you place exist; <b>Fill gaps</b> fills the frames between from your points when you ask, and <b>Filled points</b> hides them again. <b>Assisted</b>: the frames between fill as you go. <b>Auto adjust</b> nudges your clicks up to 3 px to match the same spot on nearby frames; a dotted tick shows where you clicked and <b>Revert adjust</b> (or right-click) puts them back. Filled points come from matching each joint's look at your nearest points (never the frame before), the smoothest strong path, bones held near their length; ideas from Tracker, Kinovea, DLTdv, SLEAP and Anipose, our own code.</p>
+        <h3>Keys</h3>
+        <div class="keys">
+          <kbd>click</kbd><span>place the picked joint (it stays picked and steps on, see "After a click"); drag to move its point</span>
+          <kbd>Shift+click</kbd><span>grab another joint's point and pick that joint</span>
+          <kbd>right-click</kbd><span>menu on the video or the timeline</span>
+          <kbd>right or middle drag</kbd><span>pan the video; wheel zooms it, <kbd>0</kbd> fits</span>
+          <kbd>Space</kbd><span>play or pause; <kbd>J K L</kbd> backwards, stop, forwards</span>
+          <kbd>← →  , .</kbd><span>one frame (Shift: 10); <kbd>Home</kbd> <kbd>End</kbd>; type in the frame counter to jump</span>
+          <kbd>↑ ↓  [ ]</kbd><span>previous or next point of the picked joint</span>
+          <kbd>Tab</kbd><span>next joint in the track (Shift: previous)</span>
+          <kbd>1 2 3 4 5</kbd><span>focus near front, near hind, far front, far hind, head and back; <kbd>`</kbd> all; <kbd>6–9</kbd> your tracks</span>
+          <kbd>Ctrl+Z</kbd><span>undo; <kbd>Ctrl+Shift+Z</kbd> or <kbd>Ctrl+Y</kbd> redo; Esc cancels a drag</span>
+          <kbd>Delete</kbd><span>remove the picked joint's point; <kbd>Shift+Delete</kbd> clears the frame (focused track)</span>
+          <kbd>Ctrl+C Ctrl+V</kbd><span>copy this frame's points, paste onto another; <kbd>C</kbd> copies the last frame here</span>
+          <kbd>Alt+arrows</kbd><span>nudge the point a quarter pixel (Shift: one)</span>
+          <kbd>H</kbd><span>picked joint hidden on this frame</span>
+          <kbd>F N</kbd><span>fill gaps, next frame to check</span>
+          <kbd>D U</kbd><span>paw down, paw up for the picked leg</span>
+          <kbd>+ − \</kbd><span>zoom the timeline in, out, to fit; Ctrl+wheel on the timeline zooms there, Shift+wheel scrolls it</span>
+          <kbd>G O M</kbd><span>ghosts, onion skin, loupe</span>
+          <kbd>Ctrl+S</kbd><span>save now (it saves by itself too)</span>
+          <kbd>?</kbd><span>this help</span>
+        </div>
+        <h3>Where to click (bony points, not fur)</h3>
+        <div class="keys" id="lmList"></div>
+        <h3>How exact is hand placing?</h3>
+        <p class="hint">People clicking joints on video differ by about 2–3 pixels between tries and 2–3° on a joint angle, more near the knee where skin slides over bone.</p>
+      </div>
+    </aside>
+  </main>
+
+  <div class="splitter" id="split" role="separator" aria-orientation="horizontal" aria-label="Resize the timeline" tabindex="0"></div>
+
+  <section class="panel tl" aria-label="Timeline">
+    <div class="tlbar">
+      <span class="lab">Timeline</span>
+      <button id="newTrack" title="Make your own track: pick joints, or start a new point">+ New track</button>
+      <button id="keyedOnly" aria-pressed="false" title="Show only joints that have points">Only rows with points</button>
+      <button id="expandAll" title="Open or close every track">Open / close all</button>
+      <span class="grow"></span>
+      <span class="lab">Zoom</span><button id="tzOut" title="Zoom the timeline out (−)">−</button><button id="tzFit" title="Fit the clip (\)">Fit</button><button id="tzIn" title="Zoom the timeline in (+)">+</button>
+    </div>
+    <div class="prog" id="prog"></div>
+    <div class="tlgrid">
+      <div class="corner"><span class="small" id="tlFocus">all tracks</span></div>
+      <canvas id="ruler" aria-label="Ruler: drag to scrub"></canvas>
+      <div class="tlscroll" id="tlScroll">
+        <div id="heads"></div>
+        <canvas id="lanes" aria-label="Lanes: one row per joint with a diamond on every frame you placed it; click to pick the joint and frame"></canvas>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="cmenu" id="cmenu" role="menu" hidden></div>
+
+<script>
+const BUILD = {"commit":"09fefa3","date":"2026-10-09"};
+const GAIT_REF = {"carpus":[208.4,210.1,211.9,213.4,214.8,216.1,217.1,218.1,218.8,219.4,219.9,220.3,220.8,221.3,221.8,222.4,223,223.6,224.3,224.8,225.4,225.9,226.3,226.7,227,227.3,227.5,227.7,227.8,227.9,228.1,228.3,228.5,228.7,229,229.3,229.7,230,230.3,230.4,230.6,230.6,230.6,230.5,230.3,230.2,230.1,230,229.8,229.6,229.2,228.4,227.1,225.1,222.2,218.3,213,206.6,198.9,190.3,180.9,171,161.1,151.4,142.1,133.5,126.1,119.3,113.9,109.4,106,103.7,102.3,101.9,102.3,103.8,106,109.1,113.1,117.6,122.9,128.8,135.2,141.9,148.7,155.4,161.9,168.1,173.9,179,183.8,187.8,191.5,194.7,197.5,200.2,202.4,204.7,206.9,208.9,211],"elbow":[147.6,147.6,147.5,146.9,146,145,143.8,142.6,141.6,140.6,139.9,139.3,139,138.8,138.7,138.8,138.9,139,139.2,139.3,139.5,139.7,139.8,140,140.2,140.3,140.5,140.7,140.9,141.2,141.5,141.8,142.3,142.8,143.3,143.9,144.6,145.3,145.9,146.5,147.1,147.6,148,148.4,148.8,149.3,149.8,150.3,150.9,151.5,152.2,152.8,153.2,153.5,153.5,153.1,152.3,151,149.3,147.1,144.4,141.4,138.3,134.9,131.6,128.3,125.2,122.1,119.3,116.7,114.1,111.7,109.4,107.2,105,103,101.2,99.8,98.7,98,97.9,98.3,99.3,100.8,102.7,105.1,107.8,110.9,114.1,117.7,121.4,125.2,129,132.9,136.5,140,143,145.7,147.9,149.3,150.6],"hip":[57,57.5,58.1,58.6,59.3,59.9,60.5,61.2,61.8,62.5,63.1,63.7,64.3,64.9,65.4,66,66.6,67.2,67.8,68.5,69.2,69.9,70.6,71.4,72.2,72.9,73.8,74.5,75.4,76.2,77,77.8,78.7,79.5,80.3,81.1,82,82.8,83.7,84.5,85.3,86.2,87,87.8,88.6,89.3,90,90.7,91.2,91.7,92.1,92.5,92.6,92.7,92.7,92.4,92.1,91.5,90.8,89.9,88.8,87.7,86.4,85,83.6,82.1,80.6,79,77.5,76,74.4,72.9,71.4,70,68.5,67.2,65.8,64.5,63.2,62,60.9,59.8,58.7,57.8,57,56.3,55.7,55.3,55,54.9,54.8,54.9,55,55.2,55.5,55.7,56.1,56.4,56.9,57.4,57.9],"shoulder":[148.8,147.7,146.7,145.6,144.5,143.4,142.5,141.6,140.9,140.2,139.7,139.1,138.6,138.2,137.7,137.2,136.7,136.2,135.6,135.1,134.6,134.1,133.6,133.2,132.8,132.5,132.2,131.9,131.6,131.4,131.2,131,130.8,130.8,130.7,130.6,130.6,130.5,130.4,130.2,129.9,129.6,129.2,128.7,128.3,127.8,127.5,127.2,126.9,126.8,126.7,126.6,126.6,126.5,126.3,126,125.6,125.1,124.6,123.9,123.3,122.7,122.1,121.6,121.2,120.9,120.8,120.8,121,121.2,121.6,122.1,122.5,123.1,123.5,124.1,124.6,125.2,125.9,126.6,127.7,128.9,130.2,131.9,133.6,135.5,137.4,139.4,141.3,143.3,145.1,146.9,148.5,149.9,151,151.9,152.4,152.6,152.5,152,151.4],"stifle":[143.3,142.6,141.9,141.3,140.7,140.3,140.2,140.1,140.2,140.3,140.5,140.7,140.9,141.1,141.2,141.3,141.4,141.4,141.4,141.4,141.5,141.5,141.5,141.5,141.4,141.3,141.2,140.9,140.7,140.3,140,139.6,139.2,138.9,138.7,138.5,138.4,138.3,138.3,138.4,138.5,138.6,138.8,138.9,139.1,139.2,139.3,139.5,139.5,139.6,139.6,139.4,139.2,138.9,138.4,137.7,136.9,135.8,134.6,133.2,131.5,129.8,127.9,126,124,122,120.1,118.2,116.5,114.9,113.5,112.2,111.2,110.5,109.9,109.7,109.7,110,110.5,111.4,112.5,114,115.8,117.9,120.3,122.8,125.6,128.4,131.3,134,136.6,138.8,140.7,142.3,143.2,144,144.2,144.2,143.9,143.3,142.8],"tarsus":[145,143.7,142.3,141,139.7,138.4,137.5,136.7,136.2,135.9,135.9,136.1,136.4,136.8,137.3,137.9,138.4,139,139.6,140.1,140.6,141,141.4,141.8,142.1,142.4,142.7,142.9,143.1,143.3,143.4,143.6,143.8,144,144.2,144.4,144.8,145.1,145.5,146,146.5,147,147.6,148.3,149,149.8,150.6,151.5,152.5,153.5,154.5,155.6,156.6,157.6,158.4,159.1,159.7,160,160,159.8,159.1,158.1,156.7,154.8,152.7,150.1,147.4,144.4,141.4,138.3,135.4,132.6,130.1,127.8,125.7,123.9,122.4,121.1,120.3,119.6,119.4,119.5,120,120.9,122.2,123.9,126,128.3,130.8,133.4,136,138.5,140.8,142.7,144.2,145.4,145.9,146,145.8,144.9,144.1]}; /* Catavitello 2015, retrievers walking: mean angle per 1% of each limb's stride, 0 = touchdown */
+const WOLF = {"stifle":[144,142.9,141.7,141,140.2,139.7,139.2,138.8,138.6,138.3,138,137.8,137.6,137.4,136.9,136.6,136.3,136,135.7,135.3,135,134.7,134.4,134.2,133.9,133.7,133.4,133.2,133,132.9,132.7,132.6,132.5,132.4,132.4,132.5,132.5,132.6,132.6,132.6,132.6,132.6,132.5,132.3,132.2,132.1,132.1,132.2,132.2,132.5,132.8,133.2,133.6,134.3,135,135.9,136.9,138,139.2,139.6,139.6,139.1,138.1,136.7,134.9,132.9,130.8,128.6,126.5,124.5,122.6,120.8,119.4,118.1,117.2,116.3,115.9,115.6,115.8,116,116.8,117.6,118.9,120.3,122.1,124.1,126.4,128.8,131.2,133.7,136,138.2,140.1,141.5,142.8,143.5,144.1,144.2,144.3,144.2,144],"tarsus":[145.4,144,142.6,141.2,139.8,138.6,137.5,136.4,135.4,134.7,134.1,133.7,133.3,133.3,133.5,133.9,134.2,134.6,135.3,135.9,136.6,137.2,137.5,137.9,138.1,138.3,138.5,138.8,139,139.3,139.7,140.1,140.7,141.3,141.7,142.1,142.5,142.9,143.2,143.6,143.8,144,144.4,145.1,145.8,146.6,147.4,148.3,149.1,149.9,150.7,152.1,153.4,154.8,156.1,157,157.9,158.7,159.6,159.7,159.4,158.9,158.3,157.2,155.8,154,151.9,149.5,146.7,143.9,141,138.1,135.3,132.6,130.2,127.8,125.9,124.1,122.8,121.7,121.2,120.8,121.1,121.6,122.7,124,125.8,127.8,130,132.4,134.8,137.1,139.2,141.1,142.7,143.8,144.7,145.1,145.4,145.4,145.4],"shoulder":[150.2,148.8,147.5,145.4,143.2,142.1,141.2,141,141,140.2,139.1,138,136.9,136.3,136.2,135.8,135.1,134.5,133.8,133.2,132.6,131.9,130.8,129.7,128.9,128,127.5,126.9,126.5,126.2,125.7,125.2,124.7,124.2,123.6,122.9,122.6,122.7,122,120.6,119.4,118.4,117.7,117.4,117,116.6,116.2,116.3,116.4,116.5,116.6,117.2,117.7,118.4,119.1,120,120.9,121.9,123.1,124.5,126.1,127.5,128.9,129.2,128.6,128,127.5,127,126.9,126.8,126.8,126.8,127.1,127.4,127.7,128,128.2,128.5,128.9,129.4,129.9,130.4,131.5,132.9,134.3,135.7,137.3,139,140.8,142.5,144.3,146.1,147.7,149.1,150.4,151.5,152.4,152.5,152.4,151.3,150.2],"elbow":[132.3,131.5,130.7,130.1,129.6,129.1,128.7,128.2,127.8,127.5,127.3,127.2,127.1,127.1,127,126.9,127,127.1,127.2,127.4,127.6,127.9,128.3,128.7,129.1,129.4,129.7,130.1,130.3,130.4,130.8,131.1,131.5,131.8,132.2,132.7,132.9,133,133.7,134.9,136.2,137.4,138.6,139.5,140.5,142,143.4,144.3,145.3,146.7,148.2,148.9,149.6,150.1,150.5,150.9,151.3,151.2,151.1,150.8,150.4,149.5,148.3,146,142.7,139.3,135.8,132.2,128.3,124.5,120.9,117.3,114,110.8,107.8,104.8,101.9,99.1,97.1,95.3,93.7,92.2,92.2,92.7,93.5,94.4,96.1,98.3,100.8,103.5,106.6,110,113.4,116.8,120.2,123.6,126.8,129,131.1,131.7,132.3],"carpus":[190.3,190.2,190.2,190.2,190.3,190.3,190.3,190.3,190.4,190.3,190.3,190.2,190.3,190.3,190.2,190.2,190.2,190.2,190.2,190.2,190.2,190.3,190.3,190.3,190.2,190.1,190.2,190.2,190.2,190.1,190.1,190.2,190.3,190.4,190.3,190.2,190.2,190.3,190.4,190.4,190.4,190.3,190.3,190.3,190.4,190.3,190.2,190.2,190.2,190.2,190.3,190.3,190.3,190.2,190,190,190,189.9,189.8,189.9,190.1,188.3,185.1,177.1,164.5,152.2,140.4,128.9,118.3,108.1,99.2,90.7,84.1,77.6,73.4,69.2,67.7,66.1,67.1,68.3,71.8,75.7,81.5,88,95.9,104.5,114.2,124.7,135.9,147.7,159.9,172.4,182.4,186.9,190.3,190.3,190.3,190.3,190.3,190.3,190.3]}; /* hero3's near legs, same angle convention, 0 = touchdown */
+
+/* ---------- the canine side-view skeleton (DeCamp 2D marker set) ---------- */
+const LEGS={nF:"Near front leg",nH:"Near hind leg",fF:"Far front leg",fH:"Far hind leg"};
+const COL={nF:["#ff5a5f","#ff8a3d","#ffd23f","#fff27a"],nH:["#c06cff","#7b8cff","#3ec5ff","#4ff0d0"],fF:["#b5484b","#b8682f","#b59a2f","#b5ad57"],fH:["#8a4fb5","#5864b5","#2c8cb5","#38aa94"]};
+const BASE=[
+ {id:"nose",name:"Nose",grp:"body",col:"#ffffff",lm:"Tip of the nose."},
+ {id:"ear",name:"Ear base",grp:"body",col:"#d8d8d8",lm:"Where the front of the ear meets the skull."},
+ {id:"wither",name:"Withers",grp:"body",col:"#f0b8c8",lm:"Top of the shoulder blades, the highest point of the back over the front legs. Stands in for the top of the near and far shoulder blade."},
+ {id:"tail",name:"Tail base",grp:"body",col:"#b8e0b0",lm:"Where the tail leaves the rump."},
+ ...["n","f"].flatMap(s=>{const S=s==="n"?"Near":"Far", F=s+"F", H=s+"H"; return [
+  {id:s+"Sh",name:`${S} shoulder`,grp:F,col:COL[F][0],far:s==="f",lm:"Point of the shoulder: the front of the upper arm bone where it meets the blade (greater tubercle)."},
+  {id:s+"El",name:`${S} elbow`,grp:F,col:COL[F][1],far:s==="f",lm:"Outside of the elbow (lateral epicondyle), just below the chest line. Click bone, not the fur that hangs behind it."},
+  {id:s+"Ca",name:`${S} wrist`,grp:F,col:COL[F][2],far:s==="f",lm:"Wrist (carpus): the bony bump on the outside, a little above the dew claw (ulnar styloid)."},
+  {id:s+"Fp",name:`${S} front paw`,grp:F,col:COL[F][3],far:s==="f",lm:"Ball of the front foot, where the toes meet the foot (head of the 5th metacarpal)."},
+  {id:s+"Il",name:`${S} pelvis top`,grp:H,col:COL[H][0],far:s==="f",lm:"Top front corner of the pelvis (iliac crest), the bony point at the top of the hip."},
+  {id:s+"Hi",name:`${S} hip`,grp:H,col:COL[H][1],far:s==="f",lm:"Hip joint: the bony knob at the top of the thigh (greater trochanter)."},
+  {id:s+"Kn",name:`${S} knee`,grp:H,col:COL[H][2],far:s==="f",lm:"Knee (stifle): outside of the joint at the bottom of the thigh (lateral femoral condyle). Skin slides most here."},
+  {id:s+"Ho",name:`${S} hock`,grp:H,col:COL[H][3],far:s==="f",lm:"Hock: the outside ankle bone (lateral malleolus), not the point of the heel behind it."},
+  {id:s+"Hp",name:`${S} hind paw`,grp:H,col:COL[H][3],far:s==="f",lm:"Ball of the hind foot (head of the 5th metatarsal)."}];})];
+const BASE_BONES=[["nose","ear"],["ear","wither"],["wither","tail"],...["n","f"].flatMap(s=>[["wither",s+"Sh"],[s+"Sh",s+"El"],[s+"El",s+"Ca"],[s+"Ca",s+"Fp"],[s+"Il",s+"Hi"],[s+"Hi",s+"Kn"],[s+"Kn",s+"Ho"],[s+"Ho",s+"Hp"]])];
+const KIND={shoulder:1,elbow:-1,carpus:1,hip:-1,stifle:1,tarsus:-1}; /* which way each joint bends normally, for an animal walking right in image coordinates */
+const BASE_ANG=["n","f"].flatMap(s=>{const S=s==="n"?"Near":"Far"; return [
+  {id:s+"shoulder",k:"shoulder",name:`${S} shoulder`,pts:["wither",s+"Sh",s+"El"],paw:s+"Fp"},{id:s+"elbow",k:"elbow",name:`${S} elbow`,pts:[s+"Sh",s+"El",s+"Ca"],paw:s+"Fp"},
+  {id:s+"carpus",k:"carpus",name:`${S} wrist`,pts:[s+"El",s+"Ca",s+"Fp"],paw:s+"Fp"},{id:s+"hip",k:"hip",name:`${S} hip`,pts:[s+"Il",s+"Hi",s+"Kn"],paw:s+"Hp"},
+  {id:s+"stifle",k:"stifle",name:`${S} knee`,pts:[s+"Hi",s+"Kn",s+"Ho"],paw:s+"Hp"},{id:s+"tarsus",k:"tarsus",name:`${S} hock`,pts:[s+"Kn",s+"Ho",s+"Hp"],paw:s+"Hp"}];});
+const PARENT=Object.fromEntries(BASE_BONES.map(([a,b])=>[b,a])); PARENT.wither=null; PARENT.nIl=null; PARENT.fIl=null; PARENT.nose=null;
+const PAWS=["nFp","nHp","fFp","fHp"];
+
+/* ---------- state ---------- */
+const $=id=>document.getElementById(id);
+const st={clip:null,frames:[],n:0,fw:0,fh:0,sx:1,cur:0,sel:"nSh",keys:{},res:{},events:{},extra:{joints:[],bones:[],angles:[]},facing:"auto",
+  view:{z:1,ox:0,oy:0},show:{bones:true,angles:true,labels:false,onion:false,loupe:true,smooth:true,ghost:true},autoNext:true,mode:"manual",track:"all",others:"dim",filledOn:false,clipboard:null,playing:false,speed:1,con:100,bri:100,db:null,dirty:false,hover:null};
+const joints=()=>BASE.concat(st.extra.joints), jById=id=>joints().find(j=>j.id===id), bones=()=>BASE_BONES.concat(st.extra.bones), angles=()=>BASE_ANG.concat(st.extra.angles);
+const keyAt=(j,f)=>st.keys[j]&&st.keys[j][f];
+function setKey(j,f,v){if(isLocked(j)){toast(`${jById(j).name} is locked: unlock its track (🔒) to edit`); return;} (st.keys[j] ||= {}); if(v==null) delete st.keys[j][f]; else st.keys[j][f]=v; markDirty(); refresh(j);}
+const filling=()=>st.mode==="assist"||st.filledOn;
+function refresh(j){if(filling()) queueFill(j); else keysOnly(j);}
+function keysOnly(j){const n=st.n, R={x:new Float32Array(n).fill(NaN),y:new Float32Array(n).fill(NaN),s:new Float32Array(n),src:new Uint8Array(n),why:new Array(n)}; st.res[j]=R;
+  for(const [f,k] of Object.entries(st.keys[j]||{})){if(+f>=n) continue; if(k.occ) R.src[f]=4; else {R.x[f]=k.x; R.y[f]=k.y; R.s[f]=1; R.src[f]=1;}} seriesCache=null;}
+function rebuildAll(){if(filling()) fillAll(); else {for(const j of joints()) keysOnly(j.id); afterFill();}}
+/* undo: a snapshot of everything you made, taken before each change */
+const hist={u:[],r:[]};
+const stateNow=()=>JSON.stringify({keys:st.keys,events:st.events,extra:st.extra});
+function snap(label,merge){const h=hist.u[hist.u.length-1]; if(merge&&h&&h.label===label&&Date.now()-h.t<1200){h.t=Date.now(); return;} hist.u.push({label,s:stateNow(),t:Date.now()}); if(hist.u.length>300) hist.u.shift(); hist.r=[]; undoButtons();}
+function restore(sv){const o=JSON.parse(sv); st.keys=o.keys; st.events=o.events; st.extra=o.extra; if(!tracks().some(t=>t.id===st.track)) st.track="all"; trackSet=null; renderTracks(); markDirty(); rebuildAll(); refreshLists(); draw();}
+function undo(){const e=hist.u.pop(); if(!e) {toast("Nothing to undo"); return;} hist.r.push({label:e.label,s:stateNow(),t:0}); restore(e.s); undoButtons(); toast("Undid: "+e.label);}
+function redo(){const e=hist.r.pop(); if(!e) {toast("Nothing to redo"); return;} hist.u.push({label:e.label,s:stateNow(),t:0}); restore(e.s); undoButtons(); toast("Redid: "+e.label);}
+function undoButtons(){$("undo").disabled=!hist.u.length; $("redo").disabled=!hist.r.length; $("undo").title=hist.u.length?`Undo ${hist.u[hist.u.length-1].label} (Ctrl+Z)`:"Undo (Ctrl+Z)";}
+let toastT=null; function toast(msg){const b=$("banner"); b.textContent=msg; b.classList.add("toast"); clearTimeout(toastT); toastT=setTimeout(()=>{b.classList.remove("toast"); toastT=null; banner();},1600);}
+function banner(){if(toastT) return; const b=$("banner"); if(!st.n){b.textContent=""; return;} const j=jById(st.sel), k=keyAt(st.sel,st.cur), L=st.track==="all"?joints().filter(x=>x.grp===(j&&j.grp)):workJoints(), i=L.indexOf(j);
+  b.textContent=""; const t=document.createElement("span"); t.textContent=k?(k.occ?"Hidden here: ":"Placed: "):"Click to place "; const nm=document.createElement("b"); nm.textContent=j?j.name:""; const r=document.createElement("span"); const tk=tracks().find(t=>t.id===st.track); r.textContent=` · ${i+1} of ${L.length}${st.track!=="all"&&tk?` in ${tk.name}`:""} · Tab or the list picks another joint · Shift+click grabs another point`; b.append(t,nm,r);}
+
+/* ---------- video → frames ---------- */
+const vid=document.createElement("video"); vid.muted=true; vid.playsInline=true; vid.preload="auto";
+let fileMeta=null;
+$("file").onchange=async e=>{const f=e.target.files&&e.target.files[0]; if(!f) return; stopPlay(); if(vid.src) URL.revokeObjectURL(vid.src);
+  vid.src=URL.createObjectURL(f); $("clipInfo").textContent="reading…";
+  try{await new Promise((ok,no)=>{vid.onloadedmetadata=ok; vid.onerror=()=>no(new Error("This browser cannot play that video file. Try an .mp4 (H.264) or .webm."));});}catch(err){$("clipInfo").textContent=err.message; return;}
+  fileMeta={name:f.name,size:f.size,vw:vid.videoWidth,vh:vid.videoHeight,dur:vid.duration}; $("mirrorImg").hidden=true;
+  $("clipInfo").textContent=`${f.name} · ${fileMeta.vw}×${fileMeta.vh} · ${fileMeta.dur.toFixed(2)} s`;
+  let fps=await detectFps(); if(fps){const C=[10,12,15,20,23.976,24,25,29.97,30,48,50,59.94,60,90,120,240], c=C.find(v=>Math.abs(v-fps)/v<.02); if(c) fps=c;} $("fps").value=fps?+fps.toFixed(3):30; $("t0").value=0; $("t1").value=+Math.min(fileMeta.dur,20).toFixed(2); $("extract").disabled=false;
+  $("clipInfo").textContent=`${f.name} · ${fileMeta.vw}×${fileMeta.vh} · ${fps?+fps.toFixed(2)+" fps":"fps? check Clip"}`; $("clipInfo").title=`${fileMeta.dur.toFixed(2)} s long`;
+  await extract();};
+async function detectFps(){if(!("requestVideoFrameCallback" in HTMLVideoElement.prototype)) return null; const T=[];
+  return new Promise(res=>{let done=false; const fin=()=>{if(done) return; done=true; vid.pause(); const d=T.slice(1).map((t,i)=>t-T[i]).filter(x=>x>1e-4).sort((a,b)=>a-b); res(d.length>3?1/d[Math.floor(d.length/2)]:null);};
+    const cb=(now,m)=>{T.push(m.mediaTime); if(T.length>=14) fin(); else vid.requestVideoFrameCallback(cb);}; vid.requestVideoFrameCallback(cb); vid.currentTime=0; vid.play().catch(fin); setTimeout(fin,2500);});}
+const seek=t=>new Promise(ok=>{const on=()=>{vid.removeEventListener("seeked",on); if("requestVideoFrameCallback" in vid) {let fired=false; vid.requestVideoFrameCallback(()=>{fired=true; ok();}); setTimeout(()=>{if(!fired) ok();},120);} else ok();}; vid.addEventListener("seeked",on); vid.currentTime=t;});
+$("extract").onclick=()=>extract();
+async function extract(){if(!fileMeta) return; const fps=+$("fps").value||30, t0=Math.max(0,+$("t0").value||0), t1=Math.min(fileMeta.dur,Math.max(t0+.1,+$("t1").value||fileMeta.dur));
+  let n=Math.floor((t1-t0)*fps+1e-6); const MAXF=600; if(n>MAXF){n=MAXF; $("t1").value=+(t0+n/fps).toFixed(2);}
+  const fw=Math.min(fileMeta.vw,960), fh=Math.round(fileMeta.vh*fw/fileMeta.vw), cv=document.createElement("canvas"); cv.width=fw; cv.height=fh; const cx=cv.getContext("2d",{willReadFrequently:true});
+  st.frames=[]; st.n=0; bmpCache.clear(); $("extract").disabled=true;
+  for(let i=0;i<n;i++){const t=t0+(i+.5)/fps; if(t>fileMeta.dur-1e-3) break; await seek(t); cx.drawImage(vid,0,0,fw,fh);
+    const im=cx.getImageData(0,0,fw,fh).data, g=new Uint8Array(fw*fh); for(let p=0,q=0;q<g.length;p+=4,q++) g[q]=(im[p]*77+im[p+1]*150+im[p+2]*29)>>8;
+    const blob=await new Promise(ok=>cv.toBlob(ok,"image/jpeg",.92)); st.frames.push({blob,g}); $("prog").style.width=((i+1)/n*100)+"%";}
+  $("prog").style.width="0"; $("extract").disabled=false;
+  st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=fw/fileMeta.vw; st.cur=0;
+  st.clip={id:clipId(fileMeta,t0,fps),name:fileMeta.name,vw:fileMeta.vw,vh:fileMeta.vh,dur:fileMeta.dur,fps,t0,n:st.n};
+  st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null; integ.clear();
+  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","evDown","evUp","evAuto","guideBtn","fClear"].forEach(id=>$(id).disabled=false); guideStop(); $("empty").hidden=true;
+  hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); renderJoints(); rebuildAll(); refreshLists(); draw();}
+const clipId=(m,t0,fps)=>(m.name.replace(/[^A-Za-z0-9_.-]/g,"_").slice(0,60)+"_"+m.vw+"x"+m.vh+"_"+Math.round(m.dur*100)+"_"+Math.round(t0*100)+"_"+Math.round(fps*100));
+
+/* ---------- still images → frames (rig marking): each picture is fitted into one shared frame on a plain background, bottom-aligned so the
+   paws sit on the same line; its scale and offset are kept with the points (doc.images) so every point maps back to that picture's own pixels ---------- */
+/* the rig set (GrumpyDingo, Oct 9: "be very specific"): BONE points are joints under the fur (where the leg bends); EDGE points sit on the outline
+   (where fur meets background). Grouped as tracks, placed on the near side only (the far legs are copied from the near ones). The legs' joints
+   (shoulder, elbow, wrist, paw ball, pelvis top, hip, knee, hock) and nose, ear base, withers and tail base are the built-in points. */
+const RIG_GROUPS={rH:"Rig: head",rB:"Rig: neck, back and belly",rF:"Rig: near front leg",rK:"Rig: near hind leg",rT:"Rig: tail"};
+const RIG_POINTS=[
+ ["rH","stop","Stop (edge)","Top line of the face: the dip where the forehead drops down to the muzzle, between the eyes."],
+ ["rH","brow","Forehead top (edge)","Highest point of the head's top line in front of the ears."],
+ ["rH","earBack","Near ear, left corner (edge)","The near ear's base, its LEFT-hand corner (toward the tail), where it meets the head or neck fur."],
+ ["rH","earTip","Near ear, tip (edge)","Very tip of the near ear."],
+ ["rH","eye","Eye (centre)","Centre of the near eye."],
+ ["rH","mouth","Mouth corner","Corner of the lips, at the back of the mouth line."],
+ ["rH","chin","Chin (edge)","Front-most point of the lower jaw on the outline, under the nose."],
+ ["rH","jaw","Jaw angle (edge)","Underside of the head: where the jaw line turns up into the throat."],
+ ["rB","nape","Back of the neck (edge)","Top line right behind the ears: where the head's outline becomes the neck's."],
+ ["rB","scap","Shoulder blade top (bone)","Top edge of the shoulder blade: just under the withers, at it or a little behind it; on a shaggy wolf, at the top of the shoulder mass."],
+ ["rB","back","Mid-back (edge)","Lowest point of the back line between the withers and the croup."],
+ ["rB","croup","Croup (edge)","Highest point of the rump's top line, over the hips, in front of the tail."],
+ ["rB","throat","Throat (edge)","Front line of the neck: where the throat meets the chest, under the jaw."],
+ ["rB","chest","Point of the chest (edge)","Most forward point of the chest outline (in front of the breastbone)."],
+ ["rB","brisket","Deepest chest (edge)","Lowest point of the chest outline, just behind the near elbow."],
+ ["rB","tuck","Tuck-up (edge)","Highest point of the belly line, just in front of the near thigh."],
+ ["rB","buttock","Point of the buttock (edge)","Back-most point of the rump outline, under the tail."],
+ ["rF","elbowBack","Elbow back (edge)","Back point of the near elbow on the outline (the point of the elbow bone, olecranon)."],
+ ["rF","wristFront","Wrist front (edge)","Front of the near wrist on the outline, level with the wrist joint."],
+ ["rF","wristBack","Wrist back (edge)","Back of the near wrist: the little pad bump behind it (accessory carpal pad)."],
+ ["rF","fHeel","Back of the front foot (edge)","Where the back of the near front pastern meets the big pad, at the ground."],
+ ["rF","fToe","Front toe tip (edge)","Front tip of the near front toes, at the ground."],
+ ["rK","thighFront","Thigh front (edge)","Front line of the near thigh, level with the hip joint (where the thigh meets the flank)."],
+ ["rK","kneeFront","Knee front (edge)","Front of the near knee on the outline (the knee cap)."],
+ ["rK","hockPoint","Point of the hock (edge)","The heel point at the back of the near hock (top of the calcaneus), behind the hock joint."],
+ ["rK","hHeel","Back of the hind foot (edge)","Where the back of the near hind foot meets the big pad, at the ground."],
+ ["rK","hToe","Hind toe tip (edge)","Front tip of the near hind toes, at the ground."],
+ ["rT","tailTop","Tail root top (edge)","Where the top line of the tail leaves the rump (the built-in Tail base is the bone)."],
+ ["rT","tailUnder","Tail root underside (edge)","Where the underside of the tail leaves the buttock."],
+ ["rT","tailWide","Tail widest (edge)","On the tail's underside: the point where the tail is widest."],
+ ["rT","tailTip","Tail tip (edge)","End of the tail, fur included."]];
+const RIG_COL={rH:"#ffe08a",rB:"#ffb3ff",rF:"#ff9d7a",rK:"#9ad0ff",rT:"#b8f0a0"};
+function ensureRigPoints(){const have=new Map(st.extra.joints.map(j=>[j.id,j])); for(const [g,k,name,lm] of RIG_POINTS){const o=have.get("r_"+k); if(o) Object.assign(o,{name,lm}); else st.extra.joints.push({id:"r_"+k,name,grp:g,col:RIG_COL[g],lm});} /* saved sets pick up renamed points */
+  for(const [g,name] of Object.entries(RIG_GROUPS)) if(!(st.extra.tracks||[]).some(t=>t.id===g)) (st.extra.tracks ||= []).push({id:g,name,joints:RIG_POINTS.filter(r=>r[0]===g).map(r=>"r_"+r[1]),custom:true});}
+async function frameFrom(img,m,fw,fh){const cv=document.createElement("canvas"); cv.width=fw; cv.height=fh; const cx=cv.getContext("2d",{willReadFrequently:true}); cx.fillStyle="#c9c4bb"; cx.fillRect(0,0,fw,fh);
+  cx.save(); if(m.flip){cx.translate(fw,0); cx.scale(-1,1);} cx.drawImage(img,m.flip?fw-m.ox-m.w*m.s:m.ox,m.oy,m.w*m.s,m.h*m.s); cx.restore();
+  const im=cx.getImageData(0,0,fw,fh).data, g=new Uint8Array(fw*fh); for(let p=0,q=0;q<g.length;p+=4,q++) g[q]=(im[p]*77+im[p+1]*150+im[p+2]*29)>>8;
+  const blob=await new Promise(ok=>cv.toBlob(ok,"image/png")); return {blob,g};}
+const imgSrc=[];
+$("imgFiles").onchange=async e=>{const fs=[...(e.target.files||[])].sort((a,b)=>a.name.localeCompare(b.name)); if(!fs.length) return; stopPlay(); $("clipInfo").textContent="reading pictures…";
+  const ims=[]; for(const f of fs){try{ims.push({f,img:await createImageBitmap(f)});}catch(err){toast(`Could not read ${f.name}`);}} if(!ims.length) return;
+  const fw=960, fh=640, pad=24; imgSrc.length=0; st.frames=[]; bmpCache.clear(); integ.clear(); const metas=[];
+  for(const {f,img} of ims){const s=Math.min((fw-2*pad)/img.width,(fh-2*pad)/img.height), m={name:f.name,w:img.width,h:img.height,s:+s.toFixed(6),ox:Math.round((fw-img.width*s)/2),oy:Math.round(fh-pad-img.height*s),flip:false};
+    imgSrc.push(img); metas.push(m); st.frames.push(await frameFrom(img,m,fw,fh));}
+  st.n=st.frames.length; st.fw=fw; st.fh=fh; st.sx=1; st.cur=0; fileMeta=null;
+  const key=metas.map(m=>m.name+":"+m.w+"x"+m.h).join("|"); let h=0; for(const c of key) h=(h*31+c.charCodeAt(0))>>>0;
+  st.clip={id:"imgs2_"+h.toString(36)+"_"+st.n, /* imgs2: GrumpyDingo started fresh on Oct 9 (older sets are ignored) */name:`${st.n} pictures`,vw:fw,vh:fh,dur:st.n,fps:1,t0:0,n:st.n,images:metas};
+  st.keys={}; st.res={}; st.events={}; st.extra={joints:[],bones:[],angles:[],tracks:[]}; st.track="all"; trackSet=null;
+  ["fSave","fBackup","fExport","fCsv","fImportBtn","fImport","fGif","fSheet","fZip","fill","showFilled","adjust","revertAdj","nextFlag","play","rev","back","fwd","guideBtn","fClear"].forEach(id=>$(id).disabled=false); $("empty").hidden=true; $("mirrorImg").hidden=false; guideStop();
+  hist.u=[]; hist.r=[]; undoButtons(); fit(); await loadClip(); ensureRigPoints(); renderJoints(); rebuildAll(); refreshLists(); draw(); showImgName();
+  toast(`${st.n} pictures loaded, one per frame. Rig tracks (head, neck and back, front leg, hind leg, tail) hold the extra points; each point's exact spot is in the Joint tab.`);};
+function showImgName(){if(!st.clip||!st.clip.images) return; const m=st.clip.images[st.cur]; if(m){$("clipInfo").textContent=`${st.cur+1}/${st.n} · ${m.name}${m.flip?" (mirrored)":""} · ${m.w}×${m.h}`; $("clipInfo").title=m.name;}}
+async function mirrorFrame(i,mark=true){const m=st.clip.images[i]; if(!m||!imgSrc[i]) return; m.flip=!m.flip; st.frames[i]=await frameFrom(imgSrc[i],m,st.fw,st.fh); bmpCache.delete(i); integ.delete(i);
+  for(const K of Object.values(st.keys)){const v=K[i]; if(v&&!v.occ){v.x=st.fw-v.x; if(v.orig) v.orig.x=st.fw-v.orig.x;}} if(mark){markDirty(); toast(m.flip?"Mirrored: it now faces the other way (its points moved with it)":"Back to how the picture was");} showImgName(); draw();}
+$("mirrorImg").onclick=()=>{if(st.clip&&st.clip.images) mirrorFrame(st.cur);}; /* press again to undo it (not in Ctrl+Z: the picture itself changes) */
+
+/* ---------- guided mode: one point at a time, in an order that walks round the animal; a click places it and moves on ---------- */
+const GUIDE=[["Head", "nose", "The nose is the tip of the muzzle: the black leather pad at the very front of the face, in front of the mouth.", "the front-most point of the nose leather, on the outline.", "dog nose leather side view"],
+ ["Head", "r_stop", "The stop is the step in the face's top line between the forehead (above the eyes) and the muzzle (the long part in front of the eyes).", "on the top line of the face, follow the outline back from the nose: the stop is where the line stops running flat along the muzzle and starts to rise to the forehead. On wolves it is gentle, roughly level with the eyes.", "dog stop anatomy"],
+ ["Head", "r_brow", "The forehead is the top of the skull between the eyes and the ears.", "the highest point of the head's top line in front of the ears, between the stop and the ear.", "dog skull side view forehead"],
+ ["Head", "ear", "Three points go on the NEAR ear only: the ear closest to you (usually the bigger, more complete one; the other ear peeks out behind it, ignore that one). This first one is its right-hand corner.", "the RIGHT-hand corner of the ear's base (the side toward the nose), where the ear's front edge meets the head. Not the middle of the base: picture the ear as an upside-down V; this is the bottom of its right leg. If the two ears overlap, use the nearer one (usually larger and further forward).", "dog ear base anatomy"],
+ ["Head", "r_earTip", "Second point on the same near ear: its tip, the top end of the ear flap.", "the very tip of the near ear, fur included.", "wolf ear side view"],
+ ["Head", "r_earBack", "Third and last point on the same near ear (NOT the other ear behind it): the left-hand corner of its base.", "the LEFT-hand corner of the near ear's base, where its left edge meets the head or neck fur: the bottom of the upside-down V's left leg. On a ruffed wolf it can sink into the fur: click where the ear's left edge disappears into it.", "dog ear anatomy side"],
+ ["Head", "r_eye", "The eye sits between the stop and the ear, about a third of the way down the side of the head.", "the middle of the eye itself (the dark pupil if you can see it), not the dark fur or mask around it.", "wolf eye position side profile"],
+ ["Head", "r_mouth", "The mouth corner is the back end of the lip line, below and a little in front of the eye.", "the far back end of the line where the upper and lower lips meet. With the mouth open, the deepest corner of the opening.", "dog lip commissure"],
+ ["Head", "r_chin", "The chin is the front of the lower jaw, under the nose.", "the front-most point of the lower jaw on the outline, below the nose. With the mouth open, the front of the lower jaw.", "dog chin lower jaw side view"],
+ ["Head", "r_jaw", "The jaw angle is the bottom back corner of the lower jaw, between the chin and the throat, under the ear.", "run along the underside of the head back from the chin: the jaw angle is where that line turns into the throat. On a ruffed wolf, click where the jaw's line meets the neck fur.", "dog mandible angle"],
+ ["Neck and back", "r_nape", "The back of the neck (nape) is the top of the neck right behind the skull, between the ears and the withers.", "on the top line, just behind the ears: where the head's outline becomes the neck's (often a slight dip or change in direction).", "dog nape anatomy"],
+ ["Neck and back", "wither", "The withers is the part of the back between the neck and the back, right above the front legs: the tops of the two shoulder blades.", "the highest point of the back's top line above the front legs. On a wolf with a mane, it is under the thickest fur over the shoulders; click the outline there.", "dog withers anatomy diagram"],
+ ["Neck and back", "r_scap", "The shoulder blade is the flat bone over the ribs above the front leg; its top edge sits just under the withers.", "BONE point: just under the withers, at it or a little behind it (the blade slopes down and forward from here to the point of the shoulder). On a thick coat, the top of the bulge of the shoulder.", "dog scapula position side view"],
+ ["Neck and back", "r_back", "The back is the top line between the withers and the croup (over the ribs and the loin).", "the lowest point of the back's top line between the withers and the croup. If the back is level, click its middle.", "dog topline back loin croup"],
+ ["Neck and back", "r_croup", "The croup is the top of the rump, between the loin (behind the ribs) and the tail root, over the hips.", "the highest point of the rump's top line, just in front of the tail.", "dog croup anatomy"],
+ ["Tail", "tail", "The tail root is where the tail bones leave the body, between the croup and the point of the buttock.", "BONE point: the centre of the tail where it leaves the rump, inside the fur (between the top and the underside of the tail's root).", "dog tail set anatomy"],
+ ["Tail", "r_tailTop", "The top of the tail root is where the tail's top line separates from the rump's top line.", "on the outline: where the croup's top line stops and the tail's own top edge begins (often a small dip).", "dog tail set side view"],
+ ["Tail", "r_tailTip", "The tail tip is the end of the tail.", "the very end of the tail, fur included.", "wolf tail side view"],
+ ["Tail", "r_tailWide", "The tail is widest part-way down, where the fur is fullest.", "on the tail's UNDERSIDE (the edge facing the legs or the ground): the point where the tail is widest.", "wolf tail brush shape"],
+ ["Tail", "r_tailUnder", "The underside of the tail root is where the tail's lower edge meets the buttock, below the tail root.", "where the underside of the tail leaves the rump. If the tail hangs close against the thigh, the top of the gap between them.", "dog tail underside anatomy"],
+ ["Tail", "r_buttock", "The point of the buttock is the back end of the pelvis, under the tail root, between the tail and the back of the thigh.", "the back-most point of the rump's outline below the tail. If the tail covers it, follow the rump's curve down behind the thigh to its back-most point.", "dog point of buttock ischium"],
+ ["Near hind leg", "nIl", "The pelvis top (iliac crest) is the front top corner of the hip bone, between the loin and the croup.", "BONE point: a little in front of and below the croup, about a third of the way from the top line down toward the hip joint.", "dog pelvis iliac crest side view"],
+ ["Near hind leg", "nHi", "The hip joint is where the thigh bone meets the pelvis, between the croup and the knee.", "BONE point: the knob at the top of the thigh, about a third of the way from the croup down toward the knee, and toward the BACK of the thigh (in line with the tail root, roughly).", "dog hip joint location side view"],
+ ["Near hind leg", "r_thighFront", "The front of the thigh is where the thigh meets the belly and flank, in front of the hip.", "EDGE point: the front line of the near thigh, level with the hip joint (where the thigh's outline meets the flank).", "dog thigh flank anatomy"],
+ ["Near hind leg", "nKn", "The knee (stifle) is the joint between the thigh and the lower leg, at the bottom front of the thigh, about level with the belly.", "BONE point: the centre of the joint where the hind leg bends FORWARD, at the bottom of the thick thigh.", "dog stifle joint side view"],
+ ["Near hind leg", "r_kneeFront", "The front of the knee is the knee cap, at the front of the stifle.", "EDGE point: the most forward point of the outline at the knee.", "dog stifle patella"],
+ ["Near hind leg", "nHo", "The hock is the ankle: the joint between the lower leg and the long foot bones, about a quarter of the way up from the ground.", "BONE point: the centre of the joint where the hind leg bends BACK, just in front of the sharp heel point.", "dog hock joint anatomy"],
+ ["Near hind leg", "r_hockPoint", "The point of the hock is the heel bone sticking out behind the hock joint.", "EDGE point: the back-most point of the outline at the hock (the heel).", "dog point of hock calcaneus"],
+ ["Near hind leg", "nHp", "The ball of the hind foot is where the toes join the foot, just above the ground.", "BONE point: in the middle of the foot, just above the big pad, under where the long foot bones end.", "dog hind paw anatomy side"],
+ ["Near hind leg", "r_hHeel", "The back of the hind foot is where the long foot meets the big pad.", "EDGE point: on the back line of the near hind foot, where it meets the ground (or the big pad).", "dog paw pads side view"],
+ ["Near hind leg", "r_hToe", "The hind toes are the front end of the foot.", "EDGE point: the front tip of the near hind toes, at the ground (claws included if you can see them).", "dog hind paw toes side view"],
+ ["Chest and belly", "r_tuck", "The tuck-up is where the belly rises toward the back legs, between the ribs and the thigh.", "EDGE point: the highest point of the belly line, just in front of the near thigh.", "dog tuck-up belly line"],
+ ["Chest and belly", "r_brisket", "The brisket is the bottom of the chest, between the front legs and the belly.", "EDGE point: the lowest point of the chest outline, usually just behind the near elbow.", "dog brisket chest depth"],
+ ["Chest and belly", "r_chest", "The point of the chest is the front of the breastbone, between the throat and the front legs.", "EDGE point: the most forward point of the chest outline, below the neck and in front of the shoulders.", "dog prosternum point of chest"],
+ ["Chest and belly", "r_throat", "The throat is the front of the neck, between the jaw and the chest.", "EDGE point: on the neck's front line, where the throat meets the chest (often a slight change in direction below the jaw).", "dog throat neck anatomy side"],
+ ["Near front leg", "nSh", "The point of the shoulder is the joint between the shoulder blade and the upper arm, at the front of the chest, about level with the bottom of the neck.", "BONE point: the front of the upper arm bone where it meets the blade, a little behind the chest's front outline, about a third of the way down from the withers to the ground.", "dog point of shoulder anatomy"],
+ ["Near front leg", "nEl", "The elbow is the joint between the upper arm and the forearm, at the bottom of the chest, where the front leg leaves the body.", "BONE point: the centre of the joint where the front leg bends BACK, about level with the deepest chest.", "dog elbow joint side view"],
+ ["Near front leg", "r_elbowBack", "The back of the elbow is the point of the elbow bone (olecranon), sticking out behind the joint.", "EDGE point: the back-most point of the near front leg's outline at the elbow.", "dog olecranon point of elbow"],
+ ["Near front leg", "nCa", "The wrist (carpus) is the joint between the forearm and the long foot bones (the pastern), about a quarter of the way up from the ground.", "BONE point: the centre of the joint where the front leg bends, a little above the dew claw if you can see it.", "dog carpus wrist side view"],
+ ["Near front leg", "r_wristFront", "The front of the wrist is the front of the carpus joint.", "EDGE point: the front line of the near front leg, level with the wrist joint.", "dog carpus anatomy"],
+ ["Near front leg", "r_wristBack", "The back of the wrist has a small pad (the carpal pad) that sticks out behind the joint.", "EDGE point: the back-most point of the leg's outline at the wrist (the little pad bump).", "dog carpal pad"],
+ ["Near front leg", "nFp", "The ball of the front foot is where the toes join the foot, just above the ground.", "BONE point: in the middle of the foot, just above the big pad, under where the pastern ends.", "dog front paw anatomy side"],
+ ["Near front leg", "r_fHeel", "The back of the front foot is where the pastern meets the big pad.", "EDGE point: on the back line of the near front foot, where it meets the ground (or the big pad).", "dog paw pads side view"],
+ ["Near front leg", "r_fToe", "The front toes are the front end of the foot.", "EDGE point: the front tip of the near front toes, at the ground (claws included if you can see them).", "dog front paw toes side view"]];
+/* a plain side-view wolf for the guide card (facing right, ground at y 180): the outline, the near legs' bones, and where each guided point goes */
+const GMAP={nose:[282,63],r_stop:[256,50],r_brow:[246,42],ear:[236,37],r_earTip:[228,10],r_earBack:[218,39],r_eye:[250,53],r_mouth:[262,70],r_chin:[277,72],r_jaw:[246,79],
+ r_nape:[212,46],wither:[190,52],r_scap:[186,61],r_back:[140,60],r_croup:[88,56],tail:[77,66],r_tailTop:[74,58],r_tailTip:[54,151],r_tailWide:[66,118],r_tailUnder:[72,76],r_buttock:[69,86],
+ nIl:[94,67],nHi:[84,84],r_thighFront:[105,97],nKn:[98,124],r_kneeFront:[107,124],nHo:[76,152],r_hockPoint:[68,150],nHp:[82,173],r_hHeel:[72,178],r_hToe:[93,178],
+ r_tuck:[116,110],r_brisket:[184,125],r_chest:[214,96],r_throat:[226,84],nSh:[208,93],nEl:[186,120],r_elbowBack:[178,121],nCa:[190,156],r_wristFront:[197,156],r_wristBack:[183,154],nFp:[194,172],r_fHeel:[186,178],r_fToe:[207,178]};
+const GOUT="M282,62 L270,56 256,50 246,42 236,36 228,10 218,38 212,46 190,52 160,58 140,60 110,58 88,56 74,58 64,72 56,100 52,130 54,151 62,140 66,118 70,96 72,75 69,86 66,100 70,118 72,136 68,150 70,166 72,178 93,178 88,170 84,160 82,150 92,138 107,124 106,108 105,97 116,110 150,118 178,122 178,130 180,150 183,154 186,166 186,178 207,178 200,170 197,156 196,140 194,126 200,116 214,96 226,84 246,79 262,72 277,72 282,66 Z";
+const GBONES=[["r_scap","nSh"],["nSh","nEl"],["nEl","nCa"],["nCa","nFp"],["nIl","nHi"],["nHi","nKn"],["nKn","nHo"],["nHo","nHp"],["wither","r_croup"]];
+function guideMap(id){const done=new Set(Object.keys(st.keys).filter(j=>keyAt(j,st.cur)&&GMAP[j])); const [x,y]=GMAP[id]||[-99,-99];
+  return `<svg viewBox="0 0 300 190" role="img" aria-label="Where this point goes on a wolf facing right"><rect x="0" y="182" width="300" height="2" fill="#4a5059"/><path d="${GOUT}" fill="#353a42" stroke="#9aa3ad" stroke-width="1.5" stroke-linejoin="round"/>`+
+   GBONES.map(([a,b])=>`<line x1="${GMAP[a][0]}" y1="${GMAP[a][1]}" x2="${GMAP[b][0]}" y2="${GMAP[b][1]}" stroke="#6b7480" stroke-width="2" stroke-dasharray="3 3"/>`).join("")+
+   Object.entries(GMAP).map(([k,q])=>`<circle cx="${q[0]}" cy="${q[1]}" r="2.2" fill="${done.has(k)?"#7fd18b":"#7a838e"}"/>`).join("")+
+   `<circle cx="${x}" cy="${y}" r="9" fill="none" stroke="#e2a548" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="3.6" fill="#e2a548"/><text x="292" y="18" fill="#8f99a4" font-size="10" text-anchor="end">nose →</text><text x="8" y="18" fill="#8f99a4" font-size="10">← tail</text></svg>`;}
+const guide={on:false,i:0}; const gList=()=>GUIDE.filter(g=>jById(g[1]));
+function guideShow(){const L=gList(), g=L[guide.i]; if(!g){guideStop(); return;} const j=jById(g[1]); st.sel=g[1]; if(st.track!=="all"&&!inTrack(g[1])){st.track="all"; trackSet=null;}
+  const done=L.filter(x=>keyAt(x[1],st.cur)).length, pic=st.clip&&st.clip.images?` · picture ${st.cur+1} of ${st.n}`:` · frame ${st.cur+1}`;
+  $("gStep").textContent=`${g[0]} · point ${guide.i+1} of ${L.length}${pic} · ${done} done here`; $("gName").textContent=j.name.replace(/ \((edge|bone|centre)\)$/,"");
+  $("gMap").innerHTML=guideMap(g[1])+'<div class="k">amber: this point · green: placed on this picture · dashed: bones</div>';
+  const ears={ear:2,r_earTip:1,r_earBack:0}; $("gPic").hidden=!(g[1] in ears); if(g[1] in ears){const P=[[30,92],[62,18],[96,86]], at=ears[g[1]];
+    $("gPic").innerHTML=`<svg viewBox="0 0 160 112" role="img" aria-label="The near ear as an upside-down V: left corner, tip, right corner"><path d="M4 106 C20 96 26 94 30 92 L62 18 L96 86 C110 88 130 92 156 104" fill="#3a3f47" stroke="#8f99a4" stroke-width="2"/><path d="M30 92 L62 18 L96 86" fill="#4b5059" stroke="#c9ccd1" stroke-width="2"/><text x="118" y="70" fill="#8f99a4" font-size="11">nose →</text><text x="2" y="70" fill="#8f99a4" font-size="11">← tail</text>${P.map((q,i)=>`<circle cx="${q[0]}" cy="${q[1]}" r="${i===at?7:4}" fill="${i===at?"#e2a548":"#8f99a4"}"/>`).join("")}<text x="${P[at][0]+(at===0?-26:at===2?10:10)}" y="${P[at][1]+(at===1?4:18)}" fill="#e2a548" font-size="12" font-weight="700">here</text></svg>`;}
+  $("gWhat").textContent=g[2]; $("gLook").innerHTML=""; {const b=document.createElement("b"); b.textContent="Where to click: "; $("gLook").append(b, document.createTextNode(g[3].charAt(0).toUpperCase()+g[3].slice(1)));} $("gHelp").textContent=`The wolf faces right: front = right (toward the nose), back = left (toward the tail). Need more help? Look up "${g[4]}". Zoom with the wheel; the magnifier follows the pointer. Can't see it? Skip it (X). Click again to move a point.`; $("guide").hidden=false; renderJoints(); draw();}
+function guideFirstOpen(){const L=gList(); const k=L.findIndex(g=>!keyAt(g[1],st.cur)); return k;}
+function guideNext(){const L=gList(); for(let k=guide.i+1;k<L.length;k++) if(!keyAt(L[k][1],st.cur)){guide.i=k; guideShow(); return;}
+  const k=guideFirstOpen(); if(k>=0){guide.i=k; guideShow(); return;} /* points skipped earlier on this picture */
+  const placed=L.filter(g=>{const v=keyAt(g[1],st.cur); return v&&!v.occ;}).length, hid=L.length-placed;
+  if(st.cur+1<st.n){goTo(st.cur+1); guide.i=Math.max(0,guideFirstOpen()); toast(`Picture done: ${placed} placed${hid?`, ${hid} skipped`:""}. On to picture ${st.cur+1}.`); save(); guideShow();}
+  else {save(); guideStop(); toast(`All ${st.n} pictures done: ${placed} placed on the last one. Saved. Tell Firefly.`);}}
+function guideStart(){if(!st.n) return; guide.on=true; const k=guideFirstOpen(); guide.i=k>=0?k:0; $("guideBtn").textContent="Guided: on"; $("guideBtn").setAttribute("aria-pressed","true"); guideShow(); $("stage").focus();}
+function guideStop(){guide.on=false; $("guide").hidden=true; $("guideBtn").textContent="Start guided"; $("guideBtn").setAttribute("aria-pressed","false");}
+$("fClear").onclick=async e=>{const b=e.currentTarget, n=countPts(buildDoc()); if(!n){toast("No points to clear"); return;}
+  if(!b.dataset.armed){b.dataset.armed="1"; b.textContent=`Delete all ${n} points?`; setTimeout(()=>{delete b.dataset.armed; b.textContent="Clear all points";},5000); return;}
+  delete b.dataset.armed; b.textContent="Clear all points"; await backup(false); snap("clear all points"); st.keys={}; st.events={}; markDirty(); await save(); if(guide.on){guide.i=0; guideShow();} refreshLists(); renderJoints(); draw();
+  toast(`Cleared ${n} points (a backup copy is under File → backups; Ctrl+Z also brings them back)`);};
+$("guideBtn").onclick=()=>guide.on?guideStop():guideStart(); $("gStop").onclick=guideStop;
+$("gSkip").onclick=()=>{const g=gList()[guide.i]; if(!g) return; snap("hide "+g[1]); setKey(g[1],st.cur,{occ:true}); guideNext();};
+$("gBack").onclick=()=>{if(guide.i>0){guide.i--; guideShow();}};
+
+/* decoded frames for display: a small cache of bitmaps */
+const bmpCache=new Map();
+function bitmap(i){if(i<0||i>=st.n) return null; if(bmpCache.has(i)){const b=bmpCache.get(i); bmpCache.delete(i); bmpCache.set(i,b); return b instanceof Promise?null:b;}
+  const p=createImageBitmap(st.frames[i].blob).then(b=>{bmpCache.set(i,b); while(bmpCache.size>40){const k=bmpCache.keys().next().value; const o=bmpCache.get(k); if(o&&o.close) o.close(); bmpCache.delete(k);} draw(); return b;}); bmpCache.set(i,p); return null;}
+
+/* ---------- matching: zero-mean NCC on the grey frames, with integral images for the window statistics ---------- */
+const integ=new Map();
+function sums(i){if(integ.has(i)) return integ.get(i); const g=st.frames[i].g, w=st.fw, h=st.fh, W=w+1, S=new Float64Array(W*(h+1)), Q=new Float64Array(W*(h+1));
+  for(let y=0;y<h;y++){let rs=0,rq=0; for(let x=0;x<w;x++){const v=g[y*w+x]; rs+=v; rq+=v*v; S[(y+1)*W+x+1]=S[y*W+x+1]+rs; Q[(y+1)*W+x+1]=Q[y*W+x+1]+rq;}}
+  const o={S,Q}; integ.set(i,o); if(integ.size>80) integ.delete(integ.keys().next().value); return o;}
+const R_T=7; /* template radius: a 15 px patch */
+function template(i,x,y){const g=st.frames[i].g, w=st.fw, h=st.fh, n=2*R_T+1, T=new Float32Array(n*n); let m=0;
+  for(let dy=-R_T,k=0;dy<=R_T;dy++) for(let dx=-R_T;dx<=R_T;dx++,k++){const X=Math.min(w-1,Math.max(0,Math.round(x)+dx)), Y=Math.min(h-1,Math.max(0,Math.round(y)+dy)); T[k]=g[Y*w+X]; m+=T[k];}
+  m/=T.length; let s=0; for(let k=0;k<T.length;k++){T[k]-=m; s+=T[k]*T[k];} return {T,norm:Math.sqrt(s)||1};}
+function nccAt(i,tp,cx,cy){const g=st.frames[i].g, w=st.fw, h=st.fh; if(cx<R_T||cy<R_T||cx>=w-R_T||cy>=h-R_T) return -1; const {S,Q}=sums(i), W=w+1, n=2*R_T+1, N=n*n;
+  const x0=cx-R_T, y0=cy-R_T, x1=cx+R_T+1, y1=cy+R_T+1, sum=S[y1*W+x1]-S[y0*W+x1]-S[y1*W+x0]+S[y0*W+x0], sq=Q[y1*W+x1]-Q[y0*W+x1]-Q[y1*W+x0]+Q[y0*W+x0], vr=sq-sum*sum/N;
+  if(vr<1e-6) return 0; let c=0; for(let dy=0,k=0;dy<n;dy++){const row=(y0+dy)*w+x0; for(let dx=0;dx<n;dx++,k++) c+=tp.T[k]*g[row+dx];} return c/(tp.norm*Math.sqrt(vr));}
+/* the best few matches in a window: coarse every 2 px, then refined, with a sub-pixel parabola */
+function candidates(i,tps,cx,cy,R,K=5){const out=[]; const sc=(x,y)=>{let b=-1; for(const t of tps) b=Math.max(b,nccAt(i,t,x,y)); return b;};
+  const c0=Math.round(cx), c1=Math.round(cy), grid=[];
+  for(let y=c1-R;y<=c1+R;y+=2) for(let x=c0-R;x<=c0+R;x+=2) grid.push([sc(x,y),x,y]);
+  grid.sort((a,b)=>b[0]-a[0]);
+  for(const [s0,x,y] of grid){if(out.length>=K) break; if(out.some(o=>Math.hypot(o.x-x,o.y-y)<5)) continue;
+    let bx=x,by=y,bs=s0; for(let dy=-1;dy<=1;dy++) for(let dx=-1;dx<=1;dx++){const s=sc(x+dx,y+dy); if(s>bs){bs=s;bx=x+dx;by=y+dy;}}
+    const sl=sc(bx-1,by), sr=sc(bx+1,by), su=sc(bx,by-1), sd=sc(bx,by+1), px=(sl-sr)/(2*(sl-2*bs+sr)||1e9), py=(su-sd)/(2*(su-2*bs+sd)||1e9);
+    out.push({x:bx+Math.max(-.5,Math.min(.5,px||0)),y:by+Math.max(-.5,Math.min(.5,py||0)),s:bs});}
+  return out;}
+
+/* ---------- filling one joint ---------- */
+function visKeys(j){const K=st.keys[j]||{}; return Object.keys(K).map(Number).filter(f=>!K[f].occ).sort((a,b)=>a-b);}
+function boneLen(j){const p=PARENT[j]; if(!p) return null; const A=st.keys[j]||{}, B=st.keys[p]||{}, L=[]; for(const f in A){if(B[f]&&!A[f].occ&&!B[f].occ) L.push(Math.hypot(A[f].x-B[f].x,A[f].y-B[f].y));} if(!L.length) return null; L.sort((a,b)=>a-b); return L[Math.floor(L.length/2)];}
+const catmull=(P,f)=>{/* P: sorted [{f,x,y}] */ let i=0; while(i<P.length-2&&P[i+1].f<f) i++; const a=P[Math.max(0,i-1)], b=P[i], c=P[Math.min(P.length-1,i+1)], d=P[Math.min(P.length-1,i+2)];
+  if(c.f===b.f) return [b.x,b.y]; const t=(f-b.f)/(c.f-b.f), t2=t*t, t3=t2*t, h=(p0,p1,p2,p3)=>.5*((2*p1)+(-p0+p2)*t+(2*p0-5*p1+4*p2-p3)*t2+(-p0+3*p1-3*p2+p3)*t3); return [h(a.x,b.x,c.x,d.x),h(a.y,b.y,c.y,d.y)];};
+function fillJoint(j){const n=st.n, R={x:new Float32Array(n).fill(NaN),y:new Float32Array(n).fill(NaN),s:new Float32Array(n),src:new Uint8Array(n),why:new Array(n)}; st.res[j]=R;
+  const K=st.keys[j]||{}, vk=visKeys(j); for(const f in K){const k=K[f]; if(k.occ){R.src[f]=4;} else {R.x[f]=k.x; R.y[f]=k.y; R.s[f]=1; R.src[f]=1;}}
+  if(!vk.length) return; const P=vk.map(f=>({f,x:K[f].x,y:K[f].y})), tps={}; vk.forEach(f=>tps[f]=template(f,K[f].x,K[f].y));
+  const L=boneLen(j), par=PARENT[j], pr=par&&st.res[par];
+  const penal=(f,c)=>{if(!L||!pr||isNaN(pr.x[f])) return 0; const e=(Math.hypot(c.x-pr.x[f],c.y-pr.y[f])-L)/L; return 6*e*e;};
+  /* between two keys: candidates around the path, chosen by a Viterbi pass (smooth, strong matches, bone near its length) */
+  for(let q=0;q+1<vk.length;q++){const A=vk[q], B=vk[q+1]; if(B-A<2) continue; const span=[], travel=Math.hypot(K[B].x-K[A].x,K[B].y-K[A].y);
+    for(let f=A+1;f<B;f++){if(R.src[f]===4){span.push(null); continue;} const c=catmull(P,f), Rw=Math.round(Math.max(8,Math.min(36,.35*travel+6+2*Math.min(f-A,B-f)))), near=(f-A<=B-f)?[tps[A],tps[B]]:[tps[B],tps[A]];
+      const C=candidates(f,near,c[0],c[1],Rw); C.push({x:c[0],y:c[1],s:.45,interp:true}); C.forEach(o=>o.cost=-(o.s)+penal(f,o)+1.2*Math.pow(Math.hypot(o.x-c[0],o.y-c[1])/Rw,2)); span.push({f,c,C,Rw});}
+    viterbi(span,[K[A].x,K[A].y],[K[B].x,K[B].y],R);}
+  /* before the first key and after the last: follow while the match stays good */
+  const ext=(from,dir)=>{let px=K[from].x, py=K[from].y, vx=0, vy=0; for(let f=from+dir,steps=0;f>=0&&f<n&&steps<40;f+=dir,steps++){if(R.src[f]===4) break;
+      const C=candidates(f,[tps[from]],px+vx,py+vy,14,3); if(!C.length) break; C.forEach(o=>o.cost=-o.s+penal(f,o)+.02*Math.hypot(o.x-px-vx,o.y-py-vy)); C.sort((a,b)=>a.cost-b.cost); const b=C[0]; if(b.s<.55) break;
+      vx=(b.x-px)*.7; vy=(b.y-py)*.7; px=b.x; py=b.y; R.x[f]=px; R.y[f]=py; R.s[f]=b.s; R.src[f]=2; if(b.s<.7) R.why[f]="weak match outside your keys";}};
+  if(st.mode==="assist"){ext(vk[0],-1); ext(vk[vk.length-1],1);}} /* manual Fill stays between your points */
+function viterbi(span,a,b,R){const T=span.filter(Boolean); if(!T.length) return; const alpha=.4, STEP=6; /* a frame-to-frame change 6 px off the expected motion costs as much as a 0.4 drop in match */
+  let prev=[{x:a[0],y:a[1],tot:0,back:null,cp:null}], pc=null;
+  for(const t of T){const exp=pc?[t.c[0]-pc[0],t.c[1]-pc[1]]:[0,0], cur=t.C.map(o=>{let best=null; for(const p of prev){const d=Math.hypot(o.x-p.x-exp[0],o.y-p.y-exp[1])/STEP; const tot=p.tot+o.cost+alpha*d*d; if(!best||tot<best.tot) best={...o,tot,back:p};} return best;}); prev=cur; pc=t.c;}
+  let best=null; for(const p of prev){const tot=p.tot+alpha*Math.pow(Math.hypot(b[0]-p.x,b[1]-p.y)/STEP,2); if(!best||tot<best.t) best={p,t:tot};}
+  let node=best.p; for(let k=T.length-1;k>=0;k--){const t=T[k], f=t.f; R.x[f]=node.x; R.y[f]=node.y; R.s[f]=node.interp?.45:node.s; R.src[f]=node.interp?3:2;
+    const jump=k>0&&node.back?Math.hypot(node.x-node.back.x,node.y-node.back.y):0;
+    R.why[f]=node.interp?"no good match: drawn along the path between your keys":node.s<.7?`weak match (${node.s.toFixed(2)})`:jump>Math.max(14,t.Rw*1.2)?"jumps from the frame before":null; node=node.back;}}
+const ORDER=["wither","tail","ear","nose","nSh","nEl","nCa","nFp","nIl","nHi","nKn","nHo","nHp","fSh","fEl","fCa","fFp","fIl","fHi","fKn","fHo","fHp"];
+let fillTimer=null, fillSet=new Set();
+function queueFill(j){fillSet.add(j); clearTimeout(fillTimer); fillTimer=setTimeout(()=>{const S=[...fillSet]; fillSet.clear(); const all=new Set(S); /* children of a moved joint use its bone */
+    for(const [a,b] of BASE_BONES) if(all.has(a)) all.add(b); for(const j of orderOf([...all])) fillJoint(j); afterFill();},250);}
+const orderOf=L=>L.slice().sort((a,b)=>{const ia=ORDER.indexOf(a), ib=ORDER.indexOf(b); return (ia<0?99:ia)-(ib<0?99:ib);});
+async function fillAll(){const L=orderOf(joints().map(j=>j.id).filter(inTrack)); for(let k=0;k<L.length;k++){fillJoint(L[k]); $("prog").style.width=((k+1)/L.length*100)+"%"; if(k%3===2) await new Promise(r=>setTimeout(r,0));} $("prog").style.width="0"; afterFill();}
+$("fill").onclick=()=>{st.filledOn=true; press($("showFilled"),true); fillAll(); toast(st.mode==="manual"?"Filled the gaps from your points (your points are unchanged)":"Refilled every joint");};
+$("showFilled").onclick=()=>{st.filledOn=!st.filledOn; press($("showFilled"),st.filledOn); rebuildAll();};
+$("mode").onchange=e=>{st.mode=e.target.value; try{localStorage.setItem("gt:mode",st.mode);}catch(_){} if(st.mode==="assist"){st.filledOn=true; press($("showFilled"),true);} rebuildAll(); toast(st.mode==="manual"?"Manual: only your points count until you press Fill gaps now":"Assisted: the frames between your points fill as you go");};
+$("undo").onclick=undo; $("redo").onclick=redo;
+function afterFill(){st.resultsDirty=true; bonesFlag(); refreshLists(); draw(); saveSoon();}
+function bonesFlag(){for(const j of joints().map(x=>x.id)){const R=st.res[j], p=PARENT[j]; if(!R||!p||!st.res[p]) continue; const L=boneLen(j); if(!L) continue; const P=st.res[p];
+  for(let f=0;f<st.n;f++){if(R.src[f]!==2&&R.src[f]!==3) continue; if(isNaN(P.x[f])) continue; const e=Math.abs(Math.hypot(R.x[f]-P.x[f],R.y[f]-P.y[f])-L)/L; if(e>.15&&!R.why[f]) R.why[f]=`bone to ${jById(p).name.toLowerCase()} is ${Math.round(e*100)}% off its length`;}}}
+
+/* ---------- smoothed points for measuring (key points kept exactly) ---------- */
+function pointsFor(j){const R=st.res[j]; if(!R) return null; if(!st.show.smooth) return R; const n=st.n, x=Float32Array.from(R.x), y=Float32Array.from(R.y);
+  const med=(A,f)=>{const v=[A[f-1],A[f],A[f+1]].filter(t=>!isNaN(t)); v.sort((a,b)=>a-b); return v.length?v[Math.floor(v.length/2)]:A[f];};
+  const mx=Float32Array.from(x), my=Float32Array.from(y); for(let f=1;f<n-1;f++){if(R.src[f]!==2&&R.src[f]!==3) continue; mx[f]=med(x,f); my[f]=med(y,f);}
+  const SG=[-3,12,17,12,-3], sx=Float32Array.from(mx), sy=Float32Array.from(my); /* Savitzky-Golay, 5 points, quadratic */
+  for(let f=2;f<n-2;f++){if(R.src[f]!==2&&R.src[f]!==3) continue; let ax=0,ay=0,ok=true; for(let k=-2;k<=2;k++){if(isNaN(mx[f+k])){ok=false;break;} ax+=SG[k+2]*mx[f+k]; ay+=SG[k+2]*my[f+k];} if(ok){sx[f]=ax/35; sy[f]=ay/35;}}
+  return {x:sx,y:sy,src:R.src,s:R.s};}
+function facing(){if(st.facing!=="auto") return +st.facing; const a=st.keys.nose||{}, b=st.keys.tail||{}; for(const f in a) if(b[f]) return Math.sign(a[f].x-b[f].x)||1;
+  const w=st.keys.wither||{}; for(const f in a) if(w[f]) return Math.sign(a[f].x-w[f].x)||1; return 1;}
+function angleOf(A,f,cache){const P=A.pts.map(id=>{const R=cache[id]||(cache[id]=pointsFor(id)); return R&&!isNaN(R.x[f])&&R.src[f]!==4?[R.x[f],R.y[f]]:null;}); if(P.some(p=>!p)) return null;
+  const [a,b,c]=P, v1=[a[0]-b[0],a[1]-b[1]], v2=[c[0]-b[0],c[1]-b[1]], l=Math.hypot(...v1)*Math.hypot(...v2); if(l<1e-6) return null;
+  const inc=Math.acos(Math.max(-1,Math.min(1,(v1[0]*v2[0]+v1[1]*v2[1])/l)))*180/Math.PI; if(!A.k||!KIND[A.k]) return inc;
+  const cr=(c[0]-a[0])*(b[1]-a[1])-(c[1]-a[1])*(b[0]-a[0]); return 180-KIND[A.k]*facing()*Math.sign(-cr)*(180-inc);}
+function angleSeries(A){const cache={}, out=new Array(st.n); for(let f=0;f<st.n;f++) out[f]=angleOf(A,f,cache); return out;}
+
+/* ---------- drawing ---------- */
+const cv=$("stage"), cx=cv.getContext("2d"), lp=$("loupe"), lx=lp.getContext("2d");
+function fit(){const b=cv.getBoundingClientRect(); if(!st.fw) return; const z=Math.min(b.width/st.fw,b.height/st.fh)*.96; st.view={z,ox:(b.width-st.fw*z)/2,oy:(b.height-st.fh*z)/2};}
+const toScr=(x,y)=>[st.view.ox+x*st.view.z,st.view.oy+y*st.view.z], toImg=(X,Y)=>[(X-st.view.ox)/st.view.z,(Y-st.view.oy)/st.view.z];
+function drawFrame(ctx,i,alpha){const b=bitmap(i); if(!b) return false; ctx.save(); ctx.globalAlpha=alpha; ctx.filter=`contrast(${st.con}%) brightness(${st.bri}%)`; ctx.drawImage(b,st.view.ox,st.view.oy,st.fw*st.view.z,st.fh*st.view.z); ctx.restore(); return true;}
+let drawQueued=false; function draw(){if(drawQueued) return; drawQueued=true; requestAnimationFrame(()=>{drawQueued=false; drawNow();});}
+function drawNow(){if(st.clip&&st.clip.images) showImgName(); const b=cv.getBoundingClientRect(), dpr=window.devicePixelRatio||1; if(cv.width!==Math.round(b.width*dpr)||cv.height!==Math.round(b.height*dpr)){cv.width=Math.round(b.width*dpr); cv.height=Math.round(b.height*dpr);}
+  cx.setTransform(dpr,0,0,dpr,0,0); cx.fillStyle=getComputedStyle(document.body).getPropertyValue("--stage")||"#1d2128"; cx.fillRect(0,0,b.width,b.height);
+  if(st.n){const f=st.cur; drawFrame(cx,f,1); if(st.show.onion){drawFrame(cx,f-1,.32); drawFrame(cx,f+1,.32);} overlay(cx,f);}
+  drawTL(); hud(); banner(); if(st.show.loupe&&st.hover&&st.n) loupe(); else lp.hidden=true;}
+function ptOf(j,f,cache){const R=cache?(cache[j]||(cache[j]=pointsFor(j))):st.res[j]; if(!R||isNaN(R.x[f])||R.src[f]===4) return null; return {x:R.x[f],y:R.y[f],src:R.src[f],s:R.s[f]};}
+function overlay(ctx,f){const cache={}, J=joints().filter(j=>st.others!=="hide"||inTrack(j.id)), z=st.view.z, dim=id=>st.others==="dim"&&!inTrack(id);
+  if(st.show.bones) for(const [a,b] of bones()){const p=ptOf(a,f,cache), q=ptOf(b,f,cache); if(!p||!q) continue; const ja=jById(b)||{}, far=!!ja.far; const [X1,Y1]=toScr(p.x,p.y), [X2,Y2]=toScr(q.x,q.y);
+    if((st.others==="hide"&&!(inTrack(a)&&inTrack(b)))||isHidden(a)||isHidden(b)) continue; ctx.save(); if(dim(a)&&dim(b)) ctx.globalAlpha=.25; ctx.strokeStyle="rgba(0,0,0,.55)"; ctx.lineWidth=4; ctx.setLineDash(far?[6,4]:[]); ctx.beginPath(); ctx.moveTo(X1,Y1); ctx.lineTo(X2,Y2); ctx.stroke(); ctx.strokeStyle=ja.col||"#fff"; ctx.lineWidth=2; ctx.stroke(); ctx.restore();}
+  if(st.show.angles) for(const A of angles()){const v=angleOf(A,f,cache); if(v==null) continue; const p=ptOf(A.pts[1],f,cache); if(!p) continue; const [X,Y]=toScr(p.x,p.y), past=A.k&&v>180.5;
+    const s=`${Math.round(v)}°`; ctx.font="600 12px IBM Plex Mono, monospace"; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.8)"; ctx.fillStyle=past?"#ff6b5e":"#ffffff"; const dx=(jById(A.pts[1])||{}).far?-40:9; ctx.strokeText(s,X+dx,Y-7); ctx.fillText(s,X+dx,Y-7);}
+  if(st.show.ghost) for(const j of J){if(isHidden(j.id)||!inTrack(j.id)||ptOf(j.id,f,cache)||keyAt(j.id,f)) continue; let g=null; for(let d=1;d<=6&&!g;d++){for(const ff of [f-d,f+d]){const k=keyAt(j.id,ff); if(k&&!k.occ){g=k; break;}}} if(!g) continue;
+    const [X,Y]=toScr(g.x,g.y); ctx.save(); ctx.globalAlpha=j.id===st.sel?.9:.45; ctx.setLineDash([3,3]); ctx.strokeStyle=j.col; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(X,Y,j.id===st.sel?7:5,0,7); ctx.stroke(); ctx.restore();}
+  for(const j of J){if(isHidden(j.id)) continue; const p=ptOf(j.id,f,cache); const k=keyAt(j.id,f); if(k&&k.occ) continue; if(!p) continue; const [X,Y]=toScr(p.x,p.y), selJ=j.id===st.sel, r=selJ?6.5:4.8;
+    ctx.save(); if(dim(j.id)) ctx.globalAlpha=.3; ctx.beginPath(); ctx.arc(X,Y,r,0,7); if(p.src===1){ctx.fillStyle=j.col; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="#fff"; ctx.stroke();}
+    else {const R=st.res[j.id], why=R&&R.why[f]; ctx.lineWidth=2.4; ctx.strokeStyle=j.col; if(p.src===3||why){ctx.fillStyle="rgba(0,0,0,.45)"; ctx.fill(); ctx.stroke(); if(why){ctx.beginPath(); ctx.arc(X,Y,r+3,0,7); ctx.strokeStyle="#ffb02e"; ctx.lineWidth=1.6; ctx.stroke();}} else {ctx.fillStyle=j.col; ctx.globalAlpha=.85; ctx.fill(); ctx.globalAlpha=1; ctx.strokeStyle="rgba(0,0,0,.7)"; ctx.lineWidth=1.2; ctx.stroke();}}
+    if(k&&k.orig){const [ox,oy]=toScr(k.orig.x,k.orig.y); ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(X,Y); ctx.strokeStyle="#fff"; ctx.lineWidth=1; ctx.setLineDash([2,2]); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle="#fff"; ctx.fillRect(ox-1.5,oy-1.5,3,3);}
+    if(selJ){ctx.beginPath(); ctx.arc(X,Y,r+5,0,7); ctx.strokeStyle="#ffffff"; ctx.lineWidth=1.2; ctx.setLineDash([3,3]); ctx.stroke();}
+    if(st.show.labels||selJ){ctx.font="500 11px IBM Plex Sans, sans-serif"; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.8)"; ctx.fillStyle="#fff"; ctx.setLineDash([]); ctx.strokeText(j.name,X+9,Y+14); ctx.fillText(j.name,X+9,Y+14);} ctx.restore();}}
+function loupe(){lp.hidden=false; const [ix,iy]=toImg(st.hover[0],st.hover[1]), k=6, s=150, r=s/(2*k); lx.save(); lx.fillStyle="#000"; lx.fillRect(0,0,s,s); lx.imageSmoothingEnabled=false;
+  const b=bitmap(st.cur); if(b){lx.filter=`contrast(${st.con}%) brightness(${st.bri}%)`; lx.drawImage(b,ix-r,iy-r,2*r,2*r,0,0,s,s); lx.filter="none";}
+  const L=(x,y)=>[(x-ix+r)*k,(y-iy+r)*k]; for(const j of joints()){const p=ptOf(j.id,st.cur); if(!p) continue; const [X,Y]=L(p.x,p.y); if(X<-10||Y<-10||X>s+10||Y>s+10) continue; lx.beginPath(); lx.arc(X,Y,j.id===st.sel?5:3.5,0,7); lx.strokeStyle=j.col; lx.lineWidth=2; lx.stroke();}
+  lx.strokeStyle="rgba(255,255,255,.9)"; lx.lineWidth=1; lx.beginPath(); lx.moveTo(s/2,s/2-14); lx.lineTo(s/2,s/2-4); lx.moveTo(s/2,s/2+4); lx.lineTo(s/2,s/2+14); lx.moveTo(s/2-14,s/2); lx.lineTo(s/2-4,s/2); lx.moveTo(s/2+4,s/2); lx.lineTo(s/2+14,s/2); lx.stroke(); lx.restore();
+  /* keep the loupe out of the way of the pointer */ lp.style.left=st.hover[0]<180&&st.hover[1]<180?"auto":"8px"; lp.style.right=st.hover[0]<180&&st.hover[1]<180?"8px":"auto";}
+function hud(){if(!st.n){$("hud").textContent=""; return;} const j=jById(st.sel), R=st.res[st.sel], k=keyAt(st.sel,st.cur);
+  const s=k?(k.occ?"hidden here":k.orig?"your point (adjusted)":"your point"):R&&!isNaN(R.x[st.cur])?(R.src[st.cur]===3?"drawn along the path":`filled · match ${R.s[st.cur].toFixed(2)}`):"no point";
+  $("hud").textContent=`${j?j.name:""}: ${s} · zoom ${Math.round(st.view.z*100)}%`;
+  if(document.activeElement!==$("tcIn")) $("tcIn").value=String(st.cur+1); $("tcOf").textContent=`/ ${st.n}`; $("tcSec").textContent=`${(st.clip.t0+st.cur/st.clip.fps).toFixed(2)} s`;
+  const why=R&&R.why[st.cur]; $("hudR").hidden=!why; if(why) $("hudR").textContent="check: "+why;}
+$("tcIn").addEventListener("change",e=>{const v=parseInt(e.target.value,10); if(!isNaN(v)) goTo(v-1); e.target.blur();});
+$("tcIn").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault(); e.target.dispatchEvent(new Event("change"));} if(e.key==="Escape") e.target.blur(); e.stopPropagation();});
+$("tcIn").addEventListener("focus",e=>e.target.select());
+
+/* ---------- the timeline board: track headers that twirl open into joint rows, keyframe diamonds on lanes, a ruler with the playhead ---------- */
+function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+const ROWH=22, collapsed=new Set(), locked=new Set(), hiddenTracks=new Set(); let keyedOnly=false;
+st.tl={ppf:0,x0:0};
+const PAWOF={nF:"nFp",nH:"nHp",fF:"fFp",fH:"fHp"};
+const trackName=t=>(st.extra.trackNames||{})[t.id]||t.name;
+const tracksOf=j=>tracks().filter(t=>t.id!=="all"&&trackIds(t.id).includes(j));
+const isHidden=j=>hiddenJoints.has(j)||tracksOf(j).some(t=>hiddenTracks.has(t.id));
+const isLocked=j=>tracksOf(j).some(t=>locked.has(t.id));
+function rowsList(){const R=[]; for(const t of tracks()){if(t.id==="all") continue; const ids=trackIds(t.id).filter(j=>!keyedOnly||Object.keys(st.keys[j]||{}).length); if(keyedOnly&&!ids.length) continue;
+    R.push({type:"trk",t}); if(collapsed.has(t.id)) continue; ids.forEach(j=>R.push({type:"jnt",j,t})); if(t.grp&&PAWOF[t.grp]&&!keyedOnly) R.push({type:"foot",paw:PAWOF[t.grp],t});} return R;}
+const tlX=f=>(f-st.tl.x0)*st.tl.ppf+st.tl.ppf/2, tlF=x=>Math.round((x-st.tl.ppf/2)/st.tl.ppf+st.tl.x0);
+function fitTL(){const W=$("lanes").clientWidth||600; st.tl.ppf=Math.max(2,W/Math.max(1,st.n)); st.tl.x0=0;}
+function zoomTL(k,atX){const W=$("lanes").clientWidth||600; if(!st.tl.ppf) fitTL(); const x=atX==null?tlX(st.cur):atX, f=(x-st.tl.ppf/2)/st.tl.ppf+st.tl.x0;
+  st.tl.ppf=Math.max(Math.max(1,W/Math.max(1,st.n)*.5),Math.min(80,st.tl.ppf*k)); st.tl.x0=f-(x-st.tl.ppf/2)/st.tl.ppf; clampTL(); drawTL();}
+function clampTL(){const W=$("lanes").clientWidth||600, vis=W/st.tl.ppf; st.tl.x0=Math.max(Math.min(0,st.n-vis),Math.min(st.n-vis+1,st.tl.x0)); if(st.n<=vis) st.tl.x0=0;}
+function followTL(){const W=$("lanes").clientWidth||600, x=tlX(st.cur); if(x<0||x>W){st.tl.x0=st.cur-W/st.tl.ppf*.3; clampTL();}}
+function renderHeads(){const box=$("heads"); box.textContent=""; st.rows=rowsList();
+  const ib=(txt,title,on,fn)=>{const b=document.createElement("button"); b.className="ib"; b.textContent=txt; b.title=title; b.setAttribute("aria-pressed",on?"true":"false"); b.onclick=e=>{e.stopPropagation(); fn();}; return b;};
+  st.rows.forEach(r=>{const d=document.createElement("div"); d.className="hrow "+r.type;
+    if(r.type==="trk"){const t=r.t, ids=trackIds(t.id), n=ids.reduce((a,j)=>a+Object.keys(st.keys[j]||{}).length,0);
+      if(st.selTrack===t.id) d.classList.add("sel");
+      const tw=ib(collapsed.has(t.id)?"▸":"▾","Open or close",false,()=>{collapsed.has(t.id)?collapsed.delete(t.id):collapsed.add(t.id); renderJoints();}); tw.classList.add("tw");
+      const chip=document.createElement("span"); chip.className="chip"; chip.style.background=(jById(ids[0])||{}).col||"#888";
+      const nm=document.createElement("span"); nm.className="nm"; nm.textContent=trackName(t); nm.title="Double-click to rename";
+      nm.ondblclick=e=>{e.stopPropagation(); const inp=document.createElement("input"); inp.className="rn"; inp.value=trackName(t); nm.replaceWith(inp); inp.focus(); inp.select();
+        const done=ok=>{if(ok&&inp.value.trim()) renameTrack(t,inp.value.trim()); renderJoints();}; inp.onkeydown=ev=>{ev.stopPropagation(); if(ev.key==="Enter") done(true); if(ev.key==="Escape") done(false);}; inp.onblur=()=>done(true);};
+      const c=document.createElement("span"); c.className="cnt"; c.textContent=n?String(n):"";
+      d.append(tw,chip,nm,c,ib("👁",hiddenTracks.has(t.id)?"Show on the video":"Hide on the video",!hiddenTracks.has(t.id),()=>{hiddenTracks.has(t.id)?hiddenTracks.delete(t.id):hiddenTracks.add(t.id); renderJoints(); draw();}),
+        ib(locked.has(t.id)?"🔒":"🔓",locked.has(t.id)?"Unlock":"Lock against edits",locked.has(t.id),()=>{locked.has(t.id)?locked.delete(t.id):locked.add(t.id); renderJoints();}),
+        ib("S","Focus: work only on this track (solo)",st.track===t.id,()=>setTrack(st.track===t.id?"all":t.id)));
+      d.onclick=()=>{st.selTrack=t.id; renderJoints();}; d.oncontextmenu=e=>{e.preventDefault(); trackMenu(t,e.clientX,e.clientY);};}
+    else if(r.type==="jnt"){const j=jById(r.j); if(r.j===st.sel) d.classList.add("sel"); const dot=document.createElement("span"); dot.className="dot"+(j.far?" far":""); dot.style.background=j.col;
+      const nm=document.createElement("span"); nm.className="nm"; nm.textContent=j.name; const [lab,cl]=statusOf(r.j,st.cur); const stt=document.createElement("span"); stt.className="stt "+(cl||""); stt.textContent=lab;
+      d.append(dot,nm,stt,ib("◀","Previous point (↑)",false,()=>{pick(r); keyStep(-1);}),ib(keyAt(r.j,st.cur)?"◆":"◇","Make the point here yours, or remove it",!!keyAt(r.j,st.cur),()=>{pick(r); keyToggle();}),ib("▶","Next point (↓)",false,()=>{pick(r); keyStep(1);}),
+        ib("👁",hiddenJoints.has(r.j)?"Show on the video":"Hide on the video",!hiddenJoints.has(r.j),()=>{hiddenJoints.has(r.j)?hiddenJoints.delete(r.j):hiddenJoints.add(r.j); renderJoints(); draw();}));
+      d.onclick=()=>{pick(r); renderJoints(); draw();};}
+    else {d.textContent="paw on the ground"; d.title="Footfalls: D and U mark paw down and up for the picked leg";}
+    box.append(d);});
+  $("tlFocus").textContent=st.track==="all"?"all tracks":`focus: ${trackName(tracks().find(t=>t.id===st.track)||{name:"?"})}`;}
+function pick(r){st.sel=r.j; st.selTrack=r.t.id; if(st.track!=="all"&&!inTrack(r.j)) setTrack(r.t.id);}
+function renameTrack(t,name){snap("rename track"); if(t.custom) t.name=name; else (st.extra.trackNames ||= {})[t.id]=name; markDirty();}
+let tlQueued=false; function drawTL(){if(tlQueued) return; tlQueued=true; requestAnimationFrame(()=>{tlQueued=false; drawRuler(); drawLanes();});}
+function prepCanvas(c,h){const W=c.clientWidth||c.parentElement.clientWidth, dpr=window.devicePixelRatio||1; if(h!=null) c.style.height=h+"px"; const H=h!=null?h:c.clientHeight;
+  if(c.width!==Math.round(W*dpr)||c.height!==Math.round(H*dpr)){c.width=Math.round(W*dpr); c.height=Math.round(H*dpr);} const g=c.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); return [g,W,H];}
+function drawRuler(){const [g,W,H]=prepCanvas($("ruler")); g.fillStyle=cssv("--panel"); g.fillRect(0,0,W,H); if(!st.n) return; if(!st.tl.ppf) fitTL();
+  const mu=cssv("--muted"), ln=cssv("--line"); g.font="10px IBM Plex Mono, monospace"; const steps=[1,2,5,10,15,20,30,50,100,200], st1=steps.find(v=>v*st.tl.ppf>=44)||500, fps=st.clip.fps;
+  for(let f=Math.max(0,Math.floor(st.tl.x0));f<st.n;f++){const x=tlX(f); if(x>W) break; if(x<-40) continue; const sec=Math.abs((f/fps)-Math.round(f/fps))<.5/fps;
+    if(f%st1===0){g.fillStyle=mu; g.fillRect(x,H-9,1,9); g.fillText(String(f+1),x+3,H-11);} else if(st.tl.ppf>=6){g.fillStyle=ln; g.fillRect(x,H-4,1,4);}
+    if(sec&&f>0){g.fillStyle=cssv("--ink"); g.globalAlpha=.6; g.fillRect(x,0,1,5); g.globalAlpha=1;}}
+  const x=tlX(st.cur), ac=cssv("--accent"); g.fillStyle=ac; g.beginPath(); g.moveTo(x-6,0); g.lineTo(x+6,0); g.lineTo(x+6,8); g.lineTo(x,14); g.lineTo(x-6,8); g.fill(); g.fillRect(x-1,14,2,H-14);}
+function drawLanes(){const rows=st.rows||rowsList(), [g,W,H]=prepCanvas($("lanes"),Math.max(ROWH,rows.length*ROWH)); g.fillStyle=cssv("--lane"); g.fillRect(0,0,W,H); if(!st.n) return; if(!st.tl.ppf) fitTL();
+  const ppf=st.tl.ppf, f0=Math.max(0,Math.floor(st.tl.x0)), f1=Math.min(st.n-1,Math.ceil(st.tl.x0+W/ppf)), warn=cssv("--warn"), ac=cssv("--accent");
+  const dia=(x,y,r,fill,stroke,lw)=>{g.beginPath(); g.moveTo(x,y-r); g.lineTo(x+r,y); g.lineTo(x,y+r); g.lineTo(x-r,y); g.closePath(); if(fill){g.fillStyle=fill; g.fill();} if(stroke){g.strokeStyle=stroke; g.lineWidth=lw||1; g.stroke();}};
+  rows.forEach((r,i)=>{const y=i*ROWH, cy=y+ROWH/2; g.fillStyle=r.type==="trk"?cssv("--panel2"):(r.type==="jnt"&&r.j===st.sel)?cssv("--sel"):(i%2?cssv("--lane2"):cssv("--lane")); g.fillRect(0,y,W,ROWH);
+    if(r.type==="trk"){const ids=trackIds(r.t.id); for(const j of ids){const K=st.keys[j]||{}, col=(jById(j)||{}).col; for(const f in K){if(+f<f0||+f>f1) continue; dia(tlX(+f),cy,3,K[f].occ?"#666":col);}}}
+    else if(r.type==="jnt"){const j=jById(r.j), R=st.res[r.j], K=st.keys[r.j]||{};
+      if(R) for(let f=f0;f<=f1;f++){if(R.src[f]===2||R.src[f]===3){g.fillStyle=R.why[f]?warn:j.col; g.globalAlpha=R.why[f]?.9:.45; g.fillRect(tlX(f)-ppf/2,cy-1.5,ppf+.5,3); g.globalAlpha=1;}}
+      for(const f in K){const ff=+f; if(ff<f0||ff>f1) continue; const x=tlX(ff), k=K[f], selKey=r.j===st.sel&&ff===st.cur;
+        if(k.occ){g.strokeStyle=cssv("--muted"); g.lineWidth=1.5; g.beginPath(); g.moveTo(x-4,cy-4); g.lineTo(x+4,cy+4); g.moveTo(x+4,cy-4); g.lineTo(x-4,cy+4); g.stroke(); continue;}
+        dia(x,cy,Math.min(6,Math.max(3.5,ppf*.42)),j.col,selKey?ac:"#ffffff",selKey?2.2:1); if(k.orig){g.fillStyle="#fff"; g.fillRect(x-1,cy-1,2,2);}}}
+    else {const ev=st.events[r.paw], col=(jById(r.paw)||{}).col; if(ev){const D=(ev.down||[]).slice().sort((a,b)=>a-b), U=(ev.up||[]).slice().sort((a,b)=>a-b); g.fillStyle=col; g.globalAlpha=.8;
+        for(const d0 of D){const u=U.find(v=>v>d0); g.fillRect(tlX(d0)-ppf/2,cy-4,(u!=null?u:st.n)*ppf-d0*ppf,8);} for(const u of U){if(!D.some(d0=>d0<u)) g.fillRect(tlX(0)-ppf/2,cy-4,u*ppf,8);} g.globalAlpha=1;}}});
+  if(ppf>=12){g.fillStyle="rgba(255,255,255,.04)"; for(let f=f0;f<=f1;f++) g.fillRect(tlX(f)-ppf/2,0,1,H);}
+  const x=tlX(st.cur); g.fillStyle="rgba(226,165,72,.08)"; g.fillRect(x-ppf/2,0,ppf,H); g.fillStyle=ac; g.fillRect(x-1,0,2,H);}
+/* ruler: drag to scrub; lanes: click to pick a joint and frame, drag to scrub, right-click for a menu; Ctrl/Alt+wheel zooms, Shift+wheel scrolls */
+let rulerDrag=false;
+$("ruler").addEventListener("pointerdown",e=>{if(!st.n) return; rulerDrag=true; $("ruler").setPointerCapture(e.pointerId); goTo(tlF(e.offsetX));});
+$("ruler").addEventListener("pointermove",e=>{if(rulerDrag) goTo(tlF(e.offsetX));}); $("ruler").addEventListener("pointerup",()=>rulerDrag=false);
+let laneDrag=false;
+$("lanes").addEventListener("pointerdown",e=>{if(!st.n||e.button===2) return; const r=(st.rows||[])[Math.floor(e.offsetY/ROWH)]; laneDrag=true; $("lanes").setPointerCapture(e.pointerId);
+  if(r&&r.type==="jnt") pick(r); else if(r&&r.type==="trk") st.selTrack=r.t.id; else if(r&&r.type==="foot"){st.sel=r.paw; st.selTrack=r.t.id;} goTo(tlF(e.offsetX));});
+$("lanes").addEventListener("pointermove",e=>{if(laneDrag) goTo(tlF(e.offsetX));}); $("lanes").addEventListener("pointerup",()=>laneDrag=false);
+$("lanes").addEventListener("contextmenu",e=>{e.preventDefault(); if(!st.n) return; const r=(st.rows||[])[Math.floor(e.offsetY/ROWH)], f=Math.max(0,Math.min(st.n-1,tlF(e.offsetX))); if(!r) return; goTo(f);
+  if(r.type==="trk"){trackMenu(r.t,e.clientX,e.clientY); return;}
+  if(r.type==="foot"){st.sel=r.paw; menuAt(e.clientX,e.clientY,`${jById(r.paw).name} · frame ${f+1}`,[["Paw down here","D",()=>toggleEvent("down")],["Paw up here","U",()=>toggleEvent("up")],null,["Find footfalls for every paw","",()=>$("evAuto").click()]]); return;}
+  pick(r); const j=jById(r.j), k=keyAt(r.j,f), p=ptOf(r.j,f);
+  menuAt(e.clientX,e.clientY,`${j.name} · frame ${f+1}`,[k&&!k.occ?["Remove this point","Del",()=>$("delKey").click()]:null,!k&&p?["Make the filled point mine","",()=>keyToggle()]:null,["Hidden on this frame","H",()=>$("hideHere").click()],
+    k&&k.orig?["Put it back where I clicked","",()=>revertAdj(r.j,f)]:null,null,["Previous point","↑",()=>keyStep(-1)],["Next point","↓",()=>keyStep(1)],null,["Remove this joint on every frame","",()=>{snap("clear "+j.name.toLowerCase()); st.keys[r.j]={}; refresh(r.j); markDirty(); refreshLists(); draw();}]].filter(x=>x!==null||true));});
+const tlWheel=e=>{if(!st.n) return; if(e.ctrlKey||e.altKey){e.preventDefault(); zoomTL(e.deltaY<0?1.2:1/1.2,e.offsetX);} else if(e.shiftKey||Math.abs(e.deltaX)>Math.abs(e.deltaY)){e.preventDefault(); st.tl.x0+=(e.shiftKey?e.deltaY:e.deltaX)/st.tl.ppf; clampTL(); drawTL();}};
+$("lanes").addEventListener("wheel",tlWheel,{passive:false}); $("ruler").addEventListener("wheel",e=>{e.preventDefault(); if(e.ctrlKey||e.altKey||Math.abs(e.deltaY)>Math.abs(e.deltaX)&&!e.shiftKey) zoomTL(e.deltaY<0?1.2:1/1.2,e.offsetX); else {st.tl.x0+=(e.deltaX||e.deltaY)/st.tl.ppf; clampTL(); drawTL();}},{passive:false});
+$("tzIn").onclick=()=>zoomTL(1.5); $("tzOut").onclick=()=>zoomTL(1/1.5); $("tzFit").onclick=()=>{fitTL(); drawTL();};
+$("keyedOnly").onclick=()=>{keyedOnly=!keyedOnly; press($("keyedOnly"),keyedOnly); renderJoints();};
+$("expandAll").onclick=()=>{const T=tracks().filter(t=>t.id!=="all"); if(T.some(t=>!collapsed.has(t.id))) T.forEach(t=>collapsed.add(t.id)); else collapsed.clear(); renderJoints();};
+/* keyframe navigation for the picked joint */
+function keyStep(d){const F=Object.keys(st.keys[st.sel]||{}).map(Number).sort((a,b)=>a-b), t=d>0?F.find(f=>f>st.cur):F.reverse().find(f=>f<st.cur); if(t!=null) goTo(t); else toast(`No ${d>0?"later":"earlier"} point of ${jById(st.sel).name.toLowerCase()}`);}
+function keyToggle(){const k=keyAt(st.sel,st.cur); if(k){$("delKey").click(); return;} const p=ptOf(st.sel,st.cur); if(p){snap("keep "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,{x:p.x,y:p.y}); refreshLists(); draw();} else toast("Click on the video to place it here");}
+$("kPrev").onclick=()=>keyStep(-1); $("kNext").onclick=()=>keyStep(1); $("kToggle").onclick=keyToggle;
+/* a menu anywhere: items are [label, key, fn] or null for a line */
+function menuAt(cx,cy,title,items){const m=$("cmenu"); m.textContent=""; const h=document.createElement("div"); h.className="mh"; h.textContent=title; m.append(h);
+  items.forEach((a,i)=>{if(!a){if(i&&items[i-1]&&i<items.length-1) m.append(document.createElement("hr")); return;} const b=document.createElement("button"); b.setAttribute("role","menuitem"); const l=document.createElement("span"); l.textContent=a[0]; b.append(l);
+    if(a[1]){const k=document.createElement("kbd"); k.textContent=a[1]; b.append(k);} b.onclick=()=>{closeMenu(); a[2]();}; m.append(b);});
+  placeMenu(cx,cy);}
+function placeMenu(cx,cy){const m=$("cmenu"); m.hidden=false; const w=m.offsetWidth, hh=m.offsetHeight; m.style.left=Math.max(4,Math.min(cx,innerWidth-w-4))+"px"; m.style.top=Math.max(4,Math.min(cy,innerHeight-hh-4))+"px"; const f=m.querySelector("button"); if(f) f.focus({preventScroll:true});}
+function trackMenu(t,cx,cy){st.selTrack=t.id; const ids=trackIds(t.id);
+  menuAt(cx,cy,trackName(t),[[st.track===t.id?"Stop focusing":"Focus on this track","S",()=>setTrack(st.track===t.id?"all":t.id)],["Rename","",()=>{selectTab("T"); renderTrackPane(); $("trkName").focus(); $("trkName").select();}],
+    [collapsed.has(t.id)?"Open":"Close","",()=>{collapsed.has(t.id)?collapsed.delete(t.id):collapsed.add(t.id); renderJoints();}],[hiddenTracks.has(t.id)?"Show on the video":"Hide on the video","",()=>{hiddenTracks.has(t.id)?hiddenTracks.delete(t.id):hiddenTracks.add(t.id); renderJoints(); draw();}],
+    [locked.has(t.id)?"Unlock":"Lock against edits","",()=>{locked.has(t.id)?locked.delete(t.id):locked.add(t.id); renderJoints();}],null,
+    ["Fill gaps in this track","",()=>{const was=st.track; st.track=t.id; trackSet=null; $("fill").click(); st.track=was; trackSet=null;}],["Clear this track's points on this frame","",()=>{const was=st.track; st.track=t.id; trackSet=null; clearFrame(); st.track=was; trackSet=null;}],
+    ["Remove every point in this track","",()=>{snap("clear track"); ids.forEach(j=>{st.keys[j]={}; refresh(j);}); markDirty(); refreshLists(); draw(); toast(`Cleared ${trackName(t)} (Ctrl+Z brings it back)`);}],
+    t.custom?["Delete this track (points stay)","",()=>deleteTrack(t)]:null]);}
+function deleteTrack(t){snap("delete track"); st.extra.tracks=st.extra.tracks.filter(x=>x.id!==t.id); if(st.track===t.id) st.track="all"; if(st.selTrack===t.id) st.selTrack=null; trackSet=null; markDirty(); refreshLists(); draw(); toast(`Deleted the track ${trackName(t)} (Ctrl+Z brings it back)`);}
+/* the splitter above the timeline */
+(()=>{const sp=$("split"); let y0=null,h0=0; const set=h=>{h=Math.max(130,Math.min(innerHeight*.7,h)); document.querySelector(".app").style.setProperty("--tlh",h+"px"); try{localStorage.setItem("gt:tlh",String(h));}catch(_){} draw(); drawTL();};
+  try{const h=+localStorage.getItem("gt:tlh"); if(h) document.querySelector(".app").style.setProperty("--tlh",h+"px");}catch(_){}
+  sp.addEventListener("pointerdown",e=>{y0=e.clientY; h0=document.querySelector(".tl").getBoundingClientRect().height; sp.setPointerCapture(e.pointerId);});
+  sp.addEventListener("pointermove",e=>{if(y0!=null) set(h0-(e.clientY-y0));}); sp.addEventListener("pointerup",()=>y0=null);
+  sp.addEventListener("keydown",e=>{const h=document.querySelector(".tl").getBoundingClientRect().height; if(e.key==="ArrowUp"){e.preventDefault(); set(h+20);} if(e.key==="ArrowDown"){e.preventDefault(); set(h-20);}});})();
+function goTo(f){st.cur=Math.max(0,Math.min(st.n-1,f)); followTL(); renderJoints(); renderAngTable(); drawGraphs(); draw(); for(let d=-2;d<=2;d++) bitmap(st.cur+d);}
+
+/* ---------- stage interaction ---------- */
+let drag=null;
+cv.addEventListener("contextmenu",e=>e.preventDefault());
+cv.addEventListener("wheel",e=>{if(!st.n) return; e.preventDefault(); if(e.shiftKey){goTo(st.cur+(e.deltaY>0?1:-1)); return;} const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top, k=e.deltaY<0?1.15:1/1.15, [ix,iy]=toImg(X,Y); st.view.z*=k; st.view.ox=X-ix*st.view.z; st.view.oy=Y-iy*st.view.z; draw();},{passive:false});
+function nearestOf(id,X,Y){const p=ptOf(id,st.cur); if(!p) return null; const [x,y]=toScr(p.x,p.y), d=Math.hypot(x-X,y-Y); return d<10?{id,d}:null;}
+function nearest(X,Y){let best=null; for(const j of joints()){if(isHidden(j.id)||(st.others!=="show"&&!inTrack(j.id))) continue; const p=ptOf(j.id,st.cur); if(!p) continue; const [x,y]=toScr(p.x,p.y), d=Math.hypot(x-X,y-Y); if(d<10&&(!best||d<best.d)) best={id:j.id,d};} return best;}
+cv.addEventListener("pointerdown",e=>{if(!st.n) return; closeMenu(); cv.focus({preventScroll:true}); cv.setPointerCapture(e.pointerId); const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top; stopPlay();
+  if(e.button===1||e.button===2){drag={pan:true,sx:X,sy:Y,ox:st.view.ox,oy:st.view.oy,right:e.button===2,cx:e.clientX,cy:e.clientY}; return;}
+  /* a click always works on the joint you picked: it places it, or grabs its point to drag. Shift+click grabs another joint's point (and picks that joint). */
+  const hit=e.shiftKey?nearest(X,Y):nearestOf(st.sel,X,Y); if(hit){st.sel=hit.id; drag={id:hit.id,before:stateNow(),sx:X,sy:Y,label:"move "+jById(hit.id).name.toLowerCase()}; renderJoints(); draw(); return;}
+  const [ix,iy]=toImg(X,Y); if(ix<0||iy<0||ix>st.fw||iy>st.fh) return; snap("place "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,{x:ix,y:iy}); drag={id:st.sel,placed:true}; renderJointsStatus(); draw();});
+cv.addEventListener("pointermove",e=>{const b=cv.getBoundingClientRect(), X=e.clientX-b.left, Y=e.clientY-b.top; st.hover=[X,Y];
+  if(drag&&drag.pan){if(Math.hypot(X-drag.sx,Y-drag.sy)>4){drag.moved=true; cv.classList.add("pan");} if(drag.moved){st.view.ox=drag.ox+X-drag.sx; st.view.oy=drag.oy+Y-drag.sy;}}
+  else if(drag&&drag.id){if(!drag.placed&&!drag.moved&&Math.hypot(X-drag.sx,Y-drag.sy)<3) return; if(!drag.placed&&!drag.moved){hist.u.push({label:drag.label,s:drag.before,t:Date.now()}); hist.r=[]; undoButtons();}
+    const [ix,iy]=toImg(X,Y); setKey(drag.id,st.cur,{x:Math.max(0,Math.min(st.fw,ix)),y:Math.max(0,Math.min(st.fh,iy))}); drag.moved=true;} draw();});
+cv.addEventListener("pointerup",e=>{const d=drag; drag=null; cv.classList.remove("pan"); if(!d) return;
+  if(d.pan&&d.right&&!d.moved){openMenu(d.cx,d.cy); return;}
+  if(d.id&&d.placed) afterPlace(); renderJoints(); draw();});
+cv.addEventListener("pointerleave",()=>{st.hover=null; draw();});
+/* after a click: the next joint with no point here; after the last one, on to the next frame */
+function afterPlace(){if(guide.on){guideNext(); return;} const flow=$("flow").value, step=+$("nextFrame").value; if(flow==="stay") return;
+  if(flow==="same"){if(st.cur+step<st.n) goTo(st.cur+step); else toast(`Last frame: ${jById(st.sel).name.toLowerCase()} done to the end`); return;} /* the joint you picked stays picked */
+  const L=workJoints(), i=L.findIndex(j=>j.id===st.sel); for(let k=1;k<=L.length;k++){const j=L[(i+k)%L.length]; if(!keyAt(j.id,st.cur)){st.sel=j.id; return;}}
+  if(st.cur+step<st.n){goTo(st.cur+step); st.sel=L[0].id; toast(`Frame done: on to frame ${st.cur+1}`);} }
+const selectNext=afterPlace;
+function cancelDrag(){if(drag&&drag.id&&drag.moved&&drag.before){restore(drag.before); hist.u.pop(); undoButtons();} drag=null;}
+/* the right-click menu */
+function closeMenu(){const m=$("cmenu"); if(m.hidden) return; m.hidden=true; m.textContent="";}
+function openMenu(clientX,clientY){const m=$("cmenu"), box=$("stageBox").getBoundingClientRect(), X=clientX-cv.getBoundingClientRect().left, Y=clientY-cv.getBoundingClientRect().top, hit=nearest(X,Y), items=[];
+  const add=(label,key,fn)=>items.push({label,key,fn}), sep=()=>items.push(null); m.textContent="";
+  if(hit){const j=jById(hit.id), mine=!!keyAt(hit.id,st.cur); st.sel=hit.id; const h=document.createElement("div"); h.className="mh"; h.textContent=j.name+(mine?" (your point)":" (filled)"); m.append(h);
+    if(!mine) add("Make it my point","",()=>{const p=ptOf(hit.id,st.cur); snap("keep "+j.name.toLowerCase()); setKey(hit.id,st.cur,{x:p.x,y:p.y}); refreshLists(); draw();});
+    if(mine) add("Remove this point","Del",()=>$("delKey").click());
+    if(mine&&keyAt(hit.id,st.cur).orig) add("Put it back where I clicked","",()=>revertAdj(hit.id,st.cur));
+    add("Hidden on this frame","H",()=>$("hideHere").click());
+    add("Copy to the next frame","",()=>{const p=ptOf(hit.id,st.cur); if(!p||st.cur+1>=st.n) return; snap("copy "+j.name.toLowerCase()); setKey(hit.id,st.cur+1,{x:p.x,y:p.y}); goTo(st.cur+1);});
+    add("Remove this joint on every frame","",()=>{snap("clear "+j.name.toLowerCase()); st.keys[hit.id]={}; refresh(hit.id); markDirty(); refreshLists(); draw(); toast(`Removed every ${j.name.toLowerCase()} point (Ctrl+Z brings them back)`);});
+    add(hiddenJoints.has(hit.id)?"Show this joint":"Hide this joint from view","",()=>{hiddenJoints.has(hit.id)?hiddenJoints.delete(hit.id):hiddenJoints.add(hit.id); renderJoints(); draw();}); sep();}
+  else {const h=document.createElement("div"); h.className="mh"; h.textContent=`Frame ${st.cur+1}`; m.append(h); const [ix,iy]=toImg(X,Y);
+    add(`Place ${jById(st.sel).name.toLowerCase()} here`,"click",()=>{snap("place "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,{x:ix,y:iy}); afterPlace(); refreshLists(); draw();});}
+  add("Keep every filled point on this frame as mine","",()=>{snap("keep filled points"); let n=0; for(const j of joints()){const p=ptOf(j.id,st.cur); if(p&&p.src!==1&&!keyAt(j.id,st.cur)){setKey(j.id,st.cur,{x:p.x,y:p.y}); n++;}} refreshLists(); draw(); toast(n?`Kept ${n} filled points as yours`:"No filled points on this frame");});
+  add("Auto adjust this frame's points","",()=>autoAdjust(st.cur)); add("Revert adjustments on this frame","",()=>revertAdj(null,st.cur));
+  add("Paste points","Ctrl+V",paste); add("Copy this frame's points","Ctrl+C",copyFrame); add("Copy the last frame here","C",()=>$("copyPrev").click()); add("Clear this frame","Shift+Del",clearFrame); sep();
+  add("Undo","Ctrl+Z",undo); add("Fill gaps now","F",()=>$("fill").click()); add("Fit to view","0",()=>{fit(); draw();});
+  items.forEach((a,i)=>{if(!a){if(i&&items[i-1]&&i<items.length-1) m.append(document.createElement("hr")); return;} const b=document.createElement("button"); b.setAttribute("role","menuitem"); const l=document.createElement("span"); l.textContent=a.label; b.append(l);
+    if(a.key){const k=document.createElement("kbd"); k.textContent=a.key; b.append(k);} b.onclick=()=>{closeMenu(); a.fn();}; m.append(b);});
+  placeMenu(clientX,clientY); renderJoints(); draw();}
+document.addEventListener("pointerdown",e=>{const m=$("cmenu"); if(!m.hidden&&!m.contains(e.target)&&e.target!==cv) closeMenu();},true);
+function copyFrame(){const o={}; for(const j of workJoints()){const p=ptOf(j.id,st.cur); if(p) o[j.id]={x:p.x,y:p.y};} st.clipboard=o; toast(`Copied ${Object.keys(o).length} points from frame ${st.cur+1}`);}
+function paste(){const o=st.clipboard; if(!o||!Object.keys(o).length){toast("Nothing copied yet: Ctrl+C on a frame first"); return;} snap("paste"); for(const [j,p] of Object.entries(o)) setKey(j,st.cur,{x:p.x,y:p.y}); refreshLists(); draw(); toast(`Pasted ${Object.keys(o).length} points onto frame ${st.cur+1}`);}
+/* auto adjust: each of your points may move up to 3 px to where it best matches the same joint on your nearby frames; the click is kept in .orig */
+function autoAdjust(onlyFrame){snap(onlyFrame==null?"auto adjust":"auto adjust frame"); let moved=0, total=0;
+  for(const j of workJoints()){const K=st.keys[j.id]||{}, F=Object.keys(K).map(Number).filter(f=>!K[f].occ).sort((a,b)=>a-b);
+    for(const f of F){if(onlyFrame!=null&&f!==onlyFrame) continue; const near=F.filter(g=>g!==f&&Math.abs(g-f)<=4); if(!near.length) continue; total++;
+      const k=K[f], o=k.orig||{x:k.x,y:k.y}, tps=near.map(g=>template(g,(K[g].orig||K[g]).x,(K[g].orig||K[g]).y));
+      const sc=(x,y)=>tps.reduce((a,t)=>a+nccAt(f,t,Math.round(x),Math.round(y)),0)/tps.length; const base=sc(o.x,o.y); let best={x:o.x,y:o.y,s:base};
+      for(let dy=-3;dy<=3;dy++) for(let dx=-3;dx<=3;dx++){if(dx*dx+dy*dy>9) continue; const v=sc(o.x+dx,o.y+dy); if(v>best.s) best={x:o.x+dx,y:o.y+dy,s:v};}
+      if(best.s>base+.06&&(best.x!==o.x||best.y!==o.y)){K[f]={x:best.x,y:best.y,orig:{x:o.x,y:o.y}}; moved++;} }
+    refresh(j.id);}
+  markDirty(); refreshLists(); draw(); toast(total?`Adjusted ${moved} of ${total} points (${total-moved} already matched). Revert any time.`:"Auto adjust needs the same joint placed on nearby frames (within 4)");}
+function revertAdj(j,f){snap(j?"revert point":"revert adjustments"); let n=0; for(const J of joints()){if(j&&J.id!==j) continue; const K=st.keys[J.id]||{}; for(const g of Object.keys(K)){if(f!=null&&+g!==f) continue; if(K[g].orig){K[g]={x:K[g].orig.x,y:K[g].orig.y}; n++;}} refresh(J.id);}
+  markDirty(); refreshLists(); draw(); toast(n?`Put ${n} point${n===1?"":"s"} back where you clicked`:"No adjusted points to revert");}
+$("adjust").onclick=()=>autoAdjust(); $("revertAdj").onclick=()=>revertAdj();
+function clearFrame(){const J=workJoints().filter(j=>keyAt(j.id,st.cur)); if(!J.length){toast("No points of yours on this frame"); return;} snap("clear frame"); for(const j of J) setKey(j.id,st.cur,null); refreshLists(); draw(); toast(`Cleared ${J.length} points (Ctrl+Z brings them back)`);}
+
+/* ---------- playback ---------- */
+let playT=null;
+function stopPlay(){st.playing=false; clearTimeout(playT); $("play").textContent="▶"; $("play").setAttribute("aria-label","Play (Space)");}
+function startPlay(dir=1){stopPlay(); st.playing=true; $("play").textContent="❚❚"; $("play").setAttribute("aria-label","Pause (Space)"); const tick=()=>{if(!st.playing) return; goTo((st.cur+dir+st.n)%st.n); playT=setTimeout(tick,1000/(st.clip.fps*st.speed));}; tick();}
+$("rev").onclick=()=>st.playing?stopPlay():startPlay(-1);
+$("play").onclick=()=>st.playing?stopPlay():startPlay(); $("back").onclick=()=>goTo(st.cur-1); $("fwd").onclick=()=>goTo(st.cur+1); $("speed").onchange=e=>st.speed=+e.target.value;
+
+/* ---------- toggles and controls ---------- */
+const press=(el,on)=>el.setAttribute("aria-pressed",on?"true":"false");
+[["oBones","bones"],["oAngles","angles"],["oLabels","labels"],["oOnion","onion"],["oLoupe","loupe"],["oSmooth","smooth"],["oGhost","ghost"]].forEach(([id,k])=>$(id).onclick=()=>{st.show[k]=!st.show[k]; press($(id),st.show[k]); renderAngTable(); drawGraphs(); draw();});
+$("flow").onchange=e=>{try{localStorage.setItem("gt:flow",e.target.value);}catch(_){} toast(e.target.value==="same"?"Each click places the picked joint, then moves to the next frame":e.target.value==="joints"?"Each click moves to the next joint; after the last, the next frame":"Clicks stay on this frame and joint");};
+$("con").oninput=e=>{st.con=+e.target.value; draw();}; $("bri").oninput=e=>{st.bri=+e.target.value; draw();};
+$("facing").onchange=e=>{st.facing=e.target.value; markDirty(); renderAngTable(); drawGraphs(); draw();};
+$("hideHere").onclick=()=>{if(!st.n) return; snap("hidden here"); const k=keyAt(st.sel,st.cur); setKey(st.sel,st.cur,k&&k.occ?null:{occ:true}); renderJointsStatus(); draw();};
+$("delKey").onclick=()=>{if(!st.n) return; if(!keyAt(st.sel,st.cur)){toast("No point of yours to remove here"); return;} snap("remove "+jById(st.sel).name.toLowerCase()); setKey(st.sel,st.cur,null); renderJointsStatus(); draw();};
+$("copyPrev").onclick=()=>{if(!st.n||st.cur<1) return; snap("copy last frame"); for(const j of workJoints()){const p=ptOf(j.id,st.cur-1); if(p&&!keyAt(j.id,st.cur)) setKey(j.id,st.cur,{x:p.x,y:p.y});} renderJoints(); draw();};
+function legPaw(j){const g=(jById(j)||{}).grp; return g==="nF"?"nFp":g==="nH"?"nHp":g==="fF"?"fFp":g==="fH"?"fHp":null;}
+function toggleEvent(kind){const p=legPaw(st.sel); if(!p){toast("Pick a joint on a leg first: footfalls belong to that leg's paw"); return;} snap("paw "+kind); const ev=st.events[p] ||= {down:[],up:[]}, A=ev[kind], i=A.indexOf(st.cur);
+  if(i>=0) A.splice(i,1); else {A.push(st.cur); const other=ev[kind==="down"?"up":"down"], j=other.indexOf(st.cur); if(j>=0) other.splice(j,1);} markDirty(); refreshLists(); draw();}
+$("evDown").onclick=()=>toggleEvent("down"); $("evUp").onclick=()=>toggleEvent("up");
+$("evAuto").onclick=()=>{snap("find footfalls"); let made=0; for(const p of PAWS){const R=pointsFor(p); if(!R) continue; const ys=[]; for(let f=0;f<st.n;f++) if(!isNaN(R.y[f])) ys.push(R.y[f]); if(ys.length<6) continue; ys.sort((a,b)=>a-b);
+    const ground=ys[Math.floor(ys.length*.9)], tol=Math.max(2,st.fh*.012), down=[], up=[]; let prev=null;
+    for(let f=0;f<st.n;f++){if(isNaN(R.y[f])){prev=null; continue;} const on=R.y[f]>=ground-tol; if(prev!=null&&on!==prev) (on?down:up).push(f); prev=on;}
+    st.events[p]={down,up}; made+=down.length+up.length;}
+  $("store").textContent=made?`Suggested ${made} footfalls from the paw heights: check them on the timeline and fix any with D and U.`:"Not enough tracked paw points to find footfalls yet."; markDirty(); refreshLists(); draw();};
+
+/* ---------- joint list ---------- */
+const hiddenGroups=new Set(), hiddenJoints=new Set();
+/* tracks: work on one set of joints at a time; the built-in ones are the legs and the head and back, and you can make your own */
+const BUILTIN_TRACKS=[{id:"all",name:"All"},{id:"nF",name:"Near front",grp:"nF"},{id:"nH",name:"Near hind",grp:"nH"},{id:"fF",name:"Far front",grp:"fF"},{id:"fH",name:"Far hind",grp:"fH"},{id:"body",name:"Head & back",grp:"body"}];
+const tracks=()=>BUILTIN_TRACKS.concat(st.extra.tracks||[]);
+function trackIds(id){const t=tracks().find(x=>x.id===id); if(!t||t.id==="all") return joints().map(j=>j.id); if(t.grp) return joints().filter(j=>j.grp===t.grp).map(j=>j.id); return (t.joints||[]).filter(j=>jById(j));}
+let trackSet=null; const inTrack=j=>st.track==="all"||(trackSet||(trackSet=new Set(trackIds(st.track)))).has(j);
+const workJoints=()=>joints().filter(j=>inTrack(j.id)&&!isHidden(j.id));
+function setTrack(id){st.track=id; trackSet=null; if(id!=="all") st.selTrack=id; const L=workJoints(); if(L.length&&!inTrack(st.sel)) st.sel=(L.find(j=>!keyAt(j.id,st.cur))||L[0]).id; renderJoints(); draw(); const t=tracks().find(x=>x.id===id); if(t) toast(id==="all"?"All tracks":`Focus: ${trackName(t)}`);}
+const renderTracks=()=>renderHeads();
+$("others").onchange=e=>{st.others=e.target.value; draw();};
+function jointChecks(box,checked){box.textContent=""; joints().forEach(j=>{const l=document.createElement("label"), c=document.createElement("input"); c.type="checkbox"; c.value=j.id; c.checked=checked.includes(j.id); l.append(c,document.createTextNode(j.name)); box.append(l);});}
+$("newTrack").onclick=()=>{selectTab("T"); renderTrackPane(); $("tName").focus();};
+$("tCancel").onclick=()=>{$("tName").value=""; $("tPoint").value=""; jointChecks($("tJoints"),[]);};
+$("tMake").onclick=()=>{const name=$("tName").value.trim()||"My track", pt=$("tPoint").value.trim(), ids=[...$("tJoints").querySelectorAll("input:checked")].map(c=>c.value); snap("new track");
+  if(pt){const id="c"+Date.now().toString(36); st.extra.joints.push({id,name:pt,grp:"custom",col:"#7fffd4",lm:"your own point"}); ids.push(id);}
+  if(!ids.length){toast("Tick at least one joint, or name a new point"); hist.u.pop(); undoButtons(); return;}
+  const t={id:"t"+Date.now().toString(36),name,joints:ids,custom:true}; (st.extra.tracks ||= []).push(t); $("tName").value=""; $("tPoint").value=""; markDirty(); st.sel=ids[0]; st.selTrack=t.id; refreshLists(); setTrack(t.id);};
+function renderTrackPane(){const t=tracks().find(x=>x.id===st.selTrack)||tracks().find(x=>x.grp===(jById(st.sel)||{}).grp)||tracks()[1]; if(!t) return; st.selTrack=t.id; const ids=trackIds(t.id);
+  if(document.activeElement!==$("trkName")) $("trkName").value=trackName(t); press($("trkFocus"),st.track===t.id);
+  $("trkInfo").textContent=`${ids.length} joint${ids.length===1?"":"s"} · ${ids.reduce((a,j)=>a+Object.keys(st.keys[j]||{}).length,0)} points · ${t.custom?"your track":"built in"}${locked.has(t.id)?" · locked":""}`;
+  const box=$("trkJoints"); if(t.custom){jointChecks(box,ids); box.querySelectorAll("input").forEach(c=>c.onchange=()=>{snap("track joints"); t.joints=[...box.querySelectorAll("input:checked")].map(x=>x.value); trackSet=null; markDirty(); renderJoints(); draw();});}
+  else {box.textContent=""; ids.forEach(j=>{const l=document.createElement("label"); l.textContent=jById(j).name; box.append(l);});}
+  $("trkDel").hidden=!t.custom; $("trkDel").onclick=()=>deleteTrack(t); if(!$("tJoints").children.length) jointChecks($("tJoints"),[]);}
+$("trkName").addEventListener("change",e=>{const t=tracks().find(x=>x.id===st.selTrack); if(t&&e.target.value.trim()){renameTrack(t,e.target.value.trim()); renderJoints();}});
+$("trkName").addEventListener("keydown",e=>{e.stopPropagation(); if(e.key==="Enter") e.target.blur();});
+$("trkFocus").onclick=()=>{const t=st.selTrack; if(t) setTrack(st.track===t?"all":t);};
+const GNAME={body:"Head and back",nF:LEGS.nF,nH:LEGS.nH,fF:LEGS.fF,fH:LEGS.fH,custom:"Your own points"};
+function statusOf(j,f){const k=keyAt(j,f), R=st.res[j]; if(k) return k.occ?["hidden","occ"]:k.orig?["adjusted","key"]:["placed","key"]; if(R&&!isNaN(R.x[f])) return R.why[f]?["check","low"]:R.src[f]===3?["path","low"]:[`filled`,"trk"]; return ["",""];}
+function renderInspector(){const j=jById(st.sel); if(!j) return; $("jDot").style.background=j.col; $("jDot").className="dot"+(j.far?" far":""); $("jName").textContent=j.name;
+  const n=Object.keys(st.keys[st.sel]||{}).length, [lab]=statusOf(st.sel,st.cur); $("jStatus").textContent=st.n?`frame ${st.cur+1}: ${lab||"no point"} · ${n} point${n===1?"":"s"} in the clip${isLocked(st.sel)?" · locked":""}`:"";
+  $("lm").textContent=j.lm||"your own point"; $("kToggle").textContent=keyAt(st.sel,st.cur)?"◆":"◇"; if(!$("paneT").hidden) renderTrackPane();}
+function renderJoints(){renderHeads(); renderInspector(); drawTL(); banner();}
+const renderJointsStatus=()=>renderJoints();
+function refreshLists(){renderJoints(); renderFlags(); renderAngTable(); fillSelects(); drawGraphs();}
+function fillSelects(){const J=joints(); for(const id of ["lA","lB","aA","aB","aC"]){const s=$(id), v=s.value; s.textContent=""; J.forEach(j=>{const o=document.createElement("option"); o.value=j.id; o.textContent=j.name; s.append(o);}); if(v) s.value=v;}
+  const g=$("gSel"), gv=g.value; g.textContent=""; angles().forEach(A=>{const o=document.createElement("option"); o.value=A.id; o.textContent=A.name; g.append(o);}); g.value=gv||"ncarpus";}
+$("cAdd").onclick=()=>{snap("add point"); const name=$("cName").value.trim(); if(!name) return; const id="c"+Date.now().toString(36); st.extra.joints.push({id,name,grp:"custom",col:"#7fffd4",lm:"your own point"}); $("cName").value=""; st.sel=id; markDirty(); refreshLists();};
+$("lAdd").onclick=()=>{const a=$("lA").value, b=$("lB").value; if(a&&b&&a!==b){snap("add line"); st.extra.bones.push([a,b]); markDirty(); draw();}};
+$("aAdd").onclick=()=>{const a=$("aA").value, b=$("aB").value, c=$("aC").value; if(new Set([a,b,c]).size<3) return; snap("add angle"); st.extra.angles.push({id:"a"+Date.now().toString(36),name:`${jById(b).name} angle`,pts:[a,b,c]}); markDirty(); refreshLists(); draw();};
+
+/* ---------- check list ---------- */
+let flagList=[];
+function renderFlags(){flagList=[]; for(const j of joints()){const R=st.res[j.id]; if(!R) continue; for(let f=0;f<st.n;f++) if(R.why[f]&&R.src[f]!==1) flagList.push({f,j:j.id,why:R.why[f]});}
+  flagList.sort((a,b)=>a.f-b.f); $("cCount").textContent=flagList.length?`(${flagList.length})`:""; const box=$("flags"); box.textContent="";
+  if(!flagList.length){const p=document.createElement("p"); p.className="hint"; p.textContent=st.n?"Nothing to check: every filled point matches well.":"Open a clip first."; box.append(p); return;}
+  flagList.slice(0,400).forEach(o=>{const r=document.createElement("div"); r.className="flag"; r.tabIndex=0; const a=document.createElement("span"); a.className="small"; a.textContent=`frame ${o.f+1}`; const b=document.createElement("span"); b.textContent=`${jById(o.j).name}: ${o.why}`; r.append(a,b);
+    r.onclick=()=>{st.sel=o.j; goTo(o.f); renderJoints();}; r.onkeydown=e=>{if(e.key==="Enter") r.click();}; box.append(r);});}
+function nextFlag(){if(!flagList.length) return; const o=flagList.find(x=>x.f>st.cur)||flagList[0]; st.sel=o.j; goTo(o.f); renderJoints();}
+$("nextFlag").onclick=nextFlag;
+
+/* ---------- angles: table and graphs ---------- */
+let seriesCache=null; const series=A=>{if(!seriesCache) seriesCache={}; return seriesCache[A.id]||(seriesCache[A.id]=angleSeries(A));};
+const _rl=refreshLists;
+function renderAngTable(){seriesCache=null; const tb=$("angTab"); tb.textContent=""; for(const A of angles()){const S=series(A), v=S[st.cur], vals=S.filter(x=>x!=null); if(!vals.length&&v==null) continue;
+    const tr=document.createElement("tr"), a=document.createElement("td"), b=document.createElement("td"), c=document.createElement("td"); a.textContent=A.name; b.className="n"; c.className="n";
+    b.textContent=v==null?"–":`${v.toFixed(0)}°`; if(v!=null&&A.k&&v>180.5) b.classList.add("past");
+    if(vals.length){const lo=Math.min(...vals), hi=Math.max(...vals); c.textContent=`${lo.toFixed(0)}–${hi.toFixed(0)}°`; if(A.k&&hi>180.5){const s=document.createElement("span"); s.className="past"; s.textContent=` (${(hi-180).toFixed(0)}° past)`; c.append(s);}}
+    tr.append(a,b,c); tr.style.cursor="pointer"; tr.onclick=()=>{$("gSel").value=A.id; drawGraphs();}; tb.append(tr);}}
+$("gSel").onchange=()=>drawGraphs();
+function strides(A){const paw=A.paw, ev=st.events[paw]; if(!ev||!ev.down||ev.down.length<2) return []; const D=ev.down.slice().sort((a,b)=>a-b), S=series(A), out=[];
+  for(let k=0;k+1<D.length;k++){const a=D[k], b=D[k+1], c=[]; let ok=0; for(let u=0;u<=100;u++){const f=a+(b-a)*u/100, f0=Math.floor(f), t=f-f0, v0=S[f0], v1=S[Math.min(st.n-1,f0+1)]; const v=v0!=null&&v1!=null?v0+(v1-v0)*t:v0!=null?v0:v1; c.push(v); if(v!=null) ok++;} if(ok>60) out.push(c);} return out;}
+function graphBase(c){const b=c.getBoundingClientRect(), dpr=window.devicePixelRatio||1; c.width=Math.round(b.width*dpr); c.height=Math.round(b.height*dpr); const g=c.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); g.fillStyle=cssv("--panel"); g.fillRect(0,0,b.width,b.height); return [g,b.width,b.height];}
+function axes(g,W,H,lo,hi,xmax,xlab){const L=34,T=8,Rr=8,B=22, X=v=>L+(W-L-Rr)*v/xmax, Y=v=>T+(H-T-B)*(hi-v)/(hi-lo); g.font="10px IBM Plex Mono, monospace"; g.strokeStyle=cssv("--line"); g.fillStyle=cssv("--muted"); g.lineWidth=1;
+  for(let v=Math.ceil(lo/20)*20;v<=hi;v+=20){g.beginPath(); g.moveTo(L,Y(v)); g.lineTo(W-Rr,Y(v)); g.stroke(); g.fillText(v+"°",2,Y(v)+3);}
+  if(lo<180&&hi>180){g.fillStyle=cssv("--past"); g.globalAlpha=.1; g.fillRect(L,T,W-L-Rr,Y(180)-T); g.globalAlpha=1; g.strokeStyle=cssv("--past"); g.setLineDash([4,3]); g.beginPath(); g.moveTo(L,Y(180)); g.lineTo(W-Rr,Y(180)); g.stroke(); g.setLineDash([]); g.fillStyle=cssv("--past"); g.fillText("past straight",L+4,Y(180)-4);}
+  g.fillStyle=cssv("--muted"); g.fillText(xlab,W-Rr-g.measureText(xlab).width,H-6); return [X,Y];}
+const line=(g,P,X,Y,col,w,dash)=>{g.strokeStyle=col; g.lineWidth=w; g.setLineDash(dash||[]); g.beginPath(); let on=false; P.forEach((v,i)=>{if(v==null){on=false; return;} on?g.lineTo(X(i),Y(v)):g.moveTo(X(i),Y(v)); on=true;}); g.stroke(); g.setLineDash([]);};
+function drawGraphs(){const A=angles().find(a=>a.id===$("gSel").value); const [g,W,H]=graphBase($("gTime")); const [g2,W2,H2]=graphBase($("gStride")); if(!A||!st.n){$("strideNote").textContent=""; return;}
+  const S=series(A), vals=S.filter(v=>v!=null), ref=A.k&&GAIT_REF[A.k], wolf=A.k&&WOLF[A.k], all=vals.concat(ref||[],wolf||[]), lo=all.length?Math.floor((Math.min(...all)-5)/10)*10:90, hi=all.length?Math.ceil((Math.max(...all)+5)/10)*10:200;
+  const [X,Y]=axes(g,W,H,lo,hi,Math.max(1,st.n-1),"frame"); line(g,S,X,Y,cssv("--accent"),2); g.fillStyle=cssv("--accent"); g.fillRect(X(st.cur)-.5,0,1.5,H);
+  const SS=strides(A), [X2,Y2]=axes(g2,W2,H2,lo,hi,100,"% of stride from touchdown");
+  if(ref) line(g2,ref,X2,Y2,cssv("--muted"),5); if(wolf) line(g2,wolf,X2,Y2,"#3f8fd8",2,[5,3]);
+  SS.forEach(c=>{g2.globalAlpha=.35; line(g2,c,X2,Y2,cssv("--accent"),1.2); g2.globalAlpha=1;});
+  if(SS.length){const m=[]; for(let u=0;u<=100;u++){const v=SS.map(c=>c[u]).filter(x=>x!=null); m.push(v.length?v.reduce((a,b)=>a+b,0)/v.length:null);} line(g2,m,X2,Y2,cssv("--accent"),2.5);}
+  $("strideNote").textContent=SS.length?`${SS.length} stride${SS.length===1?"":"s"} cut at the ${jById(A.paw).name.toLowerCase()}'s touchdowns.`:`Mark at least two touchdowns of the ${jById(A.paw)?jById(A.paw).name.toLowerCase():"paw"} (Paw down, or Find footfalls) to see this joint per stride.`;}
+
+/* ---------- keyboard ---------- */
+const GROUPKEY={"1":"nF","2":"nH","3":"fF","4":"fH","5":"body"};
+document.addEventListener("keydown",e=>{const tg=e.target.tagName; if(tg==="INPUT"||tg==="SELECT"||tg==="TEXTAREA") return; const k=e.key, K=k.toLowerCase(), mod=e.ctrlKey||e.metaKey;
+  if(guide.on&&!mod){if(k==="Backspace"){e.preventDefault(); $("gBack").click(); return;} if(K==="x"){e.preventDefault(); $("gSkip").click(); return;} if(k==="Escape"){guideStop(); return;}}
+  if(k==="?"){selectTab("H"); return;} if(!st.n) return;
+  if(k==="Escape"){if(drag) cancelDrag(); closeMenu(); draw(); return;}
+  if(!$("cmenu").hidden&&(k==="ArrowDown"||k==="ArrowUp")){e.preventDefault(); const B=[...$("cmenu").querySelectorAll("button")]; let i=B.indexOf(document.activeElement); i=(i+(k==="ArrowDown"?1:-1)+B.length)%B.length; B[i].focus(); return;}
+  if(mod&&K==="z"){e.preventDefault(); e.shiftKey?redo():undo(); return;} if(mod&&K==="y"){e.preventDefault(); redo(); return;}
+  if(mod&&K==="c"){e.preventDefault(); copyFrame(); return;} if(mod&&K==="v"){e.preventDefault(); paste(); return;} if(mod&&K==="s"){e.preventDefault(); st.dirty=true; save().then(()=>toast("Saved")); return;}
+  if(mod) return;
+  if(k===" "){e.preventDefault(); st.playing?stopPlay():startPlay(); return;}
+  if(K==="j"){startPlay(-1); return;} if(K==="k"){stopPlay(); return;} if(K==="l"){startPlay(1); return;}
+  if(k==="ArrowUp"||k==="ArrowDown"){if(e.target.closest&&e.target.closest("#split")) return; e.preventDefault(); keyStep(k==="ArrowDown"?1:-1); return;}
+  if(k==="\\"){fitTL(); drawTL(); return;}
+  if(e.altKey&&k.startsWith("Arrow")){e.preventDefault(); const p=ptOf(st.sel,st.cur); if(!p) return; snap("nudge",true); const d=e.shiftKey?1:.25, dx=k==="ArrowLeft"?-d:k==="ArrowRight"?d:0, dy=k==="ArrowUp"?-d:k==="ArrowDown"?d:0; setKey(st.sel,st.cur,{x:p.x+dx,y:p.y+dy}); renderJointsStatus(); draw(); return;}
+  if(k==="ArrowLeft"||k==="ArrowRight"||k===","||k==="."){e.preventDefault(); stopPlay(); goTo(st.cur+((k==="ArrowLeft"||k===",")?-1:1)*(e.shiftKey?10:1)); return;}
+  if(k==="Home"){goTo(0); return;} if(k==="End"){goTo(st.n-1); return;}
+  if(k==="Tab"&&(e.target===cv||e.target===document.body||e.target.closest&&e.target.closest("#stageBox"))){e.preventDefault(); const L=workJoints(), i=L.findIndex(j=>j.id===st.sel); if(!L.length) return; st.sel=L[(i+(e.shiftKey?-1:1)+L.length)%L.length].id; renderJoints(); draw(); return;}
+  if(GROUPKEY[k]){setTrack(GROUPKEY[k]); return;} if(k==="`"){setTrack("all"); return;}
+  if(k>="6"&&k<="9"){const t=tracks()[+k]; if(t) setTrack(t.id); return;}
+  if(k==="["||k==="]"){const F=Object.keys(st.keys[st.sel]||{}).map(Number).sort((a,b)=>a-b); const t=k==="]"?F.find(f=>f>st.cur):F.reverse().find(f=>f<st.cur); if(t!=null) goTo(t); else toast("No more points of this joint that way"); return;}
+  if(k==="Delete"||k==="Backspace"){e.preventDefault(); e.shiftKey?clearFrame():$("delKey").click(); return;}
+  if(K==="f") $("fill").click(); else if(K==="n") nextFlag(); else if(K==="h") $("hideHere").click(); else if(K==="g") $("oGhost").click();
+  else if(K==="c") $("copyPrev").click(); else if(K==="d") toggleEvent("down"); else if(K==="u") toggleEvent("up"); else if(K==="o") $("oOnion").click(); else if(K==="m") $("oLoupe").click();
+  else if(k==="+"||k==="="){zoomTL(1.5);} else if(k==="-"||k==="_"){zoomTL(1/1.5);} else if(k==="0"){fit(); draw();}});
+
+/* ---------- tabs ---------- */
+const TABS=["J","T","A","C","H"]; function selectTab(t){TABS.forEach(x=>{$("tab"+x).setAttribute("aria-selected",x===t?"true":"false"); $("pane"+x).hidden=x!==t;}); if(t==="A") drawGraphs(); if(t==="T") renderTrackPane();}
+TABS.forEach(x=>$("tab"+x).onclick=()=>selectTab(x));
+(()=>{const box=$("lmList"); BASE.forEach(j=>{const a=document.createElement("b"); a.textContent=j.name; a.style.fontWeight="600"; const b=document.createElement("span"); b.textContent=j.lm; box.append(a,b);});})();
+
+/* ---------- saving: key points in clips/<id>, measured results in results/<id> (source-video pixels) ---------- */
+let saveT=null; function markDirty(){seriesCache=null; st.dirty=true; saveSoon();}
+function saveSoon(){clearTimeout(saveT); saveT=setTimeout(save,1500);}
+const r1=v=>Math.round(v*10)/10;
+function buildDoc(){const s=1/st.sx, keys={}; for(const [j,K] of Object.entries(st.keys)){const o={}; for(const [f,v] of Object.entries(K)) o[f]=v.occ?"hidden":v.orig?[r1(v.x*s),r1(v.y*s),r1(v.orig.x*s),r1(v.orig.y*s)]:[r1(v.x*s),r1(v.y*s)]; if(Object.keys(o).length) keys[j]=o;}
+  return {name:st.clip.name,w:st.clip.vw,h:st.clip.vh,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:st.facing,keys,events:st.events,extra:st.extra,images:st.clip.images||undefined,build:BUILD.commit,updated:Date.now()};}
+function applyDoc(doc){const s=st.sx; st.keys={}; for(const [j,K] of Object.entries(doc.keys||{})){st.keys[j]={}; for(const [f,v] of Object.entries(K)){if(+f>=st.n) continue; st.keys[j][f]=v==="hidden"?{occ:true}:v.length>3?{x:v[0]*s,y:v[1]*s,orig:{x:v[2]*s,y:v[3]*s}}:{x:v[0]*s,y:v[1]*s};}}
+  if(doc.images&&st.clip.images) doc.images.forEach((m,i)=>{const c=st.clip.images[i]; if(c&&m.flip!==c.flip&&m.name===c.name) mirrorFrame(i,false);}); /* re-apply a saved mirror */
+  st.events=doc.events||{}; st.extra=Object.assign({joints:[],bones:[],angles:[],tracks:[]},doc.extra||{}); trackSet=null; st.facing=doc.facing||"auto"; $("facing").value=st.facing;}
+const countPts=doc=>Object.values(doc.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0);
+async function save(){if(!st.clip||!st.dirty&&!st.resultsDirty) return; const s=1/st.sx; const doc=buildDoc();
+  const A={}, P={}; for(const a of angles()){const S=series(a); if(S.some(v=>v!=null)) A[a.id]={name:a.name,kind:a.k||null,perFrame:S.map(v=>v==null?null:r1(v)),strides:strides(a).map(c=>c.map(v=>v==null?null:r1(v)))};}
+  for(const j of joints()){const R=pointsFor(j.id); if(!R) continue; const pts=[]; let any=false; for(let f=0;f<st.n;f++){if(isNaN(R.x[f])||R.src[f]===4) pts.push(null); else {pts.push([r1(R.x[f]*s),r1(R.y[f]*s),R.src[f]]); any=true;}} if(any) P[j.id]=pts;}
+  const res={name:st.clip.name,fps:st.clip.fps,start:st.clip.t0,frames:st.n,facing:facing(),smoothed:st.show.smooth,angles:A,points:P,note:"points: [x, y, source] in source-video pixels; source 1 = placed by hand, 2 = filled by matching, 3 = drawn along the path",updated:Date.now()};
+  st.dirty=false; st.resultsDirty=false; try{localStorage.setItem("gt:"+st.clip.id,JSON.stringify(doc));}catch(e){}
+  if(!st.db){$("store").textContent="Saved in this browser only (the shared store is not available in this view)."; return;}
+  try{await st.db.doc("clips/"+st.clip.id).set(doc); await st.db.doc("results/"+st.clip.id).set(res); $("store").textContent=`Saved ${new Date().toLocaleTimeString()}: Firefly can read this clip's points and angles.`;}
+  catch(e){st.dirty=true; $("store").textContent="Could not save to the shared store: "+(e.message||e.code||"refused")+". Your points are kept in this browser.";}}
+async function loadClip(){let doc=null, local=null; if(st.db){try{const s=await st.db.doc("clips/"+st.clip.id).get(); if(s.exists) doc=s.data();}catch(e){}} try{local=JSON.parse(localStorage.getItem("gt:"+st.clip.id)||"null");}catch(e){}
+  if(local&&(!doc||(local.updated||0)>(doc.updated||0))) doc=local; /* the newer of the shared copy and this browser's copy */
+  listBackups(); if(!doc) return; applyDoc(doc); $("store").textContent=`Loaded your ${countPts(doc)} saved points for this clip (${new Date(doc.updated).toLocaleString()}).`;}
+/* ---------- file: backups (db backups/<clip id>~<time>), export, import ---------- */
+let lastBackup=Date.now(), dl=null;
+async function backup(auto){if(!st.clip) return; const doc=buildDoc(); if(!countPts(doc)){if(!auto) toast("Nothing to back up yet"); return;} doc.clip=st.clip.id; doc.auto=!!auto; doc.backedUp=Date.now();
+  const id=`${st.clip.id}~${doc.backedUp}`; try{localStorage.setItem("gt:bk:"+id,JSON.stringify(doc));}catch(e){}
+  if(st.db){try{await st.db.doc("backups/"+id).set(doc); if(!auto) toast(`Backup saved: ${countPts(doc)} points`); lastBackup=Date.now(); listBackups();}catch(e){toast("Could not save the backup to the shared store: "+(e.message||e.code)+" (kept in this browser)");}}
+  else {lastBackup=Date.now(); if(!auto) toast(`Backup kept in this browser: ${countPts(doc)} points`); listBackups();}}
+async function listBackups(){const box=$("backups"); if(!st.clip){box.textContent="Open a clip to see its backups."; return;} let L=[];
+  if(st.db){try{const q=await st.db.collection("backups").where("clip","==",st.clip.id).get(); L=q.docs.map(d=>({...d.data(),id:d.id}));}catch(e){}}
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i); if(k.startsWith("gt:bk:"+st.clip.id+"~")&&!L.some(x=>x.id===k.slice(6))){const d=JSON.parse(localStorage.getItem(k)); L.push({...d,id:k.slice(6),localOnly:true});}}}catch(e){}
+  L.sort((a,b)=>(b.backedUp||0)-(a.backedUp||0)); box.textContent=""; if(!L.length){box.textContent="No backups yet."; return;}
+  L.slice(0,40).forEach(b=>{const r=document.createElement("div"); r.className="row"; const t=document.createElement("span"); t.textContent=`${new Date(b.backedUp).toLocaleString()} · ${countPts(b)} points${b.auto?" · auto":""}${b.localOnly?" · this browser":""}`;
+    const go=document.createElement("button"); go.className="lnk"; go.textContent="Restore"; go.onclick=()=>{snap("restore backup"); applyDoc(b); markDirty(); rebuildAll(); refreshLists(); draw(); toast(`Restored the backup from ${new Date(b.backedUp).toLocaleTimeString()} (Ctrl+Z goes back)`); $("fileMenu").open=false;}; r.append(t,go); box.append(r);});}
+setInterval(()=>{if(st.clip&&Date.now()-lastBackup>10*60*1000&&hist.u.length) backup(true);},60*1000);
+async function offerFile(name,data){if(!dl&&window.claude&&window.claude.use){try{dl=await window.claude.use("downloads");}catch(e){}}
+  if(dl){try{await dl.save({filename:name,data}); toast("Saved "+name); return;}catch(e){if(e&&e.code==="declined") return; toast("Could not save the file here ("+(e.code||e.message)+"): copied it instead");}}
+  if(typeof data!=="string"){toast("File saving is not available in this view, so the picture could not be saved"); window.__lastExport={name,data}; return;}
+  try{await navigator.clipboard.writeText(data); toast(`${name}: copied to the clipboard (file saving is not available in this view)`);}catch(e){toast("File saving and the clipboard are both blocked in this view");}}
+/* ---------- share: a GIF, a frame sheet or a zip of frames, each frame drawn with your points, lines, names and angles ---------- */
+$("gxNames").onclick=()=>press($("gxNames"),$("gxNames").getAttribute("aria-pressed")!=="true"); $("gxAngles").onclick=()=>press($("gxAngles"),$("gxAngles").getAttribute("aria-pressed")!=="true");
+async function exportFrame(i,W,c){const H=Math.round(st.fh*W/st.fw), bar=Math.round(Math.max(16,W*.045)); c=c||document.createElement("canvas"); c.width=W; c.height=H+bar; const g=c.getContext("2d");
+  const b=await createImageBitmap(st.frames[i].blob); g.fillStyle="#111"; g.fillRect(0,0,W,H+bar); g.filter=`contrast(${st.con}%) brightness(${st.bri}%)`; g.drawImage(b,0,0,W,H); g.filter="none"; if(b.close) b.close();
+  const keep={view:st.view,sel:st.sel,track:st.track,others:st.others,show:{...st.show}}; st.view={z:W/st.fw,ox:0,oy:0}; st.sel="__none"; st.track="all"; trackSet=null; st.others="show";
+  st.show.labels=$("gxNames").getAttribute("aria-pressed")==="true"; st.show.angles=$("gxAngles").getAttribute("aria-pressed")==="true"; st.show.ghost=false;
+  try{overlay(g,i);} finally {st.view=keep.view; st.sel=keep.sel; st.track=keep.track; trackSet=null; st.others=keep.others; st.show=keep.show;}
+  g.fillStyle="#1b1e22"; g.fillRect(0,H,W,bar); g.font=`500 ${Math.round(bar*.6)}px IBM Plex Mono, monospace`; g.fillStyle="#e2a548"; g.textBaseline="middle";
+  g.fillText(`frame ${i+1}/${st.n}`,6,H+bar/2); g.fillStyle="#cfd5dc"; const t=`${st.clip.name} · ${(st.clip.t0+i/st.clip.fps).toFixed(2)} s · Gait Tracker`, w=g.measureText(t).width; g.fillText(t,Math.max(W*.3,W-w-6),H+bar/2); return c;}
+/* GIF89a encoder: one shared 256-colour palette (the joint colours kept exact, the rest the most common colours of the frames), LZW per frame */
+function gifPalette(datas,reserved){const P=[], key=(r,g,b)=>(r>>3)<<10|(g>>3)<<5|(b>>3); const res=reserved.map(h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]);
+  const seen=new Set(); res.forEach(c=>{const k=key(...c); if(!seen.has(k)){seen.add(k); P.push(c);}}); const H=new Map();
+  for(const d of datas) for(let p=0;p<d.length;p+=4*3){const k=key(d[p],d[p+1],d[p+2]); let e=H.get(k); if(!e){e=[0,0,0,0]; H.set(k,e);} e[0]++; e[1]+=d[p]; e[2]+=d[p+1]; e[3]+=d[p+2];}
+  [...H.entries()].filter(([k])=>!seen.has(k)).sort((a,b)=>b[1][0]-a[1][0]).slice(0,256-P.length).forEach(([k,e])=>P.push([e[1]/e[0]|0,e[2]/e[0]|0,e[3]/e[0]|0])); while(P.length<256) P.push([0,0,0]); return P;}
+function gifIndex(d,P,cache){const out=new Uint8Array(d.length/4); for(let p=0,i=0;p<d.length;p+=4,i++){const k=(d[p]>>2)<<12|(d[p+1]>>2)<<6|(d[p+2]>>2); let v=cache.get(k);
+    if(v===undefined){let best=0,bd=1e9; for(let c=0;c<256;c++){const q=P[c], dr=q[0]-d[p], dg=q[1]-d[p+1], db=q[2]-d[p+2], dd=dr*dr*2+dg*dg*4+db*db*3; if(dd<bd){bd=dd; best=c;}} v=best; cache.set(k,v);} out[i]=v;} return out;}
+function gifEncode(w,h,P,frames,delayCs){const B=[]; const u8=v=>B.push(v&255), u16=v=>{u8(v); u8(v>>8);}; "GIF89a".split("").forEach(c=>u8(c.charCodeAt(0))); u16(w); u16(h); u8(0xF7); u8(0); u8(0);
+  P.forEach(c=>{u8(c[0]); u8(c[1]); u8(c[2]);}); [0x21,0xFF,0x0B,..."NETSCAPE2.0".split("").map(c=>c.charCodeAt(0)),3,1,0,0,0].forEach(u8);
+  for(const ix of frames){[0x21,0xF9,4,0].forEach(u8); u16(delayCs); u8(0); u8(0); u8(0x2C); u16(0); u16(0); u16(w); u16(h); u8(0); u8(8);
+    const data=[]; let acc=0, nb=0; const emit=(code,size)=>{acc|=code<<nb; nb+=size; while(nb>=8){data.push(acc&255); acc>>=8; nb-=8;}};
+    const CLEAR=256, EOI=257; let size=9, next=258, dict=new Map(); emit(CLEAR,size); let cur=ix[0];
+    for(let i=1;i<ix.length;i++){const k=ix[i], key=cur<<8|k, v=dict.get(key); if(v!==undefined){cur=v; continue;} emit(cur,size);
+      if(next===4096){emit(CLEAR,size); next=258; size=9; dict=new Map();} else {if(next>=(1<<size)) size++; dict.set(key,next++);} cur=k;}
+    emit(cur,size); emit(EOI,size); if(nb>0) data.push(acc&255); for(let i=0;i<data.length;i+=255){const n=Math.min(255,data.length-i); u8(n); for(let j=0;j<n;j++) B.push(data[i+j]);} u8(0);}
+  u8(0x3B); return new Uint8Array(B);}
+const exportName=ext=>`${st.clip.name.replace(/\.[^.]+$/,"")}-tracked-${new Date().toISOString().slice(0,10)}.${ext}`;
+async function withProgress(fn){$("fileMenu").open=false; ["fGif","fSheet","fZip"].forEach(id=>$(id).disabled=true); try{return await fn();} finally {["fGif","fSheet","fZip"].forEach(id=>$(id).disabled=false); $("prog").style.width="0";}}
+$("fGif").onclick=()=>withProgress(async()=>{const W=+$("gxW").value, datas=[]; let c=null;
+  for(let i=0;i<st.n;i++){c=await exportFrame(i,W,document.createElement("canvas")); datas.push(c.getContext("2d").getImageData(0,0,c.width,c.height).data); $("prog").style.width=((i+1)/st.n*50)+"%"; if(i%4===3) await new Promise(r=>setTimeout(r,0));}
+  const P=gifPalette(datas,[...new Set(joints().map(j=>j.col))].concat(["#ffffff","#000000","#e2a548","#ff6b5e","#cfd5dc","#1b1e22"])), cache=new Map(), frames=[];
+  for(let i=0;i<datas.length;i++){frames.push(gifIndex(datas[i],P,cache)); $("prog").style.width=(50+(i+1)/datas.length*45)+"%"; if(i%4===3) await new Promise(r=>setTimeout(r,0));}
+  const delay=Math.max(2,Math.round(100/(st.clip.fps*+$("gxSpeed").value))), gif=gifEncode(c.width,c.height,P,frames,delay); toast(`GIF ready: ${(gif.length/1048576).toFixed(1)} MB`);
+  await offerFile(exportName("gif"),new Blob([gif],{type:"image/gif"}));});
+$("fSheet").onclick=()=>withProgress(async()=>{const tw=240, cols=8, step=Math.max(1,Math.ceil(st.n/96)), idx=[]; for(let i=0;i<st.n;i+=step) idx.push(i);
+  const th=Math.round(st.fh*tw/st.fw)+Math.round(Math.max(16,tw*.045)), rows=Math.ceil(idx.length/cols), S=document.createElement("canvas"); S.width=cols*tw; S.height=rows*th; const g=S.getContext("2d"); g.fillStyle="#111"; g.fillRect(0,0,S.width,S.height);
+  for(let k=0;k<idx.length;k++){const c=await exportFrame(idx[k],tw); g.drawImage(c,(k%cols)*tw,Math.floor(k/cols)*th); $("prog").style.width=((k+1)/idx.length*100)+"%";}
+  const blob=await new Promise(ok=>S.toBlob(ok,"image/png")); await offerFile(exportName("png"),blob);});
+/* a store-only zip of numbered PNG frames */
+const CRC=(()=>{const T=new Uint32Array(256); for(let n=0;n<256;n++){let c=n; for(let k=0;k<8;k++) c=c&1?0xEDB88320^(c>>>1):c>>>1; T[n]=c>>>0;} return b=>{let c=0xFFFFFFFF; for(let i=0;i<b.length;i++) c=T[(c^b[i])&255]^(c>>>8); return (c^0xFFFFFFFF)>>>0;};})();
+function zipStore(files){const parts=[], central=[]; let off=0; const le=(n,b)=>{const a=new Uint8Array(b); for(let i=0;i<b;i++) a[i]=(n>>>(8*i))&255; return a;};
+  for(const f of files){const name=new TextEncoder().encode(f.name), crc=CRC(f.data), sz=f.data.length;
+    const head=[le(0x04034b50,4),le(20,2),le(0,2),le(0,2),le(0,2),le(0,2),le(crc,4),le(sz,4),le(sz,4),le(name.length,2),le(0,2),name]; head.forEach(x=>parts.push(x)); parts.push(f.data);
+    central.push([le(0x02014b50,4),le(20,2),le(20,2),le(0,2),le(0,2),le(0,2),le(0,2),le(crc,4),le(sz,4),le(sz,4),le(name.length,2),le(0,2),le(0,2),le(0,2),le(0,2),le(0,4),le(off,4),name]);
+    off+=30+name.length+sz;}
+  let cs=0; central.forEach(c=>c.forEach(x=>{parts.push(x); cs+=x.length;})); [le(0x06054b50,4),le(0,2),le(0,2),le(files.length,2),le(files.length,2),le(cs,4),le(off,4),le(0,2)].forEach(x=>parts.push(x)); return new Blob(parts,{type:"application/zip"});}
+$("fZip").onclick=()=>withProgress(async()=>{const W=+$("gxW").value, files=[]; for(let i=0;i<st.n;i++){const c=await exportFrame(i,W), b=await new Promise(ok=>c.toBlob(ok,"image/png")); files.push({name:`frame-${String(i+1).padStart(4,"0")}.png`,data:new Uint8Array(await b.arrayBuffer())}); $("prog").style.width=((i+1)/st.n*100)+"%";}
+  await offerFile(exportName("zip"),zipStore(files));});
+$("fSave").onclick=()=>{st.dirty=true; save().then(()=>toast("Saved"));};
+$("fBackup").onclick=()=>backup(false);
+$("fExport").onclick=()=>{const doc=buildDoc(); offerFile(`${st.clip.name.replace(/\.[^.]+$/,"")}-points-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify({format:"den-gait-tracker/1",clipId:st.clip.id,...doc},null,1));};
+$("fCsv").onclick=()=>{const s=1/st.sx, J=joints(), A=angles().filter(a=>series(a).some(v=>v!=null)), head=["frame","seconds",...J.flatMap(j=>[j.id+"_x",j.id+"_y",j.id+"_src"]),...A.map(a=>a.id+"_deg")]; const rows=[head.join(",")];
+  const P=Object.fromEntries(J.map(j=>[j.id,pointsFor(j.id)])), S=Object.fromEntries(A.map(a=>[a.id,series(a)]));
+  for(let f=0;f<st.n;f++){const r=[f+1,(st.clip.t0+f/st.clip.fps).toFixed(3)]; for(const j of J){const R=P[j.id]; if(R&&!isNaN(R.x[f])&&R.src[f]!==4) r.push(r1(R.x[f]*s),r1(R.y[f]*s),["","mine","filled","path"][R.src[f]]||""); else r.push("","",R&&R.src[f]===4?"hidden":"");} for(const a of A){const v=S[a.id][f]; r.push(v==null?"":r1(v));} rows.push(r.join(","));}
+  offerFile(`${st.clip.name.replace(/\.[^.]+$/,"")}-points-${new Date().toISOString().slice(0,10)}.csv`,rows.join("\n"));};
+$("fImport").onchange=async e=>{const f=e.target.files&&e.target.files[0]; e.target.value=""; if(!f||!st.clip) return; let doc; try{doc=JSON.parse(await f.text());}catch(err){toast("That file is not a points file (.json from Export points)"); return;}
+  if(!doc||!doc.keys){toast("That file has no points in it"); return;} snap("import"); await backup(true); applyDoc(doc); markDirty(); rebuildAll(); refreshLists(); draw(); $("fileMenu").open=false;
+  toast(`Imported ${countPts(doc)} points from ${f.name}${doc.name&&doc.name!==st.clip.name?` (made on ${doc.name})`:""}. Ctrl+Z undoes it.`);};
+function renderSaved(list){const box=$("savedList"); box.textContent=""; if(!list.length) return; const h=document.createElement("div"); h.textContent="Saved clips (open the same video file to carry on):"; box.append(h);
+  list.forEach(d=>{const n=Object.values(d.keys||{}).reduce((a,K)=>a+Object.keys(K).length,0), r=document.createElement("div"); r.textContent=`· ${d.name} · ${d.frames} frames · ${n} points · ${new Date(d.updated).toLocaleDateString()}`; box.append(r);});}
+
+/* ---------- boot ---------- */
+try{const fl=localStorage.getItem("gt:flow"); if(fl) $("flow").value=fl;}catch(_){}
+try{const m=localStorage.getItem("gt:mode"); if(m==="assist"||m==="manual"){st.mode=m; $("mode").value=m; if(m==="assist") st.filledOn=true;}}catch(_){}
+$("meta").textContent=`build ${BUILD.commit} · ${BUILD.date}`;
+window.addEventListener("resize",()=>{if(st.n) fit(); draw(); drawTL();});
+renderJoints(); refreshLists(); draw();
+(async()=>{const db=window.claude&&window.claude.use?await window.claude.use("db"):null; if(!db){$("store").textContent="Points save in this browser only (the shared store is not available in this view)."; return;}
+  st.db=db; $("store").textContent="Connected: your points save to the shared store as you work.";
+  db.collection("clips").onSnapshot(s=>renderSaved(s.docs.map(d=>d.data()).sort((a,b)=>(b.updated||0)-(a.updated||0))),()=>{});})();
+</script>

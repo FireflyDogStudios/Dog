@@ -1,0 +1,20 @@
+{
+  "build": "081722b",
+  "created": 1791486621438,
+  "fixedIn": "154edec",
+  "group": "body",
+  "key": "bib",
+  "name": "bib (body)",
+  "phase": null,
+  "reasons": [
+    "Bad edge or seam",
+    "Pokes out"
+  ],
+  "reply": "The small pale corner at the chest front was the chest's outline sticking out past the throat once the head dips. The chest edge just under the jaw is now pushed back onto a smooth slope, shared by every chest piece, so nothing pokes out. Please check, and Mark fixed if it reads right.",
+  "rig": "hero3",
+  "sev": "should",
+  "status": "open",
+  "text": "",
+  "updated": 1791486677823,
+  "when": "always"
+}

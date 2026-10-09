@@ -1,0 +1,18 @@
+{
+  "build": "794e8bd",
+  "created": 1791580929709,
+  "joint": "body",
+  "lx": 33.252,
+  "lx2": 36.298,
+  "ly": 11.724,
+  "ly2": 11.927,
+  "part": "saddle (body)",
+  "phase": 0.442,
+  "rig": "hero5",
+  "sev": "should",
+  "standing": false,
+  "status": "open",
+  "tag": "Head",
+  "text": "Kind of a strange square here under the neck",
+  "type": "arrow"
+}

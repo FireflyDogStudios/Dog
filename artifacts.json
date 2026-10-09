@@ -1,0 +1,145 @@
+{
+  "_note": "Live artifacts on GrumpyDingo's claude.ai account. The repo is the source of truth; publish to these URLs only when the user asks. 'publish' is the exact file(s) to send. The artifact service adds its own page wrapper, so published files are the unwrapped source.",
+  "den-ledger": {
+    "url": "https://claude.ai/artifact/APeiXGfpJhnYRfjs7NorsT",
+    "title": "The Den Ledger (game, v0.54)",
+    "source": "apps/den-ledger/src",
+    "build": "node apps/den-ledger/build.mjs",
+    "publish": "apps/den-ledger/dist/index.html",
+    "attachedFiles": [
+      "art-base.css",
+      "art-alt.css",
+      "pixi.min.js",
+      "proton.web.min.js"
+    ],
+    "attachedFilesSource": "apps/den-ledger/public",
+    "capabilities": [
+      "db",
+      "user"
+    ],
+    "status": "live"
+  },
+  "gear-bench": {
+    "url": "https://claude.ai/artifact/YM5BQsk83Kwd1S6pGG3EcL",
+    "attachedFiles": [
+      "pixi.min.js"
+    ],
+    "title": "Den Gear Bench",
+    "source": "apps/gear-bench/index.html",
+    "publish": "apps/gear-bench/index.html",
+    "status": "live"
+  },
+  "pixi-bench": {
+    "url": "https://claude.ai/artifact/LXdgL2k38t7ZdjDBk5r4Bw",
+    "title": "Den Pixi Bench",
+    "source": "apps/pixi-bench/index.html",
+    "publish": "apps/pixi-bench/index.html",
+    "status": "archived",
+    "archivedNote": "Deprecated 2026-10-09 (GrumpyDingo): kept for research only, do not build on it or publish to it."
+  },
+  "dingo-workbench": {
+    "url": "https://claude.ai/artifact/2N5JULUbfKNkKB3szMUo8Y",
+    "title": "Den Dingo Workbench",
+    "source": "apps/dingo-workbench/index.html",
+    "publish": "apps/dingo-workbench/index.html",
+    "status": "archived",
+    "archivedNote": "Deprecated 2026-10-09 (GrumpyDingo): kept for research only, do not build on it or publish to it."
+  },
+  "stillroom": {
+    "url": "https://claude.ai/artifact/T5Y5iGAeRTPMQEfFhJJs4M",
+    "title": "Den Stillroom",
+    "source": "apps/stillroom/index.html",
+    "publish": "apps/stillroom/index.html",
+    "status": "live"
+  },
+  "archive": {
+    "den-ledger-oct1": {
+      "url": "https://claude.ai/artifact/NUJoMc4k9TXFYGMdPwgu3F",
+      "source": "archive/den-ledger-oct1/index.html",
+      "note": "older copy of the game (Oct 1)"
+    },
+    "smithy": {
+      "url": "https://claude.ai/artifact/AX1AckrJ39AdzZ16Vt4XSs",
+      "source": "archive/smithy/index.html",
+      "note": "gear-crafting prototype (Oct 2); its source became the Smithy block"
+    },
+    "weapon-forge": {
+      "url": "https://claude.ai/artifact/VWys8gnSDCt1LJyXwM9nCs",
+      "source": "archive/weapon-forge/index.html"
+    },
+    "inventory-mockup": {
+      "url": "https://claude.ai/artifact/9bxWvmV1DkVnA2Z4BnDRAt",
+      "source": "archive/inventory-mockup/index.html"
+    },
+    "field-kit": {
+      "url": "https://claude.ai/artifact/1vXfDMziP9Va4AjkpKLEUd",
+      "source": "archive/field-kit/index.html"
+    },
+    "look-studio": {
+      "url": "https://claude.ai/artifact/3hynkNvYbjrdsSDy4Mw2Jw",
+      "source": "archive/look-studio/index.html"
+    },
+    "dingo-style-studio": {
+      "url": "https://claude.ai/artifact/MVxnkDzLu3inYcetEXc1xi",
+      "source": "archive/dingo-style-studio/project",
+      "note": "Design-type canvas; only its project/ files are kept. Weapon images referenced as /_blob/... are not in the repo."
+    }
+  },
+  "team-inbox": {
+    "url": "https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK",
+    "title": "Den Team Inbox",
+    "source": "apps/team-inbox/index.html",
+    "publish": "apps/team-inbox/index.html",
+    "capabilities": [
+      "db",
+      "mcp: Claude Code Remote / list_sessions"
+    ],
+    "store": "notes/<id>, members/<nick>, meta/sync (Firefly fills them after tools/team/inbox.py)",
+    "status": "live"
+  },
+  "wolf-bench": {
+    "url": "https://claude.ai/artifact/5MVTVAmLQmBxUaC5PL9QLC",
+    "title": "Wolf Bench",
+    "source": "apps/wolf-bench/template.html",
+    "build": "./den dogcheck hero3 && node apps/wolf-bench/build.mjs",
+    "publish": "apps/wolf-bench/index.html",
+    "capabilities": [
+      "db",
+      "user"
+    ],
+    "store": "notes/<id> (GrumpyDingo's marks: type pin|arrow|pen, text, tag, sev must|should|nice, status open|fixed, rig, joint + local lx,ly (arrow lx2,ly2; pen pts), phase/standing, part; Firefly writes reply + fixedIn); checklist/hero3 (answers by question id)",
+    "status": "live"
+  },
+  "gait-tracker": {
+    "url": "https://claude.ai/artifact/EjofNnxftBQYFPth6GgHT2",
+    "title": "Gait Tracker",
+    "source": "apps/gait-tracker/template.html",
+    "build": "node apps/gait-tracker/build.mjs",
+    "publish": "apps/gait-tracker/index.html",
+    "capabilities": [
+      "db",
+      "downloads"
+    ],
+    "db": "clips/<clip id> = key points (source-video px), footfalls, own points; results/<clip id> = per-frame points and angles, per-stride curves; backups/<clip id>~<ms> = dated copies (auto every 10 min while working, manual from File)",
+    "status": "live"
+  },
+  "compendium": {
+    "url": "https://claude.ai/artifact/JCjQAPUbrV2dTtfg4eE2eT",
+    "title": "Den Compendium",
+    "source": "apps/compendium/index.html",
+    "publish": "apps/compendium/index.html",
+    "note": "Master index of every live Den artifact. Update its BOOK array when an artifact is added or retired."
+  },
+  "weapon-forge-bench": {
+    "url": "https://claude.ai/artifact/VWys8gnSDCt1LJyXwM9nCs",
+    "title": "Weapon Forge Bench",
+    "status": "archived",
+    "archivedNote": "Deprecated 2026-10-09 (GrumpyDingo): kept for research only, do not build on it or publish to it. No source in this repo."
+  },
+  "dingo-style-studio": {
+    "url": "https://claude.ai/artifact/MVxnkDzLu3inYcetEXc1xi",
+    "title": "Den Dingo Style Studio",
+    "status": "archived",
+    "archivedNote": "Deprecated 2026-10-09 (GrumpyDingo): kept for research only, do not build on it or publish to it. No source in this repo."
+  }
+}

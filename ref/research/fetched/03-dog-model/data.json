@@ -1,0 +1,2839 @@
+{
+ "item": "03-dog-model",
+ "fetched": "2026-10-06",
+ "dog_model_stark_2021": {
+  "status": "FETCHED (2026-10-06). Model files downloaded by hand by GrumpyDingo from SimTK (login required) and handed over via Google Drive; extracted by a Firefly agent. The earlier note about the login wall is kept below in \"status_before_handover\".",
+  "title": "A three-dimensional musculoskeletal model of the dog",
+  "authors": "Heiko Stark, Martin S. Fischer, Alexander Hunt, Fletcher Young, Roger Quinn, Emanuel Andrada",
+  "year": 2021,
+  "journal": "Scientific Reports 11:11335",
+  "doi": "10.1038/s41598-021-90058-0",
+  "urls": {
+   "article": "https://www.nature.com/articles/s41598-021-90058-0",
+   "project": "https://simtk.org/projects/dogmodel",
+   "downloads": "https://simtk.org/frs/?group_id=2032",
+   "supplement": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41598-021-90058-0/MediaObjects/41598_2021_90058_MOESM1_ESM.pdf"
+  },
+  "licences": {
+   "article and supplement": "CC BY 4.0",
+   "model packages on SimTK": "MIT ('MIT Use Agreement', Copyright (c) 2021 FSU Jena, Heiko Stark) shown for: Dog forelimb model (verified), Full dog model (simplified), Forelimb curved, Forelimb simplified, Hindlimb curved, Hindlimb simplified, Low geometries. NO licence shown for: Full dog model (curved), Scaling data (Beagle).",
+   "note": "MIT would allow storage; only the login blocks it."
+  },
+  "packages_listed": [
+   {
+    "name": "Dog forelimb model (verified)",
+    "file": "Forelimb model.zip",
+    "size": "48 MB",
+    "date": "2021-06-10",
+    "file_id": 6360
+   },
+   {
+    "name": "Scaling data (Beagle)",
+    "file": "scale_beagle.zip",
+    "size": "2 KB",
+    "date": "2021-10-20",
+    "file_id": 6464
+   },
+   {
+    "name": "Full dog model (simplified)",
+    "file": "Full linear.zip",
+    "size": "47 MB",
+    "date": "2021-10-20",
+    "file_id": 6458
+   },
+   {
+    "name": "Full dog model (curved)",
+    "file": "Full curve.zip",
+    "size": "47 MB",
+    "date": "2021-10-20",
+    "file_id": 6460
+   },
+   {
+    "name": "Forelimb dog model (simplified)",
+    "file": "Forelimb linear.zip",
+    "size": "47 MB",
+    "file_id": 6462
+   },
+   {
+    "name": "Forelimb dog model (curved)",
+    "file": "Forelimb curve.zip",
+    "size": "47 MB",
+    "file_id": 6459
+   },
+   {
+    "name": "Hindlimb dog model (simplified)",
+    "file": "Hindlimb linear.zip",
+    "size": "47 MB",
+    "file_id": 6463
+   },
+   {
+    "name": "Hindlimb dog model (curved)",
+    "file": "Hindlimb curve.zip",
+    "size": "47 MB",
+    "file_id": 6461
+   },
+   {
+    "name": "Low geometries",
+    "file": "Geometry low.zip",
+    "size": "20 MB",
+    "date": "2022-04-04",
+    "file_id": 6465
+   }
+  ],
+  "model_files_named_in_supplement": [
+   "stark(2021)-beagle-fore_low.osim (OpenSim 4.x)",
+   "stark(2021)-beagle-fore.osim (OpenSim 3.3, high-res)"
+  ],
+  "numbers_from_article (CC BY 4.0)": {
+   "dog": "adult Beagle 'Simon', 13.8 kg; CT 3370 sections, 0.33 mm spacing, 512x512 px at 0.279 x 0.279 mm",
+   "dofs": "84 DOF max; 134 muscles (67 per side); head, thorax, abdomen and tail 3 rotational DOF each; vertebral motion not modelled; root = thorax joined to ground",
+   "forelimb_dofs_used (Table 1)": {
+    "global": 3,
+    "scapula": 5,
+    "shoulder": 3,
+    "elbow": 2,
+    "carpal joint": 2,
+    "forepaw": 3,
+    "note": "15 limb DOF needed for static optimisation to converge; scapula needs cranio-caudal AND vertical translation (5 DOF); adding mediolateral scapular translation (16 DOF) made results worse"
+   },
+   "reserve actuator limits (Table 1)": {
+    "scapula": "Mx 5, My 5, Mz 5 Nm; Fy 0.00005, Fz 0.5 N",
+    "shoulder": "Mx 0.0005, My 5, Mz 5 Nm",
+    "elbow": "Mx 1, My 5 Nm",
+    "carpal": "Mx 5, Mz 1 Nm",
+    "forepaw": "Mx 0.005, My 0.005, Mz 0.0005 Nm",
+    "global": "Fx, Fy, Fz 0.5 N"
+   },
+   "axes": "local segment frames: rotation about x (red) = protraction/retraction or flexion/extension; about y (yellow) = abduction/adduction; about z (green) = axial rotation (Fig. 7 caption)",
+   "segment masses": "as % of 13.8 kg body mass from Amit et al. 2009 volumes + CT (Suppl. 2); inertia from bone point clouds (cloud2). Humerus inertia about CoM (1e-3 kg m^2, diagonal): Andrada 2017 0.435/0.329/0.254; bone geometry 0.513/0.500/0.044; CT segmentation 0.332/0.256/0.178 (Suppl. Table 1)",
+   "scaling": "Muscle geometry came from a German Shepherd (working line) anatomical model (Lauströer, Andikfar & Fischer). Beagle bones were scaled up to fit it: both limbs x1.66, spine/neck/head x1.25 (one factor per leg suffices because segment length as % of leg length is about constant across breeds, incl. chondrodystrophic, citing Fischer & Lilje 2011, Lumer 1940, Wayne 1986). Muscle PCSA scaled to Beagle body mass with log relationships from Shahar & Milgram and Williams et al. data; lengths scale with geometry in OpenSim. 'Working versions' on SimTK are the Shepherd-sized model; scale_beagle.zip holds OpenSim scaling data to the Beagle.",
+   "joint positions": "joint positions and types derived from the CT-based Beagle model; cylinders constrain hinge joints, spheres ball joints (for muscle wrapping)."
+  },
+  "status_before_handover": "model files NOT fetched: SimTK downloads require a SimTK account login (download_confirm.php redirects to /account/login.php; tried 3x, Oct 6 2026). No mirror found on Zenodo, figshare, GitHub (web search) or the article supplement. web.archive.org is blocked by this environment's egress policy.",
+  "licence_check_in_zips": "No LICENSE, README or copyright file inside any of the zips. Licence per SimTK \"View License\" (confirmed by GrumpyDingo): MIT, Copyright (c) 2021, FSU Jena, Heiko Stark, for full_linear, forelimb_verified, forelimb/hindlimb linear and curved, geometry_low. NO licence shown for full_curved and scale_beagle. The verified .osim carries <credits>Stark, Fischer, Hunt, Young, Quinn, Andrada</credits> and cites bioRxiv 10.1101/2020.07.16.205856.",
+  "files": {
+   "stark_full_linear_spezzoo.osim": "raw, unmodified \"stark(2016)spezzoo.osim\" from \"Full linear.zip\" (Full dog model (simplified)); OpenSim 1.9 format (Version 10902); German-Shepherd-sized; MIT",
+   "stark_beagle_fore_verified.osim": "raw, unmodified \"stark(2021) - beagle - fore.osim\" from \"Forelimb model.zip\" (Dog forelimb model (verified), the paper version); OpenSim 3.0 format (Version 30000); Beagle-scaled; MIT. \"..._fore_low.osim\" is identical except it points to the low-res trunk meshes (newlow-*.obj), so it is not stored.",
+   "LICENSE-stark.txt": "MIT licence text for everything prefixed stark_",
+   "stark_full_bodies.csv / stark_fore_verified_bodies.csv": "every body: mass, COM, inertia (body frame), mesh files and display scale",
+   "stark_full_joints.csv / stark_fore_verified_joints.csv": "every joint, one row per SpatialTransform axis: parent, child, location/orientation in parent and child frames, axis, coordinate, function, and the joint centre in the global frame at default pose (raw model frame + raw side projection)",
+   "stark_full_coordinates.csv / stark_fore_verified_coordinates.csv": "every coordinate: joint, rotational/translational, transform axis, default, range (rad|m and deg), clamped, locked",
+   "stark_side_view.csv": "joint centres and bone landmarks at default pose, both models: global xyz (model frame) and game side view (x forward = right, y down) in metres and in withers heights, origin = withers (top of thoracic spinous processes); landmark method per row",
+   "stark_segments.csv": "segment lengths between consecutive joint centres/landmarks (3D and side-projected; m and WH): spine, neck, head, tail, pelvis, both fore- and hindlimbs, both models",
+   "stark_muscles.csv": "long format, one row per muscle path point: model, muscle, index, role (origin/via/insertion), body, local xyz, global xyz at default pose, side-view x,y (m, WH), Fmax, optimal fibre length, tendon slack length, pennation (deg), wrap cylinders the path wraps over. These are muscle LINES (straight segments between points), not volumes.",
+   "stark_bone_outlines.json": "side-view bone silhouettes per body for both models (m and WH), plus the whole-skeleton silhouette; see its \"meta\"",
+   "stark_fore_motion.csv": "forelimb kinematics of the Beagle (10 trials x 101 samples = 0..100 % stride): model coordinates (deg / m) plus side-view joint angles computed by forward kinematics; forepaw contact from the matching GRF file",
+   "stark_fore_motion_mean.csv": "mean and SD over trials 03-10 per % stride for every column, plus the fraction of trials in forepaw contact"
+  },
+  "extracted_key_numbers": {
+   "full_linear": {
+    "withers_height_m": 0.6168,
+    "withers_definition": "ground = lowest vertex of any paw (digit) mesh at default pose; withers = highest thorax-mesh vertex within the scapula's x-range (tips of the first thoracic spinous processes). WH = vertical distance between them in the side view.",
+    "scapula_top_above_withers_m": 0.0183,
+    "height_to_scapula_top_m": 0.635,
+    "segment_lengths_right_side_3d": {
+     "thoracic spine (cervicothoracic to thoracolumbar joint centre)": {
+      "m": 0.2771,
+      "wh": 0.449
+     },
+     "lumbar spine (thoracolumbar to lumbosacral)": {
+      "m": 0.2064,
+      "wh": 0.335
+     },
+     "neck (cervicothoracic to atlanto-occipital)": {
+      "m": 0.1824,
+      "wh": 0.296
+     },
+     "head (atlanto-occipital to nose tip)": {
+      "m": 0.2108,
+      "wh": 0.342
+     },
+     "tail (lumbosacral joint to tail tip, straight line)": {
+      "m": 0.4106,
+      "wh": 0.666
+     },
+     "lumbosacral joint to hip centre": {
+      "m": 0.117,
+      "wh": 0.19
+     },
+     "scapula (top of blade to shoulder centre)": {
+      "m": 0.2127,
+      "wh": 0.345
+     },
+     "humerus (shoulder to elbow)": {
+      "m": 0.1462,
+      "wh": 0.237
+     },
+     "antebrachium (elbow to carpus)": {
+      "m": 0.1931,
+      "wh": 0.313
+     },
+     "carpus + metacarpus (carpus to MCP)": {
+      "m": 0.1003,
+      "wh": 0.163
+     },
+     "fore digits (MCP to claw tip)": {
+      "m": 0.0726,
+      "wh": 0.118
+     },
+     "femur (hip to stifle)": {
+      "m": 0.1705,
+      "wh": 0.276
+     },
+     "crus/tibia (stifle to hock)": {
+      "m": 0.2185,
+      "wh": 0.354
+     },
+     "tarsus + metatarsus (hock to MTP)": {
+      "m": 0.1343,
+      "wh": 0.218
+     },
+     "hind digits (MTP to claw tip)": {
+      "m": 0.0726,
+      "wh": 0.118
+     }
+    },
+    "default_pose_side_view_angles_deg": {
+     "shoulder, cranial side (scapula top-shoulder-elbow)": 125.8,
+     "elbow, caudal side": 130.3,
+     "carpus, palmar side (>180 = overextended, pastern sloping forward)": 217.2,
+     "MCP, palmar side (metacarpus vs MCP->claw tip line)": 179.4,
+     "hip, cranial side (lumbosacral joint-hip-stifle)": 135.2,
+     "stifle, caudal side": 146.3,
+     "hock, cranial side": 119.7,
+     "MTP, plantar side (metatarsus vs MTP->claw tip line)": 209.6
+    }
+   },
+   "beagle_fore_verified": {
+    "withers_height_m": 0.3563,
+    "withers_definition": "ground = lowest vertex of any paw (digit) mesh at default pose; withers = highest thorax-mesh vertex within the scapula's x-range (tips of the first thoracic spinous processes). WH = vertical distance between them in the side view.",
+    "scapula_top_above_withers_m": 0.0315,
+    "height_to_scapula_top_m": 0.3878,
+    "segment_lengths_right_side_3d": {
+     "thoracic spine (cervicothoracic to thoracolumbar joint centre)": {
+      "m": 0.2217,
+      "wh": 0.622
+     },
+     "lumbar spine (thoracolumbar to lumbosacral)": {
+      "m": 0.1651,
+      "wh": 0.464
+     },
+     "neck (cervicothoracic to atlanto-occipital)": {
+      "m": 0.1459,
+      "wh": 0.41
+     },
+     "head (atlanto-occipital to nose tip)": {
+      "m": 0.1686,
+      "wh": 0.473
+     },
+     "tail (lumbosacral joint to tail tip, straight line)": {
+      "m": 0.3285,
+      "wh": 0.922
+     },
+     "lumbosacral joint to hip centre": {
+      "m": 0.0702,
+      "wh": 0.197
+     },
+     "scapula (top of blade to shoulder centre)": {
+      "m": 0.1276,
+      "wh": 0.358
+     },
+     "humerus (shoulder to elbow)": {
+      "m": 0.0877,
+      "wh": 0.246
+     },
+     "antebrachium (elbow to carpus)": {
+      "m": 0.1159,
+      "wh": 0.325
+     },
+     "carpus + metacarpus (carpus to MCP)": {
+      "m": 0.0602,
+      "wh": 0.169
+     },
+     "fore digits (MCP to claw tip)": {
+      "m": 0.0436,
+      "wh": 0.122
+     },
+     "femur (hip to stifle)": {
+      "m": 0.1023,
+      "wh": 0.287
+     },
+     "crus/tibia (stifle to hock)": {
+      "m": 0.1311,
+      "wh": 0.368
+     },
+     "tarsus + metatarsus (hock to MTP)": {
+      "m": 0.0806,
+      "wh": 0.226
+     },
+     "hind digits (MTP to claw tip)": {
+      "m": 0.0436,
+      "wh": 0.122
+     }
+    },
+    "default_pose_side_view_angles_deg": {
+     "shoulder, cranial side (scapula top-shoulder-elbow)": 125.9,
+     "elbow, caudal side": 130.3,
+     "carpus, palmar side (>180 = overextended, pastern sloping forward)": 217.2,
+     "MCP, palmar side (metacarpus vs MCP->claw tip line)": 179.4,
+     "hip, cranial side (lumbosacral joint-hip-stifle)": 135.2,
+     "stifle, caudal side": 146.3,
+     "hock, cranial side": 119.7,
+     "MTP, plantar side (metatarsus vs MTP->claw tip line)": 209.6
+    }
+   },
+   "note_on_models": "full_linear = German-Shepherd-sized working model (Beagle CT bones stretched x1.66 limbs, x1.25 trunk). beagle_fore_verified = the same model scaled back to the Beagle (limbs and pelvis x0.6, trunk x0.8; see scale_beagle). Within-limb ratios are identical in both (all limb bodies scaled by the same factor). WH fractions differ because the trunk and the limbs were scaled by different factors, and because the root and scapula translations were not rescaled. In the Beagle file the scapula top sits 3.2 cm above the spinous processes (unscaled scapula translation coordinates); treat its scapula height with care."
+  },
+  "joint_ranges": {
+   "model_coordinate_ranges": "NOT anatomical: every rotational coordinate is clamped to generic limits: sagittal (flexion/extension) -180..+180 deg; frontal and horizontal -90..+90 deg; thorax root -180..180 deg; scapula and pelvis translations -10..10 m / -100..100 m. The full table is in stark_*_coordinates.csv. Use the measured walking ranges below or other ROM literature instead.",
+   "default_values_deg (full_linear = beagle_fore_verified)": {
+    "thorax_sagittal (root pitch)": 3.0,
+    "cervix_sagittal": -10.0,
+    "scapula (r_m_superioris) sagittal/frontal/horizontal": [
+     -10.9,
+     -2.8,
+     -0.3
+    ],
+    "scapula translation x,y,z (m)": [
+     0.0656,
+     -0.183,
+     0.11
+    ],
+    "shoulder (r_deltoidea) sagittal": 52.9,
+    "elbow (r_cubitalis) sagittal": -49.6,
+    "carpus (r_carpalis) sagittal": -37.2,
+    "MCP (r_forepaw) sagittal": 0.0,
+    "pelvis (m_inferioris) sagittal": 29.1,
+    "hip (r_coxae) sagittal": -44.8,
+    "stifle (r_genus) sagittal": 33.7,
+    "hock (r_talocruralis) sagittal": -60.2,
+    "MTP (r_hindpaw) sagittal": 0.0
+   },
+   "locked_in_beagle_fore_verified": "everything except the left and right forelimb chains (scapula rotations + y/z translation, shoulder, elbow, carpus, MCP) and the thorax translations; i.e. trunk, neck, head, tail, pelvis and both hindlimbs are locked at default.",
+   "measured_beagle_forelimb_walk_deg (mean curve over trials 03-10, from stark_fore_motion_mean.csv)": {
+    "shoulder_angle_cranial_deg": {
+     "mean_min": 92.1,
+     "mean_max": 126.1,
+     "mean_range": 34.0,
+     "at_touchdown": 125.3,
+     "all_trials_min": 87.0,
+     "all_trials_max": 130.8
+    },
+    "elbow_angle_caudal_deg": {
+     "mean_min": 97.4,
+     "mean_max": 138.4,
+     "mean_range": 40.9,
+     "at_touchdown": 121.3,
+     "all_trials_min": 94.4,
+     "all_trials_max": 145.1
+    },
+    "carpus_angle_palmar_deg": {
+     "mean_min": 74.7,
+     "mean_max": 192.7,
+     "mean_range": 118.0,
+     "at_touchdown": 176.3,
+     "all_trials_min": 67.9,
+     "all_trials_max": 196.1
+    },
+    "mcp_angle_palmar_deg": {
+     "mean_min": 138.3,
+     "mean_max": 267.6,
+     "mean_range": 129.3,
+     "at_touchdown": 139.2,
+     "all_trials_min": 129.1,
+     "all_trials_max": 278.0
+    },
+    "scapula_incl_from_vertical_deg": {
+     "mean_min": 13.6,
+     "mean_max": 42.7,
+     "mean_range": 29.1,
+     "at_touchdown": 41.4,
+     "all_trials_min": 11.4,
+     "all_trials_max": 43.9
+    },
+    "left_r_m_superioris_sagittal_deg": {
+     "mean_min": -44.2,
+     "mean_max": -14.3,
+     "mean_range": 29.9,
+     "at_touchdown": -42.9,
+     "all_trials_min": -45.3,
+     "all_trials_max": -12.2
+    },
+    "left_r_deltoidea_sagittal_deg": {
+     "mean_min": 55.4,
+     "mean_max": 83.6,
+     "mean_range": 28.2,
+     "at_touchdown": 56.0,
+     "all_trials_min": 50.9,
+     "all_trials_max": 87.0
+    },
+    "left_r_cubitalis_sagittal_deg": {
+     "mean_min": -87.4,
+     "mean_max": -38.9,
+     "mean_range": 48.5,
+     "at_touchdown": -51.2,
+     "all_trials_min": -90.7,
+     "all_trials_max": -33.3
+    },
+    "left_r_carpalis_sagittal_deg": {
+     "mean_min": -15.1,
+     "mean_max": 105.7,
+     "mean_range": 120.7,
+     "at_touchdown": -0.7,
+     "all_trials_min": -19.6,
+     "all_trials_max": 109.0
+    },
+    "left_r_forepaw_sagittal_deg": {
+     "mean_min": -86.9,
+     "mean_max": 33.5,
+     "mean_range": 120.3,
+     "at_touchdown": 33.0,
+     "all_trials_min": -91.4,
+     "all_trials_max": 36.8
+    }
+   },
+   "stance_end_pct_per_trial_03_10": [
+    62,
+    63,
+    65,
+    63,
+    64,
+    63,
+    65,
+    64
+   ]
+  },
+  "conventions": {
+   "units": "metres, kg, N, radians in the files (degrees in the .mot kinematics)",
+   "model_axes": "global (ground) frame: X = the animal's left (lateral for left limbs), Y = caudal (backwards; the head is at negative Y), Z = up (gravity 0 0 -9.80665). Right-handed. All bodies use the same axis directions at zero rotation.",
+   "rotations": "every joint is a CustomJoint with rotation1 about X (sagittal: flexion/extension, protraction/retraction), rotation2 about Y (frontal: ab/adduction), rotation3 about Z (horizontal: axial rotation), applied in that order as successive body-fixed rotations; translations along parent X, Y, Z. All location/orientation offsets are zero except location_in_parent, so each body frame sits on its proximal joint centre.",
+   "sagittal_sign": "a positive sagittal coordinate turns the distal segment so that a downward-pointing bone swings caudally (clockwise in a right-facing, y-down side view). Measured in the Beagle walk data: + shoulder (r_deltoidea) = shoulder flexion (cranial angle closes, slope -1.28); + elbow (r_cubitalis) = elbow EXTENSION (slope +0.82; the default -49.6 is a flexed elbow); + carpus (r_carpalis) = carpal flexion (slope -1.01); + MCP (r_forepaw) = digit flexion (slope -0.99); + scapula (r_m_superioris) sagittal = dorsal border of the scapula moves cranially (scapula more upright).",
+   "game_side_view": "side_x = -Y (forward = right), side_y = -Z (down); the mediolateral X is dropped. A right-facing dog shows its RIGHT side to the viewer, so right_* limbs are the near ones. Origin in the CSV/JSON = withers point; ground at y = +1 WH.",
+   "angles": "side-view angles from projected joint centres. Each is reported on a named side (cranial/caudal/palmar/plantar) so values above 180 mean the joint has passed straight (e.g. a carpus at 195 palmar = 15 deg overextended); for shoulder, elbow, stifle, hock and hip this equals the usual included angle (180 = straight)."
+  },
+  "scale_beagle_facts": {
+   "licence": "licence unstated; facts only (file not stored)",
+   "file": "scale_beagle.zip -> scale_beagle.xml (OpenSim 3.0 ScaleTool \"Stark (2016) Spezzoo-scaled\")",
+   "mass_kg": 13.81,
+   "scaling_order": "manualScale",
+   "preserve_mass_distribution": true,
+   "scale_factors_xyz": {
+    "thorax, cervix, caput, abdomen, cauda": 0.8,
+    "pelvis and every limb segment (scapula, humerus, antebrachium, carpus, forepaw, femur, crus, calx, hindpaw; both sides)": 0.6,
+    "ground": 1.0
+   },
+   "note": "these are the inverse of the paper's x1.25 (trunk) and x1.66 (limbs) stretch to the Shepherd muscle model. The verified forelimb model matches it (mesh display scales 0.8 / 0.6, joint offsets scaled). Total mass is 13.81 kg in both the Shepherd-sized and the Beagle files (body masses are Beagle masses in both)."
+  },
+  "model_contents": {
+   "bodies": 25,
+   "joints": "24 CustomJoints (ground-thorax 6 DOF; scapula-thorax and pelvis-cauda 6; every other joint 3 rotations)",
+   "coordinates": 84,
+   "tree": "ground > thorax > {cervix > caput; abdomen > cauda > pelvis > femur > crus > calx > hindpaw (x2); scapula > humerus > antebrachium > carpus > forepaw (x2)}. The pelvis hangs from the tail-root body \"cauda\" through a joint at the lumbosacral point.",
+   "body_names": "caput = skull+mandible; cervix = neck; thorax = thoracic spine+ribs+sternum; abdomen = lumbar spine; cauda = tail; carpus = carpus+metacarpus; forepaw = fore digits; crus = tibia/fibula; calx = tarsus+metatarsus; hindpaw = hind digits. So \"carpus_forepaw\" is the MCP joint and \"calx_hindpaw\" the MTP joint.",
+   "muscles": {
+    "full_linear": "158 Millard2012EquilibriumMuscle (79 per side), 2-4 path points each (374 total), 12 wrap cylinders (humerus, antebrachium, carpus, femur, crus, calx, both sides)",
+    "beagle_fore_verified": "43 left-forelimb muscles, 98 path points, same 12 wrap cylinders. Fmax unchanged from the Shepherd file; fibre and tendon slack lengths scaled (x0.6).",
+    "paper_count_vs_file": "paper says 134 muscles; the full file has 158 (serratus split into 12 slips, brachiocephalicus 2, plus 3 trunk muscles per side)."
+   },
+   "wrap_cylinders": {
+    "full_linear": [
+     {
+      "body": "left_humerus",
+      "name": "left_humerus",
+      "radius_m": 0.03,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_antebrachium",
+      "name": "left_antebrachium",
+      "radius_m": 0.013,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_carpus",
+      "name": "left_carpus",
+      "radius_m": 0.01,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_humerus",
+      "name": "right_humerus",
+      "radius_m": 0.03,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_antebrachium",
+      "name": "right_antebrachium",
+      "radius_m": 0.013,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_carpus",
+      "name": "right_carpus",
+      "radius_m": 0.01,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_femur",
+      "name": "left_femur",
+      "radius_m": 0.016,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_crus",
+      "name": "left_crus",
+      "radius_m": 0.02,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_calx",
+      "name": "left_calx",
+      "radius_m": 0.01,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_femur",
+      "name": "right_femur",
+      "radius_m": 0.016,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_crus",
+      "name": "right_crus",
+      "radius_m": 0.02,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_calx",
+      "name": "right_calx",
+      "radius_m": 0.01,
+      "length_m": 0.1,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.57079633,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     }
+    ],
+    "beagle_fore_verified": [
+     {
+      "body": "left_humerus",
+      "name": "left_humerus",
+      "radius_m": 0.018,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_antebrachium",
+      "name": "left_antebrachium",
+      "radius_m": 0.0078,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_carpus",
+      "name": "left_carpus",
+      "radius_m": 0.006,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_humerus",
+      "name": "right_humerus",
+      "radius_m": 0.018,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_antebrachium",
+      "name": "right_antebrachium",
+      "radius_m": 0.0078,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_carpus",
+      "name": "right_carpus",
+      "radius_m": 0.006,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_femur",
+      "name": "left_femur",
+      "radius_m": 0.0096,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_crus",
+      "name": "left_crus",
+      "radius_m": 0.012,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "left_calx",
+      "name": "left_calx",
+      "radius_m": 0.006,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_femur",
+      "name": "right_femur",
+      "radius_m": 0.0096,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_crus",
+      "name": "right_crus",
+      "radius_m": 0.012,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "body": "right_calx",
+      "name": "right_calx",
+      "radius_m": 0.006,
+      "length_m": 0.06,
+      "xyz_body_rotation_rad": [
+       0.0,
+       1.5708,
+       0.0
+      ],
+      "translation_m": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     }
+    ]
+   },
+   "working_versions": {
+    "forelimb_linear": "same bodies, joints, coordinate defaults/ranges and masses as full_linear; 86 forelimb+trunk muscles (subset of full_linear, identical parameters); hindlimb and lumbar/pelvis coordinates locked (30 coordinates).",
+    "hindlimb_linear": "same; 66 hindlimb muscles (subset, identical); thorax rotation and all forelimb coordinates locked (39).",
+    "full_linear only": "iliocostalis, longissimus, quadratus lumborum (both sides) are in neither limb version.",
+    "curved versions": "forelimb_curved / hindlimb_curved: same muscles and parameters as the linear ones but with many more via points (684 / 916 path points vs 196 / 166)."
+   },
+   "full_curved (no licence; facts only, nothing stored)": "identical bodies, joints, coordinates, masses, muscle names and muscle parameters to full_linear; only the paths differ: 1652 path points (2-47 per muscle, median 9) vs 374 (2-4, median 2). The .osim is 496 KB vs 319 KB.",
+   "other_files_in_zips": "SIMM-format .jnt (joints) and .msl (muscles) copies of each working model, a screenshot.png, and .obj meshes (70 per package; 64 in Geometry low). Not stored."
+  },
+  "motion_files": {
+   "what": "Forelimb data of the Beagle \"Simon\" walking (left forelimb; one stride per trial). They are the inputs and outputs of the paper's inverse dynamics + static optimisation.",
+   "KIN01..KIN10_FL_Simon_3.mot": "joint kinematics (inverse kinematics result), inDegrees=yes: left scapula (3 rotations + 3 translations in m), shoulder, elbow, carpus, MCP (3 rotations each), thorax translations. 101 rows, time 0..0.58 s in equal steps of 0.0058 s in EVERY trial, so the time is a normalised stride (0..100 %), starting at forepaw touchdown; real stride durations are not given.",
+   "GRF01..GRF11_FL_Simon_3.mot": "ground reaction force on the left forepaw (force vector in ground frame, point in forepaw frame), same 0..0.58 s base. GRF01 and GRF02 are all zero; 03..11 show stance from 1 % to 62-65 % of the stride (duty factor ~0.63-0.65, i.e. walk), peak vertical force 94-100 N (~70-74 % of body weight). GRF11 has no matching KIN file.",
+   "GRF01..11_middle.xml": "OpenSim ExternalLoads setup linking GRFnn to KINnn (applied to left_forepaw, 6 Hz low-pass on load kinematics).",
+   "inverse_dynamics*.sto": "OpenSim inverse dynamics output: generalised joint moments (Nm) and forces (N) for all 84 coordinates, 100 rows (trials 03-10 plus an unnumbered one).",
+   "*_StaticOptimization_activation.sto / _force.sto / _controls.xml (03-10)": "static optimisation results: muscle activations (0-1), muscle and reserve-actuator forces (N), and the same activations as an OpenSim ControlSet. Not extracted (results, not anatomy or motion).",
+   "extracted": "stark_fore_motion.csv (all 10 trials; trials 01-02 flagged used_in_mean = 0 because they have no GRF and trial 02's shoulder coordinate is offset by about -100 deg, an IK branch flip) and stark_fore_motion_mean.csv (mean and SD over 03-10). Joint angles are computed by forward kinematics of the verified model with each frame's coordinates, projected to the side view; the scapula axis uses the scapula top landmark and the MCP angle uses the claw-tip landmark (both fixed in their body frames)."
+  }
+ },
+ "greyhound_hindlimb_ellis_2018": {
+  "source": {
+   "title": "Opensim model and simulation data: greyhound sit-to-stand",
+   "authors": "John R. Hutchinson (figshare uploader); model credits Richard G. Ellis, Jeffery W. Rankin, John R. Hutchinson",
+   "year": 2018,
+   "doi": "10.6084/m9.figshare.7240538.v2",
+   "url": "https://figshare.com/articles/dataset/Opensim_model_and_simulation_data_greyhound_sit-to-stand/7240538",
+   "file_url": "https://ndownloader.figshare.com/files/13368230",
+   "licence": "CC BY 4.0",
+   "paper": "Ellis RG, Rankin JW, Hutchinson JR (2018) Limb kinematics, kinetics and muscle dynamics during the sit-to-stand transition in greyhounds. Front Bioeng Biotechnol 6:162. doi:10.3389/fbioe.2018.00162 (PMC6250835, CC BY)",
+   "file_extracted": "2018_Greyhound_Hindlimb_Model_Nominal.osim"
+  },
+  "units": {
+   "length": "meters",
+   "force": "N",
+   "mass": "kg",
+   "angles": "rad in file; deg given alongside"
+  },
+  "axis_convention": {
+   "model": "X cranial (forward), Y to the animal's left (lateral for this LEFT hindlimb), Z up; gravity = (0,0,-9.80665). Paper: 'For all joints, the X-axis pointed cranially in the original reference pose (limb fully straightened at 0 deg joint angles). The Y-axis was oriented to the animal's left (lateral) and the Z-axis vertically.'",
+   "rotations": "Rx = ab/adduction, Ry = flexion/extension (sagittal), Rz = internal/external rotation; CustomJoint SpatialTransform axes 1 0 0 / 0 1 0 / 0 0 1 with LinearFunction slope 1 (rotation = coordinate value).",
+   "sagittal sign (derived by forward kinematics here)": "Hip_Ry negative = hip flexion (femur swings cranially); Knee_Ry positive = stifle flexion (tibia swings caudally); Ankle_Ry negative = hock flexion (metatarsus swings cranially). 0 = limb straight and vertical.",
+   "zero pose": "all coordinates 0: limb hangs fully straight below the hip",
+   "game side view": "x forward = right (= model X), y down (= -model Z); values in metres, origin at the hip joint centre",
+   "frames": "OpenSim 3.0 format (Version 30000): Joint nested in child Body; location_in_parent / orientation_in_parent in the parent body frame; location / orientation in the child body frame (all zero here, so each joint centre is its child body origin). No orientation offsets in this model (all orientation_in_parent = 0)."
+  },
+  "scaling_notes": [
+   "Built in SIMM from CT (GE Lightspeed; 2.5 mm slices, 0.625 mm distal to knee) of one adult greyhound's formalin-preserved LEFT hindlimb (RVC teaching collection); joints from cylinders/spheres fitted to anatomical centres of rotation in 3DS Max (Allen et al. 2013 method).",
+   "4 segments (pelvis+torso 'Body', thigh, shank, foot), 3 joints each with 3 rotational DOF; toe joints immobile; 39 musculotendon actuators (29 named muscles in this file's ForceSet with max_isometric_force).",
+   "Thigh/shank/foot masses from ray-projection volumes at 1060 kg/m^3; body and head mass from regressions of leg length vs body mass/length of the 8 experimental dogs, then Amit et al. 2009 regressions for torso/head mass and inertia. Modelled hindlimb = 8.4% of estimated body mass.",
+   "The .osim is SCALED to the subject of the representative trial with OpenSim's Scale tool using marker segment lengths (femur: greater trochanter to lateral femoral condyle; shank: lateral femoral epicondyle to lateral malleolus; foot: lateral malleolus to head of MT V). Pelvis scale = mean of femur/shank/foot factors. Display scale factors in the file: Body 0.81, Thigh 0.89, Shank 0.76, Foot 0.78 (0.81 = mean of 0.89, 0.76, 0.78). Joint locations in the file are already in scaled metres.",
+   "Experimental dogs: 8 pure and half-breed greyhounds (5 M, 3 F), body mass 27 +- 5 kg, torso length 61.0 +- 7 cm, shoulder height 60.5 +- 8 cm, hip height 61.6 +- 3.9 cm.",
+   "Model total mass in file = 19.36 kg (Body 16.57 incl. torso/head/other limbs lumped, one hindlimb 2.79).",
+   "Coordinate ranges in the file are the model's allowed (clamped) ranges, not measured ROM. Measured sit-to-stand ROM (paper Table 3, mean +- SD, 39 trials, 6 dogs): hip flex/ext 53.4 +- 5.6, add/abd 18.5 +- 9.9, rot 8.7 +- 4.3; knee 78.5 +- 10.7, 30.2 +- 10.2, 25.7 +- 4.9; ankle 88.7 +- 15.7, 23.5 +- 13.3, 51.3 +- 13.7 deg (knee/ankle non-sagittal largely marker artefact; locked in the nominal model)."
+  ],
+  "bodies": [
+   {
+    "name": "ground",
+    "mass": 0.0,
+    "mass_center": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "inertia": {
+     "inertia_xx": 0.0,
+     "inertia_yy": 0.0,
+     "inertia_zz": 0.0,
+     "inertia_xy": 0.0,
+     "inertia_xz": 0.0,
+     "inertia_yz": 0.0
+    },
+    "display_scale_factors": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "geometry_files (not stored)": []
+   },
+   {
+    "name": "Body",
+    "mass": 16.5687123184988,
+    "mass_center": [
+     0.284999,
+     0.0,
+     -0.0964548
+    ],
+    "inertia": {
+     "inertia_xx": 0.0192959598896292,
+     "inertia_yy": 0.0217956264826463,
+     "inertia_zz": 0.328793965361749,
+     "inertia_xy": 0.0,
+     "inertia_xz": 0.0,
+     "inertia_yz": 0.0
+    },
+    "display_scale_factors": [
+     0.81,
+     0.81,
+     0.81
+    ],
+    "geometry_files (not stored)": [
+     "PelvisTail.vtp"
+    ]
+   },
+   {
+    "name": "Thigh",
+    "mass": 2.24707428061854,
+    "mass_center": [
+     -0.0110538,
+     0.0132379,
+     -0.085917
+    ],
+    "inertia": {
+     "inertia_xx": 0.00672914427559111,
+     "inertia_yy": 0.00865053028832124,
+     "inertia_zz": 0.00424607154397968,
+     "inertia_xy": -0.000103750881704932,
+     "inertia_xz": -0.0004170510677752,
+     "inertia_yz": -0.000206094904624332
+    },
+    "display_scale_factors": [
+     0.89,
+     0.89,
+     0.89
+    ],
+    "geometry_files (not stored)": [
+     "Femur.vtp",
+     "Patella.vtp"
+    ]
+   },
+   {
+    "name": "Shank",
+    "mass": 0.387309285238868,
+    "mass_center": [
+     -0.00375995,
+     -0.00139855,
+     -0.0739001
+    ],
+    "inertia": {
+     "inertia_xx": 0.000811699532094785,
+     "inertia_yy": 0.000880910487273103,
+     "inertia_zz": 0.000140382164967464,
+     "inertia_xy": 9.46461016151107e-06,
+     "inertia_xz": 4.58333536303352e-05,
+     "inertia_yz": -7.14601908128542e-05
+    },
+    "display_scale_factors": [
+     0.76,
+     0.76,
+     0.76
+    ],
+    "geometry_files (not stored)": [
+     "TibFib.vtp"
+    ]
+   },
+   {
+    "name": "Foot",
+    "mass": 0.152904115643841,
+    "mass_center": [
+     -0.0044194,
+     -0.00938184,
+     -0.065942
+    ],
+    "inertia": {
+     "inertia_xx": 0.000392070411040187,
+     "inertia_yy": 0.000383238008239818,
+     "inertia_zz": 2.36273116382317e-05,
+     "inertia_xy": 3.27727295177414e-06,
+     "inertia_xz": 1.20031390153214e-05,
+     "inertia_yz": -5.93155965203456e-05
+    },
+    "display_scale_factors": [
+     0.78,
+     0.78,
+     0.78
+    ],
+    "geometry_files (not stored)": [
+     "Tarsals.vtp",
+     "Toes.vtp"
+    ]
+   }
+  ],
+  "total_mass_kg": 19.356,
+  "joints": [
+   {
+    "name": "GndtoBod",
+    "type": "CustomJoint",
+    "parent": "ground",
+    "child": "Body",
+    "location_in_parent": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "orientation_in_parent": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "location_in_child": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "orientation_in_child": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "coordinates": [
+     {
+      "name": "Gnd_Rx",
+      "motion_type": "rotational",
+      "default_value": 0.0,
+      "range": [
+       -3.14159265359,
+       3.14159265359
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation1",
+        "axis": [
+         1.0,
+         0.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 0.0,
+      "range_deg": [
+       -180.0,
+       180.0
+      ]
+     },
+     {
+      "name": "Gnd_Ry",
+      "motion_type": "rotational",
+      "default_value": 0.0,
+      "range": [
+       -3.14159265359,
+       3.14159265359
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation2",
+        "axis": [
+         0.0,
+         1.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 0.0,
+      "range_deg": [
+       -180.0,
+       180.0
+      ]
+     },
+     {
+      "name": "Gnd_Rz",
+      "motion_type": "rotational",
+      "default_value": 0.0,
+      "range": [
+       -3.14159265359,
+       3.14159265359
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation3",
+        "axis": [
+         0.0,
+         0.0,
+         1.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 0.0,
+      "range_deg": [
+       -180.0,
+       180.0
+      ]
+     },
+     {
+      "name": "Gnd_Tx",
+      "motion_type": "translational",
+      "default_value": 0.0,
+      "range": [
+       -10.0,
+       10.0
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "translational",
+      "axes": [
+       {
+        "transform_axis": "translation1",
+        "axis": [
+         1.0,
+         0.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ]
+     },
+     {
+      "name": "Gnd_Ty",
+      "motion_type": "translational",
+      "default_value": 0.0,
+      "range": [
+       -10.0,
+       10.0
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "translational",
+      "axes": [
+       {
+        "transform_axis": "translation2",
+        "axis": [
+         0.0,
+         1.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ]
+     },
+     {
+      "name": "Gnd_Tz",
+      "motion_type": "translational",
+      "default_value": 0.675,
+      "range": [
+       -10.0,
+       10.0
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "translational",
+      "axes": [
+       {
+        "transform_axis": "translation3",
+        "axis": [
+         0.0,
+         0.0,
+         1.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ]
+     }
+    ],
+    "spatial_transform": [
+     {
+      "name": "rotation1",
+      "coordinates": [
+       "Gnd_Rx"
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "rotation2",
+      "coordinates": [
+       "Gnd_Ry"
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "rotation3",
+      "coordinates": [
+       "Gnd_Rz"
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "translation1",
+      "coordinates": [
+       "Gnd_Tx"
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "translation2",
+      "coordinates": [
+       "Gnd_Ty"
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "translation3",
+      "coordinates": [
+       "Gnd_Tz"
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     }
+    ],
+    "orientation_in_parent_deg": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "name": "Hip",
+    "type": "CustomJoint",
+    "parent": "Body",
+    "child": "Thigh",
+    "location_in_parent": [
+     -0.02179143,
+     0.03598182,
+     -0.0810486
+    ],
+    "orientation_in_parent": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "location_in_child": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "orientation_in_child": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "coordinates": [
+     {
+      "name": "Hip_Rx",
+      "motion_type": "rotational",
+      "default_value": 0.0,
+      "range": [
+       -0.2617994,
+       0.7853982
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation1",
+        "axis": [
+         1.0,
+         0.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 0.0,
+      "range_deg": [
+       -15.0,
+       45.0
+      ]
+     },
+     {
+      "name": "Hip_Ry",
+      "motion_type": "rotational",
+      "default_value": -0.523599,
+      "range": [
+       -2.0943951,
+       0.610866
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation2",
+        "axis": [
+         0.0,
+         1.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": -30.0,
+      "range_deg": [
+       -120.0,
+       35.0
+      ]
+     },
+     {
+      "name": "Hip_Rz",
+      "motion_type": "rotational",
+      "default_value": 0.0,
+      "range": [
+       -0.5235988,
+       0.698131701
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation3",
+        "axis": [
+         0.0,
+         0.0,
+         1.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 0.0,
+      "range_deg": [
+       -30.0,
+       40.0
+      ]
+     }
+    ],
+    "spatial_transform": [
+     {
+      "name": "rotation1",
+      "coordinates": [
+       "Hip_Rx"
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "rotation2",
+      "coordinates": [
+       "Hip_Ry"
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "rotation3",
+      "coordinates": [
+       "Hip_Rz"
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "translation1",
+      "coordinates": [],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "function": "0.81 * (constant 0.0)"
+     },
+     {
+      "name": "translation2",
+      "coordinates": [],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "function": "0.81 * (constant 0.0)"
+     },
+     {
+      "name": "translation3",
+      "coordinates": [],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "function": "0.81 * (constant 0.0)"
+     }
+    ],
+    "orientation_in_parent_deg": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "name": "Knee",
+    "type": "CustomJoint",
+    "parent": "Thigh",
+    "child": "Shank",
+    "location_in_parent": [
+     0.00167498,
+     0.01187438,
+     -0.1855383
+    ],
+    "orientation_in_parent": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "location_in_child": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "orientation_in_child": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "coordinates": [
+     {
+      "name": "Knee_Rx",
+      "motion_type": "rotational",
+      "default_value": 0.0,
+      "range": [
+       -0.08727,
+       0.08727
+      ],
+      "clamped": "true",
+      "locked": "true",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation1",
+        "axis": [
+         1.0,
+         0.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 0.0,
+      "range_deg": [
+       -5.0,
+       5.0
+      ]
+     },
+     {
+      "name": "Knee_Ry",
+      "motion_type": "rotational",
+      "default_value": 0.872664626,
+      "range": [
+       -0.0,
+       2.35619449
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation2",
+        "axis": [
+         0.0,
+         1.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 50.0,
+      "range_deg": [
+       -0.0,
+       135.0
+      ]
+     },
+     {
+      "name": "Knee_Rz",
+      "motion_type": "rotational",
+      "default_value": 0.0,
+      "range": [
+       -0.08727,
+       0.08727
+      ],
+      "clamped": "true",
+      "locked": "true",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation3",
+        "axis": [
+         0.0,
+         0.0,
+         1.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 0.0,
+      "range_deg": [
+       -5.0,
+       5.0
+      ]
+     }
+    ],
+    "spatial_transform": [
+     {
+      "name": "rotation1",
+      "coordinates": [
+       "Knee_Rx"
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "rotation2",
+      "coordinates": [
+       "Knee_Ry"
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "rotation3",
+      "coordinates": [
+       "Knee_Rz"
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "translation1",
+      "coordinates": [],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "function": "0.89 * (constant 0.0)"
+     },
+     {
+      "name": "translation2",
+      "coordinates": [],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "function": "0.89 * (constant 0.0)"
+     },
+     {
+      "name": "translation3",
+      "coordinates": [],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "function": "0.89 * (constant 0.0)"
+     }
+    ],
+    "orientation_in_parent_deg": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "name": "Ankle",
+    "type": "CustomJoint",
+    "parent": "Shank",
+    "child": "Foot",
+    "location_in_parent": [
+     0.00196232,
+     -0.0151506,
+     -0.197942
+    ],
+    "orientation_in_parent": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "location_in_child": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "orientation_in_child": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "coordinates": [
+     {
+      "name": "Ankle_Rx",
+      "motion_type": "rotational",
+      "default_value": 0.0,
+      "range": [
+       -0.08727,
+       0.08727
+      ],
+      "clamped": "true",
+      "locked": "true",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation1",
+        "axis": [
+         1.0,
+         0.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 0.0,
+      "range_deg": [
+       -5.0,
+       5.0
+      ]
+     },
+     {
+      "name": "Ankle_Ry",
+      "motion_type": "rotational",
+      "default_value": -0.7854,
+      "range": [
+       -2.35619449,
+       -0.2618
+      ],
+      "clamped": "true",
+      "locked": "false",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation2",
+        "axis": [
+         0.0,
+         1.0,
+         0.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": -45.0,
+      "range_deg": [
+       -135.0,
+       -15.0
+      ]
+     },
+     {
+      "name": "Ankle_Rz",
+      "motion_type": "rotational",
+      "default_value": 0.0,
+      "range": [
+       -0.08727,
+       0.08727
+      ],
+      "clamped": "true",
+      "locked": "true",
+      "prescribed": "false",
+      "kind": "rotational",
+      "axes": [
+       {
+        "transform_axis": "rotation3",
+        "axis": [
+         0.0,
+         0.0,
+         1.0
+        ],
+        "function": "linear [1.0, 0.0]"
+       }
+      ],
+      "default_deg": 0.0,
+      "range_deg": [
+       -5.0,
+       5.0
+      ]
+     }
+    ],
+    "spatial_transform": [
+     {
+      "name": "rotation1",
+      "coordinates": [
+       "Ankle_Rx"
+      ],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "rotation2",
+      "coordinates": [
+       "Ankle_Ry"
+      ],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "rotation3",
+      "coordinates": [
+       "Ankle_Rz"
+      ],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "function": "linear [1.0, 0.0]"
+     },
+     {
+      "name": "translation1",
+      "coordinates": [],
+      "axis": [
+       1.0,
+       0.0,
+       0.0
+      ],
+      "function": "0.76 * (constant 0.0)"
+     },
+     {
+      "name": "translation2",
+      "coordinates": [],
+      "axis": [
+       0.0,
+       1.0,
+       0.0
+      ],
+      "function": "0.76 * (constant 0.0)"
+     },
+     {
+      "name": "translation3",
+      "coordinates": [],
+      "axis": [
+       0.0,
+       0.0,
+       1.0
+      ],
+      "function": "0.76 * (constant 0.0)"
+     }
+    ],
+    "orientation_in_parent_deg": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  ],
+  "segment_lengths": {
+   "pelvis: iliosacral midpoint -> hip": {
+    "3d_m": 0.0913,
+    "sagittal_m": 0.0839,
+    "source": "Hip location_in_parent (Body frame)"
+   },
+   "femur: hip -> stifle": {
+    "3d_m": 0.1859,
+    "sagittal_m": 0.1855,
+    "source": "Knee location_in_parent (Thigh frame)"
+   },
+   "tibia: stifle -> hock": {
+    "3d_m": 0.1985,
+    "sagittal_m": 0.198,
+    "source": "Ankle location_in_parent (Shank frame)"
+   },
+   "metatarsus: hock -> MTP_est": {
+    "3d_m": 0.106,
+    "sagittal_m": 0.1048,
+    "source": "EST from bone-mesh bounds (Tarsals.vtp lower end / Toes.vtp upper end midpoint), Foot frame",
+    "confidence": "EST"
+   },
+   "toes: MTP_est -> toe tip": {
+    "3d_m": 0.052,
+    "source": "EST from Toes.vtp lowest point, Foot frame",
+    "confidence": "EST"
+   },
+   "foot total: hock -> toe tip (straight)": {
+    "3d_m": 0.1576,
+    "source": "EST from Toes.vtp lowest point",
+    "confidence": "EST"
+   },
+   "ratio tibia/femur": 1.068,
+   "ratio metatarsus_est/femur": 0.57
+  },
+  "poses": {
+   "default_pose": {
+    "coordinates_used_deg": {
+     "Gnd_Rx": 0.0,
+     "Gnd_Ry": 0.0,
+     "Gnd_Rz": 0.0,
+     "Hip_Rx": 0.0,
+     "Hip_Ry": -30.0,
+     "Hip_Rz": 0.0,
+     "Knee_Rx": 0.0,
+     "Knee_Ry": 50.0,
+     "Knee_Rz": 0.0,
+     "Ankle_Rx": 0.0,
+     "Ankle_Ry": -45.0,
+     "Ankle_Rz": 0.0
+    },
+    "points_global_m": {
+     "iliosacral_midpoint (Body origin)": [
+      0.0,
+      0.0,
+      0.675
+     ],
+     "hip": [
+      -0.02179,
+      0.03598,
+      0.59395
+     ],
+     "stifle (knee)": [
+      0.07243,
+      0.04786,
+      0.43411
+     ],
+     "hock (ankle)": [
+      0.00657,
+      0.03271,
+      0.24743
+     ],
+     "MTP_est": [
+      0.05072,
+      0.01681,
+      0.15237
+     ],
+     "toe_tip_est": [
+      0.07269,
+      0.01681,
+      0.10527
+     ],
+     "pelvis_cranial_extreme (ilium)": [
+      0.07832,
+      0.00351,
+      0.64792
+     ],
+     "pelvis_caudal_extreme (ischium/tail base)": [
+      -0.10468,
+      -0.01555,
+      0.53098
+     ]
+    },
+    "side_view_relative_to_hip_m": {
+     "iliosacral_midpoint (Body origin)": {
+      "x_m": 0.0218,
+      "y_down_m": -0.081
+     },
+     "hip": {
+      "x_m": 0.0,
+      "y_down_m": -0.0
+     },
+     "stifle (knee)": {
+      "x_m": 0.0942,
+      "y_down_m": 0.1598
+     },
+     "hock (ankle)": {
+      "x_m": 0.0284,
+      "y_down_m": 0.3465
+     },
+     "MTP_est": {
+      "x_m": 0.0725,
+      "y_down_m": 0.4416
+     },
+     "toe_tip_est": {
+      "x_m": 0.0945,
+      "y_down_m": 0.4887
+     },
+     "pelvis_cranial_extreme (ilium)": {
+      "x_m": 0.1001,
+      "y_down_m": -0.054
+     },
+     "pelvis_caudal_extreme (ischium/tail base)": {
+      "x_m": -0.0829,
+      "y_down_m": 0.063
+     }
+    },
+    "sagittal_included_angles_deg (180 = straight)": {
+     "stifle (hip-knee-ankle)": 130.1,
+     "hock (knee-ankle-MTP_est)": 135.7
+    },
+    "segment_angle_from_vertical_deg (+ = distal end cranial)": {
+     "femur (hip->knee)": 30.5,
+     "tibia (knee->ankle)": -19.4,
+     "metatarsus (ankle->MTP_est)": 24.9
+    }
+   },
+   "zero_pose": {
+    "coordinates_used_deg": {
+     "Gnd_Rx": 0.0,
+     "Gnd_Ry": 0.0,
+     "Gnd_Rz": 0.0,
+     "Hip_Rx": 0.0,
+     "Hip_Ry": 0.0,
+     "Hip_Rz": 0.0,
+     "Knee_Rx": 0.0,
+     "Knee_Ry": 0.0,
+     "Knee_Rz": 0.0,
+     "Ankle_Rx": 0.0,
+     "Ankle_Ry": 0.0,
+     "Ankle_Rz": 0.0
+    },
+    "points_global_m": {
+     "iliosacral_midpoint (Body origin)": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "hip": [
+      -0.02179,
+      0.03598,
+      -0.08105
+     ],
+     "stifle (knee)": [
+      -0.02012,
+      0.04786,
+      -0.26659
+     ],
+     "hock (ankle)": [
+      -0.01815,
+      0.03271,
+      -0.46453
+     ],
+     "MTP_est": [
+      -0.01831,
+      0.01681,
+      -0.56934
+     ],
+     "toe_tip_est": [
+      -0.01831,
+      0.01681,
+      -0.62131
+     ],
+     "pelvis_cranial_extreme (ilium)": [
+      0.07832,
+      0.00351,
+      -0.02708
+     ],
+     "pelvis_caudal_extreme (ischium/tail base)": [
+      -0.10468,
+      -0.01555,
+      -0.14402
+     ]
+    },
+    "side_view_relative_to_hip_m": {
+     "iliosacral_midpoint (Body origin)": {
+      "x_m": 0.0218,
+      "y_down_m": -0.081
+     },
+     "hip": {
+      "x_m": 0.0,
+      "y_down_m": -0.0
+     },
+     "stifle (knee)": {
+      "x_m": 0.0017,
+      "y_down_m": 0.1855
+     },
+     "hock (ankle)": {
+      "x_m": 0.0036,
+      "y_down_m": 0.3835
+     },
+     "MTP_est": {
+      "x_m": 0.0035,
+      "y_down_m": 0.4883
+     },
+     "toe_tip_est": {
+      "x_m": 0.0035,
+      "y_down_m": 0.5403
+     },
+     "pelvis_cranial_extreme (ilium)": {
+      "x_m": 0.1001,
+      "y_down_m": -0.054
+     },
+     "pelvis_caudal_extreme (ischium/tail base)": {
+      "x_m": -0.0829,
+      "y_down_m": 0.063
+     }
+    },
+    "sagittal_included_angles_deg (180 = straight)": {
+     "stifle (hip-knee-ankle)": 179.9,
+     "hock (knee-ankle-MTP_est)": 179.3
+    },
+    "segment_angle_from_vertical_deg (+ = distal end cranial)": {
+     "femur (hip->knee)": 0.5,
+     "tibia (knee->ankle)": 0.6,
+     "metatarsus (ankle->MTP_est)": -0.1
+    }
+   }
+  },
+  "estimated_foot_points_in_Foot_frame_m": {
+   "MTP_est": [
+    -0.00016,
+    -0.01589,
+    -0.10481
+   ],
+   "toe_tip_est": [
+    -0.00016,
+    -0.01589,
+    -0.15678
+   ],
+   "method": "bone mesh bounds after 0.78 display scale: Tarsals.vtp (tarsals + metatarsals) z range -0.1131..0.0257, Toes.vtp (phalanges) z range -0.1568..-0.0965; MTP = midpoint of the overlap gap; tip = lowest Toes point. Meshes are NOT stored."
+  },
+  "geometry_bounds (derived, meshes not stored)": {
+   "PelvisTail.vtp": {
+    "body": "Body",
+    "scale_applied": [
+     0.81,
+     0.81,
+     0.81
+    ],
+    "n_points": 28230,
+    "bbox_min_body_frame_m": [
+     -0.10468,
+     -0.05575,
+     -0.42254
+    ],
+    "bbox_max_body_frame_m": [
+     0.07832,
+     0.07704,
+     -0.00124
+    ],
+    "default_pose": {
+     "lowest_point_global_m": [
+      -0.02157,
+      0.07626,
+      0.25246
+     ],
+     "most_cranial_point_global_m": [
+      0.07832,
+      0.00351,
+      0.64792
+     ],
+     "most_caudal_point_global_m": [
+      -0.10468,
+      -0.01555,
+      0.53098
+     ],
+     "highest_point_global_m": [
+      0.06508,
+      -0.00122,
+      0.67376
+     ]
+    },
+    "zero_pose": {
+     "lowest_point_global_m": [
+      -0.02157,
+      0.07626,
+      -0.42254
+     ],
+     "most_cranial_point_global_m": [
+      0.07832,
+      0.00351,
+      -0.02708
+     ],
+     "most_caudal_point_global_m": [
+      -0.10468,
+      -0.01555,
+      -0.14402
+     ],
+     "highest_point_global_m": [
+      0.06508,
+      -0.00122,
+      -0.00124
+     ]
+    }
+   },
+   "Femur.vtp": {
+    "body": "Thigh",
+    "scale_applied": [
+     0.89,
+     0.89,
+     0.89
+    ],
+    "n_points": 14813,
+    "bbox_min_body_frame_m": [
+     -0.01608,
+     -0.0101,
+     -0.20045
+    ],
+    "bbox_max_body_frame_m": [
+     0.03024,
+     0.03811,
+     0.00958
+    ],
+    "default_pose": {
+     "lowest_point_global_m": [
+      0.07056,
+      0.05798,
+      0.41916
+     ],
+     "most_cranial_point_global_m": [
+      0.09566,
+      0.05307,
+      0.44486
+     ],
+     "most_caudal_point_global_m": [
+      -0.03627,
+      0.06253,
+      0.58972
+     ],
+     "highest_point_global_m": [
+      -0.02129,
+      0.03554,
+      0.60322
+     ]
+    },
+    "zero_pose": {
+     "lowest_point_global_m": [
+      -0.0192,
+      0.05313,
+      -0.28149
+     ],
+     "most_cranial_point_global_m": [
+      0.00845,
+      0.05331,
+      -0.25942
+     ],
+     "most_caudal_point_global_m": [
+      -0.03787,
+      0.0599,
+      -0.09046
+     ],
+     "highest_point_global_m": [
+      -0.02332,
+      0.03599,
+      -0.07147
+     ]
+    }
+   },
+   "Patella.vtp": {
+    "body": "Thigh",
+    "scale_applied": [
+     0.89,
+     0.89,
+     0.89
+    ],
+    "n_points": 17364,
+    "bbox_min_body_frame_m": [
+     0.0252,
+     0.00384,
+     -0.19044
+    ],
+    "bbox_max_body_frame_m": [
+     0.03916,
+     0.01753,
+     -0.16808
+    ],
+    "default_pose": {
+     "lowest_point_global_m": [
+      0.09811,
+      0.04808,
+      0.44359
+     ],
+     "most_cranial_point_global_m": [
+      0.10267,
+      0.04505,
+      0.45231
+     ],
+     "most_caudal_point_global_m": [
+      0.08977,
+      0.04867,
+      0.46081
+     ],
+     "highest_point_global_m": [
+      0.0948,
+      0.04756,
+      0.46503
+     ]
+    },
+    "zero_pose": {
+     "lowest_point_global_m": [
+      0.00739,
+      0.04831,
+      -0.27149
+     ],
+     "most_cranial_point_global_m": [
+      0.01737,
+      0.04506,
+      -0.25867
+     ],
+     "most_caudal_point_global_m": [
+      0.00341,
+      0.04671,
+      -0.26744
+     ],
+     "highest_point_global_m": [
+      0.01052,
+      0.04918,
+      -0.24913
+     ]
+    }
+   },
+   "TibFib.vtp": {
+    "body": "Shank",
+    "scale_applied": [
+     0.76,
+     0.76,
+     0.76
+    ],
+    "n_points": 14056,
+    "bbox_min_body_frame_m": [
+     -0.00882,
+     -0.02745,
+     -0.19952
+    ],
+    "bbox_max_body_frame_m": [
+     0.02962,
+     0.01996,
+     -0.01
+    ],
+    "default_pose": {
+     "lowest_point_global_m": [
+      0.01215,
+      0.04134,
+      0.24466
+     ],
+     "most_cranial_point_global_m": [
+      0.0935,
+      0.04292,
+      0.40586
+     ],
+     "most_caudal_point_global_m": [
+      0.00013,
+      0.0292,
+      0.25611
+     ],
+     "highest_point_global_m": [
+      0.06973,
+      0.04303,
+      0.4241
+     ]
+    },
+    "zero_pose": {
+     "lowest_point_global_m": [
+      -0.01727,
+      0.04273,
+      -0.46611
+     ],
+     "most_cranial_point_global_m": [
+      0.0095,
+      0.04317,
+      -0.28669
+     ],
+     "most_caudal_point_global_m": [
+      -0.02894,
+      0.04217,
+      -0.28856
+     ],
+     "highest_point_global_m": [
+      -0.01789,
+      0.04218,
+      -0.27659
+     ]
+    }
+   },
+   "Tarsals.vtp": {
+    "body": "Foot",
+    "scale_applied": [
+     0.78,
+     0.78,
+     0.78
+    ],
+    "n_points": 9589,
+    "bbox_min_body_frame_m": [
+     -0.02227,
+     -0.0302,
+     -0.1131
+    ],
+    "bbox_max_body_frame_m": [
+     0.00851,
+     0.01286,
+     0.02571
+    ],
+    "default_pose": {
+     "lowest_point_global_m": [
+      0.04861,
+      0.02422,
+      0.14278
+     ],
+     "most_cranial_point_global_m": [
+      0.05905,
+      0.01343,
+      0.15264
+     ],
+     "most_caudal_point_global_m": [
+      -0.02181,
+      0.03543,
+      0.25745
+     ],
+     "highest_point_global_m": [
+      -0.01529,
+      0.03577,
+      0.26511
+     ]
+    },
+    "zero_pose": {
+     "lowest_point_global_m": [
+      -0.02279,
+      0.02435,
+      -0.57763
+     ],
+     "most_cranial_point_global_m": [
+      -0.00964,
+      0.03673,
+      -0.46509
+     ],
+     "most_caudal_point_global_m": [
+      -0.04042,
+      0.03779,
+      -0.44641
+     ],
+     "highest_point_global_m": [
+      -0.0315,
+      0.03553,
+      -0.43882
+     ]
+    }
+   },
+   "Toes.vtp": {
+    "body": "Foot",
+    "scale_applied": [
+     0.78,
+     0.78,
+     0.78
+    ],
+    "n_points": 55098,
+    "bbox_min_body_frame_m": [
+     -0.01133,
+     -0.0325,
+     -0.15678
+    ],
+    "bbox_max_body_frame_m": [
+     0.01101,
+     0.00071,
+     -0.09652
+    ],
+    "default_pose": {
+     "lowest_point_global_m": [
+      0.0729,
+      0.01028,
+      0.1054
+     ],
+     "most_cranial_point_global_m": [
+      0.07466,
+      0.00496,
+      0.1075
+     ],
+     "most_caudal_point_global_m": [
+      0.04194,
+      0.03173,
+      0.14899
+     ],
+     "highest_point_global_m": [
+      0.04929,
+      0.00349,
+      0.15989
+     ]
+    },
+    "zero_pose": {
+     "lowest_point_global_m": [
+      -0.01729,
+      0.01034,
+      -0.62131
+     ],
+     "most_cranial_point_global_m": [
+      -0.00715,
+      0.00978,
+      -0.59796
+     ],
+     "most_caudal_point_global_m": [
+      -0.02948,
+      0.0229,
+      -0.59766
+     ],
+     "highest_point_global_m": [
+      -0.02111,
+      0.00388,
+      -0.56105
+     ]
+    }
+   }
+  },
+  "muscles": [
+   {
+    "name": "GMed",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 723.3,
+    "optimal_fiber_length_m": 0.0329667456382224,
+    "tendon_slack_length_m": 0.0296700710744002,
+    "pennation_deg": 10.0,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "GInt",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 128.0,
+    "optimal_fiber_length_m": 0.0172982021605234,
+    "tendon_slack_length_m": 0.00590467477594788,
+    "pennation_deg": 8.0,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "GSup",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 113.0,
+    "optimal_fiber_length_m": 0.0423358210062934,
+    "tendon_slack_length_m": 0.0116903647749134,
+    "pennation_deg": 21.8,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "ObtExt",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 56.7,
+    "optimal_fiber_length_m": 0.0421924424661059,
+    "tendon_slack_length_m": 8.42164520281556e-05,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "ObtInt",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 106.0,
+    "optimal_fiber_length_m": 0.0191565773454178,
+    "tendon_slack_length_m": 0.0185658458854269,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "AddBrev",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 103.3,
+    "optimal_fiber_length_m": 0.024979388348834,
+    "tendon_slack_length_m": 0.00603243732233747,
+    "pennation_deg": 6.67,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "AddMag",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 423.3,
+    "optimal_fiber_length_m": 0.109867153214533,
+    "tendon_slack_length_m": 0.0146782516694616,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "Pect",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 128.0,
+    "optimal_fiber_length_m": 0.0159996953130869,
+    "tendon_slack_length_m": 0.122334748995007,
+    "pennation_deg": 14.2,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "Sart",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 71.8,
+    "optimal_fiber_length_m": 0.173682289568482,
+    "tendon_slack_length_m": 0.0503678639748598,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "VL",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 348.4,
+    "optimal_fiber_length_m": 0.0688289452942491,
+    "tendon_slack_length_m": 0.153858087636127,
+    "pennation_deg": 12.8,
+    "bodies_spanned": [
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "VM",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 187.8,
+    "optimal_fiber_length_m": 0.0755810714765837,
+    "tendon_slack_length_m": 0.149936030553779,
+    "pennation_deg": 14.3,
+    "bodies_spanned": [
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "RF",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 350.3,
+    "optimal_fiber_length_m": 0.0484361554726421,
+    "tendon_slack_length_m": 0.188020348971074,
+    "pennation_deg": 12.0,
+    "bodies_spanned": [
+     "Body",
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "Sart2",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 17.2,
+    "optimal_fiber_length_m": 0.21253749157206,
+    "tendon_slack_length_m": 0.00517332636686555,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "TFL1",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 388.9,
+    "optimal_fiber_length_m": 0.0236623398138651,
+    "tendon_slack_length_m": 0.205626606131559,
+    "pennation_deg": 32.0,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "IP",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 251.6,
+    "optimal_fiber_length_m": 0.052291175784003,
+    "tendon_slack_length_m": 0.0405357951813977,
+    "pennation_deg": 11.9,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "QF",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 43.1,
+    "optimal_fiber_length_m": 0.0417663993447789,
+    "tendon_slack_length_m": 0.000577796038366507,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "Gra",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 469.6,
+    "optimal_fiber_length_m": 0.0525658210258233,
+    "tendon_slack_length_m": 0.168280021105771,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "ST",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 162.3,
+    "optimal_fiber_length_m": 0.157306995351405,
+    "tendon_slack_length_m": 0.0554091161379538,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Shank"
+    ]
+   },
+   {
+    "name": "SM",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 228.7,
+    "optimal_fiber_length_m": 0.182589098228676,
+    "tendon_slack_length_m": 0.009103689751759,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Shank"
+    ]
+   },
+   {
+    "name": "BF1",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 279.5,
+    "optimal_fiber_length_m": 0.103746435115416,
+    "tendon_slack_length_m": 0.150432330917353,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "BF2",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 343.1,
+    "optimal_fiber_length_m": 0.104795658249434,
+    "tendon_slack_length_m": 0.161917881803429,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Body",
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "FDS",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 863.0,
+    "optimal_fiber_length_m": 0.0354137059866492,
+    "tendon_slack_length_m": 0.16232548495168,
+    "pennation_deg": 28.3,
+    "bodies_spanned": [
+     "Foot",
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "GasL",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 439.2,
+    "optimal_fiber_length_m": 0.023635821327479,
+    "tendon_slack_length_m": 0.186638848022811,
+    "pennation_deg": 25.83,
+    "bodies_spanned": [
+     "Foot",
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "GasM",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 486.4,
+    "optimal_fiber_length_m": 0.0168819715759918,
+    "tendon_slack_length_m": 0.200264723603786,
+    "pennation_deg": 26.6,
+    "bodies_spanned": [
+     "Foot",
+     "Shank",
+     "Thigh"
+    ]
+   },
+   {
+    "name": "TibCran",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 56.56,
+    "optimal_fiber_length_m": 0.0824266275379581,
+    "tendon_slack_length_m": 0.0967749664056767,
+    "pennation_deg": 5.0,
+    "bodies_spanned": [
+     "Foot",
+     "Shank"
+    ]
+   },
+   {
+    "name": "ExtDigLong",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 88.1,
+    "optimal_fiber_length_m": 0.0394532149331893,
+    "tendon_slack_length_m": 0.234877116139221,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Foot",
+     "Shank"
+    ]
+   },
+   {
+    "name": "PerLong",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 60.1,
+    "optimal_fiber_length_m": 0.0186966229777328,
+    "tendon_slack_length_m": 0.19017136514494,
+    "pennation_deg": 0.0,
+    "bodies_spanned": [
+     "Foot",
+     "Shank"
+    ]
+   },
+   {
+    "name": "ExtDigLat",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 24.5,
+    "optimal_fiber_length_m": 0.00982725318958935,
+    "tendon_slack_length_m": 0.264184204885757,
+    "pennation_deg": 10.0,
+    "bodies_spanned": [
+     "Foot",
+     "Shank"
+    ]
+   },
+   {
+    "name": "FDP",
+    "type": "Millard2012EquilibriumMuscle",
+    "max_isometric_force_N": 550.0,
+    "optimal_fiber_length_m": 0.01181936041939,
+    "tendon_slack_length_m": 0.280824933600961,
+    "pennation_deg": 31.0,
+    "bodies_spanned": [
+     "Foot",
+     "Shank"
+    ]
+   }
+  ],
+  "variants_in_archive": {
+   "2018_Greyhound_Hindlimb_Model_UnconstrainedJoints.osim": "same as Nominal but Knee_Rx, Knee_Rz, Ankle_Rx, Ankle_Rz unlocked",
+   "2018_Greyhound_Hindlimb_Model_+10percentTendon.osim / -10percentTendon.osim": "tendon slack lengths +-10% (sensitivity)",
+   "Motion&GRF Files/*.mot": "sit-to-stand kinematics and GRFs (CC BY 4.0, not extracted here)"
+  }
+ }
+}
