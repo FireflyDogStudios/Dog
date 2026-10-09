@@ -34,14 +34,16 @@
     "title": "Den Pixi Bench",
     "source": "apps/pixi-bench/index.html",
     "publish": "apps/pixi-bench/index.html",
-    "status": "live"
+    "status": "archived",
+    "archivedNote": "Deprecated 2026-10-09 (GrumpyDingo): kept for research only, do not build on it or publish to it."
   },
   "dingo-workbench": {
     "url": "https://claude.ai/artifact/2N5JULUbfKNkKB3szMUo8Y",
     "title": "Den Dingo Workbench",
     "source": "apps/dingo-workbench/index.html",
     "publish": "apps/dingo-workbench/index.html",
-    "status": "live"
+    "status": "archived",
+    "archivedNote": "Deprecated 2026-10-09 (GrumpyDingo): kept for research only, do not build on it or publish to it."
   },
   "stillroom": {
     "url": "https://claude.ai/artifact/T5Y5iGAeRTPMQEfFhJJs4M",
@@ -127,5 +129,17 @@
     "source": "apps/compendium/index.html",
     "publish": "apps/compendium/index.html",
     "note": "Master index of every live Den artifact. Update its BOOK array when an artifact is added or retired."
+  },
+  "weapon-forge-bench": {
+    "url": "https://claude.ai/artifact/VWys8gnSDCt1LJyXwM9nCs",
+    "title": "Weapon Forge Bench",
+    "status": "archived",
+    "archivedNote": "Deprecated 2026-10-09 (GrumpyDingo): kept for research only, do not build on it or publish to it. No source in this repo."
+  },
+  "dingo-style-studio": {
+    "url": "https://claude.ai/artifact/MVxnkDzLu3inYcetEXc1xi",
+    "title": "Den Dingo Style Studio",
+    "status": "archived",
+    "archivedNote": "Deprecated 2026-10-09 (GrumpyDingo): kept for research only, do not build on it or publish to it. No source in this repo."
   }
 }

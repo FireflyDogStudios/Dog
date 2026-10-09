@@ -57,7 +57,7 @@ section{display:grid;gap:18px;scroll-margin-top:24px}
 .seal{width:46px;height:46px;flex:none;border-radius:12px;display:grid;place-items:center;color:var(--tone);background:color-mix(in srgb,var(--tone) 13%,transparent);border:1px solid color-mix(in srgb,var(--tone) 30%,transparent)}
 .seal svg{width:26px;height:26px}
 .chip{font:500 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px;border:1px solid currentColor;white-space:nowrap}
-.chip.live{color:var(--moss)} .chip.proto{color:var(--dusk)} .chip.old{color:var(--muted)} .chip.yours{color:var(--amber)}
+.chip.live{color:var(--moss)} .chip.proto{color:var(--dusk)} .chip.old{color:var(--muted)} #archive .card{filter:saturate(.45);opacity:.86} #archive .card:hover,#archive .card:focus-visible{filter:none;opacity:1} .chip.yours{color:var(--amber)}
 .body{display:grid;gap:6px;align-content:start;transform:translateZ(16px);min-width:0}
 .card h3{font:700 22px/1.08 var(--f-display);margin:0;letter-spacing:.01em;text-wrap:balance}
 .card .aka{font:500 12px var(--f-mono);color:var(--tone)}
@@ -108,19 +108,15 @@ const G={
   pixi:'<path d="M12 3 20 7.5v9L12 21l-8-4.5v-9Z"/><path d="M12 12 20 7.5"/><path d="M12 12v9"/><path d="M12 12 4 7.5"/>',
   mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/>',
   style:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17"/><path d="M12 12c3.5-1.5 5-4 5.5-7"/>'};
-const T={amber:"var(--amber)",moss:"var(--moss)",dusk:"var(--dusk)",ember:"var(--ember)"};
+const T={amber:"var(--amber)",moss:"var(--moss)",dusk:"var(--dusk)",ember:"var(--ember)",muted:"var(--muted)"};
 const BOOK=[
  {id:"game",title:"The game",line:"Where everything ends up.",tone:"amber",cards:[
   {name:"The Den Ledger",aka:"the game · v0.54",url:"https://claude.ai/artifact/APeiXGfpJhnYRfjs7NorsT",g:"paw",st:["live","Live"],date:"3 Oct",what:"The cozy idle AFK game itself: the dingo, the meadow, loot, gear and the den.",when:"Play, or check that a change landed."},
   {name:"Your Den",aka:"your own copy",url:"https://claude.ai/artifact/NUJoMc4k9TXFYGMdPwgu3F",g:"den",st:["yours","Yours"],date:"1 Oct",what:"Your own Den, a separate codebase that game work never touches.",when:"Your playground."}]},
  {id:"creatures",title:"Creatures and motion",line:"How the animals look, stand and walk.",tone:"moss",cards:[
   {name:"Wolf Bench",aka:"the wolf, hero3",url:"https://claude.ai/artifact/5MVTVAmLQmBxUaC5PL9QLC",g:"wolf",st:["live","Live"],date:"9 Oct",what:"The wolf big and walking: skeleton, joint angles, ghosts, a parts list, notes and trouble tags that Firefly answers.",when:"Judge the wolf and tag what looks off."},
-  {name:"Gait Tracker",aka:"joints on video",url:"https://claude.ai/artifact/EjofNnxftBQYFPth6GgHT2",g:"track",st:["live","Live"],date:"8 Oct",what:"Place joint points on a walking clip, track by track, and measure every joint against real dogs and our wolf.",when:"Turn a reference video into numbers."},
-  {name:"Den Dingo Workbench",aka:"the character forge",url:"https://claude.ai/artifact/2N5JULUbfKNkKB3szMUo8Y",g:"style",st:["live","Live"],date:"3 Oct",what:"The dingo hero's build: body, coat, poses and gait, one change at a time.",when:"Work on the hero dog."},
-  {name:"Den Pixi Bench",aka:"hero + creatures",url:"https://claude.ai/artifact/LXdgL2k38t7ZdjDBk5r4Bw",g:"pixi",st:["live","Live"],date:"3 Oct",what:"The hero big and at game size with walk, face left, ears back and howl, plus a crowd of 60 for the frame cost.",when:"Check how a rig runs in the game engine."},
-  {name:"Den Dingo Style Studio",aka:"earlier style sheet",url:"https://claude.ai/artifact/MVxnkDzLu3inYcetEXc1xi",g:"swatch",st:["old","Superseded"],date:"2 Oct",what:"The first dingo style sheet. The Workbench took its place.",when:"Only for history."}]},
+  {name:"Gait Tracker",aka:"joints on video",url:"https://claude.ai/artifact/EjofNnxftBQYFPth6GgHT2",g:"track",st:["live","Live"],date:"8 Oct",what:"Place joint points on a walking clip, track by track, and measure every joint against real dogs and our wolf.",when:"Turn a reference video into numbers."}]},
  {id:"gear",title:"Gear and goods",line:"Weapons, armour, brews and the rules for drawing them.",tone:"ember",cards:[
-  {name:"Weapon Forge Bench",aka:"the weapons forge",url:"https://claude.ai/artifact/VWys8gnSDCt1LJyXwM9nCs",g:"sword",st:["live","Live"],date:"1 Oct",what:"Build and preview weapons from parts and materials.",when:"Make or tune a weapon."},
   {name:"Den Smithy",aka:"forge showroom",url:"https://claude.ai/artifact/AX1AckrJ39AdzZ16Vt4XSs",g:"anvil",st:["proto","Prototype"],date:"2 Oct",what:"The forge's showroom: finished pieces laid out by tier and material.",when:"See the set side by side."},
   {name:"Den Gear Bench",aka:"hero2 + gear",url:"https://claude.ai/artifact/YM5BQsk83Kwd1S6pGG3EcL",g:"forge",st:["live","Live"],date:"6 Oct",what:"Fit armour to the dog: collar, tail rings and guard, paw covers, bracelets, on their mounts.",when:"Check how gear sits and moves."},
   {name:"Den Stillroom",aka:"alchemy goods",url:"https://claude.ai/artifact/T5Y5iGAeRTPMQEfFhJJs4M",g:"flask",st:["proto","In the pocket"],date:"3 Oct",what:"Brews, gems, foods and materials in the Smithy's style.",when:"Waits for the alchemy and currency rework."},
@@ -130,7 +126,12 @@ const BOOK=[
   {name:"Den Look Studio",aka:"three looks",url:"https://claude.ai/artifact/3hynkNvYbjrdsSDy4Mw2Jw",g:"looks",st:["proto","Study"],date:"2 Oct",what:"One full game screen in three looks: Dark Glass, Storybook and Cozy Modern.",when:"Compare directions for the UI."},
   {name:"Den Inventory Mock-up",aka:"bags and loadout",url:"https://claude.ai/artifact/9bxWvmV1DkVnA2Z4BnDRAt",g:"bag",st:["proto","Mock-up"],date:"2 Oct",what:"Loadout, bag strip, collapsible bag blocks, New markers and drag anywhere.",when:"Shape the inventory."}]},
  {id:"studio",title:"The studio",line:"The team that builds it.",tone:"amber",cards:[
-  {name:"Den Team Inbox",aka:"notes and the board",url:"https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK",g:"mail",st:["live","Live"],date:"8 Oct",what:"Needs-you notes, the team board with live session state, every note, and a composer.",when:"See what the team needs from you."}]}];
+  {name:"Den Team Inbox",aka:"notes and the board",url:"https://claude.ai/artifact/Q142myFFxUxf5gDQbqG7QK",g:"mail",st:["live","Live"],date:"8 Oct",what:"Needs-you notes, the team board with live session state, every note, and a composer.",when:"See what the team needs from you."}]},
+ {id:"archive",title:"Archive",line:"Deprecated benches, kept for research. Their findings live on in the newer tools; open them to look back, not to build.",tone:"muted",cards:[
+  {name:"Weapon Forge Bench",aka:"the weapons forge",url:"https://claude.ai/artifact/VWys8gnSDCt1LJyXwM9nCs",g:"sword",st:["old","Archived"],date:"1 Oct",what:"Built and previewed weapons from parts and materials.",when:"Research: weapon parts and materials."},
+  {name:"Den Dingo Workbench",aka:"the old character forge",url:"https://claude.ai/artifact/2N5JULUbfKNkKB3szMUo8Y",g:"style",st:["old","Archived"],date:"3 Oct",what:"The first dingo hero's build: body, coat, poses and gait. The skeleton-first species and the Wolf Bench replaced it.",when:"Research: the old dingo's coat and poses."},
+  {name:"Den Pixi Bench",aka:"hero + creatures",url:"https://claude.ai/artifact/LXdgL2k38t7ZdjDBk5r4Bw",g:"pixi",st:["old","Archived"],date:"3 Oct",what:"The old hero big and at game size with walk, face left, ears back and howl, plus a crowd of 60 for the frame cost.",when:"Research: rig frame cost in Pixi."},
+  {name:"Den Dingo Style Studio",aka:"earlier style sheet",url:"https://claude.ai/artifact/MVxnkDzLu3inYcetEXc1xi",g:"swatch",st:["old","Archived"],date:"2 Oct",what:"The first dingo style sheet, before the Workbench.",when:"Research: early style choices."}]}];
 
 const book=document.getElementById("book"), jump=document.getElementById("jump");
 const svg=g=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${G[g]||G.book}</svg>`;
