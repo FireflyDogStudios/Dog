@@ -25,6 +25,8 @@ h1{font:600 20px/1.1 var(--f-display);letter-spacing:.01em;margin:0;text-wrap:ba
 .bar + .bar{border-top:1px solid var(--line)}
 .grp{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
 .grp + .grp{padding-left:8px;border-left:1px solid var(--line)}
+.speedbar input[type=number]{width:62px} .speedbar #speed{width:150px} .chips{display:inline-flex;gap:3px;flex-wrap:wrap} .chips button{padding:2px 7px;font-size:12px}
+.danger{border-color:#b5523b !important;color:#e2856f}
 .lab{font:600 11px var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:2px}
 button,select,input[type=range]{font:inherit;color:inherit}
 button{background:var(--chip);border:1px solid var(--line);border-radius:4px;padding:4px 9px;cursor:pointer;line-height:1.3}
@@ -188,9 +190,26 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       </div>
       <input id="scrub" type="range" min="0" max="999" value="0" aria-label="Point in the stride">
       <span class="num" id="pct">0%</span>
+    </div>
+    <div class="bar speedbar">
       <div class="grp" role="group" aria-label="Speed">
         <span class="lab">Speed</span>
-        <select id="speed" aria-label="Speed"><option value="0.1">0.1×</option><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option></select>
+        <input id="speed" type="range" min="0" max="1000" value="750" aria-label="Speed (comma slower, full stop faster)" title="Speed: , slower · . faster">
+        <span class="num" id="speedV">1×</span>
+        <span class="chips" id="speedChips"></span>
+      </div>
+      <div class="grp" role="group" aria-label="Step">
+        <span class="lab">Step</span>
+        <select id="stepDiv" aria-label="Frame step size" title="How far ← and → move"><option value="24">1/24 stride</option><option value="48" selected>1/48 (a frame)</option><option value="96">1/96</option><option value="240">1/240</option><option value="1000">0.1%</option></select>
+      </div>
+      <div class="grp" role="group" aria-label="Go to">
+        <label class="row"><span class="lab">Go to</span><input id="goPct" type="number" min="0" max="100" step="0.1" value="0" aria-label="Go to a point in the stride, in percent"><span class="small">%</span></label>
+      </div>
+      <div class="grp" role="group" aria-label="Loop a range">
+        <button id="loopOn" aria-pressed="false" title="Loop only part of the stride (L)">Loop range</button>
+        <input id="loopA" type="number" min="0" max="100" step="0.5" value="10" aria-label="Loop from, percent"><span class="small">to</span>
+        <input id="loopB" type="number" min="0" max="100" step="0.5" value="25" aria-label="Loop to, percent"><span class="small">%</span>
+        <button id="setA" title="Loop starts here (A)">A here</button><button id="setB" title="Loop ends here (B)">B here</button>
       </div>
     </div>
     <details class="bar refbar" id="refBox">
@@ -236,6 +255,7 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       <div class="row filt">
         <span class="lab">Show</span>
         <select id="nFilter" aria-label="Which notes"><option value="open">Open</option><option value="all">All</option><option value="fixed">Fixed</option></select>
+        <button id="nClearFixed" title="Delete every note marked fixed">Clear fixed</button><button id="nClearAll" class="danger" title="Delete every note and every part tag, for everyone">Clear all issues</button>
       </div>
       <div id="notes"></div>
     </div>
@@ -268,14 +288,16 @@ kbd{font:12px var(--f-mono);background:var(--chip);border:1px solid var(--line);
       </div>
       <div class="row filt">
         <select id="pFilter" aria-label="Which parts"><option value="all">All parts</option><option value="trouble">Troubled</option><option value="hidden">Hidden</option></select>
-        <button id="pShowAll">Show all</button><button id="pOnlyTr" title="Hide every part that is not tagged">Only troubled</button><button id="pHideTr" title="Hide the tagged parts to see what is under them">Hide troubled</button>
+        <button id="pShowAll">Show all</button><button id="pOnlyTr" title="Hide every part that is not tagged">Only troubled</button><button id="pHideTr" title="Hide the tagged parts to see what is under them">Hide troubled</button><button id="pClearTr" class="danger" title="Delete every part tag on this rig, for everyone">Clear all tags</button>
       </div>
       <div id="parts"></div>
     </div>
     <div class="pane" id="paneK" role="tabpanel" hidden>
       <div class="chk keys">
         <kbd>Space</kbd><span></span><span>play or pause the walk</span>
-        <kbd>← →</kbd><span></span><span>one frame back or forward (Shift: five)</span>
+        <kbd>← →</kbd><span></span><span>one step back or forward (Shift: five); the step size is set under the stride bar</span>
+        <kbd>, .</kbd><span></span><span>slower or faster (each press 1.25×, from 0.02× to 2×)</span>
+        <kbd>L</kbd><span></span><span>loop a range on or off; <kbd>A</kbd> <kbd>B</kbd> set its start and end at the current frame</span>
         <kbd>1–5</kbd><span></span><span>Move, Pin, Arrow, Pen, Measure</span>
         <kbd>+ −</kbd><span></span><span>zoom in or out; <kbd>0</kbd> fits</span>
         <kbd>S</kbd><span></span><span>standing or walking</span>
@@ -377,7 +399,9 @@ function build(PIXI, id, opts = {}){
         C.rotation = rot * DEG; C.x = x; C.y = y; if (sc !== 1 || C.scale.x !== 1) C.scale.set(sc); }
       /* gear hosted at the root that follows a joint (parts.follow) takes that joint's transform every tick, so it moves with the body (bob) while drawing above the near legs */
       for (const f of followers) syncFollower(PIXI, f);
-      for (const k of skins){ const st = []; for (let n = k.to; n && n !== k.host; n = n.parent) st.push(n); const R = new PIXI.Matrix(); for (let i = st.length - 1; i >= 0; i--){ st[i].updateLocalTransform(); R.append(st[i].localTransform); }
+      /* the bend-to joint's frame seen from the host joint (inverse host chain times the to chain, both up to the rig root), so `to` need not sit under the host (the thigh bends toward the body) */
+      const upTo = n => { const st = []; for (; n && n !== root; n = n.parent) st.push(n); const R = new PIXI.Matrix(); for (let i = st.length - 1; i >= 0; i--){ st[i].updateLocalTransform(); R.append(st[i].localTransform); } return R; };
+      for (const k of skins){ const R = upTo(k.host).invert().append(upTo(k.to));
         const pts = skinPts(k.p, [1, 0, 0, 1, 0, 0], [R.a, R.b, R.c, R.d, R.tx, R.ty]); k.g.clear(); k.g.poly(pts.flat()).fill(k.col); }
       let al = D.alpha ?? 1; for (const s of on){ const S = D.states[s]; if (!S) continue; for (const a of S){ if (a.alpha != null) al *= a.alpha; } } root.alpha = al;
       for (const p of D.parts){ if (p.id) parts[p.id].visible = !p.state && !p.hidden; }
@@ -782,10 +806,12 @@ if (typeof module !== "undefined") module.exports = registerDenRigs;
 function registerHero3(RIG){
   const H2 = RIG.DEFS.hero2; if (!H2) throw new Error("hero3 needs hero2");
   const f2 = v => +(+v).toFixed(2);
-  const limb = (a, b, w0, w1, extra) => { const dx = b[0] - a[0], dy = b[1] - a[1], m = Math.hypot(dx, dy) || 1, ux = dx / m, uy = dy / m, nx = -uy, ny = ux, r0 = w0 / 2, r1 = w1 / 2, pts = [];
+  /* a tapered capsule from a to b; f0 narrows the top end on the -n side only (for the upper arm: its bulk, the triceps, sits behind the bone) */
+  const limbF = (a, b, w0, w1, f0, extra) => { const dx = b[0] - a[0], dy = b[1] - a[1], m = Math.hypot(dx, dy) || 1, ux = dx / m, uy = dy / m, nx = -uy, ny = ux, r0 = w0 / 2, r1 = w1 / 2, pts = [];
     for (let i = 0; i <= 8; i++){ const t = Math.PI * i / 8; pts.push([b[0] + (nx * Math.cos(t) + ux * Math.sin(t)) * r1, b[1] + (ny * Math.cos(t) + uy * Math.sin(t)) * r1]); }
-    for (let i = 0; i <= 8; i++){ const t = Math.PI + Math.PI * i / 8; pts.push([a[0] + (nx * Math.cos(t) + ux * Math.sin(t)) * r0, a[1] + (ny * Math.cos(t) + uy * Math.sin(t)) * r0]); }
+    for (let i = 0; i <= 8; i++){ const t = Math.PI + Math.PI * i / 8, c = Math.cos(t), k = c < 0 ? f0 : 1; pts.push([a[0] + nx * c * r0 * k + ux * Math.sin(t) * r0, a[1] + ny * c * r0 * k + uy * Math.sin(t) * r0]); }
     return Object.assign({poly:pts.map(q => [f2(q[0]), f2(q[1])])}, extra || {}); };
+  const limb = (a, b, w0, w1, extra) => limbF(a, b, w0, w1, 1, extra);
   /* a wolf paw: bigger and rounder than hero2's, standing on the ground line (p.y + 1) */
   const paw = (p, extra) => { const [x, y] = p, k = .85, X = v => f2(x + v * k), Y = v => f2(v >= 1.05 ? y + 1.05 : y + 1.05 - (1.05 - v) * k * 1.08);
     return Object.assign({d:`M${X(-1.3)} ${Y(-.4)} C${X(-1.9)} ${Y(.4)} ${X(-1.4)} ${Y(1.05)} ${X(-.3)} ${Y(1.05)} L${X(2.3)} ${Y(1.05)} C${X(3.3)} ${Y(1.05)} ${X(3.4)} ${Y(.1)} ${X(2.5)} ${Y(-.4)} C${X(1.8)} ${Y(-.95)} ${X(.7)} ${Y(-1.2)} ${X(-.3)} ${Y(-.95)} C${X(-.8)} ${Y(-.8)} ${X(-1.1)} ${Y(-.6)} ${X(-1.3)} ${Y(-.4)} Z`}, extra || {}); };
@@ -828,11 +854,16 @@ function registerHero3(RIG){
   /* the thigh: the lower half of the rump, from inside the croup to a round knee cap at the stifle; the rear edge continues the buttock line */
   const THIGH = (() => { const [sx, sy] = H.stifle, cap = []; for (let k = 0; k <= 8; k++){ const a = Math.PI * (.95 - k / 8 * 1.05); cap.push([f2(sx + Math.cos(a) * 2.1), f2(sy + Math.sin(a) * 2.1)]); }
     return [[22.4, 16.4], [20.4, 16.3], [18.8, 16.4], [17.6, 17.0], [17.4, 18.4], [17.8, 20.2], [18.6, 21.6], ...cap, [23.9, 20.6], [24.6, 18.6], [24.8, 17.0], [24.4, 16.6], [23.6, 16.4]]; })(); /* the top sits below the saddle inside the rump, so the swing never lifts it into the saddle or past the croup */
+  /* the thigh is skinned (Oct 9): its top rides with the body (the muscles are fixed to the pelvis) and only the knee end swings with the femur,
+     so the hip swing (-40 to +26 deg) bends the thigh instead of turning it as one piece, whose top corner left the rump (GrumpyDingo: "the rear
+     leg never felt connected"). Weight 1 above y 16.4, smoothstep to 0 by y 21.6. */
+  const THIGH_W0 = 16.4, THIGH_W1 = 21.6;
+  const thighSkin = T => { const P = P2(densify(T, .3)); return {poly:P, skin:{to:"body", w:P.map(q => { const u = Math.max(0, Math.min(1, (q[1] - THIGH_W0) / (THIGH_W1 - THIGH_W0))); return +(1 - u * u * (3 - 2 * u)).toFixed(3); })}}; };
   /* legs: thicker than hero2 (a wolf is heavier-boned), still tapering; the pale starts below the elbow and the hock */
   const legParts = k => [
-    {poly:k === "F" ? THIGH.map(q => [f2(q[0] + FAR_DX.hind), q[1]]) : THIGH, in:"hip" + k}, limb(HL(k).stifle, HL(k).hock, 4.0, 2.6, {in:"shank" + k}), limb(HL(k).hock, HL(k).paw, 2.5, 2.2, {in:"meta" + k, paint:"leg"}),
+    {...thighSkin(k === "F" ? THIGH.map(q => [f2(q[0] + FAR_DX.hind), q[1]]) : THIGH), in:"hip" + k}, limb(HL(k).stifle, HL(k).hock, 4.0, 2.6, {in:"shank" + k}), limb(HL(k).hock, HL(k).paw, 2.5, 2.2, {in:"meta" + k, paint:"leg"}),
     {circle:[HL(k).hock[0], HL(k).hock[1], 1.3], in:"meta" + k}, paw(HL(k).paw, {in:"htoe" + k, paint:"pale2"}),
-    limb([FL(k).sh[0] + (FL(k).elbow[0] - FL(k).sh[0]) * .22, FL(k).sh[1] + (FL(k).elbow[1] - FL(k).sh[1]) * .22], FL(k).elbow, 5.2, 3.4, {in:"sh" + k}) /* the arm's top stays inside the chest as the blade carries it forward */, limb(FL(k).elbow, FL(k).past, 3.0, 2.3, {in:"fore" + k, paint:"leg"}),
+    limbF([FL(k).sh[0] + (FL(k).elbow[0] - FL(k).sh[0]) * .22, FL(k).sh[1] + (FL(k).elbow[1] - FL(k).sh[1]) * .22], FL(k).elbow, 5.2, 3.4, .35, {in:"sh" + k}) /* the arm's top stays inside the chest as the blade carries it forward; its front edge hugs the bone (the bulk is the triceps behind it), so in the swing it never pokes over the pale throat and forechest (GrumpyDingo's shots, Oct 9: up to 2.9 sq units over the pale at 50%, now 0.05) */, limb(FL(k).elbow, FL(k).past, 3.0, 2.3, {in:"fore" + k, paint:"leg"}),
     limb(FL(k).elbow, [FL(k).elbow[0], FL(k).elbow[1] + .9], 3.4, 2.9, {in:"fore" + k}), limb(FL(k).past, FL(k).paw, 2.3, 2.0, {in:"past" + k, paint:"leg"}),
     paw(FL(k).paw, {in:"ftoe" + k, paint:"pale2"})];
 
@@ -912,7 +943,7 @@ function registerHero3(RIG){
      shoulders and both kept low for a wolf's smooth gait; the hind paw plants flatter and lifts lower than the front. */
   const WALK = {speed:20 /* ground units per stride (1.1 shoulder heights; fox clip 1.4, measured dogs 1.2-1.5), the same for every paw (so nothing skates) */, limbPhase:.16, keys:48,
     crouch:1.5 /* the back rides ~8% lower while walking (fox clip: 0.83-0.96 of standing) */, head:{pitch:8, bob:1.5, lag:.06} /* nose down ~13 deg while walking (the nose rides ~0.25 heights below the back), lowest while a front paw takes weight */,
-    hind:{duty:.60, lift:.9, fold:4, centre:-.5, maxOpen:148, bob:.45, lean:16}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
+    hind:{duty:.60, lift:.9, fold:4, centre:1, maxOpen:148, bob:.45, lean:16, smooth:2 /* Oct 9: centre -0.5 → 1 (the paw no longer stays planted past the leg's reach, which locked the knee straight for 6 keys) and 2 smoothing passes over the swing: worst angle corner 9.2 → 2.6 deg per key */}, /* lean: the hock may open up to 16 deg to reach (standing 145, measured walk max 160) */  /* centre: stance centre ahead of the standing paw; maxOpen: knee never opens past (measured walk max 144) */
     front:{duty:.62, lift:1.8, fold:120, carpusHold:190 /* the wrist holds ~10 deg past straight while the paw is down: GrumpyDingo's tracked fox, stance median 193 (IQR 187-198) */, centre:-2.3, maxOpen:152, bob:.30, scap:{top:[38.8, 11.8], swing:16}, lean:10}}; /* scap.swing: degrees the blade rotates each way, forward as the paw reaches, back as it pushes off (EST) */ /* centres: the front paw lands ~0.17 heights behind the nose (fox 0.06-0.29), the hind just ahead of the hip */ /* elbow never past 152 (measured 153); bob: peak-to-peak dip in units (EST) */
   const A = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI, Ln = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
   const pol = (o, deg, l) => [o[0] + Math.cos(deg * Math.PI / 180) * l, o[1] + Math.sin(deg * Math.PI / 180) * l];
@@ -939,7 +970,11 @@ function registerHero3(RIG){
   const pend = (ph, L) => WALK.crouch + L.bob * (.5 + .5 * Math.cos(4 * Math.PI * (ph - .05)));
   const girdle0 = (J, ph, L) => Math.max(pend(ph, L), dropFor(J, ph, L), dropFor(J, ph + .5, L));
   /* smoothed over +-2 keys: the reach drop ends when the paw lifts, and unsmoothed the hips jumped up at that instant (the "kick", GrumpyDingo Oct 8) */
-  const girdle = (J, ph, L) => Math.max(girdle0(J, ph, L), [1, 4, 6, 4, 1].reduce((a, w, i) => a + w * girdle0(J, ph + (i - 2) / WALK.keys, L), 0) / 16); /* never less than a planted paw needs */
+  /* Oct 9: max(raw, smoothed) kept the raw peak, so the hips still popped at 8% and 58% (GrumpyDingo: "not as smooth at the start of the loop").
+     Now the reach drop is first spread to its highest value within +-2 keys, then smoothed over +-2 keys: every smoothed value averages windows that
+     each contain the raw value, so it never falls below what a planted paw needs, and it has no corner. */
+  const GK = [1, 4, 6, 4, 1], drop = (J, ph, L) => Math.max(dropFor(J, ph, L), dropFor(J, ph + .5, L)), dilated = (J, ph, L) => Math.max(pend(ph, L), ...[-2, -1, 0, 1, 2].map(i => drop(J, ph + i / WALK.keys, L))); /* the pendulum dip is smooth already, so only the reach drop is spread */
+  const girdle = (J, ph, L) => GK.reduce((a, w, i) => a + w * dilated(J, ph + (i - 2) / WALK.keys, L), 0) / 16;
   const bakeLeg = (J, names, side, L, toeTr) => { /* J = [top, mid, low, paw] rest joints; names = [top, mid, low, toe] track names */
     const l1 = Ln(J[0], J[1]), l2 = Ln(J[1], J[2]), l3 = Ln(J[2], J[3]), r1 = A(J[0], J[1]), r2 = A(J[1], J[2]), r3 = A(J[2], J[3]);
     const T = names.map(() => []);
@@ -965,6 +1000,11 @@ function registerHero3(RIG){
       const toe = P.stance ? -(a3 - r3) : -(a3 - r3) * .55 + (toeTr ? RIG.sample(toeTr, ph).v * .5 : 0); /* paw flat on the ground in stance; hangs and peels in the swing */
       [rot1, rot2, rot3, toe].forEach((v, i) => T[i].push(Object.assign({at:+ph.toFixed(4), v:+v.toFixed(3)}, i === 0 && !L.scap ? {y:+g.toFixed(3)} : {})));
       if (L.scap) (T.scap ||= []).push({at:+ph.toFixed(4), v:+sa.toFixed(3), y:+g.toFixed(3)}); } /* the blade carries the girdle drop */
+    /* L.smooth passes of a [1 2 1] filter over the swing keys only (stance keys stay exact, so planted paws never slide): the swing starts from a
+       fully opened leg, and the clamp at its limit left corners in the angles as it let go (the hind "kick" at 10-23%, GrumpyDingo Oct 8) */
+    const SW = [...Array(WALK.keys + 1)].map((_, k) => !pawAt((k / WALK.keys) % 1, J[3], L, L.lift).stance);
+    for (let pass = 0; pass < (L.smooth || 0); pass++) for (const Tr of T.slice(0, 3)) { const v = Tr.map(e => e.v), n = WALK.keys;
+      for (let k = 0; k <= n; k++) if (SW[k]) Tr[k].v = +((v[(k - 1 + n) % n] + 2 * v[k % n] + v[(k + 1) % n]) / 4).toFixed(3); Tr[n].v = Tr[0].v; }
     const out = Object.fromEntries(names.map((n, i) => [n, T[i]])); if (L.scap) out.fscap = T.scap; return out;
   };
   const BODY_PIVOT = [31, 18], bodyTrack = [], tailTrack = [], HJ = [H.hip, H.stifle, H.hock, H.paw], FJ = [Fj.sh, Fj.elbow, Fj.past, Fj.paw];
@@ -1019,11 +1059,11 @@ if (typeof module !== "undefined") module.exports = {registerHero3};
 
 </script>
 <script>
-const BUILD = {"commit":"24c919f","date":"2026-10-08"};
+const BUILD = {"commit":"43e9a42","date":"2026-10-09"};
 const REPORT = {
  "rig": "hero3",
  "fails": 0,
- "warns": 1,
+ "warns": 9,
  "results": [
   {
    "check": "fit",
@@ -1042,13 +1082,48 @@ const REPORT = {
   },
   {
    "check": "notches",
-   "level": "PASS",
-   "msg": "no new cracks (16 known ones in the baseline)"
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (17.4, 22.6), 0.03 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (16.8, 25.0), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (14.7, 31.2), 0.02 sq units (walk 0%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (17.9, 21.8), 0.02 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (19.5, 27.7), 0.05 sq units (walk 25%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (23.8, 24.2), 0.16 sq units (walk 50%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (23.2, 26.0), 0.04 sq units (walk 50%): two edges meet at a sharp angle"
+  },
+  {
+   "check": "notches",
+   "level": "WARN",
+   "msg": "NEW narrow crack in the outline at (16.6, 26.2), 0.02 sq units (walk 50%): two edges meet at a sharp angle"
   },
   {
    "check": "attach",
    "level": "PASS",
-   "msg": "every part is rooted in what it hangs from (least: skull 6%, tail 15%, hipN 19%)"
+   "msg": "every part is rooted in what it hangs from (least: skull 6%, tail 15%, hipN 28%)"
   },
   {
    "check": "visible",
@@ -1068,7 +1143,7 @@ const REPORT = {
   {
    "check": "markings",
    "level": "INFO",
-   "msg": "bibTop is partly drawn over by fur@shN 41%, fur@foreN 11%, leg@foreN 4% (check the edge that makes)"
+   "msg": "bibTop is partly drawn over by fur@shN 16%, fur@foreN 11%, leg@foreN 4% (check the edge that makes)"
   },
   {
    "check": "markings",
@@ -1118,7 +1193,7 @@ const REPORT = {
   {
    "check": "gait",
    "level": "PASS",
-   "msg": "footfalls (left hind = 0): left fore 0.18 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.68; paws down fore 0.66, hind 0.61 of the stride (measured 0.56-0.68)"
+   "msg": "footfalls (left hind = 0): left fore 0.17 (measured 0.13-0.16, wolf 0.12-0.20), right hind 0.50 (0.50), right fore 0.67; paws down fore 0.66, hind 0.60 of the stride (measured 0.56-0.68)"
   },
   {
    "check": "feet",
@@ -1128,7 +1203,7 @@ const REPORT = {
   {
    "check": "joints",
    "level": "WARN",
-   "msg": "shoulder: standing 112, walk 90–125; measured dog walk 121–153: bends to 90, beyond the measured 121"
+   "msg": "shoulder: standing 112, walk 91–125; measured dog walk 121–153: bends to 91, beyond the measured 121"
   },
   {
    "check": "joints",
@@ -1153,7 +1228,7 @@ const REPORT = {
   {
    "check": "joints",
    "level": "PASS",
-   "msg": "tarsus: standing 145, walk 118–151; measured dog walk 119–160"
+   "msg": "tarsus: standing 145, walk 120–158; measured dog walk 119–160"
   },
   {
    "check": "contrast",
@@ -1227,7 +1302,7 @@ function skeletonSVG(R,M,showAng,z){const chains=[["hipF","shankF","metaF","htoe
 /* ---------- state ---------- */
 const $=id=>document.getElementById(id);
 const svg=$("stage"), mini=$("mini");
-const st={rig:"hero3",cmp:"",walking:true,playing:true,t:0,speed:1,tool:"move",bg:"#1d2128",skel:false,ang:false,onion:false,sil:false,ground:true,pins:true,hoverOn:true,game:true,
+const st={rig:"hero3",cmp:"",walking:true,playing:true,t:0,speed:1,stepDiv:48,loop:{on:false,a:.10,b:.25},tool:"move",bg:"#1d2128",skel:false,ang:false,onion:false,sil:false,ground:true,pins:true,hoverOn:true,game:true,
   view:{cx:31,cy:19,w:58}, draft:null, notes:[], db:null, hover:null, measure:null, ref:null, filter:"open", focus:null, ghost:{on:false,n:2,step:.125,pick:"all",col:false}, hideDog:false, paths:false,
   hid:{}, trouble:[], troubleOn:true, sel:null, tDraft:null, pFilter:"all"};
 let R=rigData(st.rig);
@@ -1297,7 +1372,10 @@ function render(){
 }
 const toolName={move:"Move",pin:"Pin",arrow:"Arrow",pen:"Pen",measure:"Measure"};
 let last=performance.now(), scrubbing=false, drag=null;
-function loop(now){const dt=Math.min(.1,(now-last)/1000); last=now; if(st.playing&&st.walking&&!drag) st.t+=dt*st.speed; render(); requestAnimationFrame(loop);}
+function loop(now){const dt=Math.min(.1,(now-last)/1000); last=now; if(st.playing&&st.walking&&!drag){st.t+=dt*st.speed; keepInLoop();} render(); requestAnimationFrame(loop);}
+/* loop a range: playback wraps from B back to A (A after B loops across the stride's end) */
+function inLoop(ph){const {a,b}=st.loop; return a<=b?ph>=a&&ph<b:ph>=a||ph<b;}
+function keepInLoop(){if(!st.loop.on||!st.walking) return; const S=R.D.stride, n=Math.floor(st.t/S), ph=st.t/S-n; if(inLoop(ph)) return; st.t=(n+st.loop.a)*S;}
 requestAnimationFrame(loop);
 
 /* ---------- controls ---------- */
@@ -1306,11 +1384,23 @@ function setTool(t){st.tool=t; document.querySelectorAll("[data-tool]").forEach(
 document.querySelectorAll("[data-tool]").forEach(b=>b.onclick=()=>setTool(b.dataset.tool));
 function setPlaying(p){st.playing=p; $("play").textContent=p?"❚❚":"▶"; $("play").setAttribute("aria-label",p?"Pause (Space)":"Play (Space)");}
 $("play").onclick=()=>{if(!st.walking) setWalking(true); setPlaying(!st.playing);};
-const step=d=>{setWalking(true); setPlaying(false); st.t=Math.max(0,st.t+d*R.D.stride/48);};
+const step=d=>{setWalking(true); setPlaying(false); st.t=Math.max(0,st.t+d*R.D.stride/st.stepDiv);};
 $("back").onclick=()=>step(-1); $("fwd").onclick=()=>step(1);
 $("scrub").addEventListener("input",e=>{scrubbing=true; setWalking(true); setPlaying(false); st.t=(+e.target.value/999)*R.D.stride;});
 $("scrub").addEventListener("change",()=>{scrubbing=false;});
-$("speed").onchange=e=>{st.speed=+e.target.value;};
+/* speed: a log slider from 0.02x to 2x (750 = 1x), preset chips, and , . to step it */
+const SPMIN=.02, SPMAX=2, toSpeed=v=>SPMIN*Math.pow(SPMAX/SPMIN,v/1000), toSlider=x=>Math.round(1000*Math.log(x/SPMIN)/Math.log(SPMAX/SPMIN));
+const fmtSpeed=x=>(x<.1?x.toFixed(3):x<1?x.toFixed(2):x.toFixed(2)).replace(/\.?0+$/,"")+"×";
+function setSpeed(x){st.speed=Math.max(SPMIN,Math.min(SPMAX,x)); $("speed").value=toSlider(st.speed); $("speedV").textContent=fmtSpeed(st.speed); document.querySelectorAll("#speedChips button").forEach(b=>press(b,Math.abs(+b.dataset.v-st.speed)<1e-6));}
+[.05,.1,.25,.5,1,1.5].forEach(v=>{const b=document.createElement("button"); b.dataset.v=v; b.textContent=v+"×"; b.onclick=()=>setSpeed(v); $("speedChips").append(b);});
+$("speed").addEventListener("input",e=>setSpeed(toSpeed(+e.target.value))); setSpeed(1);
+$("stepDiv").onchange=e=>{st.stepDiv=+e.target.value;};
+$("goPct").onchange=e=>{const v=Math.max(0,Math.min(100,+e.target.value||0)); setWalking(true); setPlaying(false); st.t=Math.floor(st.t/R.D.stride)*R.D.stride+v/100*R.D.stride;};
+const readLoop=()=>{st.loop.a=Math.max(0,Math.min(100,+$("loopA").value||0))/100; st.loop.b=Math.max(0,Math.min(100,+$("loopB").value||0))/100;};
+function setLoop(on){st.loop.on=on; press($("loopOn"),on); readLoop(); if(on){setWalking(true); keepInLoop();}}
+$("loopOn").onclick=()=>setLoop(!st.loop.on); $("loopA").onchange=()=>{readLoop(); keepInLoop();}; $("loopB").onchange=()=>{readLoop(); keepInLoop();};
+const setEnd=k=>{const ph=phaseNow(); if(ph==null) return; $(k==="a"?"loopA":"loopB").value=(Math.round(ph*1000)/10).toFixed(1); readLoop(); if(!st.loop.on) setLoop(true);};
+$("setA").onclick=()=>setEnd("a"); $("setB").onclick=()=>setEnd("b");
 function setWalking(w){st.walking=w; press($("pWalk"),w); press($("pStand"),!w);}
 $("pWalk").onclick=()=>{setWalking(true); setPlaying(true);}; $("pStand").onclick=()=>{setWalking(false); setPlaying(false);};
 const toggles=[["oSkel","skel"],["oAng","ang"],["oSil","sil"],["oGround","ground"],["oPins","pins"],["oHover","hoverOn"],["oGame","game"],["oPaths","paths"],["hideDog","hideDog"],["oTrouble","troubleOn"]];
@@ -1380,6 +1470,8 @@ document.addEventListener("keydown",e=>{const tg=e.target.tagName; if(tg==="TEXT
   else if(k==="+"||k==="=") zoomBy(1.25); else if(k==="-"||k==="_") zoomBy(1/1.25); else if(k==="0") st.view={cx:31,cy:19,w:58};
   else if(k==="s"||k==="S"){if(st.walking){setWalking(false); setPlaying(false);} else {setWalking(true); setPlaying(true);}}
   else if(k==="k"||k==="K") toggle("oSkel","skel"); else if(k==="g"||k==="G") gToggle(); else if(k==="["||k==="]") gStepPick(k==="]"?1:-1); else if(k==="h"||k==="H") toggle("hideDog","hideDog"); else if(k==="p"||k==="P") toggle("oPaths","paths");
+  else if(k===","||k==="<") setSpeed(st.speed/1.25); else if(k==="."||k===">") setSpeed(st.speed*1.25);
+  else if(k==="l"||k==="L") setLoop(!st.loop.on); else if(k==="a"||k==="A") setEnd("a"); else if(k==="b"||k==="B") setEnd("b");
   else if(k==="Escape"){st.draft=null; st.measure=null; $("form").hidden=true; st.sel=null; renderParts();}});
 
 /* ---------- notes (shared store: db collection "notes") ---------- */
@@ -1427,6 +1519,18 @@ function renderNotes(){const box=$("notes"); box.textContent="";
     const del=document.createElement("button"); del.className="lnk"; del.textContent="Delete"; del.onclick=()=>{if(del.dataset.armed){removeNote(n);} else {del.dataset.armed="1"; del.textContent="Delete for good?";}};
     acts.append(go,fx,del); el.append(acts); box.append(el);});}
 $("nFilter").onchange=e=>{st.filter=e.target.value; renderNotes();};
+/* clearing: a button asks once (its label turns into the question), the second press within 5 s does it */
+function armed(btn,ask,act){if(btn.dataset.armed){clearTimeout(+btn.dataset.armed); delete btn.dataset.armed; btn.textContent=btn.dataset.label; act(); return;}
+  btn.dataset.label=btn.textContent; btn.textContent=ask; btn.dataset.armed=setTimeout(()=>{delete btn.dataset.armed; btn.textContent=btn.dataset.label;},5000);}
+async function clearDocs(kind,list){if(!list.length) return 0; let n=0;
+  if(st.db){for(const d of list){try{await st.db.doc(kind+"/"+d.id).delete(); n++;}catch(e){$("store").textContent=`Could not delete a ${kind==="notes"?"note":"tag"}: `+(e.message||e.code);}}}
+  else {if(kind==="notes"){st.notes=st.notes.filter(x=>!list.includes(x)); saveLocal(); renderNotes();} else {st.trouble=st.trouble.filter(x=>!list.includes(x)); saveTroubleLocal(); renderParts();} n=list.length;}
+  return n;}
+const mineTags=()=>st.trouble.filter(t=>t.rig===st.rig);
+$("nClearFixed").onclick=e=>{const L=st.notes.filter(n=>n.status==="fixed"); if(!L.length){$("store").textContent="No fixed notes to clear."; return;} armed(e.currentTarget,`Delete ${L.length} fixed?`,async()=>{const n=await clearDocs("notes",L); $("store").textContent=`Cleared ${n} fixed note${n===1?"":"s"}.`;});};
+$("nClearAll").onclick=e=>{const L=st.notes.slice(), T=mineTags(); if(!L.length&&!T.length){$("store").textContent="Nothing to clear: no notes or part tags."; return;}
+  armed(e.currentTarget,`Delete ${L.length} note${L.length===1?"":"s"} + ${T.length} tag${T.length===1?"":"s"}?`,async()=>{const a=await clearDocs("notes",L), b=await clearDocs("parts",T); $("store").textContent=`Cleared ${a} note${a===1?"":"s"} and ${b} part tag${b===1?"":"s"}.`;});};
+$("pClearTr").onclick=e=>{const T=mineTags(); if(!T.length){$("store").textContent="No part tags to clear."; return;} armed(e.currentTarget,`Delete ${T.length} tag${T.length===1?"":"s"}?`,async()=>{const b=await clearDocs("parts",T); $("store").textContent=`Cleared ${b} part tag${b===1?"":"s"}.`;});};
 function showNote(n){if(n.rig!==st.rig){st.rig=n.rig; $("rig").value=n.rig; R=rigData(n.rig);} if(n.standing){setWalking(false);} else {setWalking(true); st.t=(n.phase||0)*R.D.stride;} setPlaying(false); st.focus=n.id;
   const M=pose(R,st.t,st.walking), p=at(M,n.joint,[n.lx,n.ly]), q=n.type==="arrow"?at(M,n.joint,[n.lx2,n.ly2]):p;
   st.view={cx:(p[0]+q[0])/2,cy:(p[1]+q[1])/2,w:Math.max(8,(n.r||0)*6,Math.hypot(q[0]-p[0],q[1]-p[1])*2.5)};}
