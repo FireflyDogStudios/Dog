@@ -44,7 +44,7 @@ details.pop>div{position:absolute;z-index:20;top:calc(100% + 4px);left:0;backgro
 .viewer{display:grid;grid-template-rows:minmax(0,1fr) auto;min-height:0}
 .guide{margin:8px 8px 0;background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:10px 12px;display:grid;gap:6px;max-height:46vh;overflow:auto}
 .guide .gStep{font-size:12px;color:var(--muted)} .guide .gName{font-size:18px;font-weight:700;color:var(--accent)} .guide .gWhat,.guide .gLook{font-size:13.5px;line-height:1.45} .guide .gLook b,.guide .gWhat b{color:var(--ink)}
-.guide .gHelp{font-size:12.5px;color:var(--muted);line-height:1.4} .guide .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.guide .gPic svg{width:150px;height:auto;display:block;margin:2px 0} .guide .gHelp{font-size:12.5px;color:var(--muted);line-height:1.4} .guide .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
 #stageBox{position:relative;min-height:200px;background:var(--stage);overflow:hidden;touch-action:none;border-radius:4px 4px 0 0}
 #stage{width:100%;height:100%;display:block;cursor:crosshair}
 #stage.pan{cursor:grab}
@@ -210,7 +210,7 @@ kbd{font:11px var(--f-mono);background:var(--chip);border:1px solid var(--line);
     </section>
 
     <aside class="panel inspector" aria-label="Inspector">
-      <div class="guide" id="guide" hidden aria-live="polite"><div class="gStep" id="gStep"></div><div class="gName" id="gName"></div><div class="row"><button id="gBack" title="Back to the previous point (Backspace while guided)">◀ Back</button><button id="gSkip" title="Can't see it on this picture: mark it hidden and move on (X)">Can't see it, skip</button><button id="gStop">Stop guided</button></div><div class="gWhat" id="gWhat"></div><div class="gLook" id="gLook"></div><div class="gHelp" id="gHelp"></div>
+      <div class="guide" id="guide" hidden aria-live="polite"><div class="gStep" id="gStep"></div><div class="gName" id="gName"></div><div class="row"><button id="gBack" title="Back to the previous point (Backspace while guided)">◀ Back</button><button id="gSkip" title="Can't see it on this picture: mark it hidden and move on (X)">Can't see it, skip</button><button id="gStop">Stop guided</button></div><div class="gPic" id="gPic" hidden></div><div class="gWhat" id="gWhat"></div><div class="gLook" id="gLook"></div><div class="gHelp" id="gHelp"></div>
           </div>
       <div class="tabs" role="tablist">
         <button role="tab" id="tabJ" aria-selected="true" aria-controls="paneJ">Joint</button>
@@ -419,8 +419,8 @@ const RIG_GROUPS={rH:"Rig: head",rB:"Rig: neck, back and belly",rF:"Rig: near fr
 const RIG_POINTS=[
  ["rH","stop","Stop (edge)","Top line of the face: the dip where the forehead drops down to the muzzle, between the eyes."],
  ["rH","brow","Forehead top (edge)","Highest point of the head's top line in front of the ears."],
- ["rH","earBack","Ear back base (edge)","Where the BACK edge of the near ear meets the head or neck fur."],
- ["rH","earTip","Ear tip (edge)","Very tip of the near ear."],
+ ["rH","earBack","Near ear, left corner (edge)","The near ear's base, its LEFT-hand corner (toward the tail), where it meets the head or neck fur."],
+ ["rH","earTip","Near ear, tip (edge)","Very tip of the near ear."],
  ["rH","eye","Eye (centre)","Centre of the near eye."],
  ["rH","mouth","Mouth corner","Corner of the lips, at the back of the mouth line."],
  ["rH","chin","Chin (edge)","Front-most point of the lower jaw on the outline, under the nose."],
@@ -449,7 +449,7 @@ const RIG_POINTS=[
  ["rT","tailWide","Tail widest (edge)","On the tail's underside: the point where the tail is widest."],
  ["rT","tailTip","Tail tip (edge)","End of the tail, fur included."]];
 const RIG_COL={rH:"#ffe08a",rB:"#ffb3ff",rF:"#ff9d7a",rK:"#9ad0ff",rT:"#b8f0a0"};
-function ensureRigPoints(){const have=new Set(st.extra.joints.map(j=>j.id)); for(const [g,k,name,lm] of RIG_POINTS) if(!have.has("r_"+k)) st.extra.joints.push({id:"r_"+k,name,grp:g,col:RIG_COL[g],lm});
+function ensureRigPoints(){const have=new Map(st.extra.joints.map(j=>[j.id,j])); for(const [g,k,name,lm] of RIG_POINTS){const o=have.get("r_"+k); if(o) Object.assign(o,{name,lm}); else st.extra.joints.push({id:"r_"+k,name,grp:g,col:RIG_COL[g],lm});} /* saved sets pick up renamed points */
   for(const [g,name] of Object.entries(RIG_GROUPS)) if(!(st.extra.tracks||[]).some(t=>t.id===g)) (st.extra.tracks ||= []).push({id:g,name,joints:RIG_POINTS.filter(r=>r[0]===g).map(r=>"r_"+r[1]),custom:true});}
 async function frameFrom(img,m,fw,fh){const cv=document.createElement("canvas"); cv.width=fw; cv.height=fh; const cx=cv.getContext("2d",{willReadFrequently:true}); cx.fillStyle="#c9c4bb"; cx.fillRect(0,0,fw,fh);
   cx.save(); if(m.flip){cx.translate(fw,0); cx.scale(-1,1);} cx.drawImage(img,m.flip?fw-m.ox-m.w*m.s:m.ox,m.oy,m.w*m.s,m.h*m.s); cx.restore();
@@ -477,9 +477,9 @@ $("mirrorImg").onclick=()=>{if(st.clip&&st.clip.images) mirrorFrame(st.cur);}; /
 const GUIDE=[["Head", "nose", "The nose is the tip of the muzzle: the black leather pad at the very front of the face, in front of the mouth.", "the front-most point of the nose leather, on the outline.", "dog nose leather side view"],
  ["Head", "r_stop", "The stop is the step in the face's top line between the forehead (above the eyes) and the muzzle (the long part in front of the eyes).", "on the top line of the face, follow the outline back from the nose: the stop is where the line stops running flat along the muzzle and starts to rise to the forehead. On wolves it is gentle, roughly level with the eyes.", "dog stop anatomy"],
  ["Head", "r_brow", "The forehead is the top of the skull between the eyes and the ears.", "the highest point of the head's top line in front of the ears, between the stop and the ear.", "dog skull side view forehead"],
- ["Head", "ear", "The ear base is where the ear grows out of the head.", "the RIGHT-hand corner of the ear's base (the side toward the nose), where the ear's front edge meets the head. Not the middle of the base: picture the ear as an upside-down V; this is the bottom of its right leg. If the two ears overlap, use the nearer one (usually larger and further forward).", "dog ear base anatomy"],
- ["Head", "r_earTip", "The ear tip is the top end of the ear flap.", "the very tip of the near ear, fur included.", "wolf ear side view"],
- ["Head", "r_earBack", "The back of the ear base is where the ear's back edge joins the head, between the ear and the back of the neck.", "the LEFT-hand corner of the ear's base (the side toward the tail), where the ear's back edge meets the head or neck fur: the bottom of the upside-down V's left leg. On a ruffed wolf it can sink into the fur: click where the ear's edge disappears.", "dog ear anatomy side"],
+ ["Head", "ear", "Three points go on the NEAR ear only: the ear closest to you (usually the bigger, more complete one; the other ear peeks out behind it, ignore that one). This first one is its right-hand corner.", "the RIGHT-hand corner of the ear's base (the side toward the nose), where the ear's front edge meets the head. Not the middle of the base: picture the ear as an upside-down V; this is the bottom of its right leg. If the two ears overlap, use the nearer one (usually larger and further forward).", "dog ear base anatomy"],
+ ["Head", "r_earTip", "Second point on the same near ear: its tip, the top end of the ear flap.", "the very tip of the near ear, fur included.", "wolf ear side view"],
+ ["Head", "r_earBack", "Third and last point on the same near ear (NOT the other ear behind it): the left-hand corner of its base.", "the LEFT-hand corner of the near ear's base, where its left edge meets the head or neck fur: the bottom of the upside-down V's left leg. On a ruffed wolf it can sink into the fur: click where the ear's left edge disappears into it.", "dog ear anatomy side"],
  ["Head", "r_eye", "The eye sits between the stop and the ear, about a third of the way down the side of the head.", "the middle of the eye itself (the dark pupil if you can see it), not the dark fur or mask around it.", "wolf eye position side profile"],
  ["Head", "r_mouth", "The mouth corner is the back end of the lip line, below and a little in front of the eye.", "the far back end of the line where the upper and lower lips meet. With the mouth open, the deepest corner of the opening.", "dog lip commissure"],
  ["Head", "r_chin", "The chin is the front of the lower jaw, under the nose.", "the front-most point of the lower jaw on the outline, below the nose. With the mouth open, the front of the lower jaw.", "dog chin lower jaw side view"],
@@ -522,6 +522,8 @@ const guide={on:false,i:0}; const gList=()=>GUIDE.filter(g=>jById(g[1]));
 function guideShow(){const L=gList(), g=L[guide.i]; if(!g){guideStop(); return;} const j=jById(g[1]); st.sel=g[1]; if(st.track!=="all"&&!inTrack(g[1])){st.track="all"; trackSet=null;}
   const done=L.filter(x=>keyAt(x[1],st.cur)).length, pic=st.clip&&st.clip.images?` · picture ${st.cur+1} of ${st.n}`:` · frame ${st.cur+1}`;
   $("gStep").textContent=`${g[0]} · point ${guide.i+1} of ${L.length}${pic} · ${done} done here`; $("gName").textContent=j.name.replace(/ \((edge|bone|centre)\)$/,"");
+  const ears={ear:2,r_earTip:1,r_earBack:0}; $("gPic").hidden=!(g[1] in ears); if(g[1] in ears){const P=[[30,92],[62,18],[96,86]], at=ears[g[1]];
+    $("gPic").innerHTML=`<svg viewBox="0 0 160 112" role="img" aria-label="The near ear as an upside-down V: left corner, tip, right corner"><path d="M4 106 C20 96 26 94 30 92 L62 18 L96 86 C110 88 130 92 156 104" fill="#3a3f47" stroke="#8f99a4" stroke-width="2"/><path d="M30 92 L62 18 L96 86" fill="#4b5059" stroke="#c9ccd1" stroke-width="2"/><text x="118" y="70" fill="#8f99a4" font-size="11">nose →</text><text x="2" y="70" fill="#8f99a4" font-size="11">← tail</text>${P.map((q,i)=>`<circle cx="${q[0]}" cy="${q[1]}" r="${i===at?7:4}" fill="${i===at?"#e2a548":"#8f99a4"}"/>`).join("")}<text x="${P[at][0]+(at===0?-26:at===2?10:10)}" y="${P[at][1]+(at===1?4:18)}" fill="#e2a548" font-size="12" font-weight="700">here</text></svg>`;}
   $("gWhat").textContent=g[2]; $("gLook").innerHTML=""; {const b=document.createElement("b"); b.textContent="Where to click: "; $("gLook").append(b, document.createTextNode(g[3].charAt(0).toUpperCase()+g[3].slice(1)));} $("gHelp").textContent=`The wolf faces right: front = right (toward the nose), back = left (toward the tail). Need more help? Look up "${g[4]}". Zoom with the wheel; the magnifier follows the pointer. Can't see it? Skip it (X). Click again to move a point.`; $("guide").hidden=false; renderJoints(); draw();}
 function guideFirstOpen(){const L=gList(); const k=L.findIndex(g=>!keyAt(g[1],st.cur)); return k;}
 function guideNext(){const L=gList(); for(let k=guide.i+1;k<L.length;k++) if(!keyAt(L[k][1],st.cur)){guide.i=k; guideShow(); return;}
